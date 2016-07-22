@@ -87,12 +87,16 @@ class W3Effect_AxiiGuardMe extends CBaseGameplayEffect
 	{
 		drainStaminaOnExit = true;
 	}
-	
+
 	protected function CalculateDuration(optional setInitialDuration : bool)
 	{
-		super.CalculateDuration(setInitialDuration);
-		
-		if ( duration > 0 )
-			duration = MaxF(8.f,duration);
+		if(setInitialDuration)
+			initialDuration = duration;
+
+		if( duration == -1)
+			return;
+
+		duration = MaxF(0, initialDuration * (1 - resistance) );
+		LogEffects("BaseEffect.CalculateDuration: " + effectType + " duration with target resistance (" + NoTrailZeros(resistance) + ") and attacker power mul of (" + NoTrailZeros(creatorPowerStat.valueMultiplicative) + ") is " + NoTrailZeros(duration) + ", base was " + NoTrailZeros(initialDuration));
 	}
 }

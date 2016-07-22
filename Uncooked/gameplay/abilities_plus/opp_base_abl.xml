@@ -186,7 +186,7 @@
 		<force_resistance_perc type="add" always_random="false" min="0.006" max="0.006" />
 		<frost_resistance_perc type="add" always_random="false" min="0.004" max="0.004" />
 		<burning_resistance_perc type="add" always_random="false" min="0.007" max="0.007" />
-		<will_resistance_perc type="add" always_random="false" min="0.007" max="0.007" />
+		<will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		<shock_resistance_perc type="add" always_random="false" min="0.004" max="0.004" />
         <light_attack_damage_vitality type="base" always_random="false" min="20" max="20" />
         <heavy_attack_damage_vitality type="base" always_random="false" min="20" max="20" />
@@ -223,7 +223,7 @@
         <staminaRegen type="mult" always_random="false" min="0.1" max="0.1" />
 		<force_resistance_perc type="add" always_random="false" min="0.5" max="0.5" />
 		<burning_resistance_perc type="add" always_random="false" min="0.5" max="0.5" />
-		<will_resistance_perc type="add" always_random="false" min="0.5" max="0.5" />
+		<will_resistance_perc type="add" always_random="false" min="0.4" max="0.4" />
 		<shock_resistance_perc type="add" always_random="false" min="0.5" max="0.5" />
       </ability>
 	  
@@ -246,7 +246,7 @@
         <tags> "base" </tags>
         <vitality type="mult" always_random="false" min="1.5" max="1.5" />
 		<force_resistance_perc type="add" always_random="false" min="0.2" max="0.2" />
-		<will_resistance_perc type="add" always_random="false" min="0.2" max="0.2" />
+		<will_resistance_perc type="add" always_random="false" min="0.25" max="0.25" />
 		<shock_resistance_perc type="add" always_random="false" min="0.2" max="0.2" />
         <light_attack_damage_vitality type="mult" always_random="false" min="0.25" max="0.25" />
         <heavy_attack_damage_vitality type="mult" always_random="false" min="0.25" max="0.25" />
