@@ -760,7 +760,7 @@ state YrdenShock in W3YrdenEntity extends Active
 			action.SetCanPlayHitParticle(true);
 			
 			
-			if(player && skillLevel > 1)
+			if(player)
 			{
 				action.GetDTs(damages);
 				damageBonusFlat = CalculateAttributeValue(player.GetSkillAttributeValue(skillType, 'damage_bonus_flat_after_1', false, true));
@@ -768,7 +768,7 @@ state YrdenShock in W3YrdenEntity extends Active
 				
 				for(i=0; i<damages.Size(); i+=1)
 				{
-					damages[i].dmgVal += damageBonusFlat * (skillLevel - 1);
+					damages[i].dmgVal += damageBonusFlat * player.GetLevel() * (0.75f + skillLevel * 0.25f);
 					action.AddDamage(damages[i].dmgType, damages[i].dmgVal);
 				}
 			}

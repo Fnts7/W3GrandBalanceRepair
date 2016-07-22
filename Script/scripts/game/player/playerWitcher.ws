@@ -127,9 +127,6 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 	// CrossbowDamageBoost
 	var crossbowDmgProcessor : CrossbowDamageBoostProcessor;
-	/*(testing purposes)
-	public var lastCrossbowSilver : float;
-	public var lastCrossbowSteel : float;*/
 
 	
 	
@@ -7688,10 +7685,6 @@ statemachine class W3PlayerWitcher extends CR4Player
 				* attackPower.valueMultiplicative + attackPower.valueAdditive;
 			playerOffenseStats.crossbowSilverDmg = (playerOffenseStats.crossbowSilverDmg * crossbowDmgProcessor.crossbowDamageBoostData.SilverBoltFactor + attackPower.valueBase + extraBoltDamage * crossbowDmgProcessor.crossbowDamageBoostData.SilverWitcherFactor * boltDamageFactor)
 				* attackPower.valueMultiplicative + attackPower.valueAdditive;
-
-			/* testing purposes
-			playerOffenseStats.crossbowSteelDmg = lastCrossbowSteel;
-			playerOffenseStats.crossbowSilverDmg = lastCrossbowSilver;*/
 		}
 		else
 		{
@@ -7934,7 +7927,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	public function QuenImpulse( isAlternate : bool, signEntity : W3QuenEntity, source : string, optional forceSkillLevel : int )
 	{
-		var level, i, j : int;
+		var level, i, j, wLevel : int;
 		var atts, damages : array<name>;
 		var ents : array<CGameplayEntity>;
 		var action : W3DamageAction;
@@ -8001,6 +7994,15 @@ statemachine class W3PlayerWitcher extends CR4Player
 				{
 					dm.GetAbilityAttributeValue(skillAbilityName, damages[j], min, max);
 					dmg = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
+
+					wLevel = GetLevel() - 3;
+					if (wLevel < 0)
+						wLevel = 0;
+					if (damages[j] == theGame.params.DAMAGE_NAME_SILVER)
+						dmg += 5.0f * wLevel;
+					else
+						dmg += 3.5f * wLevel;
+
 					if( IsSetBonusActive( EISB_Bear_2 ) )
 					{
 						dm.GetAbilityAttributeValue( GetSetBonusAbility( EISB_Bear_2 ), 'quen_dmg_boost', min, max );

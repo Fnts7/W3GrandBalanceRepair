@@ -360,8 +360,8 @@
         <charge_count type="mult" min="1" />
         <trap_duration type="base" min="18" />
         <trap_duration type="mult" min="1" />
-        <ShockDamage type="add" min="120" />
-		<damage_bonus_flat_after_1 type="add" min="5" />
+        <ShockDamage type="add" min="50" />
+		<damage_bonus_flat_after_1 type="add" min="5" /> 
 		<!-- range is set by using different trigger component in sign entity -->
       </ability>
 	  
