@@ -1,0 +1,54 @@
+﻿/***********************************************************************/
+/** Copyright © 2012-2014
+/** Author : Jakub Rokosz
+/***********************************************************************/
+
+//class to manage random physical impulses affecting falling ice in q501 eredin
+
+class CGroupFXManager extends CGameplayEntity
+{
+	
+	editable var entityTag : name;
+	editable var randomDropMin : float;
+	editable var randomDropMax : float;
+	editable var effectName		: name;
+	private var ntities : array< CEntity >;	
+	private var randomDrop : float; default randomDrop = 1.f;
+	
+
+	function Activate()
+	{
+		
+		theGame.GetEntitiesByTag( entityTag, ntities);
+		AddTimer( 'StartDropping', randomDrop, true);
+	}
+	function Deactivate()
+	{
+		RemoveTimer('StartDropping');
+	}
+	
+	timer function StartDropping( deltaTime : float, id : int )
+	{
+		var randomEntity : int;
+		var givenEntity : CEntity;
+		
+		randomDrop = RandRangeF(randomDropMax+1, randomDropMin);
+		
+		if(	ntities.Size() > 0	)
+		{
+			randomEntity = RandRange(ntities.Size()-1, 0);
+			givenEntity = ntities[randomEntity];
+			givenEntity.PlayEffectSingle(effectName);
+			ntities.Remove(givenEntity);
+		}
+		else
+		{
+			RemoveTimer('StartDropping');
+		}
+	
+	}
+
+	
+	
+
+}
