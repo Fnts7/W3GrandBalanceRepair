@@ -14,9 +14,10 @@ statemachine abstract class W3SignEntity extends CGameplayEntity
 	public    	var signType 			: ESignType;
 	public    	var actionBuffs   		: array<SEffectInfo>;	
 	editable  	var friendlyCastEffect	: name;
-	protected		var cachedCost			: float;
+	protected	var cachedCost			: float;
 	protected 	var usedFocus			: bool;
-	
+	protected 	var cachedTime 			: float;
+
 	public function GetSignType() : ESignType
 	{
 		return ST_None;
@@ -723,7 +724,8 @@ state Channeling in W3SignEntity extends BaseCast
 		
 		super.OnEnterState( prevStateName );
 		parent.cachedCost = -1.0f;
-		
+		parent.cachedTime = 0.0f;
+
 		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( parent.owner.GetActor(), 'CastSignAction', -1, 8.0f, 0.2f, -1, true );
 		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( parent, 'CastSignActionFar', -1, 30.0f, -1.f, -1, true );
 	}
@@ -786,12 +788,13 @@ state Channeling in W3SignEntity extends BaseCast
 		var multiplier, stamina, leftStaminaCostPerc, leftStaminaCost : float;
 		var player : CR4Player;
 		var reductionCounter : int;
-		var stop, abortAxii : bool;
+		var stop : bool;
 		var costReduction : SAbilityAttributeValue;
 		
 		player = caster.GetPlayer();
-		abortAxii = false;
-		
+
+		parent.cachedTime += theTimer.timeDelta;
+
 		if(player)
 		{
 			if( player.HasBuff( EET_Mutation11Buff ) )
@@ -803,7 +806,6 @@ state Channeling in W3SignEntity extends BaseCast
 			if( ShouldStopChanneling() )
 			{
 				stop = true;
-				abortAxii = true;
 			}
 			else
 			{
@@ -823,15 +825,7 @@ state Channeling in W3SignEntity extends BaseCast
 		
 		if(stop)
 		{
-			if( parent.skillEnum == S_Magic_s05 && abortAxii )		
-			{
-				OnSignAborted( true );
-			}
-			else
-			{
-				OnEnded();
-			}
-			
+			OnEnded();
 			return false;
 		}
 		else

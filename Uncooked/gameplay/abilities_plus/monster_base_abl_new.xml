@@ -10,7 +10,7 @@
          <attack_power type="base" always_random="false" min="42" max="42" /> 
 		 <force_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
 		 <burning_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
-		 <will_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
+		 <will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		 <shock_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
       </ability>	  
 	  
@@ -22,7 +22,7 @@
          <attack_power type="base" always_random="false" min="5" max="5" /> 
 		 <force_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
 		 <burning_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
-		 <will_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
+		 <will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		 <shock_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
       </ability>	  
 	  
@@ -35,7 +35,7 @@
          <attack_power type="base" always_random="false" min="5" max="5" /> 
 		 <force_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
 		 <burning_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
-		 <will_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
+		 <will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		 <shock_resistance_perc type="add" always_random="false" min="0.01" max="0.01" />
 		<swarm_attack_damage_vitality type="add" always_random="false" min="10" max="10" /> 
         <swarm_attack_damage_essence type="add" always_random="false" min="10" max="10" /> 
@@ -48,7 +48,7 @@
         <experience type="base" always_random="false" min="4" max="4" />
 		<force_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />
 		<burning_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />
-		<will_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />
+		<will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		<shock_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />
         <attack_power type="base" always_random="false" min="40" max="40" />
 		<swarm_attack_damage_vitality type="add" always_random="false" min="20" max="20" /> 
@@ -79,7 +79,7 @@
         <attack_power type="mult" always_random="false" min="1.2" max="1.2" />
 		<force_resistance_perc type="add" always_random="false" min="0.5" max="0.5" />
 		<burning_resistance_perc type="add" always_random="false" min="0.5" max="0.5" />
-		<will_resistance_perc type="add" always_random="false" min="0.5" max="0.5" />
+		<will_resistance_perc type="add" always_random="false" min="0.4" max="0.4" />
 		<shock_resistance_perc type="add" always_random="false" min="0.5" max="0.5" />
       </ability>	  	  
 	  
