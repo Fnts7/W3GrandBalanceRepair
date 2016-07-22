@@ -309,6 +309,10 @@ class W3ArrowProjectile extends W3AdvancedProjectile
 			if( ShouldPierceVictim( actorVictim ) ) 
 			{
 				Mutation9HitFX( actorVictim );
+				
+				// CrossbowDamageBoost
+				// Cancel aimed bolt state after first pierce
+				CancelAimedBolt();				
 			}
 			else if(IsNameValid(boneName))
 			{
@@ -636,4 +640,7 @@ class W3ArrowProjectile extends W3AdvancedProjectile
 	
 	public function SetShouldBeAttachedToVictim( val : bool )	{ shouldBeAttachedToVictim = val; }
 	public function GetShouldBeAttachedToVictim() : bool		{ return shouldBeAttachedToVictim; }
+	
+	// CrossbowDamageBoost
+	protected function CancelAimedBolt() {}
 }

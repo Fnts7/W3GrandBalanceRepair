@@ -1566,6 +1566,7 @@
 		<loot_entry name="Target Point Bolt Legendary"				player_level_min="15"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
 		<loot_entry name="Split Bolt Legendary"						player_level_min="20"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
 		<loot_entry name="Explosive Bolt Legendary"					player_level_min="25"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
+		<loot_entry name="Blunt Bolt Heavy"							player_level_min="23"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
 		<loot_entry name="Dumpling"									player_level_min="0"	player_level_max="0"	quantity_min="10"	quantity_max="20"	chance="-1"			/>
 		<loot_entry name="Crossbow 2"								player_level_min="2"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"			/>
 		<loot_entry name="Crossbow 3"								player_level_min="4"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"			/>
@@ -3191,6 +3192,7 @@
 		<loot_entry name="Target Point Bolt Legendary"				player_level_min="15"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
 		<loot_entry name="Split Bolt Legendary"						player_level_min="20"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
 		<loot_entry name="Explosive Bolt Legendary"					player_level_min="25"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
+		<loot_entry name="Blunt Bolt Heavy"							player_level_min="23"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
 		<loot_entry name="Crossbow 4"								player_level_min="8"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"			/>
 		<loot_entry name="Crossbow 5"								player_level_min="14"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"			/>
 		<loot_entry name="Rune perun lesser"						player_level_min="13"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"			/>

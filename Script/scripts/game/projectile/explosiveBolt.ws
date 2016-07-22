@@ -11,6 +11,10 @@ class W3ExplosiveBolt extends W3BoltProjectile
 	editable var explosionRange : float;
 	private var insideToxicClouds : array<W3ToxicCloud>;
 	
+	// CrossbowDamageBoost
+	protected var damageMod : float;
+	default damageMod = 1.0f;
+	
 	event OnProjectileCollision( pos, normal : Vector, collidingComponent : CComponent, hitCollisionsGroups : array< name >, actorIndex : int, shapeIndex : int )
 	{
 		var ents : array<CGameplayEntity>;
@@ -19,7 +23,6 @@ class W3ExplosiveBolt extends W3BoltProjectile
 		var victim, actor : CActor;
 		var shouldPierce : bool;
 		var drawableComponent : CDrawableComponent;
-		
 		
 		if(wasShotUnderWater && hitCollisionsGroups.Contains( 'Water' ) )
 			return true;
@@ -87,6 +90,15 @@ class W3ExplosiveBolt extends W3BoltProjectile
 				FindGameplayEntitiesInSphere(ents, pos, explosionRange, 100000, , FLAG_TestLineOfSight);
 			}
 			
+			// CrossbowDamageBoost
+			if (victim)
+			{
+				while (ents.Remove(victim)) ;
+				
+				super.ProcessDamageAction(victim, Vector(0,0,0), '');
+			}
+			
+			wasAimedBolt = false;
 			
 			for( i = ents.Size() - 1 ; i>=0 ; i-=1)
 			{
@@ -112,7 +124,6 @@ class W3ExplosiveBolt extends W3BoltProjectile
 				super.ProcessDamageAction(ents[i], Vector(0,0,0), '');
 			}
 			
-			
 			theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( this, 'BombExplosionAction', 10.0, 50.0f, -1, -1, true); 
 			
 			
@@ -134,6 +145,11 @@ class W3ExplosiveBolt extends W3BoltProjectile
 				
 				DestroyAfter(5);	
 			}
+			// CrossbowDamageBoost
+			else {
+				explosionRange /= 2.5f;
+				damageMod /= 2.0f;
+			}
 		}
 	}
 	
@@ -150,5 +166,11 @@ class W3ExplosiveBolt extends W3BoltProjectile
 		{
 			insideToxicClouds.Remove(gas);
 		}
+	}
+	
+	// CrossbowDamageBoost
+	public function GetDamageMod() : float
+	{
+		return damageMod;
 	}
 }

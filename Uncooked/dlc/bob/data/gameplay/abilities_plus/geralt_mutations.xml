@@ -47,8 +47,8 @@
 		
 		<ability name="Mutation9">
 			<health_reduction type="mult" min="0.15" />
-			<critical_hit_chance type="mult" min="0.5" />
-			<damage type="add" min="150" />
+			<critical_hit_chance type="mult" min="0.2" />
+			<damage type="add" min="0" />
 		</ability>
 
     	<ability name="Mutation11">
