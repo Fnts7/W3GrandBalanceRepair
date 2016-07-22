@@ -321,8 +321,8 @@
         <stamina_delay type="base" min="0.5" />
         <stamina_delay type="mult" min="1" />
         <!-- duration modified by other skills, no mult as spell power covers that -->
-        <duration type="base" min="5" />
-		<duration_animals type="base" min="30" />
+        <duration type="base" min="4" />
+		<duration_animals type="base" min="12" />
 		<ConfusionEffect is_ability="true" />
       </ability>
 	
@@ -377,14 +377,14 @@
       <ability name="magic_s5">
         <tags>magic_s5</tags>
         <stamina_cost type="add" always_random="false" min="0" max="0" />
-        <stamina_cost_per_sec type="add" always_random="false" min="22.2" max="22.2" />
+        <stamina_cost_per_sec type="add" always_random="false" min="30" max="30" />
         <!-- duration modified by other skills, no mult as spell power covers that -->
-        <duration type="base" min="3" />
-		<duration_animals type="base" min="18" />
+        <duration type="base" min="12" />
+		<duration_animals type="base" min="24" />
 		<AxiiGuardMeEffect is_ability="true" />
 		
 		<!-- attack power bonus -->
-		<attack_power type="mult" min="0.2" />
+		<attack_power type="mult" min="0.0" />
       </ability>
 	
       <!-- Static Discharge -->
@@ -470,13 +470,13 @@
 	   <!-- Axii Powe -->
       <ability name="magic_s18">
         <tags>magic_s16,Axii</tags>
-        <spell_power type="mult" min="0.05" />
+        <spell_power type="mult" min="0.10" />
       </ability>
 	
 	  <!-- Axii Dominate -->
       <ability name="magic_s19">
         <tags>magic_s19</tags>
-        <duration type="mult" min="0.15" />
+        <duration type="mult" min="0.20" />
       </ability>
 	
 	  <!-- Aard Dispersion -->

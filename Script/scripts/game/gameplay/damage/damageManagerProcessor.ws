@@ -409,6 +409,9 @@ class W3DamageManagerProcessor extends CObject
 			LogDMHits("Processing block, parry, immortality, signs and other GLOBAL damage reductions...", action);		
 		}
 		
+		if (actorVictim && actorAttacker && actorAttacker != GetWitcherPlayer() && actorVictim != GetWitcherPlayer()
+			&& (actorVictim.HasBuff(EET_AxiiGuardMe) || actorAttacker.HasBuff(EET_AxiiGuardMe)))
+			AdjustDamageAxiiPuppet();
 		
 		if(actorVictim)
 			actorVictim.ReduceDamage(action);
@@ -1523,8 +1526,71 @@ class W3DamageManagerProcessor extends CObject
 		
 		resistPerc = MaxF(0, resistPerc);
 	}
-		
 	
+	// Improved Axii begin
+	private function AdjustDamageAxiiPuppet()
+	{
+		var victimNPC : CNewNPC;
+		var victimH, attackerH, damageMult : float;
+
+		victimNPC = (CNewNPC)actorVictim;
+
+		if (!victimNPC)
+			return;
+			
+		if (actorVictim.UsesEssence())
+			victimH = actorVictim.GetStatMax(BCS_Essence);
+		else
+			victimH = actorVictim.GetStatMax(BCS_Vitality);
+			
+		if (actorAttacker.UsesEssence())
+			attackerH = actorAttacker.GetStatMax(BCS_Essence);
+		else
+			attackerH = actorAttacker.GetStatMax(BCS_Vitality);
+
+		damageMult = victimH / GetAxiiPuppetReductorDivider(victimNPC.GetLevelFromLocalVar());
+		if (victimH > attackerH
+			&& ( (actorVictim.UsesEssence() && actorAttacker.UsesEssence()) || (!actorVictim.UsesEssence() && !actorAttacker.UsesEssence()) ) )
+			damageMult *= attackerH / victimH;
+
+		if (action.IsActionRanged())
+			damageMult *= 3.0f;
+
+		if (actorVictim.UsesEssence())
+			action.processedDmg.essenceDamage *= damageMult;
+		else
+			action.processedDmg.vitalityDamage *= damageMult;
+	}
+	
+	private function GetAxiiPuppetReductorDivider(level : int) : float
+	{
+		var witcherBaseH : float;
+
+		if (level <= 1)
+			witcherBaseH = 3500.0f;
+		else if (level <= 10)
+			witcherBaseH = 3500.0f + 800.0f * (level - 1) / 9.0f;
+		else if (level <= 29)
+			witcherBaseH = 4300.0f + 1050.0f * (level - 10) / 19.0f;
+		else if (level <= 50)
+			witcherBaseH = 5350.0f + 575.0f * (level - 29) / 21.0f;
+		else
+			witcherBaseH = 5925.0f;
+
+		return witcherBaseH * GetAxiiPuppetLevelMult(level);
+	}
+	
+	private function GetAxiiPuppetLevelMult(level : int) : float
+	{
+		if (level < 1)
+			return 1.0f;
+		else if (level < 100)
+			return 1.0f + 4.0f * level / 100.0f;
+		else
+			return 5.0f;
+	}
+	// Improved Axii end
+
 	private function CalculateDamage(dmgInfo : SRawDamage, powerMod : SAbilityAttributeValue) : float
 	{
 		var finalDamage, finalIncomingDamage : float;
@@ -1539,7 +1605,7 @@ class W3DamageManagerProcessor extends CObject
 	
 		
 		GetDamageResists(dmgInfo.dmgType, resistPoints, resistPercents);
-	
+		
 		
 		if( thePlayer.IsFistFightMinigameEnabled() && actorAttacker == thePlayer )
 		{
