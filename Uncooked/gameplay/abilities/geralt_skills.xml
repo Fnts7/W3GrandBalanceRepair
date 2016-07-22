@@ -517,7 +517,7 @@
 	
 	  <ability name="alchemy_s5">
         <tags>alchemy_s5</tags>
-        <defence_bonus type="add" min="0.05" />
+        <defence_bonus type="add" min="0.07" />
       </ability>
 	
 	  <!-- Fixative formula -->
@@ -663,7 +663,7 @@
 		</ability>
 		<ability name="perk_12">
 			<tags>perk_12, GlobalPassiveBonus</tags>
-			<toxicity type="base" min="30" />
+			<toxicity type="base" min="40" />
 		</ability>
     </abilities>
   </definitions>

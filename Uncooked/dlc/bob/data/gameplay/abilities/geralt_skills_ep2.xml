@@ -5,7 +5,7 @@
                   <!-- Foodie -->
           <ability name="perk_15">
             <tags>perk_15</tags>
-            <duration type="add" min="1200"/>
+            <duration type="add" min="30"/>
           </ability>
 
                        <!-- Pyromaniac -->

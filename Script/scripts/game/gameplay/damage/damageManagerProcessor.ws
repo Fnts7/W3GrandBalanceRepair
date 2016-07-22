@@ -1180,7 +1180,7 @@ class W3DamageManagerProcessor extends CObject
 		damageAction.Initialize( action.victim, action.attacker, NULL, "Mutagen26", EHRT_None, CPS_AttackPower, true, false, false, false );		
 		damageAction.SetCannotReturnDamage( true );		
 		damageAction.SetHitAnimationPlayType( EAHA_ForceNo );				
-		damageAction.AddDamage(theGame.params.DAMAGE_NAME_SILVER, returnedDamage);
+		damageAction.AddDamage(theGame.params.DAMAGE_NAME_SILVER, 1.4f * returnedDamage);
 		damageAction.AddDamage(theGame.params.DAMAGE_NAME_PHYSICAL, returnedDamage);
 		
 		theGame.damageMgr.ProcessAction(damageAction);
@@ -1442,15 +1442,7 @@ class W3DamageManagerProcessor extends CObject
 			
 			actorVictim.GetResistValue( GetResistForDamage(dmgType, action.IsDoTDamage()), resistPts, resistPerc );
 			
-			
-			if(playerVictim && actorAttacker && playerVictim.CanUseSkill(S_Alchemy_s05))
-			{
-				GetOilProtectionAgainstMonster(dmgType, bonusResist, bonusReduct);
-				
-				resistPerc += bonusResist * playerVictim.GetSkillLevel(S_Alchemy_s05);
-			}
-			
-			
+		
 			if(playerVictim && actorAttacker && playerVictim.HasBuff(EET_Mutagen28))
 			{
 				mutagenBuff = (W3Mutagen28_Effect)playerVictim.GetBuff(EET_Mutagen28);
@@ -1529,10 +1521,11 @@ class W3DamageManagerProcessor extends CObject
 	{
 		var finalDamage, finalIncomingDamage : float;
 		var resistPoints, resistPercents : float;
+		var bonusReduct, bonusResist : float;
 		var ptsString, percString : string;
-		var mutagen : CBaseGameplayEffect;
+		//var mutagen : CBaseGameplayEffect;
 		var min, max : SAbilityAttributeValue;
-		var encumbranceBonus : float;
+		//var encumbranceBonus : float;
 		var temp : bool;
 		var fistfightDamageMult : float;
 		var burning : W3Effect_Burning;
@@ -1576,16 +1569,24 @@ class W3DamageManagerProcessor extends CObject
 		
 		if(finalDamage > 0.f)
 		{
+			if(playerVictim && actorAttacker && playerVictim.CanUseSkill(S_Alchemy_s05))
+			{
+				GetOilProtectionAgainstMonster(dmgInfo.dmgType, bonusResist, bonusReduct);
+				
+				resistPercents += (1.0f - resistPercents) * bonusResist * playerVictim.GetSkillLevel(S_Alchemy_s05);
+			}
+		
 			
 			if (playerVictim == GetWitcherPlayer() && playerVictim.HasBuff(EET_Mutagen02))
 			{
-				encumbranceBonus = 1 - (GetWitcherPlayer().GetEncumbrance() / GetWitcherPlayer().GetMaxRunEncumbrance(temp));
+				/*encumbranceBonus = 1 - (GetWitcherPlayer().GetEncumbrance() / GetWitcherPlayer().GetMaxRunEncumbrance(temp));
 				if (encumbranceBonus < 0)
 					encumbranceBonus = 0;
 				mutagen = playerVictim.GetBuff(EET_Mutagen02);
 				dm.GetAbilityAttributeValue(mutagen.GetAbilityName(), 'resistGainRate', min, max);
-				encumbranceBonus *= CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
-				resistPercents += encumbranceBonus;
+				encumbranceBonus *= CalculateAttributeValue(GetAttributeRandomizedValue(min, max));*/
+				
+				resistPercents += (1.0f - resistPercents) * 0.25f;
 			}
 			finalDamage *= 1 - resistPercents;
 		}		

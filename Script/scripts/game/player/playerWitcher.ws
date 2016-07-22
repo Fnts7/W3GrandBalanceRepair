@@ -4008,12 +4008,12 @@ statemachine class W3PlayerWitcher extends CR4Player
 		m_alchemyManager.GetRecipe(nam, recipe);
 			
 		
-		if(CanUseSkill(S_Alchemy_s18))
+		/*if(CanUseSkill(S_Alchemy_s18))
 		{
 			if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
 				AddAbility(SkillEnumToName(S_Alchemy_s18), true);
 			
-		}
+		}*/
 		
 		
 		if(recipe.cookedItemType == EACIT_Bomb)
@@ -6226,8 +6226,15 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		inv.GetPotionItemBuffData(item, effectType, customAbilityName);
 		maxTox = abilityManager.GetStatMax(BCS_Toxicity);
+
 		potionToxicity = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity'));
 		toxicityOffset = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity_offset'));
+		
+		if(CanUseSkill(S_Alchemy_s01) && toxicityOffset > 33.0)
+		{
+			toxicityOffset = (1.0 - CalculateAttributeValue(GetSkillAttributeValue(S_Alchemy_s01, 'threshold', false, true)) * GetSkillLevel(S_Alchemy_s01)) * toxicityOffset;
+			toxicityOffset = MaxF(toxicityOffset, 33.0);
+		}
 		
 		if(effectType != EET_WhiteHoney)
 		{
@@ -6257,6 +6264,11 @@ statemachine class W3PlayerWitcher extends CR4Player
 		finalPotionToxicity = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity'));
 		toxicityOffset = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity_offset'));
 		
+		if(CanUseSkill(S_Alchemy_s01) && toxicityOffset > 33.0)
+		{
+			toxicityOffset = (1.0 - CalculateAttributeValue(GetSkillAttributeValue(S_Alchemy_s01, 'threshold', false, true)) * GetSkillLevel(S_Alchemy_s01)) * toxicityOffset;
+			toxicityOffset = MaxF(toxicityOffset, 33.0);
+		}
 		
 		if(CanUseSkill(S_Perk_13))
 		{
@@ -6306,7 +6318,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 			
 		
 		inv.GetPotionItemBuffData(item, effectType, customAbilityName);
-			
+		
 		
 		if( !HasFreeToxicityToDrinkPotion( item, effectType, finalPotionToxicity ) )
 		{
@@ -6339,6 +6351,12 @@ statemachine class W3PlayerWitcher extends CR4Player
 			mutagenParams = new W3MutagenBuffCustomParams in theGame;
 			mutagenParams.toxicityOffset = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity_offset'));
 			mutagenParams.potionItemName = inv.GetItemName(item);
+			
+			if(CanUseSkill(S_Alchemy_s01) && mutagenParams.toxicityOffset > 33.0)
+			{
+				mutagenParams.toxicityOffset = (1.0 - CalculateAttributeValue(GetSkillAttributeValue(S_Alchemy_s01, 'threshold', false, true)) * GetSkillLevel(S_Alchemy_s01)) * mutagenParams.toxicityOffset;
+				mutagenParams.toxicityOffset = MaxF(mutagenParams.toxicityOffset, 33.0);
+			}
 			
 			potionParams.buffSpecificParams = mutagenParams;
 			
