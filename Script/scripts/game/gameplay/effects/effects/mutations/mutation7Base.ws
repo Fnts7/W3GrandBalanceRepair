@@ -1,4 +1,9 @@
-﻿class W3Mutation7BaseEffect extends CBaseGameplayEffect
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3Mutation7BaseEffect extends CBaseGameplayEffect
 {
 	protected var actors : array< CActor >;
 	protected var sonarEntity : CEntity;
@@ -15,16 +20,7 @@
 		super.OnEffectAdded();
 		
 		actors = GetWitcherPlayer().GetEnemies();
-		/*
-		FindGameplayEntitiesInSphere( ents, target.GetWorldPosition(), 30.f, 1000000, , FLAG_OnlyAliveActors + FLAG_ExcludeTarget + FLAG_Attitude_Hostile, target );
-		for( i=0; i<ents.Size(); i+=1 )
-		{
-			actor = ( CActor ) ents[i];
-			if( !actors.Contains( actor ) )
-			{
-				actors.PushBack( actor );
-			}
-		}*/
+		
 
 		actorsCount = actors.Size();
 		sonarEntity = target.CreateFXEntityAtPelvis( 'mutation7_sonar', false );		
@@ -64,7 +60,7 @@
 			
 			meshComponent.SetScale( Vector( scale, scale, scale ) );
 			
-			//flash targets
+			
 			sonarPos = sonarEntity.GetWorldPosition();
 			for( i=actors.Size()-1; i>=0; i-=1 )
 			{

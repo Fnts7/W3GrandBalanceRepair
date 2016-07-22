@@ -1,12 +1,17 @@
-﻿// CExplorationMover
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 27/11/2013 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 struct SPlaneMovementParameters
 {
 	editable	var	m_SpeedMaxF	: float;
@@ -16,8 +21,8 @@ struct SPlaneMovementParameters
 	editable	var	m_BrakeDotF	: float;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 struct SVerticalMovementParams
 {
 	editable			var m_VertImpulseF	: float;
@@ -26,8 +31,8 @@ struct SVerticalMovementParams
 	editable			var m_GravityDownF	: float;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 struct SSlidingMovementParams
 {
 	editable			var m_TurnSpeedF			: float;		default	m_TurnSpeedF 			= 3.0f;
@@ -45,16 +50,16 @@ struct SSlidingMovementParams
 	editable			var m_InputStrafeCoefF		: float;		default	m_InputStrafeCoefF 		= 0.0f;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 struct SSkatingLevelParams
 {
 	editable	var	speedMax		: float;		default	speedMax		= 20.0f;
 	editable	var	reflectInput	: bool;			default	reflectInput	= false;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 struct SSkatingMovementParams
 {
 	editable			var	accel					: float;					default	accel					= 3.5f;
@@ -73,21 +78,21 @@ struct SSkatingMovementParams
 	editable			var	gravitySpeedMax			: float;					default	gravitySpeedMax			= 30.0f;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-// Handles movement
-//------------------------------------------------------------------------------------------------------------------
+
+
+
 class CExplorationMover
 {
-	// Objects
+	
 	private				var	m_ExplorationO				: CExplorationStateManager;
-	private				var	m_InputO					: CExplorationInput;			// for ease of writing code
+	private				var	m_InputO					: CExplorationInput;			
 	
 	
 	private				var	m_WorldPositionV			: Vector;
 	private				var	m_DisplacementLastFrameV	: Vector;
 	
 	
-	// Movement	parameters	
+	
 	private				var m_PlaneMovementParamsS		: SPlaneMovementParameters;
 	private				var m_VerticalMovementParamsS	: SVerticalMovementParams;
 	private				var m_SlidingParamsS			: SSlidingMovementParams;
@@ -101,7 +106,7 @@ class CExplorationMover
 	private				var m_SkateTurnDecelCoefF		: float;		default	m_SkateTurnDecelCoefF		= 1.0f;
 	private				var m_SkateTurnBrakeCoefF		: float;		default	m_SkateTurnBrakeCoefF		= 1.7f;
 	
-	// Velocity and speed
+	
 	private				var	m_VelocityV					: Vector;
 	private				var	m_VelocityNormalizedV		: Vector;
 	private				var	m_SpeedF					: float;
@@ -112,7 +117,7 @@ class CExplorationMover
 	private				var m_SpeedLastF				: float;
 	private				var m_AccelerationLastF			: float;
 	
-	// Slide
+	
 	public  editable	var m_SlideMaxSpeedSafeF		: float;		default	m_SlideMaxSpeedSafeF	= 7.0f;
 	public  editable	var m_SlideMaxSpeedToFallF		: float;		default	m_SlideMaxSpeedToFallF	= 20.0f;
 	public  			var m_SlideMaxSpeedF			: float;
@@ -140,7 +145,7 @@ class CExplorationMover
 	
 	public				var superSlide					: bool;			default	superSlide						= false;
 	
-	// rotation 
+	
 	private				var	m_TurnThisFrameF			: float;
 	
 	private 			var	m_BankingNeedsUpdatingB		: bool;
@@ -151,67 +156,67 @@ class CExplorationMover
 	private				var	m_OrientToInputMaxHeadingF	: float;		default	m_OrientToInputMaxHeadingF	= 45.0f;
 	
 	
-	// MAC
+	
 	private				var	m_MACVelocityDampedV		: Vector;	
 	private				var	m_MACVelocityDamSpeedF		: float;		default	m_MACVelocityDamSpeedF		= 10.0f;
 	public				var	m_CustomIsAnimatedB			: bool;			default	m_CustomIsAnimatedB			= true;
 	
-	// Feet
+	
 	protected 			var	m_BoneRightFootN			: name;			default	m_BoneRightFootN			= 'r_foot';
 	protected 			var	m_BoneLeftFootN				: name;			default	m_BoneLeftFootN				= 'l_foot';
 	protected 			var	m_BoneIndexRightFootI		: int;
 	protected 			var	m_BoneIndexLeftFootI		: int;
 	
 	
-	// Auxiliars
+	
 	private 			var m_UpV						: Vector;
 	private 			var m_ZeroV						: Vector;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Initialize( _ExplorationO : CExplorationStateManager )
 	{
-		// Get the objects for a fast access
+		
 		m_ExplorationO	= _ExplorationO;
 		m_InputO		= m_ExplorationO.m_InputO;
 		
-		// Get and store bone indexes
+		
 		m_BoneIndexRightFootI	= m_ExplorationO.m_OwnerE.GetBoneIndex( m_BoneRightFootN );
 		m_BoneIndexLeftFootI	= m_ExplorationO.m_OwnerE.GetBoneIndex( m_BoneLeftFootN );
 		
-		// Auxiliars
+		
 		m_UpV			= Vector( 0.0f, 0.0f, 1.0f );
 		m_ZeroV			= Vector( 0.0f, 0.0f, 0.0f );
 		
-		// Reset
+		
 		Reset();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Reset()
 	{
-		//var movAdj : CMovementAdjustor;
+		
 		
 		StopAllMovement();
 		
 		m_SlideComputedThisFrameB		= false;
 		m_SlideWideComputedThisFrameB	= false;
 		
-		//movAdj = m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
-		//movAdj.AddOneFrameTranslationVelocity( m_DisplacementV );
-		//movAdj.AddOneFrameRotationVelocity( m_RotationDeltaEA );
+		
+		
+		
 		
 		m_WorldPositionV		= m_ExplorationO.m_OwnerE.GetWorldPosition();
 		m_MACVelocityDampedV	= m_ZeroV;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function OnTeleported()
 	{
 		StopAllMovement();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function ApplyMovement( _Dt : float )
 	{
 		var movAdj : CMovementAdjustor;
@@ -222,7 +227,7 @@ class CExplorationMover
 			return;
 		}
 	
-		// setup movement adjustment
+		
 		movAdj = m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
 		movAdj.AddOneFrameTranslationVelocity( m_DisplacementV / _Dt );
 		m_RotationDeltaEA.Yaw	= m_RotationDeltaEA.Yaw / _Dt;
@@ -230,14 +235,14 @@ class CExplorationMover
 		m_RotationDeltaEA.Roll	= m_RotationDeltaEA.Roll / _Dt;
 		movAdj.AddOneFrameRotationVelocity( m_RotationDeltaEA );
 		
-		// Update rotation
+		
 		if( m_BankingNeedsUpdatingB )
 		{
 			UpdateBanking( _Dt );
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function PreUpdate( _Dt : float )
 	{		
 		var positionCur	: Vector;
@@ -250,7 +255,7 @@ class CExplorationMover
 		m_WorldPositionV				= positionCur;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function	PostUpdate( _Dt : float )
 	{	
 		VecSetZeros( m_DisplacementV );
@@ -264,18 +269,18 @@ class CExplorationMover
 		
 		m_SlideComputedThisFrameB		= false;
 		m_SlideWideComputedThisFrameB	= false;
-		//thePlayer.GetVisualDebug().AddBar( 'MAC', 550, 500, 200, 10, 0.0f, Color(0,255,0), "MAC: " + VecLength( m_MACVelocityDampedV ), 0.0f );
 		
-		//LogExploration( " Velocity = " + VecToString( m_VelocityV ) );
+		
+		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Translate( _TranslationV : Vector )
 	{
 		m_DisplacementV	+= _TranslationV;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function Rotate( _RotationEA : EulerAngles )
 	{
 		m_RotationDeltaEA.Yaw	+= _RotationEA.Yaw;
@@ -283,13 +288,13 @@ class CExplorationMover
 		m_RotationDeltaEA.Roll	+= _RotationEA.Roll;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetDisplacementLastFrame() : Vector
 	{
 		return m_DisplacementLastFrameV;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsRightFootForward() : bool
 	{
 		var actorForward	: Vector;
@@ -299,7 +304,7 @@ class CExplorationMover
 		return IsRightFootForwardTowardsDir( actorForward );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsRightFootForwardTowardsDir( direction : Vector ) : bool
 	{
 		var startRightFoot	: bool;
@@ -310,7 +315,7 @@ class CExplorationMover
 		var leftToRightFoot	: Vector;
 		
 		
-		// Check the foot that is more forward		
+		
 		lFoot			= m_ExplorationO.m_OwnerE.GetBoneWorldPositionByIndex( m_BoneIndexLeftFootI );
 		rFoot			= m_ExplorationO.m_OwnerE.GetBoneWorldPositionByIndex( m_BoneIndexRightFootI );
 		leftToRightFoot	= rFoot - lFoot;
@@ -319,25 +324,25 @@ class CExplorationMover
 		return startRightFoot;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateMovementLinear( _VelocityV : Vector, _Dt : float )
 	{
 		SetVelocity( _VelocityV );
 		Translate( m_VelocityV * _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetPlaneMovementParams( _PlaneMovementParamsS : SPlaneMovementParameters )
 	{
 		m_PlaneMovementParamsS	= _PlaneMovementParamsS;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetVerticalMovementParams( _VerticalMovementParamsS : SVerticalMovementParams )
 	{
 		m_VerticalMovementParamsS	= _VerticalMovementParamsS;
 		
-		// Fai safe checks
+		
 		if( m_VerticalMovementParamsS.m_VertMaxSpeedF > 0.0f )
 		{
 			m_VerticalMovementParamsS.m_VertMaxSpeedF	*= -1.0f;
@@ -352,7 +357,7 @@ class CExplorationMover
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSlidingLimits( minDegrees, maxDegrees : float )
 	{		
 		m_SlidingLimitMinF = ConvertAngleDegreeToSlidECoef( minDegrees );
@@ -372,103 +377,99 @@ class CExplorationMover
 	}
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function ConvertAngleDegreeToSlidECoef( angleDegree : float ): float
 	{
-		//angleDegree *= Pi() / 180.0f;
-		//angleDegree	= MaxF( 0.0f, CosF( angleDegree ) );
+		
+		
 		angleDegree	= ClampF( angleDegree / 90.0f, 0.0f, 1.0f );
-		//angleDegree	= 1.0f - angleDegree;
+		
 		
 		return angleDegree;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function ConvertCoefToAngleDegree( coef : float ) : float
 	{
-		//coef	= 1.0f - coef;
-		//coef	= AcosF( coef );		
-		//coef	 *= 180.0f / Pi();
+		
+		
+		
 		coef	 *= 90.0f;
 		
 		return coef;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSlidingParams( _SlidingParamsS : SSlidingMovementParams )
 	{
 		m_SlidingParamsS 			= _SlidingParamsS;		
 		m_SlidingFrictionBlendedF	= 1.0f;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSlidingMaterialParams( _AngleMinMaterialF, _MaterialFrictionMultiplierF : float )
 	{
-		/*_AngleMinMaterialF  	*= Pi() / 180.0f;
-		_AngleMinMaterialF		= MaxF( 0.0f, CosF( _AngleMinMaterialF ) );
 		
-		m_CoefMinMaterialF		= 1.0f - _AngleMinMaterialF;
-		*/
 		
 		m_CoefMinMaterialF		= ConvertAngleDegreeToSlidECoef( _AngleMinMaterialF );
 		m_MaterialFrictionMultF	= _MaterialFrictionMultiplierF;
 		
-		// Debug
+		
 		if( m_MaterialFrictionMultF <= 0.0f )
 		{
 			m_MaterialFrictionMultF	= m_MaterialFrictionMultF;
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSkatingParams( slidingParams : SSkatingMovementParams )
 	{
 		m_SkatingParamsS	= slidingParams;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSkatingLevelParams( levelParams :SSkatingLevelParams )
 	{
 		m_SkatingLevelParamsS	= levelParams;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSkatingTurnSpeed( turnSpeed : float )
 	{
 		m_SkatingTurnPerSpeedF	= turnSpeed;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSkatingAbsoluteMaxSpeed( maxSpeed : float )
 	{
 		m_SkatingSpeedTotalMaxF	= maxSpeed;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetManualMovement( enable : bool )
 	{
 		if( m_CustomIsAnimatedB )
 		{
 			m_ExplorationO.m_CollisionManagerO.EnableVerticalSliding( enable );
 			m_ExplorationO.m_OwnerMAC.SetAnimatedMovement( enable );
-			//m_ExplorationO.m_OwnerMAC.SetGravity( !enable );
+			
 		}
 		else
 		{
 			m_ExplorationO.m_OwnerMAC.SetAnimatedMovement( enable );
 		}
 		
-		// enable/disable spherical colliders
+		
 		m_ExplorationO.m_OwnerMAC.EnableVirtualControllerCollisionResponse( 'MainCollider', !enable );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetCustomIsAnim( enabled : bool )
 	{
 		m_CustomIsAnimatedB	= enabled;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateMovementOnPlaneWithInput( _Dt : float )
 	{
 		var l_DotF				: float;
@@ -476,16 +477,16 @@ class CExplorationMover
 		var	l_NewVelocityV		: Vector;
 		var	l_MaxSpeedTotalF	: float;
 		
-		// Decel
+		
 		if( !m_InputO.IsModuleConsiderable() )
 		{			
-			// Decelerate		
+			
 			l_NewVelocityV	= VecReduceTowardsZero( m_VelocityV, m_PlaneMovementParamsS.m_DecelF * _Dt );
 		}
-		// Accel or brake
+		
 		else
 		{
-			// Accel is greater on oposite directions
+			
 			l_DotF			= VecDot( m_VelocityNormalizedV, m_InputO.GetMovementOnPlaneV() );
 			
 			if( l_DotF >= m_PlaneMovementParamsS.m_BrakeDotF )
@@ -497,40 +498,40 @@ class CExplorationMover
 				l_AccelV	= m_InputO.GetMovementOnPlaneV() * m_PlaneMovementParamsS.m_BrakeF;
 			}
 			
-			// Max speed also depends on the input
+			
 			l_MaxSpeedTotalF	= m_PlaneMovementParamsS.m_SpeedMaxF * m_InputO.GetModuleF();
 			
-			// Accelerate ( Affects turning )
+			
 			l_NewVelocityV	= VecAddNotExceedingV( m_VelocityV, l_AccelV * _Dt , l_MaxSpeedTotalF );
 			
-			// Decelerate if exceeding max speed	
+			
 			if( VecLengthSquared( l_NewVelocityV ) > l_MaxSpeedTotalF * l_MaxSpeedTotalF )
 			{
 				l_NewVelocityV	= VecReduceNotExceedingV( m_VelocityV, m_PlaneMovementParamsS.m_DecelF * _Dt, l_MaxSpeedTotalF );
 			}
 		}
 		
-		// Set the speed and update the movement
+		
 		SetVelocity( l_NewVelocityV );
 		
 		Translate( m_VelocityV  * _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateMovementOnPlaneWithInertia( _Dt : float )
 	{
 		var	l_NewVelocityV		: Vector;
 		
-		// Decelerate		
+		
 		l_NewVelocityV	= VecReduceTowardsZero( m_VelocityV, m_PlaneMovementParamsS.m_DecelF * _Dt );
 		
-		// Set the speed and update the movement
+		
 		SetVelocity( l_NewVelocityV );
 		
 		Translate( m_VelocityV  * _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateMovementStraightAndTurnWithInput( _SpeedMaxF, _AccelF, _TurnCoefBaseF, _InputMaxTurnF, _Dt : float )
 	{
 		var l_InputVectorV		: Vector;
@@ -540,12 +541,12 @@ class CExplorationMover
 		var l_TurnAngleF		: float;
 		
 		
-		// If there is no directional input, we go straight to the camera
+		
 		if( !m_InputO.IsModuleConsiderable() )
 		{
 			l_InputVectorV	= theCamera.GetCameraForwardOnHorizontalPlane();
 		}
-		// Find the angle diff between the character and the input
+		
 		else
 		{
 			l_InputVectorV	= m_InputO.GetMovementOnPlaneV();
@@ -559,18 +560,18 @@ class CExplorationMover
 		
 		l_TurnAngleF		= SignF( l_DirectionDiffF ) * MinF( _TurnCoefBaseF * _Dt, AbsF( l_DirectionDiffF ) );
 		
-		// Set the speed
+		
 		m_SpeedF			= ClampF( m_SpeedF + _AccelF * _Dt, -_SpeedMaxF, _SpeedMaxF );
 		SetVelocity( m_SpeedF * VecFromHeading( l_CharacterHeadingF + l_TurnAngleF ) );
 		
-		// Add a rotation by code
+		
 		AddYaw( l_TurnAngleF );
 		
-		//thePlayer.I_AddPlayerMovement( l_NewVelocityV );
+		
 		Translate( m_VelocityV  * _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateSkatingMovement( _Dt : float, out _AccelF : float, out _ResultingTurnPercF : float, out _IsBraking : bool, optional _IsDriftingB : bool, optional _IsDriftLeftB : bool )
 	{
 		var l_CharacterHeadingF		: float;
@@ -589,24 +590,24 @@ class CExplorationMover
 			ComputeSlideDirAndNormal();
 		}
 		
-		// Gravity precalculations
+		
 		l_GravityAccelF		= VecDot( m_VelocityNormalizedV, m_SlideDirV ) * ( 1.0f - VecDot( m_SlideNormalV, m_UpV ) );
 		l_GravityAccelF		*= m_SkatingParamsS.gravity;
 		l_GravityTurnF		= AngleDistance( VecHeading( m_VelocityNormalizedV ), VecHeading( m_SlideDirV ) );
 		
 		
-		// Get the target turn
+		
 		l_CharacterHeadingF	= m_ExplorationO.m_OwnerE.GetHeading();
 		m_InputO.ComputeHeadingDiffWithReflectionF( l_CharacterHeadingF, m_SkatingLevelParamsS.reflectInput, l_DirectionDiffF, _ResultingTurnPercF, _IsBraking, true );
 		
-		// Store the input accel
+		
 		_AccelF		= m_InputO.GetModuleF() * ( 1.0f - AbsF( _ResultingTurnPercF ) );
 		if( _IsBraking )
 		{
 			_AccelF	*= -1.0f;
 		}
 		
-		// Get speed modifier based on speed
+		
 		m_SkatingTurnPerSpeedCurF	= LerpF( MinF( _Dt * m_SkatingTurnPerSpeedBlendF, 1.0f ), m_SkatingTurnPerSpeedCurF, m_SkatingTurnPerSpeedF );
 		l_TurnTotalF				= m_SkatingTurnPerSpeedCurF;
 		if( m_SkatingParamsS.turnCurve )
@@ -614,7 +615,7 @@ class CExplorationMover
 			l_TurnTotalF	*= m_SkatingParamsS.turnCurve.GetValue( m_SpeedF / m_SkatingSpeedTotalMaxF );
 		}
 		
-		// Modify turn if braking or decelerating
+		
 		if( _IsBraking )
 		{
 			l_TurnTotalF	*= m_SkateTurnBrakeCoefF;
@@ -624,7 +625,7 @@ class CExplorationMover
 			l_TurnTotalF	*= m_SkateTurnDecelCoefF;
 		}
 		
-		// Modify turn if drifting
+		
 		if( _IsDriftingB )
 		{
 			if( _IsDriftLeftB )
@@ -641,7 +642,7 @@ class CExplorationMover
 			l_TurnTotalF		= l_TurnTotalF * _ResultingTurnPercF;
 			if ( _IsBraking )
 			{
-				// Hack test
+				
 				if( theInput.GetActionValue( 'GI_AxisLeftY' ) < -0.9f )
 				{
 				_ResultingTurnPercF	= 0.0f;
@@ -653,17 +654,17 @@ class CExplorationMover
 		l_DirectionDiffAbsF		= AbsF( l_DirectionDiffF );
 		l_TurnTotalF			= ClampF( l_TurnTotalF * _Dt, -l_DirectionDiffAbsF, l_DirectionDiffAbsF );
 		
-		// Add a rotation
+		
 		AddYaw( l_TurnTotalF );
 		
 		
-		// Accel / brake / decel		
-		// Too fast
+		
+		
 		if( m_SpeedF >= m_SkatingLevelParamsS.speedMax ) 
 		{
 			l_AccelF	= -m_SkatingParamsS.decelMaxSpeed * m_SpeedF;
 			
-			// Limit just to max speed, not less
+			
 			if( _AccelF > 0.0f )
 			{
 				if( m_SpeedF + l_AccelF * _Dt < m_SkatingLevelParamsS.speedMax )
@@ -672,43 +673,43 @@ class CExplorationMover
 				}
 			}
 		}
-		// Decelerating
+		
 		else if( !m_InputO.IsModuleConsiderable() ) 
 		{
 			l_AccelF	= -m_SkatingParamsS.decel;
 		}
-		// Braking
+		
 		else if( _IsBraking  ) 
 		{
 			l_AccelF	= -m_SkatingParamsS.brake * m_InputO.GetModuleF() * MaxF( m_SkatingParamsS.brakeBaseSpeed,  m_SpeedF );
 		}
-		// Accelerating
+		
 		else 
 		{
 			l_AccelF	= m_SkatingParamsS.accel * m_InputO.GetModuleF();
 		}
 		
-		// Friction
+		
 		l_FrictionF			= m_SpeedF * ( m_SpeedF * m_SkatingParamsS.frictionSquare + m_SkatingParamsS.frictionLinear ) + m_SkatingParamsS.frictionConst;
 		l_AccelF			-= l_FrictionF;
 		
-		// Get the max speed we can get
+		
 		l_SpeedMaxF			= MaxF( m_SpeedF, m_SkatingLevelParamsS.speedMax );
 		m_SpeedF			= MinF( m_SpeedF + l_AccelF * _Dt, l_SpeedMaxF );
 		
-		// Gravity ahs a different max speed
+		
 		l_SpeedMaxF			= MaxF( m_SpeedF, m_SkatingParamsS.gravitySpeedMax );
 		m_SpeedF			= MinF( m_SpeedF + l_GravityAccelF * _Dt, l_SpeedMaxF );
 		
-		// Move
+		
 		SetVelocity( m_SpeedF * VecFromHeading( l_CharacterHeadingF + l_TurnTotalF ) );
 		Translate( m_VelocityV  * _Dt );
 		
-		// Forcing jump direction
+		
 		m_ExplorationO.m_SharedDataO.m_JumpDirectionForcedV	= m_VelocityNormalizedV;	
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateSlidingInertialMovementWithInput( _Dt : float, out _TurnF : float, out _AccelF : float, applyStoppingFriction : bool, slopeYaw : float, slopeOrientSpeed : float )
 	{
 		var l_SlopeDirectionV		: Vector;
@@ -731,15 +732,15 @@ class CExplorationMover
 		var l_FrictionInputCoefF	: float;
 		
 		
-		// Get the speed base
+		
 		l_NewVelocityV			= m_VelocityV;
 		
 		
-		// Get the sliding direction
+		
 		GetSlideDirAndNormal( l_SlopeDirectionV, l_SlopeNormalV );
 		
 		
-		// Project the velocity to the slope plane
+		
 		l_AuxF					= VecLength( l_NewVelocityV );
 		l_NewVelocityV			= l_NewVelocityV - l_SlopeNormalV * VecDot( l_NewVelocityV, l_SlopeNormalV );
 		l_NewVelocityV.W		= 0.0f;
@@ -747,16 +748,16 @@ class CExplorationMover
 		l_SpeedLostProjectingF	= VecLength( l_NewVelocityV ) - l_AuxF;
 		
 		
-		// Recover part of the lost speed from the projection
+		
 		l_SlopeRestitutionV		= l_SlopeDirectionV * l_SpeedLostProjectingF * m_SlidingParamsS.m_RestitutionF;
 		l_NewVelocityV			+= l_SlopeRestitutionV;
 		
-		// Get the input
+		
 		if( m_InputO.IsModuleConsiderable() )
 		{
 			l_InputVectorV			= m_InputO.GetMovementOnPlaneV();
 			
-			// Transform it to the slope plane
+			
 			l_AuxF					= VecLength( l_InputVectorV );
 			l_InputVectorV			= l_InputVectorV - l_SlopeNormalV * VecDot( l_InputVectorV, l_SlopeNormalV );
 			l_InputVectorV.W		= 0.0f;
@@ -768,11 +769,11 @@ class CExplorationMover
 		}		
 		
 		
-		// Use input to change friction
+		
 		l_FrictionInputCoefF		= VecDot( l_InputVectorV, l_NewVelocityDirV );
 		if( l_FrictionInputCoefF >= 0.0f )
 		{
-			l_FrictionInputCoefF	= MapF( 1.0f - l_FrictionInputCoefF, 0.0f, 1.0f, m_SlidingParamsS.m_InputFrictionCoefMinF, 1.0f ); // Careful with this order
+			l_FrictionInputCoefF	= MapF( 1.0f - l_FrictionInputCoefF, 0.0f, 1.0f, m_SlidingParamsS.m_InputFrictionCoefMinF, 1.0f ); 
 		}
 		else
 		{
@@ -781,12 +782,12 @@ class CExplorationMover
 		
 		m_SlidingFrictionBlendedF	= BlendLinearF( m_SlidingFrictionBlendedF, l_FrictionInputCoefF, m_SlidingParamsS.m_InputFrictionBlend * _Dt );
 		
-		// Apply the friction ( TEMP PLACEHOLDER )
+		
 		l_AuxF					= VecLength( l_NewVelocityV );
 		l_AuxF					= m_SlidingParamsS.m_FrictionConstF + ( m_SlidingParamsS.m_FrictionLinearF + m_SlidingParamsS.m_FrictionSquareF * l_AuxF ) * l_AuxF ;
 		l_AuxF					*= m_SlidingFrictionBlendedF;
 		l_AuxF					*= m_MaterialFrictionMultF;
-		if( applyStoppingFriction ) // Add extra friction if slide is stopping
+		if( applyStoppingFriction ) 
 		{
 			l_AuxF				 *= m_SlidingParamsS.m_FrictionConstExitF;
 		}
@@ -795,22 +796,22 @@ class CExplorationMover
 		
 		
 		
-		// Get the accel that comes from the slope and the gravity
+		
 		l_AuxF					= AbsF( VecDot( l_SlopeDirectionV, m_UpV ) );
 		l_AuxF					=  -gravityCurve.GetValue( l_AuxF ) * m_SlidingParamsS.m_GravityF;
 		
 		l_SlopeAccelVectorV		= l_SlopeDirectionV * l_AuxF;	
 		
-		// Add strafing input to the acceleration
+		
 		l_VelocityRightV		= VecCross( l_NewVelocityDirV, l_SlopeNormalV );
 		l_SlopeAccelVectorV		+= l_VelocityRightV * VecDot( l_InputVectorV, l_VelocityRightV ) * m_SlidingParamsS.m_InputStrafeCoefF;
 		
 		
-		// Get the new velocity
+		
 		l_NewVelocityV			= l_NewVelocityV + ( l_SlopeAccelVectorV * _Dt );
 		
 		
-		// Apply turn 
+		
 		if( m_InputO.IsModuleConsiderable() )
 		{
 			m_InputO.ComputeHeadingDiffWithReflectionF( m_ExplorationO.m_OwnerE.GetHeading(), true, l_DirectionDiffF, l_DirectionDiffPercF, l_DirectionReflectedB );
@@ -818,7 +819,7 @@ class CExplorationMover
 			l_TurnAngleF			= m_SlidingParamsS.m_TurnSpeedF * l_DirectionDiffPercF;
 			l_TurnAngleF			= ClampF( l_TurnAngleF * _Dt, -l_DirectionDiffAbsF, l_DirectionDiffAbsF );
 			
-			// Apply turn on velocity
+			
 			l_NewVelocityV			= VecRotateAxis( l_NewVelocityV, l_SlopeNormalV, l_TurnAngleF ); 
 		}
 		else
@@ -826,33 +827,33 @@ class CExplorationMover
 			l_TurnAngleF	= 0.0f;
 		}
 		
-		// Limit velocity
+		
 		l_AuxF				= VecLength( l_NewVelocityV );
 		if( l_AuxF > m_SlideMaxSpeedF	)
 		{
 			l_NewVelocityV	*= m_SlideMaxSpeedF / l_AuxF;
 		}
 		
-		// Set the velocity
+		
 		SetVelocity( l_NewVelocityV );
 		
 		
-		// Apply the movement
+		
 		Translate( m_VelocityV * _Dt );
 		
 		
-		// Apply rotation
+		
 		slopeYaw	= AngleDistance( slopeYaw, m_ExplorationO.m_OwnerE.GetHeading() );
 		slopeYaw	*= 2.5f * _Dt;
-		//slopeYaw	*= 0.05f * slopeOrientSpeed * _Dt;
+		
 		AddYaw( l_TurnAngleF * m_SlidingParamsS.m_InputVisualTurnCoefF + slopeYaw );
 		
-		// Save the data to return
-		_TurnF	= l_DirectionDiffPercF; //l_TurnAngleF;
+		
+		_TurnF	= l_DirectionDiffPercF; 
 		_AccelF	= l_FrictionInputCoefF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateSlidingInertialMovement( _Dt : float )
 	{
 		var l_SlopeDirectionV	: Vector;
@@ -864,58 +865,58 @@ class CExplorationMover
 		var l_AuxF				: float;
 		
 		
-		// Get the speed base
+		
 		l_NewVelocityV			= m_VelocityV;
 		
-		// Get the sliding direction and normal
+		
 		GetSlideDirAndNormal( l_SlopeDirectionV, l_SlopeNormalV );
 		
 		
-		// Apply the friction ( TEMP PLACEHOLDER )
+		
 		l_AuxF					= m_SlidingParamsS.m_FrictionConstF + m_SlidingParamsS.m_FrictionLinearF * VecLength( l_NewVelocityV );
 		l_AuxF					*= m_MaterialFrictionMultF;
 		l_NewVelocityV			= VecReduceTowardsZero( l_NewVelocityV, l_AuxF * _Dt );
 		
 		
-		// Project the velocity to the slope plane
+		
 		l_NewVelocityV			= l_NewVelocityV - l_SlopeNormalV * VecDot( l_NewVelocityV, l_SlopeNormalV );
 		
 		
-		// Get the accel that comes from the slope and the gravity
+		
 		l_AuxF					= VecDot( l_SlopeDirectionV, m_UpV );
 		l_AuxF					= l_AuxF * m_SlidingParamsS.m_GravityF;
 		l_SlopeAccelVectorV		= l_SlopeDirectionV * l_AuxF;	
 		
 		
-		// Recover part of the lost speed from the projection
+		
 		l_SlopeRestitutionV		= l_SlopeDirectionV * VecDot( l_NewVelocityV, l_SlopeNormalV ) * m_SlidingParamsS.m_RestitutionF;
 		
 		
-		// Get the new velocity
+		
 		l_NewVelocityV			= l_NewVelocityV + ( l_SlopeAccelVectorV * _Dt ) + l_SlopeRestitutionV;
 		
 		
-		// Set the velocity
+		
 		SetVelocity( l_NewVelocityV );
 		
-		// Apply the movement
+		
 		Translate( m_VelocityV * _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateMovementVertical( _Dt : float ) : float
 	{
 		var l_DisplacementF	: float;
 		var l_AccelF		: float;
 		
-		// Use a real parabola to calculate the movemet
-		// y = accel * tt + speed * t + height
-		// displacement = y - height  = 
 		
-		// We have a different accel after reaching th peak
-		// TODO:
-		// We reach the peak at
-		// 0 = accel * x + speed		
+		
+		
+		
+		
+		
+		
+		
 		if( m_SpeedVerticalF > 0.0f )
 		{
 			l_AccelF	= m_VerticalMovementParamsS.m_GravityUpF;
@@ -925,19 +926,19 @@ class CExplorationMover
 			l_AccelF	= m_VerticalMovementParamsS.m_GravityDownF;
 		}
 		
-		// Use the quadratic formula to get the displacement
+		
 		l_DisplacementF	= l_AccelF * _Dt * _Dt + m_SpeedVerticalF * _Dt;
 		
-		// Extract the speed from the real displacement and limit it
+		
 		m_SpeedVerticalF	= MaxF( m_VerticalMovementParamsS.m_VertMaxSpeedF, l_DisplacementF / _Dt );
 		
-		// Translate
+		
 		Translate( l_DisplacementF * m_UpV );
 		
 		return l_DisplacementF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdatePerfectMovementVertical( _Dt : float ) : float
 	{
 		var l_AccelF			: float;
@@ -946,21 +947,21 @@ class CExplorationMover
 		var	l_DisplacementF		: float;
 		
 		
-		// We will have some time for this frame that we will be consuming
+		
 		l_TimeRemainingF		= _Dt;
 		l_DisplacementF			= 0.0f;
 		
-		// Going up
+		
 		if( m_SpeedVerticalF > 0.0f )
 		{
-			// Get the time we'll be going up this frame
+			
 			l_TimeNeededF		= GetTimeToReachThePeak();			
 			l_TimeNeededF		= MinF( l_TimeNeededF, l_TimeRemainingF);
 			
-			// Update the parabolic going up movement
+			
 			l_DisplacementF 	+= UpdateParabolicVerticalMovement( m_VerticalMovementParamsS.m_GravityUpF, l_TimeNeededF );
 			
-			// Consume the time we spent going up
+			
 			l_TimeRemainingF	-= l_TimeNeededF;		
 			if( l_TimeRemainingF <= 0.0f )
 			{
@@ -968,17 +969,17 @@ class CExplorationMover
 			}			
 		}
 		
-		// Going down before reaching max speed
+		
 		if( m_SpeedVerticalF > m_VerticalMovementParamsS.m_VertMaxSpeedF )
 		{
-			// Prepare for reaching the max speed
+			
 			l_TimeNeededF		= GetTimeToReachMaxSpeed();
 			l_TimeNeededF		= MinF( l_TimeNeededF, l_TimeRemainingF);	
 			
-			// Update the parabolic going down movement
+			
 			l_DisplacementF		+= UpdateParabolicVerticalMovement( m_VerticalMovementParamsS.m_GravityDownF, l_TimeNeededF );
 			
-			// Consume the time we spent going down
+			
 			l_TimeRemainingF	-= l_TimeNeededF;	
 			if( l_TimeRemainingF <= 0.0f )
 			{
@@ -986,13 +987,13 @@ class CExplorationMover
 			}
 		}
 		
-		// Going down at terminal velocity
+		
 		l_DisplacementF		+= UpdateLinearVerticalMovement( l_TimeRemainingF );		
 		
 		return l_DisplacementF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function GetTimeToReachThePeak() : float
 	{
 		if( m_SpeedVerticalF <= 0.0f )
@@ -1000,77 +1001,61 @@ class CExplorationMover
 			return 0.0f;
 		}
 		
-		// It will hapen when  speed is zero, 
-		// so 2*accel*t + speed = 0.		
-		// t = -speed / 2 / accel;
+		
+		
+		
 		
 		return -m_SpeedVerticalF / 2.0f / m_VerticalMovementParamsS.m_GravityUpF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function GetTimeToReachMaxSpeed() : float
 	{
 		if( m_SpeedVerticalF <= m_VerticalMovementParamsS.m_VertMaxSpeedF )
 		{
 			return 0.0f;
 		}
-		// It will hapen when  speed is max, 
-		// so 2*accel*t + speed = max.		
-		// t = ( max - speed ) / 2 / accel;
+		
+		
+		
 		
 		return ( m_VerticalMovementParamsS.m_VertMaxSpeedF - m_SpeedVerticalF ) / 2.0f / m_VerticalMovementParamsS.m_GravityUpF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateParabolicVerticalMovement( _AccelF, _Dt : float ) : float
 	{
-		// y 		= accel * tt + speed * t + height
-		// speed	= 2*accel*t + speed;
+		
+		
 		
 		var l_DisplacementF	: float;
 		
-		// Use the quadratic formula to get the displacement
+		
 		l_DisplacementF		= _AccelF * _Dt * _Dt + m_SpeedVerticalF * _Dt;
 		
-		// Extract the speed from the real displacement and limit it
+		
 		m_SpeedVerticalF	= MaxF( m_VerticalMovementParamsS.m_VertMaxSpeedF, l_DisplacementF / _Dt );
 		
-		// Update the vertical speed
+		
 		m_SpeedVerticalF	+=  2 * m_VerticalMovementParamsS.m_GravityUpF * _Dt;
 		
-		// Translate
+		
 		Translate( l_DisplacementF * m_UpV );
 		
 		return l_DisplacementF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateLinearVerticalMovement( _Dt : float ) : float
 	{		
-		// Translate
+		
 		Translate( _Dt * m_SpeedVerticalF * m_UpV );
 		
 		return _Dt * m_SpeedVerticalF;
 	}
 	
-	/*
-	//------------------------------------------------------------------------------------------------------------------
-	function UpdateOrientToRealVelocity( _Speed, _Dt : float )
-	{
-		
-		var velHeading, realHeding, angleDistance : float;
-		
-		velHeading		= VecHeading( m_ExplorationO.m_OwnerMAC.GetVelocity() );
-		realHeding		= VecHeading( m_ExplorationO.m_OwnerMAC.GetWorldForward() );
-		angleDistance	= AngleDistance( realHeding, velHeading );
-		angleDistance	= AngleNormalize( angleDistance );
-		
-		AddYaw( angleDistance * MinF( 1.0f, _Dt * _Speed ) );
-		
-		//RotateYawTowards( VecHeading( m_ExplorationO.m_OwnerMAC.GetVelocity() ), _Speed * _Dt , 5.0f, false ) ;
-	}
-	*/
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
 	function UpdateOrientToInput( _Speed, _Dt : float ) : bool
 	{		
 		var inputHeading	: float;
@@ -1083,7 +1068,7 @@ class CExplorationMover
 			turnDelta		= ClampF( inputHeading, -m_OrientToInputMaxHeadingF, m_OrientToInputMaxHeadingF ) * MinF( 1.0f, _Speed * _Dt );
 			
 			
-			// Reached the target?
+			
 			if( AbsF( turnDelta ) >= AbsF( inputHeading ) )
 			{
 				AddYaw( turnDelta - inputHeading );
@@ -1096,7 +1081,7 @@ class CExplorationMover
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function UpdateOrientToInputLinear( _Speed, _Dt : float, optional tolerance : float ) : bool
 	{		
 		var inputHeading	: float;
@@ -1110,7 +1095,7 @@ class CExplorationMover
 			turnDelta		= ClampF( SignF( inputHeading ) * _Speed * _Dt, -inputHeadingAbs, inputHeadingAbs );
 			AddYaw( turnDelta );
 			
-			// Reached the target?
+			
 			if( AbsF( turnDelta ) + tolerance >= inputHeadingAbs )
 			{
 				return true;
@@ -1120,26 +1105,26 @@ class CExplorationMover
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateBanking( _Dt : float)
 	{
 		var l_BankingCurF		: float;
 		var l_RotationNeededF	: float;
 		var	l_RotationEA		: EulerAngles;
 		
-		//l_BankingCurF	= VecGetAngleDegAroundAxis( m_UpV, m_OwnerE.GetWorldUp(), m_OwnerE.GetWorldRight() );
+		
 		l_RotationEA		= m_ExplorationO.m_OwnerE.GetWorldRotation();
 		l_BankingCurF		= l_RotationEA.Roll;
 		
-		// Get the rotation needed for the exact turn
+		
 		l_RotationNeededF	= AngleDistance( m_BankingTargetF, l_BankingCurF );
 		
-		// Turn limited by speed turn
+		
 		if( AbsF( l_RotationNeededF ) > m_BankingSpeedF * _Dt )
 		{
 			l_RotationNeededF	= SignF( l_RotationNeededF ) * m_BankingSpeedF * _Dt;
 		}
-		// We don't need to update banking if we reached the target bank
+		
 		else
 		{
 			m_BankingNeedsUpdatingB	= false;
@@ -1148,16 +1133,16 @@ class CExplorationMover
 		Rotate( EulerAngles( 0.0f, 0.0f, l_RotationNeededF ) );
 	}	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeSlideDirAndNormal()
 	{	
 		var aux : float;
 		
-		// fast test, let's ge tthe slide dir not damped, never
+		
 		m_SlideNormalV		= m_ExplorationO.m_OwnerMAC.GetTerrainNormal( true ); 
 		m_SlideNormalRealV	= m_ExplorationO.m_OwnerMAC.GetTerrainNormal( false ); 
 		
-		// TEMP HACK TEST
+		
 		if( m_SlideNormalV == m_ZeroV )
 		{
 			return;
@@ -1171,53 +1156,10 @@ class CExplorationMover
 		
 		m_SlideComputedThisFrameB	= true;
 		
-		/*
 		
-		m_SlideDirV		= m_ExplorationO.m_OwnerMAC.GetSlideDir();
-		aux				= VecLength( m_SlideDirV );
-		
-		// If physics thinks we are nto sliding, get the normal as the slide dir
-		if( !m_ExplorationO.m_OwnerMAC.IsSliding() || AbsF( aux )  < 0.000001f )
-		{
-			m_SlideNormalV	= VecNormalize( m_ExplorationO.m_OwnerMAC.GetTerrainNormal( false ) );
-			aux				= VecLength( m_SlideNormalV );
-			
-			// No terrain normal
-			if( AbsF( aux )  < 0.000001f )
-			{
-				m_SlideNormalV	= m_UpV;
-				m_SlideDirV		= m_VelocityNormalizedV;
-			}
-			// Flat terrain fail safe
-			else 
-			{
-				m_SlideNormalV		/= aux;
-				if( m_SlideNormalV.Z >= 1.0f )
-				{
-					m_SlideDirV	= m_ExplorationO.m_OwnerE.GetWorldForward();
-				}
-				// Proper terrain notmal
-				else
-				{
-					m_SlideDirV	= VecCross( m_SlideNormalV, m_UpV );
-					m_SlideDirV	= VecCross( m_SlideNormalV, m_SlideDirV );
-				}
-			}
-		}
-		else
-		{
-			// Normalize it
-			m_SlideDirV		/= aux;
-			
-			m_SlideNormalV	= VecCross( m_SlideDirV, m_UpV );
-			m_SlideNormalV	= VecCross( m_SlideNormalV, m_SlideDirV );
-		}
-		
-		m_SlideComputedThisFrameB	= true;
-		*/
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeSlideWideCoef()
 	{
 		var wideNormalGlobal, wideNormalAverage, direction : Vector;
@@ -1246,7 +1188,7 @@ class CExplorationMover
 		m_SlideWideComputedThisFrameB	= true;		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetSlideDirAndNormal( out slideDir : Vector, out slideNormal : Vector )
 	{
 		if( !m_SlideComputedThisFrameB )
@@ -1258,7 +1200,7 @@ class CExplorationMover
 		slideNormal	= m_SlideNormalV;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetSlideDir() : Vector
 	{
 		if( !m_SlideComputedThisFrameB )
@@ -1269,13 +1211,13 @@ class CExplorationMover
 		return m_SlideDirV;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SetSuperSlide( enabled : bool )
 	{
 		superSlide	= enabled;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetSlideCoef( forceNoDamp : bool, optional coefExtra : float ) : float
 	{
 		var	coef : float;
@@ -1290,11 +1232,11 @@ class CExplorationMover
 		
 		if( m_UseMaterialsB )
 		{
-			// Remap the coef if there is some material influence
+			
 			if( coef > 0.0f && m_CoefMinMaterialF != m_SlidingLimitMinF )
 			{
 				coef	= m_SlidingLimitMinF + coef * ( m_SlidingLimitMaxF - m_SlidingLimitMinF ) + coefExtra;
-				if( true ) //coef >= m_CoefMinMaterialF )
+				if( true ) 
 				{
 					coef	= MapF( coef, m_CoefMinMaterialF, m_SlidingLimitMaxF, 0.0f, 1.0f );
 				}
@@ -1308,17 +1250,17 @@ class CExplorationMover
 		return coef;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetRawSlideCoef( forceNoDamp : bool ) : float
 	{
 		var coef	: float;
 		
-		// do we have the physics coef?
+		
 		if( !forceNoDamp && m_ExplorationO.m_OwnerMAC.IsSliding() )
 		{
 			coef	=	m_ExplorationO.m_OwnerMAC.GetSlideCoef();
 		}
-		// Or do we need to build our own	
+		
 		else
 		{
 			coef	=	GetSlideCoefFromTerrain();
@@ -1327,7 +1269,7 @@ class CExplorationMover
 		return coef;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetRealSlideAngle() : float
 	{		
 		if( !m_SlideComputedThisFrameB )
@@ -1339,7 +1281,7 @@ class CExplorationMover
 		return m_SlideRealangleF;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetRealWideSlideAngle() : float
 	{
 		if( !m_SlideWideComputedThisFrameB )
@@ -1351,8 +1293,8 @@ class CExplorationMover
 	}
 	
 	
-	// This function is public only for test and debug purposes
-	//---------------------------------------------------------------------------------
+	
+	
 	public function GetSlideWideCoefFromTerrain( average : bool ): float
 	{
 		if( !m_SlideWideComputedThisFrameB )
@@ -1371,8 +1313,8 @@ class CExplorationMover
 		
 	}
 	
-	// This function is public only for test and debug purposes
-	//---------------------------------------------------------------------------------
+	
+	
 	public function GetSlideCoefFromTerrain(): float
 	{
 		var	coef : float;
@@ -1387,13 +1329,13 @@ class CExplorationMover
 		return coef;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetSlideSpeedMax() : float
 	{
 		return m_SlideMaxSpeedF;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SetSlideSpeedMode( fast : bool )
 	{
 		if( fast )
@@ -1406,7 +1348,7 @@ class CExplorationMover
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeRealSlideCoefFromNormal( normalZ : float ) : float
 	{	
 		var	coef : float;
@@ -1417,7 +1359,7 @@ class CExplorationMover
 		return coef;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeSlideCoefFromNormal( normalZ : float ) : float
 	{	
 		var	coef : float;
@@ -1427,13 +1369,13 @@ class CExplorationMover
 		coef = ClampF( ( coef - m_SlidingLimitMinF ) / ( m_SlidingLimitMaxF - m_SlidingLimitMinF ), 0.0f, 1.0f );
 		
 		return coef;
-		//coef	= AcosF( ClampF( m_SlideNormalV.Z, 0.0f, 1.0f ) ) * 2.0f / Pi();
-		//coef	= MapF( coef, 0.0f, 1.0f, m_SlidingLimitMinF, m_SlidingLimitMaxF );// ( coef - m_SlidingLimitMinF ) / ( m_SlidingLimitMaxF - m_SlidingLimitMinF );
-		//coef	= ClampF( coef, 0.0f, 1.0f );
+		
+		
+		
 		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function StopAllMovement()
 	{	
 		m_SpeedVerticalF	= 0.0f;
@@ -1444,7 +1386,7 @@ class CExplorationMover
 		m_AccelerationLastF	= 0.0f;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function StopVerticalMovement()
 	{
 		m_SpeedVerticalF	= 0.0f;
@@ -1452,19 +1394,19 @@ class CExplorationMover
 		SetVelocity( m_VelocityV );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function AddVelocity( velocity : Vector )
 	{
 		SetVelocity( m_VelocityV + velocity );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function AddSpeed( speed : float )
 	{
 		SetVelocity( m_VelocityV + m_VelocityNormalizedV * speed );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetVelocity( _NewVelocityV : Vector )
 	{	
 		m_VelocityV				= _NewVelocityV;
@@ -1478,25 +1420,25 @@ class CExplorationMover
 		m_SpeedHeadingF			= VecHeading( m_VelocityNormalizedV );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetVerticalSpeed( _NewSpeedF : float )
 	{		
 		m_SpeedVerticalF	= _NewSpeedF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function AddVerticalSpeed( _NewSpeedF : float )
 	{		
 		m_SpeedVerticalF	+= _NewSpeedF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetBankingToReset()
 	{
 		SetBankingTarget( 0.0f, m_BankingSpeedDefaultF );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetBankingTarget( _BankingF : float, _SpeedF : float)
 	{				
 		m_BankingTargetF		= _BankingF;
@@ -1504,58 +1446,20 @@ class CExplorationMover
 		m_BankingNeedsUpdatingB	= true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function AddYaw( _DeltaYawF : float )
 	{		
 		m_RotationDeltaEA.Yaw	+= _DeltaYawF;
 		Rotate( EulerAngles( 0.0f, _DeltaYawF, 0.0f ) );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Provide _DeltaYawF > 0.0f
-	// TODO get rid of the tolerance and make it exact
-	//------------------------------------------------------------------------------------------------------------------
-	/*public function	RotateYawTowards( _TargetYawF, _DeltaYawF, _ToleranceF : float, _SoftB :bool )
-	{
-		var l_RotationEA	: EulerAngles;
-		var l_DistanceF		: float;
-		var l_DistanceAbsF	: float;
-		
-		
-		// Don't turn if we are close enough
-		if( _DeltaYawF <= _ToleranceF)
-		{
-			return;
-		}
-		
-		//l_RotationEA		= m_ExplorationO.m_OwnerE.GetWorldRotation();
-		l_RotationEA		= m_ExplorationO.m_OwnerMAC.GetWorldRotation();
-		l_DistanceF			= AngleDistance( _TargetYawF, l_RotationEA.Yaw + m_RotationDeltaEA.Yaw );
-		
-		l_DistanceAbsF	= AbsF( l_DistanceF );
-		
-		// If exceeding the target, clamp it
-		if( _DeltaYawF >= l_DistanceAbsF )
-		{
-			_DeltaYawF	= l_DistanceF;
-		}		
-		
-		// Get the proper displacement sign
-		if( l_DistanceF < 0.0f )
-		{
-			_DeltaYawF	= -_DeltaYawF;
-		}
-		
-		// Soften it
-		if( _SoftB )
-		{
-			_DeltaYawF	*= l_DistanceAbsF / 180.0f;
-		}
-		
-		Rotate( EulerAngles( 0.0f, _DeltaYawF, 0.0f ) );
-	}*/
+	
+	
+	
+	
+	
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function	RotateYawTowards( _TargetYawF, _DeltaYawF, _ToleranceF : float, _SoftB :bool )
 	{
 		var l_RotationEA	: EulerAngles;
@@ -1563,31 +1467,31 @@ class CExplorationMover
 		var l_DistanceAbsF	: float;
 		
 		
-		// Don't turn if we are close enough
+		
 		if( _DeltaYawF <= _ToleranceF)
 		{
 			return;
 		}
 		
-		//l_RotationEA		= m_ExplorationO.m_OwnerE.GetWorldRotation();
+		
 		l_RotationEA		= m_ExplorationO.m_OwnerMAC.GetWorldRotation();
 		l_DistanceF			= AngleDistance( _TargetYawF, l_RotationEA.Yaw + m_RotationDeltaEA.Yaw );
 		
 		l_DistanceAbsF	= AbsF( l_DistanceF );
 		
-		// If exceeding the target, clamp it
+		
 		if( _DeltaYawF >= l_DistanceAbsF )
 		{
 			_DeltaYawF	= l_DistanceF;
 		}		
 		
-		// Get the proper displacement sign
+		
 		if( l_DistanceF < 0.0f )
 		{
 			_DeltaYawF	= -_DeltaYawF;
 		}
 		
-		// Soften it
+		
 		if( _SoftB )
 		{
 			_DeltaYawF	*= l_DistanceAbsF / 180.0f;
@@ -1597,7 +1501,7 @@ class CExplorationMover
 	}
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSpeedFromAnim( optional _MaxSpeedF : float )
 	{
 		var l_ImpulseV			: Vector;
@@ -1605,7 +1509,7 @@ class CExplorationMover
 		
 		l_ImpulseV	= m_MACVelocityDampedV;
 		
-		// Apply limit if there is one
+		
 		if( _MaxSpeedF > 0.0f )
 		{
 			if( VecLengthSquared( l_ImpulseV ) > _MaxSpeedF * _MaxSpeedF )
@@ -1617,7 +1521,7 @@ class CExplorationMover
 		m_ExplorationO.m_MoverO.SetVelocity( l_ImpulseV );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetSpeedFromAnimFrontal( optional _MaxSpeedF : float )
 	{
 		var	l_FrontalSpeedF	: float;
@@ -1625,7 +1529,7 @@ class CExplorationMover
 		
 		l_FrontalSpeedF	= VecDot( m_MACVelocityDampedV, m_ExplorationO.m_MoverO.GetMovementVelocityNormalized() );
 		
-		// Apply limit if there is one
+		
 		if( _MaxSpeedF > 0.0f )
 		{
 			l_FrontalSpeedF	= MinF( _MaxSpeedF, l_FrontalSpeedF );
@@ -1634,7 +1538,7 @@ class CExplorationMover
 		m_ExplorationO.m_MoverO.SetVelocity( l_FrontalSpeedF * m_VelocityNormalizedV );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function RemoveSpeedOnThisDirection( directionNormalized : Vector )
 	{
 		var dot					: float;
@@ -1649,19 +1553,19 @@ class CExplorationMover
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetMovementHorizontalVelocityV( ) : Vector
 	{		
 		return m_VelocityV;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetMovementVerticalSpeedF() : float
 	{
 		return m_SpeedVerticalF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetMovementVelocity() : Vector
 	{
 		var velocity	: Vector;
@@ -1672,31 +1576,31 @@ class CExplorationMover
 		return velocity;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetMovementVelocityNormalized( ) : Vector
 	{		
 		return m_VelocityNormalizedV;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetMovementSpeedF( ) : float
 	{		
 		return m_SpeedF;
 	}	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetMovementSpeedHeadingF( ) : float
 	{		
 		return m_SpeedHeadingF;
 	}	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetAccelerationnLastF() : float
 	{
 		return m_AccelerationLastF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetYawTurnThisFrameF() : float
 	{
 		return m_RotationDeltaEA.Yaw;

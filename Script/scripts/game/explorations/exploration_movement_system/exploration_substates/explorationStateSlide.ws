@@ -1,14 +1,19 @@
-﻿// CExplorationStateSlide
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 09/01/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
 
 function LogSlidingTerrain( text : string )
 {
 	LogChannel('SlideTerrain', text );
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 enum ESlidingSubState
 {
 	SSS_Entering	= 0,
@@ -18,7 +23,7 @@ enum ESlidingSubState
 	SSS_Exited		= 4,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 enum ESlideCameraShakeState
 {
 	SCSS_None	,
@@ -26,7 +31,7 @@ enum ESlideCameraShakeState
 	SCSS_Hard	,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 struct SSlidingMaterialPresetParams
 {
 	editable	var presetName				: name;
@@ -37,44 +42,39 @@ struct SSlidingMaterialPresetParams
 	editable	var frictionMultiplierRain	: float;		default	frictionMultiplierRain	= 0.8f;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 struct SSlidingMaterialNamesToPresets
 {
 	editable	var materialName			: name;
 	editable	var presetName				: name;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CExplorationStateSlide extends CExplorationStateAbstract
 {	
 	protected			var	subState				: ESlidingSubState;
 	private	editable	var	enableWallSlide			: bool;						default	enableWallSlide			= false;
 	
-	// Coeficients
+	
 	protected editable	var	useSmothedCoefOnIdle	: bool;						default	useSmothedCoefOnIdle	= false;
 	protected editable	var	angleMinDefault			: float;					default	angleMinDefault			= 70.0f;
 	protected editable	var	anglefMax				: float;					default	anglefMax				= 80.0f;
 	protected editable	var	coefExtraToStop			: float;					default	coefExtraToStop			= 0.2f;
 	
-	// Coef for inputs
+	
 	protected editable	var	slideCoefRelatedToInput	: bool;						default	slideCoefRelatedToInput	= false;
 	protected editable	var	dotToStartForward		: float;					default	dotToStartForward		= 0.5f;
 	protected editable	var	coefToStartBackward		: float;					default	coefToStartBackward		= 0.35f;
 	protected editable	var	coefToStartCenter		: float;					default	coefToStartCenter		= 0.25f;
 	protected editable	var	coefToStartForward		: float;					default	coefToStartForward		= 0.0f;
 	
-	// wide terrain
+	
 	protected editable	var	useWideTerrainCheckToEnter	: bool;					default	useWideTerrainCheckToEnter	= true;
-	/*
-	protected editable	var angleMinWideAvg			: float;					default	angleMinWideAvg			= 45.0f;
-	protected editable	var	angleMinWideGlobal		: float;					default	angleMinWideGlobal		= 45.0f;
-	protected editable	var coefMinWideAvg			: float;					
-	protected 			var	coefMinWideGlobal		: float;
-	*/
 	
 	
-	// Material influences
+	
+	
 	protected 			var	updateMaterials			: bool;
 	protected editable	var	materialParams			: array<SSlidingMaterialPresetParams>;
 	protected editable	var	materialNamesToPresets	: array<SSlidingMaterialNamesToPresets>;
@@ -83,23 +83,23 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 	protected 			var	materialCurId			: int;
 	protected			var	materialNameCur			: name;
 	
-	// Start sliding
+	
 	protected editable	var	minTimeToIdle			: float;					default	minTimeToIdle			= 0.3f;
 	protected editable	var	orientingInitial		: float;					default	orientingInitial		= 200.0f;
 	protected editable	var	initialImpulse			: float;					default	initialImpulse			= 1.0f;
 	protected			var startedFromJump			: bool;
 	protected			var startedFromRoll			: bool;
 	
-	// Sliding idle
+	
 	protected editable	var	orientingSpeedMin		: float;					default	orientingSpeedMin		= 300.0f;
 	protected editable	var	orientingSpeedMax		: float;					default	orientingSpeedMax		= 900.0f;
 	protected editable	var	orientingMaxSlope		: float;					default	orientingMaxSlope		= 0.7f;
 	
-	// Hard slide
+	
 	protected editable	var timeToHardSlide			: float;					default	timeToHardSlide			= 0.2f;
 	protected editable	var behGraphEventSlideHard	: name;						default	behGraphEventSlideHard	= 'SlideHard';
 	
-	// Stop sliding
+	
 	protected editable	var	requireSpeedToExit 		: bool;						default	requireSpeedToExit		= true;
 	protected editable	var	speedToExitForward		: float;					default	speedToExitForward		= 7.0f;
 	protected editable	var	speedToExitCenter		: float;					default	speedToExitCenter		= 15.0f;
@@ -111,41 +111,41 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 	protected editable	var	exitingTimeTotalInput	: float;					default	exitingTimeTotalInput	= 0.5f;
 	private				var	stoppingFriction		: bool;
 	
-	// Cooldown
+	
 	protected editable	var	cooldownMax				: float;					default	cooldownMax				= 0.1f;
 	protected 			var	cooldownCur				: float;
 	
-	// Slide from land
+	
 	protected			var landCoolingDown			: bool;
 	protected editable	var	landCoolDownTime		: float;					default	landCoolDownTime		= 0.7f;
 	
-	// Slide to jump
+	
 	protected editable	var fromJumpBehGraphEvent	: name;						default	fromJumpBehGraphEvent	= 'Slide_From_Jump';
 	protected editable	var fromRollBehGraphEvent	: name;						default	fromRollBehGraphEvent	= 'Slide_From_Roll';
 	protected editable	var	jumpAllowed				: bool;						default	jumpAllowed				= true;
 	protected editable	var	jumpCoolDownTime		: float;					default	jumpCoolDownTime		= 0.3f;
 	
 	
-	// To Fall
+	
 	protected editable	var	fallSpeedMaxConsidered	: float;					default	fallSpeedMaxConsidered	= 10.0f;
 	protected editable	var	fallSpeedCoef			: float;					default	fallSpeedCoef			= 0.6f;
 	protected editable	var	fallHorizImpulse		: float;					default	fallHorizImpulse		= 2.0f;
 	protected editable	var	fallHorizImpulseCancel	: float;					default	fallHorizImpulseCancel	= 1.0f;
 	protected editable	var	fallExtraVertImpulse	: float;					default	fallExtraVertImpulse	= -2.0f;
 	
-	// physics
+	
 	protected editable	var	slidingPhysicsSpeed		: float;					default	slidingPhysicsSpeed		= 26.0f;
 	protected editable	var	movementParams			: SSlidingMovementParams;
 	protected editable	var	movementStoppingParams	: SSlidingMovementParams;
 	
 	protected editable	var	usePhysics				: bool;						default usePhysics				= false;
 	
-	// Smooth direction
+	
 	protected			var slideDirectionDamped	: Vector;
-	//protected			var smoothedYawDir			: float;	
+	
 	protected editable	var	smoothedDirBlendCoef	: float;					default smoothedDirBlendCoef	= 1.1f;	
 	
-	// To Fall
+	
 	private	  editable	var	slideKills				: bool;						default	slideKills				= false;
 	private				var	m_DeadB					: bool;
 	protected editable	var	toFallEnabled			: bool;						default toFallEnabled			= true;
@@ -162,7 +162,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 	protected editable	var	cameraAnimName			: name;						default	cameraAnimName			= 'camera_shake_loop_lvl1_1';
 	protected editable	var behTripToDeath			: name;						default	behTripToDeath			= 'TripToDeath';
 	
-	// Animation
+	
 	protected editable	var	behHeightVar			: name;						default	behHeightVar			= 'Slide_Height';
 	protected editable	var	behInclinationVar		: name;						default	behInclinationVar		= 'Slide_Inclination';
 	protected editable	var	behTurnVar				: name;						default	behTurnVar				= 'Slide_Turn';
@@ -188,7 +188,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 	protected editable	var animEventHardSliding	: name;						default animEventHardSliding	= 'Slide_HardIsReady';
 	protected			var lockedOnHardSliding		: bool;
 	
-	// Particles
+	
 	protected editable	var	particlesEnabled			: bool;					default	particlesEnabled		= false;
 	protected editable	var particlesName				: name;					default particlesName			= 'fx_steps_other';
 	protected editable	var boneLeftFoot 				: name;					default boneLeftFoot			= 'l_foot';
@@ -198,7 +198,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 	
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{	
 		var angleMin		: float;
@@ -211,7 +211,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		
 		SetCanSave( false );
 		
-		// If we have this state, disable sliding by default, till we enter here
+		
 		m_ExplorationO.m_OwnerMAC.SetSliding( false );
 		
 		
@@ -222,13 +222,13 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			GrabOrCreateDefaultMaterialParams();
 			
 			materialCurId	= materialDefault;
-			// do not set the materialCurName on purpouse, so first time we'll set the proper one
 			
 			
-			// Defualt min angle
+			
+			
 			angleMin			= 90.0f;
 			
-			// Get the min coef from all the materials
+			
 			for ( i = 0; i < materialParams.Size(); i += 1 )
 			{
 				if( angleMin > materialParams[i].angleMin )
@@ -246,24 +246,24 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		
 		m_ExplorationO.m_MoverO.SetSlidingLimits( angleMin, anglefMax );
 		
-		// Also set some defautls, just in case
+		
 		m_ExplorationO.m_MoverO.SetSlidingParams( movementParams );
 		m_ExplorationO.m_MoverO.SetSlidingMaterialParams( materialParams[materialCurId].angleMin, materialParams[materialCurId].frictionMultiplier );
 		
 		
-		// Prepare anim
+		
 		boneToStickId	= m_ExplorationO.m_OwnerE.GetBoneIndex( boneToStickName );
 		
-		// Substate
+		
 		m_StateTypeE			= EST_Idle;
 		m_InputContextE			= EGCI_JumpClimb; 		
 		m_UpdatesWhileInactiveB	= true;
 		
-		// To fall
+		
 		toFallTimeCur		= 0.0f;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function AddActionsToBlock()
 	{
 		AddActionToBlock( EIAB_Signs );
@@ -273,20 +273,20 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		AddActionToBlock( EIAB_Counter );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddDefaultStateChangesSpecific()
 	{
-		//AddStateToTheDefaultChangeList('Jump');
+		
 		if( enableWallSlide )
 		{
 			AddStateToTheDefaultChangeList('WallSlide', -1.0f );
 		}
 		
-		//AddStateToTheDefaultChangeList('Interaction');
-		//AddStateToTheDefaultChangeList('Climb');
+		
+		
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{			
 		if( !WantsToEnterBasic() )
@@ -294,7 +294,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			return false;
 		}
 		
-		// special check for wide terrain normal
+		
 		if( useWideTerrainCheckToEnter )
 		{
 			if( !WantsToEnterWide() )
@@ -306,7 +306,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return true;		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateCanEnter( curStateName : name ) : bool
 	{	
 		if( !thePlayer.IsActionAllowed( EIAB_Slide ) )
@@ -322,7 +322,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return cooldownCur <= 0.0f;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateEnterSpecific( prevStateName : name )	
 	{
 		var velocity			: Vector;
@@ -335,21 +335,21 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		
 		m_DeadB		= false;
 		
-		// Landing on slide?
-		startedFromJump	= prevStateName == 'Jump' && m_ExplorationO.GetStateTimeF() >= m_ExplorationO.m_SharedDataO.m_SkipLandAnimTimeMaxF;
-		startedFromRoll	= prevStateName	== 'Roll';// && m_ExplorationO.m_SharedDataO.m_LastLandTypeE	== LT_Roll;
 		
-		// Damage if we come from jump or wallslide
+		startedFromJump	= prevStateName == 'Jump' && m_ExplorationO.GetStateTimeF() >= m_ExplorationO.m_SharedDataO.m_SkipLandAnimTimeMaxF;
+		startedFromRoll	= prevStateName	== 'Roll';
+		
+		
 		if( startedFromJump || prevStateName == 'WallSlide' )
 		{
 			CheckLandingDamage();
 		}
 		
-		// We will have some considerations when entering after land
+		
 		landCoolingDown	= prevStateName	== 'Land' || prevStateName	== 'Jump';
 		
 		
-		// Movement
+		
 		m_ExplorationO.m_MoverO.SetSlidingParams( movementParams );
 		m_ExplorationO.m_MoverO.SetSlideSpeedMode( false );	
 		
@@ -358,52 +358,52 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		m_ExplorationO.m_OwnerMAC.SetSliding( usePhysics );
 		m_ExplorationO.m_OwnerMAC.SetSlidingSpeed( slidingPhysicsSpeed );
 		
-		// Initial speed		
+		
 		m_ExplorationO.m_MoverO.GetSlideDirAndNormal( slideDir, slideNormal );
 		velocity		= m_ExplorationO.m_MoverO.GetMovementVelocity();		
 		velocity		-= slideNormal * VecDot( slideNormal, velocity );
 		velocity		+= slideDir * initialImpulse;
 		m_ExplorationO.m_MoverO.SetVelocity( velocity );
 		
-		// Init soft direction				
-		//smoothedYawDir	= AngleNormalize180( VecHeading( slideDir ) );
+		
+		
 		slideDirectionDamped	= slideDir;
 		
-		// Forcing jump direction
+		
 		m_ExplorationO.m_SharedDataO.m_JumpDirectionForcedV	= slideDir;
 		
-		// Anim
-		inclination				=  m_ExplorationO.m_MoverO.GetRealSlideAngle( ); //inclinationStart;
+		
+		inclination				=  m_ExplorationO.m_MoverO.GetRealSlideAngle( ); 
 		inclinationEnterTimeCur	= inclinationEnterTimeMax;
 		turnInclinationCur		= 0.0f;
 		
-		// Forward or backward ?
+		
 		slidingDirDot	= VecDot( slideDir, m_ExplorationO.m_OwnerE.GetWorldForward() );
 		slidingForward	= slidingDirDot >= 0.0f;
 		m_ExplorationO.SetBehaviorParamBool( behForwardVar, slidingForward );
 		
-		// If sliding forward, get the foot that is more forward
+		
 		if( slidingForward )
 		{
 			isRightFootForward	= !m_ExplorationO.m_MoverO.IsRightFootForwardTowardsDir( slideDir );
 		}
 		
-		// If slifding backward, get the foot closer to the side we have to turn to
+		
 		else
 		{
 			isRightFootForward	= VecDot( slideDir, m_ExplorationO.m_OwnerE.GetWorldRight() ) < 0.0f;
 		}
 		m_ExplorationO.SetBehaviorParamBool( behRightFootForwardVar, isRightFootForward );
 		
-		// Action blocks
+		
 		BlockActions();
 		
-		// No IK at the slide
-		m_ExplorationO.m_OwnerMAC.SetEnabledFeetIK( false ); //false, 0.005f ); // jus to test
-		//m_ExplorationO.m_OwnerMAC.SetEnabledFeetIK( true );
-		//m_ExplorationO.m_OwnerMAC.SetEnabledSlidingOnSlopeIK( false );
 		
-		// Init particles
+		m_ExplorationO.m_OwnerMAC.SetEnabledFeetIK( false ); 
+		
+		
+		
+		
 		if( particlesEnabled )
 		{
 			thePlayer.PlayEffectOnBone( particlesName, boneLeftFoot );
@@ -411,11 +411,11 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			timeToRespawnParticlesCur	= timeToRespawnParticlesMax;
 		}
 		
-		// To fall
+		
 		toFallCameraLevel	= 0;
 		cameraShakeState = SCSS_None;
 		
-		// Substate
+		
 		if( startedFromJump || startedFromRoll )
 		{
 			subState			= SSS_HardSliding;
@@ -428,18 +428,18 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		}
 		exitingTimeCur		= 0.0f;		
 		
-		//Abort all signs
+		
 		thePlayer.AbortSign();	
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.AddAnimEventCallback( animEventHardSliding,	'OnAnimEvent_SubstateManager' );
 		m_ExplorationO.m_OwnerE.AddAnimEventCallback( 'DisableFeetIK',		'OnAnimEvent_SubstateManager' );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{
 		if( m_DeadB )
@@ -447,10 +447,10 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			return GetStateName();
 		}
 		
-		// jump
+		
 		if( jumpAllowed && m_ExplorationO.GetStateTimeF() >= jumpCoolDownTime )
 		{
-			// Speciall check for combat trying to enter, we can't jump then 
+			
 			if( !thePlayer.IsCombatMusicEnabled() )
 			{
 				if( m_ExplorationO.StateWantsAndCanEnter( 'Jump' ) )
@@ -464,14 +464,14 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			}
 		}
 		
-		// Normal exit
+		
 		if( subState >= SSS_Exited )
 		{
 			return 'Idle';
 		}
 		
-		// Fast exit
-		if( !lockedOnHardSliding && m_ExplorationO.GetStateTimeF() > exitingTimeMinSoft )// subState < SSS_HardSliding && m_ExplorationO.GetStateTimeF() > 0.0f )
+		
+		if( !lockedOnHardSliding && m_ExplorationO.GetStateTimeF() > exitingTimeMinSoft )
 		{		
 			if( StateWantsToExit() )
 			{
@@ -482,7 +482,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return super.StateChangePrecheck();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{
 		var slideDirection		: Vector;
@@ -500,34 +500,34 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			return;
 		}
 		
-		// substate change
+		
 		SubstateChangePrecheck( _Dt );
 		
-		// Get the directions	
+		
 		slideCoef		= m_ExplorationO.m_MoverO.GetSlideCoef( true );		
 		m_ExplorationO.m_MoverO.GetSlideDirAndNormal( slideDirection, slideNormal );
 		
-		// Dmap the slide direction
-		//slideDirectionDamped	= LerpV( slideDirectionDamped, slideDirection, smoothedDirBlendCoef * _Dt );
 		
-		// Ger the orienting speed and forced direction
+		
+		
+		
 		UpdateForcedDirection( slideDirection );		
 		
-		// Orient	
+		
 		finalOrientingSpeed	= ComputeOrientingSpeed( slideCoef );
 		if( slideCoef > 0.0f )
 		{			
 			targetYaw	= VecHeading( slideDirection );
-			//smoothedYawDir	= AngleNormalize180( LerpAngleF( smoothedYawDir, targetYaw, MinF( 1.0f, _Dt * smoothedDirBlendCoef ) ) );
-			//m_ExplorationO.m_MoverO.RotateYawTowards( targetYaw, _Dt * finalOrientingSpeed, 0.2f, true ); //0.15
+			
+			
 		}
 		else
 		{
 			if( m_ExplorationO.m_MoverO.GetMovementSpeedF() > 1.0f )
 			{
 				targetYaw		= m_ExplorationO.m_MoverO.GetMovementSpeedHeadingF(); 
-				//smoothedYawDir	= AngleNormalize180( LerpAngleF( smoothedYawDir, targetYaw, MinF( 1.0f, _Dt * smoothedDirBlendCoef ) ) );
-				//m_ExplorationO.m_MoverO.RotateYawTowards( targetYaw, _Dt * finalOrientingSpeed, 0.25f, true ); //0.2
+				
+				
 			}
 			else
 			{
@@ -535,60 +535,60 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			}
 		}	
 		
-		// Add control
+		
 		if( !usePhysics && subState	!= SSS_Exited )
 		{
-			// Extra stop
+			
 			stoppingFriction	= subState == SSS_Exiting || !WantsToEnterBasic( true );
 			
 			m_ExplorationO.m_MoverO.UpdateSlidingInertialMovementWithInput( _Dt, turn, accel, stoppingFriction, targetYaw, finalOrientingSpeed );
 		}
 		
-		// Pitch Inclination		
+		
 		UpdateAngleToRotateToAdaptToSlope( slideDirection, _Dt );
 		
-		// Update speed		
+		
 		m_ExplorationO.m_MoverO.SetSlideSpeedMode( m_ExplorationO.GetStateTimeF() > toConsiderFallTimeTotal );	
 		
-		// Update fall
+		
 		if( slideKills )
 		{
 			UpdateFallCoef( _Dt );
 		}
 		
-		// Particles	
+		
 		if( particlesEnabled && timeToRespawnParticlesMax > 0.0f )
 		{
 			timeToRespawnParticlesCur	-= _Dt;		
 			if( timeToRespawnParticlesCur <= 0.0f )
 			{
-				//thePlayer.StopEffect( particlesName );
+				
 				thePlayer.PlayEffectOnBone( particlesName, boneLeftFoot );
 				thePlayer.PlayEffectOnBone( particlesName, boneRightFoot );
 				timeToRespawnParticlesCur	= timeToRespawnParticlesMax;
 			}
 		}
 		
-		// set turn and accel vars
+		
 		turn				*= turnInclinationMax;
 		turnInclinationCur	= BlendF( turnInclinationCur, turn, turnInclinationBlend * _Dt );
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behTurnVar, turnInclinationCur );
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behAccelVar, accel );		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateExitSpecific( nextStateName : name )
 	{
-		//sliding achievement
+		
 		theGame.GetGamerProfile().SetStat(ES_SlideTime, FloorF(m_ExplorationO.GetStateTimeF()) );
 	
 		m_ExplorationO.m_OwnerMAC.SetSliding( false );
 		
 		if( nextStateName == 'Idle' )
 		{
-			//check this out add specific anims to exit
+			
 			LogExploration("Left slide to Idle" );
-			if( exitingTimeCur < exitingTimeTotal )// || m_ExplorationO.m_InputO.IsModuleConsiderable() && m_ExplorationO.m_InputO.GetHeadingDiffFromPlayerF() < 45.0f )
+			if( exitingTimeCur < exitingTimeTotal )
 			{
 				m_ExplorationO.SendAnimEvent( behSlideEndRun );
 			}
@@ -600,7 +600,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		else if( nextStateName == 'CombatExploration' )
 		{
 			LogExploration("Left slide to Combat" );
-			if( exitingTimeCur < exitingTimeTotal )// || m_ExplorationO.m_InputO.IsModuleConsiderable() && m_ExplorationO.m_InputO.GetHeadingDiffFromPlayerF() < 45.0f )
+			if( exitingTimeCur < exitingTimeTotal )
 			{
 				m_ExplorationO.SendAnimEvent( behSlideEndRun );
 			}
@@ -612,46 +612,46 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		
 		thePlayer.SetBIsCombatActionAllowed( true );
 		
-		// Ended going fast
+		
 		if( m_ExplorationO.m_MoverO.GetMovementSpeedF() > 5.0f )
 		{
 			thePlayer.SetIsSprinting( true );
 			m_ExplorationO.m_OwnerMAC.SetGameplayRelativeMoveSpeed( 2.0f );
 		}
 		
-		// Cooldown to reenter
+		
 		cooldownCur = cooldownMax;
 		
-		// Restore state
+		
 		subState	= SSS_Entering;
 		
-		// Restore IK
-		//m_ExplorationO.m_OwnerMAC.SetEnabledSlidingOnSlopeIK( false );
 		
-		// Particles
+		
+		
+		
 		if( particlesEnabled )
 		{
 			thePlayer.StopEffect( particlesName );
-			//thePlayer.StopEffect( particlesName, boneNameRightFoot );
+			
 		}
 		
-		// Camera
+		
 		StopCameraAnim();
 		
-		// To fall speed
+		
 		if( nextStateName == 'StartFalling' )
 		{
 			PrepareFallFromSlide();
 		}
 		
-		// Fast to combat?
+		
 		if( nextStateName != 'StartFalling' )
 		{
 			thePlayer.GoToCombatIfWanted();
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function PrepareFallFromSlide()
 	{
 		var macVelocity	: Vector;
@@ -662,24 +662,24 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		impulse.Z		= 0.0f;
 		
 		
-		// Impulse strength
-		// No input
+		
+		
 		if( !m_ExplorationO.m_InputO.IsModuleConsiderable() )
 		{
 			impulse *= fallHorizImpulseCancel;
 		}
-		// Countering
+		
 		if( VecDot( impulse, m_ExplorationO.m_InputO.GetMovementOnPlaneV() ) < 0.0f )
 		{
 			impulse *= fallHorizImpulseCancel;
 		}
-		// Moving forward
+		
 		else
 		{
 			impulse	*= fallHorizImpulse;
 		}
 		
-		// Get the MAC Velocity we are interested in
+		
 		macVelocity		= m_ExplorationO.m_OwnerMAC.GetVelocity();
 		macVelocity.Z	= 0.0f;	
 		
@@ -688,25 +688,25 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			macVelocity	= VecNormalize( macVelocity ) * fallSpeedMaxConsidered;
 		}
 		
-		// Add it to the impulse		
+		
 		impulse			+= macVelocity * fallSpeedCoef;
 		
 		
 		m_ExplorationO.m_MoverO.SetVelocity( impulse );
-		//m_ExplorationO.m_MoverO.SetVerticalSpeed( -AbsF( fallExtraVertImpulse ) );
-		//m_ExplorationO.m_MoverO.SetVerticalSpeed( 0.0f);
+		
+		
 		
 		m_ExplorationO.m_SharedDataO.m_CanFallSetVelocityB	= false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function RemoveAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.RemoveAnimEventCallback( animEventHardSliding );
 		m_ExplorationO.m_OwnerE.RemoveAnimEventCallback( 'DisableFeetIK' );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateUpdateInactive( _Dt : float )
 	{
 		var camera 	: CCustomCamera = theGame.GetGameCamera();
@@ -714,11 +714,11 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		
 		cooldownCur	-= _Dt;
 		
-		// To fall
+		
 		toFallTimeCur	= MaxF( 0.0f, toFallTimeCur - toFallRecoverCoef * _Dt );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function GetBehaviorEventName() : name
 	{
 		if( startedFromJump )
@@ -733,13 +733,13 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 	}
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	function GetBehaviorIsEventForced( fromState : name ) : bool
 	{
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetDebugText() : string
 	{
 		var text	: string;
@@ -771,7 +771,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return text;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function GrabOrCreateDefaultMaterialParams()
 	{
 		var defaultMaterial	: SSlidingMaterialPresetParams;
@@ -784,7 +784,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			materialDefault	= index;
 			LogSlidingTerrain( "found default sliding terrain parameters in the array" );
 		}
-		// Create the default material params if none is found
+		
 		else
 		{
 			LogSlidingTerrain( "NOT found default sliding terrain parameters in the array, creating defaults" );
@@ -800,7 +800,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function WantsToEnterBasic( optional checkingForExit : bool ) : bool
 	{
 		var dot				: float;
@@ -808,7 +808,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		var result			: bool;
 		
 		
-		// Do we need the cc to want to slide with its damped terrain normal?
+		
 		if( useSmothedCoefOnIdle && ( m_ExplorationO.GetStateCur() == 'Idle' || m_ExplorationO.GetStateCur() == 'CombatExploration' ) )
 		{
 			if( !m_ExplorationO.m_OwnerMAC.IsSliding() )
@@ -817,20 +817,20 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			}
 		}
 		
-		// Update the terrain data in case it changed, before getting the new coef
+		
 		SetTerrainParameters();
 		
-		// Get slide coef		
-		if( checkingForExit )// Exit hysteresis check
+		
+		if( checkingForExit )
 		{
 			coef = m_ExplorationO.m_MoverO.GetSlideCoef( true, coefExtraToStop );
 		}
 		else
 		{
-			coef = m_ExplorationO.m_MoverO.GetSlideCoef( true );// m_ExplorationO.GetStateCur() == 'WallSlide' );// || m_ExplorationO.GetStateCur() == 'Slide');
+			coef = m_ExplorationO.m_MoverO.GetSlideCoef( true );
 		}
 		
-		// No sliding at all
+		
 		if( coef <= 0.0f )
 		{
 			return false;
@@ -838,7 +838,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		
 		
 		
-		// Special landing requirement
+		
 		if( coef < coefToStartBackward )
 		{
 			if( m_ExplorationO.GetStateCur() == 'Land' )
@@ -847,7 +847,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			}
 		}		
 		
-		// Extra requirementd depending on movement direction
+		
 		dot = m_ExplorationO.m_InputO.GetInputDirOnSlopeDot();
 		if( slideCoefRelatedToInput )
 		{
@@ -884,7 +884,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function WantsToEnterWide() : bool
 	{
 		var coefWideAverage	: float;
@@ -906,7 +906,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateWantsToExit() : bool
 	{
 		if( requireSpeedToExit )
@@ -917,7 +917,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			}
 		}
 		
-		// then check the rest
+		
 		if( WantsToEnterBasic( true ) )
 		{
 			return false;
@@ -926,7 +926,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SpeedAllowsExit() : bool
 	{
 		var dot			: float;
@@ -934,7 +934,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		var slowEnough	: bool;
 		
 		
-		// Decide min speed depending on the input
+		
 		speed	= m_ExplorationO.m_MoverO.GetMovementSpeedF();
 		dot 	= m_ExplorationO.m_InputO.GetInputDirOnSlopeDot();		
 		if( dot <= -dotToStartForward )
@@ -959,7 +959,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 	}
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateFallCoef( _Dt : float )
 	{
 		var speed			: float;
@@ -972,7 +972,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			return;
 		}
 		
-		//speed		= m_ExplorationO.m_MoverO.GetMovementSpeedF();		
+		
 		speed		= VecLength( m_ExplorationO.m_MoverO.GetDisplacementLastFrame() ) / _Dt;
 		speed		= ClampF( speed / m_ExplorationO.m_MoverO.GetSlideSpeedMax(), 0.0f, 1.0f );
 		slideCoef	= m_ExplorationO.m_MoverO.GetRawSlideCoef( true );	
@@ -987,7 +987,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 				toFallTimeCur	+= _Dt;
 				isGoingToFall	= true;
 				ApplySlideDamage( _Dt );
-				//LogChannel( 'ExplorationSlide', "toFallTimeCur: " + toFallTimeCur + "speed: " + speed + " slideCoef: " + slideCoef );
+				
 			}
 			else
 			{
@@ -995,27 +995,23 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			}
 		}
 		
-		// Fall
+		
 		if( toFallTimeCur >= toFallTimeTotal )
 		{
-			// Set him to fall and die
-			//m_ExplorationO.SendAnimEvent( behTripToDeath );
-			/*
-			thePlayer.SetKinematic( false );
-			SetProperCameraAnim( false );
-			m_DeadB	= true;
-			*/
+			
+			
+			
 		}
 		
-		// Speed
+		
 		m_ExplorationO.m_MoverO.SetSlideSpeedMode( isGoingToFall );	
 		
 		
-		// Camera		
+		
 		SetProperCameraAnim( slideCoef >= toFallSlopeCoefMin );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ApplySlideDamage( _Dt : float )
 	{
 		var action			: W3DamageAction;
@@ -1034,22 +1030,18 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		delete action;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetProperCameraAnim( increasing : bool )
 	{
 		var camera 		: CCustomCamera = theGame.GetGameCamera();
 		var animation	: SCameraAnimationDefinition;
 		var newState	: ESlideCameraShakeState;
 		
-		// Get the new state		
 		
-		/*if( increasing )
+		
+		 if( toFallTimeCur > 0.0f )
 		{
-			newState = SCSS_Hard;
-		}
-		else*/ if( toFallTimeCur > 0.0f )
-		{
-			//newState = SCSS_Soft;
+			
 			newState = SCSS_Hard;
 		}
 		else
@@ -1057,7 +1049,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			newState = SCSS_None;
 		}
 		
-		// did the camera change?
+		
 		if( cameraShakeState == newState )
 		{
 			return;
@@ -1090,7 +1082,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		camera.PlayAnimation( animation );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StopCameraAnim()
 	{
 		var camera		: CCustomCamera = theGame.GetGameCamera();
@@ -1098,7 +1090,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		camera.StopAnimation( cameraAnimName );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected  function CheckLandingDamage()
 	{
 		var fallDiff		: float;
@@ -1106,25 +1098,25 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		var damagePerc		: float;
 		
 		
-		// Get the falling heights
+		
 		m_ExplorationO.m_SharedDataO.CalculateFallingHeights( fallDiff, jumpTotalDiff );
 		
 		
-		// Apply Damage
+		
 		damagePerc		= m_ExplorationO.m_OwnerE.ApplyFallingDamage( fallDiff, true );
 		
 		
-		// Reset fall height
+		
 		m_ExplorationO.m_SharedDataO.ResetHeightFallen();
 		
 		
-		// Death Ragdoll?
+		
 		if( damagePerc >= 1.0f )
 		{
 			m_ExplorationO.m_SharedDataO.GoToRagdoll();
 		}
 		
-		// Log
+		
 		LogExploration( "Landed height difference " + jumpTotalDiff );
 		if ( damagePerc >= 1.0f )
 		{
@@ -1140,29 +1132,29 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		}
 	}
  
-	//---------------------------------------------------------------------------------
+	
 	private function SetTerrainParameters()
 	{
 		var	newMaterial			: name;
 		var isItRaining			: bool;
 		
-		// HACK for wallslide
+		
 		if( !updateMaterials )
 		{
 			return;
 		}
 		
-		// Get the material
+		
 		newMaterial		= m_ExplorationO.m_OwnerMAC.GetMaterialName();
 		
-		// No material, no change
+		
 		if( newMaterial == 'None' )
 		{
 			LogSlidingTerrain( "!!!! Error: No material found" );
 			return;
 		}
 		
-		// Do not set the same material
+		
 		if( newMaterial	== materialNameCur	)
 		{
 			return;
@@ -1173,15 +1165,15 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		LogSlidingTerrain( "Ground material changed: " + materialNameCur );
 		
 		
-		// Find material Id
+		
 		materialCurId	= FindMaterialId( materialNameCur );
 		
-		// Save it to shared data
+		
 		m_ExplorationO.m_SharedDataO.terrainSlidePresetName	= materialParams[materialCurId].presetName;
 		
-		// TODO: Check if it is raining
 		
-		// Set the params
+		
+		
 		if( isItRaining )
 		{
 			m_ExplorationO.m_MoverO.SetSlidingMaterialParams( materialParams[materialCurId].angleMin, materialParams[materialCurId].frictionMultiplier );
@@ -1192,14 +1184,14 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		}		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function FindMaterialId( materialName : name ) : int
 	{
 		var presetName		: name;
 		var maxCount		: int;
 		var i				: int;
 		
-		// Find preset name		
+		
 		maxCount	= materialNamesToPresets.Size();
 		for ( i = 0; i < maxCount; i += 1 )
 		{
@@ -1210,24 +1202,24 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 				break;
 			}
 		}
-		// Preset not found
+		
 		if( i >= maxCount )
 		{
 			LogSlidingTerrain( "Material preset corresponding to this material name ( " + materialName + " ) name not found, using default preset" );
 			return materialDefault;
 		}
 		
-		// Find the preset params
+		
 		return FindPresetByName( presetName );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function FindPresetByName( presetName : name ) : int
 	{
 		var maxCount		: int;
 		var i				: int;
 		
-		// Find the preset params
+		
 		maxCount	= materialParams.Size();
 		for ( i = 0; i < maxCount; i += 1 )
 		{
@@ -1243,7 +1235,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return materialDefault;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateForcedDirection( slideDir : Vector)
 	{	
 		var jumpDirection	: Vector;
@@ -1266,7 +1258,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		m_ExplorationO.m_SharedDataO.m_JumpDirectionForcedV	= jumpDirection;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeOrientingSpeed( slideCoef : float ) : float
 	{	
 		var speed	: float;
@@ -1288,7 +1280,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 				speed = orientingInitial;
 		}
 		
-		// Control improvement
+		
 		if( m_ExplorationO.m_InputO.IsSprintPressed() )
 		{
 			speed	*= 0.5f;
@@ -1297,13 +1289,13 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return speed;		
 	}	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SubstateChangePrecheck( _Dt : float )
 	{	
-		// Land specific slide
+		
 		if( landCoolingDown )
 		{
-			// Allaws for instant exit
+			
 			if( StateWantsToExit() )
 			{
 				subState		= SSS_Exited;
@@ -1355,7 +1347,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 					}
 					if( exitingTimeCur > exitingTimeTotalInput )
 					{
-						// By moving the character we can stop it faster
+						
 						if( m_ExplorationO.m_InputO.IsModuleConsiderable() )
 						{
 							subState	= SSS_Exited;
@@ -1372,7 +1364,7 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateAngleToRotateToAdaptToSlope( slideDirection : Vector, _Dt : float )
 	{
 		var world 				: CWorld;
@@ -1390,38 +1382,12 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		var IKSucceeded			: bool		= false;
 		var	newInclination		: float;
 		
-		/*
-		world	= theGame.GetWorld();
-		if( world )
+		
+		
+		if( true )
 		{
-			bonePos			= m_ExplorationO.m_OwnerE.GetBoneWorldPositionByIndex( boneToStickId );
-			//slideNormal		= VecCross( slideDirection, Vector( 0.0f, 0.0f, 1.0f ) );
-			//slideNormal		= VecCross( slideDirection, boneRayEnd );
-			slideNormal		= Vector( 0.0f, 0.0f, 1.0f );
-			boneRayOrigin	= bonePos - slideNormal * 0.5f;
-			boneRayEnd		= bonePos + slideNormal * 0.5f;
-			res				= world.StaticTrace( boneRayOrigin, boneRayEnd, pos, normal );
-			if( res )
-			{
-				boneDist	= VecDistance( bonePos, m_ExplorationO.m_OwnerE.GetWorldPosition() );
-				boneIdlePos	= m_ExplorationO.m_OwnerE.GetWorldPosition() - m_ExplorationO.m_OwnerE.GetWorldForward() * boneDist;
-				boneHeight	= VecDistance( boneIdlePos, pos );
-				// C2 = A2 + B2 - 2*A*B*Cos(c)
-				// c = ACos( (A2 + B2 - C2 ) / 2AB )
-				// inclination = ACos( ( boneDist * boneDist + boneDist * boneDist - boneHeight * boneHeight) / ( 2 * boneDist * boneDist ) )
-				// inclination = ACos( 1 - boneHeight * boneHeight  / ( 2 * boneDist * boneDist ) )
-				
-				newInclination = AcosF( 1.0f - boneHeight * boneHeight  / ( 2.0f * boneDist * boneDist ) );
-				
-				IKSucceeded	= true;
-			}
-		}
-		*/
-		// If we don't have IK, then, use the slope
-		if( true )//if( !IKSucceeded )
-		{
-			// Angle from coef
-			//newInclination = -20.0f -( 0.2f + ( slideCoef * 0.8f ) ) * 90.0f;
+			
+			
 			newInclination = m_ExplorationO.m_MoverO.GetRealSlideAngle( );
 		}
 		
@@ -1435,16 +1401,16 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 			inclinationEnterTimeCur	-= _Dt;
 		}
 		
-		//inclination = newInclination;
 		
-		// Set it to the behabior graph
+		
+		
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behInclinationVar, inclination );
 		
-		// Add the extra height to avoid clipping
+		
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behHeightVar, 0.1f );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		if( animEventName == animEventHardSliding )
@@ -1454,21 +1420,21 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		
 		else if( animEventName == 'DisableFeetIK' )
 		{
-			// Special IK at the moment
-			//m_ExplorationO.m_OwnerMAC.SetEnabledSlidingOnSlopeIK( true );
+			
+			
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Collision events
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	private function UpdateCollisions()
 	{
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToLoseGround() : bool
 	{
 		if( subState > SSS_Entering )
@@ -1479,25 +1445,25 @@ class CExplorationStateSlide extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToHitGround() : bool
 	{		
 		return true;
 	}	
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToSlide() : bool
 	{
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function CanInteract( ) :bool
 	{		
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnVisualDebug( frame : CScriptedRenderFrame, flag : EShowFlags, active : bool )
 	{
 		frame.DrawText( "Slide To Fall: " + toFallTimeCur * 100 + "%", m_ExplorationO.m_OwnerE.GetWorldPosition() + Vector( 0.0f, 0.0f, 1.3f ) , Color( 80, 200, 80 ) );

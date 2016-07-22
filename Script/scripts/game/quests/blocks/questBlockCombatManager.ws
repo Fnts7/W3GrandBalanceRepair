@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 import class IQuestCombatManagerBaseBlock extends CQuestGraphBlock
 {
 	function GetBlockName() : string
@@ -27,20 +32,20 @@ class CQuestCombatManagerBlock extends IQuestCombatManagerBaseBlock
 	
 	function GetContextMenuSpecialOptions( out names : array< string > )
 	{
-		names.PushBack( "VesemirTutorial" );		// 0
-		names.PushBack( "OneHandedSword" );			// 1
-		names.PushBack( "OneHandedAxe" );			// 2
-		names.PushBack( "OneHandedBlunt" );			// 3
-		names.PushBack( "OneHandedAny" );			// 4
-		names.PushBack( "Fists" );					// 5
-		names.PushBack( "Shield" );					// 6
-		names.PushBack( "Bow" );					// 7
-		names.PushBack( "Crossbow" );				// 8
-		names.PushBack( "TwoHandedHammer" );		// 9
-		names.PushBack( "TwoHandedAxe" );			// 10
-		names.PushBack( "TwoHandedHalberd" );		// 11
-		names.PushBack( "TwoHandedSpear" );			// 12
-		names.PushBack( "Witcher" );				// 13
+		names.PushBack( "VesemirTutorial" );		
+		names.PushBack( "OneHandedSword" );			
+		names.PushBack( "OneHandedAxe" );			
+		names.PushBack( "OneHandedBlunt" );			
+		names.PushBack( "OneHandedAny" );			
+		names.PushBack( "Fists" );					
+		names.PushBack( "Shield" );					
+		names.PushBack( "Bow" );					
+		names.PushBack( "Crossbow" );				
+		names.PushBack( "TwoHandedHammer" );		
+		names.PushBack( "TwoHandedAxe" );			
+		names.PushBack( "TwoHandedHalberd" );		
+		names.PushBack( "TwoHandedSpear" );			
+		names.PushBack( "Witcher" );				
 	}
 	function RunSpecialOption( option : int )
 	{
@@ -137,9 +142,9 @@ class CQuestMonsterCombatManagerBlock extends IQuestCombatManagerBaseBlock
 	
 	function GetContextMenuSpecialOptions( out names : array< string > )
 	{
-		names.PushBack( "Witch1" );		// 0
-		names.PushBack( "Witch2" );		// 1
-		names.PushBack( "Witch3" );		// 2
+		names.PushBack( "Witch1" );		
+		names.PushBack( "Witch2" );		
+		names.PushBack( "Witch3" );		
 	}
 	function RunSpecialOption( option : int )
 	{

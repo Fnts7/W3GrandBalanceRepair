@@ -1,4 +1,9 @@
-﻿import abstract class IBehTreeOnSpawnEffector extends IBehTreeObjectDefinition
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import abstract class IBehTreeOnSpawnEffector extends IBehTreeObjectDefinition
 {
 	function Run()
 	{
@@ -27,7 +32,7 @@ class SpawnOnHorseEffector extends IBehTreeOnSpawnEffector
 		
 		if ( !horseEntity )
 		{
-			//LogAssert
+			
 			return;
 		}
 		
@@ -35,7 +40,7 @@ class SpawnOnHorseEffector extends IBehTreeOnSpawnEffector
 		
 		if ( !horseComponent )
 		{
-			//LogAssert
+			
 			return;
 		}
 		

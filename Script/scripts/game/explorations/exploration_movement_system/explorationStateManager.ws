@@ -1,11 +1,16 @@
-﻿// CExplorationStateManager
-//------------------------------------------------------------------------------------------------------------------
-// Will control the diferent exploration subStates
-//------------------------------------------------------------------------------------------------------------------
-// (Eduard Lopez Plans) 	21/11/2013
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-// We will add more types in here
+
+
+
+
+
+
+
 enum EExplorationStateType
 {
 	EST_None		,
@@ -27,17 +32,17 @@ enum EBehGraphConfirmationState
 }
 
 
-//------------------------------------------------------------------------------------------------------------------
-// Use this function to log all exploration data
-//------------------------------------------------------------------------------------------------------------------
+
+
+
 function LogExploration( _TextS : string )
 {
 	LogChannel( 'ExplorationState', _TextS );
 }
 
-//------------------------------------------------------------------------------------------------------------------
-// Use this function to log all exploration errors
-//------------------------------------------------------------------------------------------------------------------
+
+
+
 function LogExplorationError( _TextS : string )
 {
 	var text	: string	= "!!!!!!!!!!!!!!ERROR: " + _TextS;
@@ -46,9 +51,9 @@ function LogExplorationError( _TextS : string )
 	LogChannel( 'ExplorationStateErrors'	, text );
 }
 
-//------------------------------------------------------------------------------------------------------------------
-// Use this function to log all exploration warnings
-//------------------------------------------------------------------------------------------------------------------
+
+
+
 function LogExplorationWarning( _TextS : string )
 {
 	var text	: string	= "!!!!!Warning: " + _TextS;
@@ -58,15 +63,15 @@ function LogExplorationWarning( _TextS : string )
 }
 
 
-//------------------------------------------------------------------------------------------------------------------
+
 function LogExplorationToken( text : string )
 {
 	LogChannel( 'Exploration Token', text );
 }
 
-//------------------------------------------------------------------------------------------------------------------
-// Use this function to log all exploration warnings
-//------------------------------------------------------------------------------------------------------------------
+
+
+
 function InitExplorationLogs()
 {
 	var text	: string	= "	Initialized Log channel: ";
@@ -78,25 +83,25 @@ function InitExplorationLogs()
 }
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CExplorationStateManager extends CSelfUpdatingComponent
 {
-	// Owner
+	
 	public						var		m_OwnerE					: CGameplayEntity;
 	public						var		m_OwnerMAC					: CMovingPhysicalAgentComponent;
 	
-	// Input and movement
+	
 	public	editable inlined	var		m_InputO					: CExplorationInput;
 	public	editable inlined	var		m_MoverO					: CExplorationMover;
 	public	editable inlined	var		m_SharedDataO				: CExplorationSharedData;
 	public	editable inlined	var		m_CollisionManagerO			: CExplorationCollisionManager;
 	public	editable inlined	var		m_MovementCorrectorO		: CExplorationMovementCorrector;
 	
-	// Super state
+	
 	private						var		m_SuperStateLastN			: name; 
 	
-	// States		
+	
 	private 					var 	m_StatesSArr				: array< CExplorationStateAbstract >;
 	private 					var 	m_StatesUpdatedInactiveSArr	: array< CExplorationStateAbstract >;
 	private 					var 	m_StateNamesSArr			: array< name >;
@@ -113,31 +118,31 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 	private	const				var		c_InvalidStateI				: int;					default	c_InvalidStateI				= 0;
 	private						var		m_StateChanged				: bool;
 	
-	// Behavior
+	
 	private						var		m_StateExitedFromBehN		: name;
 	private						var		m_StateEnteredFromBehN		: name;
 	private						var		m_BehaviorConfirmStateE		: EBehGraphConfirmationState;
 	private						var		m_StateBehCurReportedN		: name;
 	
-	// Camera
+	
 	public	editable inlined 	var		m_DefaultCameraSetS			: CCameraParametersSet; 
 	
-	// Ground
+	
 	private						var		m_IsOnGroundB				: bool;
 	
-	// HACK FALL AFTER SCENES
-	// MS / E3 HACK
+	
+	
 	private			 			var		m_TeleportedFallHackTime		: float; 
 	private	editable 			var		m_TeleportedFallHackTimeTotalF	: float; 			default	m_TeleportedFallHackTimeTotalF	= 0.1f;
 	
-	// Itneraction
+	
 	private						var		m_storedInteractionPri 		: EInteractionPriority; default	m_storedInteractionPri 		= IP_NotSet;
 	
-	// No save lock
+	
 	private						var		m_NoSaveLock				: int;					default	m_NoSaveLock				= -1;
 	private						var		m_NoSaveLockStringS 		: String;				default	m_NoSaveLockStringS			= 'exploration_state';
 	
-	// Aux	
+	
 	private						var		m_ActiveB					: bool;
 	private						var		m_InitializedB				: bool;					default	m_InitializedB				= false;	
 	public						var		m_IsDebugModeB				: bool;					default	m_IsDebugModeB				= false;
@@ -145,18 +150,18 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 	public						var		m_SmoothedVelocityV			: Vector;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Init 
-	//------------------------------------------------------------------------------------------------------------------
 	
-	//-------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	event OnComponentAttached()
 	{
 		var l_EntityE	: CGameplayEntity;
 		var l_ActorE	: CActor;
 		var	l_MAC		: CMovingPhysicalAgentComponent;
 		
-		// Init log channels to have them one on the log window
+		
 		InitExplorationLogs();
 		
 		if( !theGame.IsActive())
@@ -164,7 +169,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			return true;
 		}
 		
-		// This is a temp hack to use this as a component
+		
 		l_EntityE	= ( CGameplayEntity ) GetEntity();
 		l_ActorE	= (CActor) l_EntityE;
 		if( l_ActorE )
@@ -185,36 +190,36 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Initialize( _OwnerEntityE : CGameplayEntity, _OwnerEntityMAC : CMovingPhysicalAgentComponent )
 	{	
 		var test	: bool;
 		
-		// Final build
+		
 		if( theGame.IsFinalBuild() )
 		{
 			m_IsDebugModeB = false;
 		}
 		
-		// Get the owner
+		
 		m_OwnerE	= _OwnerEntityE;
 		m_OwnerMAC	= _OwnerEntityMAC;
 		
-		// Input
+		
 		if( !m_InputO )
 		{
 			m_InputO	= new CExplorationInput in this;
 		}
 		m_InputO.Initialize( this );
 		
-		// Init the mover
+		
 		if( !m_MoverO )
 		{
 			m_MoverO	= new CExplorationMover in this;
 		}
 		m_MoverO.Initialize( this );
 		
-		// Collision manager
+		
 		if( !m_CollisionManagerO )
 		{
 			m_CollisionManagerO	= new CExplorationCollisionManager in this;
@@ -227,8 +232,8 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 		m_MovementCorrectorO.Initialize( this );
 		
-		// shared data
-		// Init the mover
+		
+		
 		if( m_SharedDataO )
 		{
 			test	= true;
@@ -239,28 +244,28 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 		m_SharedDataO.Initialize( this );
 		
-		// Register for collision reports
+		
 		m_OwnerMAC.RegisterEventListener( this );
 		
-		//Ragdoll
-		//m_OwnerMAC.SetRagdollPushingMul( 0.0f );
-		//m_OwnerMAC.SetGravity( false );
 		
-		// Camera
+		
+		
+		
+		
 		if( !m_DefaultCameraSetS )
 		{
 			LogExplorationWarning( "There is no default camera parameters set, camera won't be set to defautl after each state change" );
 		}
 		RessetCameraOffset();
 		
-		// Collect state components on the entity template
+		
 		GrabStateComponents();		
 		
 		
-		// Set default values
+		
 		Restart();
 		
-		// Initialization done
+		
 		m_InitializedB	= true;
 		
 		LogExploration( "Finished initialization" );
@@ -268,7 +273,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		LogExploration( "-----------------------------------------------------------------------------" );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function GrabStateComponents()
 	{	
 		var i							: int;
@@ -277,11 +282,11 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		var	l_ComponentsTransitionCArr	: array<CComponent>;
 		var	l_TransitionO				: CExplorationStateTransitionAbstract;
 		
-		// Get all exploration states
+		
 		l_ComponentsStateCArr	= m_OwnerE.GetComponentsByClassName('CExplorationStateAbstract');		
 		LogExploration( "Found " + l_ComponentsStateCArr.Size() + " Exploration states" );
 		
-		// Add the extra invalid state
+		
 		l_StatesCountI	= l_ComponentsStateCArr.Size() + 1;
 		m_StatesSArr.Resize( l_StatesCountI );
 		m_StateNamesSArr.Resize( l_StatesCountI );
@@ -289,17 +294,17 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		m_StatesSArr[c_InvalidStateI] = new CExplorationStateInvalid in this;
 		m_StatesSArr[c_InvalidStateI].Initialize( this );
 		
-		// Get all states and init them
+		
 		for( i = 1; i < m_StatesSArr.Size(); i += 1 )
 		{
 			m_StatesSArr[i]	= ( CExplorationStateAbstract ) l_ComponentsStateCArr[i - 1];
 			if( m_StatesSArr[i] )
 			{
 				m_StatesSArr[i].Initialize( this );
-				// Get the names array
+				
 				m_StateNamesSArr[i] = m_StatesSArr[i].GetStateName();
 				
-				// Get the states that update while inactive
+				
 				if( m_StatesSArr[i].m_UpdatesWhileInactiveB )
 				{
 					m_StatesUpdatedInactiveSArr.PushBack( m_StatesSArr[i] );
@@ -312,16 +317,16 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 		
 		
-		// Post init them
+		
 		for( i = 0; i < m_StatesSArr.Size(); i += 1 )
 		{
 			m_StatesSArr[i].PostInitialize();
 		}
 		
-		// Make sure we have the proper states
+		
 		FindAndReportProblemsWithStates();
 		
-		// Get the transition states
+		
 		for( i = 0; i < l_ComponentsStateCArr.Size(); i += 1 )
 		{
 			l_TransitionO	= ( CExplorationStateTransitionAbstract ) l_ComponentsStateCArr[i];
@@ -334,7 +339,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		LogExploration( "Found : " + m_StateTransitionsSArr.Size() + " Transition states" );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function FindAndReportProblemsWithStates()
 	{
 		var i : int;
@@ -356,7 +361,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function FindState( stateName : name ) : int
 	{
 		var i : int;
@@ -377,12 +382,12 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return c_InvalidStateI;
 	}	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Restart( )
 	{	
 		var i	: int;
 		
-		// States
+		
 		for( i = 0; i < m_StatesSArr.Size(); i += 1 )
 		{
 			m_StatesSArr[i].Restart();
@@ -398,70 +403,70 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		m_StateTimeLastF		= 0.0f;
 		StateTryToChangeTo( m_StateDefaultN );
 		
-		// Shared data
+		
 		m_SharedDataO.Reset();
 		
-		// Movement
+		
 		m_MoverO.Reset();
 		
-		// Super state
+		
 		m_SuperStateLastN	= '';
 		
-		// Save
+		
 		theGame.ReleaseNoSaveLockByName( m_NoSaveLockStringS );
 		LogChannel( 'ExplorationSave', "Unlock, resseted" );
 		
-		// Set active
+		
 		m_ActiveB	= true;
 		
 		LogExploration( "RESTARTED" );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// States flow 
-	//------------------------------------------------------------------------------------------------------------------
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	event OnComponentTick ( _Dt : float )
 	{
 		Update( _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Update( _Dt : float )
 	{
 		var l_NewStateN	: name;
 		
 		
-		// Check SuperState change always, to see even if it becomes active or inactive
+		
 		UpdateSuperStateChange();		
 		
-		// Debug info is updated even if the state is not active
+		
 		if( m_IsDebugModeB )
 		{
 			UpdateDebugInfo();
 		}
 		
-		// Do not update if inactive
+		
 		if( !m_ActiveB || !theGame.IsActive() || theGame.IsPaused() )
 		{
 			return;
 		}		
 		
-		// Pre Update
+		
 		PreUpdate( _Dt );
 		
-		// Check early state change before updating
+		
 		StateChangeUpdate();
 		
-		// Update the states
+		
 		UpdateStates( _Dt );
 		
-		// Clean up
+		
 		PostUpdate( _Dt );	
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateDebugInfo()
 	{
 		var auxString		: string;
@@ -484,10 +489,10 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		var i				: int;
 		
 		
-		// RIGHT COLUMN
+		
 		heightCur	= heightInit;
 		
-		// States
+		
 		thePlayer.GetVisualDebug().AddBar( 'labelStates', right + titleOffset, heightCur, width, height, 0.0f, textColor, "States", 0.0f );
 		
 		heightCur	+= heightOffset;
@@ -516,7 +521,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		heightCur	+= heightOffset;
 		thePlayer.GetVisualDebug().AddBar( 'HasGround', right, heightCur, width, height, 0.0f, textColor, "HasGround: " + m_IsOnGroundB, 0.0f );
 		
-		// Movement
+		
 		heightCur	+= heightOffset;
 		auxString	= "Position: " + VecToStringPrec( m_OwnerE.GetWorldPosition(), 2 ) + "...Forward: " + VecToStringPrec( m_OwnerE.GetWorldForward(), 1 ) + "...Heading: " + m_OwnerE.GetHeading();
 		thePlayer.GetVisualDebug().AddBar( 'PlayerPosAndForward', right, heightCur, width, height, 0.0f, textColor, auxString, 0.0f );
@@ -529,7 +534,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		thePlayer.GetVisualDebug().AddBar( 'Velocity2DMAC', right, heightCur, width, height, 0.0f, textColor, "Velocity2DMAC: " + VecLength2D( m_SmoothedVelocityV ), 0.0f );
 		
 		
-		// Camera
+		
 		heightCur	+= heightOffsetBig;		
 		thePlayer.GetVisualDebug().AddBar( 'labelCamera', right + titleOffset, heightCur, width, height, 0.0f, textColor, "Camera", 0.0f );
 		
@@ -542,22 +547,22 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		heightCur	+= heightOffset;
 		auxName		= theGame.GetGameCamera().GetActivePivotDistanceController().controllerName;
 		thePlayer.GetVisualDebug().AddBar( 'CamDist', right, heightCur, width, height, 0.0f, textColor, "Camera Distance controller: " + auxName, 0.0f );
-		//heightCur	+= heightOffset;
-		//auxString	= VecToString( theGame.GetGameCamera().GetCollisionOffset() );
-		//thePlayer.GetVisualDebug().AddBar( 'CamCollOffset', right, heightCur, width, height, 0.0f, textColor, "CollisionOffset: " + auxString, 0.0f );
 		
-		// Saves
+		
+		
+		
+		
 		heightCur	+= heightOffsetBig;
 		thePlayer.GetVisualDebug().AddBar( 'SavingEnabled', right + titleOffset, heightCur, width, height, 0.0f, textColor, "Save allowed: " + !theGame.AreSavesLocked(), 0.0f );
 		
-		// Turn Adjustment
+		
 		heightCur	+= heightOffsetBig;
 		thePlayer.GetVisualDebug().AddBar( 'Turn Adjustment', right + titleOffset, heightCur, width, height, 0.0f, textColor, "Turn adjusting: " + m_MovementCorrectorO.IsTurnAdjusted(), 0.0f );
 		heightCur	+= heightOffset;
 		thePlayer.GetVisualDebug().AddBar( 'Turn any Adjustment', right + titleOffset, heightCur, width, height, 0.0f, textColor, "Movement adjusting: " + m_OwnerMAC.GetMovementAdjustor().HasAnyActiveRequest(), 0.0f );
 		
 		
-		// IK
+		
 		heightCur	+= heightOffsetBig;
 		thePlayer.GetVisualDebug().AddBar( 'labelIK', right + titleOffset, heightCur, width, height, 0.0f, textColor, "IK", 0.0f );
 		
@@ -566,7 +571,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		heightCur	+= heightOffset;
 		thePlayer.GetVisualDebug().AddBar( 'IK Slide', right, heightCur, width, height, 0.0f, textColor, "IK slope: " + m_OwnerMAC.GetEnabledSlidingOnSlopeIK(), 0.0f );
 		
-		// Correction
+		
 		heightCur	+= heightOffsetBig;
 		thePlayer.GetVisualDebug().AddBar( 'Label Correction', right + titleOffset, heightCur, width, height, 0.0f, textColor, "Correction", 0.0f );
 		heightCur	+= heightOffset;
@@ -574,16 +579,16 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		thePlayer.GetVisualDebug().AddBar( 'Correction', right, heightCur, width, height, 0.0f, textColor, auxString, 0.0f );
 		
 		
-		// LEFT COLUMN
+		
 		heightCur	= heightInit;
 		
-		// Input
+		
 		thePlayer.GetVisualDebug().AddBar( 'labelInput', left + titleOffset, heightCur, width, height, 0.0f, textColor, "Input", 0.0f );
 		
 		heightCur	+= heightOffset;
 		thePlayer.GetVisualDebug().AddBar( 'InputContext', left, heightCur, width, height, 0.0f, textColor, "Input context: " + theInput.GetContext(), 0.0f );
 		
-		// Weapons
+		
 		heightCur	+= heightOffset;
 		thePlayer.GetVisualDebug().AddBar( 'labelWeapons', left + titleOffset, heightCur, width, height, 0.0f, textColor, "Weapons", 0.0f );
 		
@@ -609,11 +614,11 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		thePlayer.GetVisualDebug().AddBar( 'LeftHandL', left, heightCur, width, height, 0.0f, textColor, "Logic Weapon: " + thePlayer.GetCurrentMeleeWeaponName(), 0.0f );
 		
 		
-		// Slide
+		
 		heightCur	+= heightOffsetBig;
 		thePlayer.GetVisualDebug().AddBar( 'labelSlide', left + titleOffset, heightCur, width, height, 0.0f, textColor, "Slide", 0.0f );
 		
-		// Material and preset
+		
 		heightCur	+= heightOffset;
 		thePlayer.GetVisualDebug().AddBar( 'TerrainMaterial', left, heightCur, width, height, 0.0f, Color(255,255,0), "Material: " + m_OwnerMAC.GetMaterialName(), 0.0f );
 		heightCur	+= heightOffset;
@@ -622,7 +627,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		auxString	+= ", SlideMax " + m_MoverO.ConvertCoefToAngleDegree( m_MoverO.GetSlidingLimitMax() );
 		thePlayer.GetVisualDebug().AddBar( 'TerrainPreset', left, heightCur, width, height, 0.0f, Color(255,255,0), auxString, 0.0f );
 		
-		// Raw, real angles
+		
 		heightCur	+= heightOffset;
 		auxFloat	= m_MoverO.GetRealSlideAngle( );
 		thePlayer.GetVisualDebug().AddBar( 'RawSlideAngle', left, heightCur, width, height, 0.0f, Color(255,255,0), "Real raw terrain angle: " + auxFloat, 0.0f );
@@ -631,7 +636,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		auxFloat	= m_MoverO.ConvertCoefToAngleDegree( auxFloat );
 		thePlayer.GetVisualDebug().AddBar( 'RawWideSlideAngle', left, heightCur, width, height, 0.0f, Color(255,255,0), "Real raw wide terrain angle: " + auxFloat, 0.0f );
 		
-		// Slide coef
+		
 		heightCur	+= heightOffsetBig;
 		auxFloat	= m_OwnerMAC.GetSlideCoef();
 		thePlayer.GetVisualDebug().AddBar( 'SlideCoefDamp', left, heightCur, width, height, 0.0f, textColor, "Slide coef damped: " + auxFloat, 0.0f );
@@ -639,7 +644,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		auxFloat	= m_MoverO.GetSlideCoefFromTerrain();
 		thePlayer.GetVisualDebug().AddBar( 'SlideCoefInst', left, heightCur, width, height, 0.0f, textColor, "Slide coef instant: " + auxFloat, 0.0f );
 		
-		// Wide slide coef			
+		
 		heightCur	+= heightOffset;
 		auxFloat	= m_MoverO.GetSlideWideCoefFromTerrain( true );
 		auxVector	= m_MoverO.m_WideNormalAverageV;
@@ -649,7 +654,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		auxVector	= m_MoverO.m_WideNormalGlobalV;
 		thePlayer.GetVisualDebug().AddBar( 'NormalWideGlbl', left, heightCur, width, height, 0.0f, Color(255,255,0), "Normal coef Wide Global: " + auxFloat + " " + VecToString( auxVector ), 0.0f );
 		
-		// Terrain normal
+		
 		heightCur	+= heightOffset;
 		auxVector	= m_OwnerMAC.GetTerrainNormal( true );
 		thePlayer.GetVisualDebug().AddBar( 'NormalDamped', left, heightCur, width, height, 0.0f, textColor, "Normal coef damped: " + auxVector.Z, 0.0f );
@@ -657,11 +662,11 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		auxVector	= VecNormalize( m_OwnerMAC.GetTerrainNormal( false ) );
 		thePlayer.GetVisualDebug().AddBar( 'NormalInstant', left, heightCur, width, height, 0.0f, textColor, "Normal coef Instant: " + auxVector.Z, 0.0f );
 		
-		// Shared data
+		
 		heightCur	= heightInactive;
 		heightCur	= m_SharedDataO.DrawDebugText( leftFar, heightCur, heightOffset, width, height, textColor );
 		
-		// Inactive states
+		
 		for( i = 0; i < m_StatesSArr.Size(); i += 1 )
 		{
 			auxString	= m_StatesSArr[i].GetDebugTextInactive();
@@ -674,14 +679,14 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			}
 		}
 		
-		// Action Locks
+		
 		DebugDisplayActionLocks();
 		
-		// Collision
+		
 		m_CollisionManagerO.UpdateDebugInfo();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnVisualDebug( frame : CScriptedRenderFrame, flag : EShowFlags )
 	{
 		var i	: int;
@@ -699,13 +704,13 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetDebugPoint( point : Vector )
 	{
 		m_DebugPointV	= point;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function DebugDisplayActionLocks()
 	{
 		var actionLocks	: array< array< SInputActionLock > >;
@@ -722,7 +727,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		
 		for( i = 0; i < actionLocks.Size(); i += 1 )
 		{
-			//auxName	= ( EInputActionBlock ) i;
+			
 			auxString	= ( string ) ( ( EInputActionBlock ) i );
 			auxString	= auxString + ":        ";
 			auxName		= GetAuxNameForInt( i );
@@ -736,7 +741,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function GetAuxNameForInt( i : int ) : name
 	{
 		switch( i )
@@ -791,7 +796,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateSuperStateChange()
 	{
 		var l_CurrentSuperStateN	: name;
@@ -808,7 +813,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 	}
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function SuperStateChanged( stateExiting, stateEntering : name )
 	{
 		var l_WasActiveB	: bool;
@@ -819,7 +824,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		LogExploration( "Changed SuperState from : " + stateExiting + " to " + stateEntering );
 		
 		
-		// E3 HACK
+		
 		if( stateExiting == 'TraverseExploration' )
 		{
 			if( m_CollisionManagerO.CheckLandBelow( 0.3f ) )
@@ -829,57 +834,57 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 		
 		
-		// Interaction
+		
 		if( stateEntering == 'TraverseExploration' )
 		{
 			StateTryToChangeTo( 'Interaction' );
 		}
-		// Combat test
+		
 		else if( IsThisACombatSuperState( stateEntering ) )
 		{
 			StateTryToChangeOrFallToDefault( 'CombatExploration' );
 		}
-		// Skating
+		
 		else if( stateEntering == 'Skating' )
 		{
 			StateTryToChangeOrFallToDefault( 'SkateIdle' );
 		}
-		// Exploration
+		
 		else if( stateEntering == 'Exploration' )
 		{
-			// If exploration was not updated
+			
 			if( !l_WasActiveB )
 			{
 				StateTryToChangeTo( m_StateDefaultN );
 			}
 			
 			
-			// MS HACK From dialog
+			
 			if( stateExiting == 'PlayerDialogScene' )
 			{
 				m_TeleportedFallHackTime	= m_TeleportedFallHackTimeTotalF;
 			}
 			
-			// From combat
+			
 			else if( IsThisACombatSuperState( stateExiting ) )
 			{	
 				if( m_StateCurN != 'Jump' && m_StateCurN != 'Slide' )
 				{
 					StateTryToChangeTo( m_StateDefaultN );	
-					//Restart();
+					
 				}
 			}
-			// Climb to swim
-			else if( stateExiting == 'Swimming' && GetStateCur() == 'Climb' )// from swim to climb we don't need to change the state
+			
+			else if( stateExiting == 'Swimming' && GetStateCur() == 'Climb' )
 			{
-				// Do nothing
+				
 			}
-			// From a ladder to fall
+			
 			else if( stateExiting == 'TraverseExploration' && m_SharedDataO.HasToFallFromLadder() )
 			{
 				StateTryToChangeOrFallToDefault( 'Jump' );
 			}
-			// From not aim throw
+			
 			else if( stateExiting != 'AimThrow' )
 			{
 				StateTryToChangeTo( m_StateDefaultN );
@@ -895,46 +900,46 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsThisACombatSuperState( stateName : name ) : bool
 	{
 		return thePlayer.IsThisACombatSuperState( stateName );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function PreUpdate( _Dt : float )
 	{
-		// Get all Input data
+		
 		m_InputO.Update( _Dt );
 		
-		// Pre update
+		
 		m_MoverO.PreUpdate( _Dt );
 		m_SharedDataO.PreUpdate( _Dt );
 		m_MovementCorrectorO.PreUpdate( _Dt );
 		
-		// Collect and process external data
+		
 		UpdateExternalData( _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateExternalData( _Dt : float )
 	{
 		var isOnGroundNow	: bool;
 		
 		
-		// MS HACK
+		
 		if( m_TeleportedFallHackTime > 0.0f )
 		{
 			return;
 		}
 		
-		// Check collisions
+		
 		m_CollisionManagerO.Update( _Dt );
 		
 		
 		isOnGroundNow	= m_OwnerMAC.IsOnGround();
 		
-		// Log ground change
+		
 		if( isOnGroundNow != m_IsOnGroundB )
 		{
 			if( m_IsDebugModeB )
@@ -951,7 +956,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			m_IsOnGroundB	= isOnGroundNow;
 		}
 		
-		// Check losing ground
+		
 		if( !isOnGroundNow )
 		{
 			if( m_StatesSArr[m_StateCurI].ReactToLoseGround() )
@@ -970,58 +975,58 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function ReactOnHitCeiling()
 	{
 		m_StatesSArr[m_StateCurI].ReactToHitCeiling();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function ReactToChanceToFallAndSlide() : bool
 	{
 		return m_StatesSArr[m_StateCurI].ReactToChanceToFallAndSlide();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function StateChangeUpdate( )
 	{
 		var l_NewStateN			: name;
 		var stateChanged		: bool	= false;
 		
 		
-		// MS HACK
+		
 		if(  m_TeleportedFallHackTime > 0.0f )
 		{
 			return;
 		}
 		
-		// Handle Behavior graph imposed changes / safety checks
+		
 		UpdateStateChangesFromBehavior();		
 		
-		// Confirmation state changes
+		
 		UpdateStateChangesConfirmation();
 		
-		// Handle queued state if any
+		
 		UpdateStateChangesQueued();
 		
-		// Get the state that the current state wants to play
+		
 		UpdateStateChangesInProperState();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateStateChangesFromBehavior() : bool
 	{
 		var stateName		: name;
 		var stateChanged	: bool	= false;
 		
-		// First check if Behavior graph entered a new valid state
+		
 		if( m_StateEnteredFromBehN != c_InvalidStateN && IsNameValid( m_StateEnteredFromBehN ) )
 		{
 			stateChanged	= StateTryToChangeOrFallToDefault( m_StateEnteredFromBehN );
 			LogExploration("State changed from the Behavior graph");
 		}
 		
-		// Then check if Behavior graph exited the current state
+		
 		else if( !stateChanged && m_StateExitedFromBehN != c_InvalidStateN &&  IsNameValid( m_StateExitedFromBehN ) )
 		{
 			stateName		= m_StatesSArr[m_StateCurI].GetStateToExitToAfterFailing();
@@ -1029,15 +1034,15 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			LogExploration("State changed by: exiting the Behavior graph node");
 		}
 		
-		// Clean up
+		
 		m_StateEnteredFromBehN	= c_InvalidStateN;
 		m_StateExitedFromBehN	= c_InvalidStateN;
 		
-		// Return if we had a change
+		
 		return stateChanged;
 	}
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateStateChangesConfirmation() : bool
 	{
 		var stateChanged	: bool	= false;
@@ -1062,7 +1067,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return stateChanged;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function BehaviorConfirmationFailedChange() : bool
 	{
 		var stateName		: name;
@@ -1090,12 +1095,12 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return stateChanged;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateStateChangesQueued() : bool
 	{
 		var stateChanged	: bool	= false;
 		
-		// Handle queued state if any
+		
 		if( m_StateGlobalQueuedN != c_InvalidStateN )
 		{
 			if( !StateTryToChangeTo( m_StateGlobalQueuedN ) )
@@ -1114,20 +1119,20 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return stateChanged;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateStateChangesInProperState() : bool
 	{
 		var l_NewStateN		: name;
 		var stateChanged	: bool	= false;
 		
-		// Get the state that the current state wants to play
+		
 		l_NewStateN	= m_StatesSArr[m_StateCurI].StateChangePrecheck();
 		
-		// Change states till we are on a stable one
+		
 		while ( l_NewStateN != m_StateCurN )
 		{
 			
-			// Try to change to the state, or stop checking (Even though each state should make sure to change to a possible state )
+			
 			if( !StateTryToChangeTo( l_NewStateN ) )
 			{
 				if( m_IsDebugModeB )
@@ -1139,7 +1144,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			}
 			
 			
-			// Get the state that the current state wants to play
+			
 			l_NewStateN		= m_StatesSArr[m_StateCurI].StateChangePrecheck();
 			
 			stateChanged	= true;
@@ -1149,29 +1154,29 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return stateChanged;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateStates( _Dt : float )
 	{		
-		// Update the current state
+		
 		m_StatesSArr[m_StateCurI].StateUpdate( _Dt );	
 		
-		// Update the inactive states		
+		
 		UpdateInactiveStates( _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function PostUpdate( _Dt : float )
 	{	
-		// post state change
+		
 		if( m_StateChanged )
 		{		
 			PostStateChange();
 		}
 		
-		// Update movement
+		
 		m_MoverO.ApplyMovement( _Dt );
 		
-		// Animation
+		
 		if( m_StatesSArr[ m_StateCurI ].IsRaisingBehaviorEventEachFrame() )
 		{
 			TryToSetTheProperBehaviorState();
@@ -1182,23 +1187,23 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		m_SharedDataO.PostUpdate( _Dt );
 		m_MovementCorrectorO.PostUpdate( _Dt );
 		
-		// MS HACK
+		
 		m_TeleportedFallHackTime	-= _Dt;
 		
-		// Time has passed	
+		
 		m_StateTimeCurF	+= _Dt;
 	}	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function StateTryToChangeOrFallToDefault( newState :name ) : bool
 	{
-		// Do nothing if we go to the same state, but we still succeed
+		
 		if( newState == m_StateCurN )
 		{
 			return true;
 		}
 		
-		// Try to go to the desired state
+		
 		if( StateTryToChangeTo( newState ) )
 		{
 			return true;
@@ -1206,7 +1211,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		
 		LogExploration( "StateTryToChangeOrFallToDefault: Could not enter to " + newState + "Trying to go to default" );
 		
-		// Or try to go to the default
+		
 		if( StateTryToChangeTo( m_StateDefaultN ) )
 		{
 			return true;
@@ -1216,57 +1221,57 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			LogExplorationError( "Can't enter to defautl state, THIS IS BAD" );
 		}
 		
-		// Or complete failure
+		
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function StateTryToChangeTo( _NewStateN : name ) : bool
 	{		
-		// Can we change ?
+		
 		if( !CanChangeBetwenStates( m_StateCurN, _NewStateN ) )
 		{
 			return false;
 		}
 		
-		// Change		
+		
 		ChangeToStateWithTransition( _NewStateN );
-		//ChangeStateTo( _NewStateN );
+		
 		
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function ChangeToStateWithTransition( _NewStateN : name )
 	{
 		var l_NewStateID		: int;
 		var l_NewTransitionID	: int;
 		var l_NewTransitionN	: name;
 		
-		// Is there a specific transition to override the new state?
+		
 		if( FindTransitionThatCanPlay( m_StateCurN, _NewStateN, l_NewTransitionID, l_NewTransitionN ) )
 		{
 			_NewStateN		= l_NewTransitionN;
 		}
 		
-		// Change to the state
+		
 		ChangeStateTo( _NewStateN );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function CanChangeToState( _ToN : name ) : bool
 	{	
 		return CanChangeBetwenStates( m_StateCurN, _ToN );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function CanChangeBetwenStates( _FromN, _ToN : name ) : bool
 	{
 		var l_FromID	: int;
 		var l_ToID		: int;
 		
 		
-		// Global blocking checks
+		
 		if( _ToN	!= m_StateDefaultN )
 		{
 			if( thePlayer.IsInNonGameplayCutscene() )
@@ -1275,48 +1280,41 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			}
 		}
 		
-		// Find state IDs
+		
 		l_FromID	= GetStateID( _FromN );
 		l_ToID		= GetStateID( _ToN );
 		
 		
-		// No need to change to the same state ( Except ExplorationInvalid, for debug purposes )
+		
 		if( _ToN == _FromN )
 		{
 			LogExploration( "Trying to go to the same state: " + _ToN );
 			return false;
 		}
 		
-		// Check if the new state is invalid and just skip it.
+		
 		if( l_ToID == c_InvalidStateI )
 		{ 
 			LogExploration( "Trying to go to the unexistent state: " + _ToN );
 			
-			// For debug purposes is better to have it and see which states are missing
+			
 			return false;
-			//return !m_IsDebugModeB;
+			
 		}
 		
-		// Check if we can enter the state
+		
 		if( !m_StatesSArr[l_ToID].StateCanEnter( _FromN ) )
 		{
-			//LogExploration( "Could not Enter state: " + _ToN + "From state: " + _FromN );
+			
 			
 			return false;
 		}
-		/*
-		// Check if we can exit the state
-		if( !m_StatesSArr[l_FromID].StateCanExitToTo( _ToN ) )
-		{
-			LogExploration( "Could not Exit state: " + _FromN + " To state : " + _ToN );
-			
-			return false;
-		}*/
+		
 		
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function StateWantsAndCanEnter( desiredState : name ) : bool
 	{
 		var stateID : int;
@@ -1333,21 +1331,21 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function FindTransitionThatCanPlay( _FromN, _ToN : name, out _TransitionI : int, out _TransitionNameN : name ) : bool
 	{	
-		// Do we have a transition for this states?
+		
 		if( !FindTransition( _FromN, _ToN, _TransitionI, _TransitionNameN ) )
 		{ 
 			return false;
 		}
 		
 		
-		// Success
+		
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function FindTransition( _FromN, _ToN : name, out _TransitionI : int, out _TransitionNameN : name ) : bool
 	{
 		var i 		: int;
@@ -1376,12 +1374,12 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return false;
 	}
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function CanWePlayTransition( _FromN, _ToN , _TransitionNameN : name) : bool
 	{
 		LogExploration( "Found Transition: " + _TransitionNameN + ": " + _FromN + " --> " + _ToN );
 		
-		// Can we play this transition?
+		
 		if( CanChangeBetwenStates( _FromN, _TransitionNameN ) )
 		{		
 			LogExploration( "Transition will be played'" );	
@@ -1392,7 +1390,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function ChangeStateTo( _NewStateN : name )
 	{		
 		var l_NewStateID		: int;
@@ -1400,12 +1398,12 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		
 		l_NewStateID		= GetStateID( _NewStateN );
 		
-		// Exit old and enter new
+		
 		m_StatesSArr[m_StateCurI].StateExit( _NewStateN );
 		
 		m_StatesSArr[l_NewStateID].StateEnter( m_StateCurN );
 		
-		// Save old and current states
+		
 		m_StateLastI		= m_StateCurI;
 		m_StateLastN		= m_StateCurN;
 		
@@ -1419,42 +1417,42 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		m_StateChanged	= true;		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function StateExited()
 	{
 		RessetCameraOffset();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function PostStateChange()
 	{		
 		var l_StateTypeE : EExplorationStateType;
 		
-		// Change the behaviour graph
+		
 		TryToSetTheProperBehaviorState();
 		
 		
-		// Confirmation
+		
 		m_BehaviorConfirmStateE	= BGCS_Waiting;
 		
 		
-		// Camera
+		
 		SetCamera();
 		
 		
-		// Input context
+		
 		switch( m_StatesSArr[ m_StateCurI ].m_InputContextE )
 		{
 			case EGCI_Ignore:
 				break;
 			case EGCI_Exploration:
-				theInput.SetContext( thePlayer.GetExplorationInputContext() ); //'Exploration' );
+				theInput.SetContext( thePlayer.GetExplorationInputContext() ); 
 				break;
 			case EGCI_JumpClimb:
 				theInput.SetContext( 'JumpClimb' );
 				break;	
 			case EGCI_Combat:
-				theInput.SetContext( thePlayer.GetCombatInputContext() ); //'Combat' );
+				theInput.SetContext( thePlayer.GetCombatInputContext() ); 
 				break;
 			case EGCI_Swimming:
 				theInput.SetContext( 'Swimming' );
@@ -1462,24 +1460,24 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 		
 		
-		// Save lock
-		if( !m_StatesSArr[ m_StateCurI ].GetCanSave() ) //&& m_TeleportedFallHackTime <= 0.0f )
+		
+		if( !m_StatesSArr[ m_StateCurI ].GetCanSave() ) 
 		{		
-			theGame.CreateNoSaveLock( m_NoSaveLockStringS, m_NoSaveLock, true ); //, true );
+			theGame.CreateNoSaveLock( m_NoSaveLockStringS, m_NoSaveLock, true ); 
 			LogChannel( 'ExplorationSave', "Lock, state " + m_StateCurN );
 		}
-		else // if( !m_StatesSArr[ m_StateLastI ].GetCanSave() && m_NoSaveLock != -1 )
+		else 
 		{
 			theGame.ReleaseNoSaveLockByName( m_NoSaveLockStringS );
 			LogChannel( 'ExplorationSave', "Unlock, state  " + m_StateCurN );
 		}
 		
 		
-		// Fast holster
+		
 		SetBehaviorParamBool( 'holsterFastForced', m_StatesSArr[ m_StateCurI ].IsHolsterFast(), true );
 		
 		
-		// In air
+		
 		l_StateTypeE = m_StatesSArr[ m_StateCurI ].GetStateType();
 		
 		if ( l_StateTypeE != EST_Unchanged )
@@ -1488,11 +1486,11 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 		
 		
-		// Change done
+		
 		m_StateChanged	= false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function SetCamera()
 	{
 		var cameraSet		: CCameraParametersSet;
@@ -1501,19 +1499,19 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		
 		if( m_StatesSArr[m_StateCurI].m_ChangeCamerasB )
 		{
-			// If state keeps the old camera
+			
 			if( m_StatesSArr[m_StateCurI].GetIfCameraIsKept() )
 			{
 				return;
 			}
 			
-			// End last camera animation
+			
 			if( m_StatesSArr[m_StateLastI].GetCameraSet( cameraSetLast ) )
 			{			
 				cameraSetLast.StopOnMainCamera();
 			}
 			
-			// Set new camera parameters
+			
 			if( m_StatesSArr[m_StateCurI].GetCameraSet( cameraSet ) )
 			{
 				if( cameraSetLast )
@@ -1526,10 +1524,10 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 				}				
 			}
 			
-			// or set the defautl camera params
+			
 			else if( m_DefaultCameraSetS )
 			{
-				if( cameraSetLast ) // the ? operator may not work
+				if( cameraSetLast ) 
 				{
 					m_DefaultCameraSetS.SetToMainCamera( cameraSetLast.pivotPosForcedBlendOnNext );
 				}
@@ -1542,16 +1540,16 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 	}
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function TryToSetTheProperBehaviorState()
 	{
 		var l_BehaviorEventN	: name;
 		var l_EventIsForcedB	: bool;
 		
-		// Clear anim events queue
-		//m_BehEventQueueNArr.Clear();
 		
-		// Do we need to send an event?
+		
+		
+		
 		if( m_StatesSArr[m_StateCurI].IsRaisingBehaviorEvent() )
 		{
 			l_BehaviorEventN	= m_StatesSArr[m_StateCurI].GetBehaviorEventName();
@@ -1560,7 +1558,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateInactiveStates( _Dt : float )
 	{
 		var i	: int;
@@ -1574,31 +1572,31 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function QueueState( newState : name )
 	{
 		m_StateGlobalQueuedN	= newState;
 		LogExploration( "Queued state : " + newState );
 	}
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function QueueStateExternal( newState : name )
 	{
 		m_StateGlobalQueuedN	= newState;
 		LogExplorationWarning( "Externaly Queued state : " + newState );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Collisions and Physics
-	//------------------------------------------------------------------------------------------------------------------
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	event OnRagdollStart()
 	{
 		var actor : CActor;
 		var currentPri : EInteractionPriority;
 
-		// store interaction priority when actor is alive and set unpushable
+		
 		actor = (CActor)m_OwnerE;
 		currentPri = actor.GetInteractionPriority();
 		if ( actor.IsAlive() && currentPri != IP_Max_Unpushable )
@@ -1608,12 +1606,12 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnNoLongerInRagdoll()
 	{
 		var actor : CActor;
 		
-		// restore interaction priority when ragdoll is finished
+		
 		actor = (CActor)m_OwnerE;
 		if ( actor.IsAlive() && m_storedInteractionPri != IP_NotSet )
 		{
@@ -1622,7 +1620,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnRagdollTouch( entity : CEntity )
 	{
 		var actor : CActor;
@@ -1635,20 +1633,20 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnPrediction( pos : Vector, normal : Vector, disp : Vector, penetration : Float, actorHeight : Float, diffZ : Float, fromVirtualController : bool )
 	{
-		//LogExploration("horse: front prediction: penetration " + penetration + " pos " + VecToString( pos ) + " actorHeight " + actorHeight + " diffZ " + diffZ );
+		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Animation
-	//------------------------------------------------------------------------------------------------------------------
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function SendAnimEvent( eventName : name, optional forced : bool ) : bool
 	{
-		//m_BehEventQueueNArr.PushBack( eventName );
+		
 		if( forced )
 		{
 			return m_OwnerE.RaiseForceEvent( eventName );
@@ -1659,7 +1657,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetBehaviorParamBool( paramName : name, value : bool, optional onAllInstances : bool )
 	{
 		if( value )
@@ -1672,18 +1670,18 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{		
-		// Send the event to the current state
+		
 		m_StatesSArr[m_StateCurI].OnAnimEvent( animEventName, animEventType, animInfo );
 		
-		// And to other objects
+		
 		m_SharedDataO.OnAnimEvent( animEventName, animEventType, animInfo );
 		m_MovementCorrectorO.OnAnimEvent( animEventName, animEventType, animInfo );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnBehaviorGraphNotification( notificationName : name, stateName : name )
 	{
 		var	i : int;
@@ -1698,36 +1696,36 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			m_MovementCorrectorO.CancelTurnAdjustment();
 		}
 		
-		// Ignore all the confirmation if the event is sent each frame
+		
 		else if( !m_StatesSArr[m_StateCurI].IsRaisingBehaviorEventEachFrame() )
 		{
 			if( notificationName == 'Exit' ) 
 			{		
-				// Tell the state if it cares
+				
 				m_StatesSArr[m_StateCurI].OnBehGraphNodeExited();
 				
-				// If state does not care, just ignore this
+				
 				if( !m_StatesSArr[m_StateCurI].IsRaisingBehaviorEvent() || !m_StatesSArr[m_StateCurI].NeedsBehaviorConfirmation() )
 				{
 					return true;
 				}
 				
-				// Force exit current state ( SHOULD NOT HAPPEN, THIS IS A FAIL SAFE )
-				if( stateName	== m_StateCurN ) //&& m_BehaviorConfirmStateE >= BGCS_Waiting )
+				
+				if( stateName	== m_StateCurN ) 
 				{
 					m_StateExitedFromBehN	= m_StateCurN;
 					
 					LogExplorationWarning( m_StateCurN + ": FORCING EXIT, The behavior graph node of this state left by its own" );
 				}
 				
-				// Deconfirm
+				
 				if( stateName	== m_StateCurN && m_BehaviorConfirmStateE == BGCS_Confirmed )
 				{
 					LogExplorationWarning( m_StateCurN + ": DECONFIRMED, exited by the Behavior graph node");
 					m_BehaviorConfirmStateE	= BGCS_NotConfirmed;
 				}	
 				
-				// Cancel forced enter
+				
 				if( stateName == m_StateEnteredFromBehN )
 				{
 					LogExplorationWarning( stateName + ": FORCED ENTER CANCELLED, the state was reentered on the same frame" );
@@ -1743,16 +1741,16 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			
 			else if( notificationName == 'Enter' )
 			{
-				// Tell the state if it cares
+				
 				m_StatesSArr[m_StateCurI].OnBehGraphNodeEntered();
 				
-				// If state does not care, just ignore this
+				
 				if( !m_StatesSArr[GetStateID(stateName)].IsRaisingBehaviorEvent() || !m_StatesSArr[GetStateID(stateName)].NeedsBehaviorConfirmation() )
 				{
 					return true;
 				}
 				
-				// Cancel forced exit
+				
 				if( stateName == m_StateExitedFromBehN )
 				{
 					LogExplorationWarning( stateName + ": FORCED EXIT CANCELLED, the state was reentered on the same frame" );
@@ -1761,14 +1759,14 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 					m_StateEnteredFromBehN	= c_InvalidStateN;
 				}
 				
-				// Confirm state
+				
 				if( stateName	== m_StateCurN )
 				{
 					LogExploration( m_StateCurN + ": CONFIRMED, enter by the Behavior graph node" );
 					m_BehaviorConfirmStateE	= BGCS_Confirmed;
 				}		
 				
-				// Check if behavior is asking to enter to another state  ( SHOULD NOT HAPPEN, THIS IS A FAIL SAFE )
+				
 				else 
 				{
 					for( i = 0; i < m_StatesSArr.Size(); i += 1 )
@@ -1786,37 +1784,26 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 	}
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function OnTeleported()
 	{
-		//var hasToAdjust : bool	= false;
+		
 		
 		m_SharedDataO.OnTeleported();
 		m_MoverO.OnTeleported();
 		
-		/*
-		theGame.ReleaseNoSaveLockByName( m_NoSaveLockStringS );
-		LogChannel( 'ExplorationSave', "Unlock, teleported" );
 		
-		if(  m_TeleportedFallHackTime <= 0.0f )
-		{
-			hasToAdjust	= true;
-		}*/
 		
 		m_TeleportedFallHackTime	= m_TeleportedFallHackTimeTotalF;
-		/*
-		if( hasToAdjust )
-		{
-			m_CollisionManagerO.TeleportPlayerToHisGroundIfNeeded( 0.0f );
-		}*/
+		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function ReactOnBeingHit( optional damageAction : W3DamageAction ) : bool
 	{
 		if( m_ActiveB )
 		{			
-			// If the state handles it, keep it
+			
 			if( m_StatesSArr[ m_StateCurI ].ReactToBeingHit( damageAction ) )
 			{
 				return true;
@@ -1827,12 +1814,12 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function ReactOnCriticalState( enabled : bool )
 	{
 		if( m_ActiveB )
 		{
-			// If the state handles it, keep it
+			
 			if( m_StatesSArr[ m_StateCurI ].ReactToCriticalState( enabled ) )
 			{
 				return;
@@ -1845,19 +1832,19 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Camera
-	//------------------------------------------------------------------------------------------------------------------
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	function UpdateCameraIfNeeded( out moveData : SCameraMovementData, dt : float ) : bool
 	{
-		// Check if the current state wants to modify the camera
+		
 		return m_StatesSArr[m_StateCurI].UpdateCameraIfNeeded( moveData, dt);
 	}
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnGameCameraExplorationRotCtrlChange()
 	{
 		
@@ -1872,7 +1859,7 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function RessetCameraOffset()
 	{
 		var camera	: CCustomCamera;
@@ -1882,17 +1869,17 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 			camera.ResetCollisionOffset();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Utils 
-	//------------------------------------------------------------------------------------------------------------------
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	private function GetStateID( _StateNameN : name ) : int
 	{
 		var id	: int;
 		
 		id	= m_StateNamesSArr.FindFirst( _StateNameN );
-		// Not found state means getting the invalid state
+		
 		if( id < 0 )
 		{
 			id	= c_InvalidStateI;
@@ -1901,19 +1888,19 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return id;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetStateCur() : name
 	{
 		return m_StateCurN;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetStateTypeCur() : EExplorationStateType
 	{
 		return m_StatesSArr[ m_StateCurI ].GetStateType();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetStateType( stateName : name ) : EExplorationStateType
 	{
 		var stateId : int;
@@ -1928,25 +1915,25 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return m_StatesSArr[ stateId ].GetStateType();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetStateTimeF( ) : float
 	{		
 		return m_StateTimeCurF;
 	}	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetDefaultStateName()	: name
 	{
 		return m_StateDefaultN;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetSuperStateName()	: name
 	{
 		return m_SuperStateLastN;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function StateExistsB( stateName : name ) : bool
 	{
 		if( FindState( stateName ) != c_InvalidStateI )
@@ -1957,25 +1944,25 @@ class CExplorationStateManager extends CSelfUpdatingComponent
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsOnGround() : bool
 	{
 		return m_IsOnGroundB;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function CanInteract() : bool
 	{
 		return m_StatesSArr[m_StateCurI].CanInteract();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetTurnAdjustmentTime() : float
 	{
 		return m_StatesSArr[m_StateCurI].GetTurnAdjustmentTime();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function CanReactToHardCriticalState() : bool
 	{
 		return m_StatesSArr[m_StateCurI].CanReactToHardCriticalState();

@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Play voice set
-/** Copyright © 2012
-/***********************************************************************/
+
+
+
 
 class CBTTaskPlayVoiceSet extends IBehTreeTask
 {		
@@ -21,7 +23,7 @@ class CBTTaskPlayVoiceSet extends IBehTreeTask
 	
 	function IsAvailable() : bool
 	{
-		//here should be check GetActor().HasVoiceSet(voiceSet); but there is no such function!! :(((
+		
 		if ( dontActivateWhileSpeaking )
 			return !GetActor().IsSpeaking();
 			

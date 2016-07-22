@@ -1,14 +1,14 @@
 ﻿/***********************************************************************/
-/** 
-/***********************************************************************/
-/** Copyright © 2012
-/** Author : Andrzej Kwiatkowski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
 
-/**
-	who do you check
-*/
+
+
+
+
 enum EStatOwner
 {
 	SO_NPC,
@@ -24,9 +24,7 @@ class BTCondBaseStatLowerThan extends IBehTreeTask
 	var percentage		: bool;
 	var ifNot			: bool;
 	
-	/**
 	
-	*/
 	function IsAvailable() : bool
 	{
 		var target : CActor;
@@ -113,7 +111,7 @@ class BTCondStaminaLowerThan extends IBehTreeTask
 			getStat = false;
 		}
 		
-		//WTF so for example it checks if stamina is lower than essence?
+		
 		if ( npc.GetStat( BCS_Stamina ) < statValue )
 		{
 			return false;

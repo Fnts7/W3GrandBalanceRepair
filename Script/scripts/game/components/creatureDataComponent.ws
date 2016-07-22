@@ -1,23 +1,28 @@
-﻿//>--------------------------------------------------------------------------
-// CCreatureDataComponent
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Contains arrays with items and skills used against monsters
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Andrzej Kwiatkowski - 18-09-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 
 class CCreatureDataComponent extends CScriptedComponent
 {
-	//////////////////
-	//
-	// NOT USED, MOVED TO CJournalCreature
+	
+	
+	
 	editable var itemsUsedAgainstCreature		: array<name>;
 	editable var skillsUsedAgainstCreature		: array<name>;
-	//
-	//////////////////
+	
+	
 	
 	editable var cameraDistance					: float;
 	editable var cameraLookAtZ					: float;
@@ -27,7 +32,7 @@ class CCreatureDataComponent extends CScriptedComponent
 	editable var environmentSunRotationPitch	: float;
 	editable var appearance						: name;
 	editable var position						: Vector;
-	//editable var rotation						: EulerAngles;
+	
 	editable var scale							: float; default scale = 1.0;
 	editable var fov							: float; default fov = 70.0f;
 	

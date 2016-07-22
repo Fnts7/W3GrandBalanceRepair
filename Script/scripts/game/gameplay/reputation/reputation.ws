@@ -1,7 +1,11 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-// temporary solution for prototypes
+
+
+
 
 class W3FactionReputationPoints
 {
@@ -12,11 +16,7 @@ class W3FactionReputationPoints
 	default negativeReputationPoints = 0;
 }
 
-/*class W3ReputationBonuses
-{
-	var buyPricesMult 	: float;
-	var sellPricesMult 	: float;
-}*/
+
 
 enum EReputationLevel
 {
@@ -25,7 +25,7 @@ enum EReputationLevel
 	RL_Neutral,
 	RL_Liked,
 	RL_Respectable
-	//RL_MaxEnum = 5,			//this is pointless, use EnumGetMax('name') instead
+	
 }
 
 enum EFactionName
@@ -51,7 +51,7 @@ class W3Reputation
 		}
 	}
 	
-	//Set/Get functions
+	
 	function SetFactionName( fName : EFactionName ) 
 	{
 		fName = factionName; 
@@ -90,7 +90,7 @@ class W3Reputation
 		return negativeRepPoints;
 	}
 	
-	//Counting reputation	
+	
 	function ChangeReputationAmongFaction( factionName : EFactionName, addAmount : int )
 	{
 		factionReputations[ factionName ].currentReputationPoints += addAmount;
@@ -184,14 +184,14 @@ class W3Reputation
 		factionReputations[ factionName ].negativeReputationPoints = 0;
 	}
 }
-	// EXECUTABLE TEST FUNCTIONS
+	
 	
 	function GetPlayerReputationManager() : W3Reputation
 	{
 		return ( (W3PlayerWitcher)thePlayer ).reputationManager;
 	}
 	
-	exec function reptest( i : int ) // faction number: 0 -- FN_NoMansLandPoor, 1 -- FN_NovigradNobles, 2 -- FN_SkelligeUndvik
+	exec function reptest( i : int ) 
 	{
 		var facName : EFactionName = GetPlayerReputationManager().GetFaction( i ); 
 		var repLevel : EReputationLevel = GetPlayerReputationManager().GetReputationLevel( facName );
@@ -214,7 +214,7 @@ class W3Reputation
 		}
 	}
 	
-	exec function reputationpoints( i : int ) // faction number: 0 -- FN_NoMansLandPoor, 1 -- FN_NovigradNobles, 2 -- FN_SkelligeUndvik
+	exec function reputationpoints( i : int ) 
 	{
 		var facName 	: EFactionName = GetPlayerReputationManager().GetFaction( i );
 		var repPoints	: int = GetPlayerReputationManager().GetReputationPoints( facName );
@@ -224,7 +224,7 @@ class W3Reputation
 		LogChannel('Reputation', "Current reputation points among " + facName + ": " + repPoints );
 	}
 	
-	exec function addreppoints( i : int, points : int /*faction, added points*/ )
+	exec function addreppoints( i : int, points : int  )
 	{
 		var facName 			: EFactionName = GetPlayerReputationManager().GetFaction( i );
 		var repLevel 			: EReputationLevel;
@@ -253,7 +253,7 @@ class W3Reputation
 		
 	}
 	
-	exec function resetnegativepoints( i : int ) // faction number: 0 -- FN_NoMansLandPoor, 1 -- FN_NovigradNobles, 2 -- FN_SkelligeUndvik
+	exec function resetnegativepoints( i : int ) 
 	{
 		var facName 			: EFactionName = GetPlayerReputationManager().GetFaction( i );
 		var negPoints 			: int = GetPlayerReputationManager().GetNegativeReputationPoints( facName );
@@ -271,7 +271,7 @@ class W3Reputation
 		}
 	}
 	
-	exec function bonusvalue ( i : int ) // faction number: 0 -- FN_NoMansLandPoor, 1 -- FN_NovigradNobles, 2 -- FN_SkelligeUndvik
+	exec function bonusvalue ( i : int ) 
 	{
 		var facName 			: EFactionName = GetPlayerReputationManager().GetFaction( i );
 		var repPoints			: int = GetPlayerReputationManager().GetReputationPoints( facName );

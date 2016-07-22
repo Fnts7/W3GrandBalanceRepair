@@ -1,7 +1,12 @@
-﻿///////////////////////////////
-//  Copyright © 2016		 //
-//	Author: Patryk Fiutowski //
-///////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
 
 statemachine class W3SmartObject extends CR4MapPinEntity
 {
@@ -66,7 +71,7 @@ statemachine class W3SmartObject extends CR4MapPinEntity
 		var l_HACKmovementCorrector	: CExplorationMovementCorrector;
 		var l_buffsHud				: CR4HudModuleBuffs;
 		
-		// create save lock
+		
 		theGame.CreateNoSaveLock( "W3SmartObject", m_saveLockID , true );
 		
 		possibleItemSlots.Clear();
@@ -78,12 +83,12 @@ statemachine class W3SmartObject extends CR4MapPinEntity
 		
 		if( m_currentUser == thePlayer )
 		{
-			// Locking player's ability to rotate while playing animation IF the ubermovement is ON
+			
 			l_HACKmovementCorrector = thePlayer.substateManager.m_MovementCorrectorO;
 			l_HACKmovementCorrector.disallowRotWhenGoingToSleep = true;
 			
-			//l_buffsHud = (CR4HudModuleBuffs)theGame.GetHud().GetHudModule( 'BuffsModule' );
-			//l_buffsHud.SetDisplayBuffs( false );
+			
+			
 			
 			thePlayer.OnMeleeForceHolster( false );
 			
@@ -98,7 +103,7 @@ statemachine class W3SmartObject extends CR4MapPinEntity
 			thePlayer.BlockAllActions( 'W3SmartObject', true,,,,,false );
 		}
 		
-		// Turning interaction off
+		
 		l_component = GetComponentByClassName( 'CInteractionComponent' );
 		l_component.SetEnabled( false );
 		
@@ -221,7 +226,7 @@ state Approach in W3SmartObject
 		
 		if( result )
 		{
-			// Adjusting player's position
+			
 			l_movAdj = parent.GetCurrentUser().GetMovingAgentComponent().GetMovementAdjustor();
 			
 			l_movAdj.CancelAll();
@@ -233,8 +238,8 @@ state Approach in W3SmartObject
 			
 			Sleep( 0.75f );
 			
-			//parent.GetCurrentUser().RaiseForceEvent('playerActionStart');
-			//SleepOneFrame();
+			
+			
 			
 			parent.GotoState( 'StartUse' );
 		}
@@ -267,14 +272,14 @@ state StartUse in W3SmartObject
 		
 		if( l_node )
 		{
-			// Adjusting player's position
+			
 			l_movAdj = parent.GetCurrentUser().GetMovingAgentComponent().GetMovementAdjustor();
 			
 			l_movAdj.CancelByName( 'InteractionEntity' );
 			l_ticket = l_movAdj.CreateNewRequest( 'InteractionEntity' );
 			
 			l_movAdj.BindToEvent( l_ticket, 'RotateToInteraction' );
-			//l_movAdj.SlideTowards( l_ticket, l_node );	
+			
 			l_movAdj.RotateTo( l_ticket, l_node.GetHeading() );
 		}
 		

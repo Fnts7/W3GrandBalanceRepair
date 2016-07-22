@@ -1,36 +1,41 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskSetEncounterAsActionTarget
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Set the NPC encounter as the action Target
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 28-May-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskSetEncounterAsActionTarget extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	var onDeactivate	: bool;	
 	var encounter		: CEncounter;
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{	
 		if( !onDeactivate ) Execute();
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnDeactivate()
 	{	
 		if( onDeactivate ) Execute();
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function Execute()
 	{
 		if( encounter )
@@ -40,18 +45,18 @@ class BTTaskSetEncounterAsActionTarget extends IBehTreeTask
 	}
 
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskSetEncounterAsActionTargetDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskSetEncounterAsActionTarget';
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------	
+	
+	
+	
 	editable var onDeactivate	: bool;
 	hint onDeactivate = "Execute on deactivate instead of on Activate";
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnSpawn( taskGen : IBehTreeTask )
 	{
 		var l_encounter : CEncounter;

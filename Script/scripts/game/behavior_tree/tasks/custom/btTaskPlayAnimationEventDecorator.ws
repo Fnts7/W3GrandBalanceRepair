@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski, Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskPlayAnimationEventDecorator extends IBehTreeTask
 {
@@ -17,8 +19,8 @@ class CBTTaskPlayAnimationEventDecorator extends IBehTreeTask
 	var xmlStaminaCostName					: name;
 	var drainStaminaOnUse					: bool;
 	var completeTaskOnRotateEnd				: bool;
-	var useCombatTargetForRotation			: bool; //duplicated variable from TaskAttack because moving it here would reset this flag in all AI trees
-	var setIsImportantAnim 					: bool; //prevents interruption by combat target selection
+	var useCombatTargetForRotation			: bool; 
+	var setIsImportantAnim 					: bool; 
 	
 	private var staminaCost					: float;
 	private var moraleThreshold				: float;

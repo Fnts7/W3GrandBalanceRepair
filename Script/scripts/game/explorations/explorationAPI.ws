@@ -1,17 +1,22 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 import struct SExplorationQueryContext
 {
 	import var inputDirectionInWorldSpace : Vector;
 	import var maxAngleToCheck : float;
 	import var forJumping : bool;
-	//import var forDynamic : bool;
+	
 	import var dontDoZAndDistChecks : bool;
 	import var laddersOnly : bool;
 	import var forAutoTraverseSmall : bool;
 	import var forAutoTraverseBig : bool;
 }
 
-import struct SExplorationQueryToken // previously known as SExplorationScriptToken
+import struct SExplorationQueryToken 
 {
 	import var valid : bool;
 	import var type : EExplorationType;
@@ -19,25 +24,7 @@ import struct SExplorationQueryToken // previously known as SExplorationScriptTo
 	import var normal : Vector;
 	import var usesHands : bool;
 }
-/* from cpp
-enum EExplorationType
-{
-	ET_Jump,
-	ET_Ladder,
-	ET_Horse_LF,
-	ET_Horse_LB,
-	ET_Horse_L,
-	ET_Horse_R,
-	ET_Horse_RF,
-	ET_Horse_RB,
-	ET_Horse_B,
-	ET_Boat_B,
-	ET_Boat_P,
-	ET_Boat_Enter_From_Beach,
-	ET_Fence,
-	ET_Fence_OneSided,
-	ET_Ledge,
-} */
+
 
 function IsExplorationOneSided( exploration : SExplorationQueryToken ) : bool
 {

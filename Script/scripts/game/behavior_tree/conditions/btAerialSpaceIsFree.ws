@@ -1,18 +1,23 @@
-﻿//>--------------------------------------------------------------------------
-// BTCondAerialSpaceIsFree
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Check if there is free aerial space at a position
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 24-May-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTCondAerialSpaceIsFree extends IBehTreeTask
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	var localOffset 			: Vector;	
 	var checkLineOfSight		: bool;
 	var cylinderRadiusToCheck	: float;
@@ -23,16 +28,16 @@ class BTCondAerialSpaceIsFree extends IBehTreeTask
 	private var m_CollisionGroupNames 	: array<name>;
 	private var m_LastTestTime			: float;
 	private var m_LastTestResult		: bool;
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function Initialize()
 	{
 		m_CollisionGroupNames.PushBack('Terrain');
 		m_CollisionGroupNames.PushBack('Foliage');
 		m_CollisionGroupNames.PushBack('Static');
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function IsAvailable() : bool
 	{
 		var l_npc 			: CNewNPC = GetNPC();
@@ -81,25 +86,25 @@ class BTCondAerialSpaceIsFree extends IBehTreeTask
 			
 			m_LastTestResult = true;
 			
-			// If the space is not free
+			
 			if( theGame.GetWorld().SweepTest( l_posToTest , l_posToTest + Vector(0,0, cylinderHeightToCheck), cylinderRadiusToCheck, l_temp, l_temp ) )
 			{	
-				// Debug
-				//l_npc.GetVisualDebug().AddBox( 'TakeOffArea', Vector( cylinderRadiusToCheck, cylinderRadiusToCheck, cylinderHeightToCheck), l_posToTest, l_rotation, true, Color(255,0,0), 10 );
+				
+				
 				m_LastTestResult =  false;
 			}		
 			
-			// If I cannot reach the position
+			
 			if ( m_LastTestResult == true && checkLineOfSight && theGame.GetWorld().SweepTest( l_pos , l_posToTest, l_npcRadius, l_temp, l_temp, m_CollisionGroupNames ) )
 			{
-				// Debug
+				
 				l_toPosVect = l_posToTest - l_pos ;
 				l_rotation = VecToRotation( l_toPosVect );
-				//l_npc.GetVisualDebug().AddBox( 'TakeOffSight', Vector( cylinderRadiusToCheck, cylinderRadiusToCheck, cylinderHeightToCheck), l_posToTest, l_rotation, true, Color(255,0,0), 10 );
+				
 				m_LastTestResult =  false;
 			}
 			
-			//l_npc.GetVisualDebug().AddBox( 'TakeOffArea', Vector( cylinderRadiusToCheck, cylinderRadiusToCheck, cylinderHeightToCheck), l_posToTest, l_rotation, true, Color(255,255,0), 10 );		
+			
 		}
 		
 		return m_LastTestResult;
@@ -107,15 +112,15 @@ class BTCondAerialSpaceIsFree extends IBehTreeTask
 	}
 	
 }
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTCondAerialSpaceIsFreeDef extends IBehTreeConditionalTaskDefinition
 {
 	default instanceClass = 'BTCondAerialSpaceIsFree';
 
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	editable var localOffset 			: Vector;
 	editable var checkLineOfSight		: bool;
 	editable var cylinderRadiusToCheck	: float;
@@ -129,6 +134,6 @@ class BTCondAerialSpaceIsFreeDef extends IBehTreeConditionalTaskDefinition
 	hint localOffset 				= "Offset from me (in local). x is right, y is forward, the z value is not taken into consideration";
 	hint cylinderRadiusToCheck 		= "World Up oriented cylinder to test for free space";
 	hint cylinderHeightToCheck 		= "World Up oriented cylinder to test for free space";
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 }

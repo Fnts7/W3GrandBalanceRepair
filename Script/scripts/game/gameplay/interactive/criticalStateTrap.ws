@@ -1,4 +1,9 @@
-﻿class W3CriticalStateTrap extends CInteractiveEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3CriticalStateTrap extends CInteractiveEntity
 {
 	editable var effectOnSpawn				: name;
 	editable var effectToPlayOnActivation	: name;
@@ -34,10 +39,7 @@
 	{
 		if ( area == (CTriggerAreaComponent)this.GetComponent( "TrapTrigger" ) && activator.GetEntity() == thePlayer && areasActive )
 		{
-			/*params.effectType = criticalStateToApply;
-			params.duration = lifeTime - ( GameTimeSeconds(theGame.GetGameTime()) - GameTimeSeconds(startTimestamp) );
-			thePlayer.AddEffectCustom(params);
-			*/
+			
 			PlayEffect( effectToPlayOnActivation );
 		}
 		

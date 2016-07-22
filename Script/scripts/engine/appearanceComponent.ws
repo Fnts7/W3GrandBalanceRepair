@@ -1,9 +1,14 @@
-﻿import class CAppearanceComponent extends CComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CAppearanceComponent extends CComponent
 {
 	import final function IncludeAppearanceTemplate(template : CEntityTemplate); 
 	import final function ExcludeAppearanceTemplate(template : CEntityTemplate); 
 	
-	// Selects a different appearance for the entity.
+	
 	import final function ApplyAppearance( appearanceName : string );
 }
 

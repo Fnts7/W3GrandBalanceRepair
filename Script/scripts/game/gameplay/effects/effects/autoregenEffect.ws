@@ -1,19 +1,17 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/*
-	Auto-regeneration effect a.k.a. AutoBuff - special regenration type that is applied automatically when the actor is created.
-*/
+
+
+
 abstract class W3AutoRegenEffect extends W3RegenEffect
 {
 	default duration = -1;
 	
-	/*
-		Custom setting because the values of regens are not stored in the buff ability but in default character stats.
-		Those stats are defined in XML under character abilities.
-	*/
+	
 	protected function SetEffectValue()
 	{
 		if(regenStat != CRS_Undefined)

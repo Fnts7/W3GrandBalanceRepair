@@ -1,27 +1,32 @@
-﻿//>---------------------------------------------------------------------
-// Witcher Script file - Duration Obstacle 
-//----------------------------------------------------------------------
-// Spawned by the DAO special attack
-//----------------------------------------------------------------------
-// R.Pergent - 01-April-2014
-// Copyright © 2014 CDProjektRed
-//----------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
 class W3DaoPillarObstacle extends W3DurationObstacle
 {
-	//>---------------------------------------------------------------------
-	// VARIABLES
-	//----------------------------------------------------------------------
+	
+	
+	
 	private editable var 		damageValue 			: float; 		default damageValue = 100;
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{	
 		super.OnSpawned( spawnData );
 		
 		AddTimer( 'Appear', 0.5f );
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private timer function Appear( _Delta : float, optional id : int)
 	{
 		var i						: int;

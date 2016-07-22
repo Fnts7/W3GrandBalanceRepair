@@ -1,11 +1,16 @@
-﻿import class CPhantomComponent extends CComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CPhantomComponent extends CComponent
 {
-	// Activate
+	
 	import final function Activate();
-	// Deactivate
+	
 	import final function Deactivate();
-	// Get triggering collision group names
+	
 	import final function GetTriggeringCollisionGroupNames( out names : array< name > );
-	// Get number of objects inside
+	
 	import final function GetNumObjectsInside(): int;
 }

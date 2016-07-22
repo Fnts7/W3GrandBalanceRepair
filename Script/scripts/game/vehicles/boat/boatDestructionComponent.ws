@@ -1,18 +1,18 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013-2014 CDProjektRed
-/** Author : Radosław Grabowski
-/**   		 Tomek Kozera
-/**			 Ryan Pergent (siren part)
-/***********************************************************************/
+
+
+
 
 import class CBoatDestructionComponent extends CComponent
 {
 	import 						var destructionVolumes 			: array<SBoatDestructionVolume>;
 	private 					var boatComponent 				: CBoatComponent;
 	private editable 			var collisionForceThreshold 	: float;
-	editable saved 				var partsConfig 				: array<SBoatPartsConfig>; 				//config for dropping off parts
+	editable saved 				var partsConfig 				: array<SBoatPartsConfig>; 				
 	private 					var attachedSirens				: array<CActor>;
 	
 	default collisionForceThreshold = 3;
@@ -20,7 +20,7 @@ import class CBoatDestructionComponent extends CComponent
 	private var freeSirenGrabSlots		: array<name>;
 	private var lockedSirenGrabSlots	: array<name>;
 		
-	// Event called when component is attached
+	
 	event OnComponentAttached()
 	{
 		var ent : CEntity;
@@ -49,7 +49,7 @@ import class CBoatDestructionComponent extends CComponent
 	
 		drop = (CDropPhysicsComponent)GetEntity().GetComponentByClassName('CDropPhysicsComponent');
 		
-		//drop part
+		
 		idxParts = -1;
 		for(i=0; i<partsConfig.Size(); i+=1)
 		{
@@ -80,8 +80,8 @@ import class CBoatDestructionComponent extends CComponent
 		}
 	}
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	public function GetClosestFreeGrabSlotInfo( _ActorPosition : Vector, _ActorHeading : float ,out _ClosestSlotName : name, out _Position : Vector, out _Heading : float ) : bool
 	{
 		var i					: int;
@@ -132,8 +132,8 @@ import class CBoatDestructionComponent extends CComponent
 		
 		return true;
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	public function LockGrabSlot( _SlotName : name )
 	{
 		if( !IsNameValid( _SlotName ) ) 
@@ -145,8 +145,8 @@ import class CBoatDestructionComponent extends CComponent
 			lockedSirenGrabSlots.PushBack( _SlotName );
 		}	
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	public function AttachSiren( _SirenToAttach : CActor )
 	{
 		if( !attachedSirens.Contains( _SirenToAttach ) )
@@ -155,14 +155,14 @@ import class CBoatDestructionComponent extends CComponent
 		}		
 	}
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	public function DetachSiren( _SirenTodetach : CActor )
 	{
 		attachedSirens.Remove( _SirenTodetach  );
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	public function FreeGrabSlot( _SlotName : name )
 	{
 		if( !IsNameValid( _SlotName ) ) 
@@ -175,7 +175,7 @@ import class CBoatDestructionComponent extends CComponent
 		}	
 	}
 	
-	// Called when boat body recives any collision
+	
 	event OnBoatDestructionVolumeHit( globalHitPos : Vector, healthTaken : float, areaVolumeIndex : int )
 	{
 		DealDamage( healthTaken * 30.0f, areaVolumeIndex, globalHitPos );
@@ -187,30 +187,30 @@ import class CBoatDestructionComponent extends CComponent
 		var drop : CDropPhysicsComponent;
 		var boat : W3Boat;
 		
-		// Deal no damage if boat driver is not the player
-		// or there is passenger mounted
+		
+		
 		if( !(boatComponent.user == thePlayer) || boatComponent.GetPassenger() )
 			return;
 		
-		// play hit animation on users
+		
 		ProcessBoatHitAnimation( index );
 		
-		//vibration
+		
 		if(boatComponent.user == thePlayer || boatComponent.GetPassenger() == thePlayer)
-			theGame.VibrateControllerHard();	//boat damaged
+			theGame.VibrateControllerHard();	
 		
 		boat = (W3Boat)GetEntity();
-		if( !boat.GetCanBeDestroyed() ) // if destruction is disabled from quest, play animation, but deal no damage
+		if( !boat.GetCanBeDestroyed() ) 
 			return;
 		
-		//deal damage to single section
+		
 		if(index >= 0 && index < destructionVolumes.Size())
 		{
 			ReduceHealth(dmg, index, globalHitPos);
 			return;
 		}
 	
-		//or all sections
+		
 		for(i=0; i<destructionVolumes.Size(); i+=1)
 		{		
 			ReduceHealth(dmg, i, globalHitPos);	
@@ -231,10 +231,10 @@ import class CBoatDestructionComponent extends CComponent
 		if(dmg > 0 && boatComponent.user == thePlayer && ShouldProcessTutorial('TutorialBoatDamage'))
 			FactsAdd("tutorial_boat_damaged");
 		
-		//deal damage
+		
 		destructionVolumes[index].areaHealth -= dmg;
 		
-		//drop part
+		
 		idxParts = -1;
 		for(i=0; i<partsConfig.Size(); i+=1)
 		{
@@ -264,7 +264,7 @@ import class CBoatDestructionComponent extends CComponent
 			}
 		}
 		
-		// Trigger drowning when no health left
+		
 		if( destructionVolumes[index].areaHealth <= 0.0f )
 		{
 			if( thePlayer.GetCurrentStateName() == 'Sailing' )
@@ -276,8 +276,8 @@ import class CBoatDestructionComponent extends CComponent
 			
 			boatComponent.TriggerDrowning( globalHitPos );
 			GetEntity().AddTimer( 'DrowningDismount', 2.0 );
-			//boatComponent.IssueCommandToDismount( DT_normal );
-			//boatComponent.StopAndDismountBoat(); // vehicleCleanup
+			
+			
 			boatComponent.GetBoatEntity().SetHasDrowned( true );
 			boatComponent.GetBoatEntity().SoundEvent( "boat_sinking" );
 			
@@ -289,7 +289,7 @@ import class CBoatDestructionComponent extends CComponent
 		}
 	}
 	
-	public function IsDestroyed() : bool // dont needed anymore, same functionality as W3Boat::HasDrowned()
+	public function IsDestroyed() : bool 
 	{
 		var i : int;
 	
@@ -302,7 +302,7 @@ import class CBoatDestructionComponent extends CComponent
 		return false;
 	}
 	
-	// dmgPrcnt 100 == 100% )
+	
 	public function DealDmgToNearestVolume( dmgPrcnt : float, hitPos : Vector ) : bool
 	{
 		var index : int;
@@ -314,7 +314,7 @@ import class CBoatDestructionComponent extends CComponent
 		
 		ReduceHealth( dmgPrcnt, index, hitPos);
 		
-		// play hit animation on users
+		
 		ProcessBoatHitAnimation( index );
 		
 		return true;
@@ -450,22 +450,22 @@ import class CBoatDestructionComponent extends CComponent
 	{
 		var boatHitDirection : int;
 		
-		// map boat volume hit to behavior variables range
+		
 		switch( volumeHit )
 		{
 			case 2:
 			case 5:
-				boatHitDirection = 0; // front
+				boatHitDirection = 0; 
 				break;
 			case 0:
 			case 3:
-				boatHitDirection = 1; // back
+				boatHitDirection = 1; 
 				break;
 			case 4:
-				boatHitDirection = 2; // right
+				boatHitDirection = 2; 
 				break;
 			case 1:
-				boatHitDirection = 3; // left
+				boatHitDirection = 3; 
 				break;
 			
 			default:

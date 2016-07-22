@@ -1,14 +1,19 @@
-﻿///////////////////////////////////////////////////////////////////////////////
-// Base AI trees definitions
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 
 abstract class CAIMainTree extends CAITree 
 {
 };
 
-///////////////////////////////////////////////
-// CAIIdleTree
-// This tree defines a simple : play idle anim do nothing behaviour
-// base class for all other idle trees
+
+
+
+
 class CAIIdleTree extends CAIMainTree
 {
 	default aiTreeName = "resdef:ai\idle/npc_idle";
@@ -106,8 +111,8 @@ class CAIRunToGAKnockdown extends CAIKeepDistanceTree
 }
 
 
-///////////////////////////////////////////////////////////////////////////////
-// Base AI parameters definitions
+
+
 
 abstract class CAIMainParameters extends CAIParameters
 {
@@ -160,8 +165,8 @@ abstract class CAIFleeParameters extends CAISubTreeParameters
 {
 };
 
-///////////////////////////////////////////////////////////////////////////////
-// action trees
+
+
 import abstract class IAIActionTree extends CAITree 
 {
 };
@@ -169,8 +174,8 @@ import abstract class IRiderActionTree extends CAITree
 {
 };
 
-///////////////////////////////////////////////////////////////////////////////
-// action trees parameters
+
+
 import abstract class IAIActionParameters extends CAIParameters
 {
 };
@@ -180,8 +185,8 @@ import abstract class IRiderActionParameters extends CAIParameters
 
 
 
-///////////////////////////////////////////////////////////////////////////////
-// Base AI 'redefinitions' - used to override AI subtrees externally.
+
+
 import abstract class CAIRedefinitionParameters extends IAIParameters
 {
 	

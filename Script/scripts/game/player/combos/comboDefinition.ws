@@ -1,20 +1,10 @@
-﻿
-/*
-enum EAttackDirection
-{
-	AD_Front,
-	AD_Left,
-	AD_Right,
-	AD_Back
-};
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-enum EAttackDistance
-{
-	ADIST_Small,
-	ADIST_Medium,
-	ADIST_Large
-};
-*/
+
 
 import class CComboString extends CObject
 {

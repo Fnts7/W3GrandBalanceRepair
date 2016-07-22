@@ -1,24 +1,20 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014
-/** Author : Dennis Zoetebier
-/***********************************************************************/
+
+
+
 class W3TrapWolfPit extends W3Trap
 {
-	//>---------------------------------------------------------------------
-	// VARIABLES
-	//----------------------------------------------------------------------
-	//private editable var alarmSoundString		: string;
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
-	/*
-	public function Activate( optional _Target: CNode ):void
-	{
-		SoundEvent( alarmSoundString );
-		super.Activate( _Target );
-	}
-	*/
+	
+	
+	
+	
+	
+	
+	
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{	
 		var l_actor	: CActor;

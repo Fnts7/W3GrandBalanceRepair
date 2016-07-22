@@ -1,11 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CDProjektRed
-/** Author : Dexio ?
-/** 		 Bartosz Bigaj
-/**			 Tomasz Kozera
-/***********************************************************************/
+
+
+
 
 enum EArmorType
 {
@@ -15,8 +15,8 @@ enum EArmorType
 	EAT_Heavy
 }
 
-//#B !!! IMPORTANT !!!
-// Match with as red.game.witcher3.constants.InventorySlotType.as, change order (only here) and slot in inventory panel will be broken
+
+
 enum EEquipmentSlots
 {
 	EES_InvalidSlot,
@@ -204,7 +204,7 @@ function GetLocNameFromEquipSlot(slotType : EEquipmentSlots) : name
 	return '';
 }
 
-//returns true if given slot is one of slots that are in multiple (e.g. potions)
+
 function IsMultipleSlot(slot : EEquipmentSlots) : bool
 {
 	return slot == EES_Petard1 || slot == EES_Petard2 || slot == EES_Quickslot1 || slot == EES_Quickslot2 || IsSlotPotionSlot(slot)
@@ -212,7 +212,7 @@ function IsMultipleSlot(slot : EEquipmentSlots) : bool
 			|| slot == EES_SkillMutagen1 || slot == EES_SkillMutagen2 || slot == EES_SkillMutagen3 || slot == EES_SkillMutagen4;
 }
 
-// Match witcher3.constants.InvntoryFilterType
+
 enum EInventoryFilterType
 {
 	IFT_None,
@@ -227,8 +227,8 @@ enum EInventoryFilterType
 	IFT_AllExceptHorseItem
 }
 
-// Match witcher3.constants.InventoryActionType 
-// !!!!!! TELL UI TEAM ABOUT YOUR CHANGE !!!!!!!
+
+
 enum EInventoryActionType
 {
 	IAT_None,
@@ -243,14 +243,14 @@ enum EInventoryActionType
 	IAT_Transfer,
 	IAT_Sell,
 	IAT_Buy,
-	//IAT_MobileCampfire,
+	
 	IAT_Repair,
 	IAT_Divide,
 	IAT_Socket
 }
 
-// Match witcher3.constants.InvntoryFilterType
-// !!!!!! TELL UI TEAM ABOUT YOUR CHANGE !!!!!!!
+
+
 struct SItemDataStub
 {
 	var id : SItemUniqueId;
@@ -262,29 +262,29 @@ struct SItemDataStub
 	var isNew : bool;
 	var actionType : int;
 	var price : int;
-	var userData : string; // #B tooltip text - > to change
+	var userData : string; 
 	var category : string;
 	var equipped : int;
 	var isReaded : bool;
 }
 
-// Returns invalid unique id - for comparision
+
 function GetInvalidUniqueId() : SItemUniqueId
 {
 	var invalidUniqueId : SItemUniqueId;
 	return invalidUniqueId;
 }
 
-//tooltip item comparison types
+
 enum ECompareType
 {
 	ECT_Incomparable,
 	ECT_Compare
 }
 
-/////////////////////////////////////////////
-// SItemUniqueId
-/////////////////////////////////////////////
+
+
+
 
 import struct SInventoryItem { };
 
@@ -303,8 +303,8 @@ import struct SItemParts
 	import var quantity : int;
 }
 
-// operator( SItemUniqueId == SItemUniqueId ) : bool;
-// operator( SItemUniqueId != SItemUniqueId ) : bool;
+
+
 
 function GetFilterTypeName( filterType : EInventoryFilterType ) : name
 {
@@ -331,7 +331,7 @@ function GetFilterTypeName( filterType : EInventoryFilterType ) : name
 	}
 }
 
-function GetFilterTypeByName( filterName : name ) : EInventoryFilterType // #B
+function GetFilterTypeByName( filterName : name ) : EInventoryFilterType 
 {
 	switch(filterName)
 	{
@@ -356,7 +356,7 @@ function GetFilterTypeByName( filterName : name ) : EInventoryFilterType // #B
 	}
 }
 
-//Returns equipment slot for item with given category and tags. If it's a quickslot item then EES_Quickslot1 is returned.
+
 function GetSlotForItem(category : name, tags : array<name>, isPlayer : bool) : EEquipmentSlots
 {
 	if (isPlayer && tags.Contains('PlayerUnwearable') ) return EES_InvalidSlot;
@@ -427,25 +427,25 @@ function IsSlotPotionMutagen(slot : EEquipmentSlots) : bool
 	return slot == EES_PotionMutagen1 || slot == EES_PotionMutagen2 || slot == EES_PotionMutagen3 || slot == EES_PotionMutagen4;
 }
 
-//returns true if given slot is any quickslot slot
+
 function IsSlotQuickslot(slot : EEquipmentSlots) : bool
 {
 	return slot == EES_Quickslot1 || slot == EES_Quickslot2;
 }
 
-//returns true if given slot is any mutagen slot
+
 function IsSlotMutagen(slot : EEquipmentSlots) : bool
 {
 	return slot == EES_PotionMutagen1 || slot == EES_PotionMutagen2 || slot == EES_PotionMutagen3 || slot == EES_PotionMutagen4;
 }
 
-//#B returns true if given slot is any potionslot slot
+
 function IsSlotPotionSlot(slot : EEquipmentSlots) : bool
 {
 	return slot == EES_Potion1 || slot == EES_Potion2 || slot == EES_Potion3 || slot == EES_Potion4;
 }
 
-//#B returns true if given slot is any petardslot slot
+
 function IsSlotPetardslot(slot : EEquipmentSlots) : bool
 {
 	return slot == EES_Petard1 || slot == EES_Petard2;
@@ -455,7 +455,7 @@ function GetItemActionFriendlyName( itemAction : EInventoryActionType, optional 
 {
 	switch(itemAction)
 	{
-			//case IAT_None :
+			
 		case IAT_Equip :
 			if( isEquipped )
 			{
@@ -466,8 +466,7 @@ function GetItemActionFriendlyName( itemAction : EInventoryActionType, optional 
 			return "panel_button_inventory_consume";	
 		case IAT_Read :
 			return "panel_button_inventory_read";	
-		/*case IAT_MobileCampfire :
-			return "panel_button_inventory_create_campfire";		*/
+		
 		case IAT_Drop :
 			return "panel_button_common_drop";	
 		case IAT_Transfer :
@@ -484,10 +483,7 @@ function GetItemActionFriendlyName( itemAction : EInventoryActionType, optional 
 			return "ERROR_ItemActionFriendlyName";
 	}
 	
-	/*IAT_UpgradeWeapon,
-	IAT_UpgradeWeaponSteel,
-	IAT_UpgradeWeaponSilver,
-	IAT_UpgradeArmor,*/
+	
 }
 
 function IsBookTextureTag( tag : string ) : bool
@@ -503,18 +499,18 @@ function IsBookTextureTag( tag : string ) : bool
 	return false;
 }
 
-/////////////////////////////////////////////
-// LOOT MANAGER
-/////////////////////////////////////////////
+
+
+
 
 struct SAreaItemDefinition
 {
-	saved var itemName : name;		//item name
-	saved var maxCount : int;			//max amount of items we are allowed to find in this area
+	saved var itemName : name;		
+	saved var maxCount : int;			
 };
 
 struct SAreaLootParams
 {
-	saved var remainingItemDrops : array<SAreaItemDefinition>;			//remaining allowed item drops
-	saved var areaType : EAreaName;										//area type
+	saved var remainingItemDrops : array<SAreaItemDefinition>;			
+	saved var areaType : EAreaName;										
 };

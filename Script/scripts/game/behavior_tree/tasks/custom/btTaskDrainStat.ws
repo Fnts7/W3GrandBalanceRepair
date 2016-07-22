@@ -1,4 +1,9 @@
-﻿// it only works for stamina, vitality and essence. you need to add more if you need them
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class BTTaskDrainStat extends IBehTreeTask
 {
 	var stat : EBaseCharacterStats;

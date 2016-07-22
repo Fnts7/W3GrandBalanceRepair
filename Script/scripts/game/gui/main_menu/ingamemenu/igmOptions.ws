@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Various Utilities for ingame menu that don't need to be in the menu itself
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2015 CDProjektRed
-/** Author : Jason Slama
-/***********************************************************************/
+
+
+
 
 function IngameMenu_GetOptionTypeFromString(optionType:string): InGameMenuActionType
 {
@@ -24,7 +26,7 @@ function IngameMenu_GetOptionTypeFromString(optionType:string): InGameMenuAction
 		return IGMActionType_Gamma;
 	}
 	
-	return IGMActionType_Toggle; // #J Reasonable default
+	return IGMActionType_Toggle; 
 }
 
 function IngameMenu_FillOptionsSubMenuData(flashStorageUtility : CScriptedFlashValueStorage, isMainMenu : bool) : CScriptedFlashArray
@@ -46,18 +48,18 @@ function IngameMenu_FillOptionsSubMenuData(flashStorageUtility : CScriptedFlashV
 	
 	l_optionChildList = flashStorageUtility.CreateTempFlashArray();
 	
-	// Pre-generating option groups to control their order. All dynamic ones (such as options) will be appended after
-	// ======================================================================================================================================================
+	
+	
 	IngameMenu_FetchAndGenerateGroupMenuObject(flashStorageUtility, "panel_", "audio", l_optionChildList, groupParentArray);
 	IngameMenu_FetchAndGenerateGroupMenuObject(flashStorageUtility, "panel_", "option_controllerhelp", l_optionChildList, groupParentArray);
 		
-	// --------------------------------- Controller Help ---------------------------------
+	
 	{
 		l_DataFlashObject = flashStorageUtility.CreateTempFlashObject();
 		l_DataFlashObject.SetMemberFlashString( "id", "option_control_scheme");
 		l_DataFlashObject.SetMemberFlashUInt(  "tag", NameToFlashUInt('controllerhelp') );
 		l_DataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("menu_option_control_scheme") );	
-		//l_DataFlashObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("panel_controllerhelp_description") );
+		
 		l_DataFlashObject.SetMemberFlashUInt( "type", IGMActionType_ControllerHelp );	
 		
 		l_ChildMenuFlashArray = flashStorageUtility.CreateTempFlashArray();
@@ -66,14 +68,14 @@ function IngameMenu_FillOptionsSubMenuData(flashStorageUtility : CScriptedFlashV
 		l_optionChildList.PushBackFlashObject(l_DataFlashObject);
 	}
 	
-	// --------------------------------- keybinds ---------------------------------
+	
 	if (theGame.GetPlatform() == Platform_PC)
 	{
 		l_DataFlashObject = flashStorageUtility.CreateTempFlashObject();
 		l_DataFlashObject.SetMemberFlashString( "id", "option_keybinds");
 		l_DataFlashObject.SetMemberFlashUInt(  "tag", NameToFlashUInt('controllerhelp') );
 		l_DataFlashObject.SetMemberFlashString(  "label", inGameMenu_TryLocalize("menu_option_keybinds") );	
-		//l_DataFlashObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("panel_controllerhelp_description") );
+		
 		l_DataFlashObject.SetMemberFlashUInt( "type", IGMActionType_KeyBinds );	
 		
 		l_ChildMenuFlashArray = flashStorageUtility.CreateTempFlashArray();
@@ -92,8 +94,8 @@ function IngameMenu_FillOptionsSubMenuData(flashStorageUtility : CScriptedFlashV
 		videoDisplayName = "visuals";
 	}
 	IngameMenu_FetchAndGenerateGroupMenuObject(flashStorageUtility, "panel_", videoDisplayName + ".hudelements", l_optionChildList, groupParentArray);
-	// --------------------------------- UIRescale ---------------------------------
-	// #J for consoles the folder is called visuals, on PC its called video, so we check for both
+	
+	
 	if (GetObjectFromArrayWithLabel(l_optionChildList, "id", videoDisplayName, groupRootObject))
 	{
 		groupOptionArray = groupRootObject.GetMemberFlashArray("subElements");
@@ -102,7 +104,7 @@ function IngameMenu_FillOptionsSubMenuData(flashStorageUtility : CScriptedFlashV
 		l_DataFlashObject.SetMemberFlashString( "id", "uirescale");
 		l_DataFlashObject.SetMemberFlashUInt(  "tag", NameToFlashUInt('UI_Rescale') );
 		l_DataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("panel_mainmenu_rescale") );	
-		//l_DataFlashObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("panel_rescale_description") );
+		
 		l_DataFlashObject.SetMemberFlashUInt( "type", IGMActionType_UIRescale );	
 		
 		l_ChildMenuFlashArray = flashStorageUtility.CreateTempFlashArray();
@@ -120,17 +122,17 @@ function IngameMenu_FillOptionsSubMenuData(flashStorageUtility : CScriptedFlashV
 	{
 		IngameMenu_FetchAndGenerateGroupMenuObject(flashStorageUtility, "panel_", "localization", l_optionChildList, groupParentArray);
 	}
-	// ======================================================================================================================================================
 	
 	
-	// --------------------------------- InGameConfig Stuff ---------------------------------
+	
+	
 	numOptionsGroups = inGameConfigWrapper.GetGroupsNum();
 	
 	for (i = 0; i < numOptionsGroups; i += 1)
 	{
 		groupName = inGameConfigWrapper.GetGroupName(i);
 		
-		if (groupName == 'DLC') // Forcing DLC last
+		if (groupName == 'DLC') 
 		{
 			dlcGroupID = i;
 		}
@@ -139,16 +141,16 @@ function IngameMenu_FillOptionsSubMenuData(flashStorageUtility : CScriptedFlashV
 			IngameMenu_FillArrayFromConfigGroup(flashStorageUtility, i, l_optionChildList);
 		}
 	}
-	// ======================================================================================================================================================
+	
 	
 	if (isMainMenu)
 	{
-		// --------------------------------- Credits ---------------------------------
+		
 		l_DataFlashObject = flashStorageUtility.CreateTempFlashObject();
 		l_DataFlashObject.SetMemberFlashString( "id", "credits");
 		l_DataFlashObject.SetMemberFlashUInt(  "tag", CreditsIndex_Wither3 );
 		l_DataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("panel_mainmenu_extras_credits") );	
-		//l_DataFlashObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("panel_credits_description") );
+		
 		l_DataFlashObject.SetMemberFlashString( "listTitle", GetLocStringByKeyExt("panel_mainmenu_extras_credits") );
 		
 		l_ChildMenuFlashArray = flashStorageUtility.CreateTempFlashArray();
@@ -166,25 +168,25 @@ function IngameMenu_FillOptionsSubMenuData(flashStorageUtility : CScriptedFlashV
 		l_DataFlashObject.SetMemberFlashArray( "subElements", l_ChildMenuFlashArray );
 		
 		l_optionChildList.PushBackFlashObject(l_DataFlashObject);
-		// ======================================================================================================================================================
+		
 	}
 	else
 	{
-		// -------------------------------- Difficulty Option ---------------------------
+		
 		if (GetObjectFromArrayWithLabel(l_optionChildList, "id", "gameplay", groupRootObject))
 		{
 			groupOptionArray = groupRootObject.GetMemberFlashArray("subElements");
 			IngameMenu_AddDifficultyOption(flashStorageUtility, groupOptionArray);
 			IngameMenu_AddGwentDifficultyOption(flashStorageUtility, groupOptionArray);
 		}
-		// ======================================================================================================================================================
+		
 	}
 	
-	// --------------------------------- DLC ----------------------------------------
-	//if (dlcGroupID != -1)
-	//{
-	//	IngameMenu_FillArrayFromConfigGroup(flashStorageUtility, dlcGroupID, l_optionChildList);
-	//}
+	
+	
+	
+	
+	
 	
 	return l_optionChildList;
 }
@@ -194,52 +196,52 @@ function IngameMenu_FillCreditsSubGroup(flashStorageUtility : CScriptedFlashValu
 	var l_ChildMenuFlashArray	: CScriptedFlashArray;
 	var l_DataFlashObject 		: CScriptedFlashObject;
 	
-	// --------------------------------- Credits ---------------------------------
+	
 	l_DataFlashObject = flashStorageUtility.CreateTempFlashObject();
 	l_DataFlashObject.SetMemberFlashString( "id", "credits_witcher");
 	l_DataFlashObject.SetMemberFlashUInt(  "tag", CreditsIndex_Wither3 );
 	l_DataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("TW3") );	
-	//l_DataFlashObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("panel_credits_description") );
+	
 	l_DataFlashObject.SetMemberFlashUInt( "type", IGMActionType_Credits );	
 	
 	l_ChildMenuFlashArray = flashStorageUtility.CreateTempFlashArray();
 	l_DataFlashObject.SetMemberFlashArray( "subElements", l_ChildMenuFlashArray );
 	
 	rootFlashArray.PushBackFlashObject(l_DataFlashObject);
-	// ======================================================================================================================================================
+	
 	
 	if (theGame.GetDLCManager().IsEP1Available())
 	{
-		// --------------------------------- Credits ---------------------------------
+		
 		l_DataFlashObject = flashStorageUtility.CreateTempFlashObject();
 		l_DataFlashObject.SetMemberFlashString( "id", "credits_heart_of_stone");
 		l_DataFlashObject.SetMemberFlashUInt(  "tag", CreditsIndex_Ep1 );
 		l_DataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("dlc_hearts_of_stone") );	
-		//l_DataFlashObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("panel_credits_description") );
+		
 		l_DataFlashObject.SetMemberFlashUInt( "type", IGMActionType_Credits );	
 		
 		l_ChildMenuFlashArray = flashStorageUtility.CreateTempFlashArray();
 		l_DataFlashObject.SetMemberFlashArray( "subElements", l_ChildMenuFlashArray );
 		
 		rootFlashArray.PushBackFlashObject(l_DataFlashObject);
-		// ======================================================================================================================================================
+		
 	}
 	
 	if ( theGame.GetDLCManager().IsEP2Available() )
 	{
-		// --------------------------------- Credits ---------------------------------
+		
 		l_DataFlashObject = flashStorageUtility.CreateTempFlashObject();
 		l_DataFlashObject.SetMemberFlashString( "id", "credits_blood_and_wine");
 		l_DataFlashObject.SetMemberFlashUInt(  "tag", CreditsIndex_Ep2 );
 		l_DataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("dlc_blood_and_wine") );	
-		//l_DataFlashObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("panel_credits_description") );
+		
 		l_DataFlashObject.SetMemberFlashUInt( "type", IGMActionType_Credits );	
 		
 		l_ChildMenuFlashArray = flashStorageUtility.CreateTempFlashArray();
 		l_DataFlashObject.SetMemberFlashArray( "subElements", l_ChildMenuFlashArray );
 		
 		rootFlashArray.PushBackFlashObject(l_DataFlashObject);
-		// ======================================================================================================================================================
+		
 	}
 }
 
@@ -263,7 +265,7 @@ function IngameMenu_FillArrayFromConfigGroup(flashStorageUtility : CScriptedFlas
 		{
 			hasChildOptions = IngameMenu_FillSubMenuOptionsList(flashStorageUtility, groupID, groupName, groupRootObject);
 			
-			// If all the options in the group turn out to be hidden, remove it from the list
+			
 			if (!hasChildOptions && groupParentArray)
 			{
 				groupParentArray.PopBack();
@@ -319,7 +321,7 @@ function IngameMenu_FetchAndGenerateGroupMenuObject(flashStorageUtility : CScrip
 			currentObject.SetMemberFlashString( "id", currentSubMenuName);
 			currentObject.SetMemberFlashString(  "label", GetLocStringByKeyExt(displayNamePrefix + currentSubMenuName) );
 			currentObject.SetMemberFlashUInt(  "tag", NameToFlashUInt( 'MenuSelector') );
-			//currentObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("panel_" + currentSubMenuName + "_description") );
+			
 			
 			if (deconstructedString == "")
 			{	
@@ -387,7 +389,7 @@ function IngameMenu_FillSubMenuOptionsList(flashStorageUtility : CScriptedFlashV
 		optionObject.SetMemberFlashString( "id", "Presets");
 		optionObject.SetMemberFlashString( "label", inGameMenu_TryLocalize("preset_" + groupDisplayName ));
 		optionObject.SetMemberFlashUInt( "tag", NameToFlashUInt( 'OptionPresets') );
-		//optionObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("preset_" + groupDisplayName + "_description") );
+		
 		optionObject.SetMemberFlashUInt( "type", IGMActionType_Preset );
 		optionObject.SetMemberFlashInt( "groupID", groupID );
 		optionObject.SetMemberFlashUInt( "GroupName", NameToFlashUInt( groupName ) );
@@ -437,7 +439,7 @@ function IngameMenu_FillSubMenuOptionsList(flashStorageUtility : CScriptedFlashV
 				optionObject.SetMemberFlashString( "label", inGameMenu_TryLocalize("option_" + optionDisplayName) );
 			}
 			optionObject.SetMemberFlashUInt( "type", IngameMenu_GetOptionTypeFromString(optionDisplayType) );
-			//optionObject.SetMemberFlashString(  "description", GetLocStringByKeyExt("option_" + optionDisplayName + "_description") );
+			
 			optionObject.SetMemberFlashUInt( "tag", NameToFlashUInt(optionName) );
 			optionObject.SetMemberFlashString( "current", optionValue);
 			optionObject.SetMemberFlashString( "startingValue", optionValue);
@@ -491,10 +493,10 @@ function IngameMenu_AddDifficultyOption(flashStorageUtility : CScriptedFlashValu
 	var difficulty			: int;
 	var optionValue			: string;
 	
-	// #J the -1 is because we don't want the 0 value (EDM_NotSet) and the system uses the 0 value. So I offset everything by 1
+	
 	difficulty = theGame.GetDifficultyLevel();
 	
-	if (difficulty != 0) // In case the difficulty is not set ><
+	if (difficulty != 0) 
 	{
 		difficulty -= 1;
 	}
@@ -530,10 +532,10 @@ function IngameMenu_AddGwentDifficultyOption(flashStorageUtility : CScriptedFlas
 	var difficulty			: int;
 	var optionValue			: string;
 	
-	// #J the -1 is because we don't want the 0 value (EDM_NotSet) and the system uses the 0 value. So I offset everything by 1
+	
 	difficulty = FactsQueryLatestValue('gwent_difficulty');
 	
-	if (difficulty != 0) // In case the difficulty is not set ><
+	if (difficulty != 0) 
 	{
 		difficulty -= 1;
 	}
@@ -621,7 +623,7 @@ function IngameMenu_GatherKeybindData(parentArray : CScriptedFlashArray, flashSt
 	groupIndex = -1;
 	inGameConfigWrapper = (CInGameConfigWrapper)theGame.GetInGameConfigWrapper();
 	
-	// Super lame that this must be done
+	
 	for (i = 0; i < inGameConfigWrapper.GetGroupsNum(); i += 1)
 	{
 		if (inGameConfigWrapper.GetGroupName(i) == 'PCInput')
@@ -644,7 +646,7 @@ function IngameMenu_GatherKeybindData(parentArray : CScriptedFlashArray, flashSt
 			currentKeybindData.SetMemberFlashString("label", IngameMenu_GetLocalizedKeybindName(currentKeybindName));
 			
 			keybindBindingKey = inGameConfigWrapper.GetVarValue('PCInput', currentKeybindName);
-			keybindBindingKey = StrReplace(keybindBindingKey, ";IK_None", ""); // #J TODO, if we want to support two keybinds, this wont work as is
+			keybindBindingKey = StrReplace(keybindBindingKey, ";IK_None", ""); 
 			keybindBindingKey = StrReplace(keybindBindingKey, "IK_None;", "");
 			currentKeybindData.SetMemberFlashString("value", inGameMenu_LocalizeKeyString(keybindBindingKey));
 			currentKeybindData.SetMemberFlashBool("locked", inGameConfigWrapper.DoVarHasTag('PCInput', currentKeybindName, 'locked'));
@@ -674,7 +676,7 @@ function IngameMenu_GetLocalizedKeybindName(keybindName : name) : string
 	
 	label = inGameConfigWrapper.GetVarDisplayName('PCInput', keybindName);
 	
-	// #J Hacky solution but acceptable as long as we don't normally rely on this
+	
 	if (label == "move_forward")
 	{
 		return GetLocStringByKeyExt("ControlLayout_Movement") + " - " + GetLocStringByKeyExt("input_device_key_name_IK_Up");
@@ -704,7 +706,7 @@ function IngameMenu_GetPCInputGroupIndex() : int
 	inGameConfigWrapper = (CInGameConfigWrapper)theGame.GetInGameConfigWrapper();
 	numGroups = inGameConfigWrapper.GetGroupsNum();
 	
-	// Super lame that this must be done
+	
 	for (i = 0; i < numGroups; i += 1)
 	{
 		if (inGameConfigWrapper.GetGroupName(i) == 'PCInput')
@@ -743,7 +745,7 @@ function IngameMenu_GetKeybindTagWithKeybindKey(newKeybindValue:EInputKey):name
 			currentKeybindName = inGameConfigWrapper.GetVarName(groupIndex, i);
 			keybindBindingKey = inGameConfigWrapper.GetVarValue('PCInput', currentKeybindName);
 			
-			subKeybind = StrReplace(keybindBindingKey, ";IK_None", ""); // #J TODO, if we want to support two keybinds, this wont work as is
+			subKeybind = StrReplace(keybindBindingKey, ";IK_None", ""); 
 			subKeybind = StrReplace(subKeybind, "IK_None;", "");
 			
 			if (subKeybind == searchingKeybind) 
@@ -761,7 +763,7 @@ function inGameMenu_LocalizeKeyString(key:string):string
 	var loclizedKey : string;
 	var semiColonIndex : int;
 	
-	// Needed for strings that still have two keys bound (for some reason)
+	
 	semiColonIndex = StrFindFirst(key, ";");
 	if (semiColonIndex != -1)
 	{

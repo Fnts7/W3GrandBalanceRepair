@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 abstract class W3Mutagen_Effect extends CBaseGameplayEffect
 {
@@ -17,7 +20,7 @@ abstract class W3Mutagen_Effect extends CBaseGameplayEffect
 		var mutParams : W3MutagenBuffCustomParams;
 		var witcher : W3PlayerWitcher;
 		
-		//only works for Geralt
+		
 		witcher = GetWitcherPlayer();
 		if(target != witcher)
 		{
@@ -36,11 +39,11 @@ abstract class W3Mutagen_Effect extends CBaseGameplayEffect
 			witcher.AddAbilityMultiple(witcher.GetSkillAbilityName(S_Alchemy_s13), witcher.GetSkillLevel(S_Alchemy_s13));
 		}
 		
-		//override icon with item icon
+		
 		OverrideIcon( mutParams.potionItemName );		
 	}
 	
-	//override icon with item icon
+	
 	public function OverrideIcon( itemName : name )
 	{
 		iconPath = theGame.GetDefinitionsManager().GetItemIconPath( itemName );

@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CD Projekt RED
-/** Author : Patryk Fiutowski, Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskIfTargetHasEffect extends IBehTreeTask
 {
@@ -46,9 +48,8 @@ class CBTTaskIfTargetHasEffectDef extends IBehTreeTaskDefinition
 	default useCombatTarget = true;
 };
 
-/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
+
+
 
 class CBTTaskIfTargetHasEffects extends IBehTreeTask
 {
@@ -102,9 +103,8 @@ class CBTTaskIfTargetHasEffectsDef extends IBehTreeTaskDefinition
 };
 
 
-/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
+
+
 
 class CBTTaskHasEffects extends IBehTreeTask
 {

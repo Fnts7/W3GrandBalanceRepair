@@ -1,17 +1,20 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2013
-/** Author : Rafal Jarczewski, Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Automatic stamina regeneration - set this up in entity template
+
+
+
 class W3Effect_AutoStaminaRegen extends W3AutoRegenEffect
 {
-	private var regenModeIsCombat : bool;		//set to true if we're in combat regen mode
+	private var regenModeIsCombat : bool;		
 	private var cachedPlayer : CR4Player;
 	
 		default regenStat = CRS_Stamina;	
 		default effectType = EET_AutoStaminaRegen;
-		default regenModeIsCombat = true;		//defaults to true as 'staminaRegen' is default attributeName for buff and is used in combat
+		default regenModeIsCombat = true;		
 	
 	event OnEffectAdded(optional customParams : W3BuffCustomParams)
 	{
@@ -34,7 +37,7 @@ class W3Effect_AutoStaminaRegen extends W3AutoRegenEffect
 	{
 		if(isOnPlayer)
 		{
-			//switch regen between combat and out of combat
+			
 			if ( regenModeIsCombat != cachedPlayer.IsInCombat() )
 			{
 				regenModeIsCombat = !regenModeIsCombat;
@@ -46,7 +49,7 @@ class W3Effect_AutoStaminaRegen extends W3AutoRegenEffect
 				SetEffectValue();			
 			}
 			
-			//change regen if in guard stance
+			
 			if ( cachedPlayer.IsInCombat() )
 			{
 				if ( thePlayer.IsGuarded() )

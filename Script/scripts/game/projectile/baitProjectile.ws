@@ -1,18 +1,23 @@
-﻿//----------------------------------------------------------------------
-// W3BaitProjectile
-//----------------------------------------------------------------------
-//>---------------------------------------------------------------------
-// Projectile that will generate a food source at collision
-//----------------------------------------------------------------------
-// Copyright © 2014 CDProjektRed
-// Author : R.Pergent - 01-July-2014
-//----------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
 class W3BaitProjectile extends W3BoltProjectile
 {
-	//>---------------------------------------------------------------------
-	// Variables
-	//----------------------------------------------------------------------
-	// Editable
+	
+	
+	
+	
 	private editable var foodSourceToGenerate		: CEntityTemplate;
 	private editable var addScentToCollidedActors	: bool;	
 	private editable var attractionDuration			: float;
@@ -21,11 +26,11 @@ class W3BaitProjectile extends W3BoltProjectile
 	
 	hint attractionDuration = "-1 means infinite";
 	
-	// Private
+	
 	private var m_BaitEntity	: CEntity;
 
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnProjectileCollision( pos, normal : Vector, collidingComponent : CComponent, hitCollisionsGroups : array< name >, actorIndex : int, shapeIndex : int )
 	{
 		var l_rotation 	: EulerAngles;

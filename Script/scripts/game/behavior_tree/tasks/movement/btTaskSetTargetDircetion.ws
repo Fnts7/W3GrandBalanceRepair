@@ -1,13 +1,18 @@
-﻿/////////////////////////////////////////////////////////////////////
-// SetTargetDirection
-/////////////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 class CBTTaskSetTargetDirection extends IBehTreeTask
 {
 	var npcPos, vec 			: Vector;
 	var curRot, rot 			: EulerAngles;
 	var angleDistance 			: float;
 	
-	//Editable variables
+	
 	public var useCombatTarget 			: bool;
 	public var setRotationOnActivate 	: bool;
 	public var setOnAnimEvent			: bool;
@@ -61,52 +66,52 @@ class CBTTaskSetTargetDirection extends IBehTreeTask
 		angleDistance = NodeToNodeAngleDistance(target,npc);
 		if ( angleDistance >= 160 )
 		{
-			//rotate r 180
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_180, true );
 		}
 		else if ( angleDistance >= 110 )
 		{ 
-			//rotate r 135
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_135, true );
 		}
 		else if ( angleDistance >= 65 )
 		{
-			//rotate r 90
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_90, true );
 		}
 		else if ( angleDistance >= 20 )
 		{
-			//rotate r 45
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_45, true );
 		}
 		else if ( angleDistance >= -20 )
 		{
-			//rotate 0
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_0, true );
 		}
 		else if ( angleDistance >= -65 )
 		{
-			//rotate -45
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_m45, true );
 		}
 		else if ( angleDistance >= -110 )
 		{
-			//rotate -90
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_m90, true );
 		}
 		else if ( angleDistance >= -160 )
 		{
-			//rotate -135
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_m135, true );
 		}
 		else if ( angleDistance >= -180 )
 		{
-			//rotate -180
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_m180, true );
 		}
 		else
 		{
-			//rotate 0
+			
 			npc.SetBehaviorVariable( 'targetDirection', (float)(int)ETD_Direction_0, true );
 		}
 	}

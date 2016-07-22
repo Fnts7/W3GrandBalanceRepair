@@ -1,12 +1,15 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : Carl Granberg
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// -: IMPORTANT :-
-// the "new" door system is work in progress. Don't use until
-// after the W2 doors (CDoor, CDoorAttachment etc.) and the scripted temp doors
-// (W3Door, W3LockableItem) has been refactored and removed.
+
+
+
+
+
+
 
 import class CDoorComponent extends CInteractionComponent
 {	
@@ -23,6 +26,6 @@ import class CDoorComponent extends CInteractionComponent
 	import function EnebleDoors( enable : bool );
 	import function IsInteractive( ) : bool;
 	import function IsTrapdoor( ) : bool;	
-	import function InvertMatrixForDoor( m : Matrix ) : Matrix;	// Only for doors because this invert function is very expensive and usage should be limited
+	import function InvertMatrixForDoor( m : Matrix ) : Matrix;	
 	import function Unsuppress();
 }

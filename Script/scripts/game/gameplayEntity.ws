@@ -1,9 +1,11 @@
-﻿  /***********************************************************************/
-/** Witcher Script file
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Object classes exprots
-/** Copyright © 2010 Dexio's Late Night R&D Home Center
-/***********************************************************************/
+  
+
+
 
 import class IPerformableAction extends CObject
 {
@@ -64,11 +66,11 @@ import class CBloodTrailEffect extends CGameplayEntityParam
 
 import class CGameplayEntity extends CPeristentEntity
 {
-	editable var minLootParamNumber			: int;					default minLootParamNumber = -1; // min & max specify how many loot params should be added to container
-	editable var maxLootParamNumber			: int;					default maxLootParamNumber = -1; // -1 means all, handled from code
+	editable var minLootParamNumber			: int;					default minLootParamNumber = -1; 
+	editable var maxLootParamNumber			: int;					default maxLootParamNumber = -1; 
 
 	import final function GetInventory() : CInventoryComponent;
-	import protected final function GetCharacterStats() : CCharacterStats;
+	import public final function GetCharacterStats() : CCharacterStats;
 	public final function GetAllAttributes() : array<name>
 	{
 		var atts : array<name>;
@@ -76,71 +78,71 @@ import class CGameplayEntity extends CPeristentEntity
 		return atts;
 	}
 	
-	//called when entity is spawned by editor but not ingame - ACHTUNG!!! All objects inheriting from CActor are spawned as CActor!!!
+	
 	event OnSpawnedEditor( spawnData : SEntitySpawnData ){}
 
-	// If 'fallBack' is false, then display name is taken only from the gameplay entity
-	import final function GetDisplayName( optional fallBack : bool /* = true */ ) : string;
 	
-	// Plays animation on all linked properties; count of 0 indicates infinite looping; lengthScale defaults to 1.0f and mode defaults to EPropertyCurveMode_Forward
+	import final function GetDisplayName( optional fallBack : bool  ) : string;
+	
+	
 	import final function PlayPropertyAnimation( animationName : name, optional count : int, optional lengthScale : float, optional mode : EPropertyCurveMode );
-	// Stops property animation on all linked properties; NOTE: changes property value immediately
+	
 	import final function StopPropertyAnimation( animationName : name, optional restoreInitialValues : bool );
-	// Rewinds property animation on all linked properties to given time; NOTE: changes property value immediately
+	
 	import final function RewindPropertyAnimation( animationName : name, time : float );
-	// Gets current time of running property animation instance; on failure returns 0.0f
+	
 	import final function GetPropertyAnimationInstanceTime( propertyName : name, animationName : name ) : float;
-	// Gets property animation length; on failure returns 0.0f
+	
 	import final function GetPropertyAnimationLength( propertyName : name, animationName : name ) : float;
-	// Gets property animation transform at given time; on failure returns identity transform
+	
 	import final function GetPropertyAnimationTransformAt( propertyName : name, animationName : name, time : float ) : Matrix;
 
 	import final function GetGameplayEntityParam( className : name ) : CGameplayEntityParam;
 
-	// Adds animation event callback
+	
 	import final function AddAnimEventCallback( eventName : name, functionName : name );
-	// Removes animation event callback
+	
 	import final function RemoveAnimEventCallback( eventName : name );
-	// Adds animation event child callback
+	
 	import final function AddAnimEventChildCallback( child : CNode, eventName : name, functionName : name );
-	// Removes animation event child callback
+	
 	import final function RemoveAnimEventChildCallback( child : CNode, eventName : name );
 	
-	// Gets the SFX tag associated with this NPC
+	
 	import final function GetSfxTag() : CName;
 
-	// Returns bb calculated based on CAttackableArea params, or on physics for actors
+	
 	import function GetStorageBounds( out box : Box );
 	
-	// Get runtime cached gameplay info
-	// Possible types:
-	// EGameplayInfoCacheType:
-	// - GICT_IsInteractive - has interactive components
-	// - GICT_HasDrawableComponents - has drawable components
-	// - GICT_Custom0 - CFocusModeController: IsFocusSoundClue
-	// - GICT_Custom1 - CombatTargetSelection: IsMonster
-	// - GICT_Custom2 - W3MonsterClue: testLineOfSight property
-	// - GICT_Custom3 - CInventoryComponent: HasAssociatedInventory
-	// - GICT_Custom4 - focus mode visibility was updated
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	import final function GetGameplayInfoCache( type : EGameplayInfoCacheType ) : bool;
 
-	// Get focus mode visibility type
+	
 	import final function GetFocusModeVisibility() : EFocusModeVisibility;
 	
-	// Set focus mode visibility type
-	// Use persistent = true only for entities for which visibiltiy is not handled by their classes (in general, only for CGameplayEntity or CNewNPC)
-	// If force = true, the change will hapen also if the current visibility type is the same
+	
+	
+	
 	import final function SetFocusModeVisibility( focusModeVisibility : EFocusModeVisibility, optional persistent : bool, optional force : bool );
 
-	// Turn on/off visual debug for the specified entity with giver filter.
-	// When turned off, the entity will recevie OnVisualDebug( frame : CScriptedRenderFrame, flag : EShowFlags) event.
-	// Does not work in final build!!!
+	
+	
+	
 	import final function EnableVisualDebug( flag : EShowFlags, enable : bool );
 	
 	import var aimVector : Vector;
 	editable var iconOffset	: Vector;
 	
-	public	var highlighted			: bool;					//set to prevent stacking multiple FX
+	public	var highlighted			: bool;					
 	
 	public var focusModeSoundEffectType : EFocusModeSoundEffectType;
 	default focusModeSoundEffectType = FMSET_None;
@@ -150,10 +152,10 @@ import class CGameplayEntity extends CPeristentEntity
 	var isColorBlindMode			: bool;
 	default isColorBlindMode		= false;
 	
-	// possible values:
-	// - '' 		- not initialized
-	// - 'entity' 	- no bone, play on entity
-	// - 'bone_name - name of the bone that will be used to play effect
+	
+	
+	
+	
 	var	focusSoundVisualEffectBoneName	: name;
 	default focusSoundVisualEffectBoneName = '';
 
@@ -164,17 +166,17 @@ import class CGameplayEntity extends CPeristentEntity
 	default isHighlightedByMedallion = true;
 	default isMagicalObject = false;
 	
-	//THE SOUND
+	
 	editable var soundEntityName : string;
 	editable var soundEntityGender : string;
 	editable var soundEntitySet : string;
 	
-	// -----------------------------------------------------------------
-	// Events
-	// -----------------------------------------------------------------
+	
+	
+	
 	event OnGameplayPropertyChanged( propertyName : name ){}
 	
-	// Entity was dynamically spawned
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{
 		isPlayingFocusSound = false;
@@ -186,34 +188,34 @@ import class CGameplayEntity extends CPeristentEntity
 			SoundSwitch("entity_sound_set",soundEntitySet);
 	} 
 	
-	// Entity was destroyed
+	
 	event OnDestroyed()
 	{
 	}
 	
-	//On action ended
+	
 	event OnPlayerActionEnd()
 	{
 	}
 	
-	//On action start finished
+	
 	event OnPlayerActionStartFinished()
 	{
 	}
 	
-	//On sync anim leave state
+	
 	event OnSyncAnimEnd()
 	{
 	}
 
-	// CPreAttackEvent
+	
 	event OnPreAttackEvent( animEventName : name, animEventType : EAnimationEventType, data : CPreAttackEventData, animInfo : SAnimationEventAnimInfo )
 	{
 	}	
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Taking Damage
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	public function IsAlive() : bool 																	{return true;}	
 	public function HasAbility(abilityName : name, optional includeInventoryAbl : bool) : bool			{return GetCharacterStats().HasAbility(abilityName, includeInventoryAbl);}
@@ -224,9 +226,9 @@ import class CGameplayEntity extends CPeristentEntity
 	public function RemoveAbilityAll(abilityName : name)												{GetCharacterStats().RemoveAbilityAll(abilityName);}
 	public function GetAbilityCount(abilityName : name) : int											{return GetCharacterStats().GetAbilityCount(abilityName);}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	public function AddTag(tag : name)
 	{
@@ -237,7 +239,7 @@ import class CGameplayEntity extends CPeristentEntity
 		
 		super.AddTag(tag);
 		
-		//if added fire then do a fire hit on all explosive entities
+		
 		if(tag == theGame.params.TAG_OPEN_FIRE)
 		{
 			FindGameplayEntitiesInSphere(ents, GetWorldPosition(), 20, 100000, theGame.params.TAG_EXPLODING_GAS);
@@ -313,19 +315,19 @@ import class CGameplayEntity extends CPeristentEntity
 	{
 		return false;
 	}
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////  @ITEMS  //////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//callback from CInventoryComponent, called when item was added to inventory
+	
+	
+	
+	
 	event OnItemGiven(data : SItemChangedData){}
 	
-	//callback from CInventoryComponent, called when item was taken from inventory
+	
 	event OnItemTaken(itemId : SItemUniqueId, quantity : int){}
 	
-	/////////////////////////////////////////////
-	// Medallion vibrates when Geralt sense magic
-	/////////////////////////////////////////////
+	
+	
+	
 	function SenseMagic()
 	{
 		if ( thePlayer.PlayerCanComment() )
@@ -350,7 +352,7 @@ import class CGameplayEntity extends CPeristentEntity
 	
 	}
 		
-	// SIGNS EVENTS	
+	
 	event OnAardHit( sign : W3AardProjectile )
 	{
 		var i : int;
@@ -360,7 +362,7 @@ import class CGameplayEntity extends CPeristentEntity
 		
 		AddSignHitFacts( sign, "_aard_hit" );
 		
-		// notify any door components 
+		
 		doors = GetComponentsByClassName('CDoorComponent');
 		for(i=0; i<doors.Size(); i+=1)
 		{
@@ -378,7 +380,7 @@ import class CGameplayEntity extends CPeristentEntity
 			PlayEffect('aardReaction');
 		}
 
-		//notify the gameplay light component, if any (aard can turn off light sources)
+		
 		gameLightComp = (CGameplayLightComponent)GetComponentByClassName('CGameplayLightComponent');
 		if(gameLightComp)
 		{
@@ -394,7 +396,7 @@ import class CGameplayEntity extends CPeristentEntity
 		
 		AddSignHitFacts( sign, "_igni_hit" );
 
-		//notify the gameplay light component, if any (igni can turn on light sources)
+		
 		gameLightComp = GetComponentByClassName('CGameplayLightComponent');
 		if(gameLightComp)
 		{
@@ -433,7 +435,7 @@ import class CGameplayEntity extends CPeristentEntity
 		}
 	}
 	
-	// event raised after entity was hit by fire
+	
 	event OnFireHit(source : CGameplayEntity)
 	{
 		var w3FoodComponents : array<CComponent>;
@@ -441,7 +443,7 @@ import class CGameplayEntity extends CPeristentEntity
 		var actor : CActor;
 		var gameLightComp : CGameplayLightComponent;
 		
-		//notify W3FoodComponents they were hit
+		
 		actor = (CActor)this;
 		if(!actor || !actor.IsAlive())
 		{
@@ -461,20 +463,20 @@ import class CGameplayEntity extends CPeristentEntity
 	
 	event OnYrdenHit( caster : CGameplayEntity )
 	{
-		//tag for quest condition check
+		
 		AddHitFacts( GetTags(), caster.GetTags(), "_yrden_hit" );
 	}
 	
-	//CUSTOM MONSTER ATTACK EVENTS
+	
 	event OnRootHit()
 	{
 		var i : int;
 		var tags : array<name>;
 		
-		//tag for quest condition check
+		
 		tags = GetTags();
 		for(i=0; i<tags.Size(); i+=1)
-			FactsAdd( NameToString(tags[i])+"_roots_hit", 1, 1 );		//valid for 1 sec
+			FactsAdd( NameToString(tags[i])+"_roots_hit", 1, 1 );		
 	}
 		
 	event OnDamageFromJump( activator : CComponent, jumpDistance : float, jumpHeightDiff : float )
@@ -525,9 +527,9 @@ import class CGameplayEntity extends CPeristentEntity
 		return 0;
 	}
 	
-	/////////////////////////////////////////////
-	// focus mode
-	/////////////////////////////////////////////
+	
+	
+	
 	
 	function GetFocusModeSoundEffectName( colorBlindMode : bool ) : name
 	{	
@@ -551,14 +553,14 @@ import class CGameplayEntity extends CPeristentEntity
 	function PlayFocusSoundVisualEffect( effectName : name )
 	{
 		var focusSoundParam : CFocusSoundParam;
-		if ( focusSoundVisualEffectBoneName == '' ) // not initialized yet
+		if ( focusSoundVisualEffectBoneName == '' ) 
 		{
 			focusSoundParam = (CFocusSoundParam)GetGameplayEntityParam( 'CFocusSoundParam' );
 			if ( focusSoundParam )
 			{
 				focusSoundVisualEffectBoneName = focusSoundParam.GetVisualEffectBoneName();
 			}
-			if ( focusSoundVisualEffectBoneName == '' ) // if param not found or bone name not specified
+			if ( focusSoundVisualEffectBoneName == '' ) 
 			{
 				focusSoundVisualEffectBoneName = 'entity';
 			}
@@ -595,7 +597,7 @@ import class CGameplayEntity extends CPeristentEntity
 	
 	event OnFocusModeSound( enabled : bool, colorBlind : bool )
 	{
-		// lazy init of fm colorblind mode check
+		
 		isColorBlindMode = colorBlind;
 
 		if ( !IsAlive() )
@@ -637,12 +639,12 @@ import class CGameplayEntity extends CPeristentEntity
 	
 	public function GetInteractionData( out actionName : name, out text : string ) : bool
 	{
-		//actionName = component.GetInputActionName();
-		//text = component.GetInteractionFriendlyName();
+		
+		
 		return false;
 	}
 }	
-///////////////////////////////////////////////////////////////////////
+
 
 import class IEntityStateChangeRequest extends CObject
 {
@@ -658,12 +660,7 @@ import class CEnableDeniedAreaRequest extends IEntityStateChangeRequest
 	import var enable	: bool;
 };
 
-/* not used, old W2 code
-import class CDoorStateRequest extends IEntityStateChangeRequest
-{
-	import var doorState : EDoorState; 
-	import var immediate : bool;
-};*/
+
 
 import class CPlaySoundOnActorRequest extends IEntityStateChangeRequest
 {

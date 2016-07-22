@@ -1,26 +1,31 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskManageSplashEffect
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Spawn a splash effect when the NPC cross the water level
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 15-August-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskManageSplashEffect extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	private var m_SplashEntityTemplate 			: CEntityTemplate;
 	private var m_PreviousDistanceFromSurface 	: float;
 	
 	private var m_CrossedOnce					: bool;
 	
 	private var couldntLoadResource : bool;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	
 	function IsAvailable() : bool
 	{
@@ -57,15 +62,15 @@ class BTTaskManageSplashEffect extends IBehTreeTask
 		{		
 			l_distanceFromSurface = DistanceFromWaterSurface();
 			
-			// Detect if I cross the surface:
-			// if sign of multi is negative, it means the two numbers have opposite signs.
+			
+			
 			if( m_PreviousDistanceFromSurface != 0 && l_distanceFromSurface * m_PreviousDistanceFromSurface < 0 )
 			{
 				SpawnWaterSplash();
 				m_CrossedOnce = true;
 			}
 			
-			// Safety in case this is task is launched once the npc is already dead below water
+			
 			if( !GetNPC().IsAlive() && l_distanceFromSurface < 0 )
 			{				
 				m_CrossedOnce = true;
@@ -76,8 +81,8 @@ class BTTaskManageSplashEffect extends IBehTreeTask
 		}
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function DistanceFromWaterSurface() : float
 	{
 		var l_position 		: Vector;
@@ -90,8 +95,8 @@ class BTTaskManageSplashEffect extends IBehTreeTask
 		
 		return ( l_position.Z - l_waterLevel );
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function SpawnWaterSplash( )
 	{
 		var l_splashPosition 	: Vector;
@@ -102,15 +107,15 @@ class BTTaskManageSplashEffect extends IBehTreeTask
 		
 		l_splastEntity = theGame.CreateEntity( m_SplashEntityTemplate, l_splashPosition, GetNPC().GetWorldRotation());
 		
-		//GetNPC().GetVisualDebug().AddSphere( 'Splash', 1, l_splashPosition, true, Color(0,0,255) );
-		//GetNPC().GetVisualDebug().AddArrow( 'Splasharrow', GetNPC().GetWorldPosition(), l_splashPosition, 1.f, 0.2f, 0.2f, true, Color(0,0,255), true, 5.f );
+		
+		
 	}
 
 }
 
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskManageSplashEffectDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskManageSplashEffect';

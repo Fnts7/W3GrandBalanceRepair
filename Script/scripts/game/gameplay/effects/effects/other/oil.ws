@@ -1,10 +1,15 @@
-﻿class W3Effect_Oil extends CBaseGameplayEffect
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3Effect_Oil extends CBaseGameplayEffect
 {
-	private saved var currCount : int;			//current oil charges
-	private saved var maxCount : int;			//max oil charges
-	private saved var sword : SItemUniqueId;	//sword item that has the oil applied
-	private saved var oilAbility : name;		//ability of the oil item
-	private saved var oilItemName : name;		//item name of the oil
+	private saved var currCount : int;			
+	private saved var maxCount : int;			
+	private saved var sword : SItemUniqueId;	
+	private saved var oilAbility : name;		
+	private saved var oilItemName : name;		
 	private saved var queueTimer : int;
 	
 	default effectType = EET_Oil;
@@ -16,7 +21,7 @@
 	{
 		var oilParams : W3OilBuffParams;
 		
-		//get stats
+		
 		oilParams = (W3OilBuffParams)customParams;
 		if(oilParams)
 		{
@@ -35,13 +40,13 @@
 	
 	event OnEffectRemoved()
 	{
-		//count alchemy usage but only after nightmare
+		
 		if( ShouldProcessTutorial( 'TutorialAlchemyRefill' ) && FactsQuerySum( "q001_nightmare_ended" ) > 0 && target == GetWitcherPlayer() )
 		{
 			FactsAdd( 'tut_alch_refill', 1 );
 		}
 		
-		//remove oil ability from item
+		
 		target.GetInventory().RemoveItemCraftedAbility( sword, oilAbility );
 		
 		Show( false );
@@ -54,16 +59,16 @@
 		var swordEquipped : bool;
 		var swordEntity : CWitcherSword;
 		
-		//add oil ability to item
+		
 		target.GetInventory().AddItemCraftedAbility( sword, oilAbility );
 				
 		swordEquipped = GetWitcherPlayer().IsItemEquipped( sword );
 		if(swordEquipped)
 		{
-			//When sword is equipped it adds its abilities to player. Since item is equipped it has already done that so we need to do it manually.
+			
 			target.AddAbility( oilAbility );
 			
-			//visuals on blade
+			
 			swordEntity = (CWitcherSword) target.GetInventory().GetItemEntityUnsafe( sword );
 			swordEntity.ApplyOil( oilAbility );
 		}
@@ -85,7 +90,7 @@
 		
 		showOnHUD = visible;
 		
-		//visuals on blade
+		
 		swordEntity = (CWitcherSword) target.GetInventory().GetItemEntityUnsafe( sword );		
 		if( visible )
 		{
@@ -118,7 +123,7 @@
 		queueTimer = 0;
 		UpdateOilsQueue();
 		
-		//show if not visible
+		
 		if( !IsPaused( '' ) )
 		{
 			Show( true );
@@ -240,7 +245,7 @@
 			return EI_Pass;
 		}
 		
-		//choose higher level
+		
 		dm = theGame.GetDefinitionsManager();
 		dm.GetItemAttributeValueNoRandom( oilItemName, true, 'level', min, max );
 		selfLevel = RoundMath( CalculateAttributeValue( min ) );

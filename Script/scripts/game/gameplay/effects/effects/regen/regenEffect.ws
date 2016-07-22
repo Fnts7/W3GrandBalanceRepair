@@ -1,16 +1,17 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/*
-	Effect that regenerates particular character stat.
-*/
+
+
+
 abstract class W3RegenEffect extends CBaseGameplayEffect
 {
-	protected var regenStat : ECharacterRegenStats;			//regenstat (checked from xml) based on which we set the stat to regenerate - it's set in child classes
-	protected saved var stat : EBaseCharacterStats;			//stat to regenerate
-	private var isOnMonster : bool;							//if false then buff is on human
+	protected var regenStat : ECharacterRegenStats;			
+	protected saved var stat : EBaseCharacterStats;			
+	private var isOnMonster : bool;							
 		
 	default isPositive = true;
 	default isNeutral = false;
@@ -26,7 +27,7 @@ abstract class W3RegenEffect extends CBaseGameplayEffect
 		
 		super.OnUpdate(dt);
 		
-		//regen only if stat not maxed or
+		
 		if(stat == BCS_Vitality && isOnPlayer && target == GetWitcherPlayer() && GetWitcherPlayer().HasRunewordActive('Runeword 4 _Stats'))
 		{
 			canRegen = true;
@@ -38,16 +39,16 @@ abstract class W3RegenEffect extends CBaseGameplayEffect
 		
 		if(canRegen)
 		{
-			//max must be read all the time (cannot be cached) because it might change as a result of some other buff
+			
 			regenPoints = effectValue.valueAdditive + effectValue.valueMultiplicative * target.GetStatMax(stat);
 			
 			if (isOnPlayer && regenStat == CRS_Stamina && attributeName == RegenStatEnumToName(regenStat) && GetWitcherPlayer())
 			{
 				baseStaminaRegenVal = GetWitcherPlayer().CalculatedArmorStaminaRegenBonus();
-				//regenPoints *= 1 + armorModVal.valueMultiplicative;
+				
 				regenPoints *= 1 + baseStaminaRegenVal;
 			}
-			//reduced if monster and hp regen lowered due to DOT damage
+			
 			else if(regenStat == CRS_Vitality || regenStat == CRS_Essence)
 			{
 				hpRegenPauseBuff = (W3Effect_DoTHPRegenReduce)target.GetBuff(EET_DoTHPRegenReduce);
@@ -69,7 +70,7 @@ abstract class W3RegenEffect extends CBaseGameplayEffect
 		
 		super.OnEffectAdded(customParams);
 	
-		//deactivate this buff if regen value is undefined
+		
 		if(effectValue == null)
 		{
 			isActive = false;
@@ -106,7 +107,7 @@ abstract class W3RegenEffect extends CBaseGameplayEffect
 							
 		super.CacheSettings();
 		
-		//find which stat we're regenerating - regenstat set in child classes but let's make sure
+		
 		if(regenStat == CRS_Undefined)
 		{
 			dm = theGame.GetDefinitionsManager();

@@ -1,33 +1,38 @@
-﻿// CExplorationStateStepLand
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 07/08/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CExplorationStateStepLand extends CExplorationStateAbstract
 {
 	public				var enabled			: bool;			default	enabled			= false;
 	
-	// Ending
+	
 	private				var	fallCancelled	: bool;
 	private				var	ended			: bool;
 	private editable	var	timeSafetyEnd	: float;		default timeSafetyEnd	= 0.2f;
 	
-	// Direction
+	
 	private				var	directionToLand	: float;
 	
-	// Chain Jump
+	
 	private editable	var	timeToChainJump	: float;		default timeToChainJump	= 0.05f;
 	
-	// Behavior
+	
 	protected editable	var	behAnimEnded	: name;			default	behAnimEnded	= 'LandEnd';
 	protected editable	var	behLandRunS		: name;			default	behLandRunS		= 'LandWalking';
 	protected editable	var	behAnimFall		: name;			default	behAnimFall		= 'StepToFall';
 	
 
-	//---------------------------------------------------------------------------------
+	
 	private function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{	
 		if( !IsNameValid( m_StateNameN ) )
@@ -40,12 +45,12 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 		SetCanSave( false );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddDefaultStateChangesSpecific()
 	{
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{
 		if( !m_ExplorationO.m_CollisionManagerO.GetLandGoesToFall( ) )
@@ -61,7 +66,7 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 		return true;
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateCanEnter( curStateName : name ) : bool
 	{	
 		if( !enabled )
@@ -77,28 +82,28 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateEnterSpecific( prevStateName : name )	
 	{		
 		FindDirectionToFall();
 		
 		PrepareMovementAdjustor();
 		
-		// End		
+		
 		fallCancelled	= false;
 		ended			= false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.AddAnimEventCallback( behAnimEnded, 'OnAnimEvent_SubstateManager' );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{				
-		// Jump
+		
 		if( m_ExplorationO.StateWantsAndCanEnter( 'Jump' ) )
 		{
 			if( m_ExplorationO.GetStateTimeF() >= timeToChainJump )
@@ -108,7 +113,7 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 			}
 		}
 		
-		// End
+		
 		if( ended || ( ( timeSafetyEnd > 0.0f && timeSafetyEnd < m_ExplorationO.GetStateTimeF() ) || ( timeSafetyEnd == 0.0f && 3.0f < m_ExplorationO.GetStateTimeF() ) ) )
 		{			
 			if( fallCancelled )
@@ -132,12 +137,12 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 		return super.StateChangePrecheck();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateExitSpecific( nextStateName : name )
 	{
 		var walkSpeed	: float;
@@ -145,7 +150,7 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 		
 		m_ExplorationO.m_OwnerMAC.GetMovementAdjustor().CancelByName( 'TurnOnStepLand' );
 		
-		// Exit to idle / walk / run
+		
 		if( nextStateName == 'Idle' )
 		{
 			if( thePlayer.GetIsWalking() )
@@ -167,24 +172,24 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function RemoveAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.RemoveAnimEventCallback( behAnimEnded );
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Collision events
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	function ReactToLoseGround() : bool
 	{
 		fallCancelled	= false;
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToHitGround() : bool
 	{		
 		fallCancelled	= true;
@@ -192,13 +197,13 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function CanInteract( ) :bool
 	{		
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		if ( animEventName == behAnimEnded )
@@ -207,20 +212,20 @@ class CExplorationStateStepLand extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function FindDirectionToFall()
 	{
 		directionToLand	= m_ExplorationO.m_OwnerE.GetHeading();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function PrepareMovementAdjustor()
 	{
 		var movAdj 			: CMovementAdjustor;
 		var ticket 			: SMovementAdjustmentRequestTicket;
 		
 		
-		// setup movement adjustment
+		
 		movAdj = m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
 		ticket = movAdj.CreateNewRequest( 'TurnOnStepLand' );
 		

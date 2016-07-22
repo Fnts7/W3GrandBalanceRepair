@@ -1,22 +1,27 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskCompleteOnAnimEvent
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Complete the branch when the anim event is received
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 09-April-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskCompleteOnAnimEvent extends IBehTreeTask
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	editable var animEvent			: name;
 	editable var sucess				: bool;
-	//>----------------------------------------------------------------------
-	//>----------------------------------------------------------------------
+	
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{	
 		if ( animEventName == animEvent )
@@ -26,14 +31,14 @@ class BTTaskCompleteOnAnimEvent extends IBehTreeTask
 		return true;
 	}
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskCompleteOnAnimEventDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskCompleteOnAnimEvent';
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	editable var animEvent			: name;
 	editable var sucess				: bool;
 	

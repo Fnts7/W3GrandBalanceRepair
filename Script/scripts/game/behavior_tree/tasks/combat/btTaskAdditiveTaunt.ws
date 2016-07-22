@@ -1,13 +1,18 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskAdditiveTaunt
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Manage the additive taunt percentage for wolves
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 10-December-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskAdditiveTaunt extends IBehTreeTask
 {
 	public var distMin, distMax	: float;
@@ -34,7 +39,7 @@ class BTTaskAdditiveTaunt extends IBehTreeTask
 			l_npcPos		= l_npc.GetWorldPosition();
 			l_targetPos 	= target.GetWorldPosition();
 			
-			// If the target is not in front, stop the taunting
+			
 			if( AbsF( AngleDistance( l_npc.GetHeading(), VecHeading( l_targetPos - l_npcPos ) ) ) > 120 )
 			{
 				l_npc.SetBehaviorVariable( 'additiveTauntOn', 0.f );

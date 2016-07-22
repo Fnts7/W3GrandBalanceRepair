@@ -1,31 +1,13 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Trigger for show display name on screen (temporary)
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class W3ShowDisplayNameTrigger extends CGameplayEntity
 {
-/*
-	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
-	{
-		var hud : CR4ScriptedHud;
-		hud = (CR4ScriptedHud)theGame.GetHud();
-		if ( hud )
-		{
-			hud.ShowOneliner( GetDisplayName(), this );
-		}
-	}
-	
-	event OnAreaExit( area : CTriggerAreaComponent, activator : CComponent )
-	{
-		var hud : CR4ScriptedHud;
-		hud = (CR4ScriptedHud)theGame.GetHud();
-		if ( hud )
-		{
-			hud.HideOneliner( this );
-		}
-	}
-*/
+
 }

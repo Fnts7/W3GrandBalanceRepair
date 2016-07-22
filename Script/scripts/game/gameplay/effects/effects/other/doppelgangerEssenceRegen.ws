@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : R. Pergent
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Automatic essence regeneration - The speed depends on the number of doppelgangers
+
+
+
 class W3Effect_DoppelgangerEssenceRegen extends CBaseGameplayEffect
 {
 	private var usesVitality : bool;
@@ -45,7 +48,7 @@ class W3Effect_DoppelgangerEssenceRegen extends CBaseGameplayEffect
 		{
 			if( l_doppelgangers[i].GetBehaviorVariable('isDancing') == 1 )
 			{
-				// % per second per doppelganger
+				
 				l_amountToHeal += 0.01f;
 			}
 		}

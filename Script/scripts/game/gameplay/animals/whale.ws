@@ -1,6 +1,11 @@
-﻿//////////////////////////////////////////////////////////////
-// whale
-//////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 
 enum EWhaleMovementPatern
 {
@@ -20,7 +25,7 @@ class W3Whale extends CGameplayEntity
 	var spawnPosition : Vector;
 	var spawnRotation : EulerAngles;
 	
-	//default destroyTime = 4.0f;
+	
 	default canBeDestroyed = false;
 	default alwaysSpawned = false;
 	
@@ -87,16 +92,12 @@ class W3Whale extends CGameplayEntity
 		pos.Z = ( theGame.GetWorld().GetWaterLevel( Vector( pos.X, pos.Y, 50 ) ) - 32.f );
 		Teleport( Vector( pos.X, pos.Y, pos.Z ) );
 	}
-	/*
-	timer function DespawnWhale( deltaTime : float , id : int)
-	{
-		canBeDestroyed = true;
-	}*/
+	
 }
 
 statemachine class W3WhaleArea extends CEntity
 {	
-	//editable var whaleSpawnAreaTag : name;
+	
 	editable var whaleSpawnPointTag 		 : name;
 	editable var whaleSpawnOffsetY 			 : float;
 	editable var minSpawnDistance 			 : float;
@@ -111,11 +112,11 @@ statemachine class W3WhaleArea extends CEntity
 	default spawnFrequencyMax = 25.f;
 	default whaleSpawnOffsetY = 120.f; 
 	default movementPatern = EWMP_awayFromPlayer;
-	//editable var destroyTime : float;
 	
-	//default destroyTime = 4.0;
 	
-	//editable var alwaysSpawned : bool;
+	
+	
+	
 	
 	var whaleTemplate : CEntityTemplate;
 	
@@ -211,8 +212,8 @@ statemachine class W3WhaleArea extends CEntity
 				spawnedWhale.AddTimer( 'EachTick', 0.01f, true );
 				spawnedWhale.SetSpawnPosAndRot(wPos, wRot);
 				spawnedWhale.ApplyAppearance("whale_01");
-				//spawnedWhale.SetDestroyTime( destroyTime );
-				//AddTimer( 'DespawnWhale', timeToDespawn , false, , , true );
+				
+				
 			}
 		}
 		
@@ -235,7 +236,7 @@ statemachine class W3WhaleArea extends CEntity
 					wRot.Roll = 0.f;
 					wRot.Yaw = VecHeading ( dir );
 					
-					//wRot = thePlayer.GetWorldRotation ();
+					
 				}
 				else if ( movementPatern == EWMP_towardsPlayer )
 				{
@@ -244,7 +245,7 @@ statemachine class W3WhaleArea extends CEntity
 					wRot.Roll = 0.f;
 					wRot.Yaw = VecHeading ( dir );
 					
-					//wRot = thePlayer.GetWorldRotation ();
+					
 				}
 				else 
 				{				

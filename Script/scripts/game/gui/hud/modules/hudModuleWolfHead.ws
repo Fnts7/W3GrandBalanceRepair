@@ -1,4 +1,9 @@
-﻿enum EMutationFeedbackType
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EMutationFeedbackType
 {
 	MFT_PlayHide,
 	MFT_PlayOnce,
@@ -59,7 +64,7 @@ class CR4HudModuleWolfHead extends CR4HudModuleBase
 	default m_iCurrentNegativeEffectsSize = 0;
 	default m_IsPlayerCiri				  = false;
 
-	/* flash */ event OnConfigUI()
+	 event OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -146,7 +151,7 @@ class CR4HudModuleWolfHead extends CR4HudModuleBase
 		UpdateFocusPoints();
 		UpdateStateByPlayer();
 		
-		//always wolf's head when combat music is playing OR if our toxicity is above 0 OR if our health is below MAX
+		
 		if ( thePlayer.IsCombatMusicEnabled() || (m_curToxicity > 0.f || m_lockedToxicity > 0.f) || (m_curVitality < m_maxVitality) )
 			SetAlwaysDisplayed( true );
 		else
@@ -165,7 +170,7 @@ class CR4HudModuleWolfHead extends CR4HudModuleBase
 
 		if( l_currentVitality != m_LastVitality ||  l_currentMaxVitality != m_LastMaxVitality )
 		{
-			//Percentage is between 0 and 1
+			
 			m_fxSetVitality.InvokeSelfOneArg( FlashArgNumber(  l_currentVitality / l_currentMaxVitality ) );
 			m_LastVitality = l_currentVitality;
 			m_LastMaxVitality = l_currentMaxVitality;
@@ -189,18 +194,18 @@ class CR4HudModuleWolfHead extends CR4HudModuleBase
 			m_LastStamina 	 = l_curStamina;
 			m_LastMaxStamina = l_curMaxStamina;
 			
-			if ( l_curStamina <= l_curMaxStamina*0.60 ) // if 60% of stamina play soundcue
+			if ( l_curStamina <= l_curMaxStamina*0.60 ) 
 				playStaminaSoundCue = true;
 				
 			if ( l_curStamina <= 0 )
 			{
 				thePlayer.SoundEvent("gui_no_stamina");
-				theGame.VibrateControllerVeryLight(); // no stamina
+				theGame.VibrateControllerVeryLight(); 
 			}
 			else if ( l_curStamina >= l_curMaxStamina && playStaminaSoundCue )
 			{
 				thePlayer.SoundEvent("gui_stamina_recharged");
-				theGame.VibrateControllerVeryLight(); // stamina recharged
+				theGame.VibrateControllerVeryLight(); 
 				playStaminaSoundCue = false;
 			}
 		}
@@ -214,7 +219,7 @@ class CR4HudModuleWolfHead extends CR4HudModuleBase
 
 	public function UpdateToxicity() : void
 	{
-		var curToxicity 	: float;	//current toxicity WITHOUT offset lock
+		var curToxicity 	: float;	
 		var curMaxToxicity 	: float;
 		var curLockedToxicity: float;
 		var damageThreshold	: float;
@@ -224,13 +229,13 @@ class CR4HudModuleWolfHead extends CR4HudModuleBase
 		
 		curLockedToxicity = thePlayer.GetStat(BCS_Toxicity) - curToxicity;
 		
-		//need to keep track of these for displaying/hiding the module
+		
 		m_curToxicity = curToxicity;
 		m_lockedToxicity = curLockedToxicity;
 		
 		if ( m_LastToxicity != curToxicity || m_LastMaxToxicity != curMaxToxicity || m_LastLockedToxicity != curLockedToxicity )
 		{
-			//update locked toxicity if lock or max changed
+			
 			if( m_LastLockedToxicity != curLockedToxicity || m_LastMaxToxicity != curMaxToxicity)
 			{
 				m_fxSetLockedToxicity.InvokeSelfOneArg( FlashArgNumber( ( curLockedToxicity )/ curMaxToxicity ) );
@@ -248,7 +253,7 @@ class CR4HudModuleWolfHead extends CR4HudModuleBase
 				m_bLastDeadlyToxicity = curDeadlyToxicity;
 			}
 			
-			//keep the wolfhead module displayed if 
+			
 		}
 	}
 
@@ -331,7 +336,7 @@ class CR4HudModuleWolfHead extends CR4HudModuleBase
 	
 	public function LockFocusPoints( value : int )
 	{
-		//we only have 3 adrenaline points
+		
 		if ( value <= 3 )
 			m_fxLockFocusPointsSFF.InvokeSelfOneArg( FlashArgInt( value) );
 	}
@@ -430,21 +435,5 @@ exec function coa( val : bool )
 	}
 }
 
-/*
-exec function dmf( val : int )
-{
-	var hud : CR4ScriptedHud;
-	var hudWolfHeadModule : CR4HudModuleWolfHead;		
 
-	hud = (CR4ScriptedHud)theGame.GetHud();
-	if ( hud )
-	{
-		hudWolfHeadModule = (CR4HudModuleWolfHead)hud.GetHudModule( "WolfHeadModule" );
-		if ( hudWolfHeadModule )
-		{
-			hudWolfHeadModule.DisplayMutationFeedback( val );
-		}
-	}
-}
-*/
 

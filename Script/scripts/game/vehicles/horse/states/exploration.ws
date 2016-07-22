@@ -1,4 +1,9 @@
-﻿enum EHorseWaterTestResult
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EHorseWaterTestResult
 {
 	HWTR_Normal,
 	HWTR_Adjusted,
@@ -25,7 +30,7 @@ state Exploration in W3HorseComponent
 	private var inclinationCheckCollisionGroups : array<name>;
 	private var waterCheckCollisionGroups : array<name>;
 	private var threatSum : float;
-	private var triedDoubleTap : bool;				//set if player tried to double tap the speed button
+	private var triedDoubleTap : bool;				
 	private var mac : CMovingAgentComponent;
 	private var isFollowingRoad : bool;
 	private var shouldGoToCanterAfterStop : bool;
@@ -52,15 +57,15 @@ state Exploration in W3HorseComponent
 	
 	
 	default MIN_SPEED = 0.f;
-	default SLOW_SPEED = 0.5f; // if any of this changes please update CMoveSTHorse !!
+	default SLOW_SPEED = 0.5f; 
 	default WALK_SPEED = 1.f;
 	default TROT_SPEED = 2.f;
 	default GALLOP_SPEED = 3.f;
 	default CANTER_SPEED = 4.f;
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// ENTER AND LEAVE /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	event OnEnterState( prevStateName : name )
 	{
@@ -118,9 +123,9 @@ state Exploration in W3HorseComponent
 		theGame.GetGuiManager().DisableHudHoldIndicator();
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// SPEED LOCKS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	private function IsSpeedLocked( optional ignoredLock : name ) : bool
 	{
@@ -171,9 +176,9 @@ state Exploration in W3HorseComponent
 		parent.PopState( true );
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// EVENTS //////////////////////////////////////////taskhors////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	var threatApplicationTimestamp : float;
 	
@@ -201,7 +206,7 @@ state Exploration in W3HorseComponent
 		{
 			timeAfterDismountFinished += dt;
 			
-			// popState 2 sec after dismount. Will make horse slowly stop
+			
 			if ( timeAfterDismountFinished > 2.f )
 			{
 				LeaveThisState();
@@ -245,7 +250,7 @@ state Exploration in W3HorseComponent
 		
 		ResetForceStop();
 		
-		//theGame.GetGuiManager().EnableHudHoldIndicator(IK_Pad_B_CIRCLE, IK_None, "panel_input_action_horsedismount", 0.4);
+		
 	}
 	
 	event OnIdleEnd()
@@ -286,7 +291,7 @@ state Exploration in W3HorseComponent
 		parentActor.AddPanic( actorAttacker.GetThreatLevel() * 10 * threatMult );
 	}
 	
-	// Even though this function is in exploration, it's being called when player is in combat
+	
 	event OnCriticalEffectAdded( criticalEffect : ECriticalStateType )
 	{
 		if( parentActor.HasAbility( 'DisableHorsePanic' ) || thePlayer.HasBuff( EET_Mutagen25 ) )
@@ -300,11 +305,11 @@ state Exploration in W3HorseComponent
 				parent.ShakeOffRider( DT_shakeOff );
 			}
 		}	
-		else if( criticalEffect != ECST_Swarm ) //review request
+		else if( criticalEffect != ECST_Swarm ) 
 		{
 			parentActor.AddPanic( 100 );	
 			
-			//When player is in combat, it's being handled by AI
+			
 			if( !thePlayer.IsInCombat() )
 			{
 				parent.ShakeOffRider( DT_shakeOff );
@@ -341,7 +346,7 @@ state Exploration in W3HorseComponent
 	
 	event OnSettlementEnter()
 	{	
-		// ignoring restrictions if set from quest
+		
 		if( thePlayer.GetIsHorseRacing() )
 		{
 			return false;
@@ -350,7 +355,7 @@ state Exploration in W3HorseComponent
 		{
 			speedRestriction = GALLOP_SPEED;
 			
-			//if enters settlement trigger with highest speed - inform player that the speed is clamping
+			
 			if( currSpeed > speedRestriction )
 				thePlayer.DisplayActionDisallowedHudMessage(EIAB_Undefined, , true);
 		}	
@@ -361,12 +366,12 @@ state Exploration in W3HorseComponent
 		speedRestriction = CANTER_SPEED;
 	}
 	
-	event OnCanGallop()// names are opposite to match UI names
+	event OnCanGallop()
 	{
 		return speedRestriction >= CANTER_SPEED && CanCanter();
 	}
 	
-	event OnCanCanter()// names are opposite to match UI names
+	event OnCanCanter()
 	{
 		if ( speedRestriction >= GALLOP_SPEED )
 			return true;
@@ -428,9 +433,9 @@ state Exploration in W3HorseComponent
 		return collisionAnimTimestamp + collsionAnimCooldown < theGame.GetEngineTimeAsSeconds();
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// INTERNAL FUNCTIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	private var prediction : CHorsePrediction;
 	
@@ -486,9 +491,9 @@ state Exploration in W3HorseComponent
 		parent.InternalSetDirection( 0.f );
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// STEERING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	private const var INPUTMAG_TROT : float;
 	private const var INPUTMAG_WALK : float;
@@ -543,7 +548,7 @@ state Exploration in W3HorseComponent
 		{
 			if( isFollowingRoad && roadFollowBlock == 0.0 )
 			{
-				roadFollowBlock = 1.0; // apply short cooldown for roadFollowing
+				roadFollowBlock = 1.0; 
 				isFollowingRoad = false;
 				mac	= ((CActor)parent.GetEntity()).GetMovingAgentComponent();
 				mac.ResetRoadFollowing();
@@ -553,7 +558,7 @@ state Exploration in W3HorseComponent
 		
 		if( isFollowingRoad && ( lr || fb ) && roadFollowBlock == 0.0 )
 		{
-			roadFollowBlock = 1.0; // apply short cooldown for roadFollowing
+			roadFollowBlock = 1.0; 
 			isFollowingRoad = false;
 			mac	= ((CActor)parent.GetEntity()).GetMovingAgentComponent();
 			mac.ResetRoadFollowing();
@@ -565,7 +570,7 @@ state Exploration in W3HorseComponent
 	
 			if( steeringCorrection )
 			{
-				// dir already set
+				
 			}
 			else if( useLocalSpace )
 			{
@@ -604,34 +609,12 @@ state Exploration in W3HorseComponent
 			
 			prevDir = parent.InternalGetDirection();
 			
-			/*if ( !isInIdle && destSpeed > MIN_SPEED && VecLength2D(GetHorseVelocity()) <= 0 )
-			{
-				parent.InternalSetRotation( 0.f );
-				parent.InternalSetDirection( 0.f );
-				destSpeed = MIN_SPEED;
-				braking = true;
-			}
-			else if ( steeringCorrection && ShouldStopBecauseOfCorrection( inputVecInWS, correctionVec ) )
-			{
-				parent.InternalSetRotation( 0.f );
-				parent.InternalSetDirection( 0.f );
-				destSpeed = MIN_SPEED;
-				braking = true;
-			}
-			else */if( ( speedLocks.Contains( 'OnStop' ) && AbsF(dir) < 0.17f ) )
+			if( ( speedLocks.Contains( 'OnStop' ) && AbsF(dir) < 0.17f ) )
 			{
 				parent.InternalSetRotation( 0.f );
 				parent.InternalSetDirection( 0.f );
 			}
-			/*else if( speedLocks.Contains( 'OnStop' ) && AbsF(dir) > 0.5f )
-			{		
-				if( LineTest( parent.GetWorldPosition(), inputVec, 1.5, 0.0, inputVecInWS, false ) )
-				{
-					parent.GenerateEvent( 'walkBack' );
-					parent.InternalSetRotation( rot );
-					parent.InternalSetDirection( dir );
-				}
-			}*/
+			
 			else if( inputMagnitude >= 0.9 && ( useLocalSpace && AbsF(dir) >= 0.75f ) || ( !useLocalSpace && AbsF( dir ) > 0.75f && AbsF( prevDir ) < 0.17f && destSpeed > MIN_SPEED ) && !parent.IsInCustomSpot() )
 			{
 				parent.InternalSetRotation( 0.f );
@@ -642,7 +625,7 @@ state Exploration in W3HorseComponent
 			}
 			else if( parent.riderSharedParams.mountStatus != VMS_mountInProgress )
 			{
-				// prevent turning other way when reaching 1/-1 border on a stick
+				
 				if ( prevDir > 0.9f && dir < -0.7f )
 				{
 					if ( useLocalSpace )
@@ -697,7 +680,7 @@ state Exploration in W3HorseComponent
 		{
 			ResetRotation();
 			
-			if( speedImpulseTimestamp + 0.2 > theGame.GetEngineTimeAsSeconds() ) // condition for very short or accidental impulses on stick
+			if( speedImpulseTimestamp + 0.2 > theGame.GetEngineTimeAsSeconds() ) 
 			{
 				destSpeed = MIN_SPEED;
 			}
@@ -711,7 +694,7 @@ state Exploration in W3HorseComponent
 					dir = -predInfo.turnAngle / 180.f;
 					rot = dir;
 			
-					//LogChannel( 'HorseSteering', "Direction - " + dir + " || Rotation - " + rot );
+					
 					
 					parent.InternalSetRotation( rot );
 					parent.InternalSetDirection( dir );
@@ -764,7 +747,7 @@ state Exploration in W3HorseComponent
 		var mac : CMovingAgentComponent;
 		var currentDir : float;
 		
-		var speed : float; // speed passed to AdjustRequestedMovementDirectionNavMesh is calculated to distance: dist = capsuleRadius * 2 * speed
+		var speed : float; 
 		var speedModifier : float;
 		var dirModifier : float = 1.0;
 		var followRoad : bool;
@@ -785,7 +768,7 @@ state Exploration in W3HorseComponent
 
 		if( currSpeed == CANTER_SPEED )
 		{
-			speed = 18.75; // 15m
+			speed = 18.75; 
 			
 			if( !stickInput && !thePlayer.GetIsHorseRacing() )
 			{
@@ -804,7 +787,7 @@ state Exploration in W3HorseComponent
 		}
 		else if( currSpeed == GALLOP_SPEED )
 		{
-			speed = 12.5; // 10m
+			speed = 12.5; 
 			
 			if ( !stickInput && !thePlayer.GetIsHorseRacing() )
 			{
@@ -823,7 +806,7 @@ state Exploration in W3HorseComponent
 		}
 		else
 		{
-			speed = 3.75 * speedModifier; // 3m
+			speed = 3.75 * speedModifier; 
 			dirModifier = 1.5;
 			maxAngleForAdjustingDir = 90.0;
 			
@@ -851,11 +834,11 @@ state Exploration in W3HorseComponent
 		{
 			if( currSpeed > TROT_SPEED )
 			{
-				isFollowingRoad = true; // hack for prologue bridge
+				isFollowingRoad = true; 
 			}
 		}
 		
-		// if no correction applied - take only input vector
+		
 		if( cachedVec == correctedDirV )
 		{
 			correctedDirV = inputVector;
@@ -866,7 +849,7 @@ state Exploration in W3HorseComponent
 		
 		correctedDir = ClampF( angleDistance * dirModifier, -180, 180 );
 
-		// debug
+		
 		startPos = parent.GetEntity().GetWorldPosition();
 		endPos = startPos + speed * correctedDirV;
 		((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'correctionLine', startPos, endPos, 1, 0.3, 0.3, true, Color( 255, 255, 255 ), true, 1.0 );
@@ -904,76 +887,11 @@ state Exploration in W3HorseComponent
 	default HEADING_WT = 1.0;
 	default INPUT_WT = 0.25;
 	
-	/*private function ProcessNavigationData( stickInputX : float, stickInputY : float ) : bool
-	{
-		var startPoint : Vector;
-		var testedHeading : Vector;
-		var inputVec : Vector;
-		var horseHeadingVec : Vector;
-		var furthestAccessiblePointForJumpTest : Vector;
-		var willJump : bool;
-		var angleDistanceBetweenInputAndHorse : float;
-		var angleDistanceBetweenCameraAndHorse : float;
-		
-		startPoint = parent.GetWorldPosition();
-		
-		// pick end point for testing
-		if( stickInputX || stickInputY )
-		{
-			inputVec = GetInputVectorInCamSpace( stickInputX, stickInputY );
-			horseHeadingVec = parent.GetHeadingVector();
-					
-			testedHeading = VecNormalize2D( inputVec * INPUT_WT + horseHeadingVec * HEADING_WT );
-		}
-		else
-		{
-			testedHeading = parent.GetHeadingVector();
-		}
-		
-		// if gallop or canter 
-		if( theInput.IsActionPressed( 'Canter' ) ) 
-		{
-			if( LineTest( startPoint, testedHeading, 2.5, 0.25, furthestAccessiblePointForJumpTest, true ) )
-			{
-				return true;
-			}
-			else
-			{
-				angleDistanceBetweenInputAndHorse = AbsF( AngleDistance( VecHeading( inputVec ), parent.GetHeading() ) );
-				angleDistanceBetweenCameraAndHorse = AbsF( AngleDistance( VecHeading( theCamera.GetCameraDirection() ), parent.GetHeading() ) );
-				if( ( !( stickInputX || stickInputY ) || angleDistanceBetweenInputAndHorse <= 45 ) && ( ( stickInputX || stickInputY ) || angleDistanceBetweenCameraAndHorse <= 45 ) && JumpTest( startPoint, testedHeading, furthestAccessiblePointForJumpTest, willJump ) )
-				{
-					Jump();
-					return true;
-				}
-				else if( willJump )
-				{
-					return true;
-				}
-				else
-				{
-					destSpeed = MIN_SPEED;
-					return false;
-				}
-			}
-		}
-		else
-		{
-			if( LineTest( startPoint, testedHeading, 1.65, 0.0, furthestAccessiblePointForJumpTest, true ) )
-			{
-				return true;
-			}
-			else
-			{
-				destSpeed = MIN_SPEED;
-				return false;
-			}
-		}
-	}*/
 	
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////	TESTS FOR RIDING	/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+
+
 	
 	const var NAVDATA_RADIUS : float;
 	const var NAVDATA_LENGTH_MOD_TROT : float;
@@ -1045,7 +963,7 @@ state Exploration in W3HorseComponent
 		startPoint = parent.GetWorldPosition();
 		speed = MaxF( currSpeed, destSpeed );
 		
-		// calculate raw end point (in 2d)
+		
 		if( stickInputX || stickInputY )
 		{
 			inputVec = GetInputVectorInCamSpace( stickInputX, stickInputY );
@@ -1073,7 +991,7 @@ state Exploration in W3HorseComponent
 		
 		if( thePlayer.GetIsHorseRacing() )
 		{
-			iterationsCount =  (int)( MaxF( 2.0, ( iterationsCount / 2 ) ) ); // reduce iterations for horse racing
+			iterationsCount =  (int)( MaxF( 2.0, ( iterationsCount / 2 ) ) ); 
 		}
 		
 		for( i = 0; i < iterationsCount; i += 1 )
@@ -1081,10 +999,10 @@ state Exploration in W3HorseComponent
 			rawEndPoint = startPoint + initialHeading * INCLINATION_BASE_DIST;
 			angle = GetInclinationBetweenPoints( startPoint, rawEndPoint, tempEndPoint, INCLINATION_Z_OFFSET );
 			
-			if( angle == 180.0 ) // angle not found
+			if( angle == 180.0 ) 
 				return false;
 			
-			if( i < 2 && !thePlayer.GetIsHorseRacing() ) // in 2 first iterations check visibility between Geralt's head and returned point, skip in horse racing
+			if( i < 2 && !thePlayer.GetIsHorseRacing() ) 
 			{
 				linkingStartPoint = startPoint;
 				linkingStartPoint.Z += 2.35;
@@ -1095,12 +1013,12 @@ state Exploration in W3HorseComponent
 					return false;
 			}
 			
-			if( angle < -INCLINATION_MAX_ANGLE ) // always stop on slope down
+			if( angle < -INCLINATION_MAX_ANGLE ) 
 			{
-				//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLine', startPoint, tempEndPoint, 1, 0.3, 0.3, true, Color( 255, 255, 0 ), true, 1.0 );
+				
 				return false;
 			}
-			else if( angle > INCLINATION_MAX_ANGLE && !thePlayer.GetIsHorseRacing() ) // reduce speed on slope up, stop only in trot, skip in horse racing
+			else if( angle > INCLINATION_MAX_ANGLE && !thePlayer.GetIsHorseRacing() ) 
 			{
 				if( currSpeed > TROT_SPEED )
 				{
@@ -1133,7 +1051,7 @@ state Exploration in W3HorseComponent
 					break;
 			}
 			
-			//LogBoat( "i: " + i + " || CS: " + currSpeed + " || DS: " + destSpeed );
+			
 			
 			startPoint = tempEndPoint;
 		}
@@ -1143,7 +1061,7 @@ state Exploration in W3HorseComponent
 	
 	private function GetInclinationBetweenPoints( startPoint : Vector, rawEndPoint : Vector, out endPoint : Vector, zOffset : float ) : float
 	{
-		// rawEndPoint should be on the same plane as startPoint, then it is projected on terrain to find proper endPoint
+		
 		var rawEndPointWithZOffsetUp, rawEndPointWithZOffsetDown, normal : Vector;
 		var heightDiff : float;
 		
@@ -1157,10 +1075,10 @@ state Exploration in W3HorseComponent
 			return 180.0;
 		}
 		
-		//((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'circleTestEnd', 1, endPoint, true, Color( 255, 0, 0 ), 3.0 );
 		
-		// calculate height difference between startPoint and endPoint
-		if( startPoint.Z * endPoint.Z >= 0 ) // both positive/negative 
+		
+		
+		if( startPoint.Z * endPoint.Z >= 0 ) 
 		{
 			heightDiff = AbsF( startPoint.Z - endPoint.Z );
 		}
@@ -1248,7 +1166,7 @@ state Exploration in W3HorseComponent
 			endPoint.Z += WATER_DIST_CANTER + 1.0;
 		}
 		
-		// check for bridges etc
+		
 		bridgeCheckUp = cachedEndPoint;
 		bridgeCheckUp.Z += 5.0;
 		bridgeCheckDown = cachedEndPoint;
@@ -1260,23 +1178,23 @@ state Exploration in W3HorseComponent
 		
 		waterDepth = theGame.GetWorld().GetWaterDepth( endPoint, true );
 		
-		if( waterDepth < WATER_MAX_DEPTH || waterDepth == 10000.0 ) // GetWaterDepth() returns 10000 when no water is found
+		if( waterDepth < WATER_MAX_DEPTH || waterDepth == 10000.0 ) 
 		{
-			//LogBoat( "OK || WD: " + waterDepth + " || CS: " + currSpeed + " || DS: " + destSpeed );
+			
 			return true;
 		}
 		else
 		{
-			//((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'c1', 1, bridgeCheckUp, true, Color( 255, 1, 0 ), 3.0 );
-			//((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'c2', 1, bridgeCheckDown, true, Color( 255, 1, 0 ), 3.0 );
-			//LogBoat( "FAILED || WD: " + waterDepth + " || CS: " + currSpeed + " || DS: " + destSpeed );
+			
+			
+			
 			return false;
 		}
 	}
 	
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////	TESTS FOR JUMPING	/////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 	private function PerformWaterJumpTest() : bool
 	{
@@ -1306,14 +1224,14 @@ state Exploration in W3HorseComponent
 			endPointWithBuffer = startPoint + initialHeading * 22.0;
 		}
 		
-		// we could add testing points between endPoint and endPointWithBuffer, if it fails somewhere
+		
 		
 		testedPoints.PushBack( endPoint );
 		testedPoints.PushBack( endPointWithBuffer );
 		
 		for( i = 0; i < 2; i += 1 )
 		{
-			// check for bridges etc
+			
 			bridgeCheckUp = testedPoints[i];
 			bridgeCheckUp.Z += 5.0;
 			bridgeCheckDown = testedPoints[i];
@@ -1321,20 +1239,20 @@ state Exploration in W3HorseComponent
 			if( !theGame.GetWorld().SweepTest( bridgeCheckUp, bridgeCheckDown, 0.05, bridgeCheckOutPoint, normal, waterCheckCollisionGroups ) )
 			{
 				waterDepth = theGame.GetWorld().GetWaterDepth( testedPoints[i], true );
-				//if( i == 0 )
-				//	((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'circleTestEndzaza', 1, testedPoints[i], true, Color( 255, 0, 0 ), 3.0 );
-				//else if( i == 1 )
-				//	((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'circleTestEnd1aaaaa', 1, testedPoints[i], true, Color( 255, 1, 0 ), 3.0 );
 				
-				if( waterDepth > WATER_MAX_DEPTH && waterDepth != 10000.0 ) // GetWaterDepth() returns 10000 when no water is found
+				
+				
+				
+				
+				if( waterDepth > WATER_MAX_DEPTH && waterDepth != 10000.0 ) 
 				{
 					return false;
 				}
 			}
 			else
 			{
-				//((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'circleTestEnd', 1, bridgeCheckOutPoint, true, Color( 255, 0, 0 ), 3.0 );
-				//Log( "found yo point" );
+				
+				
 			}
 		}
 		
@@ -1371,18 +1289,18 @@ state Exploration in W3HorseComponent
 		
 		endPoint = startPoint + initialHeading * anticipationDist;
 		
-		// test for inclination up - detect if we're riding up slope and if so, return true
+		
 		endPointWithZOffsetUp = endPoint;
 		endPointWithZOffsetUp.Z += 10.0;
 		endPointWithZOffsetDown = endPoint;
 		
 		if( theGame.GetWorld().StaticTrace( endPointWithZOffsetUp, endPointWithZOffsetDown, intersectionPoint, tempVector, inclinationCheckCollisionGroups ) )
 		{
-			// point found, test landing area
+			
 			afterLandingEndPoint = intersectionPoint + initialHeading * afterLandingDist;
 			angle = GetInclinationBetweenPoints( intersectionPoint, afterLandingEndPoint, tempVector, 4.5 );
 			
-			//((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'circleTestEnd', 1, intersectionPoint, true, Color( 255, 0, 0 ), 3.0 );
+			
 			
 			
 			
@@ -1392,21 +1310,21 @@ state Exploration in W3HorseComponent
 			}
 			else
 			{
-				//also check if we're not going to land on steep slope on side or near cliff
+				
 				angle = GetInclinationBetweenPoints( afterLandingEndPoint, afterLandingEndPoint - parent.GetWorldRight()*0.5 , tempVector, 4.5 );
 				if( angle < -INCLINATION_MAX_ANGLE || angle > INCLINATION_MAX_ANGLE || angle > 90 )
 				{
 					return false;
 				}
 				
-				//also check if we're not going to land on steep slope on side or near cliff
+				
 				angle = GetInclinationBetweenPoints( afterLandingEndPoint, afterLandingEndPoint + parent.GetWorldRight()*0.5 , tempVector, 4.5 );
 				if( angle < -INCLINATION_MAX_ANGLE || angle > INCLINATION_MAX_ANGLE || angle > 90 )
 				{
 					return false;
 				}
 				
-				// test inclination in final point
+				
 				angle = GetLocalInclination( tempVector );
 				if( angle < -INCLINATION_MAX_ANGLE || angle > INCLINATION_MAX_ANGLE )
 					return false;
@@ -1415,7 +1333,7 @@ state Exploration in W3HorseComponent
 			}
 		}
 
-		// test for inclination down - main check of this function: if no intersection found, return false
+		
 		endPointWithZOffsetUp = endPoint;
 		endPointWithZOffsetDown = startPoint + initialHeading * ( anticipationDist + 4.0 );
 		endPointWithZOffsetDown.Z -= 8.0;
@@ -1426,11 +1344,11 @@ state Exploration in W3HorseComponent
 		}
 		else
 		{
-			// point found, test landing area
+			
 			afterLandingEndPoint = intersectionPoint + initialHeading * afterLandingDist;
 			angle = GetInclinationBetweenPoints( intersectionPoint, afterLandingEndPoint, tempVector, 4.5 );
 			
-			//((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'circleTestEnd', 1, intersectionPoint, true, Color( 255, 0, 0 ), 3.0 );
+			
 			
 			if( angle < -INCLINATION_MAX_ANGLE || angle > INCLINATION_MAX_ANGLE )
 			{
@@ -1438,7 +1356,7 @@ state Exploration in W3HorseComponent
 			}
 			else	
 			{
-				// test inclination in final point
+				
 				angle = GetLocalInclination( tempVector );
 				if( angle < -INCLINATION_MAX_ANGLE || angle > INCLINATION_MAX_ANGLE )
 					return false;
@@ -1484,7 +1402,7 @@ state Exploration in W3HorseComponent
 		
 		startPoint = parent.GetWorldPosition();
 		
-		// pick end point for testing
+		
 		if( stickInputX || stickInputY )
 		{
 			inputVec = GetInputVectorInCamSpace( stickInputX, stickInputY );
@@ -1497,12 +1415,12 @@ state Exploration in W3HorseComponent
 			testedHeading = parent.GetHeadingVector();
 		}
 		
-		// if gallop or canter 
+		
 		if( theInput.IsActionPressed( 'Canter' ) ) 
 		{
-			if( !LineTest( startPoint, testedHeading, 2.5, 1.0, furthestAccessiblePointForJumpTest, true ) ) // is road obstructed?
+			if( !LineTest( startPoint, testedHeading, 2.5, 1.0, furthestAccessiblePointForJumpTest, true ) ) 
 			{
-				if( SweepTest( startPoint, testedHeading, anticipationDist, 0.9, 0.45 ) ) // is road REALLY obstructed? or just green border between navMesh and navTerrain, which fails LineTest
+				if( SweepTest( startPoint, testedHeading, anticipationDist, 0.9, 0.45 ) ) 
 				{
 					return false;	
 				}
@@ -1522,11 +1440,11 @@ state Exploration in W3HorseComponent
 						afterLandingDist = 3.0;
 					}
 					
-					if( CircleTest( startPoint, testedHeading, anticipationDist, 0.5 ) ) // is landing point free?
+					if( CircleTest( startPoint, testedHeading, anticipationDist, 0.5 ) ) 
 					{
-						if( SweepTest( startPoint, testedHeading, anticipationDist, 2.1, 0.75 ) ) // is space between start and land point free?
+						if( SweepTest( startPoint, testedHeading, anticipationDist, 2.1, 0.75 ) ) 
 						{
-							if( LineTest( startPoint + testedHeading * anticipationDist, testedHeading, afterLandingDist, 0.0, furthestAccessiblePointForJumpTest ) ) // is space after landing point free?
+							if( LineTest( startPoint + testedHeading * anticipationDist, testedHeading, afterLandingDist, 0.0, furthestAccessiblePointForJumpTest ) ) 
 							{
 								return true;
 							}
@@ -1567,97 +1485,13 @@ state Exploration in W3HorseComponent
 		return inputVec;
 	}
 	
-	/*private function JumpTest( startPos : Vector, heading : Vector, furthestAccessiblePoint : Vector, optional out willJump : bool ) : bool
-	{
-		var anticipationDist : float;
-		var afterLandingDist : float;
-		
-		switch( currSpeed ) // check allowed speeds and set distance variables
-		{
-			case CANTER_SPEED:
-				anticipationDist = 8.0;
-				//afterLandingDist = 6.2;
-				afterLandingDist = 4.0;
-				break;
-				
-			case GALLOP_SPEED:
-				anticipationDist = 6.5;
-				//afterLandingDist = 5.2;
-				afterLandingDist = 3.0;
-				break;
-				
-			/*case TROT_SPEED:
-				anticipationDist = 4.0;
-				//afterLandingDist = 5.0;
-				afterLandingDist = 2.0;
-				break;*/
+	
 
-			/*default:
-				anticipationDist = 4.0;
-				//afterLandingDist = 5.0;
-				afterLandingDist = 1.5;
-				break;
-		}
-		// jump test from current position
-		if( CircleTest( startPos, heading, anticipationDist, 0.5 ) ) // test landing point
-		{
-			//LogChannel( 'HorseSteering', "JUMP TEST - CIRCLE PASSED" );
-			if( SweepTest( startPos, heading, anticipationDist, 2.1, 0.75 ) ) // test space leading to landing point
-			{
-				//LogChannel( 'HorseSteering', "JUMP TEST - SWEEP PASSED" );
-				if( LineTest( startPos + heading * anticipationDist, heading, afterLandingDist, 0.0, furthestAccessiblePoint ) ) // test way following landing point
-				{
-					//LogChannel( 'HorseSteering', "JUMP TEST - LINE PASSED" );
-					return true;
-				}
-				else
-				{
-					//LogChannel( 'HorseSteering', "JUMP TEST - LINE FAILED" );
-					return false;
-				}
-			}
-			else
-			{
-				//LogChannel( 'HorseSteering', "JUMP TEST - SWEEP FAILED" );
-				return false;
-			}
-		}
-		// jump test from furthestAccessiblePoint given by failed line test
-		else if( furthestAccessiblePoint != Vector( 0, 0, 0 ) && CircleTest( furthestAccessiblePoint, heading, anticipationDist, 0.5 ) )
-		{
-			//LogChannel( 'HorseSteering', "JUMP TEST - POINT - CIRCLE PASSED" );
-			if( SweepTest( furthestAccessiblePoint, heading, anticipationDist, 2.1, 0.75 ) ) // test space leading to landing point
-			{
-				//LogChannel( 'HorseSteering', "JUMP TEST - POINT - SWEEP PASSED" );
-				if( LineTest( furthestAccessiblePoint + heading * anticipationDist, heading, afterLandingDist, 0.0, furthestAccessiblePoint ) ) // test way following landing point
-				{
-					//LogChannel( 'HorseSteering', "JUMP TEST - POINT - LINE PASSED" );
-					willJump = true;
-					return false;
-				}
-				else
-				{
-					//LogChannel( 'HorseSteering', "JUMP TEST - POINT - LINE FAILED" );
-					return false;
-				}
-			}
-			else
-			{
-				//LogChannel( 'HorseSteering', "JUMP TEST - POINT - SWEEP FAILED" );
-				return false;
-			}
-		}
-		else
-		{
-			//LogChannel( 'HorseSteering', "JUMP TEST - CIRCLE AND POINT FAILED" );
-			//LogChannel( 'HorseSteering', "////////////////////////////////////////////" );
-			return false;
-		}
-	}*/
+			
 	
 	private const var NAVTEST_RADIUS : float;
 	
-	default NAVTEST_RADIUS = 0.2; //0.15
+	default NAVTEST_RADIUS = 0.2; 
 	
 	private function LineTest( startPos : Vector, heading : Vector, anticipationDist : float, speedFactor : float, out furthestAccessiblePoint : Vector, optional sideTests : bool ) : bool
 	{
@@ -1668,57 +1502,57 @@ state Exploration in W3HorseComponent
 				
 		if( theGame.GetWorld().NavigationLineTest( startPos, endPos, NAVTEST_RADIUS, false, true ) ) 
 		{
-			//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLine', startPos, endPos, 1, 0.3, 0.3, true, Color( 0, 255, 0 ), true, 1.0 );
+			
 			return true;
 		}
 		else if( sideTests )
 		{
-			//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLine', startPos, endPos, 1, 0.3, 0.3, true, Color( 255, 0, 0 ), true, 1.0 );
+			
 			
 			endPosLeft = startPos + VecRotateAxis( endPos - startPos, Vector( 0, 0, 1 ), Deg2Rad( 30.0 ) );
 			endPosRight = startPos + VecRotateAxis( endPos - startPos, Vector( 0, 0, 1 ), Deg2Rad( -30.0 ) );
 			
 			if( theGame.GetWorld().NavigationLineTest( startPos, endPosLeft, NAVTEST_RADIUS, false, true ) )
 			{
-				//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLineLeft', startPos, endPosLeft, 1, 0.3, 0.3, true, Color( 0, 255, 0 ), true, 1.0 );
+				
 				return true;
 			}
 			else if ( theGame.GetWorld().NavigationLineTest( startPos, endPosRight, 0.15, false, true ) )
 			{
-				//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLineLeft', startPos, endPosLeft, 1, 0.3, 0.3, true, Color( 255, 0, 0 ), true, 1.0 );
-				//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLineRight', startPos, endPosRight, 1, 0.3, 0.3, true, Color( 0, 255, 0 ), true, 1.0 );
+				
+				
 				return true;
 			}
 			else
 			{
-				//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLineLeft', startPos, endPosLeft, 1, 0.3, 0.3, true, Color( 255, 0, 0 ), true, 1.0 );
-				//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLineRight', startPos, endPosRight, 1, 0.3, 0.3, true, Color( 255, 0, 0 ), true, 1.0 );
-				theGame.GetWorld().NavigationClearLineInDirection( startPos, endPos, NAVTEST_RADIUS, furthestAccessiblePoint ); // find furthestAccessiblePoint on line
+				
+				
+				theGame.GetWorld().NavigationClearLineInDirection( startPos, endPos, NAVTEST_RADIUS, furthestAccessiblePoint ); 
 				return false;
 			}
 			
 		}
 		else
 		{
-			//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'lineTestLine', startPos, endPos, 1, 0.3, 0.3, true, Color( 255, 0, 0 ), true, 1.0 );
-			theGame.GetWorld().NavigationClearLineInDirection( startPos, endPos, NAVTEST_RADIUS, furthestAccessiblePoint ); // find furthestAccessiblePoint on line
+			
+			theGame.GetWorld().NavigationClearLineInDirection( startPos, endPos, NAVTEST_RADIUS, furthestAccessiblePoint ); 
 			return false;
 		}
 	}
 	
-	private function CircleTest( startPos : Vector, heading : Vector, anticipationDist : float, radius : float ) : bool // also checks the height
+	private function CircleTest( startPos : Vector, heading : Vector, anticipationDist : float, radius : float ) : bool 
 	{
 		var endPos : Vector;
 		var dummyFloat : float;
 	
 		endPos = startPos + heading * anticipationDist;
 		
-		//((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'circleTestEnd', radius, endPos, true, Color( 0, 255, 0 ), 3.0 );
-		//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'circleTestLine', startPos, endPos, 1, 0.3, 0.3, true, Color( 0, 255, 0 ), true, 3.0 );
+		
+		
 		
 		if( theGame.GetWorld().NavigationCircleTest( endPos, radius ) )
 		{
-			if( theGame.GetWorld().NavigationComputeZ( endPos, endPos.Z - 4.0, endPos.Z + 1.0, dummyFloat ) ) // height test, horse can fall 4 meters max
+			if( theGame.GetWorld().NavigationComputeZ( endPos, endPos.Z - 4.0, endPos.Z + 1.0, dummyFloat ) ) 
 			{
 				return true;
 			}
@@ -1742,8 +1576,8 @@ state Exploration in W3HorseComponent
 		startPos.Z += heightOffset;
 		endPos.Z += heightOffset;
 		
-		//((CActor)parent.GetEntity()).GetVisualDebug().AddSphere( 'sweepTestEnd', radius, endPos, true, Color( 0, 0, 255 ), 1.0 );
-		//((CActor)parent.GetEntity()).GetVisualDebug().AddArrow( 'sweepTestLine', startPos, endPos, 1, 0.3, 0.3, true, Color( 0, 0, 255 ), true, 1.0 );
+		
+		
 		
 		if( !theGame.GetWorld().SweepTest( startPos, endPos, radius, outPos, normal, inclinationCheckCollisionGroups ) ) 
 			return true;
@@ -1751,11 +1585,11 @@ state Exploration in W3HorseComponent
 			return false;
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// LOGIC ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private var rl, fb : float; //FIXME cache input if actor is not moveable - are you sure you want it like that? -TK
+	
+	
+	
+	private var rl, fb : float; 
 	private final function UpdateLogic( dt : float )
 	{
 		var actorParent : CActor;
@@ -1814,7 +1648,7 @@ state Exploration in W3HorseComponent
 			{
 				staminaBreak = true;
 				staminaCooldownTimer = 0.f;
-				theGame.VibrateControllerVeryLight();	//horse sprinting no stamina
+				theGame.VibrateControllerVeryLight();	
 			}
 		}
 		
@@ -1825,7 +1659,7 @@ state Exploration in W3HorseComponent
 		
 		ProcessControlInput( rl, fb, dt, parent.IsControllableInLocalSpace() || parent.riderSharedParams.mountStatus == VMS_mountInProgress );
 
-		if( !PerformNavDataTest() && !isInJumpAnim ) // we're not on navData, perform additional tests
+		if( !PerformNavDataTest() && !isInJumpAnim ) 
 		{
 			if( PerformInclinationTest( rl, fb ) && PerformWaterTest( rl, fb ) )
 			{
@@ -1899,10 +1733,10 @@ state Exploration in W3HorseComponent
 		parent.InternalSetSpeedMultiplier( 1.f );
 		parent.InternalSetSpeed( currSpeed );
 		
-		// sound parameters update
+		
 		CalculateSoundParameters( dt );
-		thePlayer.SoundParameter( "horse_speed", currSpeedSound, 'head' ); // send to player
-		actorParent.SoundParameter( "horse_stamina", actorParent.GetStatPercents( BCS_Stamina ) * 100 ); // send to horse
+		thePlayer.SoundParameter( "horse_speed", currSpeedSound, 'head' ); 
+		actorParent.SoundParameter( "horse_stamina", actorParent.GetStatPercents( BCS_Stamina ) * 100 ); 
 	}
 	
 	private var startSlidingTimeStamp : float;
@@ -1946,7 +1780,7 @@ state Exploration in W3HorseComponent
 					l_slideDir = mac.GetSlideDir();
 					l_slideCoef = mac.GetSlideCoef();
 					
-					//if ( AngleDistance(VecHeading(l_slideDir),parentActor.GetHeading()) >  )
+					
 					
 					LogChannel('HorseSliding',"Sliding Coef: " + l_slideCoef );
 					movementAdjustor = mac.GetMovementAdjustor();
@@ -1974,7 +1808,7 @@ state Exploration in W3HorseComponent
 				if ( notSlidingTimeStamp <= 0 )
 					notSlidingTimeStamp = theGame.GetEngineTimeAsSeconds();
 				
-				// we check if horse is not sliding for 0.5 sec to filter out sliding inaccuracy.
+				
 				if ( theGame.GetEngineTimeAsSeconds() - notSlidingTimeStamp >= 0.5 )
 				{
 					if ( startSlidingTimeStamp > 0.f )
@@ -1991,9 +1825,9 @@ state Exploration in W3HorseComponent
 	}
 	
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// JUMPING /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	private var requestJump 	: bool;
 	private var isInJumpAnim 	: bool;
@@ -2090,7 +1924,7 @@ state Exploration in W3HorseComponent
 
 			EndJump();
 			
-			theGame.VibrateControllerLight();	//horse landed
+			theGame.VibrateControllerLight();	
 			if ( parent.user == thePlayer )
 				theGame.GetGuiManager().EnableHudHoldIndicator(IK_Pad_B_CIRCLE, IK_None, "panel_input_action_horsedismount", 0.4, 'HorseDismount');
 		}
@@ -2117,9 +1951,9 @@ state Exploration in W3HorseComponent
 		return isInJumpAnim;
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUTS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	private var maintainSpeedTimer : float;
 	private var speedTimeoutValue : float;
@@ -2130,10 +1964,10 @@ state Exploration in W3HorseComponent
 	
 	private function CanCanter() : bool
 	{
-		return ( thePlayer.m_SettlementBlockCanter < 1 ) || ( thePlayer.GetIsHorseRacing() ); // #B shouldn't be also here speedRestriction <= CANTER_SPEED ?
+		return ( thePlayer.m_SettlementBlockCanter < 1 ) || ( thePlayer.GetIsHorseRacing() ); 
 	}
 	
-	//called EACH TIME you press the speed button - also if you hold it
+	
 	event OnSpeedPress( action : SInputAction )
 	{
 		var actorParent : CActor;
@@ -2142,7 +1976,7 @@ state Exploration in W3HorseComponent
 		{
 			if( IsPressed( action ) )			
 			{
-				//double tap check
+				
 				if( accelerateTimestamp + DOUBLE_TAP_WINDOW >= theGame.GetEngineTimeAsSeconds() )
 				{
 					triedDoubleTap = true;
@@ -2164,7 +1998,7 @@ state Exploration in W3HorseComponent
 						destSpeed = CANTER_SPEED;
 						
 						SpursKick();
-						//shouldGoToCanterAfterStop = true;
+						
 						if( useSimpleStaminaManagement )
 							ToggleSpeedLock( 'OnGallop', true );
 					}
@@ -2196,7 +2030,7 @@ state Exploration in W3HorseComponent
 		}
 	}
 	
-	//called EACH TIME you hold the speed button
+	
 	event OnSpeedHold( action : SInputAction )
 	{
 		var horseCompToFollow : W3HorseComponent;
@@ -2207,7 +2041,7 @@ state Exploration in W3HorseComponent
 		{	
 			if ( !IsSpeedLocked() && OnCanCanter() )
 			{
-				//this function is also called from ToggleSpeedLock
+				
 				GallopPressed();
 				SpursKick();
 			}
@@ -2217,7 +2051,7 @@ state Exploration in W3HorseComponent
 			ToggleSpeedLock( 'OnGallop', false );
 		}
 		
-		//if hold pressed when trying to use highest possible speed and cannot
+		
 		if( triedDoubleTap && !CanCanter() && IsPressed( action ) )
 		{
 			thePlayer.DisplayActionDisallowedHudMessage( EIAB_Undefined, , thePlayer.m_SettlementBlockCanter >= 1 );
@@ -2278,15 +2112,7 @@ state Exploration in W3HorseComponent
 			if( !dismountRequest && IsReleased( action ) && ( jumpPressTimestamp + 0.2 > theGame.GetEngineTimeAsSeconds() )&& thePlayer.GetIsMovable() && !isInJumpAnim )
 			{
 				requestJump = true;	
-				/*if( JumpTest( parent.GetWorldPosition(), parent.GetHeadingVector(), dummyParameter ) )
-				{
-					thePlayer.RaiseEvent( 'jump' );
-					requestJump = true;
-				}
-				else
-				{
-					return false;
-				}*/
+				
 			}
 		}
 	}
@@ -2357,9 +2183,9 @@ state Exploration in W3HorseComponent
 		dismountRequest = true;
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// MISC ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	private function IsRiderInCombatAction() : bool
 	{
@@ -2455,7 +2281,7 @@ state Exploration in W3HorseComponent
 		var actor : CActor;
 		
 		actor = (CActor)parent.GetEntity();
-		// animals_charmed should not be used as the horse will take the attitude group from its rider
+		
 		return actor && actor.GetBaseAttitudeGroup() != 'animals_peacefull' && parent.controllable;
 	}
 	

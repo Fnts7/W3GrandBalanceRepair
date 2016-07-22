@@ -1,6 +1,11 @@
-﻿import class CMorphedMeshManagerComponent extends CComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CMorphedMeshManagerComponent extends CComponent
 {
-	// Set morph ratio blend, morphRatio will be set automatically to either 0 or 1
+	
 	import final function SetMorphBlend( morphRatio : float, blendtime : float );
 	import final function GetMorphBlend() : float;
 }

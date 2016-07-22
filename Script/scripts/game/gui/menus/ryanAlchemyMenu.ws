@@ -1,15 +1,16 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - menu base
-/** Common background for menus
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Ryan Pergent
-/***********************************************************************/
+
+
+
 class CR4RyanAlchemyMenu extends CR4Menu
 {	
-	//>--------------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------------
+	
+	
+	
 	private const var KEY_RECIPE_LIST			:string; 		default KEY_RECIPE_LIST 		= "RecipeList";
 	
 	private var m_flashValueStorage : CScriptedFlashValueStorage;
@@ -17,9 +18,9 @@ class CR4RyanAlchemyMenu extends CR4Menu
 	private var m_inventory			: CInventoryComponent;
 	private var m_recipeList		: array< SAlchemyRecipe >;
 	
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
-	event /*flash*/ OnConfigUI()
+	
+	
+	event  OnConfigUI()
 	{	
 		m_flashValueStorage = GetMenuFlashValueStorage();
 		
@@ -27,14 +28,14 @@ class CR4RyanAlchemyMenu extends CR4Menu
 		
 		PopulateData();
 	}
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
+	
+	
 	event OnCloseMenu()
 	{
 		CloseMenu();
 	}
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
+	
+	
 	event OnBrew( _RecipeIndex : int )
 	{
 		var l_recipe			: SAlchemyRecipe;		
@@ -47,8 +48,8 @@ class CR4RyanAlchemyMenu extends CR4Menu
 		
 		PopulateData();
 	}
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
+	
+	
 	private function PopulateData() : void
 	{
 		var	i 						: int;

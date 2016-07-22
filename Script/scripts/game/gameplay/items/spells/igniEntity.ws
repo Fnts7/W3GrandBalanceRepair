@@ -1,11 +1,16 @@
-﻿struct SIgniEffects
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+struct SIgniEffects
 {
 	editable var throwEffect	: name;
 	editable var forestEffect	: name;
 	editable var upgradedThrowEffect : name;
-	editable var meltArmorEffect : name;		//fx added when using melt skill with base aspect
-	editable var combustibleEffect : name;		//fx added when using combustible skill with base aspect
-	editable var throwEffectSpellPower : name;		//fx used when using spell power skill with base aspect
+	editable var meltArmorEffect : name;		
+	editable var combustibleEffect : name;		
+	editable var throwEffectSpellPower : name;		
 }
 
 struct SIgniAspect
@@ -24,27 +29,27 @@ struct SIgniChannelDT
 
 statemachine class W3IgniEntity extends W3SignEntity
 {
-	private var collisionFxEntity, rangeFxEntity	: CEntity;				//igni channeling's collision & range fx entities
-	private var channelBurnTestDT : array<SIgniChannelDT>;					//dts for burning buff test for channeling
-	private var lastCollisionFxPos : Vector;								//recently updated collision fx position
+	private var collisionFxEntity, rangeFxEntity	: CEntity;				
+	private var channelBurnTestDT : array<SIgniChannelDT>;					
+	private var lastCollisionFxPos : Vector;								
 	
-	private const var CHANNELLING_BURN_TEST_FREQUENCY : float;		//frequency of burning buff application test for channeling mode
+	private const var CHANNELLING_BURN_TEST_FREQUENCY : float;		
 	
 		default CHANNELLING_BURN_TEST_FREQUENCY = 0.2;
 
-	// all aspects data of sign casting should be placed here thru editor
+	
 	editable var aspects			: array< SIgniAspect >;
 
 	editable var effects			: array< SIgniEffects >;
 	
-	//for additional effects
+	
 	private var forestTrigger		: W3ForestTrigger;
 			
 	default skillEnum = S_Magic_2;
 
 	var projectileCollision 		: array< name >;
 	
-	// holds handles to already hit entities, to prevent from hitting twice in channeled mode
+	
 	var hitEntities					: array< CGameplayEntity >;
 	
 	public 	  var lastFxSpawnTime : float;
@@ -86,7 +91,7 @@ statemachine class W3IgniEntity extends W3SignEntity
 		projectileCollision.PushBack( 'BoatDocking' );
 		projectileCollision.PushBack( 'Platforms' );
 		projectileCollision.PushBack( 'Corpse' );
-		projectileCollision.PushBack( 'ParticleCollider' ); //Added so it can collide with Aard, but Geralt isn't blocked. Used for QFM_Hit_By_Aard on otherwise non-colliding objects. DZ
+		projectileCollision.PushBack( 'ParticleCollider' ); 
 	
 		if ( owner.ChangeAspect( this, S_Magic_s02 ) )
 		{
@@ -104,13 +109,13 @@ statemachine class W3IgniEntity extends W3SignEntity
 	
 	protected function FillActionBuffsFromSkill(act : W3DamageAction)
 	{
-		//no burning if using 360 runeword
+		
 		if(fireMode != 2)
 			super.FillActionBuffsFromSkill(act);
 	}
 	
-	//Updates dt for burning effect application for given target actor. Once every CHANNELLING_BURN_TEST_FREQUENCY seconds
-	//a burning application test will be allowed. Function returns true if test should be done.
+	
+	
 	public function UpdateBurningChance(actor : CActor, dt : float) : bool
 	{
 		var i, j : int;
@@ -154,7 +159,7 @@ statemachine class W3IgniEntity extends W3SignEntity
 	{
 		var entity : CEntity;
 		
-		entity = theGame.GetEntityByTag( 'forest' );		//PFTODO: only one? shouldn't we get all?
+		entity = theGame.GetEntityByTag( 'forest' );		
 		if(entity)
 			forestTrigger = (W3ForestTrigger)entity;
 				
@@ -174,14 +179,14 @@ statemachine class W3IgniEntity extends W3SignEntity
 			}
 		}
 			
-		//additional cone fx
+		
 		if(!IsAlternateCast())
 		{
-			//melt
+			
 			if(owner.CanUseSkill(S_Magic_s08))
 				PlayEffect(effects[0].meltArmorEffect);
 			
-			//combustible
+			
 			if(owner.CanUseSkill(S_Magic_s09))
 				PlayEffect(effects[0].combustibleEffect);
 		}
@@ -197,25 +202,25 @@ statemachine class W3IgniEntity extends W3SignEntity
 		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'FireDanger', 5, 8.0f, -1.f, -1, true, true );
 	}
 		
-	//displays collision fx at designated pos
+	
 	public function ShowChannelingCollisionFx(pos : Vector, rot : EulerAngles, normall : Vector)
 	{
 		var collisionFxTemplate : CEntityTemplate;
 		var coll, normal : Vector;
 		
-		//update position only if it changed significantly. Otherwise it will bounce back and forth by a small distance as the hand is animated while
-		//channeling, so the collision is slightly different
+		
+		
 		if(VecDistance(lastCollisionFxPos, pos) > 0.35)
 		{
 			lastCollisionFxPos = pos;
 			
 			if(theGame.GetWorld().StaticTrace(GetWorldPosition(), pos, coll, normal))
 			{
-				//test for more accurate position of collision (projectile is a box, not a point)
+				
 				pos = coll;
 			}
 			
-			//a little bit before the collision pos - otherwise broken meshes obstruct the light
+			
 			pos = pos + normall * 0.1;
 		
 			if(!collisionFxEntity)
@@ -255,14 +260,14 @@ statemachine class W3IgniEntity extends W3SignEntity
 		super.CleanUp();
 	}
 	
-	//if called then igni stopped colliding with something
+	
 	timer function CollisionFXTimedOutDestroy(dt : float, id : int)
 	{
 		if(collisionFxEntity)
 			collisionFxEntity.AddTimer('TimerStopVisualFX', 0.001, , , , true);
 	}
 	
-	//if called then igni started colliding with something
+	
 	timer function RangeFXTimedOutDestroy(dt : float, id : int)
 	{
 		if(rangeFxEntity)
@@ -309,15 +314,15 @@ state IgniCast in W3IgniEntity extends NormalCast
 		var dist, aspectDist : float;
 		var angle : float;
 
-		// set spawning position
+		
 		spawnPos = parent.GetWorldPosition();
 		spawnRot = parent.GetWorldRotation();		
 		heading = parent.owner.GetActor().GetHeadingVector();
 		casterActor = caster.GetActor();
 
-		//we move the projectile back as a hackfix for situations where:
-		// geralt would stand facing a wall and thus create projectile inside wall causing it to work on the other side of the collision
-		// geralt would stande close to a fireplace and his projectile would be created 'beyond' it and thus not work with it
+		
+		
+		
 		projectile = (W3SignProjectile)theGame.CreateEntity( parent.aspects[parent.fireMode].projTemplate, spawnPos - heading * 0.7f, spawnRot );
 		projectile.ExtInit( caster, parent.skillEnum, parent );
 		
@@ -333,13 +338,13 @@ state IgniCast in W3IgniEntity extends NormalCast
 			attackRange = theGame.GetAttackRangeForEntity( parent, 'cone' );
 		
 		projectile.SetAttackRange( attackRange );
-		// shoot cake 3.5 m height and 30 m/s fast
+		
 		if(parent.fireMode == 2)
 			projectile.SphereOverlapTest(distance, parent.projectileCollision);		
 		else
 			projectile.ShootCakeProjectileAtPosition( parent.aspects[parent.fireMode].cone, 3.5f, 0.0f, 30.0f, spawnPos + heading * distance, distance, parent.projectileCollision );		
 		
-		// Inform swarms about igni cast
+		
 		aspectDist 		= parent.aspects[parent.fireMode].distance;
 		castDir 		= MatrixGetAxisX( casterActor.GetBoneWorldMatrixByIndex( parent.boneIndex ) );
 		castDirEuler 	= VecToRotation( castDir );
@@ -486,9 +491,9 @@ state IgniChanneled in W3IgniEntity extends Channeling
 		{
 			currTime = theGame.GetEngineTimeAsSeconds();
 			if(lastTime == -1)
-				lastTime = currTime;	//on first run dt is 0
+				lastTime = currTime;	
 			
-			if(currTime - lastTime > 0)	//because SleepOneFrame() is broken
+			if(currTime - lastTime > 0)	
 				ProcessThrow(currTime - lastTime);
 				
 			lastTime = currTime;			
@@ -529,13 +534,13 @@ state IgniChanneled in W3IgniEntity extends Channeling
 		
 		casterActor = caster.GetActor();
 		
-		// set spawning position		
+		
 		spawnPos = parent.GetWorldPosition();
 		spawnRot = parent.GetWorldRotation();
 		
-		//we move the projectile back as a hackfix for situations where:
-		// geralt would stand facing a wall and thus create projectile inside wall causing it to work on the other side of the collision
-		// geralt would stande close to a fireplace and his projectile would be created 'beyond' it and thus not work with it
+		
+		
+		
 		projectile = GetReusableProjectile( spawnPos - 0.7 * casterActor.GetHeadingVector(), spawnRot, dt );
 		
 		if(true)

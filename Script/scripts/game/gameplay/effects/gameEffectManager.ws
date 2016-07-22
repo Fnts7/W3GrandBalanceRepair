@@ -1,30 +1,22 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Rafal Jarczewski, Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/**
-	Factory class for creating effect objects. It also holds all global data.
-	
-	When an effect object is required we check if it's cached already. If so then
-	we return a clone of the cache. If not we cache it first.
-	
-	The exception is autobuffs which are set in entity templates. They cannot use the factory 
-	model are we're given ready objects at the start of the game.
-	
-	This class also holds global info read from XML such as icon types and
-	available effects' names.
-*/
+
+
+
 class W3GameEffectManager
 {
-	private var effects : array< CBaseGameplayEffect >;			//array of cached effects
-	private var effectNames : array<name>;						//array of effect names
-	private var isReady : bool;									//if true then everything is initialized and ready to be used (e.g. we can start checking effect names now)
-	private var effectIconTypes : array<SEffectIconType>;		//'map' of effect icon types and their paths
+	private var effects : array< CBaseGameplayEffect >;			
+	private var effectNames : array<name>;						
+	private var isReady : bool;									
+	private var effectIconTypes : array<SEffectIconType>;		
 	
 		default isReady = false;
 	
-	//caches effect names (needed for IsEffectNameValid()) and autobuffs which are not added by the factory but set in the editor
+	
 	function Initialize()
 	{
 		var i,size : int;
@@ -34,17 +26,17 @@ class W3GameEffectManager
 		var iconType : SEffectIconType;
 		var path : string;
 		
-		//hackfix for broken engine object saving
+		
 		isReady = false;
 		effects.Clear();
 		effectNames.Clear();
 		effectIconTypes.Clear();
-		//end hack
+		
 		
 		dm = theGame.GetDefinitionsManager();
 		main = dm.GetCustomDefinition('effects');
 		
-		//cache effect names
+		
 		for(i=0; i<main.subNodes.Size(); i+=1)
 		{
 			if(dm.GetCustomNodeAttributeValueName(main.subNodes[i], 'name_name', effectName))
@@ -56,7 +48,7 @@ class W3GameEffectManager
 			}
 		}
 		
-		//cache icon type's paths
+		
 		main = dm.GetCustomDefinition('effect_icons');
 		for(i=0; i<main.subNodes.Size(); i+=1)
 		{
@@ -70,7 +62,7 @@ class W3GameEffectManager
 		
 		effects.Grow( (int)EET_EffectTypesSize );
 		
-		//cache autobuffs - they are defined outside of scripts
+		
 		for(i=0; i<effectNames.Size(); i+=1)
 			if(IsBuffAutoBuff(i))
 				CacheEffect(i);	
@@ -78,10 +70,7 @@ class W3GameEffectManager
 		isReady = true;
 	}
 	
-	/*
-		Returns a string path of icon for given effect type (e.g. stat boost, or stamina decrease (for whatever reason) ).
-		Used by buffs to set their icons.
-	*/
+	
 	public function GetPathForEffectIconTypeName(type : name) : string
 	{
 		var i : int;
@@ -96,7 +85,7 @@ class W3GameEffectManager
 		return "";
 	}
 	
-	// Returns localization key for effect's name
+	
 	public function GetEffectNameLocalisationKey( effect : EEffectType ) : string
 	{
 		if( !effects[effect] )
@@ -105,7 +94,7 @@ class W3GameEffectManager
 		return effects[effect].GetEffectNameLocalisationKey();
 	}
 	
-	// Returns localization key for effect's description
+	
 	public function GetEffectDescriptionLocalisationKey( effect : EEffectType ) : string
 	{
 		if( !effects[effect] )
@@ -114,7 +103,7 @@ class W3GameEffectManager
 		return effects[effect].GetEffectDescriptionLocalisationKey();
 	}
 
-	// Gets string with icon of given effect
+	
 	public function GetEffectIconPath( effect : EEffectType ) : string
 	{
 		if( !effects[effect] )
@@ -125,7 +114,7 @@ class W3GameEffectManager
 
 	public function IsReady() : bool {return isReady;}
 	
-	// Gets immunity flags of this buff
+	
 	public function GetEffectTypeFlags(effect : EEffectType, out potion, positive, neutral, negative, immobilize, confuse, damage : bool)
 	{
 		if( !effects[effect] )
@@ -152,17 +141,17 @@ class W3GameEffectManager
 			damage = false;
 	}
 	
-	//Returns new effect object of chosen type created in provided owner
+	
 	public function MakeNewEffect(effect : EEffectType, ownr : CGameplayEntity, target : CActor, effectManager : W3EffectManager, inDuration : float, srcName : string, optional powerStatValue : SAbilityAttributeValue, optional customVal : SAbilityAttributeValue, optional customAbilityName : name, optional customFXName : name, optional signEffect : bool, optional vibratePadLowFreq : float, optional vibratePadHighFreq : float) : CBaseGameplayEffect
 	{
 		var e : CBaseGameplayEffect;
 		var params : SEffectInitInfo;
 	
-		//ignore invalid enums, e.g. if called from some loop
+		
 		if(effect == EET_Undefined || effect == EET_Unused1)
 			return NULL;
 		
-		//get cached effect
+		
 		if(!effects[effect])
 			CacheEffect(effect);
 			
@@ -189,12 +178,12 @@ class W3GameEffectManager
 		return e;
 	}		
 
-	// Creates new default effect of chosen type and caches it.
+	
 	private function CacheEffect(effect : EEffectType)
 	{
 		var ret : bool;
 		
-		//ignore invalid enums, e.g. if called from some loop
+		
 		if(effect == EET_Undefined || effect == EET_Unused1)
 			return;
 			
@@ -227,7 +216,7 @@ class W3GameEffectManager
 	
 		switch(effect)
 		{
-			// AUTO
+			
 			case EET_AutoEssenceRegen :			effects[effect] = new W3Effect_AutoEssenceRegen in this; 			break;
 			case EET_AutoMoraleRegen :			effects[effect] = new W3Effect_AutoMoraleRegen in this; 			break;
 			case EET_AutoStaminaRegen :			effects[effect] = new W3Effect_AutoStaminaRegen in this; 			break;
@@ -238,7 +227,7 @@ class W3GameEffectManager
 			case EET_DoppelgangerEssenceRegen :	effects[effect] = new W3Effect_DoppelgangerEssenceRegen in this;	break;
 			case EET_AdrenalineDrain :			effects[effect] = new W3Effect_AdrenalineDrain in this;				break;
 			
-			// CRITICAL	
+			
 			case EET_Blindness : 				effects[effect] = new W3BlindnessEffect in this; 					break;
 			case EET_WraithBlindness : 			effects[effect] = new W3WraithBlindnessEffect in this; 				break;
 			case EET_Confusion :				effects[effect] = new W3ConfuseEffect in this; 						break;
@@ -262,7 +251,7 @@ class W3GameEffectManager
 			case EET_Tornado : 					effects[effect] = new W3Effect_Tornado in this; 					break;
 			case EET_Trap : 					effects[effect] = new W3Effect_Trap in this; 						break;
 			
-			// DAMAGE OVER TIME	
+			
 			case EET_Bleeding :					effects[effect] = new W3Effect_Bleeding in this; 					break;
 			case EET_BleedingTracking :			effects[effect] = new W3Effect_BleedingTracking in this;			break;
 			case EET_Burning :					effects[effect] = new W3Effect_Burning in this; 					break;
@@ -270,7 +259,7 @@ class W3GameEffectManager
 			case EET_PoisonCritical :			effects[effect] = new W3Effect_PoisonCritical in this; 				break;
 			case EET_DoTHPRegenReduce : 		effects[effect] = new W3Effect_DoTHPRegenReduce in this; 			break;
 			
-			//DRAIN		
+			
 			case EET_Toxicity :					effects[effect] = new W3Effect_Toxicity in this; 					break;
 			case EET_VitalityDrain :			effects[effect] = new W3Effect_VitalityDrain in this; 				break;
 			case EET_AirDrain :					effects[effect] = new W3Effect_AirDrain in this; 					break;
@@ -278,7 +267,7 @@ class W3GameEffectManager
 			case EET_StaminaDrainSwimming :		effects[effect] = new W3Effect_StaminaDrainSwimming in this;		break;
 			case EET_StaminaDrain :				effects[effect] = new W3Effect_StaminaDrain in this;				break;
 			
-			// POTIONS	
+			
 			case EET_BlackBlood :				effects[effect] = new W3Potion_BlackBlood in this; 					break;
 			case EET_Blizzard :					effects[effect] = new W3Potion_Blizzard in this; 					break;
 			case EET_Cat :						effects[effect] = new W3Potion_Cat in this; 						break;
@@ -296,13 +285,13 @@ class W3GameEffectManager
 			case EET_PheromoneDrowner :			effects[effect] = new W3Potion_PheromoneDrowner in this; 			break;
 			case EET_PheromoneBear :			effects[effect] = new W3Potion_PheromoneBear in this; 				break;
 			
-			// SKILLS	
+			
 			case EET_AxiiGuardMe :				effects[effect] = new W3Effect_AxiiGuardMe in this; 				break;
 			case EET_BattleTrance :				effects[effect] = new W3Effect_BattleTrance in this;				break;
 			case EET_YrdenHealthDrain :			effects[effect] = new W3Effect_YrdenHealthDrain in this;			break;
 			case EET_IgnorePain :				effects[effect] = new W3Effect_IgnorePain in this;					break;
 			
-			// SHRINE BUFFS	
+			
 			case EET_ShrineAard :				effects[effect] = new W3Effect_ShrineAard in this; 					break;
 			case EET_ShrineAxii :				effects[effect] = new W3Effect_ShrineAxii in this; 					break;
 			case EET_ShrineIgni :				effects[effect] = new W3Effect_ShrineIgni in this; 					break;
@@ -311,7 +300,7 @@ class W3GameEffectManager
 			case EET_EnhancedArmor:				effects[effect] = new W3Effect_EnhancedArmor in this; 				break;
 			case EET_EnhancedWeapon:			effects[effect] = new W3Effect_EnhancedWeapon in this; 				break;
 			
-			//OTHER		
+			
 			case EET_AirBoost :					effects[effect] = new W3Effect_AirBoost in this;					break;
 			case EET_Edible :					effects[effect] = new W3Effect_Edible in this; 						break;
 			case EET_LowHealth :				effects[effect] = new W3Effect_LowHealth in this; 					break;
@@ -350,10 +339,10 @@ class W3GameEffectManager
 			case EET_ToxicityVenom :			effects[effect] = new W3Effect_ToxicityVenom in this;				break;
 			case EET_BasicQuen :				effects[effect] = new W3Effect_BasicQuen in this;					break;
 			
-			//FACT POTIONS	
+			
 			case EET_Fact : 					effects[effect] = new W3Potion_Fact in this;						break;
 			
-			//APPLICATORS	
+			
 			case EET_StaggerAura :				effects[effect] = new W3StaggerAura in this;						break;
 			case EET_FireAura :					effects[effect] = new W3FireAura in this;							break;
 			case EET_WeakeningAura : 			effects[effect] = new W3WeakeningAura in this;						break;
@@ -380,7 +369,7 @@ class W3GameEffectManager
 	
 		switch(effect)
 		{
-			// MUTAGENS
+			
 			case EET_Mutagen01 : 				effects[effect] = new W3Mutagen01_Effect in this;					break;
 			case EET_Mutagen02 : 				effects[effect] = new W3Mutagen02_Effect in this;					break;
 			case EET_Mutagen03 : 				effects[effect] = new W3Mutagen03_Effect in this;					break;
@@ -410,7 +399,7 @@ class W3GameEffectManager
 			case EET_Mutagen27 : 				effects[effect] = new W3Mutagen27_Effect in this;					break;
 			case EET_Mutagen28 : 				effects[effect] = new W3Mutagen28_Effect in this;					break;
 			
-			// OTHER
+			
 			case EET_Acid :						effects[effect] = new W3Effect_Acid in this;						break;
 			case EET_WellRested :				effects[effect] = new W3Effect_WellRested in this;					break;
 			case EET_HorseStableBuff :			effects[effect] = new W3Effect_HorseStableBuff in this;				break;
@@ -438,7 +427,7 @@ class W3GameEffectManager
 		return effects[effect].GetResistStat();
 	}
 	
-	//ACHTUNG! This will cache the buff if not cached already so it's not a light function!
+	
 	public function IsBuffNegative(effectType : EEffectType) : bool
 	{
 		if(!effects[effectType])
@@ -450,7 +439,7 @@ class W3GameEffectManager
 		return effects[effectType].IsNegative();
 	}
 		
-	//Returns true if provided name is a valid effect name.
+	
 	public function IsEffectNameValid( effectName : name ) : bool
 	{
 		var i,size : int;
@@ -468,7 +457,7 @@ class W3GameEffectManager
 			}
 			else
 			{
-				//used by effects with custom abilities e.g. BurningEffect_HighDamage
+				
 				StrSplitFirst(NameToString(effectName),"_",effectType,tmp);
 				if(NameToString(effectNames[i]) == effectType)
 					return true;
@@ -478,29 +467,7 @@ class W3GameEffectManager
 		return false;
 	}	
 		
-	/**
-		Checks interaction between effects 
-		Interaction matrix:
-		
-		      |D|O|P|  <- old
-		    |D|D|D|D|
-		new |O|D|O|O|
-		    |P|D|D|P|
-		
-		Deny
-		Override
-		Pass
-		
-		@params
-		effect - new effect that might be applied
-		
-		@out
-		overridenEffectsIdxs - if function returns true then this is an array of indexes of effects to remove when new effect is applied (overriden effects)
-		cumulateIdx - if function returns true then this is an array of indexes of effects to cumulate with
-		
-		@returns
-		true if effect can be applied, false otherwise
-	*/
+	
 	public function CheckInteractionWith(effectManager : W3EffectManager, effect : CBaseGameplayEffect, interactionEffects : array<CBaseGameplayEffect>, out overridenEffectsIdxs : array<int>, out cumulateIdx : int) : bool
 	{
 		var i, size, tmpCumulate : int;		
@@ -512,29 +479,29 @@ class W3GameEffectManager
 		tmpCumulate = -1;
 		for(i=size-1; i>=0; i-=1)
 		{
-			//check new against old
+			
 			interactNew = effect.GetInteraction(interactionEffects[i]);
 			interactOld = interactionEffects[i].GetInteraction(effect);
 						
-			//new can cumulate with old to make it better
+			
 			if(interactOld == EI_Cumulate)
 			{
 				tmpCumulate = i ;
 				continue;
 			}
 			
-			//old can cumulate with new -> old one is better so skip the new one
+			
 			if(interactNew == EI_Cumulate)
 			{
 				LogEffects("EffectManager.CheckInteraction: new effect <<" + interactionEffects[i] + ">> should be cumulated by old effect <<" + effect + ">> - older is better - DENY");
 				return false;
 			}
 			
-			//new overrides old
+			
 			if(interactNew == EI_Override)
 				overridenEffectsIdxs.PushBack(i);	
 			
-			//new denies old - remove old
+			
 			if(interactNew == EI_Deny)
 			{
 				LogEffects("EffectManager.CheckInteraction: new effect <<" + effect + ">> denies old effect <<" + interactionEffects[i] + ">> - old is removed");
@@ -543,14 +510,14 @@ class W3GameEffectManager
 				return true;
 			}
 				
-			//check old against new			
+			
 			if(interactOld == EI_Deny)
 			{
 				LogEffects("EffectManager.CheckInteraction: old effect <<" + interactionEffects[i] + ">> denies new effect <<" + effect + ">> - DENY");
 				return false;
 			}
 			
-			//if older stronger than new one - deny
+			
 			if(interactOld == EI_Override && interactNew == EI_Pass)
 			{
 				LogEffects("EffectManager.CheckInteraction: old effect <<" + interactionEffects[i] + ">> overrides new effect <<" + effect + ">> - DENY");
@@ -563,7 +530,7 @@ class W3GameEffectManager
 	}
 }
 
-//Returns true if provided name is a valid effect name. Wraps GameEffectManager function for global use
+
 function IsEffectNameValid( effectName : name ) : bool
 {
 	if(theGame.IsEffectManagerInitialized())
@@ -573,7 +540,7 @@ function IsEffectNameValid( effectName : name ) : bool
 	return false;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 function DecoctionEffectTypeToItemName( effectType : EEffectType ) : name
 {
 	var itemName : name;
@@ -614,8 +581,8 @@ function DecoctionEffectTypeToItemName( effectType : EEffectType ) : name
 	return itemName;
 }
 
-//Converts effect name (read from XML) to effect type
-// remember also about EffectTypeToName
+
+
 function EffectNameToType(effectName : name, out type : EEffectType, out abilityName : name)
 {
 	var ret : bool;
@@ -635,11 +602,11 @@ function HACK_NO_MEMORY_TO_COMPILE_EffectNameToType_Part1(effectName : name, out
 
 	if(StrSplitFirst(NameToString(effectName),"_",effectType,abilityNameStr))
 	{
-		abilityName = effectName;	//if name has custom ability attached e.g. BurningEffect_HighDamage
+		abilityName = effectName;	
 	}
 	else
 	{
-		effectType = effectName;	//no ability passed
+		effectType = effectName;	
 		abilityName = '';
 	}
 	
@@ -761,7 +728,7 @@ function HACK_NO_MEMORY_TO_COMPILE_EffectNameToType_Part1(effectName : name, out
 		case "ToxicityVenomEffect" :						type = EET_ToxicityVenom;				break;
 		case "BasicQuenEffect" : 							type = EET_BasicQuen;					break;
 		
-		//applicators
+		
 		case "StaggerAuraEffect" : 							type = EET_StaggerAura; 				break;
 		case "FireAuraEffect" : 							type = EET_FireAura; 					break;
 		case "WeakeningAuraEffect" : 						type = EET_WeakeningAura; 				break;		
@@ -780,17 +747,17 @@ function HACK_NO_MEMORY_TO_COMPILE_EffectNameToType_Part2(effectName : name, out
 
 	if(StrSplitFirst(NameToString(effectName),"_",effectType,abilityNameStr))
 	{
-		abilityName = effectName;	//if name has custom ability attached e.g. BurningEffect_HighDamage
+		abilityName = effectName;	
 	}
 	else
 	{
-		effectType = effectName;	//no ability passed
+		effectType = effectName;	
 		abilityName = '';
 	}
 	
 	switch(effectType)
 	{
-		//mutagens
+		
 		case "Mutagen01Effect" : type = EET_Mutagen01; break;
 		case "Mutagen02Effect" : type = EET_Mutagen02; break;
 		case "Mutagen03Effect" : type = EET_Mutagen03; break;
@@ -820,7 +787,7 @@ function HACK_NO_MEMORY_TO_COMPILE_EffectNameToType_Part2(effectName : name, out
 		case "Mutagen27Effect" : type = EET_Mutagen27; break;
 		case "Mutagen28Effect" : type = EET_Mutagen28; break;
 		
-		// OTHER		
+		
 		case "AcidEffect" :									type = EET_Acid;						break;
 		case "WellRestedEffect" :							type = EET_WellRested;					break;
 		case "HorseStableBuffEffect" :						type = EET_HorseStableBuff;				break;
@@ -836,9 +803,9 @@ function HACK_NO_MEMORY_TO_COMPILE_EffectNameToType_Part2(effectName : name, out
 			break;
 	}
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//remember also about EffectNameToType
+
+
 function EffectTypeToName(effectType : EEffectType) : name
 {
 	switch(effectType)
@@ -958,12 +925,12 @@ function EffectTypeToName(effectType : EEffectType) : name
 		case EET_ToxicityVenom :						return 'ToxicityVenomEffect';
 		case EET_BasicQuen :							return 'BasicQuenEffect';
 		
-		//applicators
+		
 		case EET_StaggerAura : 							return 'StaggerAuraEffect';
 		case EET_FireAura : 							return 'FireAuraEffect';
 		case EET_WeakeningAura :						return 'WeakeningAuraEffect';
 		
-		//mutagens
+		
 		case EET_Mutagen01 : 							return 'Mutagen01Effect';
 		case EET_Mutagen02 : 							return 'Mutagen02Effect';
 		case EET_Mutagen03 : 							return 'Mutagen03Effect';
@@ -1007,7 +974,7 @@ function EffectTypeToName(effectType : EEffectType) : name
 	}
 }
 
-//Returns true if given effect is an auto-buff
+
 function IsBuffAutoBuff(effectType : EEffectType) : bool
 {
 	switch(effectType)

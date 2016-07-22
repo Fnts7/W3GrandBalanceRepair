@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014-2015
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 state Potions in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
@@ -38,10 +41,10 @@ state Potions in W3TutorialManagerUIHandler extends TutHandlerBaseState
 			{
 				skippingTabSelection = true;
 				
-				//if potion already equipped only show info about using potions
+				
 				ShowHint(ON_EQUIPPED, POS_INVENTORY_X, POS_INVENTORY_Y-0.1);
 				
-				//but also fire additional tutorial about potion equipping for later time
+				
 				TutorialScript('secondPotionEquip', '');
 			}
 			else
@@ -62,7 +65,7 @@ state Potions in W3TutorialManagerUIHandler extends TutHandlerBaseState
 		{
 			theGame.GetTutorialSystem().uiHandler.LockLeaveMenu(true);
 			
-			//block alchemy - we don't want to get back here now
+			
 			thePlayer.BlockAction(EIAB_OpenAlchemy, 'tut_forced_preparation');
 			
 			theGame.GetTutorialSystem().UnmarkMessageAsSeen(EQUIP_POTION);
@@ -102,7 +105,7 @@ state Potions in W3TutorialManagerUIHandler extends TutHandlerBaseState
 		}
 		else if(hintName == ON_EQUIPPED)
 		{
-			//forced Thunderbolt tutorial
+			
 			if(isForcedThunderbolt)
 			{
 				theGame.GetTutorialSystem().ForcedAlchemyCleanup();
@@ -124,7 +127,7 @@ state Potions in W3TutorialManagerUIHandler extends TutHandlerBaseState
 	
 	event OnPotionEquipped(potionItemName : name)
 	{
-		//in forced tutorial we wait only for proper potion
+		
 		if(isForcedThunderbolt && potionItemName != 'Thunderbolt 1')
 			return false;
 	

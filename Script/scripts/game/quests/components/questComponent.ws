@@ -1,13 +1,13 @@
 ﻿/***********************************************************************/
-/** 
-/***********************************************************************/
-/** Copyright © 2012
-/** Author : Rafal Jarczewski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/**
 
-*/
+
+
+
 quest function EntityComponentQuest( tag : name, componentName : name, bEnable : bool )
 {
 	var nodes : array<CNode>;
@@ -46,7 +46,7 @@ quest function EntityComponentQuest( tag : name, componentName : name, bEnable :
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
+
 
 class W3QuestCond_EntityComponentEnabled_Listener extends IGlobalEventScriptedListener
 {
@@ -146,7 +146,7 @@ class W3QuestCond_EntityComponentEnabled extends CQuestScriptedCondition
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
+
 
 class W3QuestCond_EntityComponentExists_Listener extends IGlobalEventScriptedListener
 {

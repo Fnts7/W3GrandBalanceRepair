@@ -1,16 +1,21 @@
-﻿// CExplorationSkatingGlobal
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 07/02/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CExplorationSkatingGlobal extends CObject
 {		
 	private						var m_ExplorationO			: CExplorationStateManager;
 	
-	// Speed levels
+	
 	private						var	speedLevelCur			: int;
 	private	editable			var	speedLevelCapDefault	: int;							default	speedLevelCapDefault	= 3;
 	private						var	speedLevelCap			: int;
@@ -25,29 +30,29 @@ class CExplorationSkatingGlobal extends CObject
 	
 	private	editable 			var	turnSpeedBase			: float;						default	turnSpeedBase			= 170.0f;
 	
-	// Dash
+	
 	protected editable			var dashCooldownTotal		: float;						default	dashCooldownTotal		= 0.5f;
 	protected editable			var dashCooldownCur			: float;
 	
-	// Stop	
+	
 	private	editable 			var	speedToBrake			: float;						default	speedToBrake			= 3.0f;
 	private	editable 			var	speedToStop				: float;						default	speedToStop				= 0.5f;
 	
-	// Turn
+	
 	public						var	m_TurnF					: float;
 	
-	// Drift
+	
 	public						var	m_Drifting				: bool;
 	public						var	m_DrifIsLeft			: bool;
 	
-	// Flow time gaps
+	
 	protected					var	flowComboCur			: int;
 	protected					var flowGapTimeCur			: float;
 	protected editable			var	flowGapTimeTotal		: float;						default	flowGapTimeTotal		= 0.5f;
 	protected editable			var	flowSuccesfullTimeTotal	: float;						default	flowSuccesfullTimeTotal	= 0.4f;
 	protected 					var	flowSuccesfullTime		: float;
 	
-	// Behavior
+	
 	private	editable 			var	behParamTurnName		: name;							default	behParamTurnName		= 'Skate_Turn';
 	private	editable 			var	behParamAccelName		: name;							default	behParamAccelName		= 'Skate_Accel';
 	private	editable 			var	behParamSpeedName		: name;							default	behParamSpeedName		= 'Skate_Speed';
@@ -62,7 +67,7 @@ class CExplorationSkatingGlobal extends CObject
 	private						var	active					: bool;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	public function Initialize(_Exploration : CExplorationStateManager )
 	{
 		var aux		: float;
@@ -72,7 +77,7 @@ class CExplorationSkatingGlobal extends CObject
 		
 		flowGapTimeCur	= flowGapTimeTotal + 1.0f;
 		
-		// Gather speed levels
+		
 		speedPerLevel	= ( maxSpeedTotal - minSpeedTotal ) / ( float ) ( speedLevelTotal - 1 );
 		movementParamsLevels.Resize( speedLevelTotal );
 		if( movementLevelsSpeedCurve )
@@ -100,7 +105,7 @@ class CExplorationSkatingGlobal extends CObject
 		Reset();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Reset()
 	{
 		speedLevelCap	= speedLevelCapDefault;
@@ -110,7 +115,7 @@ class CExplorationSkatingGlobal extends CObject
 		ApplyDefaultParams();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function PostUpdate( _Dt : float )
 	{
 		if( !active )
@@ -118,11 +123,11 @@ class CExplorationSkatingGlobal extends CObject
 			return;
 		}
 		
-		// Speed levels
+		
 		UpdateSpeedLevelReduction( _Dt );
 		
 		
-		// Flow
+		
 		if( flowGapTimeCur < flowGapTimeTotal )
 		{
 			flowGapTimeCur += _Dt;			
@@ -132,22 +137,22 @@ class CExplorationSkatingGlobal extends CObject
 			}
 		}		
 		
-		// Jump	
+		
 		m_ExplorationO.m_SharedDataO.m_JumpDirectionForcedV		= m_ExplorationO.m_MoverO.GetMovementVelocityNormalized();
 		
 		
-		// Debug
+		
 		UpdateDebug( _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateSpeedLevelReduction( _Dt : float )
 	{
-		// Speed levels
+		
 		var decreaseLevel	: bool	= false;
 		
 		
-		// Check slowing down to previous speed
+		
 		if( m_ExplorationO.m_MoverO.GetAccelerationnLastF() < 0.0f )
 		{
 			if( speedLevelCur > 0 )
@@ -165,14 +170,14 @@ class CExplorationSkatingGlobal extends CObject
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateDebug( _Dt : float )
 	{
 		var height	: int;
 		
 		height	= 450;
 		
-		// Speed
+		
 		thePlayer.GetVisualDebug().AddBar( 'SpeedLevelSeparator', 150, height, 200, 5, 1.0f, Color(0,255,0), "", 0.0f );
 		height	+= 5;
 		thePlayer.GetVisualDebug().AddBar( 'SpeedLevel', 150, height, 200, 10, ( float ) speedLevelCur / ( float ) speedLevelTotal, Color(255,255,0), "SpeedLevel: " + speedLevelCur + " cap at: " + speedLevelCap, 0.0f );
@@ -180,15 +185,15 @@ class CExplorationSkatingGlobal extends CObject
 		thePlayer.GetVisualDebug().AddBar( 'Speed', 150, height, 200, 10, m_ExplorationO.m_MoverO.GetMovementSpeedF() / maxSpeedTotal, Color(100,255,100), "Speed: " + m_ExplorationO.m_MoverO.GetMovementSpeedF(), 0.0f );
 		height	+= 15;
 		
-		// Flow combo
+		
 		thePlayer.GetVisualDebug().AddBar( 'Skate flow combo', 150, height, 200, 5, 1.0f, Color(255,255,0), "Combo " + flowComboCur, 0.0f );
 		height	+= 15;
 		
 		
-		// Flow gap
+		
 		height	= 450;		
 		
-		// Flow successful
+		
 		if( flowSuccesfullTime > 0.0f )
 		{
 			flowSuccesfullTime	-= _Dt;
@@ -200,7 +205,7 @@ class CExplorationSkatingGlobal extends CObject
 		}
 		height	+= 30;
 		
-		// Flow gap time
+		
 		thePlayer.GetVisualDebug().AddBar( 'Skate flow separator', 750, height, 500, 2, 1.0f, Color(255,255,0), "Flow", 0.0f );
 		if( flowGapTimeCur <= flowGapTimeTotal )
 		{
@@ -212,26 +217,26 @@ class CExplorationSkatingGlobal extends CObject
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SetActive( enable : bool )
 	{
 		active	= enable;
 		if( enable )
 		{
-			// Input context
+			
 			theInput.SetContext( 'Skating' );
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
-	//	Attack
-	//---------------------------------------------------------------------------------
+	
+	
+	
 	public function UpdateRandomAttack() : bool
 	{
-		// TEMP HACK
+		
 		return false;
 		
-		// Attack
+		
 		if( m_ExplorationO.m_InputO.IsSkateAttackJustPressed() )
 		{
 			m_ExplorationO.SendAnimEvent( behParamRandAttackName );
@@ -242,13 +247,13 @@ class CExplorationSkatingGlobal extends CObject
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function UpdateDashAttack() : bool
 	{
-		// TEMP HACK
+		
 		return false;
 		
-		// Attack
+		
 		if( m_ExplorationO.m_InputO.IsSkateAttackJustPressed() )
 		{
 			m_ExplorationO.SendAnimEvent( behParamAttackName );
@@ -259,10 +264,10 @@ class CExplorationSkatingGlobal extends CObject
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function UpdateJumpAttack() : bool
 	{
-		// Attack
+		
 		if( m_ExplorationO.m_InputO.IsSkateAttackJustPressed() )
 		{
 			m_ExplorationO.SendAnimEvent( behParamJumpAttackName );
@@ -273,50 +278,50 @@ class CExplorationSkatingGlobal extends CObject
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
-	//	 Speed levels
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function GetSpeedLevel() : int
 	{
 		return speedLevelCur;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetSpeedMax() : float
 	{
-		// One extra speed level
+		
 		return maxSpeedTotal + speedPerLevel;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetSpeedMaxCur() : float
 	{
 		return GetSpeedLevelParamSpeedMax( speedLevelCur );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetSpeedLevelParamSpeedMax( level : int ) : float
 	{
 		level	= Clamp( level, 0 ,speedLevelTotal );
 		return movementParamsLevels[ level ].speedMax;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ApplyDefaultParams()
 	{
 		m_ExplorationO.m_MoverO.SetSkatingParams( movementParams );
 		m_ExplorationO.m_MoverO.SetSkatingTurnSpeed( turnSpeedBase );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ApplyCurLevelParams()
 	{
 		m_ExplorationO.m_MoverO.SetSkatingLevelParams( movementParamsLevels[ speedLevelCur ] );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ImpulseToNextSpeedLevel( baseImpulse : float )
 	{
 		var speedLevelNext	: int;
@@ -328,7 +333,7 @@ class CExplorationSkatingGlobal extends CObject
 		
 		speedCur		= m_ExplorationO.m_MoverO.GetMovementSpeedF();
 		
-		// Get the next level if not the max already
+		
 		speedLevelNext	= Min( speedLevelCur + 1, speedLevelTotal - 1 );
 		
 		speedMax		= movementParamsLevels[ speedLevelNext ].speedMax;
@@ -338,7 +343,7 @@ class CExplorationSkatingGlobal extends CObject
 		m_ExplorationO.m_MoverO.AddSpeed( aux );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ImpulseNotExceedingMaxSpeedLevel( baseImpulse : float )
 	{
 		var speedMax		: float;
@@ -354,12 +359,12 @@ class CExplorationSkatingGlobal extends CObject
 		m_ExplorationO.m_MoverO.AddSpeed( aux );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IncreaseSpeedLevel( applyNow : bool, increaseLevelCapIfNeeded : bool ) : bool
 	{
 		if( speedLevelCur < speedLevelTotal )
 		{	
-			// Special increase level cap
+			
 			if( speedLevelCur >= speedLevelCap )
 			{
 				if( increaseLevelCapIfNeeded )
@@ -380,14 +385,14 @@ class CExplorationSkatingGlobal extends CObject
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function DecreaseSpeedLevel( applyNow : bool, decreaseLevelCapIfNeeded : bool ) : bool
 	{
 		if( speedLevelCur > 0 )
 		{			
 			speedLevelCur	-= 1;
 			
-			// Lower the level cap
+			
 			if( decreaseLevelCapIfNeeded )
 			{
 				speedLevelCap	= Max( speedLevelCur, speedLevelCapDefault );
@@ -399,7 +404,7 @@ class CExplorationSkatingGlobal extends CObject
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SetSpeedLevel( level : int, applyNow : bool ) : bool
 	{
 		if( level >= speedLevelTotal || level < 0 )
@@ -408,7 +413,7 @@ class CExplorationSkatingGlobal extends CObject
 			return false;
 		}
 		
-		// Set the level
+		
 		speedLevelCur	= level;
 		
 		LogExploration( "Speed level set to:" + speedLevelCur );
@@ -421,7 +426,7 @@ class CExplorationSkatingGlobal extends CObject
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ShouldStop( braking : bool ) : bool
 	{
 		var accel	: float;
@@ -451,23 +456,23 @@ class CExplorationSkatingGlobal extends CObject
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Flow time gap
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function StartFlowTimeGap()
 	{
 		flowGapTimeCur	= 0.0f;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CancelFlowTimeGap() 
 	{
 		flowGapTimeCur 	= flowGapTimeTotal + 1.0f;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CheckIfIsInFlowGapAndConsume() : bool
 	{
 		var result : bool;
@@ -476,7 +481,7 @@ class CExplorationSkatingGlobal extends CObject
 		
 		CancelFlowTimeGap();
 		
-		// Debug feedback
+		
 		if( result )
 		{
 			flowSuccesfullTime	= flowSuccesfullTimeTotal;
@@ -486,77 +491,77 @@ class CExplorationSkatingGlobal extends CObject
 		return result;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetMaxFlowTimeGap() : float
 	{
 		return flowGapTimeTotal;
 	}
 	
 	
-	//---------------------------------------------------------------------------------
-	// Flow Combos
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	private function LostFlowCombo()
 	{
 		flowComboCur	= 0;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ChainedFlowCombo()
 	{
 		flowComboCur	+= 1;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function GetCurFlowCombo() : int
 	{
 		return flowComboCur;
 	}
 	
 	
-	//---------------------------------------------------------------------------------
-	//	 Dash
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function IsDashReady() : bool
 	{ 
-		// If in flow gap, cooldown can be surpassed
+		
 		return dashCooldownCur >= dashCooldownTotal || flowGapTimeCur <= flowGapTimeTotal;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function UpdateDashCooldown( _Dt : float )
 	{
 		dashCooldownCur += _Dt;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ConsumeDashCooldown()
 	{
 		dashCooldownCur	= 0.0f;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function SetDashReady()
 	{
 		dashCooldownCur	= dashCooldownTotal;
 	}
 	
-	//---------------------------------------------------------------------------------
-	//	 Animation
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function SetBehParams( accel : float, braking : bool, turn : float )
 	{		
 		var speed			: float;
 		var directionDot	: float;
 		
 		
-		// Speed level
+		
 		if( speedLevelCur > 1 )
 		{
 			speed	= 1.0f;
@@ -566,17 +571,17 @@ class CExplorationSkatingGlobal extends CObject
 			speed	= 0.0f;
 		}
 		
-		// Clamp turn
+		
 		turn	= ClampF( turn, -1.0f, 1.0f );
 		
 		
-		// Set the accel manually
+		
 		directionDot	= VecDot( m_ExplorationO.m_InputO.GetMovementOnPlaneV(), m_ExplorationO.m_OwnerE.GetWorldForward() );
 		if( directionDot > -0.25f  )
 		{
 			accel	= 1.0f;
 		}
-		else if( braking ) // directionDot < -0.45f )
+		else if( braking ) 
 		{
 			accel	= -1.0f;
 		}
@@ -589,11 +594,11 @@ class CExplorationSkatingGlobal extends CObject
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behParamAccelName, accel );	
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behParamTurnName, -turn );	
 		
-		// Save the turn to consult
+		
 		m_TurnF	= turn;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		if ( animEventName == behIncreasedSpeed )

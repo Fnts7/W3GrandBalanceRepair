@@ -1,8 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013
-/***********************************************************************/
+
+
+
 
 enum EGuardState
 {
@@ -22,7 +25,7 @@ class CBTTaskGuard extends IBehTreeTask
 	
 	var intruderTestTimeout : float;
 	var guardState : EGuardState;
-	var intruders : array<CGameplayEntity>; // Actors found in guard area
+	var intruders : array<CGameplayEntity>; 
 	var target : CActor;
 	
 	default guardState = GS_Idle;
@@ -77,21 +80,21 @@ class CBTTaskGuard extends IBehTreeTask
 	
 		while( true )
 		{
-			// Update
+			
 			GetIntruders();
 					
 			switch( guardState )
 			{
-				// Intruder in guard area
+				
 				case GS_Chase:
 					if( target && target.IsAlive() ) 
 					{
-						// Update target
+						
 						if( !intruders.Contains( target ) )
 						{
-							// Still in pursuit...
 							
-							// Box?
+							
+							
 							if( pursuitArea )
 							{
 								if( !pursuitArea.TestEntityOverlap( target ) )
@@ -100,7 +103,7 @@ class CBTTaskGuard extends IBehTreeTask
 									break;
 								}
 							}
-							// Range?
+							
 							else
 							{
 								if( VecDistanceSquared( guardArea.GetWorldPosition(), target.GetWorldPosition() ) < pursuitRange )
@@ -117,9 +120,9 @@ class CBTTaskGuard extends IBehTreeTask
 						guardState = GS_Retreat;
 					}
 				break;
-				// Intruder left
+				
 				case GS_Retreat:
-					// Retreat to the guard area (point)
+					
 					if( guardArea.TestEntityOverlap( npc ) )
 					{
 						guardState = GS_Idle;

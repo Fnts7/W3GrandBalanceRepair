@@ -1,4 +1,9 @@
-﻿class CHudEvent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CHudEvent
 {
 	var moduleName		: string;
 	var eventName		: string;
@@ -24,7 +29,7 @@ class CNotifyPlayerEnteredInteriorEvent extends CHudEvent
 
 class CNotifyPlayerExitedInteriorEvent extends CHudEvent
 {
-	// just for consistency
+	
 }
 
 class CNotifyPlayerMountedBoatEvent extends CHudEvent
@@ -33,10 +38,10 @@ class CNotifyPlayerMountedBoatEvent extends CHudEvent
 
 class CNotifyPlayerDismountedBoatEvent extends CHudEvent
 {
-	// just for consistency
+	
 }
 
-class CNotifyInputContextChangedEvent extends CHudEvent // #B
+class CNotifyInputContextChangedEvent extends CHudEvent 
 {
 	var	inputContextName : name;
 }
@@ -63,7 +68,7 @@ class COnManageHudTimeOutEvent extends CHudEvent
 	var timeOut : float;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class CR4HudEventController
 {
@@ -262,7 +267,7 @@ class CR4HudEventController
 		LogChannel( 'HudEventsQueue', "queued event [" + hudEvent.moduleName + "] [" + hudEvent.eventName + "]" );
 	}
 
-	public function RunEvent_ControlsFeedbackModule_Update( inputContextName : name ) // #B 
+	public function RunEvent_ControlsFeedbackModule_Update( inputContextName : name ) 
 	{
 		var hudEvent : CNotifyInputContextChangedEvent;
 		var controlsFeedbackModule : CR4HudModuleControlsFeedback;
@@ -404,7 +409,7 @@ class CR4HudEventController
 		LogChannel( 'HudEventsQueue', "queued event [" + hudEvent.moduleName + "] [" + hudEvent.eventName + "]" );
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 
 	private function CheckDelayedEvent()
 	{

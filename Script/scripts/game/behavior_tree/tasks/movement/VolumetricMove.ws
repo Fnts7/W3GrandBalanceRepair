@@ -1,4 +1,9 @@
-﻿abstract class CBTTaskVolumetricMove extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+abstract class CBTTaskVolumetricMove extends IBehTreeTask
 {
 	var useCombatTarget : bool;
 	
@@ -32,7 +37,7 @@
 				return true;
 			}
 			return false;
-			//targetPosition = theGame.GetVolumePathManager().GetPointAlongPath( currentPosition, targetPosition, predictionDist );
+			
 		}
 		return true;
 	}
@@ -59,7 +64,7 @@
 		npcToDestVector2.Z = 0;
 		npcToDestDistance = VecDistance( npcPos, dest );
 		
-		// Calculate Fly Speed
+		
 		npcToDestAngle = AbsF( AngleDistance( VecHeading( dest - npcPos ), VecHeading( npcHeadingVec ) ) );
 		
 		if ( npcToDestAngle > 60 || npcToDestAngle < -60 )
@@ -73,7 +78,7 @@
 
 		turnSpeedScale = 2.75f;
 	
-		// Calculate Pitch
+		
 		flyPitch = Rad2Deg( AcosF( VecDot( VecNormalize( npcToDestVector ), VecNormalize( npcToDestVector2 ) ) ) );
 		if ( npcPos.X == dest.X && npcPos.Y == dest.Y )
 		{
@@ -97,7 +102,7 @@
 			flyPitch *= -1;
 		}
 		
-		// Calculate Yaw
+		
 		flyYaw = AngleDistance( VecHeading( npcToDestVector ), VecHeading( npcHeadingVec ) ) ;
 		flyYaw = flyYaw / 180;
 		flyYaw = flyYaw * PowF( turnSpeedScale , AbsF( flyYaw ) );
@@ -111,27 +116,27 @@
 			flyYaw = -1.f;
 		}
 		
-		// If there is an obstacle in the direction we're trying to turn, go the other way around
-		// If going forward
+		
+		
 		if( flyYaw > -0.5 && flyYaw < 0.5 && theGame.GetWorld().StaticTrace( npcPos, npcPos + npc.GetWorldForward(), collision, normal ) )
 		{
-			//npc.GetVisualDebug().AddText( 'VolumetricObstacleText', "Volumetric obstacle Forward", collision + Vector(0,0,0.4f), true, 0, Color( 255, 255, 0 ), true, 1 );
-			//npc.GetVisualDebug().AddArrow('ToVolumetricObstacle', npc.GetWorldPosition(), collision, 0.8f, 0.5f, 0.6f, true, Color( 255, 255, 0 ), true, 1 );
+			
+			
 			flyYaw = -1;
 		}
-		// If turning right
+		
 		if( flyYaw < -0.5 && theGame.GetWorld().StaticTrace( npcPos, npcPos + npc.GetWorldRight(), collision, normal ) )
 		{
 			flyYaw  = 1;			
-			//npc.GetVisualDebug().AddText( 'VolumetricObstacleText', "Volumetric obstacle Right", collision + Vector(0,0,0.4f), true, 0, Color( 255, 255, 0 ), true, 1 );
-			//npc.GetVisualDebug().AddArrow('ToVolumetricObstacle', npc.GetWorldPosition(), collision, 0.8f, 0.5f, 0.6f, true, Color( 255, 255, 0 ), true, 1 );
+			
+			
 		}
-		// If turning left
+		
 		else if ( flyYaw > 0.5 && theGame.GetWorld().StaticTrace( npcPos, npcPos + ( npc.GetWorldRight() * -1 ) , collision, normal ) )
 		{
 			flyYaw  = -1;
-			//npc.GetVisualDebug().AddText( 'VolumetricObstacleText', "Volumetric obstacle Left", collision + Vector(0,0,0.4f), true, 0, Color( 255, 255, 0 ), true, 1 );
-			//npc.GetVisualDebug().AddArrow('ToVolumetricObstacle', npc.GetWorldPosition(), collision, 0.8f, 0.5f, 0.6f, true, Color( 255, 255, 0 ), true, 1 );			
+			
+			
 		}	
 		
 		
@@ -206,7 +211,7 @@
 			case BQS_NotReady:
 				return m_lastSweepResult;
 			case BQS_Processed:
-				// If there is at least on collision
+				
 				if( l_sweepResults.Size() > 0 )
 				{
 					m_lastSweepResult 	= false;

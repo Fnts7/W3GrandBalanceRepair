@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CD Projekt RED
-/** Author : Patryk Fiutowski, Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 
 class CBTTaskCharge extends CBTTaskAttack
@@ -132,7 +134,7 @@ class CBTTaskCharge extends CBTTaskAttack
 				collidedEntity = collidedProbedEntity;
 			}
 			
-			// Destroy destructibles
+			
 			if( collidedEntity )
 			{
 				components = collidedEntity.GetComponentsByClassName( 'CDestructionComponent' );
@@ -177,7 +179,7 @@ class CBTTaskCharge extends CBTTaskAttack
 				}
 				else
 				{
-					//FIXME - there is no need to use damage action - simply add the buff
+					
 					action = new W3Action_Attack in theGame.damageMgr;
 					
 					switch (chargeType)

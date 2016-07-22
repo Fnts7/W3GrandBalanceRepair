@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 enum ERequiredSwitchState
 {
@@ -27,7 +30,7 @@ abstract class W3VirtualSwitch extends W3Switch
 	
 	hint requiredSwitches = "Array of required switches to activate this switch";
 		
-	//on spawn create links from switches to this virtual switch
+	
 	event OnSpawned(spawnData : SEntitySpawnData)
 	{
 		super.OnSpawned(spawnData);
@@ -57,17 +60,17 @@ abstract class W3VirtualSwitch extends W3Switch
 		}
 	}
 	
-	//used by switches to notify this switch that they changed state
+	
 	public function Notify( activeSwitch : W3Switch );
 	
-	//Called when switch combination is failed
+	
 	protected function Fail( failed : W3Switch )
 	{
 		LogChannel( 'Switch', "W3VirtualSwitch <<"+this+">> failed !" );
 	}
 	
-	// Turn function must be overridden for virtual switches, because they don't have behaviour trees, so no event will come
-	// In case of changing this function, make sure to apply changes to overridden Turn in switch.ws
+	
+	
 	public function Turn( on : bool, actor : CActor, force : bool, skip : bool )
 	{
 		if ( IsAvailable() || force )

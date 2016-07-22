@@ -1,4 +1,9 @@
-﻿class CBTTaskDash extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskDash extends IBehTreeTask
 {
 	public var slideBehindTarget 				: bool;
 	public var destinationOffset 				: float;
@@ -24,7 +29,7 @@
 	
 	function OnDeactivate()
 	{
-		SlideStop(); // failsafe
+		SlideStop(); 
 	}
 	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
@@ -47,7 +52,7 @@
 			slidePos = CalculateSlidePos();
 			
 			movementAdjustor.BindToEventAnimInfo( ticket, animInfo );
-			//movementAdjustor.ScaleAnimation( ticket );
+			
 			movementAdjustor.AdjustLocationVertically( ticket, true );
 			movementAdjustor.SlideTo( ticket, slidePos );
 			
@@ -60,7 +65,7 @@
 				npc.SignalGameplayEventParamFloat( 'FxRotation', VecHeading( slidePos - npcPos ) );
 				npc.SignalGameplayEvent( 'dash' );
 			}
-			//GetActor().GetVisualDebug().AddSphere( 'Dash', 1.0, slidePos, true, Color( 0,0,255 ), 5.0f );
+			
 			
 			SlideStart();
 			

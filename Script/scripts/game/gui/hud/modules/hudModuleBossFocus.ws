@@ -1,12 +1,17 @@
-﻿//Description: 	Displays boss status indicator (name, health bar) on top of the screen
-//Author:		Shadi Dadenji
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 
 
 class CR4HudModuleBossFocus extends CR4HudModuleBase
 {	
-	//>-----------------------------------------------------------------------------------------------------------------	
-	// VARIABLES
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
 	
 	private var m_bossEntity				: CActor;
 	private var m_bossName					: string;
@@ -18,9 +23,9 @@ class CR4HudModuleBossFocus extends CR4HudModuleBase
 	
 	private var m_delay						: float; default m_delay = 1;
 
-	//>-----------------------------------------------------------------------------------------------------------------	
-	//------------------------------------------------------------------------------------------------------------------
-	/* flash */ event OnConfigUI()
+	
+	
+	 event OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -41,8 +46,8 @@ class CR4HudModuleBossFocus extends CR4HudModuleBase
 			hud.UpdateHudConfig('BossFocusModule', true);
 		}
 	}
-	//>-----------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
 	
 	public function ShowBossIndicator( enable : bool, bossTag : name, optional bossEntity : CActor )
 	{
@@ -55,14 +60,14 @@ class CR4HudModuleBossFocus extends CR4HudModuleBase
 			}
 			else
 			{
-				thePlayer.SetBossTag( bossTag ); // it's saved in player so it can be restored after load
+				thePlayer.SetBossTag( bossTag ); 
 				UpdateNameAndHealth( true );
 			}
 
 		}
 		else
 		{
-			thePlayer.SetBossTag( '' ); // it's saved in player so it can be restored after load
+			thePlayer.SetBossTag( '' ); 
 			
 			OnHide();
 			
@@ -73,7 +78,7 @@ class CR4HudModuleBossFocus extends CR4HudModuleBase
 
 	private function OnShow()
 	{
-		ShowElement( true ); //#B OnDemand
+		ShowElement( true ); 
 			
 		if ( m_bossEntity )
 		{
@@ -83,7 +88,7 @@ class CR4HudModuleBossFocus extends CR4HudModuleBase
 	
 	private  function OnHide()
 	{
-		ShowElement(false); //#B OnDemand
+		ShowElement(false); 
 		
 		if ( m_bossEntity )
 		{
@@ -101,7 +106,7 @@ class CR4HudModuleBossFocus extends CR4HudModuleBase
 		
 		if ( !m_bossEntity )
 		{
-			bossTag = thePlayer.GetBossTag(); // it's saved in player so it can be restored after load
+			bossTag = thePlayer.GetBossTag(); 
 			if ( IsNameValid( bossTag ) )
 			{
 				m_bossEntity = theGame.GetActorByTag( bossTag );
@@ -132,7 +137,7 @@ class CR4HudModuleBossFocus extends CR4HudModuleBase
 				m_fxSetEssenceDamage.InvokeSelfOneArg( FlashArgBool( m_bossEntity.UsesEssence()) );
 			}
 			
-			l_currentHealthPercentage = CeilF( 100 * m_bossEntity.GetHealthPercents() );	//ceiling so that if he has 0.2% it won't show as 0 while he'll be alive
+			l_currentHealthPercentage = CeilF( 100 * m_bossEntity.GetHealthPercents() );	
 			if ( m_lastHealthPercentage != l_currentHealthPercentage )
 			{
 				m_fxSetBossHealth.InvokeSelfOneArg( FlashArgInt( l_currentHealthPercentage ) );
@@ -141,30 +146,30 @@ class CR4HudModuleBossFocus extends CR4HudModuleBase
 		}
 	}
 
-	//>-----------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
 	event OnTick(timeDelta : float)
 	{
 		if ( m_delay > 0 )
 		{
-			// lame way to fix TT 120356
+			
 			m_delay -= timeDelta;
 			return true;
 		}
 		
 		if ( !m_bossEntity )
 		{
-			// update name & health and show module if there's a tag and no entity
+			
 			UpdateNameAndHealth( true );
 		}
 		else
 		{
-			// update only health
+			
 			UpdateNameAndHealth( false );
 		}
 	}
 	
-	//>-----------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------------	
+	
+	
 
 }

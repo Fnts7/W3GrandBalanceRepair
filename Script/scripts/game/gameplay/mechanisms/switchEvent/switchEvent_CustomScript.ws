@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
-/***********************************************************************/
+
+
+
 
 abstract class W3SE_CustomScript extends W3SwitchEvent
 {
@@ -14,7 +16,7 @@ abstract class W3SE_CustomScript extends W3SwitchEvent
 	private function Perform( parnt : CEntity )
 	{
 		LogChannel('Switch', "W3SE_CustomScript.Activate: custom switch script <<"+scriptID+">> is about to be called");
-		//switch(scriptID)
-		//	put your menace code here		
+		
+		
 	}
 }

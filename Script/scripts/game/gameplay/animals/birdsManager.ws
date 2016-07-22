@@ -1,6 +1,11 @@
 ﻿/***********************************************************************/
-/************************** Class for birds ****************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
+
 
 class W3Bird extends CGameplayEntity
 {
@@ -30,7 +35,7 @@ class W3Bird extends CGameplayEntity
 		manager = m;
 	}
 	
-	//check distance to camera and if too far away destroy the bird
+	
 	timer function DestructionTimer(dt : float, id : int)
 	{
 		var isVisible : bool;
@@ -48,7 +53,7 @@ class W3Bird extends CGameplayEntity
 		}
 	}
 	
-	//Try to fly - returns true if successfull
+	
 	public function Fly() : bool 
 	{
 		var tryFly : bool;
@@ -95,14 +100,14 @@ class W3BirdQuest extends W3Bird
 }
 
 
-/***********************************************************************/
-/************************** Class for spawnpoint ***********************/
-/***********************************************************************/
+
+
+
 class CBirdSpawnpoint extends CEntity {}
 
-/***********************************************************************/
-/************************** Class for manager **************************/
-/***********************************************************************/
+
+
+
 statemachine class CBirdsManager extends CGameplayEntity
 {
 	editable var birdsSpawnPointsTag : name;
@@ -116,8 +121,8 @@ statemachine class CBirdsManager extends CGameplayEntity
 	
 	private var birdSpawnpoints : array<SBirdSpawnpoint>;
 	private var shouldBirdsFly : bool;
-	private var despawnTime : float;				//timestamp of despawn of last bird
-	private var wasEverVisible : bool;				//set to true if the manager was ever visible (needs to be to start despawning birds - to avoid fast despawns just after game launch)
+	private var despawnTime : float;				
+	private var wasEverVisible : bool;				
 	private var birdArea	   : CTriggerAreaComponent;
 	var birdTemplate : CEntityTemplate;
 	
@@ -136,7 +141,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 		super.OnSpawned(spawnData);
 	}
 	
-	//when is this called?
+	
 	event OnDetaching()
 	{
 		var i : int;
@@ -184,7 +189,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 	{
 		var i : int;
 		
-		//remove bird from array
+		
 		for(i=0; i<birdSpawnpoints.Size(); i+=1)
 		{
 			if(birdSpawnpoints[i].bird == b)
@@ -204,7 +209,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 		despawnTime = theGame.GetEngineTimeAsSeconds();
 	}
 	
-	//Makes the birds fly away (tries)
+	
 	public function FlyBirds()
 	{	
 		var i, notFlyingBirds : int;
@@ -229,7 +234,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 				}
 			}
 		}
-		else // streaming and first load failsafe, ensures that FlyBirds attempt will be repeated until birdSpawnpoints are spawned
+		else 
 			notFlyingBirds += 1;
 		
 		shouldBirdsFly = (notFlyingBirds > 0);
@@ -247,16 +252,16 @@ statemachine class CBirdsManager extends CGameplayEntity
 				
 		if(!forced)
 		{
-			//exit if delay did not pass yet
+			
 			if(theGame.GetEngineTimeAsSeconds() < (respawnDelay + despawnTime))
 				return;
 				
-			//exit if we're too close
+			
 			if(VecDistance(GetWorldPosition(), theCamera.GetCameraPosition()) < respawnMinDistance)
 				return;
 		}
 		
-		//get all spawnpoints - need to check it each time as they might stream
+		
 		UpdateSpawnPointsList();
 		size = birdSpawnpoints.Size();
 		
@@ -273,8 +278,8 @@ statemachine class CBirdsManager extends CGameplayEntity
 							isVisible = false;
 					}
 					
-					//spawn if spawnpoint is invisible
-					// Must check spawn range even if forced overwise all bird managers will spawn all their birds on the first frame!
+					
+					
 					if( (!isVisible || forced ) && VecDistance( birdSpawnpoints[i].position, theCamera.GetCameraPosition()) < spawnRange)
 					{
 						if( disableSnapToCollisions )
@@ -285,10 +290,10 @@ statemachine class CBirdsManager extends CGameplayEntity
 						{
 							traceResult = theGame.GetWorld().StaticTrace( birdSpawnpoints[i].position, birdSpawnpoints[i].position - Vector(0,0,255), spawnPos, normal );
 							
-							// Trace can return false if there is no collision there, or the collision is not yet loaded there
+							
 							if( traceResult == false )
 							{
-								spawnPos = birdSpawnpoints[i].position;		// Fallback if there is no trace result, to prevent spawning at point 0,0,0
+								spawnPos = birdSpawnpoints[i].position;		
 							}
 						}
 						
@@ -300,7 +305,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 				}
 				else
 				{
-					// Check for timed out birds from failed async entity creation
+					
 					if( theGame.GetEngineTimeAsSeconds() - birdSpawnpoints[i].entitySpawnTimestamp >= 10.0f )
 					{
 						birdSpawnpoints[i].entityId = 0;
@@ -335,16 +340,16 @@ statemachine class CBirdsManager extends CGameplayEntity
 			}
 		}
 		
-		// Looks like we free'd up the slot too soon ( 10 seconds wasn't enough?! )
-		// We don't have any reliable way to resolve this entity to a spawnpoint so
-		// destroy the entity...
+		
+		
+		
 		if( !success )
 		{
 			birdEntity.Destroy();
 		}
 	}
 	
-	//Gets the spawnpoints list and updates stored spawnpoints list. Some spawnpoints might stream in or out.
+	
 	private function UpdateSpawnPointsList()
 	{
 		var spawnstruct : SBirdSpawnpoint;
@@ -391,10 +396,10 @@ statemachine class CBirdsManager extends CGameplayEntity
 				
 				if(	VecDistance( spawnpoint.GetWorldPosition() , this.GetWorldPosition() ) < spawnRange )
 				{
-					//Get spawnpoint position
+					
 					spawnstruct.position = spawnpoint.GetWorldPosition();				
 					
-					//trace the position (if spawnpoint is slightly above or under ground/object
+					
 					testVec = Vector(0, 0, 1);
 					if ( world.StaticTrace(spawnstruct.position, spawnstruct.position - testVec, collisionPos, normal, collisionGroups) )
 					{
@@ -408,7 +413,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 						}
 					}
 					
-					//now check if we already have this spawnpoint in array
+					
 					exists = false;
 					for(j=0; j<=lastExistingSpawnPoint; j+=1)
 					{
@@ -420,7 +425,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 						}
 					}
 					
-					//if not then append it
+					
 					if(!exists)
 					{
 						spawnstruct.rotation = spawnpoint.GetWorldRotation();
@@ -431,7 +436,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 			}
 		}
 		
-		//now remove spawnpoints which streamed out
+		
 		for(i=lastExistingSpawnPoint; i>=0; i-=1)
 		{
 			exists = false;
@@ -440,13 +445,13 @@ statemachine class CBirdsManager extends CGameplayEntity
 				if(i == foundSpawnpoints[j])
 				{
 					exists = true;
-					foundSpawnpoints.Erase(j);	//to reduce subsequent calls' time
+					foundSpawnpoints.Erase(j);	
 					break;
 				}
 			}
 			
 			if(!exists)
-				birdSpawnpoints.Erase(i);		//if it's not in the new list then remove it
+				birdSpawnpoints.Erase(i);		
 		}		
 	}
 	
@@ -501,7 +506,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 		RemoveTimer( 'BirdsSpawnCheck' );
 	}
 	
-	//Checks continuously if we should despawn or respawn birds. Also tries to make birds fly if failed on area enter.
+	
 	timer function BirdsSpawnCheck(td : float, id : int)
 	{
 		var x, y, dist2 : float;
@@ -510,7 +515,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 		var isVisible, areBirdsSpawned : bool;
 		var bspSize : int;
 	
-		//find points to spawn / despawn
+		
 		pos = GetWorldPosition();
 		isVisible = theCamera.WorldVectorToViewRatio(pos, x, y);
 		x = AbsF(x);
@@ -553,7 +558,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 			}
 		}
 	
-		//take off
+		
 		if( shouldBirdsFly )
 		{
 			FlyBirds();	
@@ -565,7 +570,7 @@ statemachine class CBirdsManager extends CGameplayEntity
 		}
 	}
 	
-	//Checks if birds spawn check should be started
+	
 	timer function BirdsSpawnPreCheck(td : float, id : int)
 	{
 		if( ShouldBirdsSpawnCheckBeActive() )
@@ -610,7 +615,7 @@ state Default in CBirdsManager
 			parent.birdTemplate = (CEntityTemplate)LoadResourceAsync(resource);
 		}
 		
-		// That state can be reached directly from 'OnAttached()' callback, that leads to situation when random entities are not attached to the world yet.
+		
 		Sleep( 0 );
 		
 		parent.SpawnBirds(true);
@@ -618,9 +623,9 @@ state Default in CBirdsManager
 	}
 }
 
-/***********************************************************************/
-/************************** Class for trigger **************************/
-/***********************************************************************/
+
+
+
 class CBirdsArea extends CGameplayEntity
 {
 	editable var birdsManagerTag : name;

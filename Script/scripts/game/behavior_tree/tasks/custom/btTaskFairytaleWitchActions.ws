@@ -1,4 +1,9 @@
-﻿class CBTTaskFairytaleWitchActions extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskFairytaleWitchActions extends IBehTreeTask
 {
 	private var action : EFairytaleWitchAction;
 	private var npc : CNewNPC;
@@ -21,15 +26,7 @@
 				npc.AddAbility( 'FairytaleWitchDelay', false );
 				
 				
-				/*if( npc.GetBehaviorVariable( 'transitionSecondDone' ) == 0.0 && ( npc.GetBehaviorVariable( 'transitionFirstDone' ) == 1.0 || npc.GetStatPercents( BCS_Essence ) < 0.33 ) )
-				{	
-					npc.SetBehaviorVariable( 'transitionSecondDone', 1.0 );
-				}
 				
-				if( npc.GetBehaviorVariable( 'transitionFirstDone' ) == 0.0 )
-				{
-					npc.SetBehaviorVariable( 'transitionFirstDone', 1.0 );
-				}*/
 				
 				break;
 			}

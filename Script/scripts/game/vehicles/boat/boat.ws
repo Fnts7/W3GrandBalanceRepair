@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Tomek Kozera, Wojciech Żerek
-/***********************************************************************/
+
+
+
 
 import class W3Boat extends CGameplayEntity
 {
@@ -33,7 +35,7 @@ import class W3Boat extends CGameplayEntity
 	
 		player = (CR4Player)activator.GetEntity();
 		
-		if( player )	//trigger channels don't work
+		if( player )	
 		{
 			if( area.GetName() == "FirstDiscoveryTrigger" )
 			{
@@ -64,7 +66,7 @@ import class W3Boat extends CGameplayEntity
 	
 		player = (CR4Player)activator.GetEntity();
 		
-		if( player )	//trigger channels don't work
+		if( player )	
 		{
 			if( area.GetName() == "OnBoatTrigger" )
 			{
@@ -119,9 +121,9 @@ import class W3Boat extends CGameplayEntity
 	
 	import final function SetTeleportedFromOtherHUB( val : bool );
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// PUBLIC FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	public function ToggleInteraction( enable : bool )
 	{
 		var components: array< CComponent >;
@@ -156,7 +158,7 @@ import class W3Boat extends CGameplayEntity
 	public function SetCanBeDestroyed( val : bool )	{ canBeDestroyed = val; }
 	public function GetCanBeDestroyed() : bool		{ return canBeDestroyed; }
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// PRIVATE FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 }

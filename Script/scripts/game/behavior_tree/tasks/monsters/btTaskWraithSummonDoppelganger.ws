@@ -1,15 +1,17 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014
-/** Author : R.Pergent - 13-February-2014
-/***********************************************************************/
+
+
+
 class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//>----------------------------------------------------------------------
-	// Editable
+	
+	
+	
+	
 	public var splitEffectEntityTemplate	: CEntityTemplate;
 	public var numberToSummon				: int;
 	public var summonOnAnimEvent			: name;
@@ -20,19 +22,19 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 	public var splitEffectEntity			: name;
 	public var applyBlindnessRange			: float;
 	
-	// Internal
+	
 	private var entityToSummon				: CEntityTemplate;
 	private var m_shouldSummon				: bool;
 	private var m_hasSummoned				: bool;
 	private var m_createEntityHelper		: CCreateEntityHelper;
-	//>----------------------------------------------------------------------
-	//>----------------------------------------------------------------------
+	
+	
 	function Initialize()
 	{		
 		m_createEntityHelper = new CCreateEntityHelper in this;
 	}
-	//>----------------------------------------------------------------------
-	//>----------------------------------------------------------------------
+	
+	
 	final latent function Main() : EBTNodeStatus
 	{	
 		var l_spawnPosCenter, cameraDir, l_npcPos, l_targetPos, posFin, l_normal, l_spawnVectorFromTarget : Vector;	
@@ -73,7 +75,7 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 				
 				l_summonerComponent = (W3SummonerComponent) l_npc.GetComponentByClassName('W3SummonerComponent');
 				
-				// Center spawn position
+				
 				switch ( summonPositionPattern )
 				{
 					case ESPP_AroundTarget:						
@@ -89,7 +91,7 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 					theGame.GetWorld().NavigationFindSafeSpot( l_spawnPosCenter, 1, 10, l_spawnPosCenter );	
 				}
 				
-				// Apply blindness
+				
 				if( applyBlindnessRange > 0 )
 				{
 					l_actorsInRange = GetActorsInRange( l_npc, applyBlindnessRange, , , true );
@@ -100,7 +102,7 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 					}				
 				}
 				
-				posFin.Z = l_spawnPosCenter.Z;				//final spawn position
+				posFin.Z = l_spawnPosCenter.Z;				
 				l_radius = summonMaxDistance - summonMinDistance;
 				
 				l_angleBetweenSpawns = 2.0f * Pi() / (float) numberToSummon;
@@ -108,24 +110,24 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 				
 				l_splitEntities.Resize( numberToSummon );
 				
-				// Create the "split" entities: entities with the effect moving toward the spawn position of the doppelganger
+				
 				for ( i = 0; i < numberToSummon ; i += 1 )
 				{					
 					posFin		= l_spawnPosCenter + Vector( ( summonMinDistance + RandF() * l_radius ) * CosF( l_angleCur ), summonMinDistance * SinF( l_angleCur ), 0.0f );
 					l_angleCur	+= l_angleBetweenSpawns;
 					
-					// Get the closest position on navigable space
+					
 					theGame.GetWorld().NavigationFindSafeSpot( posFin, 1, 10, posFin );
 					
 					
-					//l_splitEntity = theGame.CreateEntity( splitEffectEntityTemplate, l_spawnPosCenter, l_rot );
+					
 					m_createEntityHelper.Reset();
 					theGame.CreateEntityAsync( m_createEntityHelper, splitEffectEntityTemplate, l_npcPos, l_rot, true, false, false, PM_DontPersist );
 					
 					while( m_createEntityHelper.IsCreating() )
 					{						
 						SleepOneFrame();
-						// Security/Hack: If the entity is not created after 120 frames, cancel
+						
 						l_maxDelay += 1;
 						if( l_maxDelay >= 120 )
 						{
@@ -145,7 +147,7 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 					l_splitEntities[i] 	= l_splitEntity;
 				}
 				
-				// Move the split entities and spawn the doppelgangers when they reach the destination
+				
 				while( l_spawnedDoppel < numberToSummon )
 				{
 					l_lastLocalTime = GetLocalTime();
@@ -157,11 +159,11 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 						l_splitEntity 		= l_splitEntities[i];
 						l_slideComponent 	= (W3SlideToTargetComponent) l_splitEntity.GetComponentByClassName( 'W3SlideToTargetComponent' );
 						
-						// Spawn when at destination						
+						
 						if( l_slideComponent.IsAtDestination() )
 						{
 							l_rot 				= VecToRotation( l_targetPos - l_splitEntity.GetWorldPosition() );
-							//l_summonedEntity 	= theGame.CreateEntity( entityToSummon, l_splitEntity.GetWorldPosition() , l_rot );
+							
 							m_createEntityHelper.Reset();
 							
 							if( !theGame.GetWorld().NavigationFindSafeSpot( l_splitEntity.GetWorldPosition(), 3, 12, l_safePos ) )
@@ -173,7 +175,7 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 							while( m_createEntityHelper.IsCreating() )
 							{
 								SleepOneFrame();
-								// Security/Hack: If the entity is not created after 120 frames, cancel
+								
 								l_maxDelay += 1;
 								if( l_maxDelay >= 120 )
 								{
@@ -211,8 +213,8 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 		return BTNS_Completed;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final latent function LoadResources()
 	{	
 		if( IsNameValid(entityToSummonName) )
@@ -222,14 +224,14 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 				LogChannel('Noonwraith', "Couldn't load ressource " + entityToSummonName );
 		}
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final function OnDeactivate()
 	{
 		m_hasSummoned = false;
 	}
-	//>----------------------------------------------------------------------
-	//>----------------------------------------------------------------------
+	
+	
 	final function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{			
 		if ( animEventName == summonOnAnimEvent )
@@ -242,16 +244,16 @@ class CBTTaskWraithSummonDoppelganger extends CBTTaskPlayAnimationEventDecorator
 		return super.OnAnimEvent( animEventName, animEventType, animInfo);
 	}
 }
-//>----------------------------------------------------------------------
-// DEFINITION
-//>----------------------------------------------------------------------
+
+
+
 class CBTTaskWraithSummonDoppelgangerDef extends CBTTaskPlayAnimationEventDecoratorDef
 {
 	default instanceClass = 'CBTTaskWraithSummonDoppelganger';
 	
-	//>----------------------------------------------------------------------
-	// VARIABLE
-	//>----------------------------------------------------------------------
+	
+	
+	
 	editable var entityToSummonName				: name;
 	editable var entityToSummon				: name;
 	editable var splitEffectEntityTemplate		: CEntityTemplate;

@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_BattleTrance extends CBaseGameplayEffect
 {
@@ -12,7 +15,7 @@ class W3Effect_BattleTrance extends CBaseGameplayEffect
 	default isNeutral = false;
 	default isNegative = false;
 
-	// check if character's focus points have changed and if so apply a level change
+	
 	event OnUpdate(deltaTime : float)
 	{
 		var focus : float;
@@ -20,12 +23,12 @@ class W3Effect_BattleTrance extends CBaseGameplayEffect
 	
 		super.OnUpdate(deltaTime);
 		
-		//check current focus level
+		
 		focus = target.GetStat(BCS_Focus);
 		newLevel = FloorF(focus);
 		delta = newLevel - currentFocusLevel;
 		
-		//if changed then add/remove 1 level of bonus
+		
 		if(delta != 0)
 		{
 			if(delta < 0)
@@ -55,7 +58,7 @@ class W3Effect_BattleTrance extends CBaseGameplayEffect
 					thePlayer.AddAbilityMultiple(thePlayer.GetSkillAbilityName(S_Perk_11), delta);
 			}
 			
-			//shut down if no focus left
+			
 			if(newLevel == 0)
 			{
 				isActive = false;
@@ -66,7 +69,7 @@ class W3Effect_BattleTrance extends CBaseGameplayEffect
 		}
 	}
 	
-	// also add trance aura dreadfull if hero has this skill
+	
 	event OnEffectAdded(optional customParams : W3BuffCustomParams)
 	{
 		var player : CR4Player;

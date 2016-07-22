@@ -1,5 +1,10 @@
-﻿// copyrajt orajt
-// W. Żerek
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 
 class CBTTaskWyvernTakeOffEffect extends CBTTaskPlayAnimationEventDecorator
 {
@@ -28,7 +33,7 @@ class CBTTaskWyvernTakeOffEffect extends CBTTaskPlayAnimationEventDecorator
 				
 				if ( dist <= effectRange*effectRange && angle <= effectAngle )
 				{
-					//FIXME - there is no reason to use damage action - there is no damage, just do AddBuff()
+					
 					action = new W3DamageAction in this;			
 					action.Initialize( (CGameplayEntity)npc, (CGameplayEntity)target, (CGameplayEntity)npc, npc+"'s dust attack", EHRT_None, CPS_AttackPower, false, false, false, false);
 					action.SetHitAnimationPlayType(EAHA_ForceNo);

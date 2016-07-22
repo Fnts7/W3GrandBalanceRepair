@@ -1,14 +1,19 @@
-﻿// CClimbProbe
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 13/08/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CClimbProbe
 {	
-	// State
+	
 	private				var	valid					: bool;
 	private				var	setupReady				: bool;
 	private				var	exploratorPosition		: Vector;
@@ -16,7 +21,7 @@ class CClimbProbe
 	private				var directionRequiresInput	: bool;
 	
 	
-	// Distances
+	
 	private 			var	distForwardToCheck		: float;
 	private				var distanceCheckType 		: EClimbDistanceType;
 	private editable	var	distForwardToCheckClose	: float;				default	distForwardToCheckClose		= 0.25f;
@@ -28,7 +33,7 @@ class CClimbProbe
 	private				var	heightTotalMax			: float;
 	
 	
-	// Ceiling
+	
 	private editable	var	ceilingDoubleCheck		: bool;					default	ceilingDoubleCheck		= true;
 	private editable	var	ceilingCheckingClose	: bool;
 	private editable	var	ceilingBackOffsetClose	: float;				default	ceilingBackOffsetClose	= 0.2f;
@@ -42,7 +47,7 @@ class CClimbProbe
 	private				var ceilingCheckTo			: Vector;
 
 	
-	// Ground
+	
 	private editable	var	groundRadiusToCheck		: float;				default	groundRadiusToCheck		= 0.5f;
 	private editable	var	groundNormalMinZ		: float;				default	groundNormalMinZ		= 0.4f;
 	private				var groundFound				: bool;
@@ -54,14 +59,14 @@ class CClimbProbe
 	private				var groundCheckTo			: Vector;
 	
 	
-	// Refine ground
+	
 	private editable	var	groundRefineEnabled		: bool;					default	groundRefineEnabled		= true;
 	private editable	var	groundRefineDistCheck	: float;				default	groundRefineDistCheck	= 0.2f;
 	private editable	var	groundRefineHeightCheck	: float;				default	groundRefineHeightCheck	= 0.5f;
 	private editable	var	groundRefineRadius		: float;				default	groundRefineRadius		= 0.2f;
 	private 			var	groundRefined			: bool;
 	
-	// Climbable objects
+	
 	private				var climbableFound			: bool;
 	private				var climbableObjName		: string;
 	private				var	climbableObjTagOnLayer	: bool;
@@ -72,7 +77,7 @@ class CClimbProbe
 	private editable	var	climbableUnLockTag		: name;					default	climbableUnLockTag		= 'climb';
 	
 	
-	// Hole
+	
 	private editable	var	holeForwardNeeded		: float;				default	holeForwardNeeded		= 0.2f;
 	private				var	holeIsBlocked			: bool;
 	private				var holeCollision			: Vector;
@@ -80,7 +85,7 @@ class CClimbProbe
 	private				var holeCheckTo				: Vector;
 	
 	
-	// Wall		
+	
 	private editable	var	wallRadiusToCheck		: float;				default	wallRadiusToCheck		= 0.35f;
 	private editable	var	wallNormalCheckBackExtra: float;				default	wallNormalCheckBackExtra= 0.360f;
 	private editable	var	wallSideSeparation		: float;				default	wallSideSeparation		= 0.2f;
@@ -95,14 +100,14 @@ class CClimbProbe
 	private				var wallCollR				: Vector;
 	
 	
-	// Slope
+	
 	private editable	var	slopeAngleMax			: float;				default	slopeAngleMax			= 45.0f;
 	private				var slopeNormalZMax			: float;
 	private editable	var slopeForwardDistance	: float;				default	slopeForwardDistance	= 0.3f;
 	private editable	var slopeLeftDistance		: float;				default	slopeLeftDistance		= 0.25f;
 	
 	
-	// Horizontal slope
+	
 	private editable	var	horizHeightRdius		: float;				default	horizHeightRdius		= 0.1f;
 	private editable	var	horizHeightSeparation	: float;				default	horizHeightSeparation	= 0.35f;
 	private editable	var	horizHeightAngleMin		: float;				default	horizHeightAngleMin		= -60.0f;
@@ -115,11 +120,11 @@ class CClimbProbe
 	private				var horizPointRight			: Vector;
 	
 	
-	// Horizontal slope correction
+	
 	private				var	horizCorrectSideCoef	: float;				default	horizCorrectSideCoef	= 0.8f;
 	
 	
-	// Vertical slope	
+	
 	private	editable	var	vertSlopeAngleOffset	: float;				default	vertSlopeAngleOffset	= 0.5f;
 	private	editable	var	vertSlopeAngleMax		: float;				default	vertSlopeAngleMax		= 45.0f;
 	private				var	vertSlopeAngleCur		: float;
@@ -135,7 +140,7 @@ class CClimbProbe
 	private				var	vertSlopeLowAnglePoint	: Vector;
 	
 	
-	// Vertical free space
+	
 	private	editable	var	vertFreeHeightEnable	: bool;					default vertFreeHeightEnable	= false;
 	private	editable	var	vertFreeHorOffset		: float;				default	vertFreeHorOffset		= 0.3f;
 	private	editable	var	vertFreeHorMin			: float;				default	vertFreeHorMin			= 0.3f;
@@ -147,7 +152,7 @@ class CClimbProbe
 	private				var	vertFreeCollPoint		: Vector;
 	
 	
-	// Vault parameters
+	
 	private editable	var	vaultHeight				: float;				default	vaultHeight				= 0.5f;
 	private editable	var	vaultHeightOffset		: float;				default	vaultHeightOffset		= 0.25f;
 	private editable	var	vaultDistance			: float;				default	vaultDistance			= 0.55f;
@@ -162,7 +167,7 @@ class CClimbProbe
 	private				var vaultCheckTo			: Vector;
 	
 	
-	// Platform
+	
 	private				var	platformFound			: EClimbRequirementPlatform;
 	private				var	platformFrom			: Vector;
 	private				var	platformTo				: Vector;
@@ -173,14 +178,14 @@ class CClimbProbe
 	private 			var	platformMinToCheck		: float;
 	
 	
-	// Collision groups	
+	
 	private 			var collisionClimbableNames	: array<name>;
 	private 			var collisionObstaclesNames	: array<name>;
 	private 			var collisionForceAllowNames: array<name>;
 	private 			var collisionLockNames		: array<name>;
 	
 	
-	// Debug
+	
 	private				var	debugPrefix				: string;
 	private				var	debugIsTop				: string;
 	private				var	debugColorDiv			: int;
@@ -190,7 +195,7 @@ class CClimbProbe
 	private				var	debugLastErrorPosition	: Vector;
 	
 	
-	// Debug draw flags
+	
 	private				var	debugDrawGraphics		: bool;						default	debugDrawGraphics	= true;
 	private				var	debugCeiling			: bool;						default	debugCeiling		= true;
 	private				var	debugGround				: bool;						default	debugGround			= true;
@@ -203,15 +208,15 @@ class CClimbProbe
 	private				var	debugPlatform			: bool;						default	debugPlatform		= true;
 	
 	
-	//Aux
+	
 	private				var	vectorUp				: Vector;
 	private				var	vectorZero				: Vector;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	public function Initialize( heightMin : float, heightMax : float, platformHeihtMin : float, radius : float, colorDivide : int, isTop : bool )
 	{
-		// Debug
+		
 		debugColorDiv	= colorDivide;
 		debugIsTop		= isTop;
 		if( debugIsTop )
@@ -223,17 +228,17 @@ class CClimbProbe
 			debugPrefix	= "Bottom";
 		}
 		
-		// Height limits
+		
 		heightTotalMin	= heightMin;
 		heightTotalMax	= heightMax;
 		
-		// Radius
+		
 		characterRadius	= radius;
 		
-		// Platform
+		
 		platformMinToCheck	= platformHeihtMin;
 		
-		// Set collision flags
+		
 		collisionClimbableNames.PushBack( 'Terrain' );
 		collisionClimbableNames.PushBack( 'Static' );
 		collisionClimbableNames.PushBack( 'Destructible' );
@@ -248,7 +253,7 @@ class CClimbProbe
 		collisionObstaclesNames.PushBack( 'Fence' );
 		collisionObstaclesNames.PushBack( 'Boat' );
 		collisionObstaclesNames.PushBack( 'BoatDocking' );
-		//collisionObstaclesNames.PushBack( 'Character' );
+		
 		collisionObstaclesNames.PushBack( 'Foliage' );
 		collisionObstaclesNames.PushBack( 'Dynamic' );
 		collisionObstaclesNames.PushBack( 'Destructible' );
@@ -257,15 +262,15 @@ class CClimbProbe
 		collisionForceAllowNames.PushBack( 'UnlockClimb' );
 		collisionLockNames.PushBack( 'LockClimb' );
 		
-		// Prepare angle calculations 
+		
 		slopeNormalZMax	= CosF( Deg2Rad( slopeAngleMax ) );
 		
-		// Init aux
+		
 		vectorUp		= Vector( 0.0f,0.0f, 1.0f );
 		vectorZero		= Vector( 0.0f,0.0f, 0.0f );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function PreUpdate( position : Vector, direction : Vector, requireInputDir : bool, distanceType : EClimbDistanceType,  logFails : bool )
 	{
 		PrepareDebugPositions();
@@ -289,17 +294,17 @@ class CClimbProbe
 		setupReady	= false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ComputeStartup()
 	{		
 		var i			: int;
 		
-		// Find the highest ceiling
+		
 		ComputeCeiling();	
 		
 		valid		= ComputeCurCeilingStartup();
 		
-		// Far special case
+		
 		if( distanceCheckType	== ECDT_Far )
 		{
 			i	= 0;
@@ -316,7 +321,7 @@ class CClimbProbe
 		setupReady	= valid;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ComputeStartupFromThisPoint( manualPoint : Vector )
 	{
 		ComputeFakeCeiling( manualPoint );
@@ -325,7 +330,7 @@ class CClimbProbe
 		setupReady	= valid;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeCurCeilingStartup() : bool
 	{
 		if( !DoWeHaveAValidCeiling() )
@@ -333,11 +338,11 @@ class CClimbProbe
 			return false;
 		}
 		
-		// Highest ground found
+		
 		ComputeGround();
 		
 		if( !DoWeHaveGroundStartUp() )
-		//if( !DoWeHaveGround() )
+		
 		{			
 			return false;
 		}
@@ -345,7 +350,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ComputeClimbDetails() : bool
 	{		
 		if( !valid )
@@ -353,14 +358,14 @@ class CClimbProbe
 			return false;
 		}
 		
-		// Found any ground ?
-		if( !DoWeHaveGround() )						// needs ground computed
+		
+		if( !DoWeHaveGround() )						
 		{
 			return false;
 		}
 		
-		// Is ground climbable
-		//ComputeClimbableGround();
+		
+		
 		ComputeClimbableGroundPhysics();
 		
 		if( !DoWeHaveAClimbableGround() )
@@ -368,57 +373,54 @@ class CClimbProbe
 			return false;
 		}
 		
-		// Vertical space?
-		if( !DoWeHaveSpaceBetweenGroundAndCeiling() )	// need ground and ceiling computed
+		
+		if( !DoWeHaveSpaceBetweenGroundAndCeiling() )	
 		{
 			return false;
 		}
 		
-		// Get a better direction to check the wall		
-		RecomputeDirectionWithGroundPoint();			// Needs ground computed
 		
-		// Get the wall
-		//ComputeNormalOfWall();						// needs ground computed
-		ComputeNormalOfWallDetailed();				// needs ground computed
+		RecomputeDirectionWithGroundPoint();			
 		
-		// Found any wall or edge?
-		if( !DoWeHaveAWall() )						// needs wall computed
+		
+		
+		ComputeNormalOfWallDetailed();				
+		
+		
+		if( !DoWeHaveAWall() )						
 		{
 			return false;
 		}
 		
-		// If the wall is far away from the ground, let's refine the ground
-		RefineGroundBasedOnWall();					// Needs ground and wall computed
 		
-		// Find room to enter
-		ComputeSpaceToEnter();						// Needs ground, ceiling and normal computed
+		RefineGroundBasedOnWall();					
 		
-		// Hole?
-		if( !DoWeHaveEnoughSpace() ) 				// needs hole computed
+		
+		ComputeSpaceToEnter();						
+		
+		
+		if( !DoWeHaveEnoughSpace() ) 				
 		{
 			return false;
 		}
 		
-		// Compute Vault
-		ComputeVaultMode();							// Needs normal of wall computed
 		
-		// Climb only calculations and checks
+		ComputeVaultMode();							
+		
+		
 		if( vaultingFound == ECRV_NoVault )
 		{
-			// General Slope? 
-			/*if( !DoWeHaveProperSlope() )			// needs ground computed
-			{							
-				return false;
-			}*/
 			
-			// Vertical slope
-			ComputeVerticalSlope();					// needs ground and wall computed
+			
+			
+			
+			ComputeVerticalSlope();					
 			if( !DoWeHaveProperVerticalSlope() )
 			{
 				return false;
 			}
 			
-			// If we have no platform (so we have a wall ) check for angular slope in the low part
+			
 			if( platformFound == ECRV_NoPlatform )
 			{
 				ComputeVerticalLowSlope();
@@ -428,10 +430,10 @@ class CClimbProbe
 				}
 			}
 			
-			// Distance in front of the wall to fi thte climbing capsule
+			
 			if( vertFreeHeightEnable )
 			{
-				ComputeVerticalFreeDistanceInFront();	// needs ground and wall computed
+				ComputeVerticalFreeDistanceInFront();	
 				if( !DoWeHaveEnoughVerticalFreeDistance() )
 				{
 					return false;
@@ -439,39 +441,39 @@ class CClimbProbe
 			}
 		}
 		
-		// Platform or wall
+		
 		ComputePlatformMode();
 		
 		
-		// Compute Horizontal inclination
-		ComputeHorizontalHeightDiff();				// needs ground and normal computed
+		
+		ComputeHorizontalHeightDiff();				
 		
 		
-		// Horizontal Slope?
-		if( !DoWeHaveProperHorizontalDiff() )  		// need horizontal height diff computed
+		
+		if( !DoWeHaveProperHorizontalDiff() )  		
 		{
 			return false;
 		}
 		
-		// Based on horizontal result, find a better climb point
+		
 		ComputeClimbAproximation();
 		
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IsSetupValid() : bool
 	{
 		return setupReady;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IsValid() : bool
 	{
 		return valid;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetClimbData( out height : float, out vault : EClimbRequirementVault, out vaultFalls : bool, out platform : EClimbRequirementPlatform, out climbPoint : Vector, out wallNormal : Vector ) : bool
 	{
 		if( !valid )
@@ -490,10 +492,10 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetGroundPoint() : Vector
 	{
-		if( !setupReady ) // we need to check if the first pass was ok, save it in a var )
+		if( !setupReady ) 
 		{
 			return exploratorPosition;
 		}
@@ -501,8 +503,8 @@ class CClimbProbe
 		return groundEndPoint;
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Checks if there is ceiling and finds where is it
+	
+	
 	private function ComputeCeiling()
 	{
 		var position	: Vector;
@@ -513,17 +515,17 @@ class CClimbProbe
 		var heightFree	: float;
 		
 		
-		// Do a swipe test, down to up
+		
 		position				= exploratorPosition - directionChecking * ceilingBackOffsetClose;
 		ceilingCheckFrom		= position + vectorUp * ( heightTotalMin + ceilingHeightNeeded );
 		ceilingCheckTo			= position + vectorUp * ( heightTotalMax + ceilingHeightNeeded );
 		
-		// Found ceiling
+		
 		ceilingCheckingClose	= true;
 		ceilingFound			= theGame.GetWorld().SweepTest( ceilingCheckFrom, ceilingCheckTo, ceilingRadius, pointC, normal, collisionObstaclesNames );
 		point					= pointC;
 		
-		// Try to get a higher ceiling
+		
 		if( ceilingFound  && ceilingDoubleCheck )
 		{
 			position			= exploratorPosition - directionChecking * ceilingBackOffsetFar;
@@ -531,7 +533,7 @@ class CClimbProbe
 			ceilingCheckTo		= position + vectorUp * ( heightTotalMax + ceilingHeightNeeded );
 			ceilingFound		= theGame.GetWorld().SweepTest( ceilingCheckFrom, ceilingCheckTo, ceilingRadius, pointF, normal, collisionObstaclesNames );
 			
-			// We want the second one if it is higher
+			
 			if( pointF.Z > pointC.Z )
 			{
 				point					= pointF;
@@ -549,12 +551,12 @@ class CClimbProbe
 		
 		heightFree	= point.Z - position.Z;
 		
-		// Save the data
+		
 		SetCeilingData( point, heightFree );
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Sets ceiling data from a given ceiling point
+	
+	
 	private function ComputeFakeCeiling( manualPoint : Vector )
 	{
 		var heightFree	: float;
@@ -563,19 +565,19 @@ class CClimbProbe
 		ceilingFound 	= true;
 		heightFree		= manualPoint.Z - exploratorPosition.Z;
 		
-		// Save the data
+		
 		SetCeilingData( manualPoint, heightFree);
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetCeilingData( point : Vector, heightFree : float )
 	{
 		ceilingPoint		= point;
 		ceilingHeightFree	= heightFree;
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Find the highest ground to step on
+	
+	
 	private function ComputeGround()
 	{
 		var position	: Vector;
@@ -586,7 +588,7 @@ class CClimbProbe
 		var rayEnd		: Vector;
 		
 		
-		// Do a swipe test, up to down
+		
 		position			= exploratorPosition;
 		groundCheckFrom		= position + directionChecking * distForwardToCheck;
 		groundCheckTo		= groundCheckFrom + vectorUp * heightTotalMin;
@@ -594,7 +596,7 @@ class CClimbProbe
 		
 		groundFound			= theGame.GetWorld().SweepTest( groundCheckFrom, groundCheckTo, groundRadiusToCheck, point, normal, collisionClimbableNames );
 		
-		// Input reqirement for ground point validity
+		
 		if( groundFound && directionRequiresInput )
 		{
 			if( !IsGroundPointCloseToDirection( point ) )
@@ -603,30 +605,22 @@ class CClimbProbe
 			}
 		}
 		
-		// Found
+		
 		if( groundFound )
 		{		
-			/*	
-			onlyDebugPoint	= point;
-			// Get better point
-			rayOrig		= point;
-			rayOrig.Z	+= 1.0f;
-			rayEnd		= point;
-			rayEnd.Z	-= 1.0f;
-			theGame.GetWorld().StaticTrace( rayOrig, rayEnd, point, normal, collisionClimbableNames );
-			*/
 			
-			// Save it
+			
+			
 			groundEndPoint	= point;
 			groundEndNormal	= normal;
 			heightTarget	= point.Z - position.Z;
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function IsGroundPointCloseToDirection( point : Vector ) : bool
 	{
-		//return true;
+		
 		
 		var dirFound	: Vector;
 		
@@ -637,7 +631,7 @@ class CClimbProbe
 		return VecDot( dirFound, directionChecking ) > 0.5f;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function RecomputeDirectionWithGroundPoint()
 	{
 		directionChecking	= groundEndPoint - exploratorPosition;
@@ -645,8 +639,8 @@ class CClimbProbe
 		directionChecking	= VecNormalize( directionChecking );
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Finds the entities in the ground and check if they are unclimbable
+	
+	
 	private function ComputeClimbableGround()
 	{
 		var i				: int;
@@ -654,7 +648,7 @@ class CClimbProbe
 		var entities		: array< CEntity >;
 		var locked			: bool;
 		
-		// Set it as climbableFound and later check if it is disallowed
+		
 		climbableFound			= true;
 		locked					= false;
 		climbableObjForceAllow	= false;
@@ -663,7 +657,7 @@ class CClimbProbe
 		totalEntities	= entities.Size();
 		for( i = 0; i < totalEntities; i+= 1 )
 		{
-			// Force allow climb
+			
 			if( entities[i].HasTag( climbableUnLockTag )  )
 			{
 				climbableObjForceAllow	= true;
@@ -680,11 +674,11 @@ class CClimbProbe
 				climbablePoint			= groundEndPoint;
 				climbableFound			= true;
 				
-				// Force allow overrides lock
+				
 				return;
 			}
 			
-			// Lock climb
+			
 			if( !locked )
 			{
 				if( entities[i].HasTag( climbableLockTag ) )
@@ -707,8 +701,8 @@ class CClimbProbe
 		}
 	}
 
-	//---------------------------------------------------------------------------------
-	// Finds the entities in the ground and check if they are unclimbable
+	
+	
 	private function ComputeClimbableGroundPhysics()
 	{
 		var origin	: Vector;
@@ -724,19 +718,19 @@ class CClimbProbe
 		climbablePoint	= groundEndPoint;
 		
 		
-		// Check if we found a force climbable object
-		if( theGame.GetWorld().SweepTest( origin, end, climbableRadius, point, normal, collisionForceAllowNames ) ) // collisionClimbableNames ) ) //
+		
+		if( theGame.GetWorld().SweepTest( origin, end, climbableRadius, point, normal, collisionForceAllowNames ) ) 
 		{
 			climbableFound			= true;
 			climbableObjForceAllow	= true;
 		}
-		// Check if we found an unclimbable object
-		else if( theGame.GetWorld().SweepTest( origin, end, climbableRadius, point, normal, collisionLockNames ) ) // collisionClimbableNames ) ) //
+		
+		else if( theGame.GetWorld().SweepTest( origin, end, climbableRadius, point, normal, collisionLockNames ) ) 
 		{
 			climbableFound			= false;
 			climbableObjForceAllow	= false;
 		}
-		// Default
+		
 		else
 		{
 			climbableFound			= true;
@@ -744,8 +738,8 @@ class CClimbProbe
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Finds the normal of the wall we are trying to climb
+	
+	
 	private function ComputeNormalOfWall()
 	{
 		var direction	: Vector;
@@ -754,7 +748,7 @@ class CClimbProbe
 		var distBack	: float;
 		
 		
-		// We'll get a back distance based on the distance we found the ceiling
+		
 		if( ceilingCheckingClose )
 		{
 			distBack	= groundRadiusToCheck + ceilingBackOffsetClose;
@@ -765,9 +759,9 @@ class CClimbProbe
 		}
 		distBack		+= wallNormalCheckBackExtra;
 		
-		// Do a swipe test, back to front
-		//position		= exploratorPosition;
-		//position.Z		= groundEndPoint.Z;
+		
+		
+		
 		position		= groundEndPoint;
 		wallCheckFromL	= position - directionChecking * distBack;
 		wallCheckToL	= position + directionChecking * ( distForwardToCheck + 2.0f * groundRadiusToCheck );
@@ -778,15 +772,15 @@ class CClimbProbe
 			return;
 		}
 		
-		// Save it
+		
 		wallNormalOrigin		= wallCollL;
 		wallNormalDirection		= normal;
 		wallNormalDirection.Z	= 0.0f;
 		wallNormalDirection		= VecNormalize( wallNormalDirection );
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Finds the normal of the wall we are trying to climb
+	
+	
 	private function ComputeNormalOfWallDetailed()
 	{
 		var direction	: Vector;
@@ -798,7 +792,7 @@ class CClimbProbe
 		var foundR		: bool;
 		
 		
-		// We'll get a back distance based on the distance we found the ceiling
+		
 		if( ceilingCheckingClose )
 		{
 			distBack	= groundRadiusToCheck + ceilingBackOffsetClose;
@@ -811,7 +805,7 @@ class CClimbProbe
 		
 		direction		= VecCross( directionChecking, vectorUp );
 		
-		// Do a swipe test for each side, back to front
+		
 		position		= groundCheckFrom - direction * wallSideSeparation;
 		position.Z		= groundEndPoint.Z - wallRadiusToCheck * 0.3f;
 		wallCheckFromL	= position - directionChecking * distBack;
@@ -845,13 +839,13 @@ class CClimbProbe
 			wallNormalDirection		= normalR;
 		}
 		
-		// Make it flat
+		
 		wallNormalDirection.Z	= 0.0f;
 		wallNormalDirection		= VecNormalize( wallNormalDirection );
 	}
 	
-	//---------------------------------------------------------------------------------
-	// if wall is far from ground, refine ground
+	
+	
 	private function RefineGroundBasedOnWall()
 	{
 		var refinedGround	: Vector;
@@ -862,7 +856,7 @@ class CClimbProbe
 		var wallNormalModif	: float;
 		
 		
-		// Init
+		
 		groundRefined	= false;
 		
 		
@@ -871,57 +865,57 @@ class CClimbProbe
 			return;
 		}
 		
-		// If the wall is less back than the ground point we don't refine
+		
 		if( VecDot2D( wallNormalOrigin - groundEndPoint, directionChecking ) >= 0.0f )
 		{
 			return;
 		}
 		
-		// Check if the distance from wall to ground is big enough
+		
 		distance	= VecDistance2D( groundEndPoint, wallNormalOrigin );
 		if( distance > groundRefineDistCheck )
 		{
-			// Try to find a better ground
+			
 			from			= wallNormalOrigin;
 			to				= from;
 			from.Z			= groundEndPoint.Z + groundRefineHeightCheck;
 			to.Z			= groundEndPoint.Z - groundRefineHeightCheck;
 			groundRefined	= theGame.GetWorld().SweepTest( from, to, groundRefineRadius, refinedGround, normal, collisionClimbableNames );
 			
-			// Found it?
+			
 			if( groundRefined )
 			{
-				// If normal is more "Back" than refined ground
+				
 				if( VecDot2D( refinedGround - wallNormalOrigin, directionChecking ) > 0.0f )
 				{
 					groundEndPoint		= wallNormalOrigin;
 					groundEndPoint.Z	= refinedGround.Z;
 				} 
-				// if refined is more back than orifiganl
+				
 				else
 				{
 					groundEndPoint	= refinedGround;
 				}
 				
-				// Get a refined height
-				//wallNormalModif 	= MaxF( wallCollL.Z, wallCollR.Z ) * 0.85f + MinF( wallCollL.Z, wallCollR.Z ) * 0.15f;	
-				//groundEndPoint.Z	= MaxF( refinedGround.Z, wallNormalModif );				
 				
-				// Update the target height
+				
+				
+				
+				
 				heightTarget		= groundEndPoint.Z - exploratorPosition.Z;
 			}
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Compute if we have a "hole in the wall" big enough to climb inside
+	
+	
 	private function ComputeSpaceToEnter()
 	{
 		var	point 		: Vector;
 		var normal		: Vector;
 		
 		
-		// Do a swipe test, back to forward
+		
 		holeCheckFrom		= wallNormalOrigin;
 		holeCheckFrom.Z		= groundEndPoint.Z + ceilingHeightNeeded * 0.5f;
 		holeCheckTo			= holeCheckFrom - wallNormalDirection * ( holeForwardNeeded );
@@ -934,8 +928,8 @@ class CClimbProbe
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Gets the horizontal slope of the part we want to put our hands
+	
+	
 	private function ComputeHorizontalHeightDiff()
 	{
 		var position	: Vector;
@@ -950,22 +944,22 @@ class CClimbProbe
 		var pointR		: Vector;
 		
 		
-		// Do a swipe test, up to down
+		
 		position	= groundEndPoint + vectorUp;
 		direction	= VecCross( wallNormalDirection, vectorUp );
-		//position	-= wallNormalDirection * 0.1f;
 		
-		// Left hit	
+		
+		
 		from			= position + direction * horizHeightSeparation;
 		to				= from - vectorUp * 2.0f;
 		horizFoundLeft	= theGame.GetWorld().SweepTest( from, to, horizHeightRdius, pointL, normalL, collisionClimbableNames );
 		
-		// Right hit
+		
 		from			= position - direction * horizHeightSeparation;
 		to				= from - vectorUp * 2.0f;
 		horizFoundRight	= theGame.GetWorld().SweepTest( from, to, horizHeightRdius, pointR, normalR, collisionClimbableNames );
 		
-		// Nothing found
+		
 		if( !horizFoundLeft && !horizFoundRight )
 		{
 			horizHeightAngleCur	= 180.0f;
@@ -973,7 +967,7 @@ class CClimbProbe
 			return;
 		}
 		
-		// Found one only
+		
 		if( !horizFoundLeft )
 		{
 			slope			= VecCross( normalR, wallNormalDirection );
@@ -984,17 +978,17 @@ class CClimbProbe
 			slope			= VecCross( normalL, wallNormalDirection );
 			horizPointLeft	= pointL;
 		}
-		// found both
+		
 		else
 		{
 			horizPointLeft	= pointL;
 			horizPointRight	= pointR;
 			
-			// Get the angle
+			
 			slope			= VecNormalize( horizPointLeft - horizPointRight );
 		}
 		
-		// Get the angle
+		
 		angle			= AngleNormalize180( VecGetAngleBetween ( slope, direction ) );
 		if( slope.Z < 0.0f )
 		{
@@ -1003,7 +997,7 @@ class CClimbProbe
 		horizHeightAngleCur	= angle;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeClimbAproximation()
 	{
 		if( !horizFoundRight )
@@ -1016,8 +1010,8 @@ class CClimbProbe
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Finds out if there is space to turn vaulting into a climb
+	
+	
 	private function ComputeVaultMode()
 	{
 		var point		: Vector;
@@ -1027,21 +1021,21 @@ class CClimbProbe
 		var collided	: bool;
 		
 		
-		// Init
+		
 		vaultEndsFalling		= false;
 		
-		// Find horizontal direction and base point
+		
 		direction	= -wallNormalDirection;
 		direction.Z	= 0.0f;
 		direction	= VecNormalize( direction );
 		point		= wallNormalOrigin;
 		
-		// Prepare origin and end
+		
 		point.Z			= groundEndPoint.Z + vaultHeightOffset + vaultRadius;
 		vaultCheckFrom	= point + direction * ( vaultDistance + vaultRadius );
-		vaultCheckTo	= vaultCheckFrom - vectorUp * heightTotalMax;//( vaultHeight + vaultHeightOffset );
+		vaultCheckTo	= vaultCheckFrom - vectorUp * heightTotalMax;
 		
-		// Found ground ?
+		
 		collided		= theGame.GetWorld().SweepTest( vaultCheckFrom, vaultCheckTo, vaultRadius, point, normal, collisionObstaclesNames );
 		if( !collided )
 		{
@@ -1066,14 +1060,14 @@ class CClimbProbe
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputePlatformMode()
 	{
 		var position	: Vector;
 		var normal		: Vector;
 		
 		
-		// We need only to check if the height is enough
+		
 		if( heightTarget < platformMinToCheck )
 		{
 			platformFound	= ECRV_NoPlatform;
@@ -1084,7 +1078,7 @@ class CClimbProbe
 		position		= wallNormalOrigin;
 		position.Z		= groundEndPoint.Z - platformHeightDown - platformRadius;
 		
-		// Do we have a wall below?
+		
 		platformFrom	= position + wallNormalDirection * characterRadius;
 		platformTo		= position - wallNormalDirection * platformDeep;
 		
@@ -1098,7 +1092,7 @@ class CClimbProbe
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeVerticalSlope()
 	{
 		var position	: Vector;
@@ -1109,8 +1103,8 @@ class CClimbProbe
 		position	= wallNormalOrigin;
 		position.Z	= groundEndPoint.Z ;
 		
-		// Up hit
-		vertSlopeAngleFrom	= holeCheckTo; // position + vectorUp * ceilingHeightNeeded * 0.5f;
+		
+		vertSlopeAngleFrom	= holeCheckTo; 
 		vertSlopeAngleTo	= position - vectorUp - vertSlopeAngleOffset * wallNormalDirection;
 		if( !theGame.GetWorld().SweepTest( vertSlopeAngleFrom, vertSlopeAngleTo, horizHeightRdius, point, normal, collisionClimbableNames ) )
 		{
@@ -1121,11 +1115,11 @@ class CClimbProbe
 		}
 		vertSlopeAnglePoint	= point;
 		
-		// Get the angle	
+		
 		vertSlopeAngleCur	= GetVerticalAngle( point, groundEndPoint );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeVerticalLowSlope()
 	{
 		var position		: Vector;
@@ -1136,8 +1130,8 @@ class CClimbProbe
 		
 		heightToCheck			= MaxF( exploratorPosition.Z + horizHeightRdius * 1.1f, wallCheckFromL.Z - vertSlopeAngleLowOffset );
 		
-		vertSlopeLowAngleFrom	= ( wallCheckFromL + wallCheckFromR ) * 0.5f;// - vectorUp * vertSlopeAngleLowOffset;
-		vertSlopeLowAngleTo		= ( wallCheckToL + wallCheckToR ) * 0.5f;// - vectorUp * vertSlopeAngleLowOffset;
+		vertSlopeLowAngleFrom	= ( wallCheckFromL + wallCheckFromR ) * 0.5f;
+		vertSlopeLowAngleTo		= ( wallCheckToL + wallCheckToR ) * 0.5f;
 		vertSlopeLowAngleFrom.Z	= heightToCheck;
 		vertSlopeLowAngleTo.Z	= heightToCheck;
 		
@@ -1150,7 +1144,7 @@ class CClimbProbe
 		}
 		vertSlopeLowAnglePoint	= point;
 		
-		// Get the angle	
+		
 		vertSlopeLowAngleCur	= AngleNormalize180( VecGetAngleBetween( wallNormalOrigin - point, vectorUp ) );
 		if( VecDot( wallNormalOrigin - point, wallNormalDirection ) > 0.0f )
 		{
@@ -1158,7 +1152,7 @@ class CClimbProbe
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeVerticalFreeDistanceInFront()
 	{	
 		var position		: Vector;
@@ -1168,7 +1162,7 @@ class CClimbProbe
 		var heightNeeded	: float;
 		
 		
-		// Ignore for very low climbs
+		
 		if( heightTarget <= vertFreeHeightGrndMax )
 		{
 			vertFreeHeightCur	= vertFreeHeightMin;
@@ -1177,7 +1171,7 @@ class CClimbProbe
 		}
 		
 		
-		// Do a swipe test, up to down
+		
 		position	= wallNormalOrigin + ( vertFreeHorOffset + vertFreeHorMin * 2.0f ) * wallNormalDirection;
 		position.Z	= groundEndPoint.Z ;
 		
@@ -1198,7 +1192,7 @@ class CClimbProbe
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveAValidCeiling() : bool
 	{
 		if( ceilingFound && ceilingHeightFree < ceilingHeightNeeded )
@@ -1211,7 +1205,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveHeightForBottomGround() : bool
 	{
 		var exploratorPosition : Vector;
@@ -1220,14 +1214,14 @@ class CClimbProbe
 		exploratorPosition	= exploratorPosition;
 		if( groundEndPoint.Z < exploratorPosition.Z + heightTotalMin + ceilingHeightNeeded )
 		{
-			//LogExplorationClimb( "We don't have enough space to search for a bottom exploration " + ( groundEndPoint.Z - exploratorPosition.Z - heightTotalMin - ceilingHeightNeeded ) );
+			
 			return false;
 		}
 		
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveGroundStartUp() : bool
 	{
 		if( !groundFound )
@@ -1252,7 +1246,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveGround() : bool
 	{
 		if( !groundFound )
@@ -1283,7 +1277,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveAClimbableGround() : bool
 	{
 		if( !climbableFound )
@@ -1302,7 +1296,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveAWall() : bool
 	{
 		if( !wallFound )
@@ -1315,7 +1309,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveSpaceBetweenGroundAndCeiling() : bool
 	{
 		var freeSpace	: float;
@@ -1335,7 +1329,7 @@ class CClimbProbe
 		return true;	
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveEnoughSpace() : bool
 	{
 		if( holeIsBlocked )
@@ -1348,7 +1342,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveProperHorizontalDiff() : bool
 	{		
 		if( vaultingFound == ECRV_Vault )
@@ -1369,13 +1363,13 @@ class CClimbProbe
 		return true;	
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveProperSlope() : bool
 	{
 		var	dot	: float;
 		
 		dot	= VecDot( groundEndNormal, vectorUp );
-		//dot	= normal.Z;
+		
 		
 		if(  dot < slopeNormalZMax )
 		{		
@@ -1387,7 +1381,7 @@ class CClimbProbe
 		return true;	
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveProperVerticalSlope() : bool
 	{
 		if( AbsF( vertSlopeAngleCur ) > vertSlopeAngleMax )
@@ -1400,10 +1394,10 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveProperVerticalSlopeLow() : bool
 	{
-		if( vertSlopeLowAngleCur > vertSlopeLowAngleMax ) //we need to get the angle with real sign
+		if( vertSlopeLowAngleCur > vertSlopeLowAngleMax ) 
 		{
 			FailedClimbCheckBecause( "Vertical LOW slope is too much: " + vertSlopeLowAngleCur + " > " + vertSlopeLowAngleMax );
 			
@@ -1413,7 +1407,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DoWeHaveEnoughVerticalFreeDistance() : bool
 	{
 		if( vertFreeHeightCur < vertFreeHeightMin )
@@ -1425,7 +1419,7 @@ class CClimbProbe
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function FailedClimbCheckBecause( failExplanation : string )
 	{
 		valid	= false;
@@ -1446,7 +1440,7 @@ class CClimbProbe
 	}
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function GetVerticalAngle( from, to : Vector) : float
 	{
 		var slopeFlat	: Vector;
@@ -1467,14 +1461,14 @@ class CClimbProbe
 		return angle;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetDebugText() : string
 	{
 		var text	: string;
 		
 		text	= "";
 		
-		// Force allow
+		
 		if( climbableObjForceAllow )
 		{
 			if( climbableObjTagOnLayer )
@@ -1488,7 +1482,7 @@ class CClimbProbe
 			text	+= climbableObjName + ", ";
 		}
 		
-		// rest of the data
+		
 		text += "Height: " + heightTarget + ", Ceiling height free: " + ceilingHeightFree 
 			+ ",  Horizontal diff: " + horizHeightAngleCur 
 			+ " SlopeVertUp: " + vertSlopeAngleCur  + " SlopeVertDown: " + vertSlopeLowAngleCur
@@ -1497,7 +1491,7 @@ class CClimbProbe
 		return text;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function PrepareDebugPositions()
 	{
 		if( !debugDrawGraphics )
@@ -1507,14 +1501,14 @@ class CClimbProbe
 		
 		climbablePoint 	= vectorZero;
 		
-		// Ceiling
+		
 		if( debugCeiling )
 		{
 			ceilingCheckFrom	= vectorZero;
 			ceilingPoint		= vectorZero;
 		}
 		
-		// Ground
+		
 		if( debugGround )
 		{
 			groundEndPoint		= vectorZero;
@@ -1522,7 +1516,7 @@ class CClimbProbe
 			groundCheckTo		= vectorZero;
 		}
 		
-		// Wall
+		
 		if( debugWall )
 		{
 			wallNormalOrigin	= vectorZero;
@@ -1532,7 +1526,7 @@ class CClimbProbe
 			wallCollR			= vectorZero;
 		}
 		
-		// Hole
+		
 		if( debugHole )
 		{
 			holeCollision		= vectorZero;
@@ -1540,7 +1534,7 @@ class CClimbProbe
 			holeCheckTo			= vectorZero;
 		}
 		
-		// Vault
+		
 		if( debugVault )
 		{
 			vaultCheckFrom		= vectorZero;
@@ -1548,14 +1542,14 @@ class CClimbProbe
 			vaultCollision		= vectorZero;
 		}
 		
-		// Horiz slope
+		
 		if( debugHorSlope )
 		{
 			horizPointLeft		= vectorZero;
 			horizPointRight		= vectorZero;
 		}
 		
-		// Vert slope
+		
 		if( debugVertSlope )
 		{
 			vertSlopeAngleFrom	= vectorZero;
@@ -1563,7 +1557,7 @@ class CClimbProbe
 			vertSlopeAnglePoint	= vectorZero;
 		}
 		
-		// Frontal space
+		
 		if( debugVertFree )
 		{
 			vertFreeFrom		= vectorZero;
@@ -1571,7 +1565,7 @@ class CClimbProbe
 			vertFreeCollPoint	= vectorZero;
 		}
 		
-		// Platform
+		
 		if( debugPlatform )
 		{
 			platformCollision	= vectorZero;
@@ -1580,7 +1574,7 @@ class CClimbProbe
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnVisualDebug( frame : CScriptedRenderFrame, flag : EShowFlags, active : bool )
 	{
 		var vecAux			: Vector;
@@ -1596,7 +1590,7 @@ class CClimbProbe
 			return true;
 		}
 		
-		// Ceiling
+		
 		if( debugCeiling )
 		{
 			colorAux	= Color( 255 / debugColorDiv, 0, 0 );
@@ -1608,7 +1602,7 @@ class CClimbProbe
 			frame.DrawText( "" + ceilingHeightFree, ceilingPoint - vectorUp * heightText, colorAux );
 		}
 		
-		// Ground
+		
 		if( debugGround )
 		{
 			colorAux	= Color( 0, 255 / debugColorDiv, 0 );
@@ -1626,7 +1620,7 @@ class CClimbProbe
 			frame.DrawText( "" + heightTarget, groundEndPoint - vectorUp * heightText, colorAux );
 		}
 		
-		// Wall
+		
 		if( debugWall )
 		{
 			colorAux	= Color( 0, 0, 255 / debugColorDiv );
@@ -1641,7 +1635,7 @@ class CClimbProbe
 			frame.DrawText( "WR", wallCollR, colorAux );
 		}
 		
-		// Hole
+		
 		if( debugHole )
 		{
 			colorAux	= Color( 255 / debugColorDiv, 0, 255 / debugColorDiv );
@@ -1654,7 +1648,7 @@ class CClimbProbe
 			frame.DrawText( "H", holeCollision, colorAux );
 		}
 		
-		// Vault
+		
 		if( debugVault )
 		{
 			colorAux	= Color( 0, 255 / debugColorDiv, 255 / debugColorDiv );
@@ -1666,7 +1660,7 @@ class CClimbProbe
 			frame.DrawText( "" + vaultHeight, vaultCollision - vectorUp *heightText, colorAux );
 		}
 		
-		// Horiz slope
+		
 		if( debugHorSlope )
 		{
 			colorAux	= Color( 255 / debugColorDiv, 0, 255 / debugColorDiv );
@@ -1677,7 +1671,7 @@ class CClimbProbe
 			frame.DrawText( "" + horizHeightAngleCur, horizPointLeft - vectorUp * heightText, colorAux );
 		}
 		
-		// Vert slope
+		
 		if( debugVertSlope )
 		{
 			colorAux	= Color( 255 / debugColorDiv, 0, 0 );		
@@ -1692,7 +1686,7 @@ class CClimbProbe
 			frame.DrawText( "" + vertSlopeLowAngleCur, vertSlopeLowAnglePoint - vectorUp * heightText, colorAux );
 		}
 		
-		// Frontal space
+		
 		if( debugVertFree )
 		{
 			colorAux	= Color( 255 / debugColorDiv, 0, 0 );		
@@ -1703,7 +1697,7 @@ class CClimbProbe
 			frame.DrawText( "F", vertFreeCollPoint, colorAux );
 		}
 		
-		// Platform
+		
 		if( debugPlatform )
 		{
 			colorAux	= Color( 255 / debugColorDiv, 255 / debugColorDiv, 0 );	
@@ -1713,7 +1707,7 @@ class CClimbProbe
 			frame.DrawText( "P", platformTo, colorAux );
 		}
 		
-		// Locked object
+		
 		if( !climbableFound )
 		{
 			colorAux	= Color( 255 / debugColorDiv, 0, 0 );
@@ -1726,7 +1720,7 @@ class CClimbProbe
 			frame.DrawText( textAux, climbablePoint + vectorUp * 0.5f, colorAux );
 		}
 		
-		// Error message
+		
 		colorAux	= Color( 255 / debugColorDiv, 0, 0 );
 		frame.DrawText( debugLastErrorMessage, debugLastErrorPosition, colorAux );
 		

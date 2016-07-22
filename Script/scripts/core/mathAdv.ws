@@ -1,11 +1,16 @@
-﻿
-// This file is not for designers
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-//////////////////////////////////////////////
-// Engine Qs Transform functions			//
-//////////////////////////////////////////////
 
-import function t_Identity( /*inout*/ a : EngineQsTransform );
+
+
+
+
+
+import function t_Identity(  a : EngineQsTransform );
 import function t_SetIdentity() : EngineQsTransform;
 
 import function t_BuiltTrans( move : Vector ) : EngineQsTransform;
@@ -13,9 +18,9 @@ import function t_BuiltRotQuat( quat : Vector ) : EngineQsTransform;
 import function t_BuiltRotAngles( x : float, y : float, z : float ) : EngineQsTransform;
 import function t_BuiltScale( scale : Vector ) : EngineQsTransform;
 
-import function t_Trans( /*inout*/ a : EngineQsTransform, move : Vector );
-import function t_RotQuat( /*inout*/ a : EngineQsTransform, quat : Vector );
-import function t_Scale( /*inout*/ a : EngineQsTransform, scale : Vector );
+import function t_Trans(  a : EngineQsTransform, move : Vector );
+import function t_RotQuat(  a : EngineQsTransform, quat : Vector );
+import function t_Scale(  a : EngineQsTransform, scale : Vector );
 
 import function t_SetTrans( a : EngineQsTransform, move : Vector ) : EngineQsTransform;
 import function t_SetRotQuat( a : EngineQsTransform, quat : Vector ) : EngineQsTransform;
@@ -32,26 +37,26 @@ import function t_SetMulInvMul( a : EngineQsTransform, b : EngineQsTransform ) :
 import function t_SetInterpolate( a : EngineQsTransform, b: EngineQsTransform, w : float ) : EngineQsTransform;
 import function t_IsEqual( a : EngineQsTransform, b : EngineQsTransform ) : bool;
 
-import function t_Inv( /*inout*/ a : EngineQsTransform );
+import function t_Inv(  a : EngineQsTransform );
 import function t_SetInv( a : EngineQsTransform ) : EngineQsTransform;
 
-import function t_NormalizeQuat( /*inout*/ a : EngineQsTransform );
-import function t_BlendNormalize( /*inout*/ a : EngineQsTransform, w : float );
+import function t_NormalizeQuat(  a : EngineQsTransform );
+import function t_BlendNormalize(  a : EngineQsTransform, w : float );
 import function t_IsOk( a : EngineQsTransform ) : bool;
 
 
-//////////////////////////////////////////////
-// Quaternion functions						//
-//////////////////////////////////////////////
+
+
+
 
 import function q_SetIdentity() : Vector;
-import function q_Identity( /*inout*/ a : Vector );
+import function q_Identity(  a : Vector );
 
 import function q_SetInv( a : Vector ) : Vector;
-import function q_Inv( /*inout*/ a : Vector );
+import function q_Inv(  a : Vector );
 
 import function q_SetNormalize( a : Vector ) : Vector;
-import function q_Normalize( /*inout*/ a : Vector );
+import function q_Normalize(  a : Vector );
 
 import function q_SetMul( a : Vector, b : Vector ) : Vector;
 import function q_SetMulMulInv( a : Vector, b : Vector ) : Vector;
@@ -61,7 +66,7 @@ import function q_SetShortestRotation( from : Vector, to : Vector ) : Vector;
 import function q_SetShortestRotationDamped( from : Vector, to : Vector, w : float ) : Vector;
 
 import function q_SetAxisAngle( axis : Vector, angle : float ) : Vector;
-import function q_RemoveAxisComponent( /*inout*/ quat : Vector, axis : Vector );
+import function q_RemoveAxisComponent(  quat : Vector, axis : Vector );
 import function q_DecomposeAxis( quat : Vector, axis : Vector ) : float;
 
 import function q_SetSlerp( a : Vector, b : Vector, w : float ) : Vector;
@@ -70,37 +75,33 @@ import function q_GetAngle( a : Vector ) : float;
 import function q_GetAxis( a : Vector ) : Vector;
 
 
-//////////////////////////////////////////////
-// Vector functions							//
-//////////////////////////////////////////////
+
+
+
 
 import function v_SetInterpolate( a : Vector, b : Vector, w : float ) : Vector;
 import function v_SetRotatedDir( quat : Vector, dir : Vector ) : Vector;
 import function v_SetTransformedPos( trans : EngineQsTransform, vec : Vector ) : Vector;
-import function v_ZeroElement( /*inout*/ a : Vector , i : int );
+import function v_ZeroElement(  a : Vector , i : int );
 
 
 
 function EPSILON() : float
 {
-	return 0.0001f; //  1.192092896e-07;
+	return 0.0001f; 
 }
 
-//////////////////////////////////////////////
-// Float functions (ADV)					//
-//////////////////////////////////////////////
 
-/**
-	calculates percentage value position along line from minVal to maxVal
-*/
+
+
+
+
 function GetRangePct_F( minVal : float, maxVal : float, value : float ) : float 
 {
 	return (value - minVal) / (maxVal - minVal);
 }
 
-/**
-	
-*/
+
 function GetRangePct_V( range : Vector, value : float) : float
 {
 	if(range.X != range.Y)
@@ -113,25 +114,19 @@ function GetRangePct_V( range : Vector, value : float) : float
 	}
 }
 
-/**
 
-*/
 function GetRangeVal_F( minVal : float, maxVal : float, pct : float ) : float 
 {
 	return ( minVal + (maxVal - minVal) * pct );
 }
 
-/**
 
-*/
 function GetRangeVal_V( range : Vector, pct : float ) : float
 {
 	return ( range.X + (range.Y - range.X) * pct );
 }
 
-/**
 
-*/
 function GetMappedRangeValue( inRange : Vector, outRange : Vector, value : float ) : float
 {
 	var clampedPct : float;
@@ -141,9 +136,7 @@ function GetMappedRangeValue( inRange : Vector, outRange : Vector, value : float
 	return	GetRangeVal_V(outRange, clampedPct);
 }
 
-/**
 
-*/
 function InterpTo_F( current : float, desired : float, deltaTime : float, interpSpeed : float ) : float
 {
 	var dist, delta : float;
@@ -166,9 +159,7 @@ function InterpTo_F( current : float, desired : float, deltaTime : float, interp
 	return current + delta;
 }
 
-/**
-	const interpolation step
-*/
+
 function InterpConstTo_F( current : float, desired : float, deltaTime : float, interpSpeed : float ) : float
 {
 	var dist, step : float;
@@ -191,35 +182,19 @@ function InterpConstTo_F( current : float, desired : float, deltaTime : float, i
 	return current + ClampF(dist, -step, step);
 }
 
-/**
-	interpolates with smoothly approaching B
-	
-	params:
-		A		- interpolate from
-		B		- interpolate to
-		alpha 	- interpolant
-		exp 	- exponent, higher values result in more rapid deceleration
-		
-		return	- interpolated value
-*/
+
 function InterpEaseIn_F( a : float, b : float, alpha : float, exp : float ) : float
 {
 	return LerpF(PowF(alpha, exp), a, b);
 }
 
-/**
-	interpolates with smoothly departs A
-	
-		exp 	- exponent, higher values result in more rapid acceleration
-*/
+
 function InterpEaseOut_F( a : float, b : float, alpha : float, exp : float ) : float
 {
 	return LerpF(PowF(alpha, 1/exp), a, b);
 }
 
-/**
 
-*/
 function InterpEaseInOut_F( a : float, b : float, alpha : float, exp : float ) : float
 {
 	var alphaMod : float;
@@ -236,13 +211,7 @@ function InterpEaseInOut_F( a : float, b : float, alpha : float, exp : float ) :
 	return LerpF(alphaMod, a, b);
 }
 
-/**
-	http://cubic.org/docs/hermite.htm
 
-	P - end points
-	T - tangent directions at end points
-	Alpha - distance along spline
-*/
 function CubicInterp_F( p0 : float, t0 : float, p1 : float, t1 : float, a : float ) : float
 {
 	var a2 : float = a * a;
@@ -254,13 +223,11 @@ function CubicInterp_F( p0 : float, t0 : float, p1 : float, t1 : float, a : floa
 			t1 * (a3 - a2) );
 }
 
-//////////////////////////////////////////////
-// Vector functions (ADV)					//
-//////////////////////////////////////////////
 
-/**
 
-*/
+
+
+
 function GetVectComponent( v : Vector, inComp : int ) : float
 {
 	switch(inComp)
@@ -275,9 +242,7 @@ function GetVectComponent( v : Vector, inComp : int ) : float
 	return 0.f;
 }
 
-/**
 
-*/
 function LerpV( a : Vector, b : Vector, alpha : float ) : Vector
 {
 	var dist, delta : Vector;
@@ -294,9 +259,7 @@ function LerpV( a : Vector, b : Vector, alpha : float ) : Vector
 	return a + delta;	
 }
 
-/**
 
-*/
 function InterpTo_V( current : Vector, desired : Vector, deltaTime : float, interpSpeed : float ) : Vector
 {
 	var dist, delta : Vector;
@@ -319,9 +282,7 @@ function InterpTo_V( current : Vector, desired : Vector, deltaTime : float, inte
 	return current + delta;
 }
 
-/**
 
-*/
 function CubicInterp_V( p0 : Vector, t0 : Vector, p1 : Vector, t1 : Vector, a : float ) : Vector
 {
 	var a2 : float = a * a;
@@ -333,35 +294,19 @@ function CubicInterp_V( p0 : Vector, t0 : Vector, p1 : Vector, t1 : Vector, a : 
 			t1 * (a3 - a2) );
 }
 
-/**
-	interpolates with smoothly approaching B
-	
-	params:
-		A		- interpolate from
-		B		- interpolate to
-		alpha 	- interpolant
-		exp 	- exponent, higher values result in more rapid deceleration
-		
-		return	- interpolated value
-*/
+
 function InterpEaseIn_V( a : Vector, b : Vector, alpha : float, exp : float ) : Vector
 {
 	return LerpV( a, b, PowF(alpha, exp));
 }
 
-/**
-	interpolates with smoothly departs A
-	
-		exp 	- exponent, higher values result in more rapid acceleration
-*/
+
 function InterpEaseOut_V( a : Vector, b : Vector, alpha : float, exp : float ) : Vector
 {
 	return LerpV(a, b, PowF(alpha, 1/exp));
 }
 
-/**
 
-*/
 function InterpEaseInOut_V( a : Vector, b : Vector, alpha : float, exp : float ) : Vector
 {
 	var alphaMod : float;
@@ -378,8 +323,8 @@ function InterpEaseInOut_V( a : Vector, b : Vector, alpha : float, exp : float )
 	return LerpV(a, b, alphaMod);
 }
 
-// Make a vector shorter by a certain amount, stopping at zero
-//---------------------------------------------------------------------------------                     	
+
+
 function VecReduceTowardsZero( source : Vector, ammount : float ) : Vector
 {
 	var length	: float;
@@ -393,27 +338,27 @@ function VecReduceTowardsZero( source : Vector, ammount : float ) : Vector
 	return source;
 }
 	
-// Shortens a vector without making it shorter than the _MinLengthF
-//---------------------------------------------------------------------------------
+
+
 function VecReduceNotExceedingV( _VectorV : Vector, _ReductionAmmountF :float, _MinLengthF : float ) :Vector
 {
 	var l_LengthF : float	= VecLengthSquared( _VectorV );
 	
-	// Check if we are allready at minimum speed
+	
 	if(l_LengthF <= _MinLengthF * _MinLengthF )
 	{
 		return _VectorV;
 	}
 	
-	// Square the length
+	
 	l_LengthF	= SqrtF( l_LengthF );
 	
-	// If we have to reach min speed, set it directly
+	
 	if(l_LengthF - _ReductionAmmountF	<=  _MinLengthF)
 	{
 		_VectorV	*= _MinLengthF / l_LengthF;
 	}
-	// Or reduce it normally
+	
 	else
 	{
 		_VectorV	*= ( 1.0f - _ReductionAmmountF / l_LengthF );
@@ -422,18 +367,18 @@ function VecReduceNotExceedingV( _VectorV : Vector, _ReductionAmmountF :float, _
 	return _VectorV;
 }
 
-// Adds a vector and limits the length to _MaxLengthF
-//---------------------------------------------------------------------------------
+
+
 function VecAddNotExceedingV( _VectorV : Vector, _AdditionV : Vector, _MaxLengthF : float ) : Vector
 {
 	var l_LengthPreviousF	: float	= VecLength( _VectorV );
 	var l_LenghtNewF		: float;
 	var l_LenghtMaxF		: float;
 	
-	// Add the vectors
+	
 	_VectorV	+= _AdditionV;
 	
-	// Limit the length if needed
+	
 	l_LenghtNewF	= VecLength( _VectorV );
 	
 	l_LenghtMaxF	= MaxF( _MaxLengthF, l_LengthPreviousF );
@@ -446,8 +391,8 @@ function VecAddNotExceedingV( _VectorV : Vector, _AdditionV : Vector, _MaxLength
 	return _VectorV;
 }
 
-// Sets a vector to (0, 0, 0, 0)
-//---------------------------------------------------------------------------------                     	
+
+
 function VecSetZeros(out vector  : Vector)
 {
 	vector.X = 0.0;
@@ -456,8 +401,8 @@ function VecSetZeros(out vector  : Vector)
 	vector.W = 0.0;
 } 
 
-// Sets eulerAngles to (0, 0, 0)
-//---------------------------------------------------------------------------------                     	
+
+
 function EulerSetZeros( out eulerAngles : EulerAngles )
 {
 	eulerAngles.Yaw		= 0.0f;
@@ -465,22 +410,22 @@ function EulerSetZeros( out eulerAngles : EulerAngles )
 	eulerAngles.Roll	= 0.0f;
 }
 
-// Outputs the name and the vector components
-//---------------------------------------------------------------------------------                     	
+
+
 function LogVector(vectorName : string, vector  : Vector)
 {
 	Log(vectorName + ": " + vector.X + " " + vector.Y + " " + vector.Z + " " + vector.W);
 }
 
-// Transforms a value between minOrig, maxOrig to give the proportional amount in the interval minDest, maxDest
-//---------------------------------------------------------------------------------                     	
+
+
 function MapF(val, minOrig, maxOrig, minDest, maxDest : float) : float
 {
 	return minDest + ((val - minOrig) / (maxOrig - minOrig) * (maxDest - minDest));
 }
 	
-// Approaches one float to another by a specified amount
-//---------------------------------------------------------------------------------                     	
+
+
 function BlendLinearF(value, target, speed : float) : float
 {
 	if(value < target)
@@ -495,14 +440,14 @@ function BlendLinearF(value, target, speed : float) : float
 	return value;
 }
 	
-//---------------------------------------------------------------------------------                     	
+
 function BlendF(origin, end, coef : float) : float
 {
 	return origin * (1.0f - coef) + end * coef;
 } 
 
-// Returns 1 if value is >= 0, -1 otherwise 
-//---------------------------------------------------------------------------------                     	
+
+
 function SignF( value : float )	: float
 {
 	if( value >= 0.0f )
@@ -512,8 +457,8 @@ function SignF( value : float )	: float
 	return -1.0f;
 }
 
-// Returns 1 if value is > 0, -1 if < 0 and 0 if ==0 otherwise 
-//---------------------------------------------------------------------------------                     	
+
+
 function SignOrZeroF( value : float )	: float
 {
 	if( value > 0.0f )

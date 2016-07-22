@@ -1,4 +1,9 @@
-﻿state MutationsCanResearch in W3TutorialManagerUIHandler extends TutHandlerBaseState
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+state MutationsCanResearch in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
 	private const var SELECT_ADVANCED, PREREQUISITES, RESEARCHING, SELECT : name;
 	private var isClosing : bool;
@@ -54,7 +59,7 @@
 		}
 	}
 	
-	//Called when research subpanel was openend
+	
 	public final function OnResearch()
 	{
 	}
@@ -65,7 +70,7 @@
 		
 		if( IsCurrentHint( SELECT ) && ( mut == EPMT_Mutation1 || mut == EPMT_Mutation2 || mut == EPMT_Mutation8 ) )
 		{
-			CloseStateHint( SELECT );	//needed because we can select mutation before the tutorial shows, e.g. by mouse
+			CloseStateHint( SELECT );	
 			ShowHint( RESEARCHING, POS_MUTATIONS_X, POS_MUTATIONS_Y, ETHDT_Input );
 		}
 		else if( IsCurrentHint( SELECT_ADVANCED ) )

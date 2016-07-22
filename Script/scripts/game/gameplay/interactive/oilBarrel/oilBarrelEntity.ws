@@ -1,4 +1,9 @@
-﻿enum EOilBarrelOperation
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EOilBarrelOperation
 {
 	OBO_Ignite,
 	OBO_Explode,
@@ -119,7 +124,7 @@ class COilBarrelEntity extends CGameplayEntity
 		var actor : CActor;
 		var damageAction : W3DamageAction;
 	
-		//skip if already exploded
+		
 		if(isExploding)
 		{
 			RemoveTimer('OnFireTimer');
@@ -177,7 +182,7 @@ class COilBarrelEntity extends CGameplayEntity
 		GCameraShake( 1.5, true, GetWorldPosition(), 20.0f );
 		AddTimer( 'DestroyEnt', destroyEntAfter + RandRangeF( 1.5 ) );
 		
-		//Change to another target if player is locked to barrel upon exploding
+		
 		if ( thePlayer.IsCameraLockedToTarget() && thePlayer.GetDisplayTarget() == this )
 		{
 			thePlayer.OnForceSelectLockTarget();
@@ -210,17 +215,17 @@ class COilBarrelEntity extends CGameplayEntity
 			}
 		}
 		
-		//disable burning fire area once exploded
+		
 		if(onFireDamageArea)
 			onFireDamageArea.SetEnabled(false);
 	}
 	
-	//Gather targets and do line of sight test.
-	//Default test from FindGameplayEntitiesInSphere() tests only bottom position of both entities so if barrel is slightly under terrain 
-	//or if there is a small rock on the ground it will fail.
-	//
-	//Instead we do tests from barrel's half height to target's half height, top and bottom. 
-	//If all fail target is not visible, if at least one does not fail target is visible.
+	
+	
+	
+	
+	
+	
 	private function GatherTargets() : array<CGameplayEntity>
 	{
 		var ents : array<CGameplayEntity>;
@@ -235,13 +240,13 @@ class COilBarrelEntity extends CGameplayEntity
 		height = AbsF(box.Min.Z - box.Max.Z);
 		barrelPosMiddle = GetWorldPosition() + GetWorldUp() * (height/2);
 			
-		//get all without line of sight test
+		
 		FindGameplayEntitiesInSphere(ents, barrelPosMiddle, damageRadius, 1000);
 		
-		//do line of sight test
+		
 		for(i=ents.Size()-1; i>=0; i-=1)
 		{
-			//skip entities we get almost always but never care for
+			
 			if( (W3BoltProjectile)ents[i] || (W3SignEntity)ents[i] || (CollisionTrajectory)ents[i])
 			{
 				ents.Erase(i);
@@ -252,10 +257,10 @@ class COilBarrelEntity extends CGameplayEntity
 			height = AbsF(box.Min.Z - box.Max.Z);
 			targetPosMiddle = ents[i].GetWorldPosition() + ents[i].GetWorldUp() * (height/2);
 			
-			//test middle - middle
+			
 			if(world.StaticTrace(barrelPosMiddle, targetPosMiddle, collisionPos, collisionNormal))
 			{
-				//some obstruction
+				
 				ents.Erase(i);				
 			}			
 		}

@@ -1,36 +1,41 @@
-﻿// CxplorationSharedData
-//------------------------------------------------------------------------------------------------------------------
-// This class can be rewritten for each project, accomodating to each states combination
-//
-// Eduard Lopez Plans	( 17/12/2013 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
 
 	
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CExplorationSharedData extends CObject
 {
-	// Objects
+	
 	private						var	m_ExplorationO				: CExplorationStateManager; 
 	
 	
-	// Auto jump
+	
 	public						var	m_AutoJumpOnPredictionB		: bool;							default	m_AutoJumpOnPredictionB		= false;
 	public						var	m_AutoJumpToWaterB			: bool;							default	m_AutoJumpToWaterB			= true;
 	
 	
-	// Walk
+	
 	public						var m_TimeSinceIdleF			: float;
 	
-	// Sprint
-	//public						var m_TimeSinceLastSprintF		: float;
+	
+	
 	protected editable 			var	m_SprintJumpTimePreparingF	: float;						default	m_SprintJumpTimePreparingF	= 0.0f;
 	
-	// Foot forward
+	
 	protected editable			var	m_BehParamRightFootS		: name;							default	m_BehParamRightFootS		= 'JumpRightFoot';
 	public						var	m_IsRightFootForwardB		: bool;
 	
-	// Jump
+	
 	public						var	m_JumpTypeE 				: EJumpType;
 	public						var m_LandingOnWater			: bool;
 	public 						var	m_JumpIsTooSoonToLandB		: bool;
@@ -45,55 +50,55 @@ class CExplorationSharedData extends CObject
 	public						var	m_DontRecalcFootOnLandB		: bool;
 	private						var	m_FromCriticalB				: bool;
 	
-	// Climb
+	
 	public						var m_ClimbStateTypeE			: EClimbRequirementType;
 	
-	// AirCollision
+	
 	editable					var	m_AirCollisionSideEnabledB	: bool;							default	m_AirCollisionSideEnabledB	= false;
 	
-	// Skip 
+	
 	public						var	m_SkipLandAnimDistMaxF		: float;						default	m_SkipLandAnimDistMaxF		= 0.64f;
 	public						var	m_SkipLandAnimTimeMaxF		: float;						default	m_SkipLandAnimTimeMaxF		= 0.1f;
 	
 	
-	// Skate
+	
 	public	editable inlined	var m_SkateGlobalC				: CExplorationSkatingGlobal;
 	
-	// Exploration
+	
 	private						var	m_LastExplorationS			: SExplorationQueryToken;
 	private						var	m_LastExplorationValidB		: bool;
 	public						var m_AngleToExploreManualF		: float;						default	m_AngleToExploreManualF		= 45.0f;
 	public						var m_AngleToExploreAutoF		: float;						default	m_AngleToExploreAutoF		= 10.0f;
 	
-	// Ragdoll
+	
 	public						var hasToRecoverFromRagdoll		: bool;
 	
-	// Teleport
+	
 	private						var	m_TeleportTimeCurF			: float;
 	public						var	m_TeleportTimeMaxF			: float;						default	m_TeleportTimeMaxF			= 0.5f;
 	
-	// Slide
+	
 	public						var terrainSlidePresetName		: name;
 	
-	// Terrain blend speed
+	
 	private						var	terrainBlendSpeedCur		: float;
 	private						var	terrainBlendSpeedTarget		: float;						default	terrainBlendSpeedTarget		= 3.0f;
 	private						var	terrainBlendTimeCur 		: float;
 	private						var	terrainBlendTimeMax			: float;						default	terrainBlendTimeMax			= 0.5f;
 	
 	
-	// To Water	
+	
 	public						var	m_JumpSwimRotationF			: float;
 	private						var	m_JumpToWaterAreaB			: bool;
 	public						var	m_JumpToWaterForcedDirV		: Vector;
 	public						var	m_JumpToWaterRequireDirB	: bool;
 	public						var	m_JumpToWaterRequireSprintB	: bool;
 	
-	// Different fall heights
+	
 	private						var m_HeightFallenF				: float;
 	private						var	lastPosition				: Vector;
 	
-	// Land crouch
+	
 	private						var	landAddAdding				: bool;
 	private						var	landAddCurrent				: float;
 	private editable inlined 	var landAddCurve				: CCurve;
@@ -107,10 +112,10 @@ class CExplorationSharedData extends CObject
 	private	editable			var	landAddBehVarName			: name;							default	landAddBehVarName			= 'LandInclinationAdd';
 	
 	
-	// Camera
+	
 	private editable			var m_CameraModifyOffsetB		: bool;							default	m_CameraModifyOffsetB		= false;
 	
-	// Debug
+	
 	public						var m_UsePrototypeAnimationsB	: bool;							default	m_UsePrototypeAnimationsB	= false;
 	public						var	m_ForceOnlyJumpB			: bool;							default	m_ForceOnlyJumpB			= false;
 	public						var m_UseClimbB					: bool;							default	m_UseClimbB					= true;
@@ -118,7 +123,7 @@ class CExplorationSharedData extends CObject
 	public	 					var	hackKnockBackAlways			: bool;							default	hackKnockBackAlways			= false;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Initialize( manager : CExplorationStateManager )
 	{
 		var test		: bool;
@@ -137,13 +142,13 @@ class CExplorationSharedData extends CObject
 		m_SkateGlobalC.Initialize( manager );
 		
 		
-		// Exploration modifications
+		
 		m_AngleToExploreManualF		= Deg2Rad( m_AngleToExploreManualF );
 		m_AngleToExploreAutoF		= Deg2Rad( m_AngleToExploreAutoF );
 		
 		DisableJumpToWaterArea();
 		
-		// Prototype animations
+		
 		if(thePlayer)
 		{
 			if( m_UsePrototypeAnimationsB )
@@ -159,7 +164,7 @@ class CExplorationSharedData extends CObject
 		Reset();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Reset()
 	{
 		m_SkateGlobalC.Reset();
@@ -177,7 +182,7 @@ class CExplorationSharedData extends CObject
 		terrainBlendTimeCur		= terrainBlendTimeMax;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function PreUpdate( _Dt : float )
 	{
 		m_LastExplorationValidB		= false;
@@ -192,39 +197,39 @@ class CExplorationSharedData extends CObject
 			m_TimeSinceIdleF	= 0.0f;
 		}
 		
-		//UpdateSprintTime( _Dt );
+		
 		
 		UpdateTerrainSlopeBlend( _Dt );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function PostUpdate( _Dt : float )
 	{	
-		// Land crouch
+		
 		LandCrouchUpdate( _Dt );
 		
-		// Skate
+		
 		m_SkateGlobalC.PostUpdate( _Dt );
 		
 		lastPosition	= m_ExplorationO.m_OwnerE.GetWorldPosition();
 		
-		// Teleport
+		
 		if( m_TeleportTimeCurF < m_TeleportTimeMaxF )
 		{
 			ResetHeightFallen();
 			m_TeleportTimeCurF		+= _Dt;
 		}
 		
-		// Debug
+		
 		m_LastExplorationValidB		= false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function DrawDebugText( horizontalPos, verticalPos, heightStep, width, height : int, textColor : Color ) : int
 	{
 		var text	: string;
 		
-		// Height fallen
+		
 		text	= " HeightFallen : " + m_HeightFallenF + "    Height Reached : " + m_FallHeightReachedF;
 		thePlayer.GetVisualDebug().AddBar( 'HeightFallen', horizontalPos, verticalPos, width, height, 0.0f, textColor, text, 0.0f );
 		verticalPos	+= heightStep;
@@ -232,27 +237,15 @@ class CExplorationSharedData extends CObject
 		return verticalPos;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function OnTeleported()
 	{
 		ResetHeightFallen();
 		m_TeleportTimeCurF	= 0.0f;
 	}
-	/*
-	//------------------------------------------------------------------------------------------------------------------
-	private function UpdateSprintTime( _Dt : float )
-	{
-		if( thePlayer.GetSprintingTime() > m_SprintJumpTimePreparingF ) //thePlayer.GetIsSprinting() && 
-		{
-			m_TimeSinceLastSprintF	= 0.0f;
-		}
-		else
-		{
-			m_TimeSinceLastSprintF	+= _Dt;
-		}
-	}	*/
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
 	public function HasToFallFromLadder() : bool
 	{
 		if( GetCurentExplorationType() != ET_Ladder )
@@ -267,20 +260,20 @@ class CExplorationSharedData extends CObject
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetFallFromCritical() : bool
 	{
 		return m_FromCriticalB;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetFallFromCritical( fall : bool )
 	{
 		m_FromCriticalB		= fall;
 		m_ExplorationO.SetBehaviorParamBool( 'FallFromCritical', fall );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function LandCrouchUpdate( _Dt : float )
 	{
 		if( landAddAdding )
@@ -302,7 +295,7 @@ class CExplorationSharedData extends CObject
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function LandCrouchStart( walking : bool )
 	{
 		if( walking )
@@ -316,29 +309,29 @@ class CExplorationSharedData extends CObject
 			landAddTimeCoef	= 1.0f;
 		}
 		landAddAdding	= true;
-		//if( landAddTimeCur >= landAddCurve.GetDuration() )
-		//{
+		
+		
 			landAddTimeCur	= 0.0f;
-		//}
+		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function LandCrouchCancel()
 	{
 		landAddAdding	= false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function LandCrouchSpeedUp()
 	{
 		landAddTimeCoef	= landAddTimeCoefFast;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Exploration
-	//------------------------------------------------------------------------------------------------------------------
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function SetExplorationToken( exploration : SExplorationQueryToken, tag : string )
 	{
 		m_LastExplorationS		= exploration;
@@ -350,7 +343,7 @@ class CExplorationSharedData extends CObject
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetExplorationTokenDescription( exploration : SExplorationQueryToken ) : string
 	{
 		var text : string;
@@ -363,19 +356,19 @@ class CExplorationSharedData extends CObject
 		return text;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function HasValidExploration() : bool
 	{
 		return m_LastExplorationValidB && m_LastExplorationS.valid;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetLastExploration() : SExplorationQueryToken
 	{
 		return m_LastExplorationS;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function HasValidLadderExploration() : bool
 	{
 		if( !HasValidExploration() )
@@ -391,13 +384,13 @@ class CExplorationSharedData extends CObject
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetCurentExplorationType() : EExplorationType
 	{
 		return m_LastExplorationS.type;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsForceHeading( out targetRotation : EulerAngles ) : bool
 	{
 		var	imput	: Vector;
@@ -422,12 +415,12 @@ class CExplorationSharedData extends CObject
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Terrain blend speed
-	//------------------------------------------------------------------------------------------------------------------
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function UpdateTerrainSlopeBlend( _Dt : float )
 	{
 		if( terrainBlendTimeCur < terrainBlendTimeMax )
@@ -438,7 +431,7 @@ class CExplorationSharedData extends CObject
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetTerrainSlopeSpeed( speed : float )
 	{
 		terrainBlendTimeCur		= 0.0f;
@@ -446,18 +439,18 @@ class CExplorationSharedData extends CObject
 		thePlayer.SetBehaviorVariable( 'terrainBlendSpeed', terrainBlendSpeedCur );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetTerrainSlopeInstant( slope : float )
 	{
 		thePlayer.SetBehaviorVariable( 'terrainPitch', slope );
 		thePlayer.SetTerrainPitch( slope );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
-	// Fall height
-	//------------------------------------------------------------------------------------------------------------------
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function ResetHeightFallen()
 	{
 		m_HeightFallenF			= 0.0f;
@@ -471,19 +464,19 @@ class CExplorationSharedData extends CObject
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetFallingHeight() : float
 	{
 		return m_HeightFallenF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetFallingMaxHeightReached() : float
 	{
 		return m_FallHeightReachedF;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateFallHeight()
 	{
 		var currentPosition	: Vector;
@@ -500,14 +493,14 @@ class CExplorationSharedData extends CObject
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CalculateFallingHeights( out fallDiff : float, out jumpTotalDiff : float )
 	{
 		fallDiff		= -GetFallingHeight(); 
 		jumpTotalDiff	= m_FallHeightReachedF;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SetFotForward( optional reverse : bool )
 	{
 		var rightFoot	: bool;
@@ -524,17 +517,17 @@ class CExplorationSharedData extends CObject
 		m_ExplorationO.SetBehaviorParamBool( m_BehParamRightFootS, rightFoot );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ForceFotForward( right : bool )
 	{
 		m_ExplorationO.SetBehaviorParamBool( m_BehParamRightFootS, right );
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Water
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function EnableJumpToWaterArea( optional needDirection : bool, optional direction : Vector, optional requireSprint : bool )	
 	{
 		m_JumpToWaterAreaB			= true;
@@ -543,47 +536,47 @@ class CExplorationSharedData extends CObject
 		m_JumpToWaterRequireSprintB	= requireSprint;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function DisableJumpToWaterArea()	
 	{
 		m_JumpToWaterAreaB		= false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetJumpToWaterArea() : bool
 	{
 		return m_JumpToWaterAreaB;
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Debug flags
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	public function SetUseClimb( enable : bool )
 	{
 		m_UseClimbB				= enable;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SetHackKnockBack( enable : bool )
 	{
 		hackKnockBackAlways		= enable;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SwitchUseOnlyJumpClimbs()
 	{
 		m_ForceOnlyJumpB		= !m_ForceOnlyJumpB;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SetAirCollisionSideEnabled( enabled : bool )
 	{
 		m_AirCollisionSideEnabledB	= enabled;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function SwitchPrototypeAnimations()
 	{
 		m_UsePrototypeAnimationsB	= !m_UsePrototypeAnimationsB;
@@ -597,11 +590,11 @@ class CExplorationSharedData extends CObject
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Ragdoll
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	function GoToRagdoll()
 	{
 		var actor	: CActor;
@@ -617,7 +610,7 @@ class CExplorationSharedData extends CObject
 		actor.AddEffectCustom(params);
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function GoToKnockDown() 
 	{
 		var actor	: CActor;
@@ -633,19 +626,19 @@ class CExplorationSharedData extends CObject
 		actor.AddEffectCustom(params);
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		m_SkateGlobalC.OnAnimEvent( animEventName, animEventType, animInfo );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function EnableCameraOffsetCorrection( enable : bool )
 	{
 		m_CameraModifyOffsetB	=  enable;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function CameraOffsetEnabled() : bool
 	{
 		return m_CameraModifyOffsetB;

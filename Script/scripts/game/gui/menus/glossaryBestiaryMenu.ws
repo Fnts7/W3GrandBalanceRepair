@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - glossary bestiary
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author :		 Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 {	
@@ -18,7 +20,7 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 	private var m_fxSetText				: CScriptedFlashFunction;
 	private var m_fxSetImage			: CScriptedFlashFunction;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{	
 		var i							: int;
 		var tempCreatures				: array<CJournalBase>;
@@ -58,7 +60,7 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		m_fxSetTooltipState.InvokeSelfTwoArgs( FlashArgBool( thePlayer.upscaledTooltipState ), FlashArgBool( true ) );
 	}
 	
-	event /* C++ */ OnGuiSceneEntitySpawned(entity : CEntity)
+	event  OnGuiSceneEntitySpawned(entity : CEntity)
 	{
 		UpdateSceneEntityFromCreatureDataComponent( entity );
 
@@ -67,12 +69,12 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		UpdateItemsFromEntity(entity);
 	}
 	
-	event /* C++ */ OnGuiSceneEntityDestroyed()
+	event  OnGuiSceneEntityDestroyed()
 	{
 		Event_OnGuiSceneEntityDestroyed();
 	}
 	
-	event /*flash*/ /*override*/ OnEntrySelected( tag : name ) // #B common
+	event   OnEntrySelected( tag : name ) 
 	{
 		if (tag != '')
 		{
@@ -92,22 +94,22 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		var creature : CJournalCreature;
 		var templatepath : string;
 		
-		// #B could add description for creatures group here !!!
+		
 		creature = (CJournalCreature)m_journalManager.GetEntryByTag( entryName );
 		
 		if(creature)
 		{
 			templatepath = creature.GetEntityTemplateFilename();
-			//if (templatepath == "")
-			//{
+			
+			
 				ShowRenderToTexture("");
 				templatepath = thePlayer.ProcessGlossaryImageOverride( creature.GetImage(), entryName );
 				m_fxSetImage.InvokeSelfOneArg(FlashArgString(templatepath));
-			//}
-			//else
-			//{
-			//	ShowRenderToTexture(templatepath);
-			//}
+			
+			
+			
+			
+			
 		}
 		else
 		{
@@ -176,8 +178,8 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		}
 	}
 
-    // #J copied to preparationMenu.ws, try to keep both same or merge into common codebase
-	function GetDescription( currentCreature : CJournalCreature ) : string // #B todo
+    
+	function GetDescription( currentCreature : CJournalCreature ) : string 
 	{
 		var i : int;
 		var currentIndex:int;
@@ -205,7 +207,7 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 			description = (CJournalCreatureDescriptionEntry)descriptionsGroup.GetChild(i);
 			if( m_journalManager.GetEntryStatus(description) == JS_Active )
 			{
-				// Fun sorting ensues
+				
 				currentJournalDescriptionText.stringKey = description.GetDescriptionStringId();
 				currentJournalDescriptionText.order = description.GetOrder();
 				currentJournalDescriptionText.groupOrder = descriptionsGroup.GetOrder();
@@ -257,7 +259,7 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		var description : string;
 		var title : string;
 		
-		// #B could add description for creatures group here !!!
+		
 		l_creature = (CJournalCreature)m_journalManager.GetEntryByTag( entryName );
 		description = GetDescription( l_creature );
 		title = GetLocStringById( l_creature.GetNameStringId());	
@@ -273,7 +275,7 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		var l_creatureParams : SJournalCreatureParams;
 		var l_creatureEntityTemplateFilename : string;
 		
-		// #J Unplugging to instead show recommended items instead of loot drop.... May end up wanting both, but for now...
+		
 		
 		l_creature = (CJournalCreature)m_journalManager.GetEntryByTag( tag );
 		
@@ -347,7 +349,7 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 				curIconPath = dm.GetItemIconPath( curName );
 			}
 			l_flashObject = m_flashValueStorage.CreateTempFlashObject("red.game.witcher3.menus.common.ItemDataStub");
-			l_flashObject.SetMemberFlashInt( "id", i + 1 ); // ERRR
+			l_flashObject.SetMemberFlashInt( "id", i + 1 ); 
 			l_flashObject.SetMemberFlashInt( "quantity", 1 );
 			l_flashObject.SetMemberFlashString( "iconPath",  curIconPath);
 			l_flashObject.SetMemberFlashInt( "gridPosition", i );
@@ -395,10 +397,10 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		}
 	}
 	
-	event OnGetItemData(item : int, compareItemType : int) // #B in that case item is ID !!!
+	event OnGetItemData(item : int, compareItemType : int) 
 	{
-		//var compareItemStats	: array<SAttributeTooltip>;
-		//var itemStats 			: array<SAttributeTooltip>;
+		
+		
 		var itemName 			: string;
 		var category			: name;
 		var typeStr				: string;
@@ -445,8 +447,8 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 	
 	function PlayOpenSoundEvent()
 	{
-		// Common Menu takes care of this for us
-		//OnPlaySoundEvent("gui_global_panel_open");	
+		
+		
 	}
 }
 

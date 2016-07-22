@@ -1,6 +1,11 @@
-﻿// Task for playing hit fxes on npc using separate entity, in order to rotate fx entity properly towards impact source;
-// Hit fx will be played if 'shieldFxName' FX is on. If empty, it will play always;
-// Entity with hit fx should have fx autoplayed on spawn
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 class BTTaskPlayHitOnShield extends IBehTreeTask
 {
 	private var resourceName : name;
@@ -68,8 +73,8 @@ class BTTaskPlayHitOnShield extends IBehTreeTask
 	}
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 
 class BTTaskPlayHitOnShieldDef extends IBehTreeTaskDefinition
 {

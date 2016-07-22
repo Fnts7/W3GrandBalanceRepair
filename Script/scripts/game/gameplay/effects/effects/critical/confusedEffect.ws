@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3ConfuseEffectCustomParams extends W3BuffCustomParams
 {
@@ -37,7 +40,7 @@ class W3ConfuseEffect extends W3CriticalEffect
 			thePlayer.HardLockToTarget( false );
 		}
 		
-		//critical hit chance bonus
+		
 		params = (W3ConfuseEffectCustomParams)customParams;
 		if(params)
 		{
@@ -48,7 +51,7 @@ class W3ConfuseEffect extends W3CriticalEffect
 		
 		if(npc)
 		{
-			//lower guard
+			
 			npc.LowerGuard();
 			
 			if (npc.IsHorse())
@@ -89,8 +92,8 @@ class W3ConfuseEffect extends W3CriticalEffect
 		blockedActions.PushBack(EIAB_SpecialAttackHeavy);
 		blockedActions.PushBack(EIAB_QuickSlots);
 		
-		//blockedActions.PushBack(EIAB_Dodge);
-		//blockedActions.PushBack(EIAB_Roll);
+		
+		
 	}
 		
 	event OnEffectRemoved()

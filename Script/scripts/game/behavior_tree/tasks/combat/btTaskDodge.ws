@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski, Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskDodge extends CBTTaskPlayAnimationEventDecorator
 {
@@ -37,7 +39,7 @@ class CBTTaskDodge extends CBTTaskPlayAnimationEventDecorator
 	public var allowDodgeWhileAttacking				: bool;
 	public var signalGameplayEventWhileInHitAnim	: bool;
 	public var alwaysAvailableOnDodgeType			: EDodgeType;
-	//public var useAsTerminalAndAllowDodgeOverlap 	: bool;
+	
 	public var allowDodgeOverlap 					: bool;
 	public var earlyDodgeActivation 				: bool;
 	public var interruptTaskToExecuteCounter 		: bool;
@@ -71,7 +73,7 @@ class CBTTaskDodge extends CBTTaskPlayAnimationEventDecorator
 	{
 		var npc : CNewNPC = GetNPC();
 		
-		// choosing dodge animation
+		
 		if ( swingDir != -1 )
 		{
 			npc.SetBehaviorVariable( 'HitSwingDirection', swingDir );
@@ -87,10 +89,10 @@ class CBTTaskDodge extends CBTTaskPlayAnimationEventDecorator
 			npc.DisableHitAnimFor(0.1);
 			return BTNS_Completed;
 		}
-		//if ( useAsTerminalAndAllowDodgeOverlap )
-		//{
-		//	npc.RaiseEvent( 'Dodge' );
-		//}
+		
+		
+		
+		
 		
 		return super.OnActivate();
 	}
@@ -105,7 +107,7 @@ class CBTTaskDodge extends CBTTaskPlayAnimationEventDecorator
 	
 	function OnDeactivate()
 	{
-		//Time2Dodge = false;
+		
 		swingType = -1;
 		swingDir = -1;
 		nextDodgeTime = GetLocalTime() + minDelayBetweenDodges;
@@ -363,27 +365,7 @@ class CBTTaskDodge extends CBTTaskPlayAnimationEventDecorator
 	}
 	
 	
-	/*
-	function OnGameplayEvent( eventName : name ) : bool
-	{
-		var npc 							: CNewNPC = GetNPC();
-		var movementAdjustor 				: CMovementAdjustor = npc.GetMovingAgentComponent().GetMovementAdjustor();
-		var ticket 							: SMovementAdjustmentRequestTicket = movementAdjustor.GetRequest( 'RotateEvent' );
-		var victimToProjectileImpactAngle 	: float;
-		
-		if ( rotateOnRotateEvent )
-		{
-			if ( eventName == 'RotateEventStart')
-			{
-				victimToProjectileImpactAngle = -AngleDistance( VecHeading(  ownerPosition - npc.GetWorldPosition()  ), npc.GetHeading() );
-				npc.RotateTo( ticket, victimToProjectileImpactAngle );
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	*/
+	
 }
 
 class CBTTaskDodgeDef extends CBTTaskPlayAnimationEventDecoratorDef
@@ -398,7 +380,7 @@ class CBTTaskDodgeDef extends CBTTaskPlayAnimationEventDecoratorDef
 	editable var allowDodgeWhileAttacking 			: bool;
 	editable var signalGameplayEventWhileInHitAnim 	: bool;
 	editable var alwaysAvailableOnDodgeType			: EDodgeType;
-	//editable var useAsTerminalAndAllowDodgeOverlap: bool; 
+	
 	editable var allowDodgeOverlap 					: bool;
 	editable var earlyDodgeActivation 				: bool;
 	editable var interruptTaskToExecuteCounter 		: bool;
@@ -481,7 +463,7 @@ class CBTTaskCombatStyleDodgeDef extends CBTTaskDodgeDef
 
 
 
-////////////Circular dodge
+
 class CBTTaskCircularDodge extends CBTTaskDodge
 {
 	var angle : float;
@@ -492,11 +474,8 @@ class CBTTaskCircularDodge extends CBTTaskDodge
 		var npc : CNewNPC = GetNPC();
 		var target : CActor = npc.GetTarget();
 		var dodgeChance : int;
-		//just to be sure
-		/*if( !Time2Dodge )
-		{
-			return false;
-		}*/
+		
+		
 		
 		switch (dodgeType)
 		{
@@ -511,7 +490,7 @@ class CBTTaskCircularDodge extends CBTTaskDodge
 		}
 		
 		npc.slideTarget = target;
-		//npc.ActionRotateToAsync(target.GetWorldPosition());
+		
 		
 		if (RandRange(100) < dodgeChance)
 		{
@@ -559,8 +538,8 @@ class CBTTaskCircularDodge extends CBTTaskDodge
 		targetHeading.Z = heading.Z;
 		targetHeading.W = heading.W;
 		
-		//npc.slideTarget = target;
-		//npc.ActionRotateToAsync( targetHeading );
+		
+		
 		
 		npc.ActionSlideToWithHeadingAsync(npc.GetWorldPosition(), VecHeading(targetHeading) ,0.01);
 		
@@ -575,7 +554,7 @@ class CBTTaskCircularDodge extends CBTTaskDodge
 		{
 			target = npc.GetTarget();
 			npc.SetRotationAdjustmentRotateTo( target );
-			npc.slideTarget = target; // TODO change to SlideTowards
+			npc.slideTarget = target; 
 			return true;
 		}
 		

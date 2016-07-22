@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Base class 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Yaroslav Getsevich
-/***********************************************************************/
+
+
+
 
 class W3ItemSelectMenuInitData extends CObject
 {
@@ -13,7 +15,7 @@ class W3ItemSelectMenuInitData extends CObject
 	
 	public function applyItemSelection(item : SItemUniqueId) : void
 	{
-		// virtual
+		
 	}
 }
 
@@ -24,7 +26,7 @@ class CR4MenuItemSelect extends CR4OverlayMenu
 	
 	protected var _initData : W3ItemSelectMenuInitData;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		super.OnConfigUI();
 		
@@ -42,8 +44,8 @@ class CR4MenuItemSelect extends CR4OverlayMenu
 		UpdateData();
 	}
 	
-	//event /*flash*/ OnEquipItem( item : SItemUniqueId, slot : int )
-	event /*flash*/ OnSelectItem( item : SItemUniqueId )
+	
+	event  OnSelectItem( item : SItemUniqueId )
 	{
 		LogChannel('CHR', "[CR4MenuItemSelect]  OnSelectItem; "+thePlayer.GetInventory().IsIdValid(item));
 		

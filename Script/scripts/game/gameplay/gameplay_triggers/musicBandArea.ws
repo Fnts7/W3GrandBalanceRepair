@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013
-/** Author : Łukasz Szczepankowski
-/***********************************************************************/
+
+
+
 
 class W3MusicBandActivatorArea extends CEntity
 {
@@ -87,7 +89,7 @@ class W3MusicBandActivatorArea extends CEntity
 		
 		activeMusicians.Clear();
 		
-		// check actors inside trigger within range of 50m
+		
 		activeArea.GetGameplayEntitiesInArea( entitites, 50.0f, true );
 		for ( i=0; i < entitites.Size(); i+=1 )
 		{

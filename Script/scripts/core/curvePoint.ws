@@ -1,12 +1,17 @@
-﻿enum EInterpCurveMode
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EInterpCurveMode
 {
-	//
+	
 	CIM_Constant,
-	// straight line between two keypoints.
+	
 	CIM_Linear,
-	// A cubic-hermite curve between two keypoints, uses arrive/leave tangents.
+	
 	CIM_CurveAuto,
-	// 
+	
 	CIM_CurveBreak,
 };
 

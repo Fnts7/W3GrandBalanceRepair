@@ -1,16 +1,21 @@
-﻿//>---------------------------------------------------------------------
-// W3IceSpike
-//----------------------------------------------------------------------
-// Destructible ice spike
-//----------------------------------------------------------------------
-// R.Pergent - 06-August-2014
-// Copyright © 2014 CDProjektRed
-//----------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
 class W3IceSpike extends W3DurationObstacle
 {
-	//>---------------------------------------------------------------------
-	// VARIABLES
-	//----------------------------------------------------------------------
+	
+	
+	
 	private editable var 		damageValue 			: float; 		default damageValue = -1;
 	private editable var		weaponSlot				: name;			default weaponSlot	= 'r_weapon';
 	private var 				canBeDestroyed			: bool;
@@ -22,8 +27,8 @@ class W3IceSpike extends W3DurationObstacle
 	
 	hint damageValue	= "either take l_damageAction from damageValue or weaponSlot";
 	hint weaponSlot 	= "either take l_damageAction from damageValue or weaponSlot";
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{	
 		var i					: int;
@@ -44,19 +49,19 @@ class W3IceSpike extends W3DurationObstacle
 			DestroyAfter( destroyAfterTime );
 		}
 		
-		//PlayEffect('marker');
-		//AddTimer( 'Appear', 1.25f, false,,, true );
+		
+		
 		Appear();
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private timer function Appear( optional _Delta : float, optional id : int)
 	{		
 		PlayEffect('appear');		
 		AddTimer( 'DealDamage', delayToDealDamage, false,,, true );
 	}	
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private timer function DealDamage( optional _Delta : float, optional id : int)
 	{
 		var i						: int;
@@ -122,13 +127,13 @@ class W3IceSpike extends W3DurationObstacle
 			{
 				l_damageAction.AddDamage( theGame.params.DAMAGE_NAME_PHYSICAL, damageValue );
 			}
-			//l_damageAction.AddEffectInfo( EET_KnockdownTypeApplicator, 1);
+			
 			theGame.damageMgr.ProcessAction( l_damageAction );
 			delete l_damageAction;
 		}
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnAardHit( sign : W3AardProjectile )
 	{
 		if( canBeDestroyed )
@@ -141,8 +146,8 @@ class W3IceSpike extends W3DurationObstacle
 	{	
 		canBeDestroyed = false;
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private function ShowDestructible( )
 	{
 		var l_destructible			: CDestructionSystemComponent;

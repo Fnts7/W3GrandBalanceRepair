@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski
-/***********************************************************************/
+
+
+
 
 class CBehTreeTaskRequiredItems extends IBehTreeTask
 {
@@ -226,7 +228,7 @@ class CBehTreeTaskRequiredItems extends IBehTreeTask
 		
 		combatDataStorage.SetProcessingItems(false);
 		
-		//while for ranged weapons
+		
 		if ( LeftItemType == 'bow' )
 		{
 			while ( isActive )
@@ -356,9 +358,9 @@ class CBehTreeTaskRequiredItemsDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'CBehTreeTaskRequiredItems';
 
-	//editable var LeftItemName : CName;
+	
 	editable var LeftItemType : CBehTreeValCName;
-	//editable var RightItemName : CName;
+	
 	editable inlined var RightItemType : CBehTreeValCName;
 	
 	editable var chooseSilverIfPossible : CBehTreeValBool;
@@ -373,9 +375,9 @@ class CBehTreeTaskRequiredItemsDef extends IBehTreeTaskDefinition
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// General projectile processing code. That node should be on top of a
-// combat style tree that performs shooting mechanic
+
+
+
 class IBehTreeTaskProcessProjectile extends IBehTreeTask
 {
 	public var destroyProjectileOnDeactivate : bool;
@@ -419,8 +421,8 @@ abstract class IBehTreeTaskProcessProjectileDef extends IBehTreeTaskDefinition
 	editable var projTemplate : CEntityTemplate;
 	
 }
-///////////////////////////////////////////////////////////////////////////////
-// Arrows processing
+
+
 class CBehTreeTaskProcessArrows extends IBehTreeTaskProcessProjectile
 {
 	latent function Main() : EBTNodeStatus
@@ -490,8 +492,8 @@ class CBehTreeTaskProcessArrowsDef extends IBehTreeTaskProcessProjectileDef
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Crossbow processing
+
+
 
 class CBehTreeTaskProcessCrossbowBolts extends IBehTreeTaskProcessProjectile
 {
@@ -552,8 +554,8 @@ class CBehTreeTaskProcessCrossbowBoltsDef extends IBehTreeTaskProcessProjectileD
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////
-//sheath weapons
+
+
 class CBehTreeTaskSheathWeapons extends IBehTreeTask
 {
 	private var processLeftItem : bool;
@@ -579,19 +581,19 @@ class CBehTreeTaskSheathWeapons extends IBehTreeTask
 		if ( !processLeftItem || !processRightItem )
 		{
 			inventory = GetActor().GetInventory();
-			//check LeftItem
+			
 			itemID = inventory.GetItemFromSlot( 'l_weapon' );
 			
 			if ( inventory.IsItemWeapon(itemID) )
 				processLeftItem = true;
 				
-				//check RightItem
+				
 			itemID = inventory.GetItemFromSlot( 'r_weapon' );
 			if ( inventory.IsItemWeapon(itemID) )
 				processRightItem = true;
 		}
 		
-		//process items if necessary
+		
 		if ( processLeftItem && processRightItem )
 		{
 			GetActor().SetRequiredItems('None','None');
@@ -641,8 +643,8 @@ class CBehTreeTaskSheathWeaponsDef extends IBehTreeTaskDefinition
 }
 
 
-//////////////////////////////////////////////////////////////////////////////
-//CBehTreeTaskConditionalSheathWeapons
+
+
 class CBehTreeTaskConditionalSheathWeapons extends CBehTreeTaskSheathWeapons
 {
 	protected var reactionDataStorage 	: CAIStorageReactionData;

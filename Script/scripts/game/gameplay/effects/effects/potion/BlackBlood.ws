@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Potion that returns damage to attacker
+
+
+
 class W3Potion_BlackBlood extends W3Effect_Aura
 {
 	default effectType = EET_BlackBlood;

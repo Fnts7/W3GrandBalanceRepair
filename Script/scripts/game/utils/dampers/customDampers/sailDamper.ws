@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class SailDamper
 {
 	private var destValue : float;
@@ -45,7 +50,7 @@ class SailDamper
 	
 	final function Update( dt : float, realDest : float  )
 	{
-		//Temporary fix for the sail rotation (when switching the sign)
+		
 		if(realDest < -edgeValue && currValue > edgeValue)
 		{
 			destValue = -destValue;

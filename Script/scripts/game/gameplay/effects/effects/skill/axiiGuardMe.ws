@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Patryk Fiutowski, Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_AxiiGuardMe extends CBaseGameplayEffect
 {
@@ -26,7 +29,7 @@ class W3Effect_AxiiGuardMe extends CBaseGameplayEffect
 		
 		((CAIStorageReactionData)npc.GetScriptStorageObject('ReactionData')).ResetAttitudes(npc);
 		
-		// if npc is hostile towards player directly -> the attitude needs to be reset
+		
 		if ( npc.HasAttitudeTowards( thePlayer ) && npc.GetAttitude( thePlayer ) == AIA_Hostile )
 		{
 			npc.ResetAttitude( thePlayer );
@@ -44,7 +47,7 @@ class W3Effect_AxiiGuardMe extends CBaseGameplayEffect
 		npc.SignalGameplayEvent('AxiiGuardMeAdded');
 		npc.SignalGameplayEvent('NoticedObjectReevaluation');
 		
-		//damage bonus
+		
 		skillLevel = GetWitcherPlayer().GetSkillLevel(S_Magic_s05);
 		bonusAbilityName = thePlayer.GetSkillAbilityName(S_Magic_s05);
 		for(i=0; i<skillLevel; i+=1)
@@ -74,7 +77,7 @@ class W3Effect_AxiiGuardMe extends CBaseGameplayEffect
 			target.DrainStamina(ESAT_FixedValue, target.GetStat(BCS_Stamina));
 		}
 		
-		//remove attack bonus ability
+		
 		bonusAbilityName = thePlayer.GetSkillAbilityName(S_Magic_s05);		
 		while(target.HasAbility(bonusAbilityName))
 			target.RemoveAbility(bonusAbilityName);

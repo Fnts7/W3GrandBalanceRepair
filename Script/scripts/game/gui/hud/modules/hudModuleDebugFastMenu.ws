@@ -1,17 +1,22 @@
-﻿class CR4HudModuleDebugFastMenu extends CR4HudModuleBase // #B obsolete
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleDebugFastMenu extends CR4HudModuleBase 
 {
 	var bOpened : bool;
 	var m_flashValueStorage : CScriptedFlashValueStorage;	
 	default bOpened = false;
 
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{
 		m_anchorName = "ScaleOnly";
 		m_flashValueStorage = GetModuleFlashValueStorage();
 		super.OnConfigUI();
         
-		//ShowElement(false); // #B temporary
-		//theInput.RegisterListener( this, 'OnFastMenu', 'FastMenu' );
+		
+		
 		UpdateFastMenuEntries();
 	}
 	
@@ -33,10 +38,10 @@
 		l_DataFlashObject.SetMemberFlashUInt(  "menuName", NameToFlashUInt( 'InventoryMenu') );		
 		l_FlashArray.PushBackFlashObject(l_DataFlashObject);
 				
-		//l_DataFlashObject = m_flashValueStorage.CreateTempFlashObject(); // #B info for BIDON FIX ---> E3 2014 HACK, can be removed later
-		//l_DataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("panel_title_character") );	
-		//l_DataFlashObject.SetMemberFlashUInt(  "menuName", NameToFlashUInt( 'CharacterMenu') );		
-		//l_FlashArray.PushBackFlashObject(l_DataFlashObject);
+		
+		
+		
+		
 				
 		l_DataFlashObject = m_flashValueStorage.CreateTempFlashObject();
 		l_DataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("panel_title_journal") );
@@ -89,8 +94,8 @@
 	
 	event OnFastMenu( action : SInputAction )
 	{
-		// always allow to hide radial menu when player releases the button
-		// check for input only when radial menu is supposed to be shown
+		
+		
 		if( action.value > 0.7f && thePlayer.IsActionAllowed( EIAB_OpenFastMenu ) )
 		{
 			bOpened = !bOpened;
@@ -99,7 +104,7 @@
 		}
 	}
 
-	event /* flash */ OnShowFastMenu( opened : bool )
+	event  OnShowFastMenu( opened : bool )
 	{
 		LogChannel( 'DEBUGFASTMENU', "ShowFastMenu " + opened );
 		if ( opened )
@@ -115,11 +120,11 @@
 			theInput.RestoreContext( 'FastMenu', false );
 		}
 		
-		//ShowElement( opened, true ); // #B Show
+		
 		bOpened = opened;
 	}
 
-	event /* flash */ OnItemChosen( choosenPanelId : name )
+	event  OnItemChosen( choosenPanelId : name )
 	{		
 		LogChannel( 'DEBUGFASTMENU', "OnItemChosen " + choosenPanelId );
 		switch(choosenPanelId)
@@ -133,17 +138,17 @@
 			case 'CharacterMenu':
 				if(thePlayer.IsActionAllowed(EIAB_OpenCharacterPanel))
 				{
-					//theGame.RequestMenuWithBackground( 'CharacterMenu', 'CommonMenu' );
-					theGame.RequestMenu( 'CharacterMenu' ); // #Y while dont have this tab in the main menu
+					
+					theGame.RequestMenu( 'CharacterMenu' ); 
 				}
 				break;
 			case 'JournalQuestMenu':
 				if(thePlayer.IsActionAllowed(EIAB_OpenJournal))
 				{
-					theGame.RequestMenuWithBackground( 'JournalQuestMenu', 'CommonMenu' ); // #B change to JournalMenu
+					theGame.RequestMenuWithBackground( 'JournalQuestMenu', 'CommonMenu' ); 
 				}
 				break;
-			case 'MapMenu': //HUB MAP
+			case 'MapMenu': 
 				if(thePlayer.IsActionAllowed(EIAB_OpenMap))
 				{				
 					theGame.RequestMenuWithBackground( 'MapMenu', 'CommonMenu' );
@@ -163,7 +168,7 @@
 				break; 			
 			case 'MainMenu':
 				theGame.SetMenuToOpen( '' );
-				theGame.RequestMenu(/*'MainMenu',*/'CommonMainMenu');
+				theGame.RequestMenu('CommonMainMenu');
 				break; 		
 			case 'Quit':
 				theGame.RequestEndGame();

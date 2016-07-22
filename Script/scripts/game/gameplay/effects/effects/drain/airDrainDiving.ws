@@ -1,13 +1,16 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//used for diving air drain
+
+
+
 class W3Effect_AirDrainDive extends CBaseGameplayEffect
 {
-	private var effectValueMultInIdle 			: SAbilityAttributeValue;			//drain when in idle pose
-	private var effectValueMultWhileSprinting 	: SAbilityAttributeValue;			//drain when sprinting
+	private var effectValueMultInIdle 			: SAbilityAttributeValue;			
+	private var effectValueMultWhileSprinting 	: SAbilityAttributeValue;			
 
 	default effectType = EET_AirDrainDive;
 	default attributeName = 'airDrain';
@@ -39,16 +42,16 @@ class W3Effect_AirDrainDive extends CBaseGameplayEffect
 		{
 			val = effectValue;
 		
-			//drain air
+			
 			drain = MaxF(0, deltaTime * ( val.valueAdditive + val.valueMultiplicative * target.GetStatMax(BCS_Air) ) );
 			
-			//get swimming state object
+			
 			if ( isOnPlayer )
 				statee = (CR4PlayerStateSwimming)thePlayer.GetCurrentState();
 				
 			if( statee )
 			{
-				//check if player is in idle
+				
 				if(statee.CheckIdle())
 				{
 					drain *= effectValueMultInIdle.valueAdditive;

@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskSummonCreatures extends CBTTaskAttack
 {
@@ -93,22 +95,8 @@ class CBTTaskSummonCreatures extends CBTTaskAttack
 		var createEntityHelper		: CCreateEntityHelper;
 		var numberOfTries			: int;
 		
-		/*
-		// Remove dead creatures from the table
-		for ( i = spawnedNPCs.Size() - 1; i >=0 ; i -= 1 )
-		{
-			if( !respawnNeeded[i] )
-			{
-				if ( !spawnedNPCs[ i ] || !spawnedNPCs[ i ].IsAlive() )
-				{
-					respawnTime[i] = theGame.GetEngineTime() + 1.f;					
-					spawnedNPCs[i] = NULL;
-					respawnNeeded[i] = true;
-				}
-			}
-		}
-		*/
-		// Spawn new creatures to fit the count
+		
+		
 		
 		for ( i = 0; i < count; i += 1 )
 		{	
@@ -289,20 +277,7 @@ class CBTTaskSummonCreatures extends CBTTaskAttack
 			
 			summonActivated = true;
 			
-			/*
-			if( !summonFromEncounter )
-			{
-				SummonCreatures();
-			}
-			else
-			{
-				FindGameplayEntitiesInRange( encounters, npc, 50, 1, encounterTag );
-				
-				for ( i = 0; i < encounters.Size(); i += 1 )
-				{
-					((CEncounter)encounters[i]).EnableEncounter( true );
-				}
-			}*/
+			
 		}
 		return super.OnAnimEvent(animEventName,animEventType,animInfo);
 	}

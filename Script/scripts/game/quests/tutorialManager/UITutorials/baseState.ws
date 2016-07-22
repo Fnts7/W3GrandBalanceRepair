@@ -1,14 +1,17 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014-2015
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 state TutHandlerBaseState in W3TutorialManagerUIHandler
 {
 	protected var defaultTutorialMessage : STutorialMessage;
 	private var currentlyShownHint : name;
 	
-	//positions of hints in UI panels
+	
 	public const var POS_INVENTORY_X, POS_INVENTORY_Y, POS_ALCHEMY_X, POS_ALCHEMY_Y, POS_CHAR_DEV_X, POS_CHAR_DEV_Y, 
 						POS_MUTATIONS_X, POS_MUTATIONS_Y, POS_MAP_X, POS_MAP_Y, POS_QUESTS_X, POS_QUESTS_Y,
 						POS_GEEKPAGE_X, POS_GEEKPAGE_Y, POS_DISMANTLE_X, POS_DISMANTLE_Y, POS_RADIAL_X, POS_RADIAL_Y : float;
@@ -34,7 +37,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 	
 	event OnEnterState(prevStateName : name)
 	{	
-		//Set defaults for tutorial message. Child classes can then copy & use easier
+		
 		defaultTutorialMessage.type = ETMT_Hint;
 		defaultTutorialMessage.forceToQueueFront = true;
 		defaultTutorialMessage.canBeShownInMenus = true;
@@ -47,7 +50,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 	{
 		LogTutorial( "UIHandler: leaving state <" + this + ">, next will be <" + nextStateName + ">" );
 	
-		//when leaving state unregister this tutorial
+		
 		theGame.GetTutorialSystem().uiHandler.UnregisterUIState(GetStateName());
 	}
 	
@@ -55,14 +58,14 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 	{
 		var entersNew : bool;
 		
-		//do nothing if this state is not current state
+		
 		if(this != theGame.GetTutorialSystem().uiHandler.GetCurrentState())
 			return;
 		
-		//when leaving state unregister this tutorial
+		
 		entersNew = theGame.GetTutorialSystem().uiHandler.UnregisterUIState(GetStateName());
 		
-		//go to default state if not entering new state
+		
 		if(!entersNew)
 			virtual_parent.GotoState('Tutorial_Idle');
 	}
@@ -88,7 +91,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		tut = defaultTutorialMessage;
 		tut.tutorialScriptTag = tutorialScriptName;		
 		tut.highlightAreas = highlights;
-		tut.forceToQueueFront = true;	//all should force because if there is something in the queue it will take priority but will never fire since OnTick won't work as the game is paused
+		tut.forceToQueueFront = true;	
 		tut.canBeShownInMenus = true;
 		tut.isHUDTutorial = isHudTutorial;
 		tut.disableHorizontalResize = true;
@@ -122,9 +125,9 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		currentlyShownHint = tutorialScriptName;
 	}
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////  @HIGHLIGHTS  ///////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	protected function AddHighlight( out highlights : array< STutorialHighlight >, x : float, y : float, width : float, height : float )
 	{
@@ -148,7 +151,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		}
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS RADIAL ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightRadialItems() : array< STutorialHighlight >
 	{
@@ -178,7 +181,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS MAP ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightMapFilters() : array< STutorialHighlight >
 	{
@@ -207,19 +210,19 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		
 		if( StringToInt( temp ) == 1 )
 		{
-			//minimized
+			
 			AddHighlight( highlights, .83f, .65f, .155f, .28f );
 		}
 		else if( StringToInt( temp ) == 2 )
 		{
-			//maximized
+			
 			AddHighlight( highlights, .75f, .57f, .24f, .36f );
 		}
 		
 		return highlights;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS DISMANTLING ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightDismantleItems() : array< STutorialHighlight >
 	{
@@ -248,7 +251,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS GEEKPAGE ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightGeekPagePrimary() : array< STutorialHighlight >
 	{
@@ -268,7 +271,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS BLACKSMITH ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightBlacksmithItems() : array< STutorialHighlight >
 	{
@@ -297,7 +300,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS CRAFTING ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightCraftingList() : array< STutorialHighlight >
 	{
@@ -335,7 +338,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS ALCHEMY ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightAlchemyIngredients() : array< STutorialHighlight >
 	{
@@ -364,7 +367,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS CHAR DEV ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightCharDevSkillSlotGroups() : array< STutorialHighlight >
 	{
@@ -469,7 +472,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}	
 	
-	///////////////////////////////////////  @HIGHLIGHTS HUB COMMON MENU ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightHubMenuCharDev() : array< STutorialHighlight >
 	{
@@ -525,7 +528,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS INVENTORY ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightInvTabCrafting() : array< STutorialHighlight >
 	{
@@ -608,7 +611,7 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return h;
 	}
 	
-	///////////////////////////////////////  @HIGHLIGHTS MUTATIONS ///////////////////////////////////////////////////////////////////////////////////
+	
 	
 	protected function GetHighlightsMutationsMaster() : array< STutorialHighlight >
 	{
@@ -644,11 +647,11 @@ state TutHandlerBaseState in W3TutorialManagerUIHandler
 		return highlights;
 	}
 	
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////////  @EVENTS  ///////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//override those in child states
+	
+	
+	
+	
 	event OnMenuClosing(menuName : name) 	{}
 	event OnMenuClosed(menuName : name) 	{}
 	event OnMenuOpening(menuName : name) 	{}

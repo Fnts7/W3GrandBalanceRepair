@@ -1,20 +1,25 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskIrisRequestPortal
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Copyright © 2015 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
 class BTTaskIrisRequestPortal extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLE
-	//-----------------------------------------------------------------------
+	
+	
+	
 	public 	var onDeactivate 	: bool;	
 	public 	var onAnimEvent 	: CName;
 	
 	private var m_Npc 			: W3NightWraithIris;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		if( !onDeactivate && !IsNameValid( onAnimEvent ) )
@@ -22,23 +27,23 @@ class BTTaskIrisRequestPortal extends IBehTreeTask
 		
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function OnDeactivate()
 	{
 		if( onDeactivate )
 			Request();
 			
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function Request()
 	{
 		m_Npc = (W3NightWraithIris) GetNPC();		
 		m_Npc.RequestPortal();	
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{		
 		if ( animEventName == onAnimEvent )
@@ -50,8 +55,8 @@ class BTTaskIrisRequestPortal extends IBehTreeTask
 	}
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTTaskIrisRequestPortalDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskIrisRequestPortal';

@@ -1,16 +1,21 @@
-﻿//-----------------------------------------------------------------------
-// Copyright © 2014
-// Author : R.Pergent
-//-----------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-//Aura that applies fire effect on all targets
+
+
+
+
+
 class W3FireAura extends W3Effect_Aura
 {
 	default effectType = EET_FireAura;	
 	
 	protected function ApplySpawnsOn( entityGE : CGameplayEntity)
 	{
-		//process burning effect or just OnFireHit() if it's not an actor
+		
 		if( (CActor)entityGE )
 			super.ApplySpawnsOn( entityGE );
 		else

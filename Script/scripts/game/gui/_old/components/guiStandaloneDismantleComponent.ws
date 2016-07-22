@@ -1,12 +1,17 @@
-﻿//
-//  STANDALONE DISMANTLE MENU 
-// 	Alchemy table
-// 	WARNING: can be used only for mutagens
-//
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
 
 class W3StandaloneDismantleComponent extends W3GuiPlayerInventoryComponent
 {
-	protected /* override */ function ShouldShowItem( item : SItemUniqueId ):bool
+	protected  function ShouldShowItem( item : SItemUniqueId ):bool
 	{
 		var itemTags    	 : array <name>;
 		var showItem 		 : bool;
@@ -23,7 +28,7 @@ class W3StandaloneDismantleComponent extends W3GuiPlayerInventoryComponent
 		return showItem;
 	}
 	
-	public /* override */ function SetInventoryFlashObjectForItem( item : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
+	public  function SetInventoryFlashObjectForItem( item : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
 	{
 		super.SetInventoryFlashObjectForItem( item, flashObject );
 		addRecyclingPartsList( item, flashObject );

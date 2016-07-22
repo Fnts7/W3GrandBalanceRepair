@@ -1,4 +1,9 @@
-﻿class W3EntitySpawner extends W3UsableEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3EntitySpawner extends W3UsableEntity
 {
 	editable var entityTemplate			: CEntityTemplate;
 	editable var appearanceAfterSpawn	: name;

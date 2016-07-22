@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera, Patryk Fiutowski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_Hypnotized extends W3CriticalEffect
 {
@@ -34,11 +37,11 @@ class W3Effect_Hypnotized extends W3CriticalEffect
 	{
 		var witcher : W3PlayerWitcher = GetWitcherPlayer();
 		
-		//remove if on player and caster is dead
+		
 		if(isOnPlayer && GetCreator() && !GetCreator().IsAlive())
 			timeLeft = 0;
 		
-		//remove if on player and player drank heightened perception potion
+		
 		if(isOnPlayer && witcher.HasBuff( EET_Cat ) && witcher.GetPotionBuffLevel( EET_Cat ) >= 2 )
 			timeLeft = 0;
 		
@@ -61,7 +64,7 @@ class W3Effect_Hypnotized extends W3CriticalEffect
 			gameplayVisibilityFlag = actor.GetGameplayVisibility();
 			actor.SetGameplayVisibility( false );
 			
-			//bla bla bla camera start
+			
 			customCameraParams.source = actor;
 			customCameraParams.useCustomCamera = true;
 			customCameraParams.cameraParams.enums.Resize(2);
@@ -69,7 +72,7 @@ class W3Effect_Hypnotized extends W3CriticalEffect
 			customCameraParams.cameraParams.enums[0].enumValue = CCT_CustomController;
 			customCameraParams.cameraParams.enums[1].enumType = 'ECustomCameraController';
 			customCameraParams.cameraParams.enums[1].enumValue = CCC_NoTarget;
-			//customCameraStackIndex = player.AddCustomCamToStack( customCameraParams );
+			
 			thePlayer.AddCustomOrientationTarget(OT_Camera, 'HypnotizedEffect');
 			
 			template = (CEntityTemplate)LoadResource("bies_fx");
@@ -78,10 +81,10 @@ class W3Effect_Hypnotized extends W3CriticalEffect
 			{
 				fxEntity.CreateAttachment(thePlayer);
 				
-				//we have now way of saving a dynamic entity so we can add a saved timer instead
+				
 				fxEntity.DestroyAfter(duration);
 			}
-			//AreaEnvironmentActivate("env_bies_hypnotize");
+			
 			environment = (CEnvironmentDefinition)LoadResource("env_bies_hypnotize");
     		envID = ActivateEnvironmentDefinition( environment, 1000, 1, 1.f );
     		theGame.SetEnvironmentID(envID);
@@ -106,8 +109,8 @@ class W3Effect_Hypnotized extends W3CriticalEffect
 		
 		if ( isOnPlayer )
 		{
-			//bla bla bla camera over
-			//AreaEnvironmentDeactivate("env_bies_hypnotize");
+			
+			
 			DeactivateEnvironment( envID, 1 );
 			actor = (CActor)GetCreator();
 			actor.SetGameplayVisibility( gameplayVisibilityFlag );
@@ -120,37 +123,4 @@ class W3Effect_Hypnotized extends W3CriticalEffect
 		}
 		super.OnEffectRemoved();
 	}	
-}
-/*
-import function BSSaveValue( value : int );
-import function BSLoadValue() : int;
-
-exec function hypenvon()
-{
-	var environment : CEnvironmentDefinition;
-	var envID : int;
-	
-    environment = (CEnvironmentDefinition)LoadResource("env_bies_hypnotize");
-    envID = ActivateEnvironmentDefinition( environment, 100, 0.8, 0.5 );
-    
-	BSSaveValue( envID );
-}
-
-exec function hypenvoff()
-{
-	DeactivateEnvironment( BSLoadValue(), 0.5 );
-}
-
-exec function hhon()
-{
-    var environment : CEnvironmentDefinition;
-    var envID : int;
-    environment = (CEnvironmentDefinition)LoadResource("env_bies_hypnotize");
-    ActivateQuestEnvironmentDefinition( environment, 100, 1.0, 0.5 );
-}
-
-exec function hhoff()
-{
-    ActivateQuestEnvironmentDefinition( NULL, 0, 0, 0.5 );
-}
-*/
+}

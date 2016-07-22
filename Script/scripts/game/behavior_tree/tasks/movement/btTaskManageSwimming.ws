@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CD Projekt RED
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 class CBTTaskManageSwimming extends IBehTreeTask
 {
 	public var onActivate 			: bool;
@@ -12,8 +14,8 @@ class CBTTaskManageSwimming extends IBehTreeTask
 	private var m_isInWater			: bool;
 	private var m_isWaitingForWater	: bool;
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function Initialize()
 	{
 		var l_npc : CNewNPC = GetNPC();

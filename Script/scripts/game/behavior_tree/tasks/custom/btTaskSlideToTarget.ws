@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CD Projekt RED
-/** Author : Andrzej Kwiatkowski, Wojciech Żerek
-/***********************************************************************/
+
+
+
 
 class CBTTaskSlideToTarget extends IBehTreeTask
 {
@@ -78,7 +80,7 @@ class CBTTaskSlideToTargetDef extends IBehTreeTaskDefinition
 	hint onAnimEvent = "Must be specified. Won't work without an event.";
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class CBTTaskShadowDash extends IBehTreeTask
 {
@@ -110,7 +112,7 @@ class CBTTaskShadowDash extends IBehTreeTask
 	
 	function OnDeactivate()
 	{
-		SlideStop(); // failsafe
+		SlideStop(); 
 	}
 	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool

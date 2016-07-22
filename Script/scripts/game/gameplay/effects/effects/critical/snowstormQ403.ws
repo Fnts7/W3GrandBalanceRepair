@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_SnowstormQ403 extends W3Effect_Snowstorm
 {
@@ -11,7 +14,7 @@ class W3Effect_SnowstormQ403 extends W3Effect_Snowstorm
 	{
 		var temp : bool;
 		
-		//hack usesCam - we want to use different camera fx INSTEAD of base one
+		
 		temp = usesCam;
 		usesCam = false;
 		super.StopEffects();
@@ -25,7 +28,7 @@ class W3Effect_SnowstormQ403 extends W3Effect_Snowstorm
 	{
 		var temp : bool;
 		
-		//hack usesCam - we want to use different camera fx INSTEAD of base one
+		
 		temp = usesCam;
 		usesCam = false;
 		super.PlayEffects();

@@ -1,22 +1,27 @@
-﻿//>--------------------------------------------------------------------------
-// BTSaveNamedTargetOnEvent
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Save a named target to another named target on gameplay event
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 04-October-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTSaveNamedTargetOnEvent extends IBehTreeTask
 {
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	public var namedTargetToSave 			: name;
 	public var saveUnder 					: name;
 	public var gameplayEventToSaveOn		: name;
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	final function OnListenedGameplayEvent( eventName : CName ) : bool
 	{
 		if ( eventName == gameplayEventToSaveOn )
@@ -26,8 +31,8 @@ class BTSaveNamedTargetOnEvent extends IBehTreeTask
 		
 		return true;		
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private final function SaveTarget()
 	{
 		if( IsNameValid( saveUnder ) )
@@ -36,18 +41,18 @@ class BTSaveNamedTargetOnEvent extends IBehTreeTask
 		}
 	}
 }
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTSaveNamedTargetOnEventDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTSaveNamedTargetOnEvent';
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private editable var namedTargetToSave 			: name;
 	private editable var saveUnder		 			: CBehTreeValCName;
 	private editable var gameplayEventToSaveOn 		: CBehTreeValCName;
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	final function OnSpawn( taskGen : IBehTreeTask )
 	{
 		var task 		: BTSaveNamedTargetOnEvent;

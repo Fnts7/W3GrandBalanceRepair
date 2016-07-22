@@ -1,4 +1,9 @@
-﻿// CBTTaskUnderwaterSwimAroundTarget
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class CBTTaskUnderwaterSwimAroundTarget extends CBTTaskVolumetricMove
 {
 	public var distance					: float;
@@ -9,8 +14,8 @@ class CBTTaskUnderwaterSwimAroundTarget extends CBTTaskVolumetricMove
 	public var useActionTarget			: bool;
 	public var maxProximityToSurface 	: float;
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	latent function Main() : EBTNodeStatus
 	{
 		var l_npc 						: CNewNPC;
@@ -63,12 +68,12 @@ class CBTTaskUnderwaterSwimAroundTarget extends CBTTaskVolumetricMove
 			
 			l_myHeading 		= GetNPC().GetHeading();
 			
-			// If I am in the middle of changing my heading, do not update the position with current heading
+			
 			if( l_changeHeading )
 			{
 				CalculateBehaviorVariables( l_dest );
 				
-				// I am done changing heading when facing the current l_dest.
+				
 				l_toDestVector 	= l_dest - l_npcPos;				
 				l_toDestHeading = VecHeading( l_toDestVector );
 				l_angleToDest 	= AbsF( AngleDistance( l_toDestHeading, l_myHeading ) );
@@ -83,10 +88,10 @@ class CBTTaskUnderwaterSwimAroundTarget extends CBTTaskVolumetricMove
 				continue;			
 			}
 			
-			// If have space around me, circle around the target
+			
 			l_dest = l_anchorPointPos + VecNormalize( l_anchorPointToNpcVector ) * distance + VecNormalize( l_normalToAnchor ) * frontalHeadingOffset;
 				
-			// if the angle to l_dest is above 90, head in the other direction			
+			
 			l_currentMult		= 1;
 			l_toDestVector 	= l_dest - l_npcPos;				
 			l_toDestHeading 	= VecHeading( l_toDestVector );
@@ -96,7 +101,7 @@ class CBTTaskUnderwaterSwimAroundTarget extends CBTTaskVolumetricMove
 				l_currentMult = -1;
 			}
 			
-			// randomizing
+			
 			l_random = RandRange( randomFactor ) - ( randomFactor / 2 );
 			
 			l_dest.X = l_dest.X + l_random;
@@ -106,7 +111,7 @@ class CBTTaskUnderwaterSwimAroundTarget extends CBTTaskVolumetricMove
 			
 			l_dest.Z = l_anchorPointPos.Z + l_random;
 			
-			// if new l_dest is too close
+			
 			l_anchorPointToDestDist = VecDistance( l_anchorPointPos, l_dest );
 			if( l_anchorPointToDestDist < distance )
 			{
@@ -114,7 +119,7 @@ class CBTTaskUnderwaterSwimAroundTarget extends CBTTaskVolumetricMove
 			}	
 			
 			
-			//l_traceStartPos = l_npcPos;
+			
 			l_traceStartPos = l_dest;
 			
 			l_traceEndPos = l_traceStartPos;
@@ -136,13 +141,13 @@ class CBTTaskUnderwaterSwimAroundTarget extends CBTTaskVolumetricMove
 			{
 				l_traceStartPos 	= l_npcPos;
 				l_traceEndPos 	= l_dest;
-				// If I can't reach the next position, clamp the destination to be just before the closest obstacle
+				
 				theGame.GetWorld().StaticTrace( l_traceStartPos, l_traceEndPos, l_dest, l_normal, m_collisionGroupsNames );
 			}
 			
 			l_distanceToDest = VecDistance( l_npcPos, l_dest );
 			
-			// Change direction if I am about to leave the minimum water level for swimming
+			
 			l_waterDepthAtNextPos = l_world.GetWaterDepth( l_dest );
 			if( l_waterDepthAtNextPos > 1000 ) l_waterDepthAtNextPos = 0;
 			if(  l_waterDepthAtNextPos <  minimumWaterDepth || l_distanceToDest < 2 ) 

@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2015 CD Projekt RED
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskCollisionMonitor extends CBTTaskPlayAnimationEventDecorator
 {
@@ -76,7 +78,7 @@ class CBTTaskCollisionMonitor extends CBTTaskPlayAnimationEventDecorator
 			{
 				activated = false;
 			}
-			// reset data before handling to handle next collision
+			
 			if ( bCollisionWithObstacle && GetLocalTime() > objectCollisionTimeStamp + 0.5 )
 			{
 				collidedProbedEntity = NULL;
@@ -87,7 +89,7 @@ class CBTTaskCollisionMonitor extends CBTTaskPlayAnimationEventDecorator
 			{
 				bCollisionWithObstacleProbe = false;
 			}
-			// cooldown on applying hit on collision so it doesn't tick few times and burst damage target
+			
 			if ( bCollisionWithActor && GetLocalTime() > actorCollisionTimeStamp + 0.5 )
 			{
 				collidedActor = NULL;
@@ -163,7 +165,7 @@ class CBTTaskCollisionMonitor extends CBTTaskPlayAnimationEventDecorator
 				collidedEntity = collidedProbedEntity;
 			}
 			
-			// Destroy destructibles
+			
 			if ( destroyObstacleOnCollision )
 			{
 				if( collidedEntity )
@@ -306,7 +308,7 @@ class CBTTaskCollisionMonitor extends CBTTaskPlayAnimationEventDecorator
 			return true;
 		}
 		
-		//return super.OnGameplayEvent( eventName );
+		
 		return false;
 	}
 	
@@ -325,12 +327,7 @@ class CBTTaskCollisionMonitor extends CBTTaskPlayAnimationEventDecorator
 				activated = true;
 				return true;
 			}
-			/*else if ( ( animEventName == 'Knockdown' && animEventType == AET_DurationEnd ) 
-				   || ( animEventName == 'Stagger' && animEventType == AET_DurationEnd ) )
-			{
-				activated = false;
-				return true;
-			}*/
+			
 		}
 		
 		return res;
@@ -363,13 +360,12 @@ class CBTTaskCollisionMonitorDef extends CBTTaskPlayAnimationEventDecoratorDef
 }
 
 
-/***********************************************************************/
-/** Ensures that no other tasks takes over, waits for reaction to end
-/***********************************************************************/
+
+
 
 class CBTTaskReactionToCollision extends CBTTaskCollisionMonitor
 {
-	//public var waitForBehaviorNodeDeactivation 	: name;
+	
 	public var waitTimeout 						: float;
 	public var activationTimeout 				: float;
 	public var knockdownDuration 				: float;
@@ -424,13 +420,7 @@ class CBTTaskReactionToCollision extends CBTTaskCollisionMonitor
 			SleepOneFrame();
 		}
 		
-		/*if ( knockdownDuration > 0 )
-		{
-			Sleep( knockdownDuration );
-		}
-		GetNPC().SetBehaviorVariable( 'AttackEnd', 1.0, true );
-		GetNPC().WaitForBehaviorNodeDeactivation( waitForBehaviorNodeDeactivation, waitTimeout );
-		*/
+		
 		return BTNS_Completed;
 	}
 	
@@ -465,7 +455,7 @@ class CBTTaskReactionToCollisionDef extends CBTTaskCollisionMonitorDef
 {
 	default instanceClass 							= 'CBTTaskReactionToCollision';
 	
-	//editable var waitForBehaviorNodeDeactivation 	: name;
+	
 	editable var waitTimeout 						: float;
 	editable var activationTimeout 					: float;
 	editable var knockdownDuration 					: float;
@@ -473,7 +463,7 @@ class CBTTaskReactionToCollisionDef extends CBTTaskCollisionMonitorDef
 	private var activationScriptEvent 				: name;
 	private var deactivateScriptEvent 				: name;
 	
-	//default waitForBehaviorNodeDeactivation			= 'AttackEnd';
+	
 	default waitTimeout 							= 5.0f;
 	default activationTimeout 						= 1.0f;
 	default knockdownDuration 						= 2.0f;

@@ -1,11 +1,16 @@
-﻿class BTTaskFairytaleWitchManager extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class BTTaskFairytaleWitchManager extends IBehTreeTask
 {
 	private var npc : CNewNPC;
 	private var spawnedNpc, spawnedSecondNpc : CNewNPC;
 	private var nodeTags : array< name >;
 	private var resourceName : array< name >;
 
-//-----------------------------------------------------------------------
+
 	
 	private var initialSleepTime : float;
 	private var firstNodeTag : name;
@@ -15,7 +20,7 @@
 	private var archesporResource : name;
 	private var pantherResource : name;
 
-//-----------------------------------------------------------------------
+
 	
 	default initialSleepTime = 2.0;
 	default firstNodeTag = 'q704_archespore_1';
@@ -25,8 +30,8 @@
 	default archesporResource = 'archespor_turret';
 	default pantherResource = 'panther_fairytale_witch';
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 
 	function Initialize()
 	{
@@ -41,8 +46,8 @@
 		resourceName.PushBack( pantherResource );
 	}
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 
 	latent function Main() : EBTNodeStatus
 	{
@@ -85,7 +90,7 @@
 		spawnedSecondNpc.StopAllEffects();	
 		spawnedSecondNpc = NULL;
 		
-		// break flying loop, goto next stage
+		
 		npc.SetBehaviorVariable( 'shouldBreakFlightLoop', 1.0 );
 		
 		return BTNS_Active;
@@ -148,8 +153,8 @@
 	}
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 
 class BTTaskFairytaleWitchManagerDef extends IBehTreeTaskDefinition
 {

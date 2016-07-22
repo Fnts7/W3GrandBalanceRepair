@@ -1,32 +1,37 @@
-﻿//>--------------------------------------------------------------------------
-// BTCondFinisherWasInterrupted
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Check if the finisher played on this npc was interrupted
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 29-May-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTCondFinisherWasInterrupted extends IBehTreeTask
 {
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function IsAvailable() : bool
 	{
 		var l_availability	: bool;
 		l_availability = GetNPC().WasFinisherAnimInterrupted();
 		return l_availability;
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function OnDeactivate()
 	{
 		GetNPC().ResetFinisherAnimInterruptionState();
 	}
 }
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTCondFinisherWasInterruptedDef extends IBehTreeConditionalTaskDefinition
 {
 	default instanceClass = 'BTCondFinisherWasInterrupted';

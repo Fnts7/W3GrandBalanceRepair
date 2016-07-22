@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Authors : Danisz Markiewicz
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3SwordStand extends W3HouseDecorationBase
 {
@@ -12,19 +15,19 @@ class W3SwordStand extends W3HouseDecorationBase
 		
 		ChangeItemSelectionMode( EISPM_SwordStand );
 		
-		//Only one handed swords should be valid, no secondaries that are in fact steel weapons
+		
 		AddItemSelectionFilterTag( 'sword1h' );
 		AddItemSelectionForbiddenFilterTag( 'SecondaryWeapon' );		
 	}
 
-	//Performs operations upon receiving an item
+	
 	public function ProcessItemReceival( optional mute : bool )
 	{
 		super.ProcessItemReceival();
 		MountNewItem( !mute );
 	}
 	
-	//Mounting silver or steel sword depending which one was put into the container
+	
 	private function MountNewItem( optional playSound : bool )
 	{
 		var items : array<SItemUniqueId>;
@@ -59,13 +62,13 @@ class W3SwordStand extends W3HouseDecorationBase
 		
 	}
 
-	//Check if there are any vaild items in the inventory
+	
 	private function GetIsDecoractionEmpty() : bool
 	{
 		return GetIsWeaponStandEmpty();
 	}
 
-	//Check if there are any one handed swords in the inventory 
+	
 	private function GetIsWeaponStandEmpty() : bool
 	{		
 		var items : array<SItemUniqueId>;
@@ -82,7 +85,7 @@ class W3SwordStand extends W3HouseDecorationBase
 		}
 	}
 	
-	//Check if player has any armors that are not equiped
+	
 	private function GetIfPlayerHasValidItems() : bool
 	{
 		var items : array<SItemUniqueId>;

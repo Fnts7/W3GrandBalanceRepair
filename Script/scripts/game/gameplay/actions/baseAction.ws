@@ -1,88 +1,89 @@
 ﻿/***********************************************************************/
-/** Actions are used to handle attacks and damage dealing. They store all
-/** required information.
-/***********************************************************************/
-/** Copyright © 2012-2013
-/** Author : Rafal Jarczewski, Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// How to handle hit animation
+
+
+
+
 enum EActionHitAnim
 {
-	EAHA_Default,		//use default
-	EAHA_ForceYes,		//force the animation to be played always
-	EAHA_ForceNo		//force the animation to be skipped
+	EAHA_Default,		
+	EAHA_ForceYes,		
+	EAHA_ForceNo		
 }
 
-// Base raw data structure imported from code
+
 import class CDamageData extends CBaseDamage
 {
-	//final values of damage to be dealt (regardless of resistances etc.)
+	
 	import var processedDmg : SProcessedDamage;
 	
-	//info for chosing animation type
+	
 	import var hitLocation  : Vector ;	
 	import var momentum  	: Vector ;
 	
-	//general info about damage dealt
-	import var causer 		: IScriptable;							//object that actually deals damage e.g. player's spell, skill, bomb etc.
+	
+	import var causer 		: IScriptable;							
 	import var attacker 	: CGameplayEntity ;
 	import var victim   	: CGameplayEntity ;
 	
 	import var hitReactionAnimRequested				: bool;
 	import var additiveHitReactionAnimRequested		: bool;
 	import var customHitReactionRequested			: bool;
-	import var isDoTDamage							: bool;			//if true then damage is from a Damage over Time source
+	import var isDoTDamage							: bool;			
 	
-	var isActionMelee : bool;	//WTF? duplicated data
+	var isActionMelee : bool;	
 }
 
-// General action object. Use it only when other object's (attack or spell) don't apply, e.g. a trap, quest forced hits, etc.
+
 class W3DamageAction extends CDamageData
 {
-	protected var dmgInfos		: array< SRawDamage >;				//unprocessed damage data (before reduction)
-	protected var effectInfos	: array< SEffectInfo >;				//buffs' information
-	protected var cannotReturnDamage : bool;						//can this damage be returned to attacker - thorns-like behavior (Black Blood effect)
-	protected var isPointResistIgnored : bool;						//if set then point damage reduction will be ignored (e.g. for DoT types of damage)
-	protected var canPlayHitParticle : bool;						//if false then hit particle will not be shown when damage is sustained
-	protected var hitAnimationPlayType : EActionHitAnim;			//special animation requests (e.g. forcing yes/no)
-	protected var hitReactionType : EHitReactionType;				//hit reaction to use
-	private var buffSourceName : string;							//name of the source that delivers buff
-	protected var canBeParried : bool;								//if the attack can be parried by sword/shield
-	protected var canBeDodged : bool;								//if the attack can be dodged
-	protected var hitFX,hitBackFX,hitParriedFX,hitBackParriedFX : name;		//effect (particle) to play on target when hit in given circumstances
-	protected var powerStatType : ECharacterPowerStats;				//power stat type to use
-	protected var swingType : EAttackSwingType;						//swing type
-	protected var swingDirection : EAttackSwingDirection;			//swing direction
-	protected var signSkill : ESkill;								//spell's skill enum
-	protected var isDodged : bool;									//set to true when the damage was dodged
-	protected var shouldProcessBuffsIfNoDamage : bool;				//if set then buffs will be applied even if action does not deal any damage
-	private var ignoreImmortalityMode : bool;						//if set then action damage will ignore immortality modes (any and all)
-	private var dealtFireDamage : bool;								//set by DamageManager to indicate if the action has SUCCESSFULLY dealt fire damage to victim
-	protected var isHeadShot : bool;								//set to true if target was hit in the head by bolt
-	protected var killedBySingleHit : bool;							//set to true if single hit drained 100% of victim's health
-	protected var ignoreArmor : bool;								//if set then ALL damages will ignore ARMOR stat
-	protected var supressHitSounds : bool;							//if set no hit sound is played
-	protected var dealtDamage : bool;								//if damage was actually dealt to victim
-	protected var endsQuen : bool;									//if action will end quen once it's processed
-	protected var armorReducedDamageToZero : bool;					//set when victim's armor reduces damage to 0
-	protected var underwaterDisplayDamageHack : bool;				//if hack is ON
-	protected var parryStagger : bool;								//set if attack was parried but due to level diff victim gets staggered
-	protected var bouncedArrow : bool;								//set if arround was countered and bounces back at the shooter
-	protected var forceExplosionDismemberment : bool;					//
-	protected var isCriticalHit : bool;								//if critical hit occured during this action
-	protected var instantKill : bool;								//if insta killed
-	protected var instantKillFloater : bool;						//if insta killed damage floater will show on HUD
-	protected var instantKillCooldownIgnore : bool;					//if instant kill cooldown is not to be checked
-	protected var wasFrozen	: bool;									//is NPC was frozen right before death
-	protected var mutation4Triggered : bool;						//if mutation 4 returned damage
-	protected var didReturnDamageToAttacker : bool;					//if any damage was returned to attacker
+	protected var dmgInfos		: array< SRawDamage >;				
+	protected var effectInfos	: array< SEffectInfo >;				
+	protected var cannotReturnDamage : bool;						
+	protected var isPointResistIgnored : bool;						
+	protected var canPlayHitParticle : bool;						
+	protected var hitAnimationPlayType : EActionHitAnim;			
+	protected var hitReactionType : EHitReactionType;				
+	private var buffSourceName : string;							
+	protected var canBeParried : bool;								
+	protected var canBeDodged : bool;								
+	protected var hitFX,hitBackFX,hitParriedFX,hitBackParriedFX : name;		
+	protected var powerStatType : ECharacterPowerStats;				
+	protected var swingType : EAttackSwingType;						
+	protected var swingDirection : EAttackSwingDirection;			
+	protected var signSkill : ESkill;								
+	protected var isDodged : bool;									
+	protected var shouldProcessBuffsIfNoDamage : bool;				
+	private var ignoreImmortalityMode : bool;						
+	private var dealtFireDamage : bool;								
+	protected var isHeadShot : bool;								
+	protected var killedBySingleHit : bool;							
+	protected var ignoreArmor : bool;								
+	protected var supressHitSounds : bool;							
+	protected var dealtDamage : bool;								
+	protected var endsQuen : bool;									
+	protected var armorReducedDamageToZero : bool;					
+	protected var underwaterDisplayDamageHack : bool;				
+	protected var parryStagger : bool;								
+	protected var bouncedArrow : bool;								
+	protected var forceExplosionDismemberment : bool;					
+	protected var isCriticalHit : bool;								
+	protected var instantKill : bool;								
+	protected var instantKillFloater : bool;						
+	protected var instantKillCooldownIgnore : bool;					
+	protected var wasFrozen	: bool;									
+	protected var mutation4Triggered : bool;						
+	protected var didReturnDamageToAttacker : bool;					
 	
-	//debug only
-	private var DOTdt : float;										//dt used for DOT damage, just to print it
 	
-	//flags, add more if needed
-	//private var isActionMelee : bool;
+	private var DOTdt : float;										
+	
+	
+	
 	private var isActionRanged : bool;
 	private var isActionWitcherSign : bool;
 	private var isActionEnvironment : bool;
@@ -196,13 +197,13 @@ class W3DamageAction extends CDamageData
 		wasFrozen = false;
 	}
 	
-	//set action's used sign skill (if a sign action)
+	
 	public function SetSignSkill(skill : ESkill)
 	{
 		signSkill = skill;
 	}
 		
-	//gets action's sign skill
+	
 	public function GetSignSkill() : ESkill
 	{
 		return signSkill;
@@ -230,9 +231,7 @@ class W3DamageAction extends CDamageData
 		return ST_None;
 	}
 	
-	/**
-		add raw unprocessed damage to atack
-	*/
+	
 	function AddDamage( dmgType : name, dmgVal : float )
 	{
 		var dmgInfo : SRawDamage;
@@ -241,7 +240,7 @@ class W3DamageAction extends CDamageData
 		if(dmgVal <= 0)
 			return;
 		
-		//if already has this type then cumulate
+		
 		for(i=0; i<dmgInfos.Size(); i+=1)
 		{
 			if(dmgInfos[i].dmgType == dmgType)
@@ -257,7 +256,7 @@ class W3DamageAction extends CDamageData
 		dmgInfos.PushBack( dmgInfo );
 	}
 	
-	// Adds buff to this action
+	
 	function AddEffectInfo(effectType : EEffectType, optional duration : float, optional effectCustomValue : SAbilityAttributeValue, optional effectAbilityName : name, optional customParams : W3BuffCustomParams, optional buffApplyChance : float )
 	{
 		var effectInfo : SEffectInfo;
@@ -272,7 +271,7 @@ class W3DamageAction extends CDamageData
 		effectInfo.effectCustomParam = customParams;
 				
 		if(buffApplyChance == 0)
-			buffApplyChance = 1;	//default
+			buffApplyChance = 1;	
 		effectInfo.applyChance = buffApplyChance;
 		
 		effectInfos.PushBack( effectInfo );
@@ -297,7 +296,7 @@ class W3DamageAction extends CDamageData
 		}
 	}
 		
-	//sets hit reaction type, also need to specify if you want to reset default hit FXs
+	
 	public function SetHitReactionType(hrt : EHitReactionType, optional setDefaultHitFXs : bool)
 	{
 		hitReactionType = hrt;
@@ -369,7 +368,7 @@ class W3DamageAction extends CDamageData
 		return false;
 	}
 	
-	//gets all raw damage info, returns size
+	
 	public function GetDTs( out dmgTypes : array< SRawDamage > ) : int
 	{
 		dmgTypes.Clear();
@@ -383,7 +382,7 @@ class W3DamageAction extends CDamageData
 		return dmgInfos.Size();
 	}	
 	
-	//extracts all DT names from raw damage info, returns size
+	
 	public function GetDTsNames(out dtNames : array< name > ) : int
 	{
 		var i : int;
@@ -395,7 +394,7 @@ class W3DamageAction extends CDamageData
 		return dtNames.Size();
 	}
 	
-	//sets default hit FXes
+	
 	protected function SetDefaultHitFXs()
 	{
 		switch(hitReactionType)
@@ -428,7 +427,7 @@ class W3DamageAction extends CDamageData
 		}
 	}
 	
-	// Returns tag's name of the power stat to be used with this type of action. Must be overriden in child classes. Uses none by default.
+	
 	public function GetPowerStatBonusAbilityTag() : name		{return '';}
 	
 	public function CanBeParried() : bool						{return canBeParried;}
@@ -452,7 +451,7 @@ class W3DamageAction extends CDamageData
 	public function SetForceExplosionDismemberment()			{forceExplosionDismemberment = true;}
 	public function HasForceExplosionDismemberment() : bool		{return forceExplosionDismemberment;}
 	
-	//dt passed here does not affect damage in any way - used for logging only
+	
 	public function SetIsDoTDamage(dt : float)
 	{
 		isDoTDamage = (dt > 0);
@@ -503,7 +502,7 @@ class W3DamageAction extends CDamageData
 		hitBackParriedFX = newFX;
 	}
 	
-	// Returns true if the action will deal any damage (after being processed)
+	
 	public function DealsAnyDamage() : bool
 	{
 		var actorVictim : CActor;
@@ -519,7 +518,7 @@ class W3DamageAction extends CDamageData
 			return processedDmg.vitalityDamage > 0 || processedDmg.essenceDamage > 0;
 	}
 	
-	//if action actually dealt any damage to victim
+	
 	public function DealtDamage() : bool
 	{
 		return dealtDamage;
@@ -530,7 +529,7 @@ class W3DamageAction extends CDamageData
 		dealtDamage = true;
 	}
 	
-	//retuirns true if action deals Physical or Silver Damage
+	
 	public function DealsPhysicalOrSilverDamage() : bool
 	{
 		var i, size : int;
@@ -548,7 +547,7 @@ class W3DamageAction extends CDamageData
 		return false;		
 	}
 	
-	// Returns the amount of damage dealt
+	
 	public function GetDamageDealt() : float
 	{
 		var actor : CActor;
@@ -560,7 +559,7 @@ class W3DamageAction extends CDamageData
 		return processedDmg.vitalityDamage;
 	}
 	
-	// Returns value of the power stat used by this action that was stored in this action.
+	
 	public function GetPowerStatValue() : SAbilityAttributeValue
 	{
 		var result : SAbilityAttributeValue;
@@ -587,20 +586,20 @@ class W3DamageAction extends CDamageData
 		}
 		else
 		{
-			//default value + optional tagged bonus
+			
 			result = actor.GetPowerStatValue(powerStatType);
 			if(IsNameValid(GetPowerStatBonusAbilityTag()))
 				result += actor.GetPowerStatValue(powerStatType, GetPowerStatBonusAbilityTag());
 		}
 		
-		//FINAL HACK
+		
 		if(result.valueMultiplicative < 0)
 			result.valueMultiplicative = 0.001;
 			
 		return result;
 	}
 	
-	// Sets all processed damages to given value
+	
 	public function SetAllProcessedDamageAs(val : float)
 	{
 		if(val < 0.f)
@@ -623,7 +622,7 @@ class W3DamageAction extends CDamageData
 		processedDmg.moraleDamage *= val;
 	}
 	
-	// give us flaaaaaaaaaaaaaaaaaaags!!!!
+	
 	public final function IsActionMelee() : bool			{return isActionMelee;}
 	public final function IsActionRanged() : bool			{return isActionRanged;}
 	public final function IsActionWitcherSign() : bool		{return isActionWitcherSign;}	
@@ -645,7 +644,7 @@ class W3DamageAction extends CDamageData
 	public final function SetIgnoreArmor(b : bool)				{ignoreArmor = b;}
 	public final function SuppressHitSounds() : bool				{return supressHitSounds;}
 	public final function SetSuppressHitSounds(b : bool)			{supressHitSounds = b;}
-	//public final function GetCauser () 							{return causer;}
+	
 	public final function SetEndsQuen(b : bool)					{endsQuen = b;}
 	public final function EndsQuen() : bool						{return endsQuen;}
 	public final function SetArmorReducedDamageToZero()			{armorReducedDamageToZero = true;}
@@ -689,7 +688,7 @@ class W3DamageAction extends CDamageData
 		return 0;
 	}
 	
-	//sum of all incoming damages (before reductions were applied)
+	
 	public final function GetDamageValueTotal() : float
 	{
 		var i : int;
@@ -707,10 +706,10 @@ class W3DamageAction extends CDamageData
 		var isOk : bool;
 		var burning : W3Effect_Burning;
 		
-		//direct hit
+		
 		isOk = ( attacker == thePlayer && IsActionWitcherSign() && IsCriticalHit() && GetWitcherPlayer().IsMutationActive(EPMT_Mutation2) );
 		
-		//burning buff kill
+		
 		if( !isOk )
 		{
 			burning = ( W3Effect_Burning ) causer;

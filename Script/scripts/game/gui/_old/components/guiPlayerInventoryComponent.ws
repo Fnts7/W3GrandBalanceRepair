@@ -1,4 +1,9 @@
-﻿class W3GuiPlayerInventoryComponent extends W3GuiBaseInventoryComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3GuiPlayerInventoryComponent extends W3GuiBaseInventoryComponent
 {
 	private var _shopInvCmp:W3GuiShopInventoryComponent;
 	private var _filterType : EInventoryFilterType;
@@ -56,7 +61,7 @@
 		_currentItemCategoryType = cat;
 	}
 	
-	// TBD: Generalize across different inventory components and move into base class
+	
 	public function SwapItems( gridItem : SItemUniqueId, paperdollItem : SItemUniqueId )
 	{
 		var invalidatedItems : array< SItemUniqueId >;
@@ -76,9 +81,9 @@
 		mountToHand = _inv.IsItemHeld( paperdollItem );
 		result = GetWitcherPlayer().UnequipItem(paperdollItem);
 		if(result)
-			result = GetWitcherPlayer().EquipItem(gridItem, EES_Quickslot1, mountToHand);		//provide custom quickslot 1-4 or leave like that (if 1 and occupied, will put to next free)
-		//TODO #B
-		//handle results == false in both cases above?
+			result = GetWitcherPlayer().EquipItem(gridItem, EES_Quickslot1, mountToHand);		
+		
+		
 		
 		invalidatedItems.PushBack( gridItem );
 		invalidatedItems.PushBack( paperdollItem );
@@ -122,21 +127,21 @@
 		super.DropItem( item, quantity );
 	}
 	
-	//FIXME
-	//#B check this - right now the only upgrades we can use are oils - changed thePlayer.UpgradeItem to thePlayer.ApplyOil
+	
+	
 	public function UpgradeItem( item : SItemUniqueId, upgrade : SItemUniqueId )
 	{
 		var invalidatedItems : array< SItemUniqueId >;
 		
 		GetWitcherPlayer().ApplyOil(upgrade, item );
-		//if(UpgradeItem)
-		//{
+		
+		
 			_inv.RemoveItem( upgrade, 1 );
-			//_dpPaperdoll.bUpgradeTooltip = false; //#B deprecated
+			
 			invalidatedItems.PushBack( item );
 			invalidatedItems.PushBack( upgrade );
 			InvalidateItems( invalidatedItems );
-		//}
+		
 	}
 	
 	public function ConsumeItem( item : SItemUniqueId )
@@ -146,7 +151,7 @@
 		
 		itemCategory = _inv.GetItemCategory( item );
 		
-		thePlayer.ConsumeItem( item ); // Also removes the item
+		thePlayer.ConsumeItem( item ); 
 		invalidatedItems.PushBack( item );
 		InvalidateItems( invalidatedItems );
 	}	
@@ -207,15 +212,15 @@
 	
 	public function ReadBook( item : SItemUniqueId )
 	{
-		//LogChannel('Inventory_Books',"gPIC ReadBook ");
+		
 		_inv.ReadBook( item );
-		//_dpPlayer.InvalidateData(); // #B deprecated
-		//@TODO update item read state, update this item
+		
+		
 	}
 	
 	public function IsBookRead( item : SItemUniqueId ) : bool
 	{
-		//LogChannel('Inventory_Books',"gPIC IsBookRead ");
+		
 		return _inv.IsBookRead( item );
 	}
 	
@@ -322,7 +327,7 @@
 		setBonusText = "";
 		setBonusText2 = "";
 		
-		if ( dm.IsItemSetItem( craftedItemName ) ) // set items rarity
+		if ( dm.IsItemSetItem( craftedItemName ) ) 
 		{
 			GetWitcherPlayer().GetSetBonusStatusByName( craftedItemName, setBonusDescription1, setBonusDescription2, isSetBonus1Active, isSetBonus2Active );
 			
@@ -422,7 +427,7 @@
 		attributesStr = "";
 		for (i = 0; i < attributes.Size(); i += 1)
 		{
-			// #J using temp string to follow since finalString gets so big
+			
 			color = attributes[i].attributeColor;
 			attributesStr += "<font color=\"#" + color + "\">";
 			attributesStr += attributes[i].attributeName + ": ";
@@ -438,7 +443,7 @@
 		}
 
 		addDescription = "";
-		if (maxQuality > 1 && maxQuality < 4) // #J Relics and sets dont have random Attributes from what I understand
+		if (maxQuality > 1 && maxQuality < 4) 
 		{
 			addDescription += "<font color=\"#AAFFFC\">" + (minQuality - 1) + " - " + (maxQuality - 1) + " " + GetLocStringByKeyExt("panel_crafting_number_random_attributes") + "</font>";
 		}
@@ -468,35 +473,35 @@
 	{
 		var min, max : SAbilityAttributeValue;
 		
-		if ( category == 'steelsword' ) // STEEL SWORD
+		if ( category == 'steelsword' ) 
 		{	
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue('autogen_fixed_steel_dmg', 'SlashingDamage', min, max);
 			return RoundMath((theGame.params.GetNewGamePlusLevel() - theGame.params.NEW_GAME_PLUS_MIN_LEVEL) * max.valueBase);
 		}
-		else if ( category == 'silversword' ) // SILVER SWORD
+		else if ( category == 'silversword' ) 
 		{
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue('autogen_fixed_silver_dmg', 'SilverDamage', min, max);
 			return RoundMath((theGame.params.GetNewGamePlusLevel() - theGame.params.NEW_GAME_PLUS_MIN_LEVEL) * max.valueBase);
 		}
-		else if ( category == 'armor' ) // Armor
+		else if ( category == 'armor' ) 
 		{	
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue('autogen_fixed_armor_armor', 'armor', min, max);
 			return RoundMath((theGame.params.GetNewGamePlusLevel() - theGame.params.NEW_GAME_PLUS_MIN_LEVEL) * max.valueBase);
 		}
-		else if ( category == 'boots' || category == 'pants' ) // Pants and boots
+		else if ( category == 'boots' || category == 'pants' ) 
 		{				
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue('autogen_fixed_pants_armor', 'armor', min, max);
 			return RoundMath((theGame.params.GetNewGamePlusLevel() - theGame.params.NEW_GAME_PLUS_MIN_LEVEL) * max.valueBase);
 		}
-		else if ( category == 'gloves' ) // Gloves
+		else if ( category == 'gloves' ) 
 		{			
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue('autogen_fixed_gloves_armor', 'armor', min, max);
 			return RoundMath((theGame.params.GetNewGamePlusLevel() - theGame.params.NEW_GAME_PLUS_MIN_LEVEL) * max.valueBase);
 		}	
 		return 0;
 	}
-	//--------------------------------------------------------------------------------------------------------
-	//									DATA
+	
+	
 	
 	protected function isEquipped( item : SItemUniqueId ) : bool
 	{
@@ -508,7 +513,7 @@
 		return (int)GetWitcherPlayer().GetItemSlot(item);
 	}	
 	
-	public /*override*/ function SetInventoryFlashObjectForItem( itemId : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
+	public  function SetInventoryFlashObjectForItem( itemId : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
 	{
 		var equipped 			  : int;
 		var slotType 			  : EEquipmentSlots;
@@ -532,7 +537,7 @@
 		isDefaultBolt = _inv.IsItemBolt(itemId) && _inv.ItemHasTag(itemId, theGame.params.TAG_INFINITE_AMMO);
 		
 		itemName = _inv.GetItemName(itemId);
-		// TBD: Getting slotType in superclass too...
+		
 		slotType = GetItemEquippedSlot( itemId );
 		equipped = (int)GetWitcherPlayer().GetItemSlot( itemId );
 		
@@ -553,8 +558,8 @@
 		}
 		else
 		{
-			//Tutorial hack - in forced alchemy tutorial we cook Thunderbolt 1 potion and we have to make sure you cannot drop it.
-			//It's a general item so it cannot have NoDrop or Quest tags and there is no way to dynamically add/remove tags from items.
+			
+			
 			dropBlockedByTutorial = FactsQuerySum("tut_forced_preparation") > 0 && _inv.GetItemName(itemId) == 'Thunderbolt 1';
 			canDrop = !_inv.ItemHasTag(itemId, 'NoDrop') && !_inv.ItemHasTag(itemId,'Quest') && !dropBlockedByTutorial && !isDefaultBolt;
 		}
@@ -599,7 +604,7 @@
 		
 		isQuest = _inv.IsItemQuest( itemId );
 		
-		// - TAB 1 -
+		
 		if( ( _inv.IsItemAnyArmor( itemId ) || _inv.ItemHasTag( itemId, 'ArmorUpgrade' ) || _inv.ItemHasTag( itemId, 'ArmorReapairKit' ) || _inv.IsItemDye( itemId ) ) && !isQuest )
 		{
 			targetGridSection = 1;
@@ -609,7 +614,7 @@
 		{
 			targetGridSection = 0;
 		}
-		// - TAB 2 -
+		
 		else if( _inv.IsItemOil( itemId ) )
 		{
 			targetGridSection = 0;
@@ -622,12 +627,12 @@
 		{
 			targetGridSection = 2;
 		}
-		// - TAB 3 -
+		
 		else if( isQuest && !_inv.IsItemTrophy( itemId ) )
 		{
 			targetGridSection = 0;
 		}
-		// - TAB 4 -
+		
 		else if( _inv.IsItemFood( itemId ) )
 		{
 			targetGridSection = 0;
@@ -636,7 +641,7 @@
 		{
 			targetGridSection = 1;
 		}
-		// - TAB 5 -
+		
 		else if( _inv.ItemHasTag( itemId, 'AlchemyIngredient' ) )
 		{
 			targetGridSection = 1;
@@ -654,11 +659,11 @@
 		{
 			targetGridSection = 0;
 		}
-		// - DEFAULT : TAB 3 /JUNK/ -
+		
 		else
 		{
 			targetGridSection = 1;
-			//flashObject.SetMemberFlashInt( "sortGroup", -1);
+			
 		}
 		
 		if( _inv.ItemHasTag( itemId, 'Painting' ) )
@@ -675,9 +680,9 @@
 		
 		if( itemName == 'q705_tissue_extractor' && thePlayer.GetTissueExtractorChargesCurr() >= thePlayer.GetTissueExtractorChargesMax() )
 		{
-			//uiData = _inv.GetInventoryItemUIData( itemId );
-			//uiData.isNew = true;
-			//_inv.SetInventoryItemUIData( itemId, uiData );
+			
+			
+			
 			
 			flashObject.SetMemberFlashBool( "isNew", true );
 		}
@@ -728,13 +733,13 @@
 	}
 	
 	
-	// Player	
+	
 	public function ShouldShowItem( item : SItemUniqueId ):bool
 	{
 		var itemCategory : name;
 		var itemName : name;
 		
-		if( bPaperdoll )//@FIXME BIDON - temp hack
+		if( bPaperdoll )
 		{
 			return super.ShouldShowItem( item );
 		}
@@ -754,33 +759,28 @@
 			return false;
 		}		
 		
-		if ( !overrideQuestItemFilters && _filterType != IFT_QuestItems && _inv.ItemHasTag( item, 'Quest' ) && !isHorseItem(item) ) // #B tricky ... we want to show quest items only in quest tab ? even they have usefull category ?
+		if ( !overrideQuestItemFilters && _filterType != IFT_QuestItems && _inv.ItemHasTag( item, 'Quest' ) && !isHorseItem(item) ) 
 		{
 			return false;
 		}			
 		
 		itemName = _inv.GetItemName(item);
 		itemCategory = _inv.GetItemCategory( item );
-		if ( itemCategory == 'schematic' ) //#B schematics should be shown ?
+		if ( itemCategory == 'schematic' ) 
 		{
 			return false;
 		}
 		
-		/*if( theGame.IsPadConnected() )
-		{
-			return CheckShowItemByCategory( item, itemCategory );
-		}
-		else
-		{*/
+		
 			if ( isEquipped( item ) )
 			{
 				return false; 
 			}
 			return CheckIfShouldShowItem( item );
-		//}
+		
 	}
 	
-	//If item DOESN"T HAVE certain tag it should not be displayed
+	
 	private function filterByTagsList( item : SItemUniqueId ):bool
 	{
 		var i, len:int;
@@ -795,7 +795,7 @@
 		return true;
 	}
 
-	//If item HAS certain tag it should not be displayed
+	
 	private function filterByForbiddenTagsList( item : SItemUniqueId ):bool
 	{
 		var i, len:int;
@@ -810,7 +810,7 @@
 		return true;
 	}	
 	
-	private function CheckShowItemByCategory( item : SItemUniqueId, itemCategory : name ) : bool // #B deprecated
+	private function CheckShowItemByCategory( item : SItemUniqueId, itemCategory : name ) : bool 
 	{
 		var itemName : name;
 		
@@ -830,9 +830,7 @@
 					{
 						case 'quick1':
 						case 'quick2':
-						/*case 'quick3':
-						case 'quick4':
-						case 'quick5':*/
+						
 							return true;
 					}
 				}
@@ -925,7 +923,7 @@
 		switch( _filterType )
 		{
 			case IFT_QuestItems:
-				shouldShow =  ( isJunk || isQuestItem( item ) || ( isItemReadable( item ) /*&& !IsBookRead( item )*/ ) ) && ( !isQuickslotItem( item ) || isQuestItem( item ) ) && !isTrophy;
+				shouldShow =  ( isJunk || isQuestItem( item ) || ( isItemReadable( item )  ) ) && ( !isQuickslotItem( item ) || isQuestItem( item ) ) && !isTrophy;
 				break;
 			case IFT_Default:
 				shouldShow = isFoodItem( item ) || isHorseItem( item );
@@ -961,25 +959,17 @@
 		return shouldShow;
 	}	
 		
-	protected function HAXIsMiscItem( item : SItemUniqueId ) : bool // #@TODO BIDON find and kill
+	protected function HAXIsMiscItem( item : SItemUniqueId ) : bool 
 	{
 		return ! _inv.ItemHasTag( item, 'CraftingIngredient' ) && ! isQuestItem( item ) && _inv.GetSlotForItemId(item) == EES_InvalidSlot;
 	}
 	
-	/*private function isAlchemyItem( item : SItemUniqueId ) : bool
-	{
-		return _inv.ItemHasTag( item, 'AlchemyIngredient' ) || _inv.ItemHasTag( item, 'Potion' );
-	}
 	
-	private function isCraftingItem( item : SItemUniqueId ) : bool
-	{
-		return HAXIsMiscItem(item); // _inv.ItemHasTag( item, 'CraftingIngredient' )
-	}*/
 	
 	protected function GetItems( out items : array<SItemUniqueId> )
 	{
-		//FIXME:
-		// Not much of a useful switch at the moment...
+		
+		
 		switch ( _filterType )
 		{
 			case IFT_Default:

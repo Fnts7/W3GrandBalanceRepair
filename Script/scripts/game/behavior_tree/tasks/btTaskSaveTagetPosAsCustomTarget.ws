@@ -1,23 +1,28 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskSaveTargetPosAsCustomTarget
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Create a custom target out of the current position on the target
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - DD-Month-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskSaveTargetPosAsCustomTarget extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	public var useActionTarget 	: bool;
 	public var onDeactivate 	: bool;
 	public var snapToGround		: bool;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	final function OnActivate() : EBTNodeStatus
 	{
 		if( onDeactivate ) return BTNS_Active;
@@ -26,16 +31,16 @@ class BTTaskSaveTargetPosAsCustomTarget extends IBehTreeTask
 		
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	final function OnDeactivate()
 	{
 		if( !onDeactivate ) return;
 		
 		SaveTarget();
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	final function SaveTarget()
 	{
 		var l_pos 		: Vector;
@@ -58,19 +63,19 @@ class BTTaskSaveTargetPosAsCustomTarget extends IBehTreeTask
 			l_pos.Z = l_groundZ;
 		}
 		
-		//GetNPC().GetVisualDebug().AddArrow('toCustomTarget', GetNPC().GetWorldPosition() + Vector( 0, 0, 1), l_pos, 1, 0.5f, 0.8f, true, Color( 205, 156, 89 ),, -1 );
+		
 		
 		SetCustomTarget( l_pos, l_heading );
 	}
 
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskSaveTargetPosAsCustomTargetDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskSaveTargetPosAsCustomTarget';
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private editable var useActionTarget 	: bool;
 	private editable var onDeactivate 		: bool;
 	private editable var snapToGround		: bool;

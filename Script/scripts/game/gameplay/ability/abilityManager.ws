@@ -1,38 +1,27 @@
 ﻿/***********************************************************************/
-/** Ability Manager handles all NPC/Player's:
-/**  - character stats (vitality, stamina etc.),
-/**  - abilities,
-/**  - skills.
-/**
-/** NPC/Player should use their own classes with custom code handling.
-/**
-/** In general - player skills have their own structures while the monsters' skills are just abilities.
-/** 
-/** Stats and resists are cached so we wouldn't have to recalculate them all the time. It also simplifies
-/** the process of getting stats since tags don't give us too much options (e.g. if you would like to get
-/** base stat + all passive skill and item bonuses then this is harder to do if the values are not cached).
-/** 
-/** Ability Manager is also used to get attribute values of the actor. It has to be encapsulated since
-/** some of the stats are cached - we must ensure that the cached values are read, not the partial not calculated
-/** values (e.g. getting character's health from XML definition would lose the information about other 
-/** passive bonuses like skills and you wouldn't know about it).
-/**
-/** The 'forbidden attributes' are the attributes which cannot be got using GetAttribute* functions.
-/** They have their own functions that must be used, e.g. GetStat, which have a custom handling.
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera
-/***********************************************************************/
+
+
+
 
 import abstract class W3AbilityManager extends IScriptable
 {
-	import var owner : CActor;												//actor whose AbilityManager this is
-	import var usedHealthType : EBaseCharacterStats;						//health type used by that actor (vitality, essense or)
-	import var charStats : CCharacterStats;									//cached owner CharacterStats object
-	import saved var usedDifficultyMode : EDifficultyMode;					//difficulty mode used to calculate stats of this actor
-	import var difficultyAbilities : array< array< name > >;				//cached names of abilities for specific difficulty modes
-	import var ignoresDifficultySettings : bool;							//if set then actor ignores difficulty settings
+	import var owner : CActor;												
+	import var usedHealthType : EBaseCharacterStats;						
+	import var charStats : CCharacterStats;									
+	import saved var usedDifficultyMode : EDifficultyMode;					
+	import var difficultyAbilities : array< array< name > >;				
+	import var ignoresDifficultySettings : bool;							
 	private var overhealBonus : float;
+	
+	protected var isInitialized : bool;										
+	default isInitialized = false;											
+	import protected saved var blockedAbilities : array<SBlockedAbility>;	
+	
+	
 
 	import final function CacheStaticScriptData();
 	import final function SetInitialStats( diff : EDifficultyMode ) : bool;
@@ -43,8 +32,8 @@ import abstract class W3AbilityManager extends IScriptable
 	import final function RestoreStat( stat : EBaseCharacterStats );
 	import final function RestoreStats();
 	import		 function GetStat( stat : EBaseCharacterStats, optional skipLock : bool ) : float;
-	public final function GetStatMax( stat : EBaseCharacterStats ) : float;
-	public final function GetStatPercents( stat : EBaseCharacterStats ) : float;
+	import final function GetStatMax( stat : EBaseCharacterStats ) : float;
+	import final function GetStatPercents( stat : EBaseCharacterStats ) : float;
 	import final function GetStats( stat : EBaseCharacterStats, out current : float, out max : float ) : bool;
 	import final function SetStatPointCurrent( stat : EBaseCharacterStats, val : float );
 	import final function SetStatPointMax( stat : EBaseCharacterStats, val : float );
@@ -62,18 +51,15 @@ import abstract class W3AbilityManager extends IScriptable
 	import final function UpdateStatsForDifficultyLevel( diff : EDifficultyMode );
 	import final function UpdateDifficultyAbilities( diff : EDifficultyMode );
 	
-	// the following methods don't work on final build (return empty array / false)
+	
 	import final function GetAllStats_Debug( out stats : array< SBaseStat > ) : bool;
 	import final function GetAllResistStats_Debug( out stats : array< SResistanceValue > ) : bool;
 
-	protected var isInitialized : bool;										//set to true once all initialization code is one, before that you should not use ability manager!
-	protected saved var blockedAbilities : array<SBlockedAbility>;			//list of abilities that are currently blocked (e.g. as a result of focus mode)
-		default isInitialized = false;										//must be called in child class after all the Init code is done		
 	
-	//called after Init after other actor managers are initialized		
 	public function PostInit();
 		
-	//returns true if properly initialized
+	import private function SetCharacterStats( cStats : CCharacterStats ); 
+	
 	public function Init(ownr : CActor, cStats : CCharacterStats, isFromLoad : bool, diff : EDifficultyMode) : bool
 	{
 		var abs : array<name>;
@@ -85,13 +71,13 @@ import abstract class W3AbilityManager extends IScriptable
 		ignoresDifficultySettings = false;
 		
 		CacheStaticScriptData();
+		SetCharacterStats( cStats );
 		
 		owner = ownr;
-		charStats = cStats;
 		dm = theGame.GetDefinitionsManager();
 				
-		//check for difficulty modes ignoring
-		charStats.GetAbilities(abs);
+		
+		cStats.GetAbilities(abs);
 		for(i=0; i<abs.Size(); i+=1)
 		{
 			if(dm.AbilityHasTag(abs[i], theGame.params.DIFFICULTY_TAG_IGNORE))
@@ -101,11 +87,11 @@ import abstract class W3AbilityManager extends IScriptable
 			}
 		}
 		
-		//setup difficulty levels data
+		
 		if(!ignoresDifficultySettings)
 			difficultyAbilities.Resize(EnumGetMax('EDifficultyMode')+1);
 		
-		//set stats
+		
 		if(!isFromLoad)
 		{
 			usedDifficultyMode = EDM_NotSet;
@@ -124,9 +110,9 @@ import abstract class W3AbilityManager extends IScriptable
 			}
 		}
 		
-		//if used diff mode is different than the one with which we're spawning we need to update
-		//this can be caused due to streaming in when difficulty has been changed while the NPC was
-		//streamed out
+		
+		
+		
 		if(!ignoresDifficultySettings && usedDifficultyMode != diff)
 		{
 			UpdateStatsForDifficultyLevel(diff);
@@ -150,11 +136,22 @@ import abstract class W3AbilityManager extends IScriptable
 		}
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////    ---===  @ATTRIBUTES  ===---    ////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	public final function UsesVitality() : bool
+	{
+		return usedHealthType == BCS_Vitality;
+	}
 	
-	// Returns true if attribute is forbidden (cannot be used in GetAttribute* functions)
+	
+	public function UsesEssence() : bool
+	{
+		return usedHealthType == BCS_Essence;
+	}
+	
+	
+	
+	
+	
+	
 	protected function CheckForbiddenAttribute(attName : name) : bool
 	{
 		if( theGame.params.IsForbiddenAttribute(attName) )
@@ -166,10 +163,7 @@ import abstract class W3AbilityManager extends IScriptable
 		return false;
 	}
 	
-	/*
-		Gets attribute value. Makes a check for Forbidden Attributes.
-		If tags contains tag names then gets only attribute values from abilities having given tag.
-	*/
+	
 	public function GetAttributeValue(attributeName : name, optional tags : array<name>) : SAbilityAttributeValue
 	{
 		var val : SAbilityAttributeValue;
@@ -200,9 +194,9 @@ import abstract class W3AbilityManager extends IScriptable
 		return charStats.GetAbilityAttributeValue(attributeName, abilityName);
 	}
 		
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////    ---===  @ABILITIES  ===---    ////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	protected function GetNonBlockedSkillAbilitiesList(tags : array<name>) : array<name>
 	{
@@ -210,8 +204,8 @@ import abstract class W3AbilityManager extends IScriptable
 		return null;
 	}
 	
-	// Runs through all abilities and checks their cooldowns, removes the ones that are no longer blocked
-	// returns time till next call
+	
+	
 	public function CheckBlockedAbilities(dt : float) : float
 	{
 		var i : int;
@@ -224,9 +218,9 @@ import abstract class W3AbilityManager extends IScriptable
 			{
 				blockedAbilities[i].timeWhenEnabledd = MaxF(blockedAbilities[i].timeWhenEnabledd - dt, 0);
 				
-				if(blockedAbilities[i].timeWhenEnabledd == 0)		//if cooldown set and ended then unblock
+				if(blockedAbilities[i].timeWhenEnabledd == 0)		
 				{
-					BlockAbility(blockedAbilities[i].abilityName, false);	//this removes object from array
+					BlockAbility(blockedAbilities[i].abilityName, false);	
 				}
 				else
 				{
@@ -241,29 +235,7 @@ import abstract class W3AbilityManager extends IScriptable
 		return min;
 	}
 	
-	//returns index in array
-	protected final function FindBlockedAbility(abName : name) : int
-	{
-		var i : int;
-		
-		for(i=0; i<blockedAbilities.Size(); i+=1)
-			if(blockedAbilities[i].abilityName == abName)
-				return i;
-				
-		return -1;
-	}
 	
-	/*
-		Blocks or unblocks an ability from being used.
-	
-		@params
-		abilityName - name of the ability
-		block - if set then ability will be blocked, otherwise unblocked
-		cooldown - if 'block' is set as well then the ability will be blocked only for this time. Otherwise it's blocked until unblocked
-		
-		@returns
-		true if action was carried out successfully
-	*/
 	public function BlockAbility(abilityName : name, block : bool, optional cooldown : float) : bool
 	{		
 		var i : int;
@@ -281,8 +253,8 @@ import abstract class W3AbilityManager extends IScriptable
 				if(!block)
 				{	
 					cnt = blockedAbilities[i].count;
-					blockedAbilities.Erase(i);					//unblock ability - remove from blocked list
-					if(cnt > 0)									//cnt might be 0 when ability was blocked and later completely removed from actor
+					blockedAbilities.Erase(i);					
+					if(cnt > 0)									
 						charStats.AddAbility(abilityName, cnt);					
 					
 					return true;
@@ -297,12 +269,12 @@ import abstract class W3AbilityManager extends IScriptable
 		if(block)
 		{
 			ab.abilityName = abilityName;
-			//set the 'timer' to current time + cooldown time
+			
 			if(cooldown > 0)				
 			{
 				ab.timeWhenEnabledd = cooldown;
 				
-				//find next call time
+				
 				min = cooldown;
 				for(i=0; i<blockedAbilities.Size(); i+=1)
 				{
@@ -312,7 +284,7 @@ import abstract class W3AbilityManager extends IScriptable
 					}
 				}
 				
-				//schedule next update
+				
 				owner.AddTimer('CheckBlockedAbilities', min, , , , true);
 			}
 			else
@@ -320,10 +292,10 @@ import abstract class W3AbilityManager extends IScriptable
 				ab.timeWhenEnabledd = -1;
 			}
 			
-			//count
-			ab.count = owner.GetAbilityCount(abilityName);
+			
+			ab.count = charStats.GetAbilityCount(abilityName);
 	
-			//lock ability			
+			
 			ret = charStats.RemoveAbility(abilityName);
 			blockedAbilities.PushBack(ab);
 			return ret;
@@ -334,16 +306,13 @@ import abstract class W3AbilityManager extends IScriptable
 		}
 	}
 	
-	public final function IsAbilityBlocked(abilityName : name) : bool
-	{
-		return FindBlockedAbility(abilityName) >= 0;
-	}
+	import public final function IsAbilityBlocked(abilityName : name) : bool;
 		
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////    ---===  @STATS  ===---    /////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// Gets power stat value. If ability tag is set gets only the value for given ability.
+	
+	
+	
+	
 	public function GetPowerStatValue(stat : ECharacterPowerStats, optional abilityTag : name) : SAbilityAttributeValue
 	{
 		var tags : array<name>;
@@ -353,16 +322,14 @@ import abstract class W3AbilityManager extends IScriptable
 		return GetAttributeValueInternal(PowerStatEnumToName(stat), tags);
 	}
 	
-	// Multiplies current stat value by a given value
+	
 	protected function MutliplyStatBy(stat : EBaseCharacterStats, val : float)
 	{
 		if(val > 0)
 			SetStatPointCurrent(stat, MinF(val * GetStat(stat, true), GetStatMax(stat) ) );
 	}
 	
-	/*
-		Returns actor's resistance stat value. Maxcap is at 1.0, there is no Min cap (resist can be negative)
-	*/
+	
 	public function GetResistValue(stat : ECharacterDefenseStats, out points : float, out percents : float)
 	{
 		var pts, prc, charPts, charPerc : SAbilityAttributeValue;
@@ -375,7 +342,7 @@ import abstract class W3AbilityManager extends IScriptable
 			charPerc = resistStat.percents;		
 		}
 		
-		//add bonus from mutagen 20 for DoT damages
+		
 		if(stat == CDS_DoTBurningDamageRes || stat == CDS_DoTPoisonDamageRes || stat == CDS_DoTBleedingDamageRes)
 		{
 			if(owner.HasBuff(EET_Mutagen20))
@@ -389,20 +356,17 @@ import abstract class W3AbilityManager extends IScriptable
 		}
 		
 		points = CalculateAttributeValue(charPts);
-		percents = MinF(1, CalculateAttributeValue(charPerc));		//max cap
+		percents = MinF(1, CalculateAttributeValue(charPerc));		
 		return;
 	}
 	
-	//returns used HP type or BCS_Undefined if error
+	
 	public final function UsedHPType() : EBaseCharacterStats
 	{
 		return usedHealthType;
 	}
 	
-	/*
-		FOR CUSTOM USE ONLY!
-		Forces setting given stat to given value.
-	*/	
+		
 	public final function ForceSetStat( stat : EBaseCharacterStats, val : float )
 	{
 		var prev : float;
@@ -435,7 +399,7 @@ import abstract class W3AbilityManager extends IScriptable
 		}
 	}
 	
-	//reduces current stat value
+	
 	protected final function InternalReduceStat(stat : EBaseCharacterStats, amount : float)
 	{
 		SetStatPointCurrent(stat, MaxF( 0, GetStat(stat, true) - MaxF( 0, amount ) ) );
@@ -443,14 +407,14 @@ import abstract class W3AbilityManager extends IScriptable
 	
 	public final function DrainAir(cost : float, optional delay : float )
 	{
-		//drain air
+		
 		if(cost > 0)
 		{			
 			InternalReduceStat(BCS_Air, cost);
 			owner.StartAirRegen();
 		}
 		
-		//regen delay (cost can be 0 - action costs nothing but it does generate delay)
+		
 		if(delay > 0)
 			owner.PauseEffects(EET_AutoAirRegen, 'AirCostDelay', false, delay);		
 	}
@@ -463,32 +427,32 @@ import abstract class W3AbilityManager extends IScriptable
 			owner.StartSwimmingStaminaRegen();
 		}
 		
-		//regen delay (cost can be 0 - action costs nothing but it does generate delay)
+		
 		if(delay > 0)
 			owner.PauseEffects(EET_AutoSwimmingStaminaRegen, 'SwimmingStaminaCostDelay', false, delay);		
 	}
 	
-	//action - stamina action type
-	//fixedValue - fixed value to drain, used only when ESAT_FixedValue is used
-	//abilityName - name of the ability to use when passing ESAT_Ability
-	//dt - if set then then stamina cost is treated as cost per second and thus multiplied by dt
-	//costMult - if set (other than 0 or 1) then the actual cost is multiplied by this value
-	//
-	//returns actual final cost used
+	
+	
+	
+	
+	
+	
+	
 	public function DrainStamina(action : EStaminaActionType, optional fixedCost : float, optional fixedDelay : float, optional abilityName : name, optional dt : float, optional costMult : float) : float
 	{
 		var cost, delay : float;
 
 		GetStaminaActionCost(action, cost, delay, fixedCost, fixedDelay, abilityName, dt, costMult);
 		
-		//drain stamina
+		
 		if(cost > 0)
 		{
 			InternalReduceStat(BCS_Stamina, cost);
 			owner.StartStaminaRegen();
 		}
 		
-		//regen delay (cost can be 0 - action costs nothing but it does generate delay)
+		
 		if(delay > 0)
 		{
 			if(IsNameValid(abilityName))
@@ -500,7 +464,7 @@ import abstract class W3AbilityManager extends IScriptable
 		return cost;
 	}
 	
-	//returns action's stamina cost and delay
+	
 	public function GetStaminaActionCost(action : EStaminaActionType, out cost : float, out delay : float, optional fixedCost : float, optional fixedDelay : float, optional abilityName : name, optional dt : float, optional costMult : float)
 	{
 		var costAtt, delayAtt : SAbilityAttributeValue;
@@ -535,13 +499,13 @@ import abstract class W3AbilityManager extends IScriptable
 		var tags : array<name>;
 		var val : SAbilityAttributeValue;
 	
-		//clear first
+		
 		cost = val;
 		delay = val;
 	
 		theGame.params.GetStaminaActionAttributes(action, isPerSec, costAttributeName, delayAttributeName);
 		
-		//stats are in an ability - not added to the character
+		
 		if(action == ESAT_Ability)
 		{
 			if(isPerSec)
@@ -552,7 +516,7 @@ import abstract class W3AbilityManager extends IScriptable
 			cost = GetSkillAttributeValue(abilityName, attribute, false, true);
 			delay = GetSkillAttributeValue(abilityName, theGame.params.STAMINA_DELAY_DEFAULT, false, true);
 		}
-		//stats are on the character
+		
 		else
 		{
 			cost = GetAttributeValueInternal(costAttributeName);
@@ -563,10 +527,7 @@ import abstract class W3AbilityManager extends IScriptable
 		delay += GetAttributeValueInternal('stamina_delay_modifier');
 	}
 	
-	/*
-		If *addBaseCharAttribute* is set then adds also the attribute value from character base (base, global passive skills etc).
-		If *addSkillModsAttribute* is set then also adds modifiers from other skills that influence this skill (e.g. skill increasing spell power for all igni skills)
-	*/
+	
 	public function GetSkillAttributeValue(abilityName: name, attributeName : name, addBaseCharAttribute : bool, addSkillModsAttribute : bool) : SAbilityAttributeValue
 	{
 		var min, max :SAbilityAttributeValue;
@@ -593,13 +554,13 @@ import abstract class W3AbilityManager extends IScriptable
 		OnToxicityChanged();
 	}
 	
-	//called only by owner to actually reduce vitality when dealt final damage
+	
 	public final function DrainVitality(amount : float)
 	{	
 		SetStatPointCurrent(BCS_Vitality, MaxF( 0, GetStat(BCS_Vitality) - MaxF(0, amount) ));
 		owner.StartVitalityRegen();
 		
-		if(GetStat(BCS_Vitality) <= 0 && owner.UsesVitality())
+		if(GetStat(BCS_Vitality) <= 0 && UsesVitality())
 		{
 			owner.SignalGameplayEvent( 'Death' );
 			owner.SetAlive(false);
@@ -608,13 +569,13 @@ import abstract class W3AbilityManager extends IScriptable
 		OnVitalityChanged();
 	}
 	
-	//called only by owner to actually reduce essence when dealt final damage
+	
 	public final function DrainEssence(amount : float)
 	{
 		SetStatPointCurrent(BCS_Essence, MaxF( 0, GetStat(BCS_Essence) - MaxF(0, amount) ) );
 		owner.StartEssenceRegen();
 		
-		if(GetStat(BCS_Essence) <= 0 && owner.UsesEssence())
+		if(GetStat(BCS_Essence) <= 0 && UsesEssence())
 		{
 			owner.SignalGameplayEvent( 'Death' );
 			owner.SetAlive(false);
@@ -629,7 +590,7 @@ import abstract class W3AbilityManager extends IScriptable
 		owner.StartPanicRegen();
 	}
 	
-	//adds given amount of points to particular stat
+	
 	public function GainStat( stat : EBaseCharacterStats, amount : float )
 	{
 		var statWithoutLock, statWithLock, lock, max : float;
@@ -663,21 +624,14 @@ import abstract class W3AbilityManager extends IScriptable
 			OnEssenceChanged();
 	}
 	
-	//FIXME
-	//TODO
-	//ABB set params for applicator e.g. based on skill level etc.
-	public function GetApplicatorParamsFor(applicator : W3ApplicatorEffect, out pwrStatValue : SAbilityAttributeValue)
-	{
-	}
-	
 	public final function IgnoresDifficultySettings() : bool
 	{
 		return ignoresDifficultySettings;
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////    ---===  @EVENTS  ===---    ////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	protected function OnVitalityChanged();
 	protected function OnEssenceChanged();
@@ -685,54 +639,28 @@ import abstract class W3AbilityManager extends IScriptable
 	protected function OnFocusChanged();
 	protected function OnAirChanged();
 	
-	//remember about OnAbilityRemoved !!!
-	public function OnAbilityAdded(abilityName : name)
+	
+	public function OnAbilityAdded( abilityName : name )
 	{
-		var idx : int;
-	
-		if(!owner)
-			return;		//script adding abilities before OnSpawned() is processed - we don't need to update anything in that case
-	
-		if(IsAbilityBlocked(abilityName))
-		{
-			idx = FindBlockedAbility(abilityName);
-			blockedAbilities[idx].count += 1;			//the ability is already blocked so we need to increase the counter
-			charStats.RemoveAbility(abilityName);		//remove the ability that was added - since it's blocked. The Remove decreases the counter as it removes
-			blockedAbilities[idx].count += 1;			//increase the counter again as we want to store the info that additional instance of ability is on character
-		}
-		else
-		{
-			OnAbilityChanged(abilityName);
-		}
+		OnAbilityChanged( abilityName );
 	}
 	
-	//remember about OnAbilityAdded !!!
-	public function OnAbilityRemoved(abilityName : name)
+	
+	public function OnAbilityRemoved( abilityName : name )
 	{
-		var idx : int;
+		if( abilityName == 'Runeword 4 _Stats' )
+		{
+			ResetOverhealBonus();
+		}
 		
-		if(!owner)
-			return;		//script removing abilities before OnSpawned() is processed - we don't need to update anything in that case
-			
-		if(IsAbilityBlocked(abilityName))
-		{
-			idx = FindBlockedAbility(abilityName);
-			blockedAbilities[idx].count -= 1;
-			//we don't erase ability from array if count is 0 because later the ability could be added again and thus would override the blocking mechanism
-		}
-		else
-		{
-			OnAbilityChanged(abilityName);
-			
-			if(abilityName == 'Runeword 4 _Stats')
-				ResetOverhealBonus();
-		}
+		OnAbilityChanged( abilityName );
 	}
 	
-	//Called when an ability has changed (been added or removed)
-	protected function OnAbilityChanged(abilityName : name)
+	
+	protected function OnAbilityChanged( abilityName : name )
 	{
 		var atts, tags : array<name>;
+		var attribute : name;
 		var i,size,stat, j : int;
 		var oldMax, maxVit, maxEss : float;
 		var resistStatChanged, tmpBool : bool;
@@ -740,14 +668,16 @@ import abstract class W3AbilityManager extends IScriptable
 		var val : SAbilityAttributeValue;
 		var buffs : array<CBaseGameplayEffect>;
 		var regenBuff : W3RegenEffect;
-		var cannotAddAttributes : array< name >;
+		
+		if(!owner)
+			return;		
 				
 		dm = theGame.GetDefinitionsManager();
 		dm.GetAbilityAttributes(abilityName, atts);		
 		resistStatChanged = false;
 		size = atts.Size();
 		
-		//check for difficulty ignores
+		
 		if(dm.AbilityHasTag(abilityName, theGame.params.DIFFICULTY_TAG_IGNORE))
 		{
 			ignoresDifficultySettings = true;
@@ -755,39 +685,37 @@ import abstract class W3AbilityManager extends IScriptable
 			usedDifficultyMode = EDM_NotSet;
 		}
 		
-		// In most cases this list will consist of zero of one element
-		// so searching is fast.
-		owner.GetListOfCannotAddAttributes( cannotAddAttributes );
-		
 		for(i=0; i<size; i+=1)
 		{					
-			if ( cannotAddAttributes.Contains( atts[i] ) )
+			attribute = atts[ i ];
+			if ( ( attribute == 'vitality' && UsesEssence() )
+				|| ( attribute == 'essence' && UsesVitality() ) )
 			{
 				continue;
 			}
 		
-			//  -------------------  check if added ability is cached and if so update the proper cache
-			//  Base Stat
-			stat = StatNameToEnum(atts[i]);
+			
+			
+			stat = StatNameToEnum( attribute );
 			if(stat != BCS_Undefined)
 			{
 				if(!HasStat(stat))
 				{
-					//did not have this stat at all so far
+					
 					StatAddNew(stat);
 				}
 				else
 				{
-					//if already had stat
+					
 					if(abilityName == theGame.params.GLOBAL_ENEMY_ABILITY || abilityName == theGame.params.GLOBAL_PLAYER_ABILITY || abilityName == theGame.params.ENEMY_BONUS_PER_LEVEL)
 					{
-						//if this is the global ability added to all then we need to restore stat after update...
+						
 						UpdateStatMax(stat);
 						RestoreStat(stat);
 					}
 					else
 					{
-						//... otherwise to multiply current value by percentage equal to percentage present before the update
+						
 						oldMax = GetStatMax(stat);
 						UpdateStatMax(stat);
 						MutliplyStatBy(stat, GetStatMax(stat) / oldMax);
@@ -796,8 +724,8 @@ import abstract class W3AbilityManager extends IScriptable
 				continue;
 			}
 			
-			//  Resist Stat
-			stat = ResistStatNameToEnum(atts[i], tmpBool);
+			
+			stat = ResistStatNameToEnum(attribute, tmpBool);
 			if(stat != CDS_None)
 			{
 				if ( HasResistStat( stat ) )
@@ -807,23 +735,15 @@ import abstract class W3AbilityManager extends IScriptable
 				}								
 				else
 				{
-					//if did not have this stat at all so far
+					
 					ResistStatAddNew(stat);
 				}
 				
 				continue;
 			}
 			
-			//power stat
-			stat = PowerStatNameToEnum(atts[i]);
-			if(stat != CPS_Undefined)
-			{
-				owner.UpdateApplicatorBuffs();
-				continue;
-			}
 			
-			//regen stat
-			stat = RegenStatNameToEnum(atts[i]);
+			stat = RegenStatNameToEnum(attribute);
 			if(stat != CRS_Undefined && stat != CRS_UNUSED)
 			{
 				buffs = owner.GetBuffs();
@@ -846,10 +766,10 @@ import abstract class W3AbilityManager extends IScriptable
 				}
 			}
 			
-			//difficulty attributes
-			if(!ignoresDifficultySettings && atts[i] == theGame.params.DIFFICULTY_HP_MULTIPLIER)
+			
+			if(!ignoresDifficultySettings && attribute == theGame.params.DIFFICULTY_HP_MULTIPLIER)
 			{		
-				//check if vit / ess is used. At this point on spawn it's too early to call owner.UsesVitality();
+				
 
 				maxVit = GetStatMax( BCS_Vitality );
 				maxEss = GetStatMax( BCS_Essence );
@@ -872,12 +792,14 @@ import abstract class W3AbilityManager extends IScriptable
 		}
 		
 		if(resistStatChanged)
+		{
 			owner.RecalcEffectDurations();
+		}
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////  @RUNEWORD OVERHEAL /////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	public final function GetOverhealBonus() : float
 	{
 		return overhealBonus;
@@ -889,9 +811,9 @@ import abstract class W3AbilityManager extends IScriptable
 		thePlayer.StopEffect('runeword_4');
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////  @DEBUG  ////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	public final function Debug_GetUsedDifficultyMode() : EDifficultyMode
 	{

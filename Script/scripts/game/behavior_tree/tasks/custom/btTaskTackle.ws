@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CD Projekt RED
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 
 class CBTTaskTackle extends IBehTreeTask
@@ -53,7 +55,7 @@ class CBTTaskTackle extends IBehTreeTask
 				}
 				else
 				{
-					//FIXME - there is no need to use damage action - simply add the buff
+					
 					action = new W3Action_Attack in theGame.damageMgr;
 					action.Init( npc, collidedActor, NULL, npc.GetInventory().GetItemFromSlot( 'r_weapon' ), 'attack_super_heavy', npc.GetName(), EHRT_None, false, true, 'attack_super_heavy', AST_Jab, ASD_UpDown,false,false,false,false );
 					theGame.damageMgr.ProcessAction( action );

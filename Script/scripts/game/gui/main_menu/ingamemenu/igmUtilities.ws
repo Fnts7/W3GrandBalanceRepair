@@ -1,100 +1,17 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Various Utilities for ingame menu that don't need to be in the menu itself
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2015 CDProjektRed
-/** Author : Jason Slama
-/***********************************************************************/
+
+
+
 
 function IngameMenu_UpdateDLCScriptTags()
 {
 	var inGameConfigWrapper : CInGameConfigWrapper;
 	
-	/*inGameConfigWrapper = (CInGameConfigWrapper)theGame.GetInGameConfigWrapper();
 	
-	if (theGame.IsContentAvailable('dlc0'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc0');
-	}
-	
-	if (theGame.IsContentAvailable('dlc1'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc1');
-	}
-	
-	if (theGame.IsContentAvailable('dlc2'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc2');
-	}
-	
-	if (theGame.IsContentAvailable('dlc3'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc3');
-	}
-	
-	if (theGame.IsContentAvailable('dlc4'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc4');
-	}
-	
-	if (theGame.IsContentAvailable('dlc5'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc5');
-	}
-	
-	if (theGame.IsContentAvailable('dlc6'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc6');
-	}
-	
-	if (theGame.IsContentAvailable('dlc7'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc7');
-	}
-	
-	if (theGame.IsContentAvailable('dlc8'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc8');
-	}
-	
-	if (theGame.IsContentAvailable('dlc9'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc9');
-	}
-	
-	if (theGame.IsContentAvailable('dlc10'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc10');
-	}
-	
-	if (theGame.IsContentAvailable('dlc11'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc11');
-	}
-	
-	if (theGame.IsContentAvailable('dlc12'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc12');
-	}
-	
-	if (theGame.IsContentAvailable('dlc13'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc13');
-	}
-	
-	if (theGame.IsContentAvailable('dlc14'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc14');
-	}
-	
-	if (theGame.IsContentAvailable('dlc15'))
-	{
-		inGameConfigWrapper.ActivateScriptTag('dlc15');
-	}
-	
-	if (theGame.IsContentAvailable('dlc16')) 
-	{ 
-		inGameConfigWrapper.ActivateScriptTag('dlc16'); 
-	}*/
 }
 
 function IngameMenu_PopulateSaveDataForSlotType(flashStorageUtility : CScriptedFlashValueStorage, saveType:int, parentObject:CScriptedFlashArray, allowEmptySlot:bool):void
@@ -107,7 +24,7 @@ function IngameMenu_PopulateSaveDataForSlotType(flashStorageUtility : CScriptedF
 	var saveGames		: array< SSavegameInfo >;
 	var numSavesAdded	: int;
 	
-	// #J non save slot system save loading
+	
 	theGame.ListSavedGames( saveGames );
 	if (saveType == -1)
 	{
@@ -240,11 +157,11 @@ function InGameMenu_CreateControllerData(flashStorageUtility : CScriptedFlashVal
 	txtCameraControl = GetLocStringByKeyExt("ControlLayout_ControlCamera") + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_LockTarget");
 	txtDPad = GetLocStringByKeyExt("ControlLayout_LeftSteelSword") + htmlNewline + GetLocStringByKeyExt("ControlLayout_RightSilverSword") + htmlNewline + GetLocStringByKeyExt("ControlLayout_UpPotions") + htmlNewline + GetLocStringByKeyExt("ControlLayout_DownHideSword");
 	txtMovement = GetLocStringByKeyExt("ControlLayout_Movement");
-	txtMountDismount = GetLocStringByKeyExt("panel_button_common_dismount");//GetLocStringByKeyExt("panel_button_common_mount") + " / " +
+	txtMountDismount = GetLocStringByKeyExt("panel_button_common_dismount");
 	
 	dataFlashArray = flashStorageUtility.CreateTempFlashArray();
 	
-	//EXPLORATION
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_ExplorationLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", GetLocStringByKeyExt("ControlLayout_ControlCamera") + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_ChangeQuest"));
@@ -262,7 +179,7 @@ function InGameMenu_CreateControllerData(flashStorageUtility : CScriptedFlashVal
 	currentData.SetMemberFlashString("txtDPad", txtDPad);
 	dataFlashArray.PushBackFlashObject(currentData);
 	
-	//SWIMMING
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_SwinningLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", GetLocStringByKeyExt("ControlLayout_ControlCamera") + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_ChangeQuest") + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_LockTarget"));
@@ -280,7 +197,7 @@ function InGameMenu_CreateControllerData(flashStorageUtility : CScriptedFlashVal
 	currentData.SetMemberFlashString("txtDPad", GetLocStringByKeyExt("ControlLayout_UpPotions") + htmlNewline + GetLocStringByKeyExt("ControlLayout_DownHideSword"));
 	dataFlashArray.PushBackFlashObject(currentData);
 	
-	//COMBAT
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_CombatLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", txtCameraControl);
@@ -298,15 +215,14 @@ function InGameMenu_CreateControllerData(flashStorageUtility : CScriptedFlashVal
 	currentData.SetMemberFlashString("txtDPad", txtDPad);
 	dataFlashArray.PushBackFlashObject(currentData);
 	
-	//HORSE
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_HorseLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", txtCameraControl + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_ChangeQuest"));
 	currentData.SetMemberFlashString("txtXButton", GetLocStringByKeyExt("ControlLayout_DrawSwordAttack"));
-	//if (theGame.GetPlatform() == Platform_PS4)
+	
 		currentData.SetMemberFlashString("txtAButton",  actionHold + GetLocStringByKeyExt("ControlLayout_Canter") + "<br/>" + GetLocStringByKeyExt("ControlLayout_doubleTap") + " + " + actionHold + GetLocStringByKeyExt("ControlLayout_Gallop"));
-	/*else
-		currentData.SetMemberFlashString("txtAButton",  actionHold + GetLocStringByKeyExt("ControlLayout_Canter") + " / " + GetLocStringByKeyExt("ControlLayout_doubleClick") + " + " + actionHold + GetLocStringByKeyExt("ControlLayout_Gallop"));*/
+	
 	currentData.SetMemberFlashString("txtBButton", GetLocStringByKeyExt("panel_button_common_jump") + htmlNewline + actionHold + txtMountDismount );
 	currentData.SetMemberFlashString("txtYButton", GetLocStringByKeyExt("ControlLayout_DrawSwordAttack"));
 	currentData.SetMemberFlashString("txtRightBumper", GetLocStringByKeyExt("ControlLayout_UseQuickSlot"));
@@ -319,7 +235,7 @@ function InGameMenu_CreateControllerData(flashStorageUtility : CScriptedFlashVal
 	currentData.SetMemberFlashString("txtDPad", txtDPad);
 	dataFlashArray.PushBackFlashObject(currentData);
 	
-	//BOAT
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_BoatLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", txtCameraControl + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_ChangeQuest"));
@@ -375,7 +291,7 @@ function InGameMenu_CreateControllerDataCiri(flashStorageUtility : CScriptedFlas
 	
 	dataFlashArray = flashStorageUtility.CreateTempFlashArray();
 	
-	//EXPLORATION
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_ExplorationLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", GetLocStringByKeyExt("ControlLayout_ControlCamera") + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_ChangeQuest"));
@@ -399,7 +315,7 @@ function InGameMenu_CreateControllerDataCiri(flashStorageUtility : CScriptedFlas
 	currentData.SetMemberFlashString("txtDPad", txtDPad);
 	dataFlashArray.PushBackFlashObject(currentData);
 	
-	//SWIMMING
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_SwinningLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", GetLocStringByKeyExt("ControlLayout_ControlCamera") + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_ChangeQuest") + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_LockTarget"));
@@ -417,7 +333,7 @@ function InGameMenu_CreateControllerDataCiri(flashStorageUtility : CScriptedFlas
 	currentData.SetMemberFlashString("txtDPad", "");
 	dataFlashArray.PushBackFlashObject(currentData);
 	
-	//COMBAT
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_CombatLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", txtCameraControl);
@@ -442,15 +358,14 @@ function InGameMenu_CreateControllerDataCiri(flashStorageUtility : CScriptedFlas
 	currentData.SetMemberFlashString("txtDPad", txtDPad);
 	dataFlashArray.PushBackFlashObject(currentData);
 	
-	//HORSE
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_HorseLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", txtCameraControl + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_ChangeQuest"));
 	currentData.SetMemberFlashString("txtXButton", GetLocStringByKeyExt("ControlLayout_DrawSwordAttack"));
-	//if (theGame.GetPlatform() == Platform_PS4)
+	
 		currentData.SetMemberFlashString("txtAButton",  actionHold + GetLocStringByKeyExt("ControlLayout_Canter") + "<br/>" + GetLocStringByKeyExt("ControlLayout_doubleTap") + " + " + actionHold + GetLocStringByKeyExt("ControlLayout_Gallop"));
-	/*else
-		currentData.SetMemberFlashString("txtAButton",  actionHold + GetLocStringByKeyExt("ControlLayout_Canter") + " / " + GetLocStringByKeyExt("ControlLayout_doubleClick") + " + " + actionHold + GetLocStringByKeyExt("ControlLayout_Gallop"));*/
+	
 	currentData.SetMemberFlashString("txtBButton", GetLocStringByKeyExt("panel_button_common_jump") + htmlNewline + actionHold + txtMountDismount );
 	currentData.SetMemberFlashString("txtYButton", GetLocStringByKeyExt("ControlLayout_DrawSwordAttack"));
 	currentData.SetMemberFlashString("txtRightBumper", "");
@@ -463,7 +378,7 @@ function InGameMenu_CreateControllerDataCiri(flashStorageUtility : CScriptedFlas
 	currentData.SetMemberFlashString("txtDPad", txtDPad);
 	dataFlashArray.PushBackFlashObject(currentData);
 	
-	//BOAT
+	
 	currentData = flashStorageUtility.CreateTempFlashObject();
 	currentData.SetMemberFlashString("layoutName", GetLocStringByKeyExt("ControlLayout_BoatLayoutTitle"));
 	currentData.SetMemberFlashString("txtRightJoy", txtCameraControl + htmlNewline + actionPress + GetLocStringByKeyExt("ControlLayout_ChangeQuest"));

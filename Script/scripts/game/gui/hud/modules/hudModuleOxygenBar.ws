@@ -1,9 +1,14 @@
-﻿class CR4HudModuleOxygenBar extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleOxygenBar extends CR4HudModuleBase
 {
 	private var m_fxSetOxygeneSFF 			: CScriptedFlashFunction;
 	
-	// Updates
-	// -------------------------------------------------------------------------------
+	
+	
 	
 	private var oxygenePerc		: float;	
 		
@@ -14,7 +19,7 @@
 	private var bIsBarFull : bool;		default bIsBarFull = true;
 	private saved var isInGasArea		: bool;		default isInGasArea = false;
 	
-	/* flash */ event OnConfigUI()
+	 event OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -26,7 +31,7 @@
 		flashModule = GetModuleFlash();
 		m_fxSetOxygeneSFF = flashModule.GetMemberFlashFunction( "setOxygene" );
 
-		//ShowElement(false);
+		
 		
 		hud = (CR4ScriptedHud)theGame.GetHud();
 						
@@ -44,11 +49,7 @@
 		
 		check = forceShowElement || player.OnCheckDiving() || (!bIsBarFull && player.IsSwimming()) || isInGasArea || (!bIsBarFull && FactsQuerySum("player_was_in_gas_area"));
 		
-		/*if( check != bOxygeneBar )
-		{
-			bOxygeneBar = !bOxygeneBar;
-			ShowElement(bOxygeneBar); //#B OnUpdate
-		}*/
+		
 		if( check )
 		{
 			UpdateOxygene();
@@ -72,7 +73,7 @@
 	public function EnableElement( enable : bool )
 	{
 		bOxygeneBar = !enable;
-		ShowElement(enable); //#B to kill probably
+		ShowElement(enable); 
 	}
 
 	public function ForceShowElement( force : bool )

@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Stamina bar expressing horse's gallop ability
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Shadi Dadenji, Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4HudModuleHorseStaminaBar extends CR4HudModuleBase
 {	
@@ -15,7 +17,7 @@ class CR4HudModuleHorseStaminaBar extends CR4HudModuleBase
 		_stamina = 1.0;
 	}
 
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{		
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -45,8 +47,8 @@ class CR4HudModuleHorseStaminaBar extends CR4HudModuleBase
 		var curStamina : float;
 		curStamina = GetCurrentStamina();
 
-		//even though this shouldn't be here but dying on a horse has been changed and the player is considered 'HorseRiding'
-		//longer now causing the stamina bar to show for a split second upon death. Quickest fix!
+		
+		
 		if ( thePlayer.GetHealthPercents() <= 0.f )
 			return;
 
@@ -63,7 +65,7 @@ class CR4HudModuleHorseStaminaBar extends CR4HudModuleBase
 		var horse : CActor;
 		var curStamina : float;
 		
-		//for some reason if we do this in one line SS tries to convert vehicle to CName o_0
+		
 		vehicle = thePlayer.GetUsedVehicle();
 		horse = (CActor)vehicle;
 

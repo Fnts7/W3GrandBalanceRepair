@@ -1,31 +1,19 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/*
-	Base class for applicator type buffs. Applicators are buffs which only purpose 
-	is to apply other buffs (called spawns) when certain conditions are met.
-	Different conditions are defined for different subclasses of the ApplicatorEffect.
-	
-	As a brief example if we have an aura that sets all enemies in 5m range on fire then
-	we define an aura buff (ApplicatorEffect) which constantly applies the burning
-	effect (SpawnEffect) to targets within range.
-*/
+
+
+
 abstract class W3ApplicatorEffect extends CBaseGameplayEffect
 {
-	protected saved var spawns : array<SApplicatorSpawnEffect>;		//stats of the 'spawn effects' to use
+	protected saved var spawns : array<SApplicatorSpawnEffect>;		
 	
 		default isPositive = true;
 	
-	/*
-		Applies spawn effects on given target. Effects won't be applied if attitude between 
-		this buff's owner and victim are not proper (e.g. hostile for negative buff or non-hotile for positive buff).
-		
-		Since non-actor gameplay entities have no possibility of having buffs they are ignored. We might think about
-		adding Executors here as well and then applying them to gameplay entities. This way e.g. fire damage aura would
-		damage debris, doors etc.
-	*/
+	
 	protected function ApplySpawnsOn(victimGE : CGameplayEntity)
 	{
 		var i : int;
@@ -38,7 +26,7 @@ abstract class W3ApplicatorEffect extends CBaseGameplayEffect
 	
 		for(i=0; i<spawns.Size(); i+=1)
 		{
-			//if buff is negative then don't apply it on the entity that has the aura - makes no sense, performance upgrade
+			
 			if(victim == GetCreator() && theGame.effectMgr.IsBuffNegative(spawns[i].spawnType))
 				continue;
 					
@@ -54,7 +42,7 @@ abstract class W3ApplicatorEffect extends CBaseGameplayEffect
 		}
 	}	
 
-	// Returns true if at least one of the spawns targets neutrals
+	
 	protected function HasNeutralSpawn() : bool
 	{
 		var i : int;
@@ -64,25 +52,6 @@ abstract class W3ApplicatorEffect extends CBaseGameplayEffect
 				return true;
 		
 		return false;
-	}
-	
-	/*
-		Call to update params of this applicator. You might need to call this if e.g. the params influence
-		the strength of spawn effects.
-		
-		Let's say that you have a permanent healing aura. Then whenever you level up or increase your 
-		spell power you need to call this function so that spawn effects created from now on would use
-		the new (increased) stats.
-	*/
-	public function UpdateParams()
-	{
-		var actor : CActor;
-	
-		actor = (CActor)GetCreator();
-		if(!actor)
-			return;
-	
-		actor.GetApplicatorParamsFor(this, creatorPowerStat);
 	}
 	
 	public function CacheSettings()
@@ -108,7 +77,7 @@ abstract class W3ApplicatorEffect extends CBaseGameplayEffect
 			EffectNameToType(tmpApplicatorName, type, tmpName);
 			if(effectType == type)
 			{			
-				//applied effects' stats
+				
 				appliedEffects = main.subNodes[i].subNodes;
 				
 				for(j=0; j<appliedEffects.Size(); j+=1)
@@ -142,7 +111,7 @@ abstract class W3ApplicatorEffect extends CBaseGameplayEffect
 					
 					spawns.PushBack(tmpSpawn);
 					
-					//clear temp for further use
+					
 					tmpSpawn.spawnType = EET_Undefined;
 					tmpSpawn.spawnAbilityName = '';
 					tmpSpawn.spawnFlagsHostile = false;

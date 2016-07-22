@@ -1,15 +1,20 @@
-﻿state ExtendedMovable in CR4Player extends Movable
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+state ExtendedMovable in CR4Player extends Movable
 {
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// protected variables
+	
+	
 	protected var parentMAC			: CMovingPhysicalAgentComponent;
 	protected var currentStateName 	: name;
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Enter/Leave events
+	
+	
 	event OnEnterState( prevStateName : name )
 	{	
-		// Pass to base class
+		
 		super.OnEnterState(prevStateName);
 		
 		currentStateName = parent.GetCurrentStateName();
@@ -32,8 +37,8 @@
 		super.OnLeaveState(nextStateName);
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Animation Events	
+	
+	
 	event OnAnimEvent_CombatStanceLeft( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		parent.SetCombatIdleStance( 0.f );	
@@ -62,7 +67,7 @@
 			if ( parent.GetFallDist(fallDist) || parent.IsRagdolled() )
 			{
 				waterLevel = theGame.GetWorld().GetWaterDepth( parent.GetWorldPosition(), true );
-				if ( waterLevel > -parent.ENTER_SWIMMING_WATER_LEVEL && waterLevel != 10000 ) // 10000 is default value, so nothing is found
+				if ( waterLevel > -parent.ENTER_SWIMMING_WATER_LEVEL && waterLevel != 10000 ) 
 				{
 					depth = parentMAC.GetSubmergeDepth();
 					if ( depth < -0.1 )
@@ -162,11 +167,11 @@
 		theGame.GetGameCamera().ChangePivotDistanceController( 'Default' );
 		theGame.GetGameCamera().ChangePivotPositionController( 'Default' );		
 
-		// HACK
+		
 		moveData.pivotRotationController = theGame.GetGameCamera().GetActivePivotRotationController();
 		moveData.pivotDistanceController = theGame.GetGameCamera().GetActivePivotDistanceController();
 		moveData.pivotPositionController = theGame.GetGameCamera().GetActivePivotPositionController();
-		// END HACK
+		
 		
 		DampFloatSpring(interiorCameraDesiredPositionMult, _tempVelocity, 10.f, 0.7f, timeDelta);
 		
@@ -194,8 +199,8 @@
 			{
 				playerToTargetAngles = VecToRotation( playerToTargetVector );
 				playerToTargetPitch = playerToTargetAngles.Pitch + 10;
-				//playerToTargetPitch = ClampF( playerToTargetAngles.Pitch + 20, -45, 50 );			
-				//offset = ClampF( ( playerToTargetPitch * ( -0.023f) ) + 2.5f, 2.5f, 3.2f );
+				
+				
 				
 				moveData.pivotRotationController.SetDesiredPitch( playerToTargetPitch * -1, 0.5f );
 			}
@@ -254,8 +259,8 @@
 			{
 				playerToTargetAngles = VecToRotation( playerToTargetVector );
 				playerToTargetPitch = playerToTargetAngles.Pitch - 10;
-				//playerToTargetPitch = ClampF( playerToTargetAngles.Pitch + 20, -45, 50 );			
-				//offset = ClampF( ( playerToTargetPitch * ( -0.023f) ) + 2.5f, 2.5f, 3.2f );
+				
+				
 				
 				moveData.pivotRotationController.SetDesiredPitch( playerToTargetPitch * -1, 0.5f );
 			}
@@ -268,8 +273,8 @@
 				moveData.pivotRotationController.SetDesiredPitch( -15.f );
 		}
 			
-		//if ( parent.IsCameraLockedToTarget() )
-		//	moveData.pivotRotationController.SetDesiredHeading( VecHeading( parent.moveTarget.GetWorldPosition() - parent.GetWorldPosition() ) );
+		
+		
 	
 		moveData.pivotPositionController.offsetZ = 1.55f;
 		DampVectorSpring( moveData.cameraLocalSpaceOffset, moveData.cameraLocalSpaceOffsetVel, Vector( 0.f, 0.f, 0.f ), 1.f, timeDelta );

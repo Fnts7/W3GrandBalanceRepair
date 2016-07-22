@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//Buff added from skill. Increases max vitality when toxicity health drain is present. Adds ability each time per skill level.
+
+
+
 class W3Effect_IgnorePain extends W3ChangeMaxStatEffect
 {
 	default effectType = EET_IgnorePain;
@@ -27,7 +30,7 @@ class W3Effect_IgnorePain extends W3ChangeMaxStatEffect
 		
 		level = witcher.GetSkillLevel(S_Alchemy_s20);
 		
-		//add additional ability stacks so that we get 1 per skill level
+		
 		if(level > 1)
 			witcher.AddAbilityMultiple(abilityName, level - 1);
 		
@@ -62,11 +65,11 @@ class W3Effect_IgnorePain extends W3ChangeMaxStatEffect
 		
 		level = GetWitcherPlayer().GetSkillLevel(S_Alchemy_s20);
 		
-		//remove additional ability stacks so that we get 1 per skill level
+		
 		if(level > 1)
 			target.RemoveAbilityMultiple(abilityName, level);
 		
-		//update health & health percents		
+		
 		target.UpdateStatMax(BCS_Vitality);
 		target.ForceSetStat(BCS_Vitality, percents * target.GetStatMax(BCS_Vitality));
 	}

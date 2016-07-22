@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014
-/** Author : R.Pergent - 14-February-2014
-/***********************************************************************/
+
+
+
 
 enum EMonsterTactic
 {
@@ -13,14 +15,14 @@ enum EMonsterTactic
 
 class BTCondMonsterTacticIsUsed extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	var tactic 				: EMonsterTactic;
 	var distanceToCheck 	: float;
 	var ignoreMyself 		: bool;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function IsAvailable() : bool
 	{
 		var i				: int;
@@ -45,9 +47,9 @@ class BTCondMonsterTacticIsUsed extends IBehTreeTask
 class BTCondMonsterTacticIsUsedDef extends IBehTreeConditionalTaskDefinition
 {
 	default instanceClass = 'BTCondMonsterTacticIsUsed';
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	editable var tactic 			: EMonsterTactic;
 	editable var distanceToCheck 	: float;
 	editable var ignoreMyself		: bool;

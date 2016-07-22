@@ -1,8 +1,13 @@
-﻿class CBehTreeTaskAgony extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBehTreeTaskAgony extends IBehTreeTask
 {
 	var agonyTime : int;
 	
-	//private var ticketRequest : STicketSourceOverrideRequest;
+	
 	private var syncInstance	: CAnimationManualSlotSyncInstance;
 	
 	var disableAgony : bool;
@@ -160,10 +165,10 @@
 				owner.EnableFinishComponent( false );
 				thePlayer.AddToFinishableEnemyList( owner, false );
 				AgonySyncAnim();
-				//( (CCombatDataComponent)thePlayer.GetComponentByClassName( 'CCombatDataComponent' ) ).TicketSourceOverrideRequest( 'TICKET_Melee', ticketRequest, true );
+				
 				owner.FinisherAnimStart();
-				//owner.SignalGameplayEvent( 'ReevaluateTree' );
-				//Complete(true);
+				
+				
 				return true;
 			}
 		}

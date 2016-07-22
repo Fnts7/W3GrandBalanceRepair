@@ -1,4 +1,9 @@
-﻿enum EOcurrenceTime
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EOcurrenceTime
 {
 	OT_AllDay,
 	OT_DayOnly,
@@ -9,7 +14,7 @@ struct EncounterEntryDetails
 {
 	editable var encounterTag		: name;
 	editable var canBeRepeated		: bool;
-	//editable var repeatAfter		: int;
+	
 	editable var occurenceTime		: EOcurrenceTime;
 	editable var questFileEntry		: array< CEntityTemplate >;
 	
@@ -105,23 +110,11 @@ statemachine class W3MicroQuestActivator extends CGameplayEntity
 		}
 	}
 	
-	/*
-	function EnableMicroQuestActiveState( isOn : bool )
-	{
-		if( isOn )
-		{
-			ChangeState( 'Processing' );
-		}
-		else
-		{
-			ChangeState( 'Inactive' );
-		}
-	}
-	*/
+	
 	
 	timer function BackToInactive( deltaTime : float , id : int)
 	{
-		//EnableMicroQuestActiveState( false );
+		
 	}
 }
 
@@ -173,7 +166,7 @@ state Processing in W3MicroQuestActivator
 		}
 			
 		FactsAdd( NameToString( selectedEntry.encounterTag ) );
-		//parent.ChangeState( 'Activated' );
+		
 	}
 }
 
@@ -181,7 +174,7 @@ state Activated in W3MicroQuestActivator
 {
 	event OnEnterState( prevStateName : name )
 	{
-		//super.OnEnterState( prevStateName );
+		
 		ClearFacts();
 		parent.AddTimer( 'BackToInactive', 25.f, , , , true );
 	}
@@ -209,7 +202,7 @@ state Activated in W3MicroQuestActivator
 	
 	timer function InactiveInMicroQuestActivator( deltaTime : float , id : int)
 	{
-		//parent.EnableMicroQuestActiveState( false );
+		
 	}
 }
 
@@ -232,7 +225,7 @@ state Inactive in W3MicroQuestActivator
 		if( (CPlayer) (activator.GetEntity()) )
 		{
 			parent.isPlayerInArea = true;
-			//parent.EnableMicroQuestActiveState( true );
+			
 		}		
 	}
 	

@@ -1,7 +1,12 @@
-﻿class CR4HudModuleStatBars extends CR4HudModuleBase //#B deprecated ???
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleStatBars extends CR4HudModuleBase 
 {	
-	// Function closures
-	// -------------------------------------------------------------------------------
+	
+	
 	private var 	m_fxSetVitalitySFF							: CScriptedFlashFunction;
 	private var 	m_fxSetStaminaSFF							: CScriptedFlashFunction;
 	private var 	m_fxSetToxicitySFF							: CScriptedFlashFunction;
@@ -13,8 +18,8 @@
 	private var 	m_fxHideStatbarsGlowSFF						: CScriptedFlashFunction;
 	private var 	m_fxShowStaminaIndicatorSFF					: CScriptedFlashFunction;
 
-	// Updates
-	// -------------------------------------------------------------------------------
+	
+	
 	
 	private var _vitality 		: float;
 	private var _stamina 		: float;
@@ -49,16 +54,16 @@
 		_currentLevel = 0;
 		
 		_heavyAttackIndicatorSpeed = 1300;
-		_heavyAttackGlowDurration = 700; // 2550 - 1630
+		_heavyAttackGlowDurration = 700; 
 		_heavyAttackSecondLevelIndicatorSpeed = 600;
-		_heavyAttackSecondLevelGlowDurration = 700; //2860 - 900
+		_heavyAttackSecondLevelGlowDurration = 700; 
 		_duringHeavyAttackAnimation = false;
 		_bHeavyAttackFirstLevel = true;
 	}
 
-	//>-----------------------------------------------------------------------------------------------------------------	
-	//------------------------------------------------------------------------------------------------------------------
-	/* flash */ event OnConfigUI()
+	
+	
+	 event OnConfigUI()
 	{		
 		var flashModule : CScriptedFlashSprite;
 		
@@ -81,11 +86,11 @@
 
 		ShowElement( true );
 	}
-	//>-----------------------------------------------------------------------------------------------------------------
-	// Events can be called from the engine
-	//------------------------------------------------------------------------------------------------------------------
-	//>-----------------------------------------------------------------------------------------------------------------
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
+	
 	
 	event OnTick( timeDelta : float )
 	{
@@ -105,11 +110,7 @@
 					m_fxStartHeavyAttackIndicatorAnimationSFF.InvokeSelfOneArg(FlashArgInt(_heavyAttackSecondLevelIndicatorSpeed));
 				}
 			}
-			/*else
-			{
-				m_fxStopHeavyAttackIndicatorAnimationSFF.InvokeSelf();
-				m_fxHideStatbarsGlowSFF.InvokeSelf();
-			}*/
+			
 		}
 		if( GetWitcherPlayer().GetShowToLowStaminaIndication() > 0.0f )
 		{
@@ -185,7 +186,7 @@
 		}
 	}
 
-	// #B
+	
 	private function UpdateExperience()
 	{
 		var levelManager : W3LevelManager;
@@ -219,12 +220,12 @@
 		
 		if ( levelManager )
 		{
-			//curShowLevelUp = 
-			//	levelManager.GetAvailSpendablePoints( ESkillPoint ) 	> 0	||
-			//	levelManager.GetAvailSpendablePoints( EMutationPoint )	> 0	||
-			//	levelManager.GetAvailSpendablePoints( EKnowledgePoint )	> 0;
+			
+			
+			
+			
 			curLevel = levelManager.GetLevel();
-			//LogChannel('LVLUP'," _showLevelUp "+curLevel+" _currentLevel "+_currentLevel);
+			
 			if( _currentLevel < curLevel )
 			{
 				curShowLevelUp = true;
@@ -238,7 +239,7 @@
 		if ( _showLevelUp != curShowLevelUp )
 		{
 			_showLevelUp = curShowLevelUp;
-			//LogChannel('LVLUP'," _showLevelUp "+_showLevelUp);
+			
 			m_fxSetLevelUpVisibleSFF.InvokeSelfOneArg( FlashArgBool( _showLevelUp ) );
 		}
 	}
@@ -246,15 +247,7 @@
 	public function OnHeavyAttackAnimationFinished()
 	{
 		LogChannel('HEAVYATTACKDEBUG',"OnHeavyAttackAnimationFinished");
-		/*if( GetWitcherPlayer().GetDisplayHeavyAttackFirstLevelTimer() )
-		{
-			_gfxShowStatbarsGlow.InvokeSelf(FlashArgInt(_heavyAttackGlowDurration));
-		}
-		else
-		{
-			_gfxShowStatbarsGlow.InvokeSelf(FlashArgInt(_heavyAttackSecondLevelGlowDurration));
 		
-		}*/
 		m_fxShowStatbarsGlowSFF.InvokeSelfOneArg(FlashArgInt(_heavyAttackGlowDurration));
 		_duringHeavyAttackAnimation = false;
 		GetWitcherPlayer().SetDisplayHeavyAttackIndicator( false );

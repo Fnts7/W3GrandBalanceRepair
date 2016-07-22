@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013 CDProjektRed
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3ActorRemains extends W3AnimatedContainer
 {
@@ -31,11 +34,7 @@ class W3ActorRemains extends W3AnimatedContainer
 			}
 		}
 	}
-	/*
-		Called by dynamic container to start a timer that will remove this object after some time.
-		The weaponsDroppedOnGround array holds weapons dropped on ground by the actor. If any of
-		those weapons is looted from this container then we need to delete the entities from the level
-	*/
+	
 	public function LootDropped(optional own : CActor)
 	{
 		owner = own;
@@ -49,10 +48,7 @@ class W3ActorRemains extends W3AnimatedContainer
 		return owner;
 	}
 	
-	/*
-		When an item got transfered we check if it's in the array of dropped items, if so we need to
-		destroy the entity and remove it from the array
-	*/
+	
 	event OnItemGiven(data : SItemChangedData)
 	{
 		
@@ -62,7 +58,7 @@ class W3ActorRemains extends W3AnimatedContainer
 		{
 			hasTrophy = true;
 		}
-		// removing from the world previously dropped item
+		
 		if(owner)
 			owner.RemoveDroppedItem( GetInventory().GetItemName( data.ids[0] ), true );
 	}
@@ -102,7 +98,7 @@ class W3ActorRemains extends W3AnimatedContainer
 				thePlayer.PlayerStopAction( interactionAnim );	
 			}
 			
-			//In case no dismemberment happening trophy should be transferred.
+			
 			manualTrophyTransfer = false;
 			
 			FinalizeLooting ();
@@ -171,12 +167,12 @@ class W3ActorRemains extends W3AnimatedContainer
 				{
 					trophyIds = witcher.inv.GetItemsByName( trophyItemNames[i] );
 					
-					//Right now we want to transfer all trophies
-					//if ( witcher.inv.ItemHasTag ( trophyIds[0], 'HorseTrophy' ) )
-					//{
+					
+					
+					
 						eqId = witcher.GetHorseManager().MoveItemToHorse(trophyIds[0]);
 						witcher.GetHorseManager().EquipItem(eqId);
-					//}
+					
 				}
 				
 				trophyItemNames.Clear();
@@ -237,7 +233,7 @@ class W3ActorRemains extends W3AnimatedContainer
 		FinalizeLooting ();
 	}
 	
-	// If player is not near then we delete this (dynamic) container. Otherwise we reset the timer.
+	
 	timer function LootTimeout( td: float , id : int)
 	{
 		if ( VecDistance( GetWorldPosition(), thePlayer.GetWorldPosition() ) < 25.0f )

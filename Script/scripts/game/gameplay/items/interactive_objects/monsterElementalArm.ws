@@ -1,4 +1,9 @@
-﻿class W3MonsterElementalArm extends CGameplayEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3MonsterElementalArm extends CGameplayEntity
 {
 	editable var physcialComponent : CComponent;
 	
@@ -12,17 +17,17 @@
 	
 	private autobind component : CMeshComponent = single;
 	
-	//bone name k_lforearm_g
 	
-	//x:48,051 y:-11,691 z:1,362
 	
-	//characters\models\monsters\elemental\model\a_01__elemental.w2mesh
+	
+	
+	
 	
 	function SetIsActive( toggle : bool )
 	{
 		isActive = true;
 		
-		//set timer here
+		
 	}
 	
 	function SetOwner ( actor : CActor )
@@ -52,7 +57,7 @@
 		var i : int;
 		
 		victims = owner.GetNPCsAndPlayersInRange(5 ,10,'',FLAG_ExcludeTarget + FLAG_OnlyAliveActors + FLAG_Attitude_Hostile + FLAG_Attitude_Neutral);
-		//play effect
+		
 		
 		PlayEffect('explosion');
 		
@@ -69,7 +74,7 @@
 		{
 			action = new W3DamageAction in this;
 			action.Initialize(owner,victims[i],NULL,'elemental_arm',EHRT_None,CPS_AttackPower,false,false,false,true);
-			action.AddDamage(theGame.params.DAMAGE_NAME_ELEMENTAL,20);		//FIXME URGENT - fixed value -TK
+			action.AddDamage(theGame.params.DAMAGE_NAME_ELEMENTAL,20);		
 			action.AddEffectInfo(EET_KnockdownTypeApplicator, 2.f );
 			theGame.damageMgr.ProcessAction( action );
 			delete action;

@@ -1,4 +1,9 @@
-﻿class CBTTaskStopYrden extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskStopYrden extends IBehTreeTask
 {
 	var npc 					: CNewNPC;
 	var yrden					: W3YrdenEntity;
@@ -123,13 +128,13 @@ class CBTTaskStopYrdenDef extends IBehTreeTaskDefinition
 	default stopYrdenShock = true;
 }
 
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
-// CBTTaskIsInYrden
-// -------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 class CBTTaskIsInYrden extends IBehTreeTask
 {
-	// this check is heavy - make sure you put it in your AI tree so that it's not checked very often
+	
 	
 	function IsAvailable() : bool
 	{

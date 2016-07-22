@@ -1,12 +1,17 @@
-﻿// CPlayerInteriorTracker
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 25/08/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-// We'll use this when we would need to create names at runtime to lock actions multiple times
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 class CActionLockerByCounter
 {
 	private saved	var lockingNum	: int;					default	lockingNum	= 0;
@@ -14,14 +19,14 @@ class CActionLockerByCounter
 	private			var lockName	: name;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Init( blockingAction : EInputActionBlock, blockingName : name )
 	{
 		action		= blockingAction;
 		lockName	= blockingName;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Reset()
 	{
 		lockingNum	= 0;
@@ -29,7 +34,7 @@ class CActionLockerByCounter
 			thePlayer.UnblockAction( action, lockName );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Lock( lock : bool )
 	{
 		if( lock )
@@ -51,8 +56,8 @@ class CActionLockerByCounter
 	}
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CPlayerInteriorTracker
 {	
 	private saved var sprintLocker	: CActionLockerByCounter;
@@ -60,7 +65,7 @@ class CPlayerInteriorTracker
 	
 	private var currentInterior : CNode;
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Init( restored : bool )
 	{
 		if( !sprintLocker )
@@ -81,25 +86,25 @@ class CPlayerInteriorTracker
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function LockSprint( lock : bool )
 	{
 		sprintLocker.Lock( lock );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function LockRun( lock : bool )
 	{
 		runLocker.Lock( lock );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetCurrentInterior( _interior : CNode )
 	{
 		currentInterior = _interior;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetCurrentInterior() : CNode
 	{
 		return currentInterior;

@@ -1,41 +1,44 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//class that handles item upgrades
+
+
+
 class W3ItemUpgradeManager
 {
-	private var upgrades : array<SItemUpgradeListElement>;						//list of all available upgrades to all items currently in inventory
+	private var upgrades : array<SItemUpgradeListElement>;						
 	
 	public function Init()
 	{
 		LoadXMLData();
 	}
 	
-	//purchases given upgrade for given item. Returns error exception or EIUE_NoException if successfull
+	
 	public function PurchaseUpgrade(item : SItemUniqueId, upgradeName : name) : EItemUpgradeException
 	{
 		var check : EItemUpgradeException;
 		var i, idx : int;
 	
-		//check first
+		
 		check = CanPurchaseUpgrade(item, upgradeName);
 		if(check != EIUE_NoException)
 			return check;
 			
 		idx = GetUpgradeIndex(item, upgradeName);
 		
-		//remove money
+		
 		thePlayer.RemoveMoney( upgrades[idx].upgrade.cost );
 		
-		//remove ingredients
+		
 		for(i=0; i<upgrades[idx].upgrade.ingredients.Size(); i+=1)
 		{
 			thePlayer.inv.RemoveItemByName(upgrades[idx].upgrade.ingredients[i].itemName, upgrades[idx].upgrade.ingredients[i].quantity);
 		}
 		
-		//add ability
+		
 		thePlayer.inv.AddItemCraftedAbility(item, upgrades[idx].upgrade.ability);
 		
 		return EIUE_NoException;
@@ -53,18 +56,18 @@ class W3ItemUpgradeManager
 		return -1;
 	}
 	
-	// Checks if given item can be upgraded with given upgrade. Returns exception type or EIUE_NoException if upgrade can be done
+	
 	public function CanPurchaseUpgrade(item : SItemUniqueId, upgradeName : name) : EItemUpgradeException
 	{
 		var i, j, idx, cnt : int;
 		var upg : SItemUpgrade;
 		var requiredName, requiredAbilityName : name;
 	
-		//check item
+		
 		if(!thePlayer.inv.IsItemUpgradeable(item))
 			return EIUE_ItemNotUpgradeable;
 		
-		//check upg
+		
 		idx = GetUpgradeIndex(item, upgradeName);
 				
 		if(idx < 0)
@@ -72,11 +75,11 @@ class W3ItemUpgradeManager
 		
 		upg = upgrades[idx].upgrade;
 		
-		//check money
+		
 		if(thePlayer.GetMoney() < upg.cost)
 			return EIUE_NotEnoughGold;
 			
-		//check ingredients
+		
 		for(i=0; i<upg.ingredients.Size(); i+=1)
 		{
 			cnt = thePlayer.inv.GetItemQuantityByName(upg.ingredients[i].itemName);
@@ -86,13 +89,13 @@ class W3ItemUpgradeManager
 				return EIUE_NotEnoughIngredient;
 		}
 		
-		//missing required upgrades
+		
 		for(i=0; i<upg.requiredUpgrades.Size(); i+=1)
 		{
-			//get required upgrade name
+			
 			requiredName = upg.requiredUpgrades[i];
 			
-			//get required upgrade's given ability
+			
 			requiredAbilityName = '';
 			for(j=0; j<upgrades.Size(); j+=1)
 			{
@@ -103,7 +106,7 @@ class W3ItemUpgradeManager
 				}
 			}
 			
-			//check if item has this ability
+			
 			if(IsNameValid(requiredAbilityName))
 			{
 				if(!thePlayer.inv.ItemHasAbility(item, requiredAbilityName))
@@ -111,11 +114,11 @@ class W3ItemUpgradeManager
 			}
 		}
 		
-		//check if this upgrade is already purchased
+		
 		if(thePlayer.inv.ItemHasAbility(item, upg.ability))
 			return EIUE_AlreadyPurchased;
 			
-		//all ok
+		
 		return EIUE_NoException;
 	}
 
@@ -139,7 +142,7 @@ class W3ItemUpgradeManager
 				items.Erase(i);
 		}
 		
-		//no upgradeable items
+		
 		if(items.Size() <= 0)
 			return;
 			
@@ -178,7 +181,7 @@ class W3ItemUpgradeManager
 					if(dm.GetCustomNodeAttributeValueName(upgradesDefs[k], 'ability_name', tmpName))
 						upgradeElement.upgrade.ability = tmpName;
 					
-					//ingredients
+					
 					ingredients = dm.GetCustomDefinitionSubNode(upgradesDefs[k],'ingredients');					
 					for(m=0; m<ingredients.subNodes.Size(); m+=1)
 					{	
@@ -192,7 +195,7 @@ class W3ItemUpgradeManager
 						ing.quantity = 0;
 					}
 					
-					//requirements
+					
 					requirements = dm.GetCustomDefinitionSubNode(upgradesDefs[k],'required_upgrades');					
 					for(m=0; m<requirements.values.Size(); m+=1)
 					{

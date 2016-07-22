@@ -1,4 +1,9 @@
-﻿class CBTTaskHasAbility extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskHasAbility extends IBehTreeTask
 {
 	var abilityName : name;
 	var behVariableName : name;
@@ -34,7 +39,7 @@
 			}
 			return true;
 		}
-		else if( failAnim && npc.IsAbilityBlocked(abilityName) )//&& !turnOffOnDeactivate)
+		else if( failAnim && npc.IsAbilityBlocked(abilityName) )
 		{
 			turnOffOnDeactivate = true;
 			return true;

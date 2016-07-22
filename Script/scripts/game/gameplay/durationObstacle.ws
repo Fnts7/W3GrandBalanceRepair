@@ -1,24 +1,29 @@
-﻿//>---------------------------------------------------------------------
-// Witcher Script file - Duration Obstacle 
-//----------------------------------------------------------------------
-// Obstacle that will disappear after some time.
-//----------------------------------------------------------------------
-// R.Pergent - 01-April-2014
-// Copyright © 2014 CDProjektRed
-//----------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
 class W3DurationObstacle extends CGameplayEntity
 {
-	//>---------------------------------------------------------------------
-	// VARIABLES
-	//----------------------------------------------------------------------
+	
+	
+	
 	protected editable var	lifeTimeDuration				: SRangeF;
 	protected editable var	disappearanceEffectDuration		: float; default disappearanceEffectDuration 	= 3;
 	protected editable var	disappearEffectName				: name;
 	protected editable var	simplyStopEffect				: bool;
 	
 	hint simplyStopEffect = "Instead of playing a new effect when disappear, will just stop the named effect";
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{
 		if ( lifeTimeDuration.min > 0 || lifeTimeDuration.max > 0 )
@@ -26,8 +31,8 @@ class W3DurationObstacle extends CGameplayEntity
 			AddTimer('Disappear', RandRangeF( lifeTimeDuration.max, lifeTimeDuration.min) , false, , , true);
 		}
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	public timer function Disappear( optional delta:float, optional id : int)
 	{
 		if( simplyStopEffect )
@@ -42,9 +47,9 @@ class W3DurationObstacle extends CGameplayEntity
 		
 		SpecificDisappear();
 	}
-	//>---------------------------------------------------------------------
-	// This function is meant to be overridden (as we cannot override timers)
-	//----------------------------------------------------------------------
+	
+	
+	
 	private function SpecificDisappear()
 	{	
 	}

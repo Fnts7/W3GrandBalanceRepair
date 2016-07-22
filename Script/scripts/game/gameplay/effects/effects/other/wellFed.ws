@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//health regen
+
+
+
 class W3Effect_WellFed extends W3RegenEffect
 {
 	default effectType = EET_WellFed;
@@ -36,7 +39,7 @@ class W3Effect_WellFed extends W3RegenEffect
 		
 		if( isOnPlayer && GetWitcherPlayer() )
 		{	
-			// Perk 15 - increases food buff time to X minutes. 
+			
 			if( GetWitcherPlayer().CanUseSkill( S_Perk_15 ) )
 			{
 				min = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_15, 'duration', false, false );

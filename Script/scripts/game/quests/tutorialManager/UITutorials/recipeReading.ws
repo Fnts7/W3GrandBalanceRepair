@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 state RecipeReading in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
@@ -60,13 +63,13 @@ state RecipeReading in W3TutorialManagerUIHandler extends TutHandlerBaseState
 	{
 		if(IsCurrentHint(SELECT_BOOK) && thePlayer.inv.ItemHasTag(itemId, 'ReadableItem') )
 		{
-			//if selected book
+			
 			CloseStateHint(SELECT_BOOK);
 			ShowHint(USE, POS_INVENTORY_X, POS_INVENTORY_Y, ETHDT_Infinite);
 		}
 		else if(IsCurrentHint(USE) && !thePlayer.inv.ItemHasTag(itemId, 'ReadableItem') )
 		{
-			//if had book selected but then changed selection to not a book
+			
 			CloseStateHint(USE);
 			ShowHint(SELECT_BOOK, POS_INVENTORY_X, POS_INVENTORY_Y, ETHDT_Infinite);
 		}

@@ -1,4 +1,9 @@
-﻿enum EBossAction
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EBossAction
 {
 	EBA_Parry,
 	EBA_Siphon,
@@ -16,8 +21,8 @@ enum EBossSpecialAttacks
 	EBSA_SpecialAttacks
 };
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinChangeArena extends IBehTreeTask
 {
@@ -90,7 +95,7 @@ class BTTaskEredinChangeArena extends IBehTreeTask
 		{
 			teleport.SetDestinationParameters( destinationTag, factOnPlayerTeleport );
 			teleport.ActivateTeleport( 0.5 );
-			//teleport.DestroyAfter( 15.0 );
+			
 		}	
 	}
 }
@@ -110,8 +115,8 @@ class BTTaskEredinChangeArenaDef extends IBehTreeTaskDefinition
 	default eventName = 'OpenRift';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskSpawnEntitiesAttack extends IBehTreeTask
 {
@@ -145,7 +150,7 @@ class BTTaskSpawnEntitiesAttack extends IBehTreeTask
 	
 	function OnDeactivate()
 	{
-		GetNPC().SetBehaviorVariable( behVariableToSetOnEnd, 1.0 ); // failsafe
+		GetNPC().SetBehaviorVariable( behVariableToSetOnEnd, 1.0 ); 
 	}
 	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
@@ -285,8 +290,8 @@ class BTTaskSpawnEntitiesAttackDef extends IBehTreeTaskDefinition
 	editable var spawnEntitiesAroundOwner 	: bool;
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinIceSpikesAttack extends BTTaskSpawnEntitiesAttack
 {
@@ -327,8 +332,8 @@ class BTTaskEredinIceSpikesAttackDef extends BTTaskSpawnEntitiesAttackDef
 	default behVariableToSetOnEnd = 'bIceSpikesEnd';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinMeteoriteAttack extends BTTaskSpawnEntitiesAttack
 {
@@ -390,8 +395,8 @@ class BTTaskEredinMeteoriteAttackDef extends BTTaskSpawnEntitiesAttackDef
 	default behVariableToSetOnEnd = 'bSummonMeteoritesEnd';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinSummonMeteoriteStorm extends IBehTreeTask
 {
@@ -458,8 +463,8 @@ class BTTaskEredinSummonMeteoriteStormDef extends IBehTreeTaskDefinition
 	default eventName = 'SummonMeteorites';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskBlockPlayerActions extends IBehTreeTask
 {
@@ -496,8 +501,8 @@ class BTTaskBlockPlayerActionsDef extends IBehTreeTaskDefinition
 	default onActivate = true;
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinMonitorSignCast extends IBehTreeTask
 {
@@ -523,8 +528,8 @@ class BTTaskEredinMonitorSignCastDef extends IBehTreeTaskDefinition
 	default instanceClass = 'BTTaskEredinMonitorSignCast';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinCanSpawnRift extends IBehTreeTask
 {
@@ -588,8 +593,8 @@ class BTTaskEredinCanSpawnRiftDef extends IBehTreeTaskDefinition
 	default instanceClass = 'BTTaskEredinCanSpawnRift';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinCanPerformAction extends IBehTreeTask
 {
@@ -637,8 +642,8 @@ class BTTaskEredinCanPerformActionDef extends IBehTreeTaskDefinition
 	editable var action : EBossAction;
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinSetCanPerformAction extends IBehTreeTask
 {
@@ -730,14 +735,14 @@ class BTTaskEredinSetCanPerformAction extends IBehTreeTask
 				if( value )
 				{
 					combatDataStorage.SetIsStaminaRegenAvailable( true );
-					//npc.ResumeEffects( EET_AutoStaminaRegen, 'BTTaskEredinSetCanPerformAction' );
+					
 					npc.RemoveBuffImmunity( EET_AutoStaminaRegen, 'BTTaskEredinSetCanPerformAction' );
 					npc.AddEffectDefault( EET_AutoStaminaRegen, npc );
 				}
 				else
 				{
 					combatDataStorage.SetIsStaminaRegenAvailable( false );
-					//npc.PauseEffects( EET_AutoStaminaRegen, 'BTTaskEredinSetCanPerformAction' );
+					
 					npc.AddBuffImmunity( EET_AutoStaminaRegen, 'BTTaskEredinSetCanPerformAction', true );
 					
 				}
@@ -783,8 +788,8 @@ class BTTaskEredinSetCanPerformActionDef extends IBehTreeTaskDefinition
 	default onActivate = true;
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinIsAttackAvailable extends IBehTreeTask
 {
@@ -810,8 +815,8 @@ class BTTaskEredinIsAttackAvailableDef extends IBehTreeTaskDefinition
 	editable var attack : EBossSpecialAttacks;
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinSetIsAttackAvailable extends IBehTreeTask
 {
@@ -861,8 +866,8 @@ class BTTaskEredinSetIsAttackAvailableDef extends IBehTreeTaskDefinition
 	default onActivate = true;
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinSetIsInSpecialAttack extends IBehTreeTask
 {
@@ -890,8 +895,8 @@ class BTTaskEredinSetIsInSpecialAttackDef extends IBehTreeTaskDefinition
 	default instanceClass = 'BTTaskEredinSetIsInSpecialAttack';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinGetIsInSpecialAttack extends IBehTreeTask
 {
@@ -913,8 +918,8 @@ class BTTaskEredinGetIsInSpecialAttackDef extends IBehTreeTaskDefinition
 	default instanceClass = 'BTTaskEredinGetIsInSpecialAttack';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskEredinIsTaunting extends IBehTreeTask
 {
@@ -936,8 +941,8 @@ class BTTaskEredinIsTauntingDef extends IBehTreeTaskDefinition
 	default instanceClass = 'BTTaskEredinIsTaunting';
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 enum EEredinPhaseChangeAction
 {
@@ -1017,8 +1022,8 @@ class BTTaskEredinPhaseChangeDef extends IBehTreeTaskDefinition
 	editable var action : EEredinPhaseChangeAction;
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskLockCameraToTarget extends IBehTreeTask
 {
@@ -1055,8 +1060,8 @@ class BTTaskLockCameraToTargetDef extends IBehTreeTaskDefinition
 
 }
 
-//---------------------------------------------------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------------------------------------------------
+
+
 
 class BTTaskIsPlayerReachable extends IBehTreeTask
 {

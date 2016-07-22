@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski
-/***********************************************************************/
+
+
+
 
 class CBehTreeTaskBehaviorGraph extends IBehTreeTask
 {
@@ -108,11 +110,11 @@ class CBehTreeTaskBehaviorGraph extends IBehTreeTask
 		npc = GetNPC();
 		npc.SetCurrentFightStage();
 		
-		//Set this CombatStyle as active
+		
 		combatDataStorage.SetActiveCombatStyle( graph );
 		
-		// hack area
-		//-------------------
+		
+		
 		MACName = npc.GetMovingAgentComponent().GetName();
 		if ( MACName == "dwarf_base" )
 			npc.SetBehaviorVariable( 'temp_use_dwarf_skeleton',1.0);	
@@ -120,7 +122,7 @@ class CBehTreeTaskBehaviorGraph extends IBehTreeTask
 			npc.SetBehaviorVariable( 'useWildHuntSkeleton',1.0);
 		else if ( MACName == "woman_base" )
 			npc.SetBehaviorVariable( 'temp_use_woman_skeleton',1.0);
-		//-------------------
+		
 		
 		if ( graph == EBG_Combat_1Handed_Any || graph == EBG_Combat_2Handed_Any )
 			FillWeaponSubTypeBasedOnHeldItem();
@@ -137,11 +139,7 @@ class CBehTreeTaskBehaviorGraph extends IBehTreeTask
 		var itemTags : array<name>;
 		
 		inv = GetActor().GetInventory();
-		/*
-		while ( combatDataStorage.IsProcessingItems() )
-		{
-			SleepOneFrame();
-		}*/
+		
 		
 		while ( !inv.IsIdValid(itemId) )
 		{

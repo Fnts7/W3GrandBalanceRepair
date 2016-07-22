@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//Area used to show that the player is entering a new location. On first enter there is a reward given to the player.
+
+
+
 class W3LocationArea extends CGameplayEntity
 {
 	editable var locationNameKey : name;

@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** CBTTaskSpawnFXEntity
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014
-/** Author : Wojciech Żerek, Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskSpawnFXEntity extends IBehTreeTask
 {
@@ -261,7 +263,7 @@ class CBTTaskSpawnFXEntity extends IBehTreeTask
 			
 			if( IsNameValid( fxNameOnSpawn ) )
 			{
-				SleepOneFrame(); // delay after teleport to fix issues with fxes
+				SleepOneFrame(); 
 				entity.PlayEffect( fxNameOnSpawn );
 			}
 			
@@ -298,7 +300,7 @@ class CBTTaskSpawnFXEntity extends IBehTreeTask
 		}
 		else if ( IsNameValid( teleportToComponentName ) && TeleportToComponentName( teleportToComponentName, spawnPos, spawnRot ) )
 		{
-			//
+			
 		}
 		else if( useTargetInsteadOfOwner )
 		{
@@ -352,18 +354,7 @@ class CBTTaskSpawnFXEntity extends IBehTreeTask
 			theGame.GetWorld().StaticTrace( spawnPos + Vector(0,0,1), spawnPos - Vector(0,0,10), spawnPos, normal );
 		}
 		
-		/*
-		if( useOffsetRelativeToHeading )
-		{
-			spawnPos += offsetVector.X * ( VecFromHeading( spawnRot.Yaw + 90.0 ));
-			spawnPos += offsetVector.Y * ( VecFromHeading( spawnRot.Yaw ));
-			spawnPos.Z += offsetVector.Z;
-		}
-		else
-		{
-			spawnPos += offsetVector;
-		}
-		*/
+		
 		
 		if ( zeroPitchAndRoll )
 		{
@@ -577,9 +568,8 @@ class CBTTaskSpawnFXEntityDef extends IBehTreeTaskDefinition
 };
 
 
-/***********************************************************************/
-/** CBTTaskManageSpawnFXEntity
-/***********************************************************************/
+
+
 
 class CBTTaskManageSpawnFXEntity extends CBTTaskSpawnFXEntity
 {

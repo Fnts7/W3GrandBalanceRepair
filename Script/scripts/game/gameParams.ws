@@ -1,32 +1,35 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 struct SDurabilityThreshold
 {
-	var thresholdMax : float;	//upper value of threshold
-	var multiplier : float;		//stat multiplier
+	var thresholdMax : float;	
+	var multiplier : float;		
 	var difficulty : EDifficultyMode;
 };
 
-// struct for holding global consts, mainly loaded from xmls
+
 import class W3GameParams extends CObject
 {
-	private var dm : CDefinitionsManagerAccessor;					//definitions manager	
-	private var main : SCustomNode;									//main node for the XML settings file	
+	private var dm : CDefinitionsManagerAccessor;					
+	private var main : SCustomNode;									
 	
-	//abilities
-	public const var BASE_ABILITY_TAG : name;																					//tag used with base character abilities
-	public const var PASSIVE_BONUS_ABILITY_TAG : name;																			//tag used with passive attribute bonuses
+	
+	public const var BASE_ABILITY_TAG : name;																					
+	public const var PASSIVE_BONUS_ABILITY_TAG : name;																			
 		default BASE_ABILITY_TAG = 'base';
 		default PASSIVE_BONUS_ABILITY_TAG = 'passive';
-	private var forbiddenAttributes : array<name>;				//Ability Manager's static var : all stats that have their own getters must be get using those getters 
-																//instead of GetAttribute. There is no point in caching other stats as they are most of the time got 
-																//with particular tag only. These however are got using final values, regardless of tags.	
-	public var GLOBAL_ENEMY_ABILITY : name;						//ability added by scripts by default to ALL non-players (should be in entites but we're too deep in the sh*t to do it properly now)
+	private var forbiddenAttributes : array<name>;				
+																
+																
+	public var GLOBAL_ENEMY_ABILITY : name;						
 		default GLOBAL_ENEMY_ABILITY = 'all_NPC_ability';
 	
-	public var ENEMY_BONUS_PER_LEVEL : name;					// ability added by script to all enemies with level higher than 1, added multiple time based on enemy level
+	public var ENEMY_BONUS_PER_LEVEL : name;					
 		default ENEMY_BONUS_PER_LEVEL = 'NPCLevelBonus';
 		
 	public var ENEMY_BONUS_FISTFIGHT_LOW : name;					
@@ -44,16 +47,16 @@ import class W3GameParams extends CObject
 	public var ENEMY_BONUS_DEADLY : name;					
 		default ENEMY_BONUS_DEADLY = 'NPCLevelBonusDeadly';
 		
-	public var MONSTER_BONUS_PER_LEVEL : name;					// ability added by script to all monsters with level higher than 1, added multiple time based on enemy level
+	public var MONSTER_BONUS_PER_LEVEL : name;					
 		default MONSTER_BONUS_PER_LEVEL = 'MonsterLevelBonus';
 		
-	public var MONSTER_BONUS_PER_LEVEL_GROUP : name;					// ability added by script to all monsters with level higher than 1, added multiple time based on enemy level
+	public var MONSTER_BONUS_PER_LEVEL_GROUP : name;					
 		default MONSTER_BONUS_PER_LEVEL_GROUP = 'MonsterLevelBonusGroup';
 		
-	public var MONSTER_BONUS_PER_LEVEL_ARMORED : name;					// ability added by script to all monsters with level higher than 1, added multiple time based on enemy level
+	public var MONSTER_BONUS_PER_LEVEL_ARMORED : name;					
 		default MONSTER_BONUS_PER_LEVEL_ARMORED = 'MonsterLevelBonusArmored';
 		
-	public var MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED : name;					// ability added by script to all monsters with level higher than 1, added multiple time based on enemy level
+	public var MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED : name;					
 		default MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED = 'MonsterLevelBonusGroupArmored';
 		
 	public var MONSTER_BONUS_LOW : name;						
@@ -68,15 +71,15 @@ import class W3GameParams extends CObject
 	public var BOSS_NGP_BONUS : name;
 		default BOSS_NGP_BONUS = 'BossNGPLevelBonus';
 		
-	public var GLOBAL_PLAYER_ABILITY : name;					//ability added by scripts by default to ALL players (should be in entites but we're too deep in the sh*t to do it properly now)
+	public var GLOBAL_PLAYER_ABILITY : name;					
 		default GLOBAL_PLAYER_ABILITY = 'all_PC_ability';
 	
-	public const var NOT_A_SKILL_ABILITY_TAG : name;			//tag used for abilitis that aren't a skill and we don't want them to be added to NPC on initialization
+	public const var NOT_A_SKILL_ABILITY_TAG : name;			
 		default NOT_A_SKILL_ABILITY_TAG = 'NotASkill';
 	
-	//alchemy
-	public const var ALCHEMY_COOKED_ITEM_TYPE_POTION, ALCHEMY_COOKED_ITEM_TYPE_BOMB, ALCHEMY_COOKED_ITEM_TYPE_OIL : string;		//alchemy cooked item types' string names used in XMLs
-	public const var OIL_ABILITY_TAG : name;																					//tags used in oils abilities
+	
+	public const var ALCHEMY_COOKED_ITEM_TYPE_POTION, ALCHEMY_COOKED_ITEM_TYPE_BOMB, ALCHEMY_COOKED_ITEM_TYPE_OIL : string;		
+	public const var OIL_ABILITY_TAG : name;																					
 	public const var QUANTITY_INCREASED_BY_ALCHEMY_TABLE : int;
 		default ALCHEMY_COOKED_ITEM_TYPE_POTION = "Potion";
 		default ALCHEMY_COOKED_ITEM_TYPE_BOMB = "Bomb";
@@ -84,39 +87,39 @@ import class W3GameParams extends CObject
 		default	OIL_ABILITY_TAG = 'OilBonus';
 		default QUANTITY_INCREASED_BY_ALCHEMY_TABLE = 1;
 	
-	//basic actions
-	public const var ATTACK_NAME_LIGHT, ATTACK_NAME_HEAVY, ATTACK_NAME_SUPERHEAVY, ATTACK_NAME_SPEED_BASED, ATTACK_NO_DAMAGE : name;		//names/tags of basic actions
+	
+	public const var ATTACK_NAME_LIGHT, ATTACK_NAME_HEAVY, ATTACK_NAME_SUPERHEAVY, ATTACK_NAME_SPEED_BASED, ATTACK_NO_DAMAGE : name;		
 		default ATTACK_NAME_LIGHT = 'attack_light';
 		default ATTACK_NAME_HEAVY = 'attack_heavy';
 		default ATTACK_NAME_SUPERHEAVY = 'attack_super_heavy';
 		default ATTACK_NAME_SPEED_BASED = 'attack_speed_based';		
 		default ATTACK_NO_DAMAGE = 'attack_no_damage';		
 	
-	//boat
-	public const var MAX_DYNAMICALLY_SPAWNED_BOATS : int;		//max amount of saved dynamically spawned boats
+	
+	public const var MAX_DYNAMICALLY_SPAWNED_BOATS : int;		
 		default MAX_DYNAMICALLY_SPAWNED_BOATS = 5;
 	
-	//bombs
-	public const var MAX_THROW_RANGE : float;					//max throwing range in meters
-	public const var UNDERWATER_THROW_RANGE : float;					//underwater throwing range in meters, also used for crossbow
-	public const var PROXIMITY_PETARD_IDLE_DETONATION_TIME : float;		//time after which proximity petards detonate if nothing triggers them before
-	public const var BOMB_THROW_DELAY : float;							//delay between bomb throws
+	
+	public const var MAX_THROW_RANGE : float;					
+	public const var UNDERWATER_THROW_RANGE : float;					
+	public const var PROXIMITY_PETARD_IDLE_DETONATION_TIME : float;		
+	public const var BOMB_THROW_DELAY : float;							
 		default MAX_THROW_RANGE = 25.0;
 		default UNDERWATER_THROW_RANGE = 5.0;
 		default PROXIMITY_PETARD_IDLE_DETONATION_TIME = 10.0;
 		default BOMB_THROW_DELAY = 2.f;
 		
-	//containers
-	public const var CONTAINER_DYNAMIC_DESTROY_TIMEOUT : int;	//timeout in seconds for destroying dynamic containers
+	
+	public const var CONTAINER_DYNAMIC_DESTROY_TIMEOUT : int;	
 		default CONTAINER_DYNAMIC_DESTROY_TIMEOUT = 900;
 		
-	//critical hits
-	public const var CRITICAL_HIT_CHANCE : name;					//attribute name for critical hit chance
-	public const var CRITICAL_HIT_DAMAGE_BONUS : name;				//attribute name for critical hit damage bonus
-	public const var CRITICAL_HIT_REDUCTION : name;					//attribute name for critical hit damage reduction
-	public const var CRITICAL_HIT_FX : name;						//name of blood fx to use when critically hit instead of normal hit fx
-	public const var HEAD_SHOT_CRIT_CHANCE_BONUS : float;			//bonus for headshots from crossbow
-	public const var BACK_ATTACK_CRIT_CHANCE_BONUS : float;			//bonus for back attack
+	
+	public const var CRITICAL_HIT_CHANCE : name;					
+	public const var CRITICAL_HIT_DAMAGE_BONUS : name;				
+	public const var CRITICAL_HIT_REDUCTION : name;					
+	public const var CRITICAL_HIT_FX : name;						
+	public const var HEAD_SHOT_CRIT_CHANCE_BONUS : float;			
+	public const var BACK_ATTACK_CRIT_CHANCE_BONUS : float;			
 	
 		default CRITICAL_HIT_CHANCE = 'critical_hit_chance';
 		default CRITICAL_HIT_FX = 'critical_hit';
@@ -125,7 +128,7 @@ import class W3GameParams extends CObject
 		default HEAD_SHOT_CRIT_CHANCE_BONUS = 0.5;
 		default BACK_ATTACK_CRIT_CHANCE_BONUS = 0.5;
 	
-	//damage
+	
 	public const var DAMAGE_NAME_DIRECT, DAMAGE_NAME_PHYSICAL, DAMAGE_NAME_SILVER, DAMAGE_NAME_SLASHING, DAMAGE_NAME_PIERCING, DAMAGE_NAME_BLUDGEONING, DAMAGE_NAME_RENDING, DAMAGE_NAME_ELEMENTAL, DAMAGE_NAME_FIRE, DAMAGE_NAME_FORCE, DAMAGE_NAME_FROST, DAMAGE_NAME_POISON, DAMAGE_NAME_SHOCK, DAMAGE_NAME_MORALE, DAMAGE_NAME_STAMINA : name;
 		default DAMAGE_NAME_DIRECT 		= 'DirectDamage';
 		default DAMAGE_NAME_PHYSICAL 	= 'PhysicalDamage';
@@ -143,14 +146,14 @@ import class W3GameParams extends CObject
 		default DAMAGE_NAME_MORALE 		= 'MoraleDamage';
 		default DAMAGE_NAME_STAMINA 	= 'StaminaDamage';
 		
-	public const var FOCUS_DRAIN_PER_HIT : float;					//amount of focus points lost when you get hit (this gets mutiplied further for specific attacks)	
-	public const var UNINTERRUPTED_HITS_CAMERA_EFFECT_REGULAR_ENEMY, UNINTERRUPTED_HITS_CAMERA_EFFECT_BIG_ENEMY : name;		//name of the camera effect to play when we are in uninterrupted hits flurry
-	public const var MONSTER_RESIST_THRESHOLD_TO_REFLECT_FISTS 	: float;		//monster resistance threshold above which fist attacks on monster will be reflected
+	public const var FOCUS_DRAIN_PER_HIT : float;					
+	public const var UNINTERRUPTED_HITS_CAMERA_EFFECT_REGULAR_ENEMY, UNINTERRUPTED_HITS_CAMERA_EFFECT_BIG_ENEMY : name;		
+	public const var MONSTER_RESIST_THRESHOLD_TO_REFLECT_FISTS 	: float;		
 	public const var ARMOR_VALUE_NAME : name;
-	public const var LOW_HEALTH_EFFECT_SHOW : float;				//at what hp level the effect is on/off
-	public const var UNDERWATER_CROSSBOW_DAMAGE_BONUS : float;					//+X%
-	public const var UNDERWATER_CROSSBOW_DAMAGE_BONUS_NGP : float;				//custom for NGP
-	public const var ARCHER_DAMAGE_BONUS_NGP : float;				//acrher need damage increase in NGP
+	public const var LOW_HEALTH_EFFECT_SHOW : float;				
+	public const var UNDERWATER_CROSSBOW_DAMAGE_BONUS : float;					
+	public const var UNDERWATER_CROSSBOW_DAMAGE_BONUS_NGP : float;				
+	public const var ARCHER_DAMAGE_BONUS_NGP : float;				
 
 		default MONSTER_RESIST_THRESHOLD_TO_REFLECT_FISTS = 70;
 		default ARMOR_VALUE_NAME = 'armor';		
@@ -165,14 +168,14 @@ import class W3GameParams extends CObject
 	public const var IGNI_SPELL_POWER_MILT : float;
 		default	IGNI_SPELL_POWER_MILT = 1.0f;
 		
-	public const var INSTANT_KILL_INTERNAL_PLAYER_COOLDOWN : float;					//internal cooldown of instant kill proc (only for player)
+	public const var INSTANT_KILL_INTERNAL_PLAYER_COOLDOWN : float;					
 		default INSTANT_KILL_INTERNAL_PLAYER_COOLDOWN = 15.f;
 	
-	//difficulty	
-	public var DIFFICULTY_TAG_EASY, DIFFICULTY_TAG_MEDIUM, DIFFICULTY_TAG_HARD, DIFFICULTY_TAG_HARDCORE : name;			//tags for abilities
-	public var DIFFICULTY_TAG_DIFF_ABILITY : name;																		//tag informing that this ability is a difficulty mode ability
-	public var DIFFICULTY_HP_MULTIPLIER, DIFFICULTY_DMG_MULTIPLIER : name;												//hp & damage global multipliers
-	public var DIFFICULTY_TAG_IGNORE : name;																			//tag which if added to any ability makes the actor ignore difficulty modes' settings
+	
+	public var DIFFICULTY_TAG_EASY, DIFFICULTY_TAG_MEDIUM, DIFFICULTY_TAG_HARD, DIFFICULTY_TAG_HARDCORE : name;			
+	public var DIFFICULTY_TAG_DIFF_ABILITY : name;																		
+	public var DIFFICULTY_HP_MULTIPLIER, DIFFICULTY_DMG_MULTIPLIER : name;												
+	public var DIFFICULTY_TAG_IGNORE : name;																			
 	
 		default DIFFICULTY_TAG_DIFF_ABILITY = 'DifficultyModeAbility';		
 		default DIFFICULTY_TAG_EASY			= 'Easy';
@@ -183,23 +186,23 @@ import class W3GameParams extends CObject
 		default DIFFICULTY_DMG_MULTIPLIER 	= 'damage_final_multiplier';
 		default DIFFICULTY_TAG_IGNORE		= 'IgnoreDifficultyAbilities';
 		
-	//dismemberment
-	public const var DISMEMBERMENT_ON_DEATH_CHANCE : int;				//in percents [0-100]
+	
+	public const var DISMEMBERMENT_ON_DEATH_CHANCE : int;				
 		default DISMEMBERMENT_ON_DEATH_CHANCE = 30;
 		
-	//finishers
-	public const var FINISHER_ON_DEATH_CHANCE : int;					//in percents [0-100]
+	
+	public const var FINISHER_ON_DEATH_CHANCE : int;					
 		default FINISHER_ON_DEATH_CHANCE = 30;		
 	
-	//durability
-	public const var DURABILITY_ARMOR_LOSE_CHANCE, DURABILITY_WEAPON_LOSE_CHANCE : int;			//percentage chance that the durability will be lost
-	public const var DURABILITY_ARMOR_LOSE_VALUE : float;										//value of durability lost (in points)
+	
+	public const var DURABILITY_ARMOR_LOSE_CHANCE, DURABILITY_WEAPON_LOSE_CHANCE : int;			
+	public const var DURABILITY_ARMOR_LOSE_VALUE : float;										
 	private const var DURABILITY_WEAPON_LOSE_VALUE, DURABILITY_WEAPON_LOSE_VALUE_HARDCORE : float;
-	public const var DURABILITY_ARMOR_CHEST_WEIGHT, DURABILITY_ARMOR_PANTS_WEIGHT, DURABILITY_ARMOR_BOOTS_WEIGHT, DURABILITY_ARMOR_GLOVES_WEIGHT, DURABILITY_ARMOR_MISS_WEIGHT : int; //wages for choosing armor piece
-	protected var durabilityThresholdsWeapon, durabilityThresholdsArmor : array<SDurabilityThreshold>;					//durability thresholds for items
-	public const var TAG_REPAIR_CONSUMABLE_ARMOR, TAG_REPAIR_CONSUMABLE_STEEL, TAG_REPAIR_CONSUMABLE_SILVER : name;		//tags for consumable repair items
-	public const var ITEM_DAMAGED_DURABILITY : int;												//when item is considered damaged and we show UI notification
-	public var INTERACTIVE_REPAIR_OBJECT_MAX_DURS : array<int>;									//max percentages of durability [0-100] that can be repaired at interactive objects. Index is quality level
+	public const var DURABILITY_ARMOR_CHEST_WEIGHT, DURABILITY_ARMOR_PANTS_WEIGHT, DURABILITY_ARMOR_BOOTS_WEIGHT, DURABILITY_ARMOR_GLOVES_WEIGHT, DURABILITY_ARMOR_MISS_WEIGHT : int; 
+	protected var durabilityThresholdsWeapon, durabilityThresholdsArmor : array<SDurabilityThreshold>;					
+	public const var TAG_REPAIR_CONSUMABLE_ARMOR, TAG_REPAIR_CONSUMABLE_STEEL, TAG_REPAIR_CONSUMABLE_SILVER : name;		
+	public const var ITEM_DAMAGED_DURABILITY : int;												
+	public var INTERACTIVE_REPAIR_OBJECT_MAX_DURS : array<int>;									
 		
 		default TAG_REPAIR_CONSUMABLE_ARMOR = 'RepairArmor';
 		default TAG_REPAIR_CONSUMABLE_STEEL = 'RepairSteel';
@@ -209,24 +212,24 @@ import class W3GameParams extends CObject
 	
 		default DURABILITY_ARMOR_LOSE_CHANCE = 100;
 		default DURABILITY_WEAPON_LOSE_CHANCE = 100;
-		default DURABILITY_ARMOR_LOSE_VALUE = 0.6;	//was 0.2	
-		default DURABILITY_WEAPON_LOSE_VALUE = 0.26; //was 0.2
+		default DURABILITY_ARMOR_LOSE_VALUE = 0.6;	
+		default DURABILITY_WEAPON_LOSE_VALUE = 0.26; 
 		default DURABILITY_WEAPON_LOSE_VALUE_HARDCORE = 0.1;
 		
-		//50% chest, 10% head, 10% gloves, 15% pants and boots (pants cover more but get less hits)
+		
 		default DURABILITY_ARMOR_MISS_WEIGHT = 10;
 		default DURABILITY_ARMOR_CHEST_WEIGHT = 50;			
 		default DURABILITY_ARMOR_BOOTS_WEIGHT = 15;
 		default DURABILITY_ARMOR_PANTS_WEIGHT = 15;
 		default DURABILITY_ARMOR_GLOVES_WEIGHT = 10;
 	
-	//focus mode
-	public const var CFM_SLOWDOWN_RATIO : float;					//slowdown ratio of CFM
+	
+	public const var CFM_SLOWDOWN_RATIO : float;					
 		default CFM_SLOWDOWN_RATIO = 0.01;
 	
-	//hit fx
+	
 	public const var LIGHT_HIT_FX, LIGHT_HIT_BACK_FX, LIGHT_HIT_PARRIED_FX, LIGHT_HIT_BACK_PARRIED_FX, HEAVY_HIT_FX, HEAVY_HIT_BACK_FX, HEAVY_HIT_PARRIED_FX, HEAVY_HIT_BACK_PARRIED_FX : name;
-		default LIGHT_HIT_FX = 'light_hit';			//no name concat :/
+		default LIGHT_HIT_FX = 'light_hit';			
 		default LIGHT_HIT_BACK_FX = 'light_hit_back';
 		default LIGHT_HIT_PARRIED_FX = 'light_hit_parried';
 		default LIGHT_HIT_BACK_PARRIED_FX = 'light_hit_back_parried';
@@ -235,42 +238,42 @@ import class W3GameParams extends CObject
 		default HEAVY_HIT_PARRIED_FX = 'heavy_hit_parried';
 		default HEAVY_HIT_BACK_PARRIED_FX = 'heavy_hit_back_parried';
 		
-	public const var LOW_HP_SHOW_LEVEL : float;							//red screen effect threshold value
+	public const var LOW_HP_SHOW_LEVEL : float;							
 		default LOW_HP_SHOW_LEVEL = 0.25;
 
-	//items
-	public const var TAG_ARMOR : name;								//tag for armors (any armor piece, not just chest armor)
-	public const var TAG_ENCUMBRANCE_ITEM_FORCE_YES : name;			//forces item to count towards encumbrance
-	public const var TAG_ENCUMBRANCE_ITEM_FORCE_NO : name;			//forces item to not count towards encumbrance
-	public const var TAG_ITEM_UPGRADEABLE : name;					//tag given to items that can be upgraded
-	public const var TAG_DONT_SHOW : name;							//tag for items that should not be shown in inventory panels of any kind
-	public const var TAG_DONT_SHOW_ONLY_IN_PLAYERS : name;			//should not be shown ONLY in players inventory - visible in other panels
-	public const var TAG_ITEM_SINGLETON : name;						//single instance item: can be only 1 in inventory, not more
-	public const var TAG_INFINITE_AMMO : name;						//item has infinite ammo (set to 1 always)
-	public const var TAG_UNDERWATER_AMMO : name;					//crossbow ammo used underwater
+	
+	public const var TAG_ARMOR : name;								
+	public const var TAG_ENCUMBRANCE_ITEM_FORCE_YES : name;			
+	public const var TAG_ENCUMBRANCE_ITEM_FORCE_NO : name;			
+	public const var TAG_ITEM_UPGRADEABLE : name;					
+	public const var TAG_DONT_SHOW : name;							
+	public const var TAG_DONT_SHOW_ONLY_IN_PLAYERS : name;			
+	public const var TAG_ITEM_SINGLETON : name;						
+	public const var TAG_INFINITE_AMMO : name;						
+	public const var TAG_UNDERWATER_AMMO : name;					
 	public const var TAG_GROUND_AMMO : name;	
 	public const var TAG_ILLUSION_MEDALLION : name;
-	public const var TAG_PLAYER_STEELSWORD : name;					//steelsword usable by player
-	public const var TAG_PLAYER_SILVERSWORD : name;					//silversword usable by player
-	public const var TAG_INFINITE_USE : name;						//item can be used infinitely
-	private var ARMOR_MASTERWORK_ABILITIES 	: array<name>;			//abilities randomly added to masterwork or better armors
-	private var ARMOR_MAGICAL_ABILITIES 	: array<name>;			//abilities randomly added to magical or better armors
-	private var GLOVES_MASTERWORK_ABILITIES	: array<name>;			//abilities randomly added to masterwork or better gloves
-	private var GLOVES_MAGICAL_ABILITIES 	: array<name>;			//abilities randomly added to magical or better gloves
-	private var PANTS_MASTERWORK_ABILITIES	: array<name>;			//abilities randomly added to masterwork or better pants
-	private var PANTS_MAGICAL_ABILITIES 	: array<name>;			//abilities randomly added to magical or better pants
-	private var BOOTS_MASTERWORK_ABILITIES	: array<name>;			//abilities randomly added to masterwork or better boots
-	private var BOOTS_MAGICAL_ABILITIES 	: array<name>;			//abilities randomly added to magical or better boots
-	private var WEAPON_MASTERWORK_ABILITIES	: array<name>;			//abilities randomly added to masterwork or better weapons
-	private var WEAPON_MAGICAL_ABILITIES 	: array<name>;			//abilities randomly added to magical or better armors
-	public const var ITEM_SET_TAG_BEAR, ITEM_SET_TAG_GRYPHON, ITEM_SET_TAG_LYNX, ITEM_SET_TAG_WOLF, ITEM_SET_TAG_RED_WOLF, ITEM_SET_TAG_VAMPIRE, ITEM_SET_TAG_VIPER : name;		//item sets tags
-	public const var BOUNCE_ARROWS_ABILITY : name;					//ability that bounces arrows (they cannot hit us)
-	public const var TAG_ALCHEMY_REFILL_ALCO : name;				//tag used to mark items that can be used to refill alchemical items in meditation
-	public const var REPAIR_OBJECT_BONUS_ARMOR_ABILITY : name;		//name of ability added to armors from 'repair objects'
-	public const var REPAIR_OBJECT_BONUS_WEAPON_ABILITY : name;		//name of ability added to armors from 'repair objects'
-	public const var REPAIR_OBJECT_BONUS : name;					//name of attribute which holds amount of bonus granted by repair objects (same attribute name for weapons and armor)
+	public const var TAG_PLAYER_STEELSWORD : name;					
+	public const var TAG_PLAYER_SILVERSWORD : name;					
+	public const var TAG_INFINITE_USE : name;						
+	private var ARMOR_MASTERWORK_ABILITIES 	: array<name>;			
+	private var ARMOR_MAGICAL_ABILITIES 	: array<name>;			
+	private var GLOVES_MASTERWORK_ABILITIES	: array<name>;			
+	private var GLOVES_MAGICAL_ABILITIES 	: array<name>;			
+	private var PANTS_MASTERWORK_ABILITIES	: array<name>;			
+	private var PANTS_MAGICAL_ABILITIES 	: array<name>;			
+	private var BOOTS_MASTERWORK_ABILITIES	: array<name>;			
+	private var BOOTS_MAGICAL_ABILITIES 	: array<name>;			
+	private var WEAPON_MASTERWORK_ABILITIES	: array<name>;			
+	private var WEAPON_MAGICAL_ABILITIES 	: array<name>;			
+	public const var ITEM_SET_TAG_BEAR, ITEM_SET_TAG_GRYPHON, ITEM_SET_TAG_LYNX, ITEM_SET_TAG_WOLF, ITEM_SET_TAG_RED_WOLF, ITEM_SET_TAG_VAMPIRE, ITEM_SET_TAG_VIPER : name;		
+	public const var BOUNCE_ARROWS_ABILITY : name;					
+	public const var TAG_ALCHEMY_REFILL_ALCO : name;				
+	public const var REPAIR_OBJECT_BONUS_ARMOR_ABILITY : name;		
+	public const var REPAIR_OBJECT_BONUS_WEAPON_ABILITY : name;		
+	public const var REPAIR_OBJECT_BONUS : name;					
 	public const var CIRI_SWORD_NAME : name;
-	public const var TAG_OFIR_SET : name;							//Ofir set items
+	public const var TAG_OFIR_SET : name;							
 		
 		default TAG_ARMOR = 'Armor';
 		default TAG_ENCUMBRANCE_ITEM_FORCE_YES = 'EncumbranceOn';
@@ -301,35 +304,35 @@ import class W3GameParams extends CObject
 		default CIRI_SWORD_NAME = 'Zireael Sword';
 		default TAG_OFIR_SET = 'Ofir';
 	
-	//new game +
-	private var newGamePlusLevel : int;						//'final' NewGame+ level - calculated on player spawn
-	private const var NEW_GAME_PLUS_LEVEL_ADD : int;		//level addition to player level to form 'final' NewGame+ level
-	public const var NEW_GAME_PLUS_MIN_LEVEL : int;				//min Geralt level for base NG+
-	public const var NEW_GAME_PLUS_EP1_MIN_LEVEL : int;			//min Geralt level for NG+ with EP1
+	
+	private var newGamePlusLevel : int;						
+	private const var NEW_GAME_PLUS_LEVEL_ADD : int;		
+	public const var NEW_GAME_PLUS_MIN_LEVEL : int;				
+	public const var NEW_GAME_PLUS_EP1_MIN_LEVEL : int;			
 		default NEW_GAME_PLUS_LEVEL_ADD = 0;
 		default NEW_GAME_PLUS_MIN_LEVEL = 30;
 		default NEW_GAME_PLUS_EP1_MIN_LEVEL = 30;
 	
-	//oils
+	
 	public const var TAG_STEEL_OIL, TAG_SILVER_OIL : name;
 		default TAG_STEEL_OIL = 'SteelOil';
 		default TAG_SILVER_OIL = 'SilverOil';
 	
-	//parry
-	public const var HEAVY_STRIKE_COST_MULTIPLIER : float;								//multiplier for heavy strike parry stamina cost		
-	public const var PARRY_HALF_ANGLE : int;											//half of the angle in which we can parry the incoming attacks. If this is 120 then we have a coverage of 120 degrees left and right from front
-	public const var PARRY_STAGGER_REDUCE_DAMAGE_LARGE : float;							//percentage of damage player takes from large npcs when he is parry staggered
-	public const var PARRY_STAGGER_REDUCE_DAMAGE_SMALL : float;							//percentage of damage player takes from humanoid or smaller npcs when he is parry staggered
-		default PARRY_HALF_ANGLE = 180;//120;
+	
+	public const var HEAVY_STRIKE_COST_MULTIPLIER : float;								
+	public const var PARRY_HALF_ANGLE : int;											
+	public const var PARRY_STAGGER_REDUCE_DAMAGE_LARGE : float;							
+	public const var PARRY_STAGGER_REDUCE_DAMAGE_SMALL : float;							
+		default PARRY_HALF_ANGLE = 180;
 		default HEAVY_STRIKE_COST_MULTIPLIER = 2.0;
 		default PARRY_STAGGER_REDUCE_DAMAGE_LARGE = 0.6f;
 		default PARRY_STAGGER_REDUCE_DAMAGE_SMALL = 0.3f;
 		
-	//potions
-	public const var POTION_QUICKSLOTS_COUNT : int;										//how many potion quick slots are there
+	
+	public const var POTION_QUICKSLOTS_COUNT : int;										
 		default POTION_QUICKSLOTS_COUNT = 4;
 	
-	//set bonuses
+	
 	public const var ITEMS_REQUIRED_FOR_MINOR_SET_BONUS : int;
 	public const var ITEMS_REQUIRED_FOR_MAJOR_SET_BONUS : int;
 	public const var ITEM_SET_TAG_BONUS					: name;
@@ -337,14 +340,14 @@ import class W3GameParams extends CObject
 		default ITEMS_REQUIRED_FOR_MAJOR_SET_BONUS = 6;
 		default ITEM_SET_TAG_BONUS = 'SetBonusPiece';
 	
-	//sockets
+	
 	public const var TAG_STEEL_SOCKETABLE, TAG_SILVER_SOCKETABLE, TAG_ARMOR_SOCKETABLE, TAG_ABILITY_SOCKET : name;
-		default TAG_STEEL_SOCKETABLE = 'SteelSocketable';							//tag for items that can upgrade steel sword
-		default TAG_SILVER_SOCKETABLE = 'SilverSocketable';							//tag for items that can upgrade silver  sword
-		default TAG_ARMOR_SOCKETABLE = 'ArmorSocketable';							//tag for items that can upgrade armor
-		default TAG_ABILITY_SOCKET = 'Socket';										//tag for abilities that are added onto upgraded items
+		default TAG_STEEL_SOCKETABLE = 'SteelSocketable';							
+		default TAG_SILVER_SOCKETABLE = 'SilverSocketable';							
+		default TAG_ARMOR_SOCKETABLE = 'ArmorSocketable';							
+		default TAG_ABILITY_SOCKET = 'Socket';										
 		
-	//stamina cost attribute names
+	
 	public const var STAMINA_COST_PARRY_ATTRIBUTE, STAMINA_COST_COUNTERATTACK_ATTRIBUTE, STAMINA_COST_EVADE_ATTRIBUTE, STAMINA_COST_SWIMMING_PER_SEC_ATTRIBUTE, 
 					 STAMINA_COST_SUPER_HEAVY_ACTION_ATTRIBUTE, STAMINA_COST_HEAVY_ACTION_ATTRIBUTE, STAMINA_COST_LIGHT_ACTION_ATTRIBUTE, STAMINA_COST_DODGE_ATTRIBUTE,
 					 STAMINA_COST_SPRINT_ATTRIBUTE, STAMINA_COST_SPRINT_PER_SEC_ATTRIBUTE, STAMINA_COST_JUMP_ATTRIBUTE, STAMINA_COST_USABLE_ITEM_ATTRIBUTE,
@@ -355,7 +358,7 @@ import class W3GameParams extends CObject
 					 STAMINA_DELAY_SPRINT_ATTRIBUTE, STAMINA_DELAY_JUMP_ATTRIBUTE, STAMINA_DELAY_USABLE_ITEM_ATTRIBUTE, STAMINA_DELAY_DEFAULT, STAMINA_DELAY_ROLL_ATTRIBUTE,
 					 STAMINA_DELAY_LIGHT_SPECIAL_ATTRIBUTE, STAMINA_DELAY_HEAVY_SPECIAL_ATTRIBUTE: name;
 					 
-	public const var STAMINA_SEGMENT_SIZE : int;									//size of stamina segment (in points)
+	public const var STAMINA_SEGMENT_SIZE : int;									
 		
 		default STAMINA_SEGMENT_SIZE = 10;
 		
@@ -393,35 +396,35 @@ import class W3GameParams extends CObject
 		default STAMINA_DELAY_USABLE_ITEM_ATTRIBUTE = 'usable_item_stamina_delay';
 		default STAMINA_DELAY_ROLL_ATTRIBUTE = 'roll_stamina_delay';
 
-	//toxicity
-	public const var TOXICITY_DAMAGE_THRESHOLD : float;									//threshold at which the hp damage effect kicks in (% of max)
+	
+	public const var TOXICITY_DAMAGE_THRESHOLD : float;									
 		default TOXICITY_DAMAGE_THRESHOLD = 0.75;
 		
-	//other
-	public const var DEBUG_CHEATS_ENABLED : bool;										//if true then we have a lot of debug / game in progress cheats
-	public const var SKILL_GLOBAL_PASSIVE_TAG : name;									//tag used in skill abilities to mark the skill as GLOBAL PASSIVE bonus
-	public const var TAG_OPEN_FIRE : name;												//tag used by entites that carry open fire (for gas explosions)
-	public const var TAG_MONSTER_SKILL : name;											//tag used to mark that ability is a monster skill
-	public const var TAG_EXPLODING_GAS : name;											//tag of exploding gas entities
-	public const var ON_HIT_HP_REGEN_DELAY : float;										//hp regen delay when being hit
-	public const var TAG_NPC_IN_PARTY : name;											//tag added to NPCs when they are considered to be in player's party
-	public const var TAG_PLAYERS_MOUNTED_VEHICLE : name;								//tag added/removed when player mounted a vehicle
-	public const var TAG_SOFT_LOCK : name;												//tag removed to get rid of soft camera lock
-	public const var MAX_SPELLPOWER_ASSUMED : float;									//assumed max spell power player can achieve
-	public const var NPC_RESIST_PER_LEVEL : float;										//resistance to effects gained by NPCs per level
-	public const var XP_PER_LEVEL : int;												//amount of xp granted per NPC level
-	public const var XP_MINIBOSS_BONUS : float;											//bonus xp granted for killing human mini boss opponent
-	public const var XP_BOSS_BONUS : float;												//bonus xp granted for killing human boss opponent
-	public const var ADRENALINE_DRAIN_AFTER_COMBAT_DELAY : float;						//time after combat after which adrenaline drain effect is applied
-	public const var KEYBOARD_KEY_FONT_COLOR : string;									//font color for keyboard keys shown in hint messages
-	public const var MONSTER_HUNT_ACTOR_TAG : name;										//tag added to any Monster Hunt monster
-	public const var GWINT_CARD_ACHIEVEMENT_TAG : name;									//tag added to gwint cards which count towards the achievement
-	public const var TAG_AXIIABLE, TAG_AXIIABLE_LOWER_CASE : name;						//tag for NPCs that can be axiied
-	public const var LEVEL_DIFF_DEADLY, LEVEL_DIFF_HIGH : int;							//level difference
-	public const var LEVEL_DIFF_XP_MOD : float;											//XP modifier for level difference
-	public const var MAX_XP_MOD : float;												//maximum XP bonus multiplier
-	public const var DEVIL_HORSE_AURA_MIN_DELAY, DEVIL_HORSE_AURA_MAX_DELAY : int;		//min and max
-	public const var TOTAL_AMOUNT_OF_BOOKS	: int;										// Total amount of Books in W3 + EP1 + EP2
+	
+	public const var DEBUG_CHEATS_ENABLED : bool;										
+	public const var SKILL_GLOBAL_PASSIVE_TAG : name;									
+	public const var TAG_OPEN_FIRE : name;												
+	public const var TAG_MONSTER_SKILL : name;											
+	public const var TAG_EXPLODING_GAS : name;											
+	public const var ON_HIT_HP_REGEN_DELAY : float;										
+	public const var TAG_NPC_IN_PARTY : name;											
+	public const var TAG_PLAYERS_MOUNTED_VEHICLE : name;								
+	public const var TAG_SOFT_LOCK : name;												
+	public const var MAX_SPELLPOWER_ASSUMED : float;									
+	public const var NPC_RESIST_PER_LEVEL : float;										
+	public const var XP_PER_LEVEL : int;												
+	public const var XP_MINIBOSS_BONUS : float;											
+	public const var XP_BOSS_BONUS : float;												
+	public const var ADRENALINE_DRAIN_AFTER_COMBAT_DELAY : float;						
+	public const var KEYBOARD_KEY_FONT_COLOR : string;									
+	public const var MONSTER_HUNT_ACTOR_TAG : name;										
+	public const var GWINT_CARD_ACHIEVEMENT_TAG : name;									
+	public const var TAG_AXIIABLE, TAG_AXIIABLE_LOWER_CASE : name;						
+	public const var LEVEL_DIFF_DEADLY, LEVEL_DIFF_HIGH : int;							
+	public const var LEVEL_DIFF_XP_MOD : float;											
+	public const var MAX_XP_MOD : float;												
+	public const var DEVIL_HORSE_AURA_MIN_DELAY, DEVIL_HORSE_AURA_MAX_DELAY : int;		
+	public const var TOTAL_AMOUNT_OF_BOOKS	: int;										
 	
 		default DEBUG_CHEATS_ENABLED = true;
 		default SKILL_GLOBAL_PASSIVE_TAG = 'GlobalPassiveBonus';
@@ -451,33 +454,33 @@ import class W3GameParams extends CObject
 		default DEVIL_HORSE_AURA_MAX_DELAY = 6;
 		default TOTAL_AMOUNT_OF_BOOKS = 130;
 		
-	//Initializes all the global consts
+	
 	public function Init()
 	{
 		dm = theGame.GetDefinitionsManager();
 		main = dm.GetCustomDefinition('global_params');
 				
-		//forbidden stats attributes
+		
 		InitForbiddenAttributesList();
 		
 		SetWeaponDurabilityModifiers();
 		
 		SetArmorDurabilityModifiers();
 			
-		// Abilities for masterwork and magical items
+		
 		InitArmorAbilities();
 		InitGlovesAbilities();
 		InitPantsAbilities();
 		InitBootsAbilities();
 		InitWeaponAbilities();
 		
-		//interactive repairing objects max durability caps
+		
 		INTERACTIVE_REPAIR_OBJECT_MAX_DURS.Resize(5);
-		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[0] = 70;		//70% max for normal items
-		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[1] = 50;		//magic items
-		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[2] = 0;		//rare items
-		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[3] = 0;		//relics cannot be repaired
-		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[4] = 0;		//witcher sets
+		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[0] = 70;		
+		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[1] = 50;		
+		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[2] = 0;		
+		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[3] = 0;		
+		INTERACTIVE_REPAIR_OBJECT_MAX_DURS[4] = 0;		
 		
 		newGamePlusLevel = FactsQuerySum("FinalNewGamePlusLevel");
 	}
@@ -486,7 +489,7 @@ import class W3GameParams extends CObject
 	{
 		var dur : SDurabilityThreshold;
 
-		//easy
+		
 		dur.difficulty = EDM_Easy;
 		
 		dur.thresholdMax = 1.25;
@@ -502,7 +505,7 @@ import class W3GameParams extends CObject
 		durabilityThresholdsWeapon.PushBack(dur);
 		
 		
-		//medium
+		
 		dur.difficulty = EDM_Medium;
 		
 		dur.thresholdMax = 1.25;
@@ -518,7 +521,7 @@ import class W3GameParams extends CObject
 		durabilityThresholdsWeapon.PushBack(dur);
 		
 		
-		//hard
+		
 		dur.difficulty = EDM_Hard;
 		
 		dur.thresholdMax = 1.25;
@@ -534,7 +537,7 @@ import class W3GameParams extends CObject
 		durabilityThresholdsWeapon.PushBack(dur);
 		
 		
-		//hardcore
+		
 		dur.difficulty = EDM_Hardcore;
 		
 		dur.thresholdMax = 1.25;
@@ -554,7 +557,7 @@ import class W3GameParams extends CObject
 	{
 		var dur : SDurabilityThreshold;
 
-		//easy
+		
 		dur.difficulty = EDM_Easy;
 		
 		dur.thresholdMax = 1.25;
@@ -570,7 +573,7 @@ import class W3GameParams extends CObject
 		durabilityThresholdsArmor.PushBack(dur);
 		
 		
-		//medium
+		
 		dur.difficulty = EDM_Medium;
 		
 		dur.thresholdMax = 1.25;
@@ -586,7 +589,7 @@ import class W3GameParams extends CObject
 		durabilityThresholdsArmor.PushBack(dur);
 		
 		
-		//hard
+		
 		dur.difficulty = EDM_Hard;
 		
 		dur.thresholdMax = 1.25;
@@ -602,7 +605,7 @@ import class W3GameParams extends CObject
 		durabilityThresholdsArmor.PushBack(dur);
 		
 		
-		//hardcore
+		
 		dur.difficulty = EDM_Hardcore;
 		
 		dur.thresholdMax = 1.25;
@@ -693,7 +696,7 @@ import class W3GameParams extends CObject
 	
 	private function InitWeaponAbilities()
 	{
-		//WEAPON_MASTERWORK_ABILITIES.PushBack('MA_AttackPowerAdd');
+		
 		WEAPON_MASTERWORK_ABILITIES.PushBack('MA_ArmorPenetration');
 		WEAPON_MASTERWORK_ABILITIES.PushBack('MA_CriticalChance');
 		WEAPON_MASTERWORK_ABILITIES.PushBack('MA_CriticalDamage');
@@ -709,7 +712,7 @@ import class W3GameParams extends CObject
 		
 	}
 	
-	//all stats that have their own getters cannot be gotten using GetAttriubute function!
+	
 	private function InitForbiddenAttributesList()
 	{
 		var i,size : int;
@@ -738,7 +741,7 @@ import class W3GameParams extends CObject
 		return forbiddenAttributes.Contains(nam);
 	}
 	
-	// gets durability bonus multiplier for given durability ratio
+	
 	public function GetDurabilityMultiplier(durabilityRatio : float, isWeapon : bool) : float
 	{
 		if(isWeapon)
@@ -764,7 +767,7 @@ import class W3GameParams extends CObject
 		return durs[0].multiplier;
 	}
 	
-	// get one random ability of a specific type
+	
 	public function GetRandomMasterworkArmorAbility() : name
 	{
 		return ARMOR_MASTERWORK_ABILITIES[RandRange(ARMOR_MASTERWORK_ABILITIES.Size())];
@@ -815,7 +818,7 @@ import class W3GameParams extends CObject
 		return WEAPON_MAGICAL_ABILITIES[RandRange(WEAPON_MAGICAL_ABILITIES.Size())];
 	}
 	
-	//returns cost and delay attributes' names for given stamina action type
+	
 	public function GetStaminaActionAttributes(action : EStaminaActionType, getCostPerSec : bool, out costAttributeName : name, out delayAttributeName : name)
 	{		
 		switch(action)

@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class CBTTaskGuardChange extends IBehTreeTask
 {
 	var raiseGuardChance 	: int;
@@ -49,15 +54,7 @@ class CBTTaskGuardChange extends IBehTreeTask
 	{
 		var npc : CNewNPC = GetNPC();
 		
-		/*
-		if ( !GetNPC().HasStaminaToParry('attack_heavy') )	//different stamina costs are for light/heavy attacks so we assume the worst case scenario
-		{
-			if ( npc.IsGuarded() )
-			{
-				npc.LowerGuard();
-			}
-			return;
-		}*/
+		
 		
 		
 		if ( lastChange + frequency >= GetLocalTime() )

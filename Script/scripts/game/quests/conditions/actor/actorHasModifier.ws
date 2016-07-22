@@ -1,13 +1,13 @@
 ﻿/***********************************************************************/
-/** 
-/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/**	
-	When editing this function make sure to make corresponding changes in AddNPCModifier quest function!
-*/
+
+
+
+
 class W3QuestCond_HasModifier extends CQCActorScriptedCondition
 {
 	editable var modifier 		: EEffectType;
@@ -33,7 +33,7 @@ class W3QuestCond_HasModifier extends CQCActorScriptedCondition
 		var found : bool;
 		var buffs : array<CBaseGameplayEffect>;
 		
-		//for fact potions check if it's the right fact
+		
 		if(modifier == EET_Fact && IsNameValid(modifierParam1))
 		{
 			buffs = act.GetBuffs(EET_Fact, sourceName, sourceNamePartialSearch);
@@ -58,7 +58,7 @@ class W3QuestCond_HasModifier extends CQCActorScriptedCondition
 		
 		if (buffs.Size() > 0)
 		{
-			// cases when we don't really need to check percentage
+			
 			if ( timePercents == 0 )
 			{
 				if ( condition == CO_Greater || condition == CO_GreaterEq )

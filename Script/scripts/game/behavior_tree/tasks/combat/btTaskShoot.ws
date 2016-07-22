@@ -1,4 +1,9 @@
-﻿class CBTTaskShoot extends CBTTaskPlayAnimationEventDecorator
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskShoot extends CBTTaskPlayAnimationEventDecorator
 {
 	public var useCombatTarget 	: bool;
 	public var attackRange		: float;
@@ -145,7 +150,7 @@
 		
 		distanceToTarget = VecDistance(npc.GetWorldPosition(),targetPos);
 		
-		//desiredHeadingVec = target.GetWorldPosition() - npc.GetWorldPosition();
+		
 		desiredHeadingVec = arrow.GetHeadingVector();
 		
 		
@@ -180,7 +185,7 @@
 		
 		if ( projShot && dodgeable )
 		{
-			// used to dodge projectile before it hits
+			
 			projectileFlightTime = distanceToTarget / arrow.projSpeed;
 			
 			((CActor)target).SignalGameplayEventParamFloat('Time2DodgeProjectile', projectileFlightTime );

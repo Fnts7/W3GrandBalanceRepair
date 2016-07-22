@@ -1,4 +1,9 @@
-﻿// CBTTaskFlyAround
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 
 class CBTTaskFlyAround extends CBTTaskVolumetricMove
 {
@@ -39,7 +44,7 @@ class CBTTaskFlyAround extends CBTTaskVolumetricMove
 		npc = GetNPC();
 		anchorPointPos = anchorPoint.GetWorldPosition();
 		
-		// Z of anchorPoint can be under terrain so it must be checked
+		
 		traceStartPos = anchorPointPos;
 		traceEndPos = anchorPointPos;
 		traceStartPos.Z += 200;
@@ -54,7 +59,7 @@ class CBTTaskFlyAround extends CBTTaskVolumetricMove
 		groundLevelFound = false;
 		landingPointSet = false;
 		
-		// initial dest
+		
 		npcPos = npc.GetWorldPosition();
 		anchorPointToNpcVector = npcPos - anchorPointPos;
 		anchorPointToNpcVector.Z = 0;
@@ -69,7 +74,7 @@ class CBTTaskFlyAround extends CBTTaskVolumetricMove
 			npcToDestVector2.Z = 0;
 			npcToDestDistance = VecDistance( npcPos, dest );
 			
-			// local ground level
+			
 			groundLevelFound = false;
 			traceStartPos = npcPos;
 			traceEndPos = npcPos;
@@ -83,7 +88,7 @@ class CBTTaskFlyAround extends CBTTaskVolumetricMove
 			
 			if( !shouldLand )
 			{
-				// if close to dest - pick new dest
+				
 				if( npcToDestDistance < 8.0 )
 				{
 					((CMovingAgentComponent)npc.GetMovingAgentComponent()).SnapToNavigableSpace( false );
@@ -92,30 +97,30 @@ class CBTTaskFlyAround extends CBTTaskVolumetricMove
 					anchorPointToNpcVector.Z = 0;
 					dest = anchorPointPos + VecNormalize( anchorPointToNpcVector ) * distance + VecNormalize( npc.GetHeadingVector() ) * frontalHeadingOffset;
 					
-					// randomizing
+					
 					random = RandRange( randomHeight ) - ( randomHeight / 2 );
 					dest.Z = dest.Z + altitude + random;
 					
-					// if new dest is too close
+					
 					npcToDestDistance = VecDistance( npcPos, dest );
 					if( npcToDestDistance < 15.0 )
 					{
 						dest = dest + VecNormalize( npc.GetHeadingVector() ) * frontalHeadingOffset; 
 					}
 					
-					// if new dest is outside encounter
+					
 					if( !anchorPointAC.TestPointOverlap( dest ) )
 					{
 						dest = anchorPointPos;
 					}
 
-					// if new dest is too low
+					
 					if( dest.Z - anchorPointPos.Z < 5 )
 					{
 						dest.Z = dest.Z + 10;
 					}
 					
-					// fly up "cliff" 
+					
 					if ( ( anchorPointPos.Z - npcPos.Z ) >= 5.f )
 					{
 						dest = npcPos;
@@ -128,11 +133,11 @@ class CBTTaskFlyAround extends CBTTaskVolumetricMove
 					npcToDestDistance = VecDistance( npcPos, dest );	
 				}
 			}
-			else // shouldLand = true
+			else 
 			{
 				((CMovingAgentComponent)npc.GetMovingAgentComponent()).SnapToNavigableSpace( false );
 				
-				// pick dest inside encounter and set it
+				
 				if( !landingPointSet )
 				{
 					random = RandRange( 10 ) - 5;
@@ -168,7 +173,7 @@ class CBTTaskFlyAround extends CBTTaskVolumetricMove
 			
 			Sleep( 0.1f );
 			
-			// finish flight after specified time
+			
 			flightDuration = this.GetLocalTime();
 			
 			if( flightDuration > flightStartTime + flightMaxDuration && flightMaxDuration != -1.0 )

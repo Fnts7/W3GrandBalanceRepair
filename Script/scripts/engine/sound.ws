@@ -1,8 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2010
-/***********************************************************************/
+
+
+
 
 enum ESoundGameState
 {
@@ -53,11 +56,11 @@ import class CScriptSoundSystem extends CObject
 	private var lastThreatDampTime : float;
 	private var threatUpdateCooldown : float;
 	private var threatDampCooldown : float;
-	private var threatDamper : SpringDamper;   //KAPSI TODO: use Damper class
+	private var threatDamper : SpringDamper;   
 	private var monsterHunt : bool;
 	private var monster : bool;
 	private var isBlackscreen : bool;
-	private var soundSystemSettings : C2dArray; // CSV loaded settings
+	private var soundSystemSettings : C2dArray; 
 	var threatWeight	: int;
 	var levelWeight 	: int;
 	var tweakWeight		: float;
@@ -80,7 +83,7 @@ import class CScriptSoundSystem extends CObject
 	import function SoundSwitch( swichGroupName : string, optional stateName : string  );
 	import function SoundEvent( eventName : string );
 	import function SoundParameter( parameterName : string, value : float, optional duration : float );
-	import function SoundGlobalParameter( parameterName : string, value : float, optional duration : float );//hack
+	import function SoundGlobalParameter( parameterName : string, value : float, optional duration : float );
 	import function SoundSequence( sequenceName : string, sequence : array< string > );
 	import function SoundEventAddToSave( eventName : string );
 	import function SoundEventClearSaved( );
@@ -179,8 +182,8 @@ import class CScriptSoundSystem extends CObject
 			thePlayer.OnCombatStart();
 		}	
 		
-		// When we're in a blackscreen the only states that we want
-		// to let the scripts set are "music_only", "movie", "exploration" and "exploration_night".
+		
+		
 		if( !isBlackscreen ||
 			( isBlackscreen && IsValidBlackscreenState( gameState ) ) )
 		{
@@ -400,9 +403,9 @@ import class CScriptSoundSystem extends CObject
 		SoundEvent( "stop_music" );
 	}
 	
-// --------------------------------------
-// ---------- THREAT FUNCTIONS ----------
-// --------------------------------------
+
+
+
 	
 	function SendThreatRating()
 	{	
@@ -436,7 +439,7 @@ import class CScriptSoundSystem extends CObject
 		var isTeleporting : bool;
 		var canBeTargeted : bool;
 		var canBeHitByFists : bool;
-		////////////////////////////////////////
+		
 		
 		monsterHunt = false;
 		monster = false;
@@ -456,42 +459,42 @@ import class CScriptSoundSystem extends CObject
 				LogSound( "finalSoundValue is  "+ finalSoundValue); 
 			}
 			
-			if( tempThreat > 2 ) // threat greater than 2 we always add
+			if( tempThreat > 2 ) 
 			{
 				totalWeight += tempThreat;
 			}
-			else // we sum lower threats in separate variable...
+			else 
 			{
 				tempSum += tempThreat;
 				tempSumElements += 1;
 				
-				if( tempThreat > tempMaxElement ) // ... and remember max element
+				if( tempThreat > tempMaxElement ) 
 					tempMaxElement = tempThreat;
 			}
 			
 			if( MonsterCategoryIsMonster( monsterCategory ) )
 				monster = true;
 				
-			//if ( IsMonsterFromMonsterHunt( actors[i] ) )
-			//	monsterHunt = true; // TODO: multiplying threat level if monsterHunt
+			
+			
 		}
 		
 		if( tempSum ) 
 		{
-			totalWeight += tempMaxElement; // ...and add max element of separate sum, 
+			totalWeight += tempMaxElement; 
 			if( tempSumElements > 1 )
-				totalWeight += ( tempSum / tempSumElements ) * 0.5 + 0.3 * tempSumElements; // also 50% of average and 0.3 for each element
+				totalWeight += ( tempSum / tempSumElements ) * 0.5 + 0.3 * tempSumElements; 
 		}
 		if( FactsQuerySum("NewGamePlus") > 0 )
 		{
 			levelWeight += theGame.params.GetNewGamePlusLevel();
 		}
-		tempThreat = totalWeight *threatWeight; //value defined in CSV - Check UpdateSoundSettings function
+		tempThreat = totalWeight *threatWeight; 
 		l_levelget = thePlayer.GetLevel();
-		l_levelget = l_levelget/levelWeight; //value defined in CSV -  Check UpdateSoundSettings function
+		l_levelget = l_levelget/levelWeight; 
 		l_levelget = 1-l_levelget; 
 		tempThreat = tempThreat*l_levelget;
-		tempThreat = tempThreat*tweakWeight; //value defined in CSV -  Check UpdateSoundSettings function
+		tempThreat = tempThreat*tweakWeight; 
 		
 		l_tempthreat = tempThreat;
 		desiredThreatRating = ClampF( tempThreat * 100, 0.0, 100.0 ); 
@@ -542,9 +545,9 @@ import class CScriptSoundSystem extends CObject
 	}
 }
 
-// ------------------------------------
-// ---------- EXEC FUNCTIONS ----------
-// ------------------------------------
+
+
+
 
 exec function CollectSoundStates()
 {

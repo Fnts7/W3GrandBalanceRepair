@@ -1,9 +1,14 @@
-﻿class W3GuiAddSocketsInventoryComponent extends W3GuiPlayerInventoryComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3GuiAddSocketsInventoryComponent extends W3GuiPlayerInventoryComponent
 {
 	public var merchantInv : CInventoryComponent;
 	private var maxUpgradedItems : array<SItemUniqueId>;
 	
-	protected /* override */ function ShouldShowItem( item : SItemUniqueId ):bool
+	protected  function ShouldShowItem( item : SItemUniqueId ):bool
 	{
 		var itemTags    	 : array <name>;
 		var showItem 		 : bool;
@@ -22,7 +27,7 @@
 		return showItem;
 	}
 	
-	public /* override */ function SetInventoryFlashObjectForItem( item : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
+	public  function SetInventoryFlashObjectForItem( item : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
 	{
 		var invItem 	      : SInventoryItem;
 		var isEquipped        : bool;
@@ -32,7 +37,7 @@
 		
 		isEquipped = GetWitcherPlayer().IsItemEquipped(item);
 		
-		// #Y TEMP PRICE, TODO:
+		
 		invItem = _inv.GetItem( item );
 		flashObject.SetMemberFlashInt( "actionPrice", merchantInv.GetItemPriceAddSlot( invItem ) );
 		flashObject.SetMemberFlashBool( "isEquipped",  isEquipped);
@@ -40,7 +45,7 @@
 		
 		if ( maxUpgradedItems.Contains(item) )
 		{
-			flashObject.SetMemberFlashBool( "isReaded", true ); // grayout in grid
+			flashObject.SetMemberFlashBool( "isReaded", true ); 
 			flashObject.SetMemberFlashBool( "disableAction", true );
 		}
 		

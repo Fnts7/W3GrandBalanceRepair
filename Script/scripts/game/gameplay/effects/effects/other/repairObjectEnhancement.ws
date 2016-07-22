@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 abstract class W3RepairObjectEnhancement extends CBaseGameplayEffect
 {
@@ -17,7 +20,7 @@ abstract class W3RepairObjectEnhancement extends CBaseGameplayEffect
 	{
 		var hasRuneword5 : bool;
 		
-		//runeword making the buff last infinitely
+		
 		if(isOnPlayer)
 			hasRuneword5 = GetWitcherPlayer().HasRunewordActive('Runeword 5 _Stats');
 		else

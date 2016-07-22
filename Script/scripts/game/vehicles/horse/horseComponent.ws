@@ -1,4 +1,9 @@
-﻿statemachine import class W3HorseComponent extends CVehicleComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+statemachine import class W3HorseComponent extends CVehicleComponent
 {
 	import var riderSharedParams : CHorseRiderSharedParams;
 	
@@ -44,7 +49,7 @@
 	default isInCustomSpot = false;
 	default ignoreTestsCounter = 0;
 	default canTakeDamageFromFalling = true;
-	//default dismountType = DT_normal;
+	
 	default originalAttitudeGroup = 'None';
 	default autoState = 'Idle';
 	default controllable = true;
@@ -55,12 +60,12 @@
 	import final function IsDismounted() : bool;
 	import final function IsFullyMounted() : bool;
 	
-	//new game+
+	
 	private saved var firstSpawn : bool;
 		default firstSpawn = true;
 	
 	private var panicDamper : SpringDamper;
-	private saved var panicMult : float; // for quest custom stamina management
+	private saved var panicMult : float; 
 	default panicMult = 1.0;
 	
 	const var PANIC_RANGE : float; default PANIC_RANGE = 8.f;
@@ -121,7 +126,7 @@
 		
 		super.OnInit();
 		
-		// this handles scenarios when player (in actor.ws) tries to mount to vehicle which is not spawned yet
+		
 		if(thePlayer)
 			thePlayer.MountHorseIfNeeded();
 		
@@ -156,9 +161,9 @@
 		physMAC.RegisterEventListener( this );
 		
 		
-		// setup controller sliding
-		physMAC.SetSlidingLimits( 0.45f, 0.7f );// 0.4 - 0.8
-		physMAC.SetSlidingSpeed( 25.0f );//25.f
+		
+		physMAC.SetSlidingLimits( 0.45f, 0.7f );
+		physMAC.SetSlidingSpeed( 25.0f );
 		physMAC.SetSliding( true );
 		physMAC.EnableAdditionalVerticalSlidingIteration( true );
 		
@@ -177,7 +182,7 @@
 			}		
 		}
 		
-		//on first player horse spawn in new game+ we need to reset appearance
+		
 		if(IsPlayerHorse() && firstSpawn && FactsQuerySum("NewGamePlus") > 0)
 		{
 			horseNPC.SetAppearance('player_horse');
@@ -191,9 +196,9 @@
 		Mount( thePlayer, VMT_MountIfPossible, EVS_driver_slot );
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// MOUNTING AND DISMOUNTING ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	event OnMountStarted( entity : CEntity, vehicleSlot : EVehicleSlot )
 	{
@@ -202,7 +207,7 @@
 		horseActor = ((CActor)GetEntity());
 		lastRider = (CActor)entity;
 		
-		//disable mount interaction
+		
 		GetHorseMount().SetEnabled( false );
 		
 		if( entity == thePlayer )
@@ -233,7 +238,7 @@
 		if( this.IsTamed() )
 		{
 			originalAttitudeGroup = horseActor.GetBaseAttitudeGroup();
-			// horse must have same attitude group as rider in order to attack same guys as rider
+			
 			horseActor.SetBaseAttitudeGroup( riderActor.GetBaseAttitudeGroup() );
 		}
 		
@@ -255,13 +260,8 @@
 	
 	event OnDismountStarted( entity : CEntity )
 	{
-		// DESIGN: horse shouldn't change his attitude to orginal one.
-		/*
-		if ( this.IsTamed() )
-		{
-			// horse must go back to its previous attitude group in order to not be considered as an enemy
-			((CActor)GetEntity()).SetBaseAttitudeGroup( originalAttitudeGroup );
-		}*/
+		
+		
 
 		if ( entity == thePlayer && userCombatManager )
 			userCombatManager.OnDismountStarted();
@@ -288,7 +288,7 @@
 		riderActor	= (CActor)entity;
 		horseActor 	= ((CActor)GetEntity());
 		
-		//enable mount interaction
+		
 		GetHorseMount().SetEnabled( isMountableByPlayer );
 		
 		if( riderActor == thePlayer )
@@ -325,9 +325,9 @@
 		}
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// COLLISIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	private var frontHit : bool;
 	private var backHit	: bool;
@@ -384,7 +384,7 @@
 		
 		UpdateCollision();
 		
-		//invalidate data
+		
 		frontHit = false;
 		backHit = false;
 		
@@ -421,35 +421,23 @@
 			return;
 		}
 		
-		// Get collisions with other characters
+		
 		collisionNum = mac.GetCollisionCharacterDataCount();
 		for( i = 0; i < collisionNum; i += 1 )
 		{
 			collisionData	= mac.GetCollisionCharacterData( i );
 			npc	= ( CNewNPC ) collisionData.entity;
-			if( npc ) // should be true
+			if( npc ) 
 			{
 				MakeNPCCollide( npc );
-				/*
-				//collision with rider
-				if(npc.IsUsingHorse())
-				{
-					collidedWithRider = true;
-				}
-				else
-				{
-					horseComp = npc.GetHorseComponent();
-					if(horseComp.user)
-						collidedWithRider = true;
-				}
-				*/
+				
 			}
 		}
 	}
 	
 	private function MakeNPCCollide( npc : CNewNPC )
 	{
-		npc.SignalGameplayEvent( 'AI_GetOutOfTheWay' ); // break the job if we can
+		npc.SignalGameplayEvent( 'AI_GetOutOfTheWay' ); 
 		
 		if ( lastRider == thePlayer )
 		{
@@ -508,13 +496,13 @@
 		
 		staticPanic = RoundF(panicDamper.UpdateAndGet(dt, staticPanic));
 		
-		// Apply panic to horse
-		//horseActor.SetStaticPanic( staticPanic );
+		
+		
 		
 		if((panicVibrate || GetPanicPercent() >= 0.9) && thePlayer.GetUsedHorseComponent() == this)
 		{
 			panicVibrate = true;
-			theGame.VibrateControllerHard();	//horse panic
+			theGame.VibrateControllerHard();	
 		}
 		
 		if((panicVibrate && GetPanicPercent() < 0.9) || thePlayer.GetUsedHorseComponent() != this)
@@ -538,7 +526,7 @@
 		{
 			staticPanic = 0;
 			panicDamper.Init(staticPanic,staticPanic);
-			//horseActor.ResetStaticPanic();
+			
 		}
 	}
 	
@@ -574,9 +562,9 @@
 	event OnFrontPredictionCollision( pos : Vector, normal : Vector, disp : Vector, penetration : Float, actorHeight : Float, diffZ : Float, fromVirtualController : bool ) {}
 	event OnBackPredictionCollision( pos : Vector, normal : Vector, disp : Vector, penetration : Float, actorHeight : Float, diffZ : Float, fromVirtualController : bool ) {}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// COLLISIONS - CHARGE /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	event OnCharacterCollision( entity : CEntity )
 	{	
@@ -607,15 +595,15 @@
 		if( !attacker )
 			attacker = (CActor)GetEntity();
 		
-		if( IsRequiredAttitudeBetween( attacker, collidedActor, true ) ) // is enemy?
+		if( IsRequiredAttitudeBetween( attacker, collidedActor, true ) ) 
 		{
-			if( collidedActor.IsUsingHorse() || ((CNewNPC)collidedActor).IsHorse() ) // is not horse/rider?
+			if( collidedActor.IsUsingHorse() || ((CNewNPC)collidedActor).IsHorse() ) 
 			{
 				return;
 			}
 			else
 			{
-				if( InternalGetSpeed() >= 3.0 ) // is in trot or higher?
+				if( InternalGetSpeed() >= 3.0 ) 
 				{
 					DealDamageToCollidedActor( attacker, collidedActor, sideCollision );
 				}
@@ -694,9 +682,9 @@
 		return true;
 	}
 	 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS FOR HORSE STATES //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	final function InternalSetRotation( value : float ) 		{ SetVariable( 'rotation', value ); }
 	final function InternalGetRotation() : float 				{ return GetVariable('rotation'); }
@@ -709,7 +697,7 @@
 		((CActor)GetEntity()).GetMovingAgentComponent().SetGameplayRelativeMoveSpeed( value ); 
 		SetVariable('speed', value);
 	}
-	final function InternalGetSpeed() : float 					{ return ((CActor)GetEntity()).GetMovingAgentComponent().GetRelativeMoveSpeed(); } // [0,4]
+	final function InternalGetSpeed() : float 					{ return ((CActor)GetEntity()).GetMovingAgentComponent().GetRelativeMoveSpeed(); } 
 	
 	final function InternalSetSpeedMultiplier( value : float ) 	{ SetVariable( 'horseSpeedMult', value ); }
 	
@@ -753,9 +741,9 @@
 	{
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// PUBLIC FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 	
 	public function SetManualControl( val : bool ) { manualControl = val; }
 	public function GetManualControl() : bool { return manualControl; }
@@ -833,19 +821,19 @@
 	{
 	}
 
-	// Call this function to instantly tame the horse
+	
 	function Tame( owner : CActor, tame : bool )
 	{
 		var horseActor 	: CActor;
 		horseActor  	= ((CActor)GetEntity());
-		// Tame
+		
 		if ( tame && IsTamed() == false )
 		{
 			horseActor.SetBaseAttitudeGroup( owner.GetBaseAttitudeGroup() );
 			horseActor.ResetAttitude( owner );
 		}
 		
-		// UnTame
+		
 		if ( tame == false && IsTamed() )
 		{
 			horseActor.SetBaseAttitudeGroup( 'animals_peacefull' );
@@ -915,14 +903,11 @@
 		horseActor.SetIsInAir( false );
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// EVENTS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	/*event OnRiderAttitudeChange()
-	{
-		
-	}*/
+	
+	
+	
+	
 	
 	event OnIgniHit( sign : W3IgniProjectile )
 	{
@@ -1027,18 +1012,7 @@
 		return false;
 	}
 	
-	/*public function UpdateHorseAction()
-	{
-		if ( isInHorseAction )
-		{
-			userCombatManager.OnHorseActionStart();
-		{
-		else
-		{
-			userCombatManager.OnHorseActionStop();
-		}
-		
-	}*/
+	
 	
 	public function IsInHorseAction() : bool
 	{

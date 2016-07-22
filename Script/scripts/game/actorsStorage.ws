@@ -1,35 +1,19 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Exports for the actors storage
-/** Copyright © 2009
-/***********************************************************************/
 
-/////////////////////////////////////////////
-// Actors Storage functions
-/////////////////////////////////////////////
 
-/*enum EScriptQueryFlags
-{
-	FLAG_ExcludePlayer		= FLAG( 0 ),
-	FLAG_OnlyActors			= FLAG( 1 ),
-	FLAG_OnlyAliveActors	= FLAG( 2 ),
-	FLAG_WindEmitters		= FLAG( 3 ),
-	FLAG_Vehicles			= FLAG( 4 ),
-	FLAG_ExcludeTarget		= FLAG( 5 ),
-	FLAG_Attitude_Neutral	= FLAG( 6 ),		towards actor specfied as 'target' param
-	FLAG_Attitude_Friendly	= FLAG( 7 ),		towards actor specfied as 'target' param
-	FLAG_Attitude_Hostile	= FLAG( 8 ),		towards actor specfied as 'target' param
-	FLAG_ZDiff_3			= FLAG( 9 ),
-	FLAG_ZDiff_5			= FLAG( 10 ),
-	FLAG_ZDiff_Range		= FLAG( 11 ),
-	FLAG_PathLibTest		= FLAG( 12 ),
-	FLAG_NotVehicles		= FLAG( 13 ),
-	FLAG_TestLineOfSight	= FLAG( 14 ),		broken: with 5 enemies with clear line of sight it finds 0
-	
-};*/
 
-//Checks if attitude between two entities is the one given by flags
+
+
+
+
+
+
+
+
 function IsRequiredAttitudeBetween(one, two : CEntity, hostile : bool, optional neutral : bool, optional friendly : bool) : bool
 {
 	var att : EAIAttitude;
@@ -38,7 +22,7 @@ function IsRequiredAttitudeBetween(one, two : CEntity, hostile : bool, optional 
 	return (att == AIA_Hostile && hostile) || (att == AIA_Neutral && neutral) || (att == AIA_Friendly && friendly);
 }
 
-//gets attitude between two entities
+
 function GetAttitudeBetween(one, two : CEntity) : EAIAttitude
 {
 	var act1, act2 : CActor;
@@ -59,7 +43,7 @@ function GetAttitudeBetween(one, two : CEntity) : EAIAttitude
 		}
 	}
 	
-	//some error
+	
 	return AIA_Neutral;
 }
 
@@ -70,7 +54,7 @@ function GetActorsInRange(center : CNode, range : float, optional maxResults : i
 	var entities : array<CGameplayEntity>;
 	var act : CActor;
 
-	// handle the optionality
+	
 	if ( maxResults == 0 )
 	{
 		maxResults = 1000000;
@@ -102,27 +86,27 @@ function GetNonFriendlyGameplayEntitiesInRange(center : CNode, range : float, at
 	return ents;
 }
 
-// This method finds entities inside BOX with radius equal to range - if you REALLY need to find entities inside sphere (ball) - use the method below
+
 import function FindGameplayEntitiesInRange(out			entities  		: array< CGameplayEntity >,
 														center    		: CNode,
 														range     		: float,
 														maxResults		: int,
-											optional	tag       		: name, /*=''*/
-											optional	queryFlags		: int, /*=0*/ // please combine EScriptQueryFlags
-											optional	target			: CGameplayEntity, /*=NULL*/ // please combine EScriptQueryFlags
-											optional	className		: name /*=''*/
+											optional	tag       		: name, 
+											optional	queryFlags		: int,  
+											optional	target			: CGameplayEntity,  
+											optional	className		: name 
 											);
 
-// If you don't need exact sphere (ball) use "general" (InRange) method (cause it's faster)
-//ACHTUNG!!! entities is NOT cleared on function call!!!!!!!
+
+
 import function FindGameplayEntitiesInSphere(	out				entities  		: array< CGameplayEntity >,
 																point    		: Vector,
 																range     		: float,
 																maxResults		: int,
-													optional	tag       		: name, /*=''*/
-													optional	queryFlags		: int, /*=0*/ // please combine EScriptQueryFlags
-													optional	target			: CGameplayEntity,  /*=NULL*/ // please combine EScriptQueryFlags
-													optional	className		: name /*=''*/
+													optional	tag       		: name, 
+													optional	queryFlags		: int,  
+													optional	target			: CGameplayEntity,   
+													optional	className		: name 
 												);
 
 import function FindGameplayEntitiesInCylinder(	out				entities  		: array< CGameplayEntity >,
@@ -130,10 +114,10 @@ import function FindGameplayEntitiesInCylinder(	out				entities  		: array< CGam
 																range     		: float,
 																height     		: float,
 																maxResults		: int,
-													optional	tag       		: name, /*=''*/
-													optional	queryFlags		: int, /*=0*/ // please combine EScriptQueryFlags
-													optional	target			: CGameplayEntity,  /*=NULL*/ // please combine EScriptQueryFlags
-													optional	className		: name /*=''*/
+													optional	tag       		: name, 
+													optional	queryFlags		: int,  
+													optional	target			: CGameplayEntity,   
+													optional	className		: name 
 												);
 
 
@@ -143,32 +127,32 @@ import function FindGameplayEntitiesInCone(	out					entities  		: array< CGamepl
 																coneAngle		: float,
 																range     		: float,
 																maxResults		: int,
-													optional	tag       		: name, /*=''*/
-													optional	queryFlags		: int, /*=0*/ // please combine EScriptQueryFlags
-													optional	target			: CGameplayEntity,  /*=NULL*/ // please combine EScriptQueryFlags
-													optional	className		: name /*=''*/
+													optional	tag       		: name, 
+													optional	queryFlags		: int,  
+													optional	target			: CGameplayEntity,   
+													optional	className		: name 
 												);
 												
 import function FindGameplayEntitiesInBox(	out					entities  		: array< CGameplayEntity >,
 																point    		: Vector,																
-																boxLS  			: Box, // box defined in local space (in respect to 'point' position)
+																boxLS  			: Box, 
 																maxResults		: int,
-													optional	tag       		: name, /*=''*/
-													optional	queryFlags		: int, /*=0*/ // please combine EScriptQueryFlags
-													optional	target			: CGameplayEntity,  /*=NULL*/ // please combine EScriptQueryFlags
-													optional	className		: name /*=''*/
+													optional	tag       		: name, 
+													optional	queryFlags		: int,  
+													optional	target			: CGameplayEntity,   
+													optional	className		: name 
 												);
-// Find nerby entities (slower version, allowing to pass the point instead of CNode)
+
 import function FindGameplayEntitiesCloseToPoint(	out			entities  		: array< CGameplayEntity >,
 																point    		: Vector,
 																range     		: float,
 																maxResults		: int,
-													optional	tag       		: name, /*=''*/
-													optional	queryFlags		: int, /*=0*/ // please combine EScriptQueryFlags
-													optional	target			: CGameplayEntity, /*=NULL*/ // please combine EScriptQueryFlags
-													optional	className		: name /*=''*/
+													optional	tag       		: name, 
+													optional	queryFlags		: int,  
+													optional	target			: CGameplayEntity,  
+													optional	className		: name 
 												);
-// This method finds entities which intersects line (start-end) of specified radius
+
 import function FindActorsAtLine(			startPos    			: Vector,
 											endPos    				: Vector,
 											radius     				: float,

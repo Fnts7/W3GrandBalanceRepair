@@ -1,4 +1,9 @@
-﻿class W3AnimationInteractionEntity extends CR4MapPinEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3AnimationInteractionEntity extends CR4MapPinEntity
 {
 	editable var animationForAllInteractions 	: bool;							default animationForAllInteractions = true;
 	editable var interactionName				: string;						default interactionName = "Examine";
@@ -7,7 +12,7 @@
 	editable var slotAnimName 					: name;							default slotAnimName = '';
 	editable var interactionAnimTime			: float;						default interactionAnimTime	= 4.0f;
 	
-	//private for now
+	
 	editable var desiredPlayerToEntityDistance	: float;						default desiredPlayerToEntityDistance = -1;
 	editable var matchPlayerHeadingWithHeadingOfTheEntity	: bool;				default matchPlayerHeadingWithHeadingOfTheEntity = true;
 	
@@ -18,7 +23,7 @@
 	
 	protected var isPlayingInteractionAnim : bool; default isPlayingInteractionAnim = false;
 	
-	//hints
+	
 	hint interactionAnim = "Name of the animation played on interaction.";
 	hint interactionAnimTime = "Duration of the animation played on interaction.";
 	hint animationForAllInteractions = "Should the animation be played only for interaction with Examine action assigned.";
@@ -44,7 +49,7 @@
 		}
 	}
 	
-	//this function should ba latent. In order to do it we need to create state in this class and call this function from entry function
+	
 	function PlayInteractionAnimation()
 	{
 		if ( interactionAnim == PEA_SlotAnimation && !IsNameValid(slotAnimName) )
@@ -136,10 +141,10 @@
 		objectAttached = false;
 	}
 	
-	//-------------------------------------------------------
-	// Events
 	
-	// this will be called when player stops playing anim. If animation ends or he gets HIT etc.
+	
+	
+	
 	event OnPlayerActionEnd()
 	{
 		isPlayingInteractionAnim = false;
@@ -167,8 +172,8 @@
 		}
 	}
 	
-	//-------------------------------------------------------
-	// Timers
+	
+	
 	
 	timer function TimerDeactivateAnimation( td : float , id : int)
 	{

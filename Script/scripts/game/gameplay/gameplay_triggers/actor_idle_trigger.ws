@@ -1,13 +1,15 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class W3ActorIdleTrigger extends CEntity
 {
-	protected var affectedActor : CActor;			//FIXME URGENT - overriden if more than 1 actor enters area - is it by design? There's no comment on that
+	protected var affectedActor : CActor;			
 	editable var affectedEntityTag : name;
 	
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )

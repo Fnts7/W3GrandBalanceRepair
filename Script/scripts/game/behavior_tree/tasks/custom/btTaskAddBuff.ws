@@ -1,40 +1,45 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskAddBuff
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Add buffs to the NPC
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 01-September-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskAddBuffs extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	public  var onDeactivate	: bool;
 	public 	var buffs			: array<EEffectType>;
 	public 	var duration		: float;
 	public  var customValue		: SAbilityAttributeValue;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		if( onDeactivate ) return BTNS_Active;
 		AddBuffs();
 		return BTNS_Active;
 	}	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function OnDeactivate()
 	{
 		if( !onDeactivate ) return;
 		AddBuffs();
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function AddBuffs()
 	{
 		var i			: int;
@@ -46,7 +51,7 @@ class BTTaskAddBuffs extends IBehTreeTask
 		for( i = 0; i < buffs.Size(); i += 1 )
 		{
 			l_params.effectType = buffs[i];
-			//l_params.creator 	= l_actor;
+			
 			
 			if( buffs[i] == EET_VitalityDrain )
 			{
@@ -70,14 +75,14 @@ class BTTaskAddBuffs extends IBehTreeTask
 }
 
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskAddBuffsDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskAddBuffs';
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	private editable var onDeactivate	: bool;
 	private editable var buffs			: array<EEffectType>;
 	private editable var duration		: float;

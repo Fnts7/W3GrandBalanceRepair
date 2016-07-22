@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Exports for CR4KinectSpeechRecognizerListenerScriptProxy
-/** Copyright © 2014
-/***********************************************************************/
+
+
+
 
 import class CR4KinectSpeechRecognizerListenerScriptProxy extends CObject
 {
@@ -23,12 +25,12 @@ import class CR4KinectSpeechRecognizerListenerScriptProxy extends CObject
 	
 	private function OnAudioProblem( audioProblem: int ) : void
 	{
-		//0 - NoSignal,
-		//1 - TooFast,
-		//2 - TooLoud,
-		//3 - TooNoisy,
-		//4 - TooQuiet,
-		//5 - TooSlow
+		
+		
+		
+		
+		
+		
 		
 		LogChannel( 'Kinect', "Audio problem: " + audioProblem );
 	}
@@ -45,51 +47,51 @@ import class CR4KinectSpeechRecognizerListenerScriptProxy extends CObject
 			}
 		}
 	        
-		//recognizedCommand
-		//0 - TopLevel,		//! quick save, quick load
-		//1 - Magic,		//! select sign
-		//2 - Inventory,	//! use item/potion form inventory
-		//3 - Menu			//! open map/inventory/etc...
+		
+		
+		
+		
+		
 						      
-        //confidenceScore - from 0.0 to 1.0
+        
         
 		LogChannel( 'Kinect', "Recognized command: " + recognizedCommand );
 		LogChannel( 'Kinect', "Recognized command confidence: " + confidenceScore );
 				
-		//semanticNames - semanticValues		
-		//
-		// (typos are on purpose for phonetic recognization reasons)
-		//for use "cast_type" :
-		//  "cast_type" - "ard"
-		//  "cast_type" - "igni"
-		//  "cast_type" - "quen"
-		//  "cast_type" - "yren"
-		//  "cast_type" - "axi"
-		//		
-		//for give me "type" "slot"
-		//       "slot" - "1"
-		//       "slot" - "2"
-		//       "slot" - "3"
-		//       "slot" - "4"
-		//       "type" - "potion"
-		//       "type" - "item"
-		//
-		//for open "manu"
-		//       "menu" - "map"
-		//       "menu" - "journal"
-		//       "menu" - "inventory"
-		//       "menu" - "character"
-		//       "menu" - "preparation"
-        //       "menu" - "alchemy"
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+        
 		if( confidenceScore > 0.6 )
 		{
 			switch ( recognizedCommand )
 			{
-				//top level commands
+				
 				case 0:
 					break;
 
-				//signs 
+				
 				case 1:
 					if ( semanticValues[0] == "aard" ) GetWitcherPlayer().SetEquippedSign(SignStringToEnum( 'Aard' ));
 			   else if ( semanticValues[0] == "axii" ) GetWitcherPlayer().SetEquippedSign(SignStringToEnum( 'Axii' ));
@@ -98,11 +100,11 @@ import class CR4KinectSpeechRecognizerListenerScriptProxy extends CObject
 			   else if ( semanticValues[0] == "yrden" ) GetWitcherPlayer().SetEquippedSign(SignStringToEnum( 'Yrden' ));
 					break;
 		   
-				//inventory
+				
 				case 2:
 					break;
 					
-				//menus
+				
 				case 3:
 					if ( semanticValues[0] == "map" ) GetWitcherPlayer().GetInputHandler().PushMapScreen();
 			   else if ( semanticValues[0] == "quests" ) GetWitcherPlayer().GetInputHandler().PushJournalScreen();
@@ -130,10 +132,10 @@ import class CR4KinectSpeechRecognizerListenerScriptProxy extends CObject
 		var result : bool;
 		result = false;
 
-		//we can place as many Kinect blockers as needed here	
+		
 		if ( theGame.GetGuiManager().IsModalPopupShown() )
 		{
-			//if we have any popup messages that require a control input
+			
 			result = true;
 		}
 		

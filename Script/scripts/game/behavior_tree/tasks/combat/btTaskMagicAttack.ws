@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CD Projekt RED
-/** Author : Patryk Fiutowski, Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 abstract class CBTTaskCollisionAttack extends CBTTaskAttack
 {
@@ -68,8 +70,8 @@ abstract class CBTTaskMagicAttack extends CBTTaskCollisionAttack
 					theGame.GetEntitiesByTag( fxDummyEntityTag, fxDummyEntity );
 					if ( fxDummyEntity.Size() > 0 )
 					{
-						//AK: fx can be played only between 2 entities anyway, tag is custom set,
-						//it's on implementation side to ensure that tag is unique and returns one result.
+						
+						
 						actor.PlayEffect( effectName, fxDummyEntity[0] );
 						fxDummyEntity[0].PlayEffect( dummyEntityEffectName );
 					}
@@ -107,7 +109,7 @@ struct SFxOnAnimEvent
 	editable var animEvent : name;
 }
 
-// magic melee attack
+
 class CBTTaskMagicMeleeAttack extends CBTTaskMagicAttack
 {
 	public var resourceName 			: name;
@@ -174,8 +176,8 @@ class CBTTaskMagicMeleeAttack extends CBTTaskMagicAttack
 	function SpawnEffect( attackData : CPreAttackEventData ) : bool
 	{
 		var effectName 	: name;
-		//var pos			: Vector;
-		//var rot			: EulerAngles;
+		
+		
 		
 		switch ( attackData.swingType )
 		{
@@ -232,9 +234,9 @@ class CBTTaskMagicMeleeAttack extends CBTTaskMagicAttack
 				GetEffectPositionAndRotation(pos, rot);
 				foundPos = true;
 			}
-			// spawn entity and play effect on it;
+			
 			entity = theGame.CreateEntity( effectEntityTemplate, pos, rot );
-			//entity.CreateAttachment(GetCombatTarget());
+			
 			if ( entity )
 			{
 				entity.PlayEffect(effectName);
@@ -313,8 +315,8 @@ class CBTTaskMagicMeleeAttack extends CBTTaskMagicAttack
 			GetEffectPositionAndRotation(pos, rot);
 			foundPos = true;
 		}
-		//pos.Z -= 0.7;
-		// spawn entity and play effect on it;
+		
+		
 		l_entity = theGame.CreateEntity( effectEntityTemplate, pos, rot );
 		
 		res = super.OnAnimEvent(animEventName,animEventType, animInfo);
@@ -380,7 +382,7 @@ class CBTTaskMagicRangeAttackDef extends CBTTaskMagicAttackDef
 	default instanceClass = 'CBTTaskMagicRangeAttack';
 }
 
-// magic fx attack
+
 class CBTTaskMagicFXAttack extends CBTTaskMagicAttack
 {
 	public var resourceName : name;
@@ -442,9 +444,9 @@ class CBTTaskMagicFXAttack extends CBTTaskMagicAttack
 		if( effectName )
 		{
 			GetEffectPositionAndRotation(pos, rot);
-			// spawn entity and play effect on it;
+			
 			entity = theGame.CreateEntity( effectEntityTemplate, pos, rot );
-			//entity.CreateAttachment(GetCombatTarget());
+			
 			if ( entity )
 			{
 				entity.PlayEffect(effectName);

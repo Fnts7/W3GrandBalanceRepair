@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Example gameplay device
-/** Copyright © 2012 CD projekt RED
-/***********************************************************************/
+
+
+
 
 statemachine class W3Bridge extends W3DestroyableTerrain
 {
@@ -56,9 +58,9 @@ statemachine class W3Bridge extends W3DestroyableTerrain
 		
 		rot = super.GetWorldRotation();
 		
-		rot.Yaw=0;//SinF(entryTime)*0.01f; //obrot
+		rot.Yaw=0;
 		
-		rot.Pitch=SinF(entryTime*2); // poziom
+		rot.Pitch=SinF(entryTime*2); 
 		
 		pos = super.GetWorldPosition();
 		
@@ -142,7 +144,7 @@ state OnIdle in W3Bridge
 		entryTime+=time;
 		if(entryTime>10)
 		{
-			//parent.PushState('OnPreDestroy');
+			
 		}
 		
 	}

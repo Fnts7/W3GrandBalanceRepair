@@ -1,38 +1,33 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - quest journal
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CDProjektRed
-/** Author : Ryan Pergent
-/** 		 Bartosz Bigaj
-/***********************************************************************/
-/*
-enum EJournalTabTypes
-{
-	EJTT_Quest,
-	EJTT_MonsterHunting,
-	EJTT_TreasureHunting
-}*/
 
-class CR4QuestListMenu extends CR4Menu // #B obsoletete
+
+
+
+
+class CR4QuestListMenu extends CR4Menu 
 {	
-	//>--------------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------------
+	
+	
+	
 	private const var KEY_QUEST_LIST			:string; 		default KEY_QUEST_LIST 		= "journal.quest.list";
 	private const var REWARDS_SIZE				:int; 			default REWARDS_SIZE 		= 4;
-	//private const var KEY_MENU_PC_MODE			:string; 		default KEY_MENU_PC_MODE	= "MenuPCMode";
+	
 	
 	private var m_journalManager		: CWitcherJournalManager;	
 	private var m_flashValueStorage 	: CScriptedFlashValueStorage;
 	var allQuests						: array<CJournalBase>;
 	var _currentQuestID					: int;
-	//var tabIdentifier					: EJournalTabTypes;
-	//default tabIdentifier				= EJTT_Quest;
 	
 	
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
-	event /*flash*/ OnConfigUI()
+	
+	
+	
+	
+	event  OnConfigUI()
 	{	
 		m_flashValueStorage = GetMenuFlashValueStorage();
 		
@@ -41,32 +36,32 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 				
 		m_flashValueStorage.SetFlashString( KEY_QUEST_LIST+"name", GetLocStringByKeyExt("panel_journal_tabname_quest"),-1 );		
 		m_flashValueStorage.SetFlashString( "journal.objectives.list.name", GetLocStringByKeyExt("panel_journal_quest_goals"),-1 );		
-		//m_flashValueStorage.SetFlashInt( "journal.tab.selected", tabIdentifier,-1 );		
+		
 				
 		PopulateData();
 		UpdateRewards();
 	}
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
+	
+	
 	event OnCloseMenu()
 	{
 		CloseMenu();
 	}
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
+	
+	
 	event OnQuestRead( _QuestID : int )
 	{
 		m_journalManager.SetEntryUnread( allQuests[_QuestID], false );
 	}
 	
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
+	
+	
 	event OnActivateQuest( _QuestID : int )
 	{
 		m_journalManager.SetTrackedQuest( allQuests[ _QuestID ] );
 	}		
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
+	
+	
 	event OnQuestSelected( _QuestID : int )
 	{
 		LogChannel('JournalQuest',"_QuestID "+_QuestID);
@@ -75,45 +70,28 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 		_currentQuestID = _QuestID;
 		UpdateRewards();
 	}
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------	
+	
+	
 	event OnJournalTabSelected( ID : int )
 	{
 		LogChannel('JournalQuest',"OnJournalTabSelected "+ID);
-		/*if( ID != tabIdentifier )
-		{
-			switch(ID)
-			{
-				case EJTT_Quest :
-					CloseMenu();
-					theGame.RequestMenu( 'QuestListMenu' );
-					break;			
-				case EJTT_MonsterHunting :
-					CloseMenu();
-					theGame.RequestMenu( 'MonsterHuntingMenu' );
-					break;		
-				case EJTT_TreasureHunting :
-					CloseMenu();
-					theGame.RequestMenu( 'TreasureHuntingMenu' );
-					break;
-			}
-		}*/
+		
 	}	
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------	
+	
+	
 	event OnObjectiveSelected( ID : int )
 	{
 		LogChannel('JournalQuest',"OnObjectiveSelected "+ID);
 	}	
 
-	event /*flash*/ OnUpdateTooltipCompareData( item : SItemUniqueId, compareItemType : int, tooltipName : string )
+	event  OnUpdateTooltipCompareData( item : SItemUniqueId, compareItemType : int, tooltipName : string )
 	{
 		var itemName : string;
 		var compareItem : SItemUniqueId;
 		var tooltipInv : CInventoryComponent;
 		
 		itemName = GetWitcherPlayer().GetInventory().GetItemName(item);
-		if( tooltipName == "" ) // #B a little haxy
+		if( tooltipName == "" ) 
 		{
 			tooltipName= "tooltip";
 		}
@@ -121,8 +99,8 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 		
 		UpdateTooltipCompareData(item,compareItem,tooltipInv,tooltipName);
 	}	
-	//>--------------------------------------------------------------------------------
-	//---------------------------------------------------------------------------------
+	
+	
 	private function PopulateData()
 	{
 		var l_questsFlashArray				: CScriptedFlashArray;
@@ -146,7 +124,7 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 			
 			l_questTitle 			= GetLocStringById( l_quest.GetTitleStringId()  );			
 			l_questIsTracked 		= ( m_journalManager.GetTrackedQuest().guid == l_quest.guid );
-			l_questIsStory			= (l_quest.GetType() == 0);	// means story
+			l_questIsStory			= (l_quest.GetType() == 0);	
 			l_questIsNew			= m_journalManager.IsEntryUnread( l_quest );
 			
 			l_questArea				= " ";
@@ -155,8 +133,8 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 			l_questsDataFlashObject = m_flashValueStorage.CreateTempFlashObject();
 			
 			l_questsDataFlashObject.SetMemberFlashInt(  "id", i );
-			//l_questsDataFlashObject.SetMemberFlashString(  "dropdownLabel", l_questArea);
-			l_questsDataFlashObject.SetMemberFlashString(  "category", l_questArea ); // #B change everywhere
+			
+			l_questsDataFlashObject.SetMemberFlashString(  "category", l_questArea ); 
 			l_questsDataFlashObject.SetMemberFlashString(  "label", l_questTitle );
 			l_questsDataFlashObject.SetMemberFlashBool( "isStory", l_questIsStory );					
 			l_questsDataFlashObject.SetMemberFlashBool( "isNew", l_questIsNew );
@@ -173,7 +151,7 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 	function UpdateObjectives( questID : int )
 	{	
 		var l_objectivesTotal				: int;
-		//var l_questObjectives 				: array< CJournalQuestObjective >;
+		
 		var l_objective						: CJournalQuestObjective;
 		var questEntry 						: CJournalQuest;
 		var l_questObjectivesFlashArray		: CScriptedFlashArray;
@@ -186,7 +164,7 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 		var locID							: int;
 		
 		l_questObjectivesFlashArray = m_flashValueStorage.CreateTempFlashArray();
-		//l_questObjectives.Clear();
+		
 		questEntry = (CJournalQuest)allQuests[questID];
 		
 		for( i = 0; i < questEntry.GetNumChildren(); i += 1 )
@@ -223,43 +201,7 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 	
 	function UpdateRewards()
 	{
-		/*var l_flashObject			: CScriptedFlashObject;
-		var l_flashArray			: CScriptedFlashArray;
-		var rewardItems				: array<SItemUniqueId>;
-		var item 					: SItemUniqueId;
-		var i 						: int;
-		var _inv					: CInventoryComponent;
 		
-		
-		l_flashArray = m_flashValueStorage.CreateTempFlashArray();
-		_inv = GetWitcherPlayer().GetInventory();
-				
-		for(i = EES_Quickslot2; i < EES_Quickslot5 + 1; i += 1 ) // @TODO BIDON - find an load rewards here
-		{
-			GetWitcherPlayer().GetItemEquippedOnSlot(i, item);
-			rewardItems.PushBack(item);
-		}
-		
-		for( i = 0; i < REWARDS_SIZE; i += 1 )
-		{
-			item = rewardItems[i];
-			l_flashObject = m_flashValueStorage.CreateTempFlashObject("red.game.witcher3.menus.common.ItemDataStub");
-			l_flashObject.SetMemberFlashInt( "id", ItemToFlashUInt(item) );
-			l_flashObject.SetMemberFlashInt( "quantity", _inv.GetItemQuantity( item ) );
-			l_flashObject.SetMemberFlashString( "iconPath",  _inv.GetItemIconPathByUniqueID(item) );
-			l_flashObject.SetMemberFlashInt( "gridPosition", i );
-			l_flashObject.SetMemberFlashInt( "gridSize", 1 );
-			l_flashObject.SetMemberFlashInt( "slotType", 1 );	
-			l_flashObject.SetMemberFlashBool( "isNew", false );
-			l_flashObject.SetMemberFlashBool( "needRepair", false );
-			l_flashObject.SetMemberFlashInt( "actionType", IAT_None );
-			l_flashObject.SetMemberFlashInt( "price", 0 ); 		
-			l_flashObject.SetMemberFlashString( "userData", "");//GetTooltipText(item) );
-			l_flashObject.SetMemberFlashString( "category", "" );
-			l_flashArray.PushBackFlashObject(l_flashObject);
-		}
-				
-		m_flashValueStorage.SetFlashArray( "journal.objectives.reward.items", l_flashArray );*/
 	}
 	
 	function UpdateTooltipCompareData( item : SItemUniqueId, compareItem : SItemUniqueId, tooltipInv : CInventoryComponent , tooltipName : string )
@@ -337,7 +279,7 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 		m_flashValueStorage.SetFlashString(tooltipName+".price", tooltipInv.GetItemPrice(item), -1 );
 
 		m_flashValueStorage.SetFlashString(tooltipName+".weight", GetWitcherPlayer().GetInventory().GetItemWeight( item ), -1  );
-		m_flashValueStorage.SetFlashString(tooltipName+".description", GetLocStringByKeyExt("panel_inventory_tooltip_description_selected"), -1 ); // #B equiped/selected
+		m_flashValueStorage.SetFlashString(tooltipName+".description", GetLocStringByKeyExt("panel_inventory_tooltip_description_selected"), -1 ); 
 		m_flashValueStorage.SetFlashBool(tooltipName+".display", true, -1 );
 		if( theGame.IsPadConnected() )
 		{
@@ -367,7 +309,7 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 				l_questArea = GetLocStringByKeyExt("panel_journal_filters_area_prolgue_village");
 				break;
 
-			// TODO
+			
 			case AN_Wyzima:
 				break;
 			case AN_Island_of_Myst:
@@ -424,7 +366,7 @@ class CR4QuestListMenu extends CR4Menu // #B obsoletete
 		
 		l_quest = (CJournalQuest ) allQuests[currentQuestID];
 		description = GetDescription( l_quest );
-		title = GetLocStringByKeyExt("panel_journal_quest_description");//GetLocStringById( l_quest.GetTitleStringId()  );		
+		title = GetLocStringByKeyExt("panel_journal_quest_description");
 		
 		m_flashValueStorage.SetFlashString("journal.quest.description.title",title,-1);
 		m_flashValueStorage.SetFlashString("journal.quest.description.text",description,-1);	

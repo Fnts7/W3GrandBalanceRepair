@@ -1,11 +1,13 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Layer for displaying system messages
-/***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Yaroslav Getsevich
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// WARNING: Don't change it!
+
+
+
+
 enum EUserMessageAction
 {
 	UMA_Ok,
@@ -89,7 +91,7 @@ class CR4MessagePopup extends CR4PopupBase
 	private var m_fxPrepareMessageShow : CScriptedFlashFunction;
 	private var m_fxDisplayProgressBar : CScriptedFlashFunction;	
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var initDataObject : W3MessagePopupData;
 		
@@ -122,7 +124,7 @@ class CR4MessagePopup extends CR4PopupBase
 		theGame.ForceUIAnalog(true);
 	}
 	
-	event /* C++ */ OnClosingPopup()
+	event  OnClosingPopup()
 	{
 		super.OnClosingPopup();
 		theInput.RestoreContext( 'EMPTY_CONTEXT', true );
@@ -130,12 +132,12 @@ class CR4MessagePopup extends CR4PopupBase
 		m_guiManager.ForceHideMouseCursor(false);
 	}
 	
-	event /*flash*/ OnAllMessagesShown()
+	event  OnAllMessagesShown()
 	{
 		ClosePopup();
 	}
 	
-	event /*flash*/ OnUserAction(messageId:int, actionId : int)
+	event  OnUserAction(messageId:int, actionId : int)
 	{
 		theGame.GetGuiManager().UserDialogCallback(messageId, actionId);
 	}
@@ -264,11 +266,11 @@ class CR4MessagePopup extends CR4PopupBase
 	{
 		ProcessAndEraseMessage( messageId );
 		
-		// try hide current
+		
 		m_fxHideMessage.InvokeSelfOneArg( FlashArgInt(messageId) );
 	}
 	
-	event /*flash*/ OnMessageHidden( messageId : int ):void
+	event  OnMessageHidden( messageId : int ):void
 	{
 		ProcessAndEraseMessage( messageId );
 		
@@ -287,7 +289,7 @@ class CR4MessagePopup extends CR4PopupBase
 		var i, size : int;
 		var curMessage : W3MessagePopupData;
 		
-		// remove from queue
+		
 		size = m_messagesQueue.Size();
 		for ( i = 0; i < size; i += 1)
 		{
@@ -300,7 +302,7 @@ class CR4MessagePopup extends CR4PopupBase
 		}
 	}
 	
-	// progressValue = [0..100]; -1 to hide
+	
 	public function DisplayProgressBar(progressValue:float, progressType : EUserMessageProgressType):void
 	{
 		var refreshRate:float;
@@ -312,7 +314,7 @@ class CR4MessagePopup extends CR4PopupBase
 		{
 		case UMPT_Content:
 			refreshRate = 2000;
-			displayString = "_SHOW_PERC_"; // Super secret key matches in as
+			displayString = "_SHOW_PERC_"; 
 			break;
 		case UMPT_GraphicsRefresh:
 			refreshRate = 200;
@@ -322,13 +324,13 @@ class CR4MessagePopup extends CR4PopupBase
 			break;
 		}
 		
-		//if (refreshRate != -1)
-		//{
+		
+		
 			m_fxDisplayProgressBar.InvokeSelfThreeArgs( FlashArgNumber(progressValue), FlashArgNumber(refreshRate), FlashArgString(displayString) );
-		//}
+		
 	}
 	
-	event /*flash*/ OnProgressUpdateRequested():void // Currently refreshes every 2 seconds
+	event  OnProgressUpdateRequested():void 
 	{
 		var progressValue : float;
 		var currentMessageData : W3MessagePopupData;

@@ -1,4 +1,9 @@
-﻿class CR4TestMenu extends CR4MenuBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4TestMenu extends CR4MenuBase
 {
 	private var entityTemplateIndex : int;			default entityTemplateIndex = 0;
 	private var appearanceIndex : int;				default appearanceIndex = 0;
@@ -9,7 +14,7 @@
 	
 	private var sunRotation : EulerAngles;
 
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		super.OnConfigUI();
 		theInput.StoreContext( 'EMPTY_CONTEXT' );
@@ -32,12 +37,12 @@
 		UpdateItems();
 	}
 
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		theInput.RestoreContext( 'EMPTY_CONTEXT', false );
 	}
 	
-	event /*flash*/ OnCameraUpdate( lookAtX : float, lookAtY : float, lookAtZ : float, cameraYaw : float, cameraPitch : float, cameraDistance : float )
+	event  OnCameraUpdate( lookAtX : float, lookAtY : float, lookAtZ : float, cameraYaw : float, cameraPitch : float, cameraDistance : float )
 	{
 		var lookAtPos : Vector;
 		var cameraRotation : EulerAngles;
@@ -56,14 +61,14 @@
 		theGame.GetGuiManager().SetupSceneCamera( lookAtPos, cameraRotation, cameraDistance, fov );
 	}
 	
-	event /*flash*/ OnSunUpdate( sunYaw : float, sunPitch : float )
+	event  OnSunUpdate( sunYaw : float, sunPitch : float )
 	{
 		sunRotation.Yaw = sunYaw;
 		sunRotation.Pitch = sunPitch;
 		UpdateEnvironmentAndSunRotation();
 	}
 
-	event /*flash*/ OnNextEntityTemplate()
+	event  OnNextEntityTemplate()
 	{
 		entityTemplateIndex += 1;
 		entityTemplateIndex = entityTemplateIndex % entityTemplates.Size();
@@ -77,7 +82,7 @@
 		
 	}
 
-	event /*flash*/ OnNextAppearance()
+	event  OnNextAppearance()
 	{
 		appearanceIndex += 1;
 		appearanceIndex = appearanceIndex % appearances.Size();
@@ -85,7 +90,7 @@
 		UpdateApperance();
 	}
 
-	event /*flash*/ OnNextEnvironmentDefinition()
+	event  OnNextEnvironmentDefinition()
 	{
 		environmentDefinitionIndex += 1;
 		environmentDefinitionIndex = environmentDefinitionIndex % environmentDefinitions.Size();
@@ -93,12 +98,12 @@
 		UpdateEnvironmentAndSunRotation();
 	}
 
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		CloseMenu();
 	}
 	
-	event /*flash*/ OnCloseMenuTemp()
+	event  OnCloseMenuTemp()
 	{
 		CloseMenu();
 	}
@@ -158,7 +163,7 @@
 					enhancements.PushBack( info );
 				}
 			}
-			//theGame.GetGuiManager().UpdateSceneEntityItems( items, enhancements );
+			
 		}
 	}
 

@@ -1,20 +1,25 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskManageObjectsInPhantomComponentSlots
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Manage objects used for curve animations.
-// Yes it's heavy, but it's a task for single bossfight enemy.
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Andrzej Kwiatkowski - 11-09-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
+
 class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
-	// public
+	
+	
+	
+	
 	public var checkDistanceOnIsAvailable		: bool;
 	public var createEntityResourceNames		: array<name>;
 	public var attachSlotNames					: array<name>;
@@ -34,7 +39,7 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 	public var playEffectOnDestroyEntity		: name;
 	public var playEffectOnDisperseObjects		: name;
 	
-	// private	
+	
 	private var m_Npc							: CNewNPC;
 	private var m_CreateEntityTemplates			: array<CEntityTemplate>;
 	private var m_EntitiesDrawnFromArea			: array<CEntity>;
@@ -53,8 +58,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 	private var m_checkedForEntities			: bool;
 	
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function Initialize()
 	{
 		var i : int;
@@ -79,8 +84,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		m_collisionGroups.PushBack('Water');
 	}
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function IsAvailable() : bool
 	{
 		var entityToActorDist			: float;
@@ -115,8 +120,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		return true;
 	}
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		m_CurveComponents = m_Npc.GetComponentsByClassName( 'W3ApplyEffectPhantomComponent' );
@@ -138,8 +143,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		return BTNS_Active;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	latent function Main() : EBTNodeStatus
 	{
 		var l_lastLocalTime : float;
@@ -194,8 +199,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		return BTNS_Completed;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------	
+	
+	
 	function OnDeactivate()
 	{
 		DisperseEntities( true );
@@ -204,8 +209,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		m_disperceObjectsEventReceived = false;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private latent function AttachObjects( _DeltaTime : float )     
 	{
 		var i							: int;
@@ -308,22 +313,14 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 						
 						m_attachEntitiesArray[i].TeleportWithRotation( InterpTo_V( desiredAffectedEntityPos, affectedEntityPos, 0.05f, 0.5f ), entityRot );
 					}
-					/*
-					else if ( m_attachEntitiesArray[i].CreateAttachment( m_Npc, m_ClosestSlot ) )
-					{
-						if ( IsNameValid( playEffectOnEntityAttach ) )
-						{
-							m_Npc.PlayEffect( playEffectOnEntityAttach );
-						}
-						((W3ApplyEffectPhantomComponent)m_CurveComponents[i]).SetObjectAttached( true );
-					}*/
+					
 				}
 			}
 		}
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function DetachEntity( shootProjectile : bool )
 	{
 		var i							: int;
@@ -385,8 +382,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		}
 	}
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function DisperseEntities( optional deactivate : bool )
 	{
 		var i							: int;
@@ -421,8 +418,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		m_attachEntitiesArray.Clear();
 	}
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function ShootProjectile( projectile : CEntity, optional allDirections : bool, optional deactivate : bool )
 	{
 		var target 					: CActor = GetCombatTarget();
@@ -474,13 +471,13 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		
 		l_3DdistanceToTarget = VecDistance( m_Npc.GetWorldPosition(), combatTargetPos );		
 		
-		// used to dodge projectile before it hits
+		
 		l_projectileFlightTime = l_3DdistanceToTarget / drawSpeedLimit;
 		target.SignalGameplayEventParamFloat( 'Time2DodgeProjectile', l_projectileFlightTime );
 	}
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function CreateEntity( i : int, _SpawnPos : Vector, _Rotation : EulerAngles ) : CEntity
 	{		
 		var l_spawnedEntity 			: CEntity;
@@ -504,8 +501,8 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 		return l_spawnedEntity;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{
 		if ( IsNameValid( activateOnAnimEvent ) && animEventName == activateOnAnimEvent )
@@ -532,15 +529,15 @@ class BTTaskManageObjectsInPhantomComponentSlots extends IBehTreeTask
 	}
 };
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTTaskManageObjectsInPhantomComponentSlotsDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskManageObjectsInPhantomComponentSlots';
 
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	private editable var checkDistanceOnIsAvailable			: bool;
 	private editable var createEntityResourceNames			: array<name>;
 	private editable var attachSlotNames					: array<name>;

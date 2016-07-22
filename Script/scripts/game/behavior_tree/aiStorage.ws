@@ -1,4 +1,9 @@
-﻿import class CHorseRiderSharedParams extends IScriptable
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CHorseRiderSharedParams extends IScriptable
 {
 	import private var 	horse 		: CActor;
 	import var 	mountStatus 		: EVehicleMountStatus;
@@ -6,7 +11,7 @@
 	import var  boat 				: EntityHandle;
 	import var vehicleSlot			: EVehicleSlot;
 	
-	// script :
+	
 	var hasFallenFromHorse 		: bool;
 	var scriptedActionPending 	: bool;
 	var isPlayingAnimWithRider  : bool;
@@ -24,24 +29,24 @@
 	}
 };
 
-///////////////////////////////////////////////
-// CAIStorageAnimalData
+
+
 import class CAIStorageAnimalData extends IScriptable
 {
-	var scared			: Bool; // Running off from ennemy
+	var scared			: Bool; 
 	default scared 		= false;	
 };
 
-///////////////////////////////////////////////
-// CAIStorageHorseData
+
+
 import class CAIStorageHorseData extends IScriptable
 {
 	var horseEntity 	: CActor;
 	var horseComponent 	: W3HorseComponent;
 };
 
-///////////////////////////////////////////////
-// CAIStorageRiderData
+
+
 import class CAIStorageRiderData extends IScriptable
 {
 	import var sharedParams 					: CHorseRiderSharedParams;
@@ -62,15 +67,15 @@ import class CAIStorageRiderData extends IScriptable
 
 
 
-///////////////////////////////////////////////
-// CAIStorageReactionData
+
+
 class CAIStorageReactionData extends IScriptable
 {
 	private const var TAUNTS_TO_BE_ALARMED 	: int; default TAUNTS_TO_BE_ALARMED = 2;
-	//private const var TAUNTS_TO_BE_ANGRY 	: int; default TAUNTS_TO_BE_ANGRY = 3;
+	
 	
 	private var alarmedTimeStamp 	: float;
-	//private var angryTimeStamp 		: float;
+	
 	
 	function IsAlarmed( timeStamp : float ) : bool
 	{
@@ -131,7 +136,7 @@ class CAIStorageReactionData extends IScriptable
 		tauntCounter = 0;
 	}
 	
-	//Attitudes
+	
 	
 	private var temporaryHostileActors : array<CActor>;
 	
@@ -166,7 +171,7 @@ class CAIStorageReactionData extends IScriptable
 	{
 		var ownerHorse : CActor;
 		
-		//don't add same actor twice
+		
 		if ( temporaryHostileActors.Contains(_actor) )
 			return;
 		

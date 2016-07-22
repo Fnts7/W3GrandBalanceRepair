@@ -1,11 +1,13 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Copyright © 2013
-/** Author : Andrzej Kwiatkowski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Hack to maintain actor speed between tasks
+
+
+
+
 class CBTTaskMaintainSpeed extends IBehTreeTask
 {
 	var moveType 				: EMoveType;

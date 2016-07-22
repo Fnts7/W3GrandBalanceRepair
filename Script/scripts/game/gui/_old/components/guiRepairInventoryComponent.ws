@@ -1,11 +1,16 @@
-﻿class W3GuiRepairInventoryComponent extends W3GuiBaseInventoryComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3GuiRepairInventoryComponent extends W3GuiBaseInventoryComponent
 {	
 	public var merchantInv  : CInventoryComponent;
 	public var masteryLevel : int;
 	public var repairSwords : bool;
 	public var repairArmors : bool;
 	
-	public /* override */ function SetInventoryFlashObjectForItem( item : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
+	public  function SetInventoryFlashObjectForItem( item : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
 	{
 		var durabilityValue	  : string;
 		var costOfService	  : int;
@@ -120,11 +125,11 @@
 		if(( repairArmors && _inv.IsItemAnyArmor( item ))
 		|| repairSwords && ( _inv.IsItemSteelSwordUsableByPlayer( item ) || _inv.IsItemSilverSwordUsableByPlayer( item ) || _inv.IsItemSecondaryWeapon(item) ) )
 		{
-			// MAS - Removed on Kanik request.
-			//if( _inv.GetItemQuality(item) <= masteryLevel )
-			//{
-			//	return true;
-			//}
+			
+			
+			
+			
+			
 			return true;
 		}
 		return false;

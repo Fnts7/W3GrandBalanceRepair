@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 enum EItemSelectionPopupMode
 {
 	EISPM_Default,
@@ -30,7 +35,7 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 	
 	default m_selectedItemCategory = 0;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		super.OnConfigUI();
 		
@@ -56,14 +61,14 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 		{
 			case EISPM_Default :
 			{
-				// If in default mode filter of quest items only
+				
 				m_playerInv.SetFilterType( IFT_QuestItems );
 			}
 			break;
 			
 			case EISPM_ArmorStand :
 			{
-				//Switch to armors and display only actual armor items
+				
 				m_playerInv.SetFilterType( IFT_Armors );
 				
 				if( m_DataObject.categoryFilterList.Size() > 0 )
@@ -75,14 +80,14 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 					m_playerInv.SetItemCategoryType( 'armor' );
 				}
 				
-				//m_playerInv.SetItemCategoryType( 'armor' );
+				
 				m_playerInv.SetOverrideQuestItemFilters( m_DataObject.overrideQuestItemRestrictions );
 			}
 			break;
 			
 			case EISPM_SwordStand :
 			{
-				//Activate weapon filter, specific items are filtered based on tags
+				
 				m_playerInv.SetFilterType( IFT_Weapons );
 				m_playerInv.SetOverrideQuestItemFilters( m_DataObject.overrideQuestItemRestrictions );			
 			}
@@ -90,7 +95,7 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 			
 			case EISPM_Painting :
 			{
-				//Just filtering based on tags
+				
 				m_playerInv.SetFilterType( IFT_None );
 				m_playerInv.SetOverrideQuestItemFilters( m_DataObject.overrideQuestItemRestrictions );			
 			}
@@ -100,30 +105,30 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 		
 		
 		m_containerOwner = (CGameplayEntity)theGame.GetEntityByTag( m_DataObject.collectorTag );
-		//m_containerInv = new W3GuiContainerInventoryComponent in this;
-		//m_containerInv.Initialize( m_containerOwner.GetInventory() );
+		
+		
 		
 		UpdateData();
 		
-		//MakeModal(true);
+		
 		m_guiManager.RequestMouseCursor(true);
 		theGame.ForceUIAnalog(true);
 		
 		theGame.Pause("ItemSelectionPopup");
 	}
 	
-	event /*flash*/ OnCloseSelectionPopup()
+	event  OnCloseSelectionPopup()
 	{
 		ClosePopup();
 	}
 	
-	event /*flash*/ OnCallSelectItem(itemId : SItemUniqueId)
+	event  OnCallSelectItem(itemId : SItemUniqueId)
 	{
 		var len, i : int;
 		
 		switch( m_DataObject.selectionMode )
 		{
-			//In default state only take valid items
+			
 			case EISPM_Default :
 			{
 				if (thePlayer.GetInventory().IsIdValid(itemId))
@@ -143,7 +148,7 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 			}
 			break;
 			
-			//This mode doesn't have default items, assume all displayed items were valid
+			
 			case EISPM_ArmorStand :
 			{
 				if (thePlayer.GetInventory().IsIdValid(itemId))
@@ -163,7 +168,7 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 			}
 			break;
 			
-			//This mode doesn't have default items, assume all displayed items were valid
+			
 			case EISPM_SwordStand :
 			{
 				if (thePlayer.GetInventory().IsIdValid(itemId))
@@ -174,7 +179,7 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 			}
 			break;
 			
-			//This mode doesn't have default items, assume all displayed items were valid
+			
 			case EISPM_Painting :
 			{
 				if (thePlayer.GetInventory().IsIdValid(itemId))
@@ -188,12 +193,12 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 		}
 	}
 	
-	event /* flash */ OnInventoryItemSelected(itemId : SItemUniqueId)
+	event  OnInventoryItemSelected(itemId : SItemUniqueId)
 	{
-		//
+		
 	}
 	
-	event /* C++ */ OnClosingPopup()
+	event  OnClosingPopup()
 	{
 		theGame.Unpause("ItemSelectionPopup");
 		
@@ -214,14 +219,14 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 		super.OnClosingPopup();
 	}
 	
-	//Clears item selection popup for later use
+	
 	private function ClearPopupSelection()
 	{
 		m_playerInv.SetItemCategoryType( 'none' );
 		UpdateData();
 	}
 	
-	//Tries to open next item selection category
+	
 	private function TryToOpenNextCategory() : bool
 	{
 		var stand : W3HouseDecorationBase;
@@ -231,19 +236,19 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 		
 		stand = (W3HouseDecorationBase) m_containerOwner;
 		
-		//Stand entity is invalid, stop
+		
 		if( !stand )
 		{
 			return false;
 		}
 		
-		//We don't want to display gloves selection in case of sleeveless armors
+		
 		if( stand.GetHasSleevlessArmor() && m_DataObject.categoryFilterList[m_selectedItemCategory] == 'gloves' )
 		{
 			return false;
 		}
 		
-		//If player doesn't have a valid item of this type we skip to the next category
+		
 		if( !thePlayer.GetInventory().GetHasValidDecorationItems( thePlayer.inv.GetItemsByCategory( m_DataObject.categoryFilterList[m_selectedItemCategory] ), stand ) )
 		{
 			return false;
@@ -255,7 +260,7 @@ class CR4ItemSelectionPopup extends CR4PopupBase
 		return true;
 	}
 	
-	//Update flash
+	
 	private function UpdateData():void
 	{
 		var l_flashObject			: CScriptedFlashObject;

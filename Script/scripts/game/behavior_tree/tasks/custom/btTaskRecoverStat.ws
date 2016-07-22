@@ -1,9 +1,14 @@
-﻿// BTTaskRecoverStat
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Recover Essence or Vitality to a set level
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
 class BTTaskRecoverStat extends IBehTreeTask
 {
 	var npc 			: CNewNPC;
@@ -56,8 +61,8 @@ class BTTaskRecoverStat extends IBehTreeTask
 		npc.GainStat( stat, ( maxStat * percentReturn ) / 100 );
 	}
 }
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTTaskRecoverStatDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskRecoverStat';

@@ -1,17 +1,22 @@
-﻿/////////////////////////////////////////////
-// EActorImmortalityMode
-/////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 enum EActorImmortalityMode
 {
 	AIM_None,
-	AIM_Immortal,				//will have always 1 hp left
-	AIM_Invulnerable,			//will never lose any hp
-	AIM_Unconscious				//hp will drop to 0, but insted of dying will be unconsious and can be revived
+	AIM_Immortal,				
+	AIM_Invulnerable,			
+	AIM_Unconscious				
 }
 
 enum EActorImmortalityChanel
 {
-	//Bit flags each element must be equal to power of 2. max 8 chanels
+	
 	AIC_Default = 1,
 	AIC_Combat = 2,
 	AIC_Scene = 4,
@@ -20,26 +25,17 @@ enum EActorImmortalityChanel
 	AIC_SyncedAnim = 32,
 	AIC_WhiteRaffardsPotion = 64,
 	AIC_IsAttackableByPlayer = 128
-	// = 256
+	
 }
 
-////////////////////////////////////// ///////
-// EAnimationEventType 
-/////////////////////////////////////////////
-/*
-enum EAnimationEventType
-{
-	AET_Tick,
-	AET_DurationStart,
-	AET_DurationStartInTheMiddle,
-	AET_DurationEnd,
-	AET_Duration,
-};
-*/
 
-/////////////////////////////////////////////
-// TERRAIN
-/////////////////////////////////////////////
+
+
+
+
+
+
+
 
 enum ETerrainType
 {
@@ -49,9 +45,9 @@ enum ETerrainType
 	TT_Water
 }
 
-/////////////////////////////////////////////
-// GAME AREAS
-/////////////////////////////////////////////
+
+
+
 
 enum EAreaName
 {
@@ -66,12 +62,12 @@ enum EAreaName
 	AN_Prologue_Village_Winter,
 	AN_Velen,
 	AN_CombatTestLevel,
-	// DO NOT ADD ANYTHING HERE, ENUM FOR BOB IS ADDED IN RUNTIME, IF YOU NEED TO REFER TO BOB, USE ENUM BELOW
+	
 }
 
 enum EDlcAreaName
 {
-	//Needs to have a value following on from EAreaName as set out in activation_bob.reddlc (e.g. AN_Bob)
+	
 	AN_Dlc_Bob = 11, 
 }
 
@@ -106,7 +102,7 @@ function AreaNameToType( lName : string ) : EAreaName
 	}
 }
 	
-function AreaTypeToName( type : EAreaName ) : string // #B obsolete
+function AreaTypeToName( type : EAreaName ) : string 
 {
 	switch(type)
 	{
@@ -131,9 +127,9 @@ function AreaTypeToName( type : EAreaName ) : string // #B obsolete
 	}
 }
 
-/////////////////////////////////////////////
-// GAME ZONES
-/////////////////////////////////////////////
+
+
+
 
 enum EZoneName
 {
@@ -150,7 +146,7 @@ enum EZoneName
 	ZN_NML_Homestead,
 	ZN_NML_Gustfields,
 	ZN_NML_Oxenfurt,
-	// don't change the order of enums, just add another one here if you need
+	
 }
 
 function ZoneNameToType( lName : name ) : EZoneName
@@ -219,21 +215,12 @@ function ZoneTypeToName( type : EZoneName ) : name
 	}
 }
 
-/////////////////////////////////////////////
-// DIFFICULTY
-////////////////////////////////////////////
-/* imported
-enum EDifficultyMode
-{
-	EDM_NotSet,
-	EDM_Easy,
-	EDM_Medium,
-	EDM_Hard,
-	EDM_Hardcore
-}
-*/
 
-//gets lower of the two difficulty modes
+
+
+
+
+
 function MinDiffMode(a, b : EDifficultyMode) : EDifficultyMode
 {
 	if(a == EDM_NotSet)
@@ -242,19 +229,12 @@ function MinDiffMode(a, b : EDifficultyMode) : EDifficultyMode
 		return a;
 	else
 		return Min( (int)a, (int)b );
-	//so far safe...
 	
-/*
-	if(a == EDM_NotSet || b == EDM_NotSet)				return EDM_NotSet;
-	else if(a == EDM_VeryEasy || b == EDM_VeryEasy)		return EDM_VeryEasy;
-	else if(a == EDM_Easy || b == EDM_Easy)				return EDM_Easy;
-	else if(a == EDM_Medium || b == EDM_Medium)			return EDM_Medium;
-	else if(a == EDM_Hard || b == EDM_Hard)				return EDM_Hard;
 	
-	return EDM_NotSet;*/
+
 }
 
-//gets ability tag for given difficulty mode
+
 function GetDifficultyTagForMode(d : EDifficultyMode) : name
 {
 	switch(d)
@@ -267,50 +247,26 @@ function GetDifficultyTagForMode(d : EDifficultyMode) : name
 	}
 }
 
-/////////////////////////////////////////////
-// NATIVES
-/////////////////////////////////////////////
-/*
 
-enum EVisibilityTest
-{
-	VT_None,
-	VT_LineOfSight,
-	VT_RangeAndLineOfSight,
-};
-*/
 
-/*
-enum EAIPriority
-{
-	AIP_Lowest,
-	AIP_Low,
-	AIP_Normal,
-	AIP_High,
-	AIP_Highest,
-	AIP_BlockingScene,
-	AIP_Cutscene,
-	AIP_Combat,
-	AIP_Custom,
-	AIP_Minigame,
-	AIP_Audience,
-	AIP_Unconscious,
-};
-*/
+
+
+
+
 
 struct SCombatParams
 {
 	var goalId : int;
-//	var dynamicsType : ECombatDynamicsType;
-//	var forcedDistanceType : ECombatDistanceType;
-//	var fistfightArea : W2FistfightArea;
+
+
+
 };
 
 struct SAttackEventData
 {
 	var animData : CPreAttackEventData;
-	var weaponId : SItemUniqueId;				//weapon id of weapon held in *weaponSlot*
-	var parriedBy : array<CActor>;				//array of actors who parried the attack
+	var weaponId : SItemUniqueId;				
+	var parriedBy : array<CActor>;				
 };
 
 enum EHitReactionType
@@ -331,7 +287,7 @@ function ModifyHitSeverityReaction(target : CActor, type : EHitReactionType) : E
 	if(severityReduction == 0 || type == EHRT_Igni)
 		return type;
 		
-	//get severity
+	
 	switch(type)
 	{
 		case EHRT_Heavy :
@@ -346,10 +302,10 @@ function ModifyHitSeverityReaction(target : CActor, type : EHitReactionType) : E
 			break;
 	}
 	
-	//modify
+	
 	severity -= severityReduction;
 	
-	//return
+	
 	switch(severity)
 	{
 		case 2:		return EHRT_Heavy;
@@ -358,16 +314,7 @@ function ModifyHitSeverityReaction(target : CActor, type : EHitReactionType) : E
 	}
 }
 
-/*
-from C++
 
-enum EFocusModeVisibility
-{
-	FMV_None,
-	FMV_Interactive,
-	FMV_Clue
-}
-*/
 
 enum EFocusHitReaction
 {
@@ -413,33 +360,26 @@ enum ECounterAttackSwitch
 
 import struct CPreAttackEventData
 {
-    import var attackName           : name;                    		   //name of the attack event
-    import var weaponSlot           : name;              			   //which weapon to use during the attack to deal damage and buffs
-    import var hitReactionType    	: int; //EHitReactionType;         //standard hit reaction for this attack
-    import var swingDir            	: int; //EAttackSwingDirection;    //param for parry
-    import var swingType            : int; //EAttackSwingType;         //param for parry
-	import var rangeName			: name;							   //attack range name
-	import var hitFX				: name;			//custom hit FX
-	import var hitBackFX			: name;			//custom hit FX when hit at back
-	import var hitParriedFX			: name;			//custom hit FX when hit from front and the attack was parried
-	import var hitBackParriedFX		: name;			//custom hit FX when hit at back and the attack was parried
-	import var Damage_Friendly : bool;				//does attack hits friendly actors
-	import var Damage_Neutral : bool;				//does attack hits neutral actors
-	import var Damage_Hostile : bool;				//does attack hits hostile actors
-	import var Can_Parry_Attack : bool;				//can attack be parried
-	import var canBeDodged : bool;					//can attack be dodged
-	//import var cameraAnimOnMissedHit : name;		- we're not using it (and we never managed to)
-	import var soundAttackType 		: name;			//used for sounds
+    import var attackName           : name;                    		   
+    import var weaponSlot           : name;              			   
+    import var hitReactionType    	: int; 
+    import var swingDir            	: int; 
+    import var swingType            : int; 
+	import var rangeName			: name;							   
+	import var hitFX				: name;			
+	import var hitBackFX			: name;			
+	import var hitParriedFX			: name;			
+	import var hitBackParriedFX		: name;			
+	import var Damage_Friendly : bool;				
+	import var Damage_Neutral : bool;				
+	import var Damage_Hostile : bool;				
+	import var Can_Parry_Attack : bool;				
+	import var canBeDodged : bool;					
+	
+	import var soundAttackType 		: name;			
 };
 
-/*
-enum EAIAttitude
-{
-	AIA_Neutral,
-	AIA_Friendly,
-	AIA_Hostile
-};
-*/
+
 
 enum EAttitudeGroupPriority
 {
@@ -483,24 +423,22 @@ enum ETimescaleSource
 	ETS_InstantKill
 }
 
-// struct for holding timescale sources' data
+
 struct STimescaleSource
 {
 	var sourceName : name;
 	var sourceType : ETimescaleSource;
-	var sourcePriority : int;			//higher priority value is more important
+	var sourcePriority : int;			
 };
 
-//items dropped on ground (weapons)
+
 struct SDroppedItem
 {
 	var entity : CEntity;
 	var itemName : name;
 };
 
-/**
-	Monster categories for oils and future features
-*/
+
 enum EMonsterCategory
 {
 	MC_NotSet,
@@ -520,17 +458,10 @@ MC_Unused,
 	MC_Animal
 }
 
-// NPC group types
-/* moved do c++
-enum ENPCGroupType
-{
-	ENGT_Enemy,
-	ENGT_Commoner,
-	ENGT_Quest,
-	ENGT_Guard
-}*/
 
-// returns true if given category is a monster
+
+
+
 function MonsterCategoryIsMonster(type : EMonsterCategory) : bool
 {
 	if( type == MC_NotSet || type == MC_Unused || type == MC_Human || type == MC_Animal || type == MC_Beast )
@@ -539,7 +470,7 @@ function MonsterCategoryIsMonster(type : EMonsterCategory) : bool
 	return true;
 }
 
-//for oil bonuses
+
 function MonsterCategoryToAttackPowerBonus(type : EMonsterCategory) : name
 {
 	switch(type)
@@ -641,26 +572,26 @@ function MonsterCategoryToResistReduction(type : EMonsterCategory) : name
 	}
 }
 
-//for tooltips
+
 struct SAttributeTooltip
 {
 	var originName	  : name;
-	var attributeName : string;		//localized
-	var attributeColor: string;		//hex
+	var attributeName : string;		
+	var attributeColor: string;		
 	var value : float;
 	var percentageValue : bool;
 	var primaryStat : bool; 
 	default percentageValue = false;
 };
 
-//workaround for not working function 'out' parameters - the function returns a struct with it's return value and the out value
+
 struct SNotWorkingOutFunctionParametersHackStruct1
 {
-	var outValue : int;				//value saved in the out parameter
-	var retValue : bool;			//value returned by the function
+	var outValue : int;				
+	var retValue : bool;			
 };
 
-// combat action buffer action types
+
 enum EButtonStage
 {
 	BS_Released,
@@ -675,17 +606,17 @@ import struct SAbilityAttributeValue
 	import saved var valueBase : float;
 }
 
-//THE ONLY function to calculate attribute value
+
 function CalculateAttributeValue(att : SAbilityAttributeValue, optional disallowNegativeMult : bool) : float
 {
-	//FINAL HACK
+	
 	if(disallowNegativeMult && att.valueMultiplicative < 0)
 		att.valueMultiplicative = 0.001;
 		
 	return att.valueBase * att.valueMultiplicative + att.valueAdditive;
 }
 
-//randomizes attribute values (base, add, mult) between min and max
+
 function GetAttributeRandomizedValue(min, max : SAbilityAttributeValue) : SAbilityAttributeValue
 {
 	var ret : SAbilityAttributeValue;
@@ -697,7 +628,7 @@ function GetAttributeRandomizedValue(min, max : SAbilityAttributeValue) : SAbili
 	return ret;
 }
 
-//stamina action types - to get stamina cost / delay data
+
 enum EStaminaActionType
 {
 	ESAT_Undefined,
@@ -740,15 +671,15 @@ function StaminaActionTypeToName(action : EStaminaActionType) : name
 
 enum EFocusModeSoundEffectType
 {
-	FMSET_Gray, // default
+	FMSET_Gray, 
 	FMSET_Red,
 	FMSET_Green,
 	FMSET_None,
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////  @STATISTICS, @PERKS, @ACHIEVEMENTS, @STATS  ////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 struct SStatistic
 {
 	var statType : EStatistic;
@@ -759,23 +690,23 @@ enum EStatistic
 {
 	ES_Undefined,
 
-	ES_BleedingBurnedPoisoned,				//when enemy is bleeding, burned and poison at the same time
-	ES_FinesseKills,						//finesse kills
-	ES_CharmedNPCKills,						//number of kills done by axii hypnotized enemies
-	ES_AardFallKills,						//kills done by falling damage after being hit by aard
-	ES_EnvironmentKills,					//kills by environment
-	ES_CounterattackChain,					//amount of chained counterstrikes done, not interrupted by parrying or being hit in melee
-	ES_DragonsDreamTriggers,				//increased each time a Dragons Dream ignites from an enemy who has Burning Effect on it
-	ES_FundamentalsFirstKills,				//kills for fundamentals first achievement
-	ES_DestroyedNests,						//# of destroyed monster nests
-	ES_KnownPotionRecipes,					//list of known potion & mutagen recipes
-	ES_KnownBombRecipes,					//list of known bomb recipes
-	ES_ReadBooks,							//number of unique read books (non-quest, non-perk, non-schematic)
-	ES_HeadShotKills,						//num of enemies killed by headshot
-	ES_SelfArrowKills,						//# of enemies killed with their own arrows
-	ES_ActivePotions,						//# of currently active potions
-	ES_KilledCows,							//# of killed cows
-	ES_SlideTime							//duration of slide
+	ES_BleedingBurnedPoisoned,				
+	ES_FinesseKills,						
+	ES_CharmedNPCKills,						
+	ES_AardFallKills,						
+	ES_EnvironmentKills,					
+	ES_CounterattackChain,					
+	ES_DragonsDreamTriggers,				
+	ES_FundamentalsFirstKills,				
+	ES_DestroyedNests,						
+	ES_KnownPotionRecipes,					
+	ES_KnownBombRecipes,					
+	ES_ReadBooks,							
+	ES_HeadShotKills,						
+	ES_SelfArrowKills,						
+	ES_ActivePotions,						
+	ES_KilledCows,							
+	ES_SlideTime							
 }
 
 function StatisticEnumToName(s : EStatistic) : name
@@ -849,18 +780,18 @@ struct SCachedCombatMessage
 	var victim : CGameplayEntity;
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 struct SAchievement
 {
 	var type : EAchievement;
-	var requiredValue : float;						//value required to get the achievement
+	var requiredValue : float;						
 };
 
 enum EAchievement
 {
 	EA_Undefined,
 	
-	//quest
+	
 	EA_FoundYennefer,
 	EA_FreedDandelion,
 	EA_YenGetInfoAboutCiri,
@@ -877,90 +808,90 @@ enum EAchievement
 	EA_CompleteKeiraMetz,
 	EA_GetAllForKaerMorhenBattle,
 	
-	//gameplay
-	EA_Dendrology,									//fully develop one skill tree
-	EA_EnemyOfMyFriend,								//kills made by axii hypnotized oponents
-	EA_FusSthSth,									//aard fall damage kills
-	EA_EnvironmentUnfriendly,						//kills by environment
-	EA_TrainedInKaerMorhen,							//chained counterattacks not interrupted by being hit in melee or parrying
-	EA_TheEvilestThing,								//make X burning enemies trigger exploding gas
-	EA_TechnoProgress,								//kill X enemies with single headshot
-	EA_LearningTheRopes,							//use counter, attack, bomb and sign within 4 secs
-	EA_FundamentalsFirst,							//kill 2 monster hunt monsters without using signs, potions, mutagen potions, oils or bombs
-	EA_TrialOfGrasses,								//fill all potion mutagen slots, skill mutagen slots and have at least 1 skillgroup synergy
-	EA_BreakingBad,									//learn all potion / mutagen recipes
-	EA_Bombardier,									//learn all bomb recipes
-	EA_Swank,										//kill 5+ enemies under 10 seconds
-	EA_Rage,										//have a total of X enemies burning, bleeding and poisoned
 	
-	//quest
-	EA_GwintMaster,									//defeat all quest relevant gwint opponents
+	EA_Dendrology,									
+	EA_EnemyOfMyFriend,								
+	EA_FusSthSth,									
+	EA_EnvironmentUnfriendly,						
+	EA_TrainedInKaerMorhen,							
+	EA_TheEvilestThing,								
+	EA_TechnoProgress,								
+	EA_LearningTheRopes,							
+	EA_FundamentalsFirst,							
+	EA_TrialOfGrasses,								
+	EA_BreakingBad,									
+	EA_Bombardier,									
+	EA_Swank,										
+	EA_Rage,										
+	
+	
+	EA_GwintMaster,									
 EA_Unused,
-	EA_MonsterHuntFogling,							//finish monster hunt: fogling
-	EA_MonsterHuntEkimma,							//finish monster hunt: ekimma
-	EA_MonsterHuntLamia,							//finish monster hunt: lamia
-	EA_MonsterHuntFiend,							//finish monster hunt: fiend
-	EA_MonsterHuntDao,								//finish monster hunt: dao
-	EA_MonsterHuntDoppler,							//finish monster hunt: doppler
-	EA_BrawlMaster,									//win all fist fighting tournaments
-	EA_NeedForSpeed,								//win all races (boat & horse)
-	EA_Brawler,										//defeat specific boss barehanded
+	EA_MonsterHuntFogling,							
+	EA_MonsterHuntEkimma,							
+	EA_MonsterHuntLamia,							
+	EA_MonsterHuntFiend,							
+	EA_MonsterHuntDao,								
+	EA_MonsterHuntDoppler,							
+	EA_BrawlMaster,									
+	EA_NeedForSpeed,								
+	EA_Brawler,										
 	
-	//gameplay
-	EA_Finesse,										//kill 5+ opponnents in one combat without losing health and without using quen
-	EA_PowerOverwhelming,							//have buffs from all minor places of power
-	EA_Cerberus,									//kill enemies by at least 3 different means during one combat encounter
-	EA_Bookworm,									//read X unique books (non-quest, non-perk, non-recipe)
-	EA_Immortal,									//get max level
-	EA_FistOfTheSouthStar,							//defeat opponent in fist fight without taking any damage
-	EA_Explorer,									//find all fast travel points in the entire game
-	EA_PestControl,									//destroy all monster nests in any region (awarded if each nest was destroyed at least once since some nests can respawn)
-	EA_FireInTheHole,								//destroy X monster nests
-	EA_FullyArmed,									//collect all witcher sets
-	EA_GwintCollector,								//collect all gwint cards
-	EA_Allin,										//Win a round with only neutral cards
-	EA_GeraltandFriends,							//Win a match after using three heroes in one round
 	
-	//--EP1	
-	//quest
-	EA_ToadPrince,									//kill toad
-	EA_PartyAnimal,									//take part in all wedding activities
-	EA_Auctioneer,									//buy all items on auction
-	EA_TheCompletePicture,							//find all scenes in painted world
-	EA_HeartsOfStone,								//finish EP1 main quest
-	EA_KillEtherals,								//wake all Etheral and kill them
+	EA_Finesse,										
+	EA_PowerOverwhelming,							
+	EA_Cerberus,									
+	EA_Bookworm,									
+	EA_Immortal,									
+	EA_FistOfTheSouthStar,							
+	EA_Explorer,									
+	EA_PestControl,									
+	EA_FireInTheHole,								
+	EA_FullyArmed,									
+	EA_GwintCollector,								
+	EA_Allin,										
+	EA_GeraltandFriends,							
 	
-	//gameplay
-	EA_FeatherStrongerThanSword,					//kill 3 enemies with their own arrows
-	EA_Thirst,										//have 7+ potions active at the same time
-	EA_DivineWhip,									//clear all rose knight camps
-	EA_LatestFashion,								//collect ofir armor set
-	EA_WantedDeadOrBovine,							//kill 20+ cows
-	EA_Slide,										//slide for 10+ secs continuously
-	EA_KilledIt,									//win gwent round having 187+ points
 	
-	//--EP2
-	EA_BeauclairWelcomeTo,							//reach new hub
-	EA_HeroOfBeauclair,								//epilogue after Henrietta is saved
-	EA_BeauclairMostWanted,							//epilogue after Henrietta is killed
-	EA_ChampionOfBeauclair,							//win the tournament
-	EA_LikeAVirgin,									//mq7006 completed
-	EA_HomeSweetHome,								//Fully upgrade your vineyard
-	EA_TurnedEveryStone,							//complete all treasure hunts in tuissaint
-	EA_GotToHaveThemAll,							//collect whole Skellige gwent deck
-	EA_BloodAndWine,								//level up one of wineyards to max level
-	EA_ReadyToRoll,									//unlock set bonus for whole set (6 parts)
-	EA_SchoolOfTheMutant,							//develop any mutation
-	EA_HastaLaVista,								//kill frozen enemy with crossbow
-	EA_Goliath										//kill Goliath (giant) with a crossbow eyeshot
+	
+	EA_ToadPrince,									
+	EA_PartyAnimal,									
+	EA_Auctioneer,									
+	EA_TheCompletePicture,							
+	EA_HeartsOfStone,								
+	EA_KillEtherals,								
+	
+	
+	EA_FeatherStrongerThanSword,					
+	EA_Thirst,										
+	EA_DivineWhip,									
+	EA_LatestFashion,								
+	EA_WantedDeadOrBovine,							
+	EA_Slide,										
+	EA_KilledIt,									
+	
+	
+	EA_BeauclairWelcomeTo,							
+	EA_HeroOfBeauclair,								
+	EA_BeauclairMostWanted,							
+	EA_ChampionOfBeauclair,							
+	EA_LikeAVirgin,									
+	EA_HomeSweetHome,								
+	EA_TurnedEveryStone,							
+	EA_GotToHaveThemAll,							
+	EA_BloodAndWine,								
+	EA_ReadyToRoll,									
+	EA_SchoolOfTheMutant,							
+	EA_HastaLaVista,								
+	EA_Goliath										
 }
 
-//needed only for those that define required stat value in custom XML
+
 function AchievementNameToEnum(n : name) : EAchievement
 {
 	switch(n)
 	{
-		//quest
+		
 		case 'FoundYennefer' :						return EA_FoundYennefer;
 		case 'FreedDandelion' :						return EA_FreedDandelion;
 		case 'YenGetInfoAboutCiri' :				return EA_YenGetInfoAboutCiri;
@@ -987,7 +918,7 @@ function AchievementNameToEnum(n : name) : EAchievement
 		case 'WinFistFights' :						return EA_BrawlMaster;
 		case 'WinRaces' :							return EA_NeedForSpeed;
 		
-		//gameplay
+		
 		case 'Bookworm' :							return EA_Bookworm;
 		case 'Cerberus' :							return EA_Cerberus;
 		case 'TrailOfGrasses' :						return EA_TrialOfGrasses;
@@ -1089,7 +1020,7 @@ function AchievementEnumToName(a : EAchievement) : name
 		case EA_FullyArmed : return 'EA_FullyArmed'; break;
 		case EA_GwintCollector : return 'EA_GwintCollector'; break;
 				
-		//EP1
+		
 		case EA_Thirst : return 'EA_Thirst'; break;
 		case EA_WantedDeadOrBovine : return 'EA_WantedDeadOrBovine'; break;
 		case EA_Slide : return 'EA_Slide'; break;
@@ -1104,7 +1035,7 @@ function AchievementEnumToName(a : EAchievement) : name
 		case EA_DivineWhip : return 'EA_DivineWhip'; break;
 		case EA_LatestFashion : return 'EA_LatestFashion'; break;
 		
-		//EP2
+		
 		case EA_BeauclairWelcomeTo : return 'EA_BeauclairWelcomeTo'; break;
 		case EA_HeroOfBeauclair : return 'EA_HeroOfBeauclair'; break;
 		case EA_BeauclairMostWanted : return 'EA_BeauclairMostWanted'; break;
@@ -1117,7 +1048,7 @@ function AchievementEnumToName(a : EAchievement) : name
 		case EA_ReadyToRoll : return 'EA_ReadyToRoll'; break;
 		case EA_SchoolOfTheMutant : return 'EA_SchoolOfTheMutant'; break;
 		case EA_HastaLaVista : return 'EA_HastaLaVista'; break;
-		//case EA_StyleOfTheDrunkenMaster : return 'EA_StyleOfTheDrunkenMaster'; break;
+		
 		case EA_Goliath : return 'EA_Goliath'; break;
 
 		case EA_Undefined :
@@ -1129,54 +1060,54 @@ function AchievementEnumToName(a : EAchievement) : name
 	return '';
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////  TUTORIAL  ////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 struct STutorialMessage
 {
-	editable saved var type : ETutorialMessageType;			//type of message	
+	editable saved var type : ETutorialMessageType;			
 
-	editable saved var tutorialScriptTag : name;			//tutorial script name
-	editable saved var journalEntryName : name;				//name of entry to unlock in journal, if empty does not unlock anything
+	editable saved var tutorialScriptTag : name;			
+	editable saved var journalEntryName : name;				
 	editable saved var canBeShownInMenus : bool;
 	editable saved var canBeShownInDialogs : bool;	
-	editable saved var glossaryLink : bool;					//if glossary link should be shown at the bottom of hint
-	editable saved var enableAcceptButton : bool;			//show accept button, tutorial can be closed by user
-	editable saved var force : bool;						//if set then message will be shown even it was already seen
-	editable saved var disableHorizontalResize : bool;		//if set automatic horizontal resize is disabled
+	editable saved var glossaryLink : bool;					
+	editable saved var enableAcceptButton : bool;			
+	editable saved var force : bool;						
+	editable saved var disableHorizontalResize : bool;		
 	editable saved var forceToQueueFront : bool;
 	
-	editable saved var hintPositionType : ETutorialHintPositionType;		//how to handle position
-	editable saved var hintPosX : float;					//hint position X (only for hints)  (0,0) is left bottom
-	editable saved var hintPosY : float;					//hint position Y (only for hints)
-	editable saved var hintDuration : float;				//hint duration (only for hints)
-	editable saved var hintCloseOnFactExist : string;		//fact to close hint (only for hints)	
+	editable saved var hintPositionType : ETutorialHintPositionType;		
+	editable saved var hintPosX : float;					
+	editable saved var hintPosY : float;					
+	editable saved var hintDuration : float;				
+	editable saved var hintCloseOnFactExist : string;		
 	
-	editable saved var highlightAreas : array<STutorialHighlight>;		//highlight areas
-	editable saved var disabledPanelsExceptions : array<name>;			//list of panels NOT disabled (if empty NO panels are disabled)
+	editable saved var highlightAreas : array<STutorialHighlight>;		
+	editable saved var disabledPanelsExceptions : array<name>;			
 	
-	//button press prompt after tutorial message
-	editable saved var hintPromptScriptTag : name;			//script name
-	editable saved var hintPromptPosX : float;				//pos X
-	editable saved var hintPromptPosY : float;				//pos Y
-	editable saved var hintPromptDuration : float;			//duration
-	editable saved var hintPromptCloseFact : string;		//close fact		
 	
-	editable saved var markAsSeenOnShow : bool;				//mark as seen when showed
+	editable saved var hintPromptScriptTag : name;			
+	editable saved var hintPromptPosX : float;				
+	editable saved var hintPromptPosY : float;				
+	editable saved var hintPromptDuration : float;			
+	editable saved var hintPromptCloseFact : string;		
 	
-	editable saved var isHUDTutorial : bool;				// #B apply hud scaling to tutorial hints
-	editable saved var hintDurationType : ETutorialHintDurationType;	//for presets
+	editable saved var markAsSeenOnShow : bool;				
+	
+	editable saved var isHUDTutorial : bool;				
+	editable saved var hintDurationType : ETutorialHintDurationType;	
 	
 	editable saved var blockInput : bool;
 	editable saved var pauseGame : bool;
 	editable saved var fullscreen : bool;
 	
-	//min duration handling
-	editable saved var minDuration : float;					//min hint duration, used only if hint has a duration. Hint won't close until this time has elapsed
-	saved var remainingMinDuration : float;					//remaining time to display on screen
-	saved var hideOnMinDurationEnd : bool;					//if min duration has not passed and tutorial was requested to close - it will close when duration finishes
-	editable saved var factOnFinishedDisplay : string;		//fact to add once hint was processed properly (e.g. not interrupted)
+	
+	editable saved var minDuration : float;					
+	saved var remainingMinDuration : float;					
+	saved var hideOnMinDurationEnd : bool;					
+	editable saved var factOnFinishedDisplay : string;		
 };
 
 enum ETutorialHintDurationType
@@ -1201,16 +1132,16 @@ enum ETutorialHintPositionType
 
 struct STutorialHighlight
 {
-	editable saved var x, y, width, height : float;			//area bounds as % of screen size
+	editable saved var x, y, width, height : float;			
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////  SHADER  //////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 import class CGameplayFXSurfacePost extends IGameSystem
 {
-	//type: 0 - frost, 1 - burn
-	//ranges lower than 4-5m can be barely visible
+	
+	
 	import final function AddSurfacePostFXGroup( position : Vector, fadeInTime : float, activeTime : float, fadeOutTime : float, range : float, type : int );
 	import final function IsActive() : bool;
 }
@@ -1228,31 +1159,23 @@ struct SFXSurfacePostParams
 		default fxType = -1;
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////  RELATIVE SPEED  //////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 enum ESpeedType
 {
 	EST_Undefined,
 	EST_Stopped,
-	EST_SlowWalk,		//monsters don't have
+	EST_SlowWalk,		
 	EST_Walk,
-	EST_Run,			//Trot for horse
-	EST_FastRun,		//monsters don't have, gallop for horse
-	EST_Sprint			//monsters don't have, canter for horse
+	EST_Run,			
+	EST_FastRun,		
+	EST_Sprint			
 }
 
 
-/*
-enum EAsyncCheckResult
-{
-	ASR_InProgress,
-	ASR_ReadyTrue,
-	ASR_ReadyFalse,
-	ASR_Failed
-};
-*/
+
 
 struct SSwarmVictim
 {
@@ -1261,7 +1184,7 @@ struct SSwarmVictim
 	var inTrigger : bool;
 };
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 enum EBloodType
 {
 	BT_Undefined,

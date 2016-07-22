@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Rafal Jarczewski, Andrzej Kwiatkowski, Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_Trap extends W3CriticalEffect
 {
@@ -50,7 +53,7 @@ class W3Effect_Trap extends W3CriticalEffect
 			thePlayer.SetBehaviorVariable( 'bCriticalStopped', 1 );
 			thePlayer.BlockAllActions('W3Effect_Trap', false);
 		}
-		//movementAdjustor.Cancel( ticket );
+		
 		
 		super.OnEffectRemoved();
 	}

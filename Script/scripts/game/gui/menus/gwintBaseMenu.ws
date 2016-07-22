@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - gwint deck builder
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Jason Slama
-/***********************************************************************/
+
+
+
 
 class W3GwintQuitConfPopup extends ConfirmationPopupData
 {
@@ -22,7 +24,7 @@ class CR4GwintBaseMenu extends CR4MenuBase
 	protected var gwintManager : CR4GwintManager;
 	protected var flashConstructor : CScriptedFlashObject;
 
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		m_hideTutorial = true;
 		m_forceHideTutorial = true;
@@ -36,7 +38,7 @@ class CR4GwintBaseMenu extends CR4MenuBase
 		theGame.FadeInAsync( 0.2 );
 	}
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		theInput.RestoreContext( 'EMPTY_CONTEXT', true );
 		super.OnClosingMenu();
@@ -184,7 +186,7 @@ class CR4GwintBaseMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnConfirmSurrender():void
+	event  OnConfirmSurrender():void
 	{
 		quitConfPopup = new W3GwintQuitConfPopup in this;
 		

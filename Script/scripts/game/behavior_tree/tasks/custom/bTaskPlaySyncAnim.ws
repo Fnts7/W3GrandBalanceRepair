@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2015
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskPlaySyncAnim extends IBehTreeTask
 {
@@ -135,12 +137,9 @@ class CBTTaskPlaySyncAnimDef extends IBehTreeConditionalTaskDefinition
 };
 
 
-/***********************************************************************/
-/** 
-/***********************************************************************/
-/** Copyright © 2015
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 struct SSyncAttackTypes
 {
@@ -208,29 +207,29 @@ class CBTTaskPlaySyncAnimAttack extends CBTTaskAttack
 		{
 			angleDist = NodeToNodeAngleDistance( npc, target );
 			
-			// left stance anim
+			
 			if ( target == thePlayer && thePlayer.GetCombatIdleStance() == 0 )
 			{
-				// front anim
+				
 				if ( angleDist >= -90.0 && angleDist < 90.0 )
 				{
 					npc.SetBehaviorVariable( 'AttackType', (int)syncAttackAnims.leftStanceFrontAttack, true );
 				}
-				// back anim
+				
 				else
 				{
 					npc.SetBehaviorVariable( 'AttackType', (int)syncAttackAnims.leftStanceBackAttack, true );
 				}
 			}
-			// right stance anim
+			
 			else
 			{
-				// front anim
+				
 				if ( angleDist >= -90.0 && angleDist < 90.0 )
 				{
 					npc.SetBehaviorVariable( 'AttackType', (int)syncAttackAnims.rightStanceFrontAttack, true );
 				}
-				// back anim
+				
 				else
 				{
 					npc.SetBehaviorVariable( 'AttackType', (int)syncAttackAnims.rightStanceBackAttack, true );
@@ -378,10 +377,10 @@ class CBTTaskPlaySyncAnimAttack extends CBTTaskAttack
 		var targetPos 		: Vector;
 		var currentSpeed 	: float;
 		var witcher 		: W3PlayerWitcher;
-		//var tempB 		: bool;
 		
 		
-		//tempB = true;
+		
+		
 		target = GetCombatTarget();
 		npc = GetNPC();
 		

@@ -1,4 +1,9 @@
-﻿class W3CombatDamageEntity extends CInteractiveEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3CombatDamageEntity extends CInteractiveEntity
 {
 	var victims 	: array< CActor >;
 	var victim 		: CActor;
@@ -68,7 +73,7 @@ state Untouched in W3FlammableDamageEntity
 		
 		parent.pos = parent.GetWorldPosition();
 		
-		//parent.DealAdditionalDamage();
+		
 		parent.SpawnDamageArea();
 		parent.PlayBurningEffect();
 		parent.PushState( 'Burnt' );

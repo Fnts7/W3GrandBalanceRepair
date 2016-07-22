@@ -1,25 +1,28 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//An entity that can be locked by key e.g. door or container
+
+
+
 import abstract class W3LockableEntity extends CGameplayEntity
 {	
-	protected editable saved var keyItemName 		: name;			//name of the key that unlocks the container (if none then not locked at all)
-	protected editable saved var removeKeyOnUse 	: bool;			//if true then if entity is locked with key the key will be auto-taken from player on unlock
-	private editable var enabledByFact 			: string;		//if set then entity is not enabled as long as fact does not exist
-	private editable var factOnLockedAttempt 	: string;		//fact added when we try to open entity locked by key or fact and we don't have the key
+	protected editable saved var keyItemName 		: name;			
+	protected editable saved var removeKeyOnUse 	: bool;			
+	private editable var enabledByFact 			: string;		
+	private editable var factOnLockedAttempt 	: string;		
 	private editable var factOnUnlockedByKey 	: string;
 
 	import protected editable var isEnabledOnSpawn 	: bool;
-	import editable saved var lockedByKey : bool;							//internal var to hold info if the container is locked or not	
+	import editable saved var lockedByKey : bool;							
 	
 	protected optional autobind mainInteractionComponent : CDoorComponent = single;
 	
 	protected saved var isEnabled : bool;	
 	protected var isPlayerInActivationRange : bool;
-	protected var isInteractionBlocked : bool;								//when set to true all interactions are skipped but visible
+	protected var isInteractionBlocked : bool;								
 	
 	hint enabledByFact="If set then container will not be usable if fact does not exist";
 	hint factOnLockedAttempt="Fact added when we try to use interaction on entity locked by key or fact when we don't have the key or fact does not exist";
@@ -34,10 +37,10 @@ import abstract class W3LockableEntity extends CGameplayEntity
 	{
 		super.OnSpawned(spawnData);
 		
-		//on actual init
+		
 		if(!spawnData.restored)
 		{
-			//if uses fact enabling
+			
 			if(StrLen(enabledByFact) > 0)
 				isEnabled = FactsDoesExist(enabledByFact);
 			else
@@ -48,39 +51,35 @@ import abstract class W3LockableEntity extends CGameplayEntity
 		CheckLock();
 	}
 	
-	//Updates locked/unlock/loot interaction components
+	
 	public function UpdateComponents(newActiveComponentName : string)
 	{
 		var component : CComponent;
 		var statee : bool;
 		
-		//locked state
+		
 		component = GetComponent("Locked");
 		if(component)
 		{
 			statee = (newActiveComponentName == "Locked");
 			component.SetEnabled(statee);
 		}
-		else if( lockedByKey )//&& IsNameValid(keyItemName))
+		else if( lockedByKey )
 		{
 			LogAssert(false, "W3LockableEntity.UpdateInteractionComponents: Entity <<" + this + ">> is locked but has no Locked interaction component!");
 			LogLockable("W3LockableEntity.UpdateInteractionComponents: Entity <<" + this + ">> is locked but has no Locked interaction component!");
 		}
 		
-		//able to unlock state
+		
 		component = GetComponent("Unlock");
 		if(component)
 		{
 			statee = (newActiveComponentName == "Unlock");
 			component.SetEnabled(statee);
 		}
-		/*else if(IsNameValid(keyItemName))
-		{
-			LogAssert(false, "W3LockableEntity.UpdateInteractionComponents: Entity <<" + this + ">> is able to be unlocked but has no Unlock interaction component!");
-			LogLockable("W3LockableEntity.UpdateInteractionComponents: Entity <<" + this + ">> is able to be unlocked but has no Unlock interaction component!");
-		}*/
 		
-		//unlocked state
+		
+		
 		statee = ( newActiveComponentName == "Main" );
 
 		OnStateChange( statee );
@@ -99,12 +98,12 @@ import abstract class W3LockableEntity extends CGameplayEntity
 		if ( activator != thePlayer || isInteractionBlocked)
 			return false;
 					
-		// Check for key
+		
 		if(lockedByKey)
 		{
 			if( !IsNameValid(keyItemName) )
 			{
-				GetWitcherPlayer().DisplayHudMessage("panel_hud_message_just_locked"); //#B
+				GetWitcherPlayer().DisplayHudMessage("panel_hud_message_just_locked"); 
 				
 				if ( factOnLockedAttempt != "" )
 				{
@@ -115,7 +114,7 @@ import abstract class W3LockableEntity extends CGameplayEntity
 			
 			if(!thePlayer.inv.HasItem(keyItemName))
 			{
-				GetWitcherPlayer().DisplayHudMessage("panel_hud_message_locked"); //#B
+				GetWitcherPlayer().DisplayHudMessage("panel_hud_message_locked"); 
 				
 				if ( factOnLockedAttempt != "" )
 				{
@@ -129,7 +128,7 @@ import abstract class W3LockableEntity extends CGameplayEntity
 				{
 					FactsAdd(factOnUnlockedByKey, 1 );
 				}
-				GetWitcherPlayer().DisplayHudMessage("panel_hud_message_unlock"); //#B
+				GetWitcherPlayer().DisplayHudMessage("panel_hud_message_unlock"); 
 				Unlock();
 				return true;
 			}
@@ -226,17 +225,17 @@ import abstract class W3LockableEntity extends CGameplayEntity
 			}
 			else
 			{
-				UpdateComponents("Main");	//enable the components to force a proper OnInteractionActivated call
+				UpdateComponents("Main");	
 			}
 		}
 		else
 			UpdateComponents("");
 			
 		if(isPlayerInActivationRange && !skipInteractionUpdate)
-			ShowInteractionComponent();	//then set the proper interaction type
+			ShowInteractionComponent();	
 	}
 	
-	//choose and show proper interaction
+	
 	public function ShowInteractionComponent()
 	{				
 		if(isEnabled)
@@ -281,20 +280,20 @@ import abstract class W3LockableEntity extends CGameplayEntity
 	
 	event OnAreaEnter(area : CTriggerAreaComponent, activator : CComponent)
 	{
-		//add a timer that will make continuous checks for fact change for as long as the player is in trigger area
-		if(StrLen(enabledByFact) > 0 && activator.GetEntity() == thePlayer) // #B check here if this work with replacers
+		
+		if(StrLen(enabledByFact) > 0 && activator.GetEntity() == thePlayer) 
 			AddTimer('RefreshFactStatus', 0.001, true, , , true);
 	}
 	
 	event OnAreaExit(area : CTriggerAreaComponent, activator : CComponent)
 	{
-		if(StrLen(enabledByFact) > 0 && activator.GetEntity() == thePlayer) // #B check here if this work with replacers
+		if(StrLen(enabledByFact) > 0 && activator.GetEntity() == thePlayer) 
 			RemoveTimer('RefreshFactStatus');
 	}
 		
 	timer function RefreshFactStatus(dt : float, id : int)
 	{
-		//if fact status has changed...
+		
 		if(isEnabled != FactsDoesExist(enabledByFact))
 		{
 			LogLockable("W3LockableEntity.RefreshFactStatus: enabling fact status is different than the enabled state of <<" + this + ">>, changing enabled state to " + (!isEnabled));

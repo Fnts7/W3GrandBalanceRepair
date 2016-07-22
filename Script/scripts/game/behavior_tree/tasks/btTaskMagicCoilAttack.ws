@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2015 CD Projekt RED
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskMagicCoilAttack extends CBTTaskAttack
 {
@@ -25,14 +27,9 @@ class CBTTaskMagicCoilAttack extends CBTTaskAttack
 	private var m_numberOfFxActivated		: int;
 	private var m_activated					: bool;
 	
-	/*
-	function IsAvailable() : bool
-	{
-		return true;
-	}
-	*/
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
+	
 	function Initialize()
 	{
 		m_collisionGroups.PushBack('Ragdoll');
@@ -41,8 +38,8 @@ class CBTTaskMagicCoilAttack extends CBTTaskAttack
 		m_collisionGroups.PushBack('Water');
 	}	
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	latent function Main() : EBTNodeStatus
 	{
 		var npc						: CNewNPC = GetNPC();
@@ -79,8 +76,8 @@ class CBTTaskMagicCoilAttack extends CBTTaskAttack
 		
 		targetPos = GetCombatTarget().GetWorldPosition();
 		distToTarget = VecDistance2D( targetPos, npc.GetWorldPosition() );
-		//numberOfFxToPlay = (int)( distToTarget / shootProjectileRange * fxNames.Size() );
-		//numberOfFxToPlay = fxNames.Size() - numberOfFxToPlay;
+		
+		
 		
 		timeStamp = GetLocalTime();
 		
@@ -110,7 +107,7 @@ class CBTTaskMagicCoilAttack extends CBTTaskAttack
 		{
 			SleepOneFrame();
 			
-			//if ( m_numberOfFxActivated > fxNames.Size() && lastFxTime + playFxInterval < GetLocalTime() )
+			
 			if ( lastFxTime + playFxInterval < GetLocalTime() )
 			{
 				npc.StopEffect( fxNames[ fxNames.Size() - m_numberOfFxActivated ] );
@@ -134,8 +131,8 @@ class CBTTaskMagicCoilAttack extends CBTTaskAttack
 		return BTNS_Active;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnDeactivate()
 	{
 		var npc			: CNewNPC = GetNPC();
@@ -156,8 +153,8 @@ class CBTTaskMagicCoilAttack extends CBTTaskAttack
 		super.OnDeactivate();
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function ShootProjectile()
 	{
 		var target 						: CActor = GetCombatTarget();
@@ -194,7 +191,7 @@ class CBTTaskMagicCoilAttack extends CBTTaskAttack
 		targetPos.Z = combatTargetPos.Z + 1.5;
 		m_projectile.ShootProjectileAtPosition( m_projectile.projAngle, m_projectile.projSpeed, targetPos, range, m_collisionGroups );
 		
-		// allows npcs to dodge projectile before it hits
+		
 		l_3DdistanceToTarget = VecDistance( npc.GetWorldPosition(), combatTargetPos );		
 		l_projectileFlightTime = l_3DdistanceToTarget / m_projectile.projSpeed;
 		target.SignalGameplayEventParamFloat( 'Time2DodgeProjectile', l_projectileFlightTime );
@@ -262,8 +259,8 @@ class CBTTaskMagicCoilAttack extends CBTTaskAttack
 }
 
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class CBTTaskMagicCoilAttackDef extends CBTTaskAttackDef
 {
 	default instanceClass = 'CBTTaskMagicCoilAttack';

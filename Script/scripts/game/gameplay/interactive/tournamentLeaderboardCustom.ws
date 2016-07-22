@@ -1,12 +1,17 @@
-﻿
-//Struct that stores competitor data for  W3LeaderboardCustom  class
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 struct SLeaderBoardData
 {
 	saved var competitor : string;
 	saved var points 	 : int;
 }
 
-//Custom class for a dynamic poster of a leaderboard, used in sq701
+
 statemachine class W3LeaderboardCustom  extends W3Poster
 {
 
@@ -16,7 +21,7 @@ statemachine class W3LeaderboardCustom  extends W3Poster
 	editable var m_bottom_padding : int;
 	editable var m_left_padding : int;
 	
-	//We want to update the poster every time it's interated with
+	
 	event OnInteraction( actionName : string, activator : CEntity )
 	{
 		GenerateDescription();
@@ -24,7 +29,7 @@ statemachine class W3LeaderboardCustom  extends W3Poster
 		super.OnInteraction( actionName, activator );
 	}	
 	
-	//Generate description base on added competitors names and points
+	
 	private function GenerateDescription()
 	{
 		var i : int;
@@ -48,7 +53,7 @@ statemachine class W3LeaderboardCustom  extends W3Poster
 		
 	}
 	
-	//Display points either as symbols or actual numerical value
+	
 	private function AddPointMarkersString( points : int ) : string
 	{
 		var i : int;
@@ -68,7 +73,7 @@ statemachine class W3LeaderboardCustom  extends W3Poster
 		return pointsString;
 	}
 	
-	//Adds line breaks at the end to move text up
+	
 	private function AddBottomPadding() : string
 	{
 		var i : int;
@@ -83,7 +88,7 @@ statemachine class W3LeaderboardCustom  extends W3Poster
 		return padding;
 	}	
 
-	//Adds Spaces at the beginning of the line for arrangement
+	
 	private function AddLeftPadding() : string
 	{
 		var i : int;
@@ -103,7 +108,7 @@ statemachine class W3LeaderboardCustom  extends W3Poster
 		return padding;
 	}	
 	
-	//Change points of a competitor entry or create a new entry if it was not present yet
+	
 	public function AddPointToCompetitor( editedComptetitor : string, points : int )
 	{
 		var i : int;

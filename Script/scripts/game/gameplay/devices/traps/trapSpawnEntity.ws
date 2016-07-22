@@ -1,18 +1,23 @@
-﻿//>--------------------------------------------------------------------------
-// W3TrapSpawnEntity
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Trap that will spawn an entity when activated
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 25-June-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class W3TrapSpawnEntity extends W3Trap
 {
-	//>---------------------------------------------------------------------
-	// VARIABLES
-	//----------------------------------------------------------------------
+	
+	
+	
 	private editable var spawnOnlyOnAreaEnter			: bool;
 	private editable var maxSpawns						: float;
 	private editable var entityToSpawn					: CEntityTemplate;
@@ -29,8 +34,8 @@ class W3TrapSpawnEntity extends W3Trap
 	hint 	maxSpawns 					= "-1 means infinite. Maximum time the entity that can be spawn during trap lifetime";
 	hint 	offsetVector 				= "spawn position offset";
 	hint 	excludedActorsTags 			= "actors with these tags won't trigger the trap when entering the area";
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{	
 		var l_actor	: CActor;
@@ -56,8 +61,8 @@ class W3TrapSpawnEntity extends W3Trap
 			Activate();
 		}
 	}	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function ShouldExcludeActor( _Actor : CActor ) : bool
 	{
 		var i			: int;
@@ -78,8 +83,8 @@ class W3TrapSpawnEntity extends W3Trap
 		return false;
 	}
 	
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	public function Activate( optional _Target: CNode ):void
 	{
 		if( !m_IsActive && !spawnOnlyOnAreaEnter )
@@ -89,8 +94,8 @@ class W3TrapSpawnEntity extends W3Trap
 		
 		super.Activate( _Target );
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	function SpawnEntity()
 	{
 		var l_spawnPos 			: Vector;

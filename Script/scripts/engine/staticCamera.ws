@@ -1,4 +1,9 @@
-﻿enum EStaticCameraAnimState
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EStaticCameraAnimState
 {
 	SCAS_Default,
 	SCAS_Collapsed,
@@ -6,7 +11,7 @@
 	SCAS_ShakeTower,
 }
 
-enum EStaticCameraGuiEffect //#B for kill ?
+enum EStaticCameraGuiEffect 
 {
 	SCGE_None = 0,
 	SCGE_Hole,
@@ -27,9 +32,9 @@ import class CStaticCamera extends CCamera
 	import final latent function RunAndWait( optional timeout : float ) : bool;
 }
 
-/////////////////////////////////////////////
-// Static Camera Area class
-/////////////////////////////////////////////
+
+
+
 
 class CStaticCameraArea extends CEntity
 {

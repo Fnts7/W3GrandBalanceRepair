@@ -1,43 +1,45 @@
-﻿ /***********************************************************************/
-/** Witcher Script file - Illusionary Obstacle 
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CDProjektRed
-/** Author : Ryan Pergent, Tomek Kozera
-/***********************************************************************/
+ 
+
+
 
 enum EIllusionDiscoveredOneliner
 {
-	EIDO_PlayOnFirstDiscoveryInThisSession,				//oneliner is played only the first time this object is discovered in this gameplay session
-	EIDO_PlayOnFirstDiscovery,							//played only on first discovery
-	EIDO_PlayAlways,									//played always
-	EIDO_DontPlay										//not played at all
+	EIDO_PlayOnFirstDiscoveryInThisSession,				
+	EIDO_PlayOnFirstDiscovery,							
+	EIDO_PlayAlways,									
+	EIDO_DontPlay										
 }
 
 statemachine class W3IllusionaryObstacle extends CGameplayEntity
 {	
 
-	//>---------------------------------------------------------------------
-	// CONSTANTS
-	//----------------------------------------------------------------------
+	
+	
+	
 	private editable var focusAreaIntensity										: float;
 	default focusAreaIntensity	= 0.75f;
 	
 	default autoState = 'Default';
 	
 	
-	//>---------------------------------------------------------------------
-	// VARIABLES
-	//----------------------------------------------------------------------
+	
+	
+	
 	editable saved			var		isEnabled							: bool; default isEnabled = true;
 	
 	protected 	editable 	var		m_disappearanceEffectDuration		: float; default m_disappearanceEffectDuration = 5;
 				editable 	var		m_addFactOnDispel					: string;
 				editable 	var		m_addFactOnDiscovery				: string;
-				editable	var 	discoveryOnelinerTag				: string;		//if discovered all obstacles with this tag will not fire oneliner
+				editable	var 	discoveryOnelinerTag				: string;		
 	private 	saved	 	var		m_discoveryOneliner					: EIllusionDiscoveredOneliner;
 			
-	private 	saved	 	var 	m_illusionDiscoveredEver			: bool;			//if object was ever discovered
-	private 		 		var 	m_illusionDiscoveredThisSession		: bool;			//if object was discovered in this playthrough session
+	private 	saved	 	var 	m_illusionDiscoveredEver			: bool;			
+	private 		 		var 	m_illusionDiscoveredThisSession		: bool;			
 	private 				var 	interactionComponent				: CInteractionComponent;
 	private 				var 	meshComponent						: CMeshComponent;
 	private 				var		m_effectRange						: float; default m_effectRange = 8;
@@ -58,8 +60,8 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 	
 	
 	hint discoveryOnelinerTag = "if discovered all obstacles with this tag will not fire oneliner";
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{	
 		if ( m_wasDestroyed )
@@ -73,7 +75,7 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 				
 			m_illusionDiscoveredThisSession = false;
 			
-			//Dispel();
+			
 			
 			SetFocusModeVisibility( focusModeHighlight );
 			GotoStateAuto();
@@ -85,14 +87,14 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 		Destroy();
 	}
 
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	public function SetOneLinerHandling(h : EIllusionDiscoveredOneliner)
 	{
 		m_discoveryOneliner = h;
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	public function Dispel()
 	{
 		meshComponent = (CMeshComponent)GetComponentByClassName( 'CMeshComponent' );
@@ -106,21 +108,21 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 			FactsAdd( m_addFactOnDispel, 1 );
 		}
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private timer function DeactivateFocusArea( _delta:float , id : int)
 	{
 		isFocusAreaActive = false;
 		theGame.GetFocusModeController().SetFocusAreaIntensity( 0.0f );
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	public function OverrideIllusionObstacleFactOnSpawn( overrideFactName : string )
 	{
 		m_addFactOnDispel = overrideFactName;
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------	
+	
+	
 	public function OverrideIllusionObstacleFactOnDiscovery( overrideFactName : string )
 	{
 		m_addFactOnDiscovery = overrideFactName;
@@ -210,7 +212,7 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 		GotoState( 'Interacting' );
 	}
 	
-	//oneliner when illusion is found
+	
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{
 		var play, groupDiscovered : bool;
@@ -223,19 +225,19 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 		}
 		
 				
-		//oneliner
+		
 		if(activator.GetEntity() == thePlayer && FactsQuerySum("blocked_illusion_oneliner") == 0 && thePlayer.IsAlive() && thePlayer.inv.GetItemQuantityByTag(theGame.params.TAG_ILLUSION_MEDALLION) > 0)
 		{
 			play = false;
 			groupDiscovered = false;
 			
-			//oneliner testing
+			
 			tags = GetTags();
 			for(i=0; i<tags.Size(); i+=1)
 			{
 				if(FactsQuerySum("io_disc_" + NameToString(tags[i])) )
 				{
-					//some illusionary obstacle from this 'group' already discovered - don't play oneliner
+					
 					play = false;
 					groupDiscovered = true;
 					break;
@@ -274,7 +276,7 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 				isFocusAreaActive = true;
 				theGame.GetFocusModeController().SetFocusAreaIntensity( focusAreaIntensity );
 				
-				//fact
+				
 				if(activator.GetEntity() == thePlayer && m_addFactOnDiscovery != "" && thePlayer.inv.GetItemQuantityByTag(theGame.params.TAG_ILLUSION_MEDALLION) > 0 )
 				{
 					if( !FactsDoesExist(m_addFactOnDiscovery) )
@@ -285,7 +287,7 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 				}				
 			}
 			
-			//mark all from tag as discovered
+			
 			if(discoveryOnelinerTag != "")
 				FactsAdd("io_disc_" + discoveryOnelinerTag);
 		}
@@ -293,7 +295,7 @@ statemachine class W3IllusionaryObstacle extends CGameplayEntity
 	
 	event OnAreaExit( area : CTriggerAreaComponent, activator : CComponent )
 	{	
-		//Only player can deactivate area
+		
 		if ( activator.GetEntity() != thePlayer  )
 		{
 			return false;
@@ -329,7 +331,7 @@ state Interacting in W3IllusionaryObstacle
 	{
 		var restoreUsableItem : bool;
 		
-		// blocking interaction with other objects and fast travel
+		
 		thePlayer.BlockAction(EIAB_Interactions, 'IllusionObstacle' );
 		thePlayer.BlockAction(EIAB_FastTravel, 'IllusionObstacle' );
 		thePlayer.BlockAllActions( 'input_handler', true );
@@ -339,11 +341,11 @@ state Interacting in W3IllusionaryObstacle
 		{
 			restoreUsableItem = true;
 			
-			//WaitForUseItemAction ();	
+			
 			
 			thePlayer.HideUsableItem(true);
 			
-			//WaitForUseItemAction ();
+			
 			
 		}
 		

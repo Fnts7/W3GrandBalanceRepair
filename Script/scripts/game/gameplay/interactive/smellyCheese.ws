@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Authors : Danisz Markiewicz
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3SmellyCheese extends W3AirDrainEntity
 {
@@ -20,13 +23,13 @@ class W3SmellyCheese extends W3AirDrainEntity
 		{
 			PlayEffect(aardedEffectName);
 			GetComponent('CheeseSmell').SetEnabled(false);
-			//GetComponent('CheeseSmellSmall').SetEnabled(true);
+			
 		}
 		else
 		{
 			PlayEffect(smellEffectName);
 			GetComponent('CheeseSmell').SetEnabled(true);
-			//GetComponent('CheeseSmellSmall').SetEnabled(false);	
+			
 		}
 	}
 	
@@ -39,7 +42,7 @@ class W3SmellyCheese extends W3AirDrainEntity
 			StopEffect(smellEffectName);
 			PlayEffect(aardedEffectName);
 			GetComponent('CheeseSmell').SetEnabled(false);
-			//GetComponent('CheeseSmellSmall').SetEnabled(true);
+			
 			
 			deactivated = true;
 			
@@ -64,7 +67,7 @@ class W3SmellyCheese extends W3AirDrainEntity
 	timer function ReactivateLogic( delta : float , id : int)
 	{
 		GetComponent('CheeseSmell').SetEnabled(true);
-		//GetComponent('CheeseSmellSmall').SetEnabled(false);
+		
 		
 		deactivated = false;
 	}

@@ -1,4 +1,9 @@
-﻿state RecipePinning in W3TutorialManagerUIHandler extends TutHandlerBaseState
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+state RecipePinning in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
 	private const var PIN, SHOP : name;
 	private var isClosing : bool;
@@ -29,7 +34,7 @@
 	{
 		super.OnMenuClosing(menuName);
 		
-		//prevent alchemy from opening once again
+		
 		if(menuName == 'AlchemyMenu')
 			theGame.GameplayFactsAdd("tutorial_alchemy_pin_done", 1);
 		else if(menuName == 'CraftingMenu')

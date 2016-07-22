@@ -1,4 +1,9 @@
-﻿class W3SnowballProjectile extends W3AdvancedProjectile
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3SnowballProjectile extends W3AdvancedProjectile
 {
 	editable var damageTypeName : name;
 	editable var initFxName : name;
@@ -6,18 +11,18 @@
 	editable var specialFxOnVictimName : name;
 	editable var applyDebuffIfNoDmgWasDealt : bool;
 	
-	//protected var victim : CActor;
+	
 	
 	hint specialFxOnVictimName = "will be played on collision when applyDebuffIfNoDmgWasDealt is set to true";
 	
 	event OnProjectileInit()
 	{
-		//this.PlayEffect( initFxName );
+		
 		damageTypeName = theGame.params.DAMAGE_NAME_PIERCING;
 		isActive = true;
 	}
 	
-	//FIXME looks very much like W3BoulderProjectile, W3ElementalIfrytProjectile, W3ElementalDaoProjectile, W3StoneProjectile, PoisonProjectile
+	
 	event OnProjectileCollision( pos, normal : Vector, collidingComponent : CComponent, hitCollisionsGroups : array< name >, actorIndex : int, shapeIndex : int )
 	{
 		var action : W3DamageAction;
@@ -42,7 +47,7 @@
 			this.StopEffect( initFxName );
 			this.PlayEffect(onCollisionFxName);
 			 
-			//dealdmg
+			
 			
 			action = new W3DamageAction in this;
 			action.Initialize((CGameplayEntity)caster,victim,this,caster.GetName(),EHRT_Light,CPS_AttackPower, false, true, false, false);
@@ -56,14 +61,14 @@
 			theGame.damageMgr.ProcessAction( action );
 			delete action;
 			
-			//do rest
+			
 			if ( applyDebuffIfNoDmgWasDealt )
 				victim.PlayEffect(specialFxOnVictimName);
 			
 			collidedEntities.PushBack(victim);
 			isActive = false;
 		}
-		else if ( !victim )//projectile Hit the ground
+		else if ( !victim )
 		{
 			this.StopProjectile();
 			this.DestroyAfter(1.f);

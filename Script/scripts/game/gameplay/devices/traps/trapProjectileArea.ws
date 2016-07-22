@@ -1,13 +1,18 @@
-﻿//>--------------------------------------------------------------------------
-// W3TrapProjectileArea
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Trap that will shoots projectiles at a random position inside a area
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 25-June-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 
 class W3TrapProjectileArea_CreateEntityHelper extends CCreateEntityHelper
 {
@@ -35,10 +40,10 @@ class W3TrapProjectileArea_CreateEntityHelper extends CCreateEntityHelper
 
 class W3TrapProjectileArea extends W3Trap
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
-	// Editable
+	
+	
+	
+	
 	private editable var projectile 				: CEntityTemplate;
 	private editable var density					: float;
 	private editable var maxShots					: int;
@@ -91,7 +96,7 @@ class W3TrapProjectileArea extends W3Trap
 	hint maxDistanceFromPlayer		= "[More Costly | works poorly with advancedDistribution] No projectile will land further than this distance from player (-1 means no limit)";
 	hint forbidingAreaRadius			= "Every projectile landing will create an area around which no other projectile is allowed to land (-1 means no forbiding)";
 	
-	// Private
+	
 	private var m_AreaComponent				: CTriggerAreaComponent;	
 	private var m_ProjectilePositionGrid	: array<Vector>;
 	private var m_UsedProjectilePosition	: array<Vector>;	
@@ -117,11 +122,11 @@ class W3TrapProjectileArea extends W3Trap
 	private var m_DebugIndex				: int;
 	
 	
-	// saved	
+	
 	private saved var m_TotalQuantityShot	: int;
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{		
 		super.OnSpawned( spawnData );
@@ -134,11 +139,11 @@ class W3TrapProjectileArea extends W3Trap
 		
 		m_CreateEntityHelper 		= new W3TrapProjectileArea_CreateEntityHelper in theGame;
 		
-		// Debug purpose
-		//AddTimer( 'GeneratePositionGrid', 1, false );
+		
+		
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function GeneratePositionGrid()
 	{
 		var x, y			: int;
@@ -191,11 +196,11 @@ class W3TrapProjectileArea extends W3Trap
 		{
 			ShufflePositionArray();
 		}
-		//thePlayer.GetVisualDebug().AddArrow('length', l_areaPoints[0], l_areaPoints[0] + l_lengthVector, 1.f, 0.2f, 0.2f, true, Color(20,20,158), true );
-		//thePlayer.GetVisualDebug().AddArrow('width', l_areaPoints[0], l_areaPoints[0] + l_widthVector, 1.f, 0.2f, 0.2f, true, Color(20,20,158), true );
+		
+		
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function ShufflePositionArray()
 	{
 		var l_baseArray 	: array<Vector>;
@@ -214,8 +219,8 @@ class W3TrapProjectileArea extends W3Trap
 		
 		m_ProjectilePositionGrid = l_shuffleArray;
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{	
 		var l_entity : CEntity;
@@ -238,8 +243,8 @@ class W3TrapProjectileArea extends W3Trap
 			Activate( activator );
 		}
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	event OnAreaExit( area : CTriggerAreaComponent, activator : CComponent )
 	{	
 		var l_entity : CEntity;
@@ -260,8 +265,8 @@ class W3TrapProjectileArea extends W3Trap
 			Deactivate( );
 		}
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------	
+	
+	
 	public function Activate( optional _Target: CNode ):void
 	{
 		super.Activate( _Target );
@@ -270,8 +275,8 @@ class W3TrapProjectileArea extends W3Trap
 			m_TotalQuantityShot = 0;
 		}
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function ShouldExcludeEntity( _Entity : CNode ) : bool
 	{
 		var i			: int;
@@ -291,15 +296,15 @@ class W3TrapProjectileArea extends W3Trap
 		
 		return false;
 	}
-	//>---------------------------------------------------------------------
-	// Override of the TrapUpdate Function
-	//----------------------------------------------------------------------	
+	
+	
+	
 	private timer function Update( _dT:float , id : int):void
 	{
 		var i 			: int;
 		var l_actor		: CActor;
 		
-		// If I am currently shooting
+		
 		if( m_CreateEntityHelper.IsCreating() )
 		{
 			return;
@@ -324,7 +329,7 @@ class W3TrapProjectileArea extends W3Trap
 			}
 			else
 			{
-				// Test more often if we didn't find a shooting position this time
+				
 				m_DelayUntilNextShoot	= 0.5f;
 				m_QuantityShotNext 		= RandRange( projAtOnce.max, projAtOnce.min );
 			}
@@ -352,15 +357,15 @@ class W3TrapProjectileArea extends W3Trap
 		if( m_DelayUntilNextShoot <= 0 &&  ( maxShots < 0 || m_TotalQuantityShot <= maxShots ) )
 		{
 			m_Shot = false;			
-			// First shoot, the others are managed at the beginning of the update function
+			
 			if( Shoot() )
 			{
 				m_Shot = true;
 			}		
 		}				
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------	
+	
+	
 	private function Shoot( ) : bool
 	{
 		var l_projectileToShoot : W3AdvancedProjectile;
@@ -369,7 +374,7 @@ class W3TrapProjectileArea extends W3Trap
 		var l_rotation			: EulerAngles;
 		var l_forwardVector		: Vector;
 		var l_targetPlayer		: bool;
-		//var l_createEntityHelper : W3TrapProjectileArea_CreateEntityHelper;
+		
 		
 		if( m_TotalQuantityShot > maxShots && maxShots >= 0 ) return false;
 		
@@ -397,13 +402,13 @@ class W3TrapProjectileArea extends W3Trap
 		
 		MagnetLandingPosition ( l_targetPos );
 		
-		// Do not shoot if too far away from player (PickRandomShootPosition always returns a position even if too far away)
+		
 		if( maxDistanceFromPlayer >= 0 && VecDistance( thePlayer.GetWorldPosition(), l_targetPos ) > maxDistanceFromPlayer )
 		{
 			return false;
 		}
 		
-		// Forbidding
+		
 		if( forbidingAreaRadius > 0 )
 		{
 			m_ForbiddenPos.PushBack( l_targetPos );
@@ -418,7 +423,7 @@ class W3TrapProjectileArea extends W3Trap
 		l_forwardVector = l_targetPos - l_originPos;
 		l_rotation 		= VecToRotation( l_forwardVector );
 	
-		//l_createEntityHelper = new W3TrapProjectileArea_CreateEntityHelper in theGame;
+		
 		m_CreateEntityHelper.Reset();
 		m_CreateEntityHelper.owner = this;
 		m_CreateEntityHelper.velocity = RandRangeF( velocity.max, velocity.min );
@@ -432,8 +437,8 @@ class W3TrapProjectileArea extends W3Trap
 		
 		return true;
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function MagnetLandingPosition( out _Position : Vector )
 	{
 		var t, e		: int;
@@ -447,7 +452,7 @@ class W3TrapProjectileArea extends W3Trap
 			FindGameplayEntitiesCloseToPoint( l_entities, _Position, magnetRange, 99, magnetTags[t] );
 			for ( e = 0; e < l_entities.Size(); e += 1 )
 			{
-				// Ignore dead actors
+				
 				l_actor = (CActor) l_entities[e];				
 				if( l_actor && !l_actor.IsAlive() )
 				{ 
@@ -455,7 +460,7 @@ class W3TrapProjectileArea extends W3Trap
 				}
 				
 				l_magnetPos = l_entities[e].GetWorldPosition() + magnetOffset;
-				// If the position is outside the trigger, don't snap
+				
 				if( m_AreaComponent.TestPointOverlap( l_magnetPos ) )
 				{
 					_Position = l_magnetPos;
@@ -464,8 +469,8 @@ class W3TrapProjectileArea extends W3Trap
 			}
 		}
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function PickRandomShootPosition() : Vector
 	{
 		var l_randomIndex 		: int;
@@ -484,13 +489,13 @@ class W3TrapProjectileArea extends W3Trap
 			
 			l_position = m_ProjectilePositionGrid[ m_ProjectilePositionGrid.Size() - 1 ];
 			
-			// Return the postion without "using" it. It will be casted away further in the code.
+			
 			if( maxDistanceFromPlayer >= 0 && VecDistance( thePlayer.GetWorldPosition(), l_position ) > maxDistanceFromPlayer )
 			{
 				return l_position;
 			}
 			
-			// "Use" the position
+			
 			m_ProjectilePositionGrid.PopBack();
 			m_UsedProjectilePosition.PushBack( l_position );
 			
@@ -500,7 +505,7 @@ class W3TrapProjectileArea extends W3Trap
 		{
 			if( maxDistanceFromPlayer >= 0 || forbidingAreaRadius > 0 )
 			{
-				// optimise test by only updating if the player moved far enough
+				
 				if( maxDistanceFromPlayer >= 0 && forbidingAreaRadius > 0 )
 					l_minMoveDistance = MinF( maxDistanceFromPlayer, forbidingAreaRadius );
 				else
@@ -526,7 +531,7 @@ class W3TrapProjectileArea extends W3Trap
 				
 				if( m_AcceptablePos.Size() == 0 )
 				{
-					return Vector( 0, 0, 0 );	// Will not shoot if Vector zero
+					return Vector( 0, 0, 0 );	
 				}
 				
 				l_randomIndex = RandRange( m_AcceptablePos.Size() );
@@ -539,8 +544,8 @@ class W3TrapProjectileArea extends W3Trap
 			}
 		}
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function PosCloseToPoint( _PosToFilter: array<Vector>, _Center : Vector, _Distance : float) : array<Vector>
 	{
 		var i, s, l_numToSkip 	: int;
@@ -549,16 +554,16 @@ class W3TrapProjectileArea extends W3Trap
 		
 		l_pos = _PosToFilter;
 		
-		// For optimisation: all pos are relatively close to each other. So if one pos is too far or in range,
-		// assume that a certain amount of the following ones are in the same case.
-		// Skip test on all the following positions that are less than 10% of the maxDistance away
+		
+		
+		
 		l_numToSkip = RoundF( ( _Distance * 0.1f ) / m_GridSquareWidth );
 		
 		for( i = l_pos.Size() - 1 ; i >= 0 ; i -= i + l_numToSkip )
 		{
 			if( VecDistance( _Center, l_pos[i] ) > _Distance )
 			{	
-				// Erase this one at all the other to skip
+				
 				for( s = 0; s <= l_numToSkip && (i - s) >= 0; s += 1 )
 				{
 					l_pos.EraseFast( i - s );
@@ -568,8 +573,8 @@ class W3TrapProjectileArea extends W3Trap
 		
 		return l_pos;
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function PosNotForbidden( _PosToFilter: array<Vector> ) : array<Vector>
 	{
 		var i, f, l_numToSkip 	: int;

@@ -1,4 +1,9 @@
-﻿class W3CiriPhantom extends CGameplayEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3CiriPhantom extends CGameplayEntity
 {
 	private var owner : CActor;
 	private var target : CActor;
@@ -60,7 +65,7 @@
 		
 	}
 	
-		//This event sets the attack data and fires parry/counter/attack check
+		
 	event OnPreAttackEvent(animEventName : name, animEventType : EAnimationEventType, data : CPreAttackEventData, animInfo : SAnimationEventAnimInfo )
 	{		
 		var parriedBy : array<CActor>;
@@ -69,14 +74,14 @@
 		var inventory : CInventoryComponent;
 		var weaponEntity : CItemEntity;		
 	
-		//LogAttackEvents("PreAttack " + animEventType);
 		
-		//preparation, initialization of all the data
+		
+		
 		if(animEventType == AET_DurationStart)
 		{
 			owner.SetAttackData(data);
 		}
-		//actual check if we parried / countered at the end of PreAttack event
+		
 		else if(animEventType == AET_DurationEnd)
 		{
 			inventory = owner.GetInventory();
@@ -89,8 +94,8 @@
 				return false;
 			}
 				
-			//hitTargets.PushBack(target);
-			//parriedBy = owner.TestParryAndCounter(data, weaponId);
+			
+			
 			data.canBeDodged = false;
 			data.attackName = 'attack_heavy';
 			Attack(target, data, weaponId, parriedBy, GetAnimNameFromEventAnimInfo( animInfo ), GetLocalAnimTimeFromEventAnimInfo( animInfo ), weaponEntity);
@@ -136,7 +141,7 @@
 		return true;
 	}
 	
-	///////////////////////////ANIM EVENTS//////////////////////////////
+	
 	event OnAnimEvent_AllowBlend( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		if ( animEventType == AET_DurationStart )
@@ -150,7 +155,7 @@
 		this.PlayEffectOnHeldWeapon('light_trail_fx');
 	}
 	
-	////////////////////////////////////////////////////////////
+	
 	
 	function PlayEffectOnHeldWeapon( effectName : name ) : bool
 	{

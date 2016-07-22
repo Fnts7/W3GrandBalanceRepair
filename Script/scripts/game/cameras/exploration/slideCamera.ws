@@ -1,11 +1,16 @@
-﻿// CCameraPivotPositionControllerSlide
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 23/01/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CCameraPivotPositionControllerSlide extends ICustomCameraScriptedPivotPositionController
 {
 	private		var	originalPosition	: Vector;	
@@ -13,41 +18,41 @@ class CCameraPivotPositionControllerSlide extends ICustomCameraScriptedPivotPosi
 	private		var	timeCur				: float;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	protected function ControllerUpdate( out currentPosition : Vector, out currentVelocity : Vector, timeDelta : float )
 	{
-		//var Zoffset				: Vector;
+		
 		var	blendXYCoef			: float;
 		var blendZSpeed			:float;
 		var	blendZCoef			: float;
 		var targetPosition		: Vector;
 		var preset				: SCustomCameraPreset;
 		
-		// Original position
+		
 		if( timeCur	== 0.0f )
 		{
 			originalPosition	= currentPosition;
 		}
 		
-		// Get the preset to use some data
-		//preset				= theGame.GetGameCamera().GetActivePreset(); 
 		
-		// Get the target position
-		targetPosition		=  thePlayer.GetWorldPosition();// + preset.offset;
 		
-		// Get the blends
-		// Blend the target position on XY
+		
+		
+		targetPosition		=  thePlayer.GetWorldPosition();
+		
+		
+		
 		originalPosition	= Vector( BlendF( originalPosition.X, targetPosition.X, blendSpeed * timeDelta )
 									, BlendF( originalPosition.Y, targetPosition.Y, blendSpeed * timeDelta )
 									, BlendF( originalPosition.Z, targetPosition.Z, blendSpeed * timeDelta ) );
 		
-		// Set the final position
+		
 		currentPosition = originalPosition;
 		
 		timeCur			+= timeDelta;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	protected function ControllerActivate( currentOffset : float )
 	{		
 		timeCur	= 0.0f;

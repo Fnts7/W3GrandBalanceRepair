@@ -1,4 +1,9 @@
-﻿class BTTaskRaiseEventOnEntity extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class BTTaskRaiseEventOnEntity extends IBehTreeTask
 {
 	private var entityTag : name;
 	private var eventName : name;
@@ -49,8 +54,8 @@
 	}
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 
 class BTTaskRaiseEventOnEntityDef extends IBehTreeTaskDefinition
 {
@@ -65,8 +70,8 @@ class BTTaskRaiseEventOnEntityDef extends IBehTreeTaskDefinition
 	default forceEvent = false;
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 
 class BTTaskPlaySyncedAnimWithEntity extends IBehTreeTask
 {
@@ -94,8 +99,8 @@ class BTTaskPlaySyncedAnimWithEntity extends IBehTreeTask
 	}
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 
 class BTTaskPlaySyncedAnimWithEntityDef extends IBehTreeTaskDefinition
 {

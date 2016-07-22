@@ -1,9 +1,12 @@
-﻿/****************************************/
-/** Copyright © 2016
-/** Author : Andrzej Zawadzki
-/****************************************/
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-//buff that heals player
+
+
+
 class W3Effect_Mutation11Buff extends CBaseGameplayEffect
 {
 	default effectType = EET_Mutation11Buff;
@@ -15,7 +18,7 @@ class W3Effect_Mutation11Buff extends CBaseGameplayEffect
 		
 		super.OnEffectAdded( customParams );
 		
-		//initial heal
+		
 		theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation11', 'health_prc', min, max );		
 		target.ForceSetStat( BCS_Vitality, target.GetMaxHealth() * min.valueAdditive );
 	}
@@ -24,16 +27,16 @@ class W3Effect_Mutation11Buff extends CBaseGameplayEffect
 	{
 		super.OnEffectAddedPost();
 		
-		//animation and fireworks
+		
 		GetWitcherPlayer().Mutation11StartAnimation();
 		
-		//unpause health regen
+		
 		target.ResumeHPRegenEffects( '', true );
 		
-		//start regen
+		
 		target.StartVitalityRegen();
 		
-		//immortal
+		
 		target.AddEffectDefault( EET_Mutation11Immortal, target, "Mutation 11", false );
 		
 		theGame.MutationHUDFeedback( MFT_PlayRepeat );
@@ -41,10 +44,10 @@ class W3Effect_Mutation11Buff extends CBaseGameplayEffect
 	
 	event OnEffectRemoved()
 	{
-		//remove immortality buff
+		
 		target.RemoveBuff( EET_Mutation11Immortal );
 		
-		//add delay
+		
 		target.AddEffectDefault( EET_Mutation11Debuff, NULL, "Mutation 11 Debuff", false );
 		
 		super.OnEffectRemoved();

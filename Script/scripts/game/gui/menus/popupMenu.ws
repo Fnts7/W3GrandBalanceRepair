@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Layer for displaying popups/tooltips
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Yaroslav Getsevich
-/***********************************************************************/
+
+
+
 
 class CR4MenuPopup extends CR4OverlayMenu
 {
@@ -13,7 +15,7 @@ class CR4MenuPopup extends CR4OverlayMenu
 	private var m_HideTutorial 		: bool;
 	private var m_fxSetBarValueSFF	: CScriptedFlashFunction;
 
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		m_initialized = false;
 		
@@ -63,10 +65,10 @@ class CR4MenuPopup extends CR4OverlayMenu
 		m_initialized = true;
 	}
 	
-	// #Y We don't update common input feedback during popup
-	function /*override*/ SetButtons(){}
 	
-	event /*flash*/ OnSetQuantity(QuantityValue : int) // #B OnSetSliderValue :P
+	function  SetButtons(){}
+	
+	event  OnSetQuantity(QuantityValue : int) 
 	{
 		var quantityData : SliderPopupData;
 		
@@ -77,7 +79,7 @@ class CR4MenuPopup extends CR4OverlayMenu
 		}
 	}
 
-	event /*flash*/ OnContextActionChange(navCode:string, autoExec:bool)
+	event  OnContextActionChange(navCode:string, autoExec:bool)
 	{
 		var contextMenuData : W3ContextMenu;
 		
@@ -87,17 +89,17 @@ class CR4MenuPopup extends CR4OverlayMenu
 			contextMenuData.curActionNavCode = navCode;
 			if (autoExec)
 			{
-				contextMenuData.OnUserFeedback("enter-gamepad_A"); // #Y TODO: Remove hardcode
+				contextMenuData.OnUserFeedback("enter-gamepad_A"); 
 			}
 		}
 	}
 	
-	event /*flash*/ OnInputHandled(NavCode:string, KeyCode:int, ActionId:int)
+	event  OnInputHandled(NavCode:string, KeyCode:int, ActionId:int)
 	{
 		m_DataObject.OnUserFeedback(NavCode);
 	}
 	
-	event /*flash*/ OnBookRead( bookItemId : SItemUniqueId )
+	event  OnBookRead( bookItemId : SItemUniqueId )
 	{
 		var popupData : BookPopupFeedback;
 		var uiData    : SInventoryItemUIData;
@@ -106,7 +108,7 @@ class CR4MenuPopup extends CR4OverlayMenu
 		
 		if (thePlayer.inv.IsIdValid( bookItemId ) && !thePlayer.inv.ItemHasTag( bookItemId, 'Quest' ) )
 		{
-			// force new flag to show in glossary
+			
 			uiData = thePlayer.inv.GetInventoryItemUIData( bookItemId );
 			uiData.isNew = false;
 			thePlayer.inv.SetInventoryItemUIData( bookItemId, uiData );
@@ -120,7 +122,7 @@ class CR4MenuPopup extends CR4OverlayMenu
 		}
 	}
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		var commonMenuRef : CR4CommonMenu;
 		commonMenuRef = theGame.GetGuiManager().GetCommonMenu();
@@ -198,7 +200,7 @@ class CR4MenuPopup extends CR4OverlayMenu
 	}
 	
 	
-	//-------------- RTT ----------------------
+	
 	
 	private var rttItemLoaded : bool;
 	private var itemRotation  : EulerAngles;
@@ -218,7 +220,7 @@ class CR4MenuPopup extends CR4OverlayMenu
 		m_flashValueStorage.SetFlashBool( "render.to.texture.texture.visible", false);
 	}
 	
-	protected /* override */ function UpdateSceneEntityFromCreatureDataComponent( entity : CEntity )
+	protected  function UpdateSceneEntityFromCreatureDataComponent( entity : CEntity )
 	{
 		super.UpdateSceneEntityFromCreatureDataComponent(entity);
 		
@@ -274,19 +276,19 @@ class CR4MenuPopup extends CR4OverlayMenu
 		guiSceneController.SetEntityTransform(itemPosition, itemRotation, itemScale);
 	}
 	
-	event /* C++ */ OnGuiSceneEntitySpawned(entity : CEntity)
+	event  OnGuiSceneEntitySpawned(entity : CEntity)
 	{		
 		UpdateItemScale();
 		UpdateSceneEntityFromCreatureDataComponent( entity );
 		Event_OnGuiSceneEntitySpawned();
 	}
 	
-	event /* flash */ OnRotateItemRight()
+	event  OnRotateItemRight()
 	{
 		RotateItem(-10);
 	}
 	
-	event /* flash */ OnRotateItemLeft()
+	event  OnRotateItemLeft()
 	{
 		RotateItem(10);
 	}

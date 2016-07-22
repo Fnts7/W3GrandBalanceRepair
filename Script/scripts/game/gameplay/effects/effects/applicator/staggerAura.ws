@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//Aura that applies stagger effect on all targets
+
+
+
 class W3StaggerAura extends W3Effect_Aura
 {
 	default effectType = EET_StaggerAura;

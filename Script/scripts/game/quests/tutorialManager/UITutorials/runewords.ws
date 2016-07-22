@@ -1,10 +1,15 @@
-﻿state Runewords in W3TutorialManagerUIHandler extends TutHandlerBaseState
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+state Runewords in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
 	private const var RUNEWORDS2, ITEMS, ENCHANTS, ENCHANT_DESC, LEVEL, UI : name;
 	private var isClosing : bool;
 	private const var LEFT_X, LEFT_Y, RIGHT_X, RIGHT_Y : float;
 	
-		//default RUNEWORDS 	= 'TutorialRunewords';
+		
 		default RUNEWORDS2 	= 'TutorialRunewords2';
 		default ITEMS 		= 'TutorialEnchantingItems';
 		default ENCHANTS	= 'TutorialEnchantingEnchants';
@@ -30,7 +35,7 @@
 	{
 		isClosing = true;
 		
-		//CloseStateHint(RUNEWORDS);
+		
 		CloseStateHint(RUNEWORDS2);
 		CloseStateHint(ITEMS);
 		CloseStateHint(ENCHANTS);
@@ -50,13 +55,7 @@
 		if(closedByParentMenu || isClosing)
 			return true;
 		
-		/*
-		if(hintName == RUNEWORDS)
-		{
-			CloseStateHint(RUNEWORDS);
-			ShowHint(RUNEWORDS2, theGame.params.TUT_POS_ALCHEMY_X, theGame.params.TUT_POS_ALCHEMY_Y+0.1, ETHDT_Input);
-		}
-		else*/
+		
 		if(hintName == RUNEWORDS2)
 		{
 			highlights.Resize(1);
@@ -113,14 +112,14 @@
 	}
 }
 
-// DEBUG - we need to sleep so hence the overkill with class and state
+
 exec function tutrunewords()
 {
-	//turn tutorial system ON
+	
 	TutorialMessagesEnable(true);
 	theGame.GetTutorialSystem().TutorialStart(false);
 	theGame.GetTutorialSystem().UnmarkMessageAsSeen('TutorialRunewords2');
 	
-	//register tutorial - this is normally done in quest phase
+	
 	TutorialScript3('runewords','');
 }

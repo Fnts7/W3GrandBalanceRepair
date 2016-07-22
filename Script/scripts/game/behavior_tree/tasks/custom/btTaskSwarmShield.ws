@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskSwarmShield extends CBTTaskPlayAnimationEventDecorator
 {
@@ -37,7 +39,7 @@ class CBTTaskSwarmShield extends CBTTaskPlayAnimationEventDecorator
 			else
 			{
 				shieldGroupId = lair.GetGroupId( 'shield' );
-				//lair.RequestGroupStateChange_ByGroupId( shieldGroupId, 'shield' );
+				
 				lair.SignalArrivalAtNode( 'gotoBirdMaster', npc, 'shield', shieldGroupId );
 			}
 		}

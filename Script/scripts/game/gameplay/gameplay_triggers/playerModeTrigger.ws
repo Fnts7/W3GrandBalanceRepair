@@ -1,10 +1,13 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : collective mind of the CDP
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
 
-// DEPRECATED
+
+
+
 class W3SafeModeTrigger extends CGameplayEntity
 {
 	editable var enable : bool;
@@ -16,8 +19,8 @@ class W3SafeModeTrigger extends CGameplayEntity
 	
 	event OnAreaExit( area : CTriggerAreaComponent, activator : CComponent )
 	{	
-		// is the following functionality needed?
-		// thePlayer.EnableMode( PM_Safe, !enable );
+		
+		
 	}		
 }
 

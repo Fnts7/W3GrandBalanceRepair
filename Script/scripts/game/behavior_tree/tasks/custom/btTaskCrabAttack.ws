@@ -1,11 +1,16 @@
-﻿class CBTTaskCrabAttack extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskCrabAttack extends IBehTreeTask
 {
 
-	//TODO caching Damage action would be beneficial to performance
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{
 		var crab : CNewNPC = GetNPC();
-		//FIXME should be an attack action
+		
 		var action : W3DamageAction = new W3DamageAction in theGame.damageMgr;
 		
 		if ( animEventName == 'AttackLight' && animEventType == AET_DurationStart)

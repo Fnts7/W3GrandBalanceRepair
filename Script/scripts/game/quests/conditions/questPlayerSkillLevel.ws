@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 enum EQuestPlayerSkillLevel
 {
@@ -47,13 +50,13 @@ class W3QuestCond_PlayerSkillLevel extends CQuestScriptedCondition
 		{
 			for(i=0; i<skills.Size(); i+=1)
 			{
-				//first check if skill is known at all
+				
 				knowsSkill = witcher.HasLearnedSkill(skills[i].skill);
 				
 				if(!knowsSkill)
 					return false;
 				
-				//then check equip
+				
 				isEquipped = witcher.IsSkillEquipped(skills[i].skill);
 			
 				if(skills[i].condition == EQPSC_Equipped)
@@ -67,7 +70,7 @@ class W3QuestCond_PlayerSkillLevel extends CQuestScriptedCondition
 						return false;
 				}
 				
-				//then check level
+				
 				if(witcher.GetSkillLevel(skills[i].skill) < skills[i].skillLevel)
 					return false;
 			}

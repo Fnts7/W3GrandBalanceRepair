@@ -1,11 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/**	
-	When editing this function make sure to make corresponding changes in ChangeNPCState quest function!
-*/
+
+
+
 class W3QuestCond_IsInState extends CQCActorScriptedCondition
 {
 	editable var actorState : EQuestNPCStates;

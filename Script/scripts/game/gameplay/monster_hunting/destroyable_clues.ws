@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Danisz Markiewicz
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3DestroyableClue extends W3MonsterClue
 {
@@ -14,7 +17,7 @@ class W3DestroyableClue extends W3MonsterClue
 	editable var reactsToBombs : bool;
 	
 
-//	editable var destroyedAppearance : name;
+
 	editable var defaultEffect : name;
 	
 	editable var effectOnReaction : name;
@@ -93,7 +96,7 @@ class W3DestroyableClue extends W3MonsterClue
 		{
 			if( !GetAreFistsEquipped() )
 			{
-				//Ignore signs.
+				
 				if (!act.IsActionWitcherSign()) 
 				{
 					if ( reactsToSwords && act.IsActionMelee())
@@ -112,7 +115,7 @@ class W3DestroyableClue extends W3MonsterClue
 		super.OnWeaponHit(act);
 	}
 	
-	//DZ: Process Bomb Hits (Bombs sadly don't trigger OnWeaponHit)
+	
 	event OnFireHit(entity : CGameplayEntity)
 	{
 		ProcessBombDestruction(entity);
@@ -239,7 +242,7 @@ class W3DestroyableClue extends W3MonsterClue
 		return false;
 	}
 	
-	//If there are components inside - check if they are destroyed
+	
 	private function DestructionSystemCheck() : bool
 	{
 		var components : array<CComponent>;

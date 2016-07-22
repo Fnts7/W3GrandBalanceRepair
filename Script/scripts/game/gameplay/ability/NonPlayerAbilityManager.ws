@@ -1,12 +1,15 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Ability manager to be used with actors other than player
+
+
+
 class W3NonPlayerAbilityManager extends W3AbilityManager
 {
-	private var weatherBonuses : array<SWeatherBonus>;			//list of weather bonus data used by this npc
+	private var weatherBonuses : array<SWeatherBonus>;			
 
 	public function Init(ownr : CActor, cStats : CCharacterStats, isFromLoad : bool, diff : EDifficultyMode) : bool
 	{
@@ -27,12 +30,12 @@ class W3NonPlayerAbilityManager extends W3AbilityManager
 			return false;
 		}
 		
-		//add default non-player character ability - this needs to be done before we get abilities so we need to call it before super.Init
+		
 		ownr.AddAbility(theGame.params.GLOBAL_ENEMY_ABILITY);
 		
 		weatherBonuses.Clear();
 		
-		//also add character level bonuses for each level above 1		
+		
 		if ( ! isFromLoad )
 		{
 			npc.AddTimer('AddLevelBonuses', 0.1, true, false, , true);
@@ -63,11 +66,11 @@ class W3NonPlayerAbilityManager extends W3AbilityManager
 	
 	
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////////  @WEATHER BONUSES  /////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//loads weather bonuses used by this NPC and sets the initial weather check timer
+	
+	
+	
+	
 	private function InitWeatherBonuses()
 	{
 		var dm : CDefinitionsManagerAccessor;
@@ -76,7 +79,7 @@ class W3NonPlayerAbilityManager extends W3AbilityManager
 		var abilityTags : array<name>;
 		var bonus : SWeatherBonus;
 	
-		abs = owner.GetAbilities(false);
+		owner.GetCharacterStats().GetAbilities(abs,false);
 		dm = theGame.GetDefinitionsManager();
 		dm.GetUniqueContainedAbilities( abs, atts );
 		
@@ -158,11 +161,11 @@ class W3NonPlayerAbilityManager extends W3AbilityManager
 		return '';
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// Initializes NPC skills - adds proper abilities
+	
+	
+	
+	
 	private function InitSkills()
 	{
 		var atts : array<name>;
@@ -176,7 +179,7 @@ class W3NonPlayerAbilityManager extends W3AbilityManager
 		{
 			if(!IsBasicAttack(atts[i]) && !dm.AbilityHasTag(atts[i], theGame.params.DIFFICULTY_TAG_DIFF_ABILITY) && !dm.AbilityHasTag(atts[i], theGame.params.NOT_A_SKILL_ABILITY_TAG) )
 			{
-				//if it's an ability name and it's not a basic attack (those are already added) and not a difficulty-based ability
+				
 				charStats.AddAbility(atts[i]);
 			}
 		}
@@ -189,7 +192,7 @@ class W3NonPlayerAbilityManager extends W3AbilityManager
 	
 		ret = super.GetAttributeValueInternal(attributeName, tags);
 	
-		//we need to remove bonuses from blocked abilities already added to the character
+		
 		for(i=0; i<blockedAbilities.Size(); i+=1)
 		{
 			if(charStats.HasAbility(blockedAbilities[i].abilityName))

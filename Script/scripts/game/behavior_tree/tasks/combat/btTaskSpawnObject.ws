@@ -1,6 +1,11 @@
-﻿class CBTTaskSpawnObject extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskSpawnObject extends IBehTreeTask
 {
-	//Editable variables set in the task definition
+	
 	var useThisTask				: bool;
 	var objectTemplate 			: CEntityTemplate;
 	var useAnimEvent			: bool;
@@ -15,12 +20,12 @@
 	var offsetInLocalSpace 		: bool;
 	var randomizeOffset 		: bool;
 	
-	//Shared variables
+	
 	var spawnNodes				: array<CNode>;
 	var i, size 				: int;
 	var npc						: CNewNPC;
 
-	//This method sets all the shared variables - is meant to be overriden in child classes
+	
 	function InitSpawnObject()
 	{
 		var spawnNode : CNode;
@@ -40,8 +45,8 @@
 			
 			if( spawnNode )
 			{
-				//For future use - working on an array in case of spawning multiple objects
-				//on multiple spawnNodes
+				
+				
 				spawnNodes.Clear();
 				spawnNodes.PushBack( spawnNode );
 			}
@@ -54,11 +59,11 @@
 		var boneIndex 		: int;
 		var isAvailable 	: bool;
 		
-		//This flag is returned at the end of the method and modified if there is an error or 
-		//unpredicted situation, so the tree branch will not spawn
+		
+		
 		isAvailable = useThisTask;
 		
-		//No template was specified
+		
 		if( !objectTemplate )
 		{
 			LogChannel( 'AITasks', "EEROR in NPC tree: " + GetNPC() + " missing editable variable definitions in TaskSpawnObject" );
@@ -74,17 +79,17 @@
 		var boneIndex 		: int;
 		var isAvailable 	: bool;
 		
-		//Initialize the task
+		
 		InitSpawnObject();
 		
-		//spawnNode does not exist in game world
+		
 		if( spawnNodes.Size() == 0 )
 		{
 			LogChannel( 'AITasks', "WARNING in NPC tree TaskSpawnObject, spawnNodes array is empty, NPC: " + npc );
 			isAvailable = false;
 		}
 		
-		//spawnNode has to have bones
+		
 		if( spawnAtBonePosition )
 		{
 			size = spawnNodes.Size();
@@ -93,7 +98,7 @@
 			{
 				spawnEntity = (CEntity)spawnNodes[i];
 				
-				//spawnNodes[i] is not a CEntity - will have no bones for sure
+				
 				if( !spawnEntity )
 				{
 					LogChannel( 'AITasks', "ERROR in NPC tree: " + GetNPC() + " spawnNode with specified spawnNodeTag: " + spawnNodeTag + " in TaskSpawnObject is not an Entity and spawnAtBonePosition property is set to true" );
@@ -103,7 +108,7 @@
 				{
 					boneIndex = spawnEntity.GetBoneIndex( boneName );
 					
-					//spawnNode is an entity, but has no bones with specified boneName
+					
 					if( boneIndex == -1 )
 					{
 						LogChannel( 'AITasks', "ERROR in NPC tree: " + GetNPC() + " spawnNode with specified spawnNodeTag: " + spawnNodeTag + " in TaskSpawnObject has no bones with specified boneName: " + boneName );
@@ -220,7 +225,7 @@ class CBTTaskSpawnObjectDef extends IBehTreeTaskDefinition
 	editable var objectTemplate 		: CEntityTemplate;
 	editable var useAnimEvent			: bool;
 	editable var spawnAnimEventName		: name;
-	//editable var spawnNodeTag 			: name;
+	
 	editable var spawnAtBonePosition 	: bool;
 	editable var boneName 				: name;
 	editable var spawnOnGround 			: bool;
@@ -246,7 +251,4 @@ class CBTTaskSpawnObjectDef extends IBehTreeTaskDefinition
 	hint randomizeOffset = "Randomizes each axis of the offset from 0 to spawnPositionOffset range";
 }
 
-/*exec function matTest()
-{
-	thePlayer.GetVisualDebug().AddSphere( 'dsljkfadsa', 0.5f, VecTransform( thePlayer.GetLocalToWorld(), Vector( 0, 2, 0 ) ), true, Color( 0, 0, 255 ), 10.f );
-}*/
+

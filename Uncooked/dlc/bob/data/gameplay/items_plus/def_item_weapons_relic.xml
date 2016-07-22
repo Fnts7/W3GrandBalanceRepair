@@ -10,7 +10,7 @@
 				<weight							type="base"	min="5.7"				/>
 				<quality						type="add"	min="4"					/>
 				<SlashingDamage 				type="base"	min="1"					/>
-				<item_level_min					type="add"	min="35"				/>
+				<item_level_min					type="add"	min="1"					/>
 				<item_level_max					type="add"	min="100"				/>
 			</ability>
 

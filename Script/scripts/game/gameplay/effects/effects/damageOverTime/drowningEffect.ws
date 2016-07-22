@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Patryk Fiutowski, Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_Drowning extends W3DamageOverTimeEffect
 {
@@ -54,7 +57,7 @@ class W3Effect_Drowning extends W3DamageOverTimeEffect
 			}
 		}
 		
-		//stop drowning if player found some air
+		
 		if( target.GetStat(BCS_Air) > 0 || ( isOnPlayer && !thePlayer.OnCheckDiving() ) )
 		{
 			isActive = false;

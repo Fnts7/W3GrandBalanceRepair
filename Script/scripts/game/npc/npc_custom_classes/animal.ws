@@ -1,4 +1,9 @@
-﻿class CAnimal extends CNewNPC
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CAnimal extends CNewNPC
 {
 	editable var animalType : EAnimalType;
 	
@@ -13,8 +18,8 @@
 		}
 		else if( animalType == EAT_Pheasant )
 		{
-			//AddAnimEventCallback( 'SetNoWingsAppearance', 'OnAnimEvent_SetNoWingsAppearance' );
-			//AddAnimEventCallback( 'SetWingsAppearance', 'OnAnimEvent_SetWingsAppearance' );
+			
+			
 			
 			SetBehaviorVariable( 'canJumpInRun', 1.0 );
 		}
@@ -40,33 +45,9 @@
 		return true;
 	}
 	
-	/*event OnAnimEvent_SetNoWingsAppearance( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
-	{
-		if( animalType == EAT_Pheasant )
-		{
-			SetAppearance( 'pheasant_01' );
-		}
-		
-		return true;
-	}
 	
-	event OnAnimEvent_SetWingsAppearance( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
-	{
-		if( animalType == EAT_Pheasant )
-		{
-			SetAppearance( 'pheasant_01_wings' );
-		}
-		
-		return true;
-	}*/
 	
-	/*event OnIdleEnd()
-	{
-		if( animalType == EAT_Peacock )
-		{
-			SetAppearance( 'peacock_01' );
-		}
-	}*/
+	
 }
 
 enum EAnimalType

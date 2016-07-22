@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera, Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class W3InteractionSwitch extends W3PhysicalSwitch
 {
@@ -44,7 +46,7 @@ class W3InteractionSwitch extends W3PhysicalSwitch
 		
 		if ( isActivatedByPlayer )
 		{
-			// when interaction is active during locking/unlocking switch, we need to change interaction icon
+			
 			hud = (CR4ScriptedHud)theGame.GetHud();
 			if ( hud )
 			{
@@ -59,7 +61,7 @@ class W3InteractionSwitch extends W3PhysicalSwitch
 		var vecToObject 				: Vector;
 		var heading						: float;
 		
-		//thePlayer.GotoState( 'ApproachInteractionState' );
+		
 		
 		vecToObject = this.GetWorldPosition() - thePlayer.GetWorldPosition();
 		heading = VecHeading( vecToObject );
@@ -67,14 +69,14 @@ class W3InteractionSwitch extends W3PhysicalSwitch
 		inteactionState.SetObjectPointHeading( heading, this );
 		inteactionState.SetSyncInteractionAnimation( on, switchType );
 		
-			//hide usable item
+			
 		if (thePlayer.IsHoldingItemInLHand())
 		{
 			thePlayer.HideUsableItem(true);
 			restoreUsableItemL = true;
 		}
 		
-		thePlayer.GotoState( 'ApproachInteractionState' );// true );
+		thePlayer.GotoState( 'ApproachInteractionState' );
 	}
 	
 	function UpdateInteractionComponent( optional component : CComponent )
@@ -142,8 +144,8 @@ class W3InteractionSwitch extends W3PhysicalSwitch
 				else
 				{
 					InteractWith( true, switchOffAnimationType );
-					//AK: moved to syncManager, since we don't know if player changed switch state until sync anim is started
-					//ProcessPostTurnActions( false, false );
+					
+					
 					EntityHandleSet( lastActivatorHandle, thePlayer );
 				}
 			}
@@ -156,63 +158,15 @@ class W3InteractionSwitch extends W3PhysicalSwitch
 				else
 				{
 					InteractWith( false, switchOffAnimationType );
-					//AK: moved to syncManager, since we don't know if player changed switch state until sync anim is started
-					//ProcessPostTurnActions( false, false );
+					
+					
 					EntityHandleSet( lastActivatorHandle, thePlayer );
 				}
 			}
 		}
 		
-		/*
-		if ( IsOn() )
-		{
-			if ( switchOffAnimationType == PSAT_Lever )
-			{
-				InteractWith( true, PSAT_Lever );
-				theGame.GetSyncAnimManager().SetupSimpleSyncAnim( 'SwitchLeverOff', thePlayer, this );
-				//ProcessPostTurnActions( false, false );
-				EntityHandleSet( lastActivatorHandle, thePlayer );
-			}
-			else if ( switchOffAnimationType == PSAT_Button )
-			{
-				InteractWith( true, PSAT_Button );
-				theGame.GetSyncAnimManager().SetupSimpleSyncAnim( 'SwitchButtonOff', thePlayer, this );
-				//ProcessPostTurnActions( false, false );
-				EntityHandleSet( lastActivatorHandle, thePlayer );
-			}
-			else
-			{
-				Toggle( (CActor)activator, false, false );
-			}
-		}
-		else if ( IsOff() )
-		{
-			if ( switchOnAnimationType == PSAT_Lever )
-			{
-				InteractWith( false, PSAT_Lever );
-				theGame.GetSyncAnimManager().SetupSimpleSyncAnim( 'SwitchLeverOn', thePlayer, this );
-				//ProcessPostTurnActions( false, false );
-				EntityHandleSet( lastActivatorHandle, thePlayer );
-			}
-			else if ( switchOnAnimationType == PSAT_Button )
-			{
-				InteractWith( false, PSAT_Button );
-				theGame.GetSyncAnimManager().SetupSimpleSyncAnim( 'SwitchButtonOn', thePlayer, this );
-				//ProcessPostTurnActions( false, false );
-				EntityHandleSet( lastActivatorHandle, thePlayer );
-			}
-			else
-			{
-				Toggle( (CActor)activator, false, false );
-			}
-		}
-		*/
-		/*
-		if ( IsOn() || IsOff() )
-		{
-			Toggle( (CActor)activator, false, false );
-		}
-		*/	
+		
+			
 	}
 	
 	event OnInteractionActivationTest( interactionComponentName : string, activator : CEntity )

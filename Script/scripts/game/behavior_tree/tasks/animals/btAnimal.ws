@@ -1,6 +1,11 @@
-﻿
-//////////////////////////////////////////////////////////////////////////////
-///////// CBTTaskAnimalSetIsScared
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 class CBTTaskAnimalSetIsScared extends IBehTreeTask
 {
 	var value 				: bool;
@@ -26,7 +31,7 @@ class CBTTaskAnimalSetIsScared extends IBehTreeTask
 		animalData = (CAIStorageAnimalData)RequestStorageItem( 'AnimalData', 'CAIStorageAnimalData' );
 	}
 }
-// CBTTaskAnimalSetIsScaredDef
+
 class CBTTaskAnimalSetIsScaredDef extends IBehTreeHorseTaskDefinition
 {
 	default instanceClass = 'CBTTaskAnimalSetIsScared';
@@ -36,8 +41,8 @@ class CBTTaskAnimalSetIsScaredDef extends IBehTreeHorseTaskDefinition
 }
 
 
-///////////////////////////////////////////////////
-// CBTCondAnimalIsScared
+
+
 class CBTCondAnimalIsScared extends IBehTreeTask
 {	
 	var animalData 	: CAIStorageAnimalData;
@@ -57,7 +62,7 @@ class CBTCondAnimalIsScared extends IBehTreeTask
 	}
 };
 
-// CBTCondAnimalIsScaredDef
+
 class CBTCondAnimalIsScaredDef extends IBehTreeHorseConditionalTaskDefinition
 {
 	default instanceClass = 'CBTCondAnimalIsScared';
@@ -70,8 +75,8 @@ class CBTCondAnimalIsScaredDef extends IBehTreeHorseConditionalTaskDefinition
 	}
 };
 
-///////////////////////////////////////////////////
-// CBTCondAnimalFlee
+
+
 class CBTCondAnimalFlee extends IBehTreeTask
 {	
 	var chanceOfBeingScared 			: float;
@@ -131,7 +136,7 @@ class CBTCondAnimalFlee extends IBehTreeTask
 	}
 };
 
-// CBTCondAnimalFleeDef
+
 class CBTCondAnimalFleeDef extends IBehTreeHorseConditionalTaskDefinition
 {
 	default instanceClass = 'CBTCondAnimalFlee';
@@ -143,8 +148,8 @@ class CBTCondAnimalFleeDef extends IBehTreeHorseConditionalTaskDefinition
 };
 
 
-///////////////////////////////////////////////////
-// CBTTaskReactToHostility
+
+
 class CBTTaskReactToHostility extends IBehTreeTask
 {	
 	function OnListenedGameplayEvent( eventName : name ) : bool
@@ -177,7 +182,7 @@ class CBTTaskReactToHostility extends IBehTreeTask
 	}
 };
 
-// CBTCondAnimalIsScaredDef
+
 class CBTTaskReactToHostilityDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'CBTTaskReactToHostility';

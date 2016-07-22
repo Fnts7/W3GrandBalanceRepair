@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskSirenAttack extends CBTTaskAttack
 {
@@ -14,14 +16,14 @@ class CBTTaskSirenAttack extends CBTTaskAttack
 		var npc : CNewNPC = GetNPC();
 		
 		
-		//FIXME
-		//HACK
-		// This is some old code and it's broken. I checked it but to me it seems that this never gets called... In case it does it needs to get fixed:
-		//  * this never gets called - the event doesn't come,
-		//  * the stamina is already spent during attack
-		//  * the buff should be set in attack instead of hacking it like this
-		//  * especially that the code for applying the buff does not take into cosideration attitudes and attack range		
-		//  * also if you hypnotize a siren it won't be able to stagger other sirens
+		
+		
+		
+		
+		
+		
+		
+		
 		if ( animEventName == 'AttackScream' )
 		{
 			actors = npc.GetAttackableNPCsAndPlayersInRange(12);

@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskWander extends IBehTreeTask
 {
@@ -39,11 +41,11 @@ class CBTTaskWander extends IBehTreeTask
 		
 		randVec = VecRingRand(minDistance,maxDistance);
 		whereTo = initialPos + randVec;
-		//heading = VecHeading(initialPos - whereTo);
+		
 		absSpeed = RandRangeF( maxSpeed, minSpeed );
 		
-		//actorToTargetAngle = AbsF( AngleDistance( VecHeading( whereTo - actor.GetWorldPosition() ), VecHeading( actor.GetHeadingVector() )));
-		//actorToTargetAngle = AbsF( VecGetAngleBetween( whereTo - actor.GetWorldPosition() ), VecHeading( actor.GetHeadingVector() )));
+		
+		
 		distToTarget = VecDistance( actor.GetWorldPosition(), whereTo );
 		
 		res = actor.ActionMoveTo( whereTo, moveType, absSpeed );
@@ -55,26 +57,7 @@ class CBTTaskWander extends IBehTreeTask
 		
 		return BTNS_Active;
 		
-		/*
-		headingChange = RandRangeF( 20.0, 10.0 );
-		if ( RandRangeF( 1.0, -1.0 ) < 0 )
-		{
-			headingChange *= -1;
-		}
-		heading = heading + headingChange;
-		newHeading = VecFromHeading( heading );
 		
-		checkPos = actor.GetWorldPosition() + newHeading * randVec;
-		
-		res = actor.ActionMoveToWithHeading( whereTo, newHeading, moveType, absSpeed );
-
-		isMoving = false;
-		if( res )
-		{
-			return BTNS_Completed;
-		}
-		return BTNS_Failed;
-		*/
 	}
 	
 	function OnDeactivate() : void

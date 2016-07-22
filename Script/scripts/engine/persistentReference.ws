@@ -1,28 +1,30 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Exports for PersistentRef
-/** Copyright © 2010
-/***********************************************************************/
+
+
+
 
 import struct PersistentRef
 {
 };
 
-// Create from entity
+
 import function PersistentRefSetNode( out outPersistentRef : PersistentRef, node : CNode );
 
-// Create from orientation
+
 import function PersistentRefSetOrientation( out outPersistentRef : PersistentRef, position : Vector, rotation : EulerAngles );
 
-// Get entity
+
 import function PersistentRefGetEntity( out persistentRef : PersistentRef ) : CEntity;
 
-// Get world position
+
 import function PersistentRefGetWorldPosition( out persistentRef : PersistentRef ) : Vector;
 
-// Get world rotation
+
 import function PersistentRefGetWorldRotation( out persistentRef : PersistentRef ) : EulerAngles;
 
-// Get world orientation
+
 import function PersistentRefGetWorldOrientation( out persistentRef : PersistentRef, out outPosition : Vector, out outRotation : EulerAngles );

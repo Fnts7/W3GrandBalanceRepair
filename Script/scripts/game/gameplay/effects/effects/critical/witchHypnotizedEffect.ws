@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera, Patryk Fiutowski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_WitchHypnotized extends W3CriticalEffect
 {
@@ -25,7 +28,7 @@ class W3Effect_WitchHypnotized extends W3CriticalEffect
 		blockedActions.PushBack(EIAB_Movement);
 		blockedActions.PushBack(EIAB_Fists);
 		blockedActions.PushBack(EIAB_Jump);
-		//blockedActions.PushBack(EIAB_RunAndSprint);
+		
 		blockedActions.PushBack(EIAB_ThrowBomb);
 		blockedActions.PushBack(EIAB_Crossbow);
 		blockedActions.PushBack(EIAB_UsableItem);
@@ -33,7 +36,7 @@ class W3Effect_WitchHypnotized extends W3CriticalEffect
 		blockedActions.PushBack(EIAB_Roll);
 		blockedActions.PushBack(EIAB_SwordAttack);
 		blockedActions.PushBack(EIAB_Parry);
-		//blockedActions.PushBack(EIAB_Sprint);
+		
 		blockedActions.PushBack(EIAB_Explorations);
 		blockedActions.PushBack(EIAB_Counter);
 		blockedActions.PushBack(EIAB_LightAttacks);
@@ -45,9 +48,9 @@ class W3Effect_WitchHypnotized extends W3CriticalEffect
 	
 	event OnUpdate(deltaTime : float)
 	{
-		//remove if on player and caster is dead
-		//if(isOnPlayer && !owner.IsAlive())
-		//	timeLeft = 0;
+		
+		
+		
 			
 		super.OnUpdate(deltaTime);
 	}
@@ -63,7 +66,7 @@ class W3Effect_WitchHypnotized extends W3CriticalEffect
 		
 		if ( this.isOnPlayer )
 		{
-			//bla bla bla camera start
+			
 			actor = (CActor)GetCreator();
 			customCameraParams.source = actor;
 			customCameraParams.useCustomCamera = true;
@@ -72,7 +75,7 @@ class W3Effect_WitchHypnotized extends W3CriticalEffect
 			customCameraParams.cameraParams.enums[0].enumValue = CCT_CustomController;
 			customCameraParams.cameraParams.enums[1].enumType = 'ECustomCameraController';
 			customCameraParams.cameraParams.enums[1].enumValue = CCC_NoTarget;
-			//customCameraStackIndex = player.AddCustomCamToStack( customCameraParams );
+			
 			thePlayer.AddCustomOrientationTarget(OT_Camera, 'HypnotizedEffect');
 			
 			template = (CEntityTemplate)LoadResource("bies_fx");
@@ -81,10 +84,10 @@ class W3Effect_WitchHypnotized extends W3CriticalEffect
 			{
 				fxEntity.CreateAttachment(thePlayer);
 				
-				//we have now way of saving a dynamic entity so we can add a saved timer instead
+				
 				fxEntity.DestroyAfter(duration);
 			}
-			//AreaEnvironmentActivate("env_bies_hypnotize");
+			
 			environment = (CEnvironmentDefinition)LoadResource("env_bies_hypnotize");
     		envID = ActivateEnvironmentDefinition( environment, 1000, 1, 1.f );
     		theGame.SetEnvironmentID(envID);
@@ -109,8 +112,8 @@ class W3Effect_WitchHypnotized extends W3CriticalEffect
 		
 		if ( isOnPlayer )
 		{
-			//bla bla bla camera over
-			//AreaEnvironmentDeactivate("env_bies_hypnotize");
+			
+			
 			DeactivateEnvironment( envID, 1 );
 			actor = (CActor)GetCreator();
 			if(actor)
@@ -118,7 +121,7 @@ class W3Effect_WitchHypnotized extends W3CriticalEffect
 			
 			thePlayer.RemoveCustomOrientationTarget( 'HypnotizedEffect' );
 			
-			//player.Kill(true);
+			
 		}
 		super.OnEffectRemoved();
 	}	

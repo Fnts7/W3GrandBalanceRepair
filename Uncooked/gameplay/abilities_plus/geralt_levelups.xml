@@ -2,6 +2,10 @@
 <redxml>
 	<custom>
 		<leveling>
+			<!-- infinite levels -->
+			<level number="-1"  requiredExp="2000"   	   addedSkillPoints="1"/>
+			
+			<!-- custom levels -->
 			<level number="1"   requiredTotalExp="0"      addedSkillPoints="0"/>	
 			<level number="2"   requiredTotalExp="1000"    addedSkillPoints="1"/>	
 			<level number="3"   requiredTotalExp="2000"    addedSkillPoints="1"/>
@@ -52,57 +56,9 @@
 			<level number="48"  requiredTotalExp="80000"  addedSkillPoints="1"/>
 			<level number="49"  requiredTotalExp="82000"  addedSkillPoints="1"/>
 			<level number="50"  requiredTotalExp="84000"  addedSkillPoints="1"/>
-			<level number="51"  requiredTotalExp="86000"  addedSkillPoints="1"/>	
-			<level number="52"  requiredTotalExp="88000"  addedSkillPoints="1"/>	
-			<level number="53"  requiredTotalExp="90000"  addedSkillPoints="1"/>
-			<level number="54"  requiredTotalExp="92000"  addedSkillPoints="1"/>
-			<level number="55"  requiredTotalExp="94000"  addedSkillPoints="1"/>
-			<level number="56"  requiredTotalExp="96000"  addedSkillPoints="1"/>
-			<level number="57"  requiredTotalExp="98000"  addedSkillPoints="1"/>	
-			<level number="58"  requiredTotalExp="100000"  addedSkillPoints="1"/>
-			<level number="59"  requiredTotalExp="102000"  addedSkillPoints="1"/>
-			<level number="60"  requiredTotalExp="104000"  addedSkillPoints="1"/>
-			<level number="61"  requiredTotalExp="106000"   addedSkillPoints="1"/>
-			<level number="62"  requiredTotalExp="108000"   addedSkillPoints="1"/>	
-			<level number="63"  requiredTotalExp="110000"   addedSkillPoints="1"/>
-			<level number="64"  requiredTotalExp="112000"   addedSkillPoints="1"/>
-			<level number="65"  requiredTotalExp="114000"   addedSkillPoints="1"/>
-			<level number="66"  requiredTotalExp="116000"   addedSkillPoints="1"/>
-			<level number="67"  requiredTotalExp="118000"   addedSkillPoints="1"/>	
-			<level number="68"  requiredTotalExp="120000"   addedSkillPoints="1"/>
-			<level number="69"  requiredTotalExp="122000"   addedSkillPoints="1"/>
-			<level number="70"  requiredTotalExp="124000"   addedSkillPoints="1"/>
-		<!-- Level Cap -->
-			<level number="71"  requiredTotalExp="126000"   addedSkillPoints="1"/>
-			<level number="72"  requiredTotalExp="128000"   addedSkillPoints="1"/>	
-			<level number="73"  requiredTotalExp="130000"   addedSkillPoints="1"/>
-			<level number="74"  requiredTotalExp="132000"   addedSkillPoints="1"/>
-			<level number="75"  requiredTotalExp="134000"   addedSkillPoints="1"/>
-			<level number="76"  requiredTotalExp="136000"   addedSkillPoints="1"/>
-			<level number="77"  requiredTotalExp="138000"   addedSkillPoints="1"/>	
-			<level number="78"  requiredTotalExp="140000"   addedSkillPoints="1"/>
-			<level number="79"  requiredTotalExp="142000"   addedSkillPoints="1"/>
-			<level number="80"  requiredTotalExp="144000"   addedSkillPoints="1"/>	
-			<level number="81"  requiredTotalExp="146000"   addedSkillPoints="1"/>
-			<level number="82"  requiredTotalExp="148000"   addedSkillPoints="1"/>
-			<level number="83"  requiredTotalExp="150000"   addedSkillPoints="1"/>
-			<level number="84"  requiredTotalExp="152000"   addedSkillPoints="1"/>
-			<level number="85"  requiredTotalExp="154000"   addedSkillPoints="1"/>
-			<level number="86"  requiredTotalExp="156000"   addedSkillPoints="1"/>
-			<level number="87"  requiredTotalExp="158000"   addedSkillPoints="1"/>
-			<level number="88"  requiredTotalExp="160000"   addedSkillPoints="1"/>
-			<level number="89"  requiredTotalExp="162000"   addedSkillPoints="1"/>
-			<level number="90"  requiredTotalExp="164000"   addedSkillPoints="1"/>
-			<level number="91"  requiredTotalExp="166000"   addedSkillPoints="1"/>
-			<level number="92"  requiredTotalExp="168000"   addedSkillPoints="1"/>
-			<level number="93"  requiredTotalExp="170000"   addedSkillPoints="1"/>
-			<level number="94"  requiredTotalExp="172000"   addedSkillPoints="1"/>
-			<level number="95"  requiredTotalExp="174000"   addedSkillPoints="1"/>
-			<level number="96"  requiredTotalExp="176000"   addedSkillPoints="1"/>
-			<level number="97"  requiredTotalExp="178000"   addedSkillPoints="1"/>
-			<level number="98"  requiredTotalExp="180000"   addedSkillPoints="1"/>
-			<level number="99"  requiredTotalExp="190000"   addedSkillPoints="1"/>
-			<level number="100"  requiredTotalExp="200000"   addedSkillPoints="1"/>			
+
+			<!-- levels 51 - 99 use 'infinite leveling' mechanics -->			
+			<!-- level 100 is maxcap -->
 		</leveling>
 	</custom>
 </redxml>

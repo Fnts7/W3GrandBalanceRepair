@@ -1,18 +1,19 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskArchesporManager
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Manages the Archespor's combat behavior
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Copyright © 2015 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-/*struct SPredefinedPos
-{
-	var bulb : W3ArchesporBulb;
-	var node : CNode;
-}*/
+
+
+
+
+
+
+
+
+
+
 
 class BTTaskArchesporManager extends IBehTreeTask
 {
@@ -27,10 +28,7 @@ class BTTaskArchesporManager extends IBehTreeTask
 	private var guardArea : CAreaComponent;
 	private var losTestCollisionGroups : array<name>;
 	
-	/*private var usesPredefinedPos : bool;
-	private var predefinedPosTag : name;
-	private var predefinedPosTagPrefix : string;
-	private var predefinedPos : array<SPredefinedPos>;*/
+	
 	
 	private var baseEntitiesSearchingRange : float;
 	private var baseEntityTag : name;
@@ -42,8 +40,7 @@ class BTTaskArchesporManager extends IBehTreeTask
 	private var maxDistFromAnchor : float;
 	private var spawnEntitiesAroundPlayer : bool;
 	
-	/*default usesPredefinedPos = false;
-	default predefinedPosTagPrefix = "predefined_pos";*/
+	
 	
 	default baseEntitiesSearchingRange = 100.0;
 	default baseEntityTag = 'archespor_base';
@@ -86,7 +83,7 @@ class BTTaskArchesporManager extends IBehTreeTask
 		npc = GetNPC();
 		anchorPos = npc.GetWorldPosition();
 		guardArea = npc.GetGuardArea();
-		//usesPredefinedPos = ShouldUsePredefinedPos();
+		
 		
 		data = (CArchesporeAICombatStorage)InitializeCombatStorage();
 		
@@ -237,20 +234,20 @@ class BTTaskArchesporManager extends IBehTreeTask
 				whereTo.Z = z;
 				if( !theGame.GetWorld().NavigationFindSafeSpot( whereTo, radius, radius*10, newPos ) )
 				{
-					//LogBoat( "failed second nav test" );
+					
 					return false;
 				}
 			}
 			else
 			{
-				//LogBoat( "failed Z nav test" );
+				
 				return false;
 			}
 		}
 		
 		if( VecDistance2D( newPos, anchorPos ) > maxDistFromAnchor )
 		{
-			//LogBoat( "failed anchor test" );
+			
 			return false;
 		}
 		
@@ -258,19 +255,19 @@ class BTTaskArchesporManager extends IBehTreeTask
 		{
 			if( !guardArea.TestPointOverlap( newPos ) )
 			{
-				//LogBoat( "failed guard area test" );
+				
 				return false;
 			}
 		}
 		
-		// check noBulbsAreas
+		
 		if( data.noBulbAreas.Size() && !spawnEntitiesAroundPlayer )
 		{
 			for( i = 0; i < data.noBulbAreas.Size(); i += 1 )
 			{
 				if( data.noBulbAreas[ i ].TestPointOverlap( newPos ) )
 				{
-					//LogBoat( "failed no bulb area test" );
+					
 					return false;
 				}
 			}
@@ -282,7 +279,7 @@ class BTTaskArchesporManager extends IBehTreeTask
 			{
 				if( VecDistance2D( newPos, usedPos[i] ) < 2.0 )
 				{
-					//LogBoat( "failed min dist around player test" );
+					
 					return false;
 				}
 			}
@@ -290,20 +287,20 @@ class BTTaskArchesporManager extends IBehTreeTask
 			{
 				if( VecDistance2D( newPos, usedPos[i] ) < minDistFromEachOther )
 				{
-					//LogBoat( "failed min dist test" );
+					
 					return false;
 				}
 			}
 		}
 		
-		// LoS test for archespor - bulb
+		
 		tempStartPos = npc.GetWorldPosition();
 		tempStartPos.Z += 2.0;
 		tempEndPos = newPos;
 		tempEndPos.Z += 1.0;
 		if( theGame.GetWorld().SweepTest( tempStartPos, tempEndPos, 0.1, tempPos1, tempPos2, losTestCollisionGroups ) )
 		{
-			//LogBoat( "failed LOS test" );
+			
 			return false;
 		}
 		
@@ -349,7 +346,7 @@ class BTTaskArchesporManager extends IBehTreeTask
 				
 				if( npc.IsInCombat() )
 				{
-					//thePlayer.OnBecomeAwareAndCanAttack( (CActor)bulb );
+					
 				}	
 			}
 		}
@@ -572,47 +569,12 @@ class BTTaskArchesporManager extends IBehTreeTask
 		}
 	}
 	
-	// PREDEFINED POS FOR BULBS
 	
-	/*private function ShouldUsePredefinedPos() : bool
-	{
-		var npcTags : array<name>;
-		var i : int;
-		var tempTagString : string;
-		
-		npcTags =  npc.GetTags();
-		
-		for( i = 0; i < npcTags.Size(); i += 1 )
-		{
-			tempTagString = NameToString( npcTags[ i ] );
-			if( StrFindFirst( tempTagString, predefinedPosTagPrefix ) >= 0 )
-			{
-				predefinedPosTag = npcTags[ i ];
-				FindAllPredefinedPos();
-				return true;
-			}
-		}
-		
-		return false;
-	}
 	
-	private function FindAllPredefinedPos()
-	{
-		var nodes : array<CNode>;
-		var tempPredefinedPos : SPredefinedPos;
-		var i : int;
-		
-		theGame.GetNodesByTag( predefinedPosTag, nodes );
-		
-		for( i = 0; i < nodes.Size(); i += 1 )
-		{
-			tempPredefinedPos.node = nodes[ i ];
-			predefinedPos.PushBack( tempPredefinedPos );
-		}
-	}*/
+	
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 
 	function OnListenedGameplayEvent( eventName : name ) : bool
 	{
@@ -682,10 +644,10 @@ class BTTaskArchesporManager extends IBehTreeTask
 		
 		for( i = 0; i < data.myBaseEntities.Size(); i += 1 )
 		{
-			// unregister bulbs from combat
+			
 			thePlayer.OnBecomeUnawareOrCannotAttack( (CActor)data.myBaseEntities[ i ] );
 			
-			// destroy bulbs
+			
 			((W3ArchesporBulb)data.myBaseEntities[ i ]).ExplodeGlobal();
 		}
 		
@@ -693,7 +655,7 @@ class BTTaskArchesporManager extends IBehTreeTask
 		usedPos.Clear();
 		spawnEntitiesAroundPlayer = false;
 		
-		// clear data
+		
 		data.myBaseEntities.Clear();
 		data.noBulbAreas.Clear();
 		npc.SetBehaviorVariable( 'bulbCount', 0.0 );
@@ -734,8 +696,8 @@ class BTTaskArchesporManager extends IBehTreeTask
 	}
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 
 class BTTaskArchesporManagerDef extends IBehTreeTaskDefinition
 {

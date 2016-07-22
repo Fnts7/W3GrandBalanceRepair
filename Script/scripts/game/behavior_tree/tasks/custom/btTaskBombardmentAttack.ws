@@ -1,4 +1,9 @@
-﻿class CBTTaskBombardmentAttack extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskBombardmentAttack extends IBehTreeTask
 {
 	private var npc : CNewNPC;
 	private var performBombardment : bool;
@@ -131,7 +136,7 @@ class CBTTaskBombardmentAttackDef extends IBehTreeTaskDefinition
 	default fxName = '';
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class CBTIsPlayerInsideDiveAttackArea extends IBehTreeTask
 {
@@ -146,7 +151,7 @@ class CBTIsPlayerInsideDiveAttackAreaDef extends IBehTreeTaskDefinition
 	default instanceClass = 'CBTIsPlayerInsideDiveAttackArea';
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class CBTIsPlayerInsideSelectedDiveAttackArea extends IBehTreeTask
 {

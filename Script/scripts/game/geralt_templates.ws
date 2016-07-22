@@ -1,11 +1,16 @@
-﻿exec function fb2(level : int, optional path : name)
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+exec function fb2(level : int, optional path : name)
 {	
 	var iID : array<SItemUniqueId>;
 	var lm : W3PlayerWitcher;
 	var exp, prevLvl, currLvl : int;
 	
 	GetWitcherPlayer().Debug_ClearCharacterDevelopment();
-	//GetWitcherPlayer().GetInventory().RemoveAllItems();
+	
 	
 	lm = GetWitcherPlayer();
 	prevLvl = lm.GetLevel();
@@ -19,7 +24,7 @@
 		currLvl = lm.GetLevel();
 		
 		if(prevLvl == currLvl)
-			break;				//some error, we didnt gain a level this time around
+			break;				
 		
 		prevLvl = currLvl;
 	}		
@@ -74,7 +79,7 @@ function fb3_internal(optional level :int, optional path : name, optional clearI
 		currLvl = lm.GetLevel();
 		
 		if(prevLvl == currLvl)
-			break;				//some error, we didnt gain a level this time around
+			break;				
 		
 		prevLvl = currLvl;
 	}		
@@ -99,7 +104,7 @@ function fb3_internal(optional level :int, optional path : name, optional clearI
 		case 'bomb': 	Ep1_alchemy(); break;
 	}
 	
-	//for testing mutations
+	
 	lm.inv.AddAnItem('Greater mutagen red', 14);
 	lm.inv.AddAnItem('Greater mutagen green', 11);
 	lm.inv.AddAnItem('Greater mutagen blue', 11);
@@ -115,7 +120,7 @@ function Ep1_sword()
 	q = 22;	
 	lm = GetWitcherPlayer();
 	lm.AddPoints(ESkillPoint, 250, true);
-//swords
+
 	lm.AddMultipleSkills(S_Sword_s01 ,5 );
 	lm.AddMultipleSkills(S_Sword_s02 ,5 );
 	lm.AddMultipleSkills(S_Sword_s03 ,5 );
@@ -136,7 +141,7 @@ function Ep1_sword()
 	lm.AddMultipleSkills(S_Sword_s19,5 );
 	lm.AddMultipleSkills(S_Sword_s20,5 );
 	lm.AddMultipleSkills(S_Sword_s21,5 );
-	//signs
+	
 	lm.AddMultipleSkills(S_Magic_s01 ,5 );
 	lm.AddMultipleSkills(S_Magic_s02 ,5 );
 	lm.AddMultipleSkills(S_Magic_s03 ,5 );
@@ -157,7 +162,7 @@ function Ep1_sword()
 	lm.AddMultipleSkills(S_Magic_s18,5 );
 	lm.AddMultipleSkills(S_Magic_s19,5 );
 	lm.AddMultipleSkills(S_Magic_s20,5 );
-	//alchemy
+	
 	lm.AddMultipleSkills(S_Alchemy_s01,5 );
 	lm.AddMultipleSkills(S_Alchemy_s02 ,5 );
 	lm.AddMultipleSkills(S_Alchemy_s03 ,5 );
@@ -274,7 +279,7 @@ function Ep1_signs()
 	q = 22;
 	lm = GetWitcherPlayer();
 	GetWitcherPlayer().AddPoints(ESkillPoint, 250, true);
-	//swords
+	
 	lm.AddMultipleSkills(S_Sword_s01 ,5 );
 	lm.AddMultipleSkills(S_Sword_s02 ,5 );
 	lm.AddMultipleSkills(S_Sword_s03 ,5 );
@@ -295,7 +300,7 @@ function Ep1_signs()
 	lm.AddMultipleSkills(S_Sword_s19,5 );
 	lm.AddMultipleSkills(S_Sword_s20,5 );
 	lm.AddMultipleSkills(S_Sword_s21,5 );
-	//signs
+	
 	lm.AddMultipleSkills(S_Magic_s01 ,5 );
 	lm.AddMultipleSkills(S_Magic_s02 ,5 );
 	lm.AddMultipleSkills(S_Magic_s03 ,5 );
@@ -316,7 +321,7 @@ function Ep1_signs()
 	lm.AddMultipleSkills(S_Magic_s18,5 );
 	lm.AddMultipleSkills(S_Magic_s19,5 );
 	lm.AddMultipleSkills(S_Magic_s20,5 );
-	//alchemy
+	
 	lm.AddMultipleSkills(S_Alchemy_s01,5 );
 	lm.AddMultipleSkills(S_Alchemy_s02 ,5 );
 	lm.AddMultipleSkills(S_Alchemy_s03 ,5 );
@@ -433,7 +438,7 @@ function Ep1_alchemy()
 	q = 22;
 	lm = GetWitcherPlayer();
 	lm.AddPoints(ESkillPoint, 100, true);
-//swords
+
 	lm.AddMultipleSkills(S_Sword_s01 ,5 );
 	lm.AddMultipleSkills(S_Sword_s02 ,5 );
 	lm.AddMultipleSkills(S_Sword_s03 ,5 );
@@ -454,7 +459,7 @@ function Ep1_alchemy()
 	lm.AddMultipleSkills(S_Sword_s19,5 );
 	lm.AddMultipleSkills(S_Sword_s20,5 );
 	lm.AddMultipleSkills(S_Sword_s21,5 );
-	//signs
+	
 	lm.AddMultipleSkills(S_Magic_s01 ,5 );
 	lm.AddMultipleSkills(S_Magic_s02 ,5 );
 	lm.AddMultipleSkills(S_Magic_s03 ,5 );
@@ -475,7 +480,7 @@ function Ep1_alchemy()
 	lm.AddMultipleSkills(S_Magic_s18,5 );
 	lm.AddMultipleSkills(S_Magic_s19,5 );
 	lm.AddMultipleSkills(S_Magic_s20,5 );
-	//alchemy
+	
 	lm.AddMultipleSkills(S_Alchemy_s01,5 );
 	lm.AddMultipleSkills(S_Alchemy_s02 ,5 );
 	lm.AddMultipleSkills(S_Alchemy_s03 ,5 );

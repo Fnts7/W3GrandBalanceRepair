@@ -1,4 +1,9 @@
-﻿struct SBackgroundEntityData
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+struct SBackgroundEntityData
 {
 	editable var entityTemplate 		: CEntityTemplate;
 	editable var spawnSlotName			: name;
@@ -222,26 +227,26 @@ class W3BackgroundAnimatedEntity extends CGameplayEntity
 			
 			position += speed*direction*timeDelta;
 			
-			//if( theGame.GetWorld().WaterTrace( Vector(position.X, position.Y, position.Z + 10), 20.0f , traceVector, traceNormal ) )
-			//{
+			
+			
 				
-				//zSpeed = 3*(traceVector.Z - position.Z - 1.5)*timeDelta;
+				
 			
-				//position.Z = position.Z + zSpeed;
+				
 			
-			//}
+			
 			
 			entity.TeleportWithRotation(position, rotation);
 			
 			
-			//if(entity)
-			//{
-			//	Log("DrakarPos:" + position.X + ", " + position.Y + ", " + position.Z);
-			//}
-			//else
-			//{
-			//	Log("No entity");
-			//}
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			previousAngleDistance = absAngleDistance;
 		}
@@ -362,7 +367,7 @@ class W3ChangeCombatStageTrigger extends CGameplayEntity
 
 }
 
-// DEMO HAXXORZ
+
 class W3ShepherdGreetingTrigger extends CGameplayEntity
 {
 	var greeted : bool;
@@ -432,9 +437,9 @@ class W3DestructionTrigger extends CGameplayEntity
 	{
 	}
 }
-/////////////////////////////////////////////
-//Food dispenser class
-/////////////////////////////////////////////
+
+
+
 statemachine class W3FoodDispenser extends CGameplayEntity
 {
 	editable var foodEntity : CEntityTemplate;
@@ -496,13 +501,9 @@ statemachine class W3FoodDispenser extends CGameplayEntity
 	
 	timer function DespawnFood( deltaTime : float , id : int)
 	{
-		//var i : int;
 		
-		/*while( spawnedFood.Size() > 0 )
-		{
-			spawnedFood[i].Destroy();
-			spawnedFood.Erase(i);
-		}*/
+		
+		
 		spawnedFood.Clear();
 	}
 	
@@ -553,6 +554,5 @@ state Inactive in W3FoodDispenser
 		parent.RemoveTimer( 'SpawnFood' );
 	}
 }
-/////////////////////////////////////////////
-// food dispenser end
-/////////////////////////////////////////////
+
+

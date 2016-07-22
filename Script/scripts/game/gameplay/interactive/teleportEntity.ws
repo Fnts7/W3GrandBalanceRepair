@@ -1,4 +1,9 @@
-﻿class CTeleportEntity extends CInteractiveEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CTeleportEntity extends CInteractiveEntity
 {
 	editable var keyItemName : name;
 	editable var removeKeyOnUse : bool;
@@ -51,7 +56,7 @@
 		
 		bIsEnabled = flag;
 		
-		//Try registering component every time due to streaming
+		
 		activationComponent = GetComponent( "activationComponent" );
 		if(activationComponent)
 			activationComponent.SetEnabled( flag );
@@ -61,7 +66,7 @@
 	{
 		var teleportTriggerArea : CComponent;
 		
-		//Try registering component every time due to streaming
+		
 		teleportTriggerArea = GetComponent( "teleportTriggerArea" );
 		if(teleportTriggerArea)
 			teleportTriggerArea.SetEnabled( flag );
@@ -96,7 +101,7 @@
 	
 	function PlayerHasKey() : bool
 	{
-		if( !IsNameValid(keyItemName) )	//empty name, no key
+		if( !IsNameValid(keyItemName) )	
 		{
 			return true;
 		}
@@ -120,8 +125,8 @@
 		
 		if( oneWayTeleport )
 		{
-			//StopEffectIfActive( 'teleport_fx' );
-			//DestroyAllEffects();
+			
+			
 			EnableTeleport( false );
 		}
 		

@@ -1,4 +1,9 @@
-﻿class CR4HudModuleMinimap2 extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleMinimap2 extends CR4HudModuleBase
 {
 	private const var MINIMAP_EXTERIOR_ZOOM					: float;	default MINIMAP_EXTERIOR_ZOOM = 1.0;
 	private const var MINIMAP_INTERIOR_ZOOM					: float;	default MINIMAP_INTERIOR_ZOOM = 2.0;
@@ -54,14 +59,14 @@
 	var bDisplayBuffedMoster : bool;
 	default bDisplayBuffedMoster = true;
 	
-	event /* Flash */ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var manager : CCommonMapManager;
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
 
 		m_flashValueStorage = GetModuleFlashValueStorage();
-		m_anchorName = "mcAnchorMiniMap"; //mcAnchorMiniMap mcAnchorBoatHealth
+		m_anchorName = "mcAnchorMiniMap"; 
 		
 		super.OnConfigUI();
 
@@ -97,14 +102,14 @@
 		m_fadedOut = true;
 		DoFading( !m_fadedOut, true );
 
-		// ShowElement(true);
+		
 		
 		SetTickInterval( 1 );
 		
 		if (hud)
 		{
-			//hud.UpdateHudConfig('DayWeatherIndicator', false);	
-			//hud.UpdateHudConfig('TrackedMonster', false);
+			
+			
 			hud.UpdateHudConfig('Minimap2Module', true);		
 		}
 		
@@ -121,7 +126,7 @@
 		}
 	}
 	
-	event /* C++ */ OnTick( timeDelta : float )
+	event  OnTick( timeDelta : float )
 	{
 		UpdateZoom();
 		UpdatePlayerPositionAndRotation( timeDelta );
@@ -132,11 +137,11 @@
 		}
 		
 		UpdateWeatherDisplay();
-		//UpdateBuffedMonsterDisplay();
+		
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLED FROM COMMONMAPMANAGER
+	
+	
 
 	public function AddMapPath( path : SMapPathInstance )
 	{
@@ -147,17 +152,7 @@
 
 		pathObject = GetModuleFlashValueStorage().CreateTempFlashObject();
 		
-		/*
-		pointArray = GetModuleFlashValueStorage().CreateTempFlashArray();
-		for ( i = 0; i < controlPoints.Size(); i += 1 )
-		{
-			pointObject = m_flashValueStorage.CreateTempFlashObject();
-			pointObject.SetMemberFlashNumber( "x", controlPoints[ i ].X );
-			pointObject.SetMemberFlashNumber( "y", controlPoints[ i ].Y );
-			pointArray.PushBackFlashObject( pointObject );
-		}
-		pathObject.SetMemberFlashArray(  "controlPoints",    pointArray );
-		*/
+		
 
 		pathObject.SetMemberFlashInt(    "id",        path.id );
 		pathObject.SetMemberFlashNumber( "x",         path.position.X );
@@ -247,8 +242,8 @@
 		}
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// MISC STUFF
+	
+	
 	
 	private function UpdateZoom()
 	{
@@ -391,7 +386,7 @@
 			case 'bestiary_noonwright':
 				iconName = 'ICO_poludnica.png';
 				break;
-			case 'bestiary_wildhunt': // #J TODO, no icon at the moment
+			case 'bestiary_wildhunt': 
 			case 'bestiary_werewolf':
 				iconName = 'ICO_werewolf.png';
 				break;
@@ -450,7 +445,7 @@
 		hours = GameTimeHours( gameTime );
 		minutes = GameTimeMinutes( gameTime );
 		
-		//24H - AM/PM choice can be set thru the HUD options menu
+		
 		if ( !b24HRFormat )
 		{
 			if (hours >= 12)
@@ -477,12 +472,12 @@
 		}
 		
 		timeString += minutes;
-		timeString += timePeriod; //this will be empty if time period is 24H
+		timeString += timePeriod; 
 		
 		return timeString;
 	}
 	
-	function RefreshTimeDisplay() //called when toggling 24HR time format
+	function RefreshTimeDisplay() 
 	{
 		m_flashValueStorage.SetFlashString('hud.worldcondition.text', GetCurrentTimeString() + " / "+GetLocStringByKeyExt("panel_hud_weathertype_"+m_weatherType));
 	}
@@ -522,23 +517,23 @@
 				
 				if(dayPart == EDP_Dawn)
 				{
-					//m_flashValueStorage.SetFlashString('hud.worldcondition.daytime',"dawn", -1);
+					
 					currentDayTimeName = 'Dawn';
 				}
 				else if(dayPart == EDP_Noon)
 				{
-					//m_flashValueStorage.SetFlashString('hud.worldcondition.daytime',"noon", -1);
+					
 					currentDayTimeName = 'Noon';
 				}
 				else if(dayPart == EDP_Dusk)
 				{
-					//m_flashValueStorage.SetFlashString('hud.worldcondition.daytime',"dusk", -1);
+					
 					currentDayTimeName = 'Dusk';
 				}
 				else if(dayPart == EDP_Midnight)
 				{
-					//m_flashValueStorage.SetFlashString('hud.worldcondition.daytime',"moonfull", -1);
-					currentDayTimeName = 'Midnight'; // @FIXME BIDON - add checks for full moon and red moon
+					
+					currentDayTimeName = 'Midnight'; 
 				}
 				else
 				{
@@ -609,7 +604,7 @@
 		world = theGame.GetWorld();
 		world.GetTerrainParameters( levelSize, tileCount );
 
-		levelName = StrAfterLast(theGame.GetWorld().GetPath(),StrChar(92)); //#B because "/" can't be inserted here as string StrChar(92) was used
+		levelName = StrAfterLast(theGame.GetWorld().GetPath(),StrChar(92)); 
 		levelName = StrReplace( levelName, ".w2w", "" );
 		
 		areaName = (int) AreaNameToType(levelName);
@@ -619,7 +614,7 @@
 		exteriorTextureExtension	= theGame.GetMiniMapExteriorTextureExtension( areaName );
 		interiorTextureExtension	= theGame.GetMiniMapInteriorTextureExtension( areaName );
 		
-		// default values for custom and test levels to prevent all map pin appear in the center of minimap
+		
 		if ( levelSize == 0 )
 		{
 			levelSize = 6000;
@@ -679,7 +674,7 @@
 		manager = theGame.GetCommonMapManager();
 		if ( manager )
 		{
-			manager.OnChangedMinimapRadius( 33 / newValue, newValue ); // 33 is a default radius for zoom = 1
+			manager.OnChangedMinimapRadius( 33 / newValue, newValue ); 
 		}
 	}
 }

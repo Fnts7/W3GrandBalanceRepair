@@ -1,34 +1,36 @@
 ﻿/***********************************************************************/
-/** Types for ability manager classes
-/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Base stat e.g. vitality, stamina, etc.
+
+
+
+
 import struct SBaseStat
 {
-	import saved var current	: float;			//current and max level
-	import saved var max		: float;			//current and max level
+	import saved var current	: float;			
+	import saved var max		: float;			
 	import saved var type 		: EBaseCharacterStats;
 };
 
-//An ability that was disabled (but not removed!) for a specified amount of time - it can be later reenabled.
-struct SBlockedAbility
+
+import struct SBlockedAbility
 {
-	editable saved var abilityName : name;
-	editable saved var timeWhenEnabledd : float;		//lock remaining time or -1 if disabled until manually enabled again
-	saved var count : int;							//how many instances of ability does actor have (for multiple abilities)
+	import editable saved var abilityName : name;
+	import editable saved var timeWhenEnabledd : float;		
+	import saved var count : int;							
 };
 
-//skills have colors in the UI
+
 enum ESkillColor
 {
 	SC_None,
 	SC_Blue,
 	SC_Green,
 	SC_Red,
-	SC_Yellow		//perk - has no color actually
+	SC_Yellow		
 }
 
 function SkillColorStringToType( str : string ) : ESkillColor
@@ -45,66 +47,66 @@ function SkillColorStringToType( str : string ) : ESkillColor
 
 struct SMutagenSlot
 {
-	saved var item : SItemUniqueId;				//mutagen item
-	saved var unlockedAtLevel : int;			//level on which this slot is unlocked
-	saved var skillGroupID : int;				//id of skill group to which this mutagen is linked
-	saved var equipmentSlot : EEquipmentSlots;	//equipment slot in which the mutagen is equipped
+	saved var item : SItemUniqueId;				
+	saved var unlockedAtLevel : int;			
+	saved var skillGroupID : int;				
+	saved var equipmentSlot : EEquipmentSlots;	
 };
 
 struct SSkillSlot
 {
-	saved var id : int;							//ids start from 1 not 0 because 0 is reserved for XML read data error (no data)
+	saved var id : int;							
 	saved var unlockedOnLevel : int;
-	saved var socketedSkill : ESkill;			//skill inserted into this slot
-	saved var unlocked : bool;					//true if skill slot is unlocked and thus can be used
-	saved var groupID : int;					//ID of the skill group to which this slot is assigned
+	saved var socketedSkill : ESkill;			
+	saved var unlocked : bool;					
+	saved var groupID : int;					
 }
 
-//player (only!) skills
+
 struct SSkill
 {
-	////////////////////////////////////
-	////////  ACHTUNG !!!  /////////////
-	////////////////////////////////////
-	//the restore is using custom code - support your saved vars in W3PlayerAbilityManager.RestoreSkills() and SRestoredSkill struct below
+	
+	
+	
+	
 
-	saved var skillType : ESkill;									//skill (context sensitive - for skills ESkill, for perks EPerk and for books EBookPerk)
-		  var skillPath : ESkillPath;								//skill path of this skill (~ skill tree) e.g.: Sword Skill
-		  var skillSubPath : ESkillSubPath;							//skill subpath of this skill, e.g.: Strong Sword Skill, Aard Skill
-	saved var level : int;											//current skill level
-		  var maxLevel : int;										//max skill level attainable
+	saved var skillType : ESkill;									
+		  var skillPath : ESkillPath;								
+		  var skillSubPath : ESkillSubPath;							
+	saved var level : int;											
+		  var maxLevel : int;										
 		  
 		  default level = -1;
 		  default maxLevel = -1;
 	
-	  	  var requiredSkills : array<ESkill>;						//list of skills required to learn this skill
-		  var requiredSkillsIsAlternative : bool;					//if true you need one of those skills, otherwise all of them
-		  var requiredPointsSpent : int;							//required amount of skillpoints spent in this skill's skill path 
-		  var priority : int;										//skill priority used when added with autoleveling
-		  var cost : int;											//cost of purchasing this skill/perk
-	saved var isTemporary : bool;									//if it's not permanently learned but gained temporarily due to some bonuses	  
+	  	  var requiredSkills : array<ESkill>;						
+		  var requiredSkillsIsAlternative : bool;					
+		  var requiredPointsSpent : int;							
+		  var priority : int;										
+		  var cost : int;											
+	saved var isTemporary : bool;									
 		  
-		  var abilityName : name;									//ability given by the skill
-		  var modifierTags : array<name>;							//list of tags names of abilities whose attributes sum up with this skill (e.g. stamina lower cost 
-																	//for aard signs)
+		  var abilityName : name;									
+		  var modifierTags : array<name>;							
+																	
 		  
-		  var localisationNameKey : string;							//localisation key for skill name
-		  var localisationDescriptionKey : string;					//localisation key for level 1 skill description
-		  var localisationDescriptionLevel2Key : string;			//localisation key for level 2 skill description
-		  var localisationDescriptionLevel3Key : string;			//localisation key for level 3 skill description
+		  var localisationNameKey : string;							
+		  var localisationDescriptionKey : string;					
+		  var localisationDescriptionLevel2Key : string;			
+		  var localisationDescriptionLevel3Key : string;			
 	
-		  var iconPath : string;									//path to file containing skill icon	
-		  var positionID : int;										//GUI position ID
-	saved var isNew : bool;											//true if new
-		  var isCoreSkill : bool;									//core skills are always active - cannot be socketed into skill slots
-		  var wasEquippedOnUIEnter : bool;							//set on opening character panel to later check if skill was removed or not in the end
+		  var iconPath : string;									
+		  var positionID : int;										
+	saved var isNew : bool;											
+		  var isCoreSkill : bool;									
+		  var wasEquippedOnUIEnter : bool;							
 		  
-	saved var remainingBlockedTime : float;							//remaining time till skill will be unblocked (-1: only when explicitly unlocked; 0: skill is unlocked; >0: seconds till it will be enabled automatically)
+	saved var remainingBlockedTime : float;							
 	
 			var precachedModifierSkills : array< ESkill >;
 };
 
-//used for skill restoring after load (performance)
+
 struct SRestoredSkill
 {
 	var level : int;
@@ -125,7 +127,7 @@ struct STutorialSavedSkill
 	var skillType : ESkill;
 };
 
-//used to add temp fake skills for duration of tutorial
+
 struct STutorialTemporarySkill
 {
 	var wasLearned : bool;
@@ -159,7 +161,7 @@ function SkillPathNameToType(n : name) : ESkillPath
 	}
 }
 
-function SkillPathTypeToName(s : ESkillPath) : name // #B
+function SkillPathTypeToName(s : ESkillPath) : name 
 {
 	switch(s)
 	{
@@ -171,7 +173,7 @@ function SkillPathTypeToName(s : ESkillPath) : name // #B
 	}
 }
 
-function SkillPathTypeToLocalisationKey(s : ESkillPath) : name // #B
+function SkillPathTypeToLocalisationKey(s : ESkillPath) : name 
 {
 	switch(s)
 	{
@@ -293,7 +295,7 @@ function SkillSubPathNameToType(n : name) : ESkillSubPath
 	}
 }
 
-function SkillSubPathTypeToName(s : ESkillSubPath) : name // #B
+function SkillSubPathTypeToName(s : ESkillSubPath) : name 
 {
 	switch(s)
 	{		
@@ -344,7 +346,7 @@ import struct SResistanceValue
 	import saved var type 		: ECharacterDefenseStats;
 };
 
-//returns true if given skill is sign skill
+
 function IsSkillSign(skill : ESkill) : bool
 {
 	switch(skill)
@@ -409,25 +411,25 @@ function MutationNameToType( mutName : name ) : EPlayerMutationType
 
 struct SMutationProgress
 {
-	var redUsed : int;					//amount of red research points used
-	var redRequired : int;				//amount of red research points required
-	var blueUsed : int;					//amount of blue research points used
-	var blueRequired : int;				//amount of blue research points required
-	var greenUsed : int;				//amount of green research points used
-	var greenRequired : int;			//amount of green research points required
-	var skillpointsUsed : int;			//amount of skill points used			
-	var skillpointsRequired : int;		//amount of skill points required
-	var overallProgress : int;			//overal progress in percents [0-100]. If value is -1 it is unknown and must be calculated. If it's >= 0 it's cached.
+	var redUsed : int;					
+	var redRequired : int;				
+	var blueUsed : int;					
+	var blueRequired : int;				
+	var greenUsed : int;				
+	var greenRequired : int;			
+	var skillpointsUsed : int;			
+	var skillpointsRequired : int;		
+	var overallProgress : int;			
 }
 
 struct SMutation
 {
-	var type : EPlayerMutationType;								//mutation type
-	var colors : array< ESkillColor >;							//mutation colors
-	var progress : SMutationProgress;							//research progress	
-	var requiredMutations : array< EPlayerMutationType >;		//list of mutations required before this one can be researched
-	var localizationNameKey : name;								//name localization key
-	var localizationDescriptionKey : name;						//description localization key
-	var iconPath : name;										//path to icon
-	var soundbank : string;										//soundbank name
+	var type : EPlayerMutationType;								
+	var colors : array< ESkillColor >;							
+	var progress : SMutationProgress;							
+	var requiredMutations : array< EPlayerMutationType >;		
+	var localizationNameKey : name;								
+	var localizationDescriptionKey : name;						
+	var iconPath : name;										
+	var soundbank : string;										
 }

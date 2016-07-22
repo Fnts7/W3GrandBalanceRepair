@@ -1,4 +1,9 @@
-﻿class CBTTaskSpawnDettlaffColumns extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskSpawnDettlaffColumns extends IBehTreeTask
 {
 	
 	var owner 							: CNewNPC;
@@ -120,8 +125,8 @@
 			
 			entity = theGame.CreateEntity( entityTemplate, position );
 			tempActor = (CActor)entity;
-			//RotateByMovementAdjustor();
-			//tempActor.TeleportWithRotation( entity.GetWorldPosition(), rotation );
+			
+			
 			summonerComponent.AddEntity( entity );
 		}
 		

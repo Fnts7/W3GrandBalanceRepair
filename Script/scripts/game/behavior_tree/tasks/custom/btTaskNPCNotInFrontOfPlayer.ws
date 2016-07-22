@@ -1,8 +1,13 @@
-﻿//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//		btTaskNPCNotInFronOfPlayer - script checks if NPC is in front of player (inside cone) and if not - returns TRUE				//
-//																																	//
-//		written by Wojciech Żerek, w.zerek@gmail.com																				//
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
 
 class CBTTaskNPCNotInFrontOfPLayer extends IBehTreeTask
 {
@@ -17,14 +22,14 @@ class CBTTaskNPCNotInFrontOfPLayer extends IBehTreeTask
 	
 	function IsAvailable() : bool
 	{
-		// calculating cone parameters
+		
 		playerHeading = thePlayer.GetHeading() + angleOffset;
 		
-		//var angleMin, angleMax : float;
-		//angleMin = AngleNormalize180( playerHeading - ( coneAngle/2 ) );
-		//angleMax = AngleNormalize180( playerHeading + ( coneAngle/2 ) );
 		
-		// checking if enemy is inside cone
+		
+		
+		
+		
 		npc = GetNPC();
 		distance = VecDistance2D( npc.GetWorldPosition(), thePlayer.GetWorldPosition() );
 		testedAngle = NodeToNodeAngleDistance( npc, thePlayer );

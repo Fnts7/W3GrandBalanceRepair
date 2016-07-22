@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Notice Board Menu
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4NoticeBoardMenu extends CR4MenuBase
 {
@@ -12,7 +14,7 @@ class CR4NoticeBoardMenu extends CR4MenuBase
 	private var m_fxSetTitle   			 : CScriptedFlashFunction;
 	private var m_fxSetDescription   	 : CScriptedFlashFunction;
 
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{			
 		super.OnConfigUI();
 		
@@ -23,7 +25,7 @@ class CR4NoticeBoardMenu extends CR4MenuBase
 		board = (W3NoticeBoard)GetMenuInitData();
 		if( board )
 		{
-			//board.addedErrands
+			
 			UpdateDescription();
 		}
 		
@@ -39,9 +41,9 @@ class CR4NoticeBoardMenu extends CR4MenuBase
 		
 		theGame.ResetFadeLock( "NoticeboardStart" );
 		theGame.FadeInAsync( 3.0 );
-		//board.UpdateBoard();
-		//board.SetNoticeBoardMenu(this);
-		//board.ShowErrand( board.FindFirstErrand() );
+		
+		
+		
 	}
 	
 	public function UpdateDescription()
@@ -63,14 +65,11 @@ class CR4NoticeBoardMenu extends CR4MenuBase
 			if( !selected && errands[i].errandStringKey != "" )
 			{
 				selected = true;
-				//l_DataFlashObject.SetMemberFlashBool("selected", true );
+				
 				m_fxSetSelectedIndex.InvokeSelfOneArg(FlashArgInt(i));
 				OnErrandSelected( errands[i].errandStringKey );
 			}
-			/*else
-			{
-				l_DataFlashObject.SetMemberFlashBool("selected", false );
-			}*/
+			
 			if( errands[i].newQuestFact == "flaw" || errands[i].displayAsFluff )
 			{
 				l_DataFlashObject.SetMemberFlashBool("isFluff", true );
@@ -89,7 +88,7 @@ class CR4NoticeBoardMenu extends CR4MenuBase
 				break;
 			}
 		}
-		//board.RemoveEmptyActiveErrands();
+		
 		m_flashValueStorage.SetFlashArray( "noticeboard.errands.list", l_DataFlashArray );
 	}
 	
@@ -103,7 +102,7 @@ class CR4NoticeBoardMenu extends CR4MenuBase
 		m_fxSetDescription.InvokeSelfOneArg(FlashArgString(value));
 	}
 
-	event /*flash*/ OnTakeQuest( tag : string )
+	event  OnTakeQuest( tag : string )
 	{	
 		if(ShouldProcessTutorial('TutorialQuestBoard'))
 		{
@@ -116,17 +115,17 @@ class CR4NoticeBoardMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnErrandSelected( tag : string )
+	event  OnErrandSelected( tag : string )
 	{
 		SetBoardNoteTitle(GetLocStringByKeyExt(tag));
 		SetBoardNoteDescription(GetLocStringByKeyExt(tag+"_text"));
 	}
 	
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
-		//board.LeaveBoardPreview();
 		
-		//custom handling since it doesn't work from base for some reason???
+		
+		
 		theGame.GetTutorialSystem().uiHandler.OnClosedMenu(GetMenuName());
 		
 		
@@ -134,9 +133,9 @@ class CR4NoticeBoardMenu extends CR4MenuBase
 	}
 	
 		
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
-		//custom handling since it doesn't work from base for some reason???
+		
 		theGame.GetTutorialSystem().uiHandler.OnClosingMenu(GetMenuName());
 		
 		theGame.GetGuiManager().RequestMouseCursor(false);

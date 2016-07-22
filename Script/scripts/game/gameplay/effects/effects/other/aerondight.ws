@@ -1,4 +1,9 @@
-﻿class W3Effect_Aerondight extends CBaseGameplayEffect
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3Effect_Aerondight extends CBaseGameplayEffect
 {
 	private var m_maxCount					: int;
 	private saved var m_currCount			: int;
@@ -132,13 +137,13 @@
 		l_levelDiff = ( target.GetLevel() - l_inv.GetItemLevel( l_sword ) ) + 1;
 		l_currPermDmgBoost = l_inv.GetItemModifierFloat( l_sword, 'PermDamageBoost' );
 		
-		// item modifier has to be set up for the first time, before any calculations, otherwise it equals -1
+		
 		if( l_currPermDmgBoost < 0 )
 		{
 			l_currPermDmgBoost = 0;
 		}
 		
-		//if at max permabonus, don't discharge
+		
 		if( l_levelDiff * m_stacksPerLevel.valueAdditive * m_attribute.valueAdditive <= l_currPermDmgBoost )
 		{
 			return false;
@@ -149,7 +154,7 @@
 		target.PlayEffect( 'lasting_shield_discharge' );
 		l_newPermDmgBoost = l_currPermDmgBoost + m_attribute.valueAdditive;
 		
-		// Permamently increasing silver sword damage by 5% for Aerondight
+		
 		l_inv.SetItemModifierFloat( l_sword, 'PermDamageBoost', l_newPermDmgBoost );
 
 		ResetCurrentCount();
@@ -179,12 +184,12 @@
 		
 		super.OnResumed();
 		
-		//simulate time passing to update stacks for the time buff was paused
+		
 		timeInPause = theGame.GetGameTime() - timeOfPause;
 		secsInPause = ConvertGameSecondsToRealTimeSeconds( GameTimeToSeconds( timeInPause ) );
 		stacksLost = FloorF( secsInPause / m_aerondightDelay );
 		m_currCount = Max( 0, m_currCount - stacksLost );
-		OnUpdate( secsInPause - stacksLost * m_aerondightDelay );	//update remaining time that was not enough to lose a stack
+		OnUpdate( secsInPause - stacksLost * m_aerondightDelay );	
 		
 		if( target.GetInventory().ItemHasTag( target.GetInventory().GetCurrentlyHeldSword(), 'Aerondight' ) )
 		{
@@ -205,7 +210,7 @@
 		
 		target.GetInventory().GetCurrentlyHeldSwordEntity( l_aerondightEnt );
 		
-		// Stopping all effects
+		
 		l_aerondightEnt.StopEffect( m_currChargingEffect );
 	}
 	
@@ -221,7 +226,7 @@
 		return m_currCount == m_maxCount;
 	}
 	
-	///////////////// GETTERS /////////////////
+	
 	
 	public function GetCurrentCount() : int
 	{
@@ -233,7 +238,7 @@
 		return m_maxCount;
 	}
 	
-	///////////////// SETTERS /////////////////
+	
 	
 	public function ResetAerondightTime()
 	{

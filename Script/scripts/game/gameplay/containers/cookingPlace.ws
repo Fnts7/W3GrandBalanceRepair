@@ -1,9 +1,14 @@
-﻿struct SCookingSchematic
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+struct SCookingSchematic
 {
-	var cookedItemName			: name;					//name of the cooked item
-	var cookedItemQuantity		: int;					//quantity of the cooked item
-	var ingredients				: array<SItemParts>;	//required ingredients
-	var schemName				: name;					//name of schematic
+	var cookedItemName			: name;					
+	var cookedItemQuantity		: int;					
+	var ingredients				: array<SItemParts>;	
+	var schemName				: name;					
 };
 
 abstract class W3CookingPlace extends W3Container
@@ -35,7 +40,7 @@ abstract class W3CookingPlace extends W3Container
 		cookingStarted = false;
 	}
 	
-	// Called when some interaction occurs with this container
+	
 	event OnInteraction( actionName : string, activator : CEntity )
 	{
 		var hud : CR4ScriptedHud;
@@ -77,12 +82,12 @@ abstract class W3CookingPlace extends W3Container
 		}
 	}
 	
-	//**************************************************
-	//Class specific functions
-	//**************************************************
 	
 	
-	//Load Data from XML
+	
+	
+	
+	
 	private function LoadXMLData()
 	{
 		var dm : CDefinitionsManagerAccessor;
@@ -95,7 +100,7 @@ abstract class W3CookingPlace extends W3Container
 						
 		dm = theGame.GetDefinitionsManager();
 		main = dm.GetCustomDefinition('cooking_recipes');
-		//schematicsNames = GetWitcherPlayer().GetCraftingSchematicsNames();
+		
 		
 		for(i=0; i<main.subNodes.Size(); i+=1)
 		{
@@ -108,7 +113,7 @@ abstract class W3CookingPlace extends W3Container
 			if(dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'cookedItemQuantity', tmpInt))
 				schem.cookedItemQuantity = tmpInt;
 			
-			//ingredients
+			
 			ingredients = dm.GetCustomDefinitionSubNode(main.subNodes[i],'ingredients');					
 			for(k=0; k<ingredients.subNodes.Size(); k+=1)
 			{		
@@ -125,92 +130,14 @@ abstract class W3CookingPlace extends W3Container
 			
 			schematics.PushBack(schem);		
 			
-			//clear
+			
 			schem.cookedItemName = '';
 			schem.ingredients.Clear();
 			schem.schemName = '';
 		}
 	}
 	
-	/* //not need
-	private function SortSchematics()
-	{
-		var keys : array<int>;
-		var schematicsIndexesMap : array<int>;
-		var tmpSchematics : array<SCookingSchematic>;
-		var i : int;
-		
-		for ( i=0 ; i < schematics.Size() ; i+= 1)
-		{
-			schematicsIndexesMap.PushBack(i);
-			keys.PushBack(schematics[i].ingredients.Size());
-		}
-		
-		SortIntArrByKeyQSort(schematicsIndexesMap,keys,0,schematicsIndexesMap.Size());
-		
-		for ( i=0 ; i < schematicsIndexesMap.Size() ; i+= 1 )
-			tmpSchematics.PushBack(schematics[schematicsIndexesMap[i]]);
-			
-		schematics = tmpSchematics;
-		
-	}
-	private function SortIntArrByKeyQSort(out intArr : array<int>, out keys : array<int>, start : int, stop : int)
-	{
-		var i,tmp_i : int;
-		var tmp_n : int;
-		
-		for(i=start+1; i<stop; i+=1)
-		{
-			if(keys[start] > keys[i])
-			{
-				tmp_i = keys[start];
-				keys[start] = keys[i];
-				keys[i] = keys[start+1];
-				keys[start+1] = tmp_i;
-				
-				tmp_n = intArr[start];
-				intArr[start] = intArr[i];
-				intArr[i] = intArr[start+1];
-				intArr[start+1] = tmp_n;
-				
-				start+=1;
-			}
-		}
-	  
-		if(start > 1)
-			SortIntArrByKeyQSort(intArr,keys,0,start);
-		if( (stop-(start+1)) > 1)
-			SortIntArrByKeyQSort(intArr,keys,start+1,stop);
-	}
 	
-	private function SortSchematicsByKeyQSort(out cookingSchematics : array<SCookingSchematic>, out keys : array<int>, start : int, stop : int)
-	{
-		var i,tmp_i : int;
-		var tmp_n : SCookingSchematic;
-		
-		for(i=start+1; i<stop; i+=1)
-		{
-			if(keys[start] > keys[i])
-			{
-				tmp_i = keys[start];
-				keys[start] = keys[i];
-				keys[i] = keys[start+1];
-				keys[start+1] = tmp_i;
-				
-				tmp_n = cookingSchematics[start];
-				cookingSchematics[start] = cookingSchematics[i];
-				cookingSchematics[i] = cookingSchematics[start+1];
-				cookingSchematics[start+1] = tmp_n;
-				
-				start+=1;
-			}
-		}
-	  
-		if(start > 1)
-			SortSchematicsByKeyQSort(cookingSchematics,keys,0,start);
-		if( (stop-(start+1)) > 1)
-			SortSchematicsByKeyQSort(cookingSchematics,keys,start+1,stop);
-	}*/
 	
 	protected function CookingStarted()
 	{
@@ -254,7 +181,7 @@ abstract class W3CookingPlace extends W3Container
 		CookingDone();
 	}
 	
-	//Cooking recepies
+	
 	protected function Cook() : bool
 	{
 		var allItems			: array< SItemUniqueId >;
@@ -274,17 +201,17 @@ abstract class W3CookingPlace extends W3Container
 		if ( allItems.Size() == 0 )
 			return false;
 		
-		//Gather all items - all ingredients
+		
 		for(i=0; i<allItems.Size(); i+=1)
 		{
 			tmpIngredient.itemName = inv.GetItemName(allItems[i]);
 			tmpIngredient.quantity = inv.GetItemQuantity(allItems[i]);
 			
 			ingredients.PushBack(tmpIngredient);
-			//itemsToBeRemoved.PushBack(allItems[i]);
+			
 		}
 		
-		//Get schematic
+		
 		tmpSchematicsIterator = FindSchematicForIngredients( ingredients, matchedIngredients );
 		
 		if ( tmpSchematicsIterator != -1 )
@@ -293,7 +220,7 @@ abstract class W3CookingPlace extends W3Container
 			
 			for ( i=0 ; i<matchedIngredients.Size() ; i+=1 )
 			{
-				//i can use the same iterator because matchedIngredients array is sorted the same way as tmpSchematic.ingredients is
+				
 				tmpQuantity = FloorF( matchedIngredients[i].quantity/tmpSchematic.ingredients[i].quantity );
 				if ( i==0 || tmpQuantity <= quantity )
 					quantity = tmpQuantity;
@@ -314,7 +241,7 @@ abstract class W3CookingPlace extends W3Container
 		if( allItems.Size() > 1 )
 			return false;
 		
-		// if the quantity is greater than 1 try cooking items one by one
+		
 		if (tmpIngredient.quantity > 1 )
 			tmpSchematicsIterator = FindSchematicByIngredientName(tmpIngredient.itemName);
 		else
@@ -361,7 +288,7 @@ abstract class W3CookingPlace extends W3Container
 		
 		LogChannel('CookingPlace', "Used Schematic: " + schematic.schemName);
 		
-		//Use schematic and Cook items one by one
+		
 		for ( i=0 ; i < quantity ; i+=1 )
 		{
 			if( schematic.cookedItemQuantity >= 1 )
@@ -379,7 +306,7 @@ abstract class W3CookingPlace extends W3Container
 			case 'Voodoo doll Curse' 		: VoodooDollCurse(); 				break;
 			case 'Treasure Nekker' 			: TreasureNekker(); 				break;
 			case 'Spawn Random Enemies'		: SpawnRandomEnemies(); 			break;
-			case 'Master of Puppets'		: /*Master of Puppets Achievemnt*/ 	break;
+			case 'Master of Puppets'		:  	break;
 			default: break;
 		}
 	}
@@ -401,14 +328,14 @@ abstract class W3CookingPlace extends W3Container
 			{
 				if(!inv.ItemHasTag(itemIds[j], 'Quest') && inv.GetItemName(itemIds[j]) != 'Philosophers Stone' )
 				{
-					//inv.RemoveItem(itemIds[j], inv.GetItemQuantity(itemIds[j]));
+					
 					inv.RemoveItem(itemIds[j],items[i].quantity);
 				}
 			}
 		}
 	}
 	
-	//If we want to support multiple ingredients we need to make sure that ordor doesn't matter
+	
 	protected function FindSchematicForIngredients( ingredients : array<SItemParts>, out matchedIngredients : array<SItemParts> ) : int
 	{
 		var i,j,k : int;
@@ -457,7 +384,7 @@ abstract class W3CookingPlace extends W3Container
 		return -1;
 	}
 	
-	//special
+	
 	protected function VoodooDollCurse();
 	
 	protected function TreasureNekker(){}
@@ -506,7 +433,7 @@ class W3CampfirePlace extends W3CookingPlace
 		
 	}
 	
-	// Called when entity gets within interaction range
+	
 	event OnInteractionActivated( interactionComponentName : string, activator : CEntity )
 	{
 		var victim : CActor;
@@ -525,7 +452,7 @@ class W3CampfirePlace extends W3CookingPlace
 			super.OnInteractionActivated(interactionComponentName, activator);
 	}
 		
-	// Called when entity leaves interaction range
+	
 	event OnInteractionDeactivated( interactionComponentName : string, activator : CEntity )
 	{
 		var victim : CActor;

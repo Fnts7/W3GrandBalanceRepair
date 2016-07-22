@@ -1,15 +1,20 @@
-﻿//>--------------------------------------------------------------------------
-// BTCondIsInTheWay
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Check if a position B is in the way of going from A to C.
-// Used for example to detect if an enemy is between my ally and me
-// Returns false if one of the the three target used is missing
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 15-November-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
 enum ETargetName
 {
 	TN_Me,
@@ -20,17 +25,17 @@ enum ETargetName
 }
 class BTCondIsInTheWay extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	public var origin 					: ETargetName;
 	public var obstacle 				: ETargetName;
 	public var destination 				: ETargetName;
 	public var returnIfInvalid 		: bool;
 	
 	public var requiredDistanceFromLine	: float;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	final function IsAvailable() : bool
 	{
 		var l_originPos			: Vector;
@@ -54,7 +59,7 @@ class BTCondIsInTheWay extends IBehTreeTask
 		if( destination == TN_NamedTarget 	) l_destinationPos 	= GetNamedTarget( 'DestinationTarget' ).GetWorldPosition();
 		else l_destinationPos = GetTargetPos( destination );
 		
-		// If one of the three target is invalid, consider that nothing is in the way
+		
 		if( l_originPos == Vector( 0, 0, 0 ) || l_obstaclePos == Vector( 0, 0, 0 ) || l_destinationPos == Vector( 0, 0, 0 ) )
 		{
 			return returnIfInvalid;
@@ -68,17 +73,17 @@ class BTCondIsInTheWay extends IBehTreeTask
 		GetNPC().GetVisualDebug().AddArrow('toDestination', l_originPos + Vector( 0, 0, 1), l_destinationPos + Vector( 0, 0, 1), 1, 0.5f, 0.8f, true, Color( 255, 56, 89 ),, 0.5f );
 		
 		
-		l_distOrOb 	= VecDistance( l_originPos, l_obstaclePos ); 		// Distance between the two points trying to form a line
-		l_distOrDes = VecDistance( l_originPos, l_destinationPos ); 	// Distance between origin and obstacle
-		l_distDesOb = VecDistance( l_destinationPos, l_obstaclePos ); 	// Distance between destination and obstacle
+		l_distOrOb 	= VecDistance( l_originPos, l_obstaclePos ); 		
+		l_distOrDes = VecDistance( l_originPos, l_destinationPos ); 	
+		l_distDesOb = VecDistance( l_destinationPos, l_obstaclePos ); 	
 		
-		// If the obstacle is further away from both origin and dest than the distance between origin to dest
+		
 		if( l_distOrOb > l_distOrDes  &&  l_distDesOb > l_distOrDes )
 		{
 			return false;
 		}
 		
-		// if the obstacle is in the space between origin and dest
+		
 		if( l_distOrOb < l_distOrDes && l_distDesOb < l_distOrDes )
 		{
 			distanceFromLine = VecDistanceToEdge( l_obstaclePos, l_originPos, l_destinationPos  );
@@ -90,8 +95,8 @@ class BTCondIsInTheWay extends IBehTreeTask
 		
 		return false;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final function GetTargetPos( _TargetName : ETargetName ) : Vector
 	{
 		var l_pos 		: Vector;
@@ -114,14 +119,14 @@ class BTCondIsInTheWay extends IBehTreeTask
 		
 	}
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTCondIsInTheWayDef extends IBehTreeConditionalTaskDefinition
 {
 	default instanceClass = 'BTCondIsInTheWay';
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	private editable var origin 					: ETargetName;
 	private editable var obstacle 					: ETargetName;
 	private editable var destination 				: ETargetName;

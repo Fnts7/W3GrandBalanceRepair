@@ -1,4 +1,9 @@
-﻿class W3GuiPaperdollInventoryComponent extends W3GuiPlayerInventoryComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3GuiPaperdollInventoryComponent extends W3GuiPlayerInventoryComponent
 {
 	public var previewSlots : array<bool>;
 	
@@ -10,30 +15,19 @@
 
 		_inv.GetItemTags( item, itemTags );
 
-		LogChannel('PAPERDOLLITEMS'," shuld show ? "+(super.ShouldShowItem( item ) && isEquipped( item ) /*&& !itemTags.Contains('Mutagen')*/ )+" item "+_inv.GetItemName(item));
-		return super.ShouldShowItem( item ) && isEquipped( item ) /*&& !itemTags.Contains('Mutagen')*/; //@FIXME BIDON - check if super.ShouldShowItem( item ) is needed here
+		LogChannel('PAPERDOLLITEMS'," shuld show ? "+(super.ShouldShowItem( item ) && isEquipped( item )  )+" item "+_inv.GetItemName(item));
+		return super.ShouldShowItem( item ) && isEquipped( item ) ; 
 	}
 	
-	protected function GetTooltipText(item : SItemUniqueId):string // #B why it's commented ?
+	protected function GetTooltipText(item : SItemUniqueId):string 
 	{
 		var debugTooltip : string;
 		var TooltipType : ECompareType;
-		/*		
-		TooltipType = _inv.GetItemRelativeTooltipType(item, _inv, SecondItemID);
 		
-		switch(TooltipType)
-		{
-			case ECT_Compare:	//TODO #B
-				debugTooltip = GetItemTooltipText(item, _inv);
-				break;				
-			default:
-				debugTooltip = GetItemTooltipText(item, _inv);
-				break;
-		}*/
 		
-		//LogChannel('W3PaperdollInventoryDataProvider',"");
-		//LogChannel('W3PaperdollInventoryDataProvider',"DP GetTooltipText item "+ _inv.GetItemName(item) +" vs "+_inv.GetItemName(SecondItemID));
-		//LogChannel('W3PaperdollInventoryDataProvider'," TooltipType "+TooltipType +" debugTooltip "+debugTooltip);
+		
+		
+		
 		
 		return debugTooltip;
 	}
@@ -58,7 +52,7 @@
 		return false;
 	}
 	
-	public /*override*/ function SetInventoryFlashObjectForItem( itemId : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
+	public  function SetInventoryFlashObjectForItem( itemId : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
 	{
 		var slotType 			  : EEquipmentSlots;
 		var canDrop				  : bool;

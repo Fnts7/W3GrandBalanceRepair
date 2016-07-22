@@ -1,18 +1,23 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskSetMorph
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Set the morph ratio of the morph component
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 19-March-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskSetMorph extends IBehTreeTask
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	public var morphOnAnimEvent		: bool;
 	public var time 				: float;
 	public var ratio				: float;	
@@ -24,24 +29,24 @@ class BTTaskSetMorph extends IBehTreeTask
 	public var morphOnDeactivate	: bool;
 	public var ratioOnDeactivate	: float;
 	public var timeOnDeactivate		: float;	
-	// Privates
+	
 	private var m_morphIsLaunched	: bool;
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{	
 		if( morphOnActivate ) StartMorph( ratioOnActivate, timeOnActivate );
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final function OnDeactivate()
 	{
 		if( morphOnDeactivate ) StartMorph( ratioOnDeactivate, timeOnDeactivate );
 	}
-	//>----------------------------------------------------------------------
-	//>----------------------------------------------------------------------
+	
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{	
 		if ( morphOnAnimEvent && animEventName == 'morph' )
@@ -51,8 +56,8 @@ class BTTaskSetMorph extends IBehTreeTask
 		
 		return true;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final function StartMorph( _Ratio : float, _Time : float)
 	{
 		var components	: array<CComponent>;
@@ -75,13 +80,13 @@ class BTTaskSetMorph extends IBehTreeTask
 	}
 
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskSetMorphDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskSetMorph';
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	editable var morphOnAnimEvent			: bool;
 	editable var time 						: float;
 	editable var ratio						: float;	

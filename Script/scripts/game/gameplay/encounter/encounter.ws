@@ -1,14 +1,16 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Encounter System
-/** Copyright © 2010-2013
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
 
-/////////////////////////////////////////////
-// Encounter class
-/////////////////////////////////////////////
+
+
+
+
+
+
 
 import class CEncounter extends CGameplayEntity
 {
@@ -31,11 +33,11 @@ import class CEncounter extends CGameplayEntity
 	private saved var isUpdating 							: bool; default isUpdating = false;
 	
 	
-	//////////////////////////////////////////////////////////////////////////////////////////
+	
 
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{
-		// Only player can activate area
+		
 		if ( enabled && activator.GetEntity() == thePlayer )
 		{
 			EnterArea();
@@ -396,9 +398,9 @@ import class CEncounter extends CGameplayEntity
 	
 }
 
-/////////////////////////////////////////////
-// Encounter Activation class
-/////////////////////////////////////////////
+
+
+
 class CEncounterActivator extends CGameplayEntity
 {
 
@@ -413,7 +415,7 @@ class CEncounterActivator extends CGameplayEntity
 	
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{
-		// Only player can activate area
+		
 		if ( !((CPlayer)(activator.GetEntity())) )
 			return false;
 		
@@ -423,7 +425,7 @@ class CEncounterActivator extends CGameplayEntity
 
 	event OnAreaExit( area : CTriggerAreaComponent, activator : CComponent )
 	{
-		// Only player can activate area
+		
 		if ( !((CPlayer)(activator.GetEntity())) )
 			return false;
 		
@@ -485,7 +487,7 @@ class CEncounterActivator extends CGameplayEntity
 
 }
 
-///////////////////////////////////////////////////////////////////
+
 
 class CEncounterStateRequest extends CScriptedEntityStateChangeRequest
 {

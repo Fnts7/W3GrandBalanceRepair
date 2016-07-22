@@ -1,9 +1,14 @@
 ﻿/***********************************************************************/
-/**/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//Very Much NOT FINAL
-//FIX: this is high level task and should be in proper directory
+
+
+
+
 class CBTTaskNpcRider extends IBehTreeTask
 {
 	private var activate : bool;

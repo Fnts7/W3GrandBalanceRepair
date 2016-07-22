@@ -1,4 +1,9 @@
-﻿state MutationsEquipping in W3TutorialManagerUIHandler extends TutHandlerBaseState
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+state MutationsEquipping in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
 	private const var EQUIPPING : name;
 	private var activated : bool;
@@ -11,7 +16,7 @@
 				
 		activated = false;
 		
-		//if we researched mutation in full during initial tutorial
+		
 		if( ( ( W3PlayerAbilityManager ) thePlayer.abilityManager ).GetResearchedMutationsCount() > 0 )
 		{
 			OnMutationFullyResearched();

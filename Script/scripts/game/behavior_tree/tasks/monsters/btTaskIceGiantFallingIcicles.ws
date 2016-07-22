@@ -1,5 +1,10 @@
-﻿// copyrajt orajt
-// W. Żerek
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 
 class CBTTaskIceGiantFallingIcicles extends CBTTaskAttack
 {
@@ -11,7 +16,7 @@ class CBTTaskIceGiantFallingIcicles extends CBTTaskAttack
 	{
 		npc = GetNPC();
 		
-		// search for existing icicles
+		
 		FindGameplayEntitiesInRange( icicles, npc, rangeForIcyclesActivation, 10, 'icicle' );
 		
 		if( icicles.Size() )
@@ -30,9 +35,9 @@ class CBTTaskIceGiantFallingIcicles extends CBTTaskAttack
 		{
 			for( i = 0; i < icicles.Size(); i += 1 )
 			{
-				// DO STUFF WITH ICICLES HERE
-				// pick random
-				//LogChannel('ICICLES', "destroyed icicle no.: " + i );
+				
+				
+				
 			}
 			
 			return true;

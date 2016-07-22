@@ -1,15 +1,17 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013
-/** Author : Ryan Pergent
-/***********************************************************************/
+
+
+
 class W3TrapTrigger extends W3GameplayTrigger
 {
-	//>---------------------------------------------------------------------
-	// Variables 
-	//----------------------------------------------------------------------
-	// Editables
+	
+	
+	
+	
 	private editable		var m_TrapsToActivateTag 			: name;																hint m_TrapsToActivateTag= "traps with this tag will be activated";
 	private editable		var m_MaxActivation					: int;						default m_MaxActivation = -1; 			hint m_MaxActivation 	= "negative number means infinite activations";
 	private editable		var m_DeactivateOnExit				: bool;						default m_DeactivateOnExit = true;		hint m_DeactivateOnExit = "The trap deactivates when the player leaves the trigger";
@@ -37,14 +39,14 @@ class W3TrapTrigger extends W3GameplayTrigger
 			
 	}
 	
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	public function Enable( _NewState : bool )
 	{
 		m_Enabled = _NewState;
 	}	
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{	
 		var i 				: int;
@@ -76,8 +78,8 @@ class W3TrapTrigger extends W3GameplayTrigger
 		m_EntitiesInside += 1;
 		return true;
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnAreaExit( area : CTriggerAreaComponent, activator : CComponent )
 	{
 		var i 		: int;
@@ -115,8 +117,8 @@ class W3TrapTrigger extends W3GameplayTrigger
 		return true;
 	}
 		
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private function ShouldExcludeEntity( _Entity : CNode ) : bool
 	{
 		var i				: int;

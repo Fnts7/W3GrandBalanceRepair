@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : collective mind of the CDP
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 enum EPlayerMode
 {
@@ -12,7 +15,7 @@ enum EPlayerMode
 
 enum EForceCombatModeReason
 {
-	//Bit flags each element must be equal to power of 2.
+	
 	FCMR_Default    	= 1,
 	FCMR_Trigger   		= 2,
 	FCMR_QuestFunction  = 4,
@@ -43,15 +46,15 @@ class W3PlayerMode
 	
 	public function Initialize( playerEntity : CPlayer )
 	{
-		// safe mode doesn't block anything at all now
-		// safeModeBlockedActions.PushBack( EIAB_Signs );
-		// safeModeBlockedActions.PushBack( EIAB_DrawWeapon );
+		
+		
+		
 	
 		player = playerEntity;
 		currentMode = PM_Normal;
 		
 		if( (CR4Player)playerEntity )
-			((CR4Player)playerEntity).SetIsInCombat( false );	//thePlayer is (or might be) NULL at this point
+			((CR4Player)playerEntity).SetIsInCombat( false );	
 	}
 	
 	public function EnableMode( mode : EPlayerMode, enable : bool )
@@ -60,7 +63,7 @@ class W3PlayerMode
 		{
 			if(enable)
 			{
-				//thePlayer.OnCombatStart();
+				
 				
 				if( thePlayer.GetTarget().IsHuman() )
 				{
@@ -71,10 +74,7 @@ class W3PlayerMode
 					thePlayer.PlayBattleCry( 'BattleCryMonstersStart', 0.10f );
 				}
 			}
-			/*else
-			{
-				thePlayer.OnCombatFinished();
-			}*/
+			
 			
 			combatMode = enable;
 			UpdateCurrentMode();
@@ -84,7 +84,7 @@ class W3PlayerMode
 			safeMode = enable;
 			UpdateCurrentMode();
 		}
-		// else do nothing since normal mode is always enabled
+		
 	}
 	
 	public function GetCurrentMode() : EPlayerMode
@@ -129,9 +129,9 @@ class W3PlayerMode
 		if ( mode == PM_Combat )
 		{
 			BlockActions( combatModeBlockedActions, enabled );
-			// enabling/disabling interactions in combat mode
-			// is handled in CInteractionComponent and uses CActor::IsInCombat()
-			// todo!!! block saving game
+			
+			
+			
 		}
 		else if ( mode == PM_Safe )
 		{
@@ -164,11 +164,8 @@ class W3PlayerMode
 	{	
 		var unableToPathFind 	: bool;
 	
-		/*if ( !combatDataComponent )
-		{
-			combatDataComponent = (CCombatDataComponent)player.GetComponentByClassName( 'CCombatDataComponent' );
-		}*/
-		if ( thePlayer.ShouldEnableCombat( unableToPathFind, forceCombatMode ) ) //FIXME REMEMBER TO CHANGE THE TUTORIAL VALUE AS WELL!
+		
+		if ( thePlayer.ShouldEnableCombat( unableToPathFind, forceCombatMode ) ) 
 		{
 			combatModeTimer = theGame.GetEngineTimeAsSeconds();
 			if ( !combatMode )
@@ -176,7 +173,7 @@ class W3PlayerMode
 				EnableMode( PM_Combat, true );
 			}
 			
-			// Try to make Geralt go to combat mode
+			
 			thePlayer.GoToCombatIfNeeded();
 		}
 		else
@@ -225,7 +222,7 @@ class W3PlayerMode
 			return false;
 	}	
 	
-	// @E3HACK
+	
 	public function ShouldForceAlertNearStance() : bool
 	{
 		return forceCombatMode >= 4;

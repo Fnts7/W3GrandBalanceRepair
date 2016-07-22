@@ -2848,21 +2848,19 @@
 		</tags>
 	</item>
 
-<!-- (DLC)
 	<item
-		name							="Dark steel plate schematic"
+		name							="Dark iron plate schematic"
 		category						="crafting_schematic"
 		price							="18"
 		weight							="0.1"
 		stackable						="100"
-		localisation_key_name			="item_name_dark_iron_ingot_schematic"
+		localisation_key_name			="item_name_dark_iron_plate_schematic"
 		localisation_key_description	="item_desc_crafting_schematic"
 		icon_path						="icons/inventory/quests/ico_recipe.png"
 	>
 		<tags>							ReadableItem, mod_crafting
 		</tags>
 	</item>
--->
 
 	<item
 		name							="Dark steel ingot schematic"
@@ -6696,7 +6694,6 @@
 		</ingredients>
 	</schematic>
 
-<!-- (DLC)
 	<schematic
 		name_name						="Dark iron plate schematic"
 		craftedItem_name				="Dark iron plate"
@@ -6707,7 +6704,6 @@
 		<ingredients>					<ingredient	quantity="2"	item_name="Dark iron ingot"					/>
 		</ingredients>
 	</schematic>
--->
 
 	<schematic
 		name_name						="Dark steel ingot schematic"

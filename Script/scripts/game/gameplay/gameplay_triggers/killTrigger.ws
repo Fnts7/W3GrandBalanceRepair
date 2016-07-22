@@ -1,4 +1,9 @@
-﻿class W3KillTrigger extends CEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3KillTrigger extends CEntity
 {
 	private var postponedTillOnGroundMPAC 	: array<CMovingPhysicalAgentComponent>;	
 	editable var postponeTillOnGround 		: bool;
@@ -31,7 +36,7 @@
 		}
 	}
 	
-	//handles postponed kills
+	
 	timer function PostponedKills(dt : float, id : int)
 	{
 		var i : int;
@@ -73,8 +78,8 @@
 		
 		if(postponeTillOnGround)
 		{
-			//If actor left trigger we remove it from array and not kill it (to avoid weird things like death in the middle of cutscene). If this happens
-			// then someone has to fix size of their trigger.
+			
+			
 			actor = (CActor)activator.GetEntity();
 			
 			if ( actor)

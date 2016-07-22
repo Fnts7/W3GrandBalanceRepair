@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 enum EGuiSceneControllerRenderFocus
 {
 	GSCRF_Body,
@@ -87,7 +92,7 @@ class CR4GuiSceneController
 			}
 			else
 			{
-				// default
+				
 				_entityRotation.Yaw = 0;
 				_entityRotation.Pitch = 0;
 				_entityRotation.Roll = 0;
@@ -279,7 +284,7 @@ class CR4GuiSceneController
 	}
 	
 	
-	// #Y GEEK PAGE PROROTYPE
+	
 	public function ResetEntityPosition():void
 	{
 		_entityRotation.Yaw = 0;
@@ -376,7 +381,7 @@ class CR4GuiSceneController
 		theGame.GetGuiManager().SetupSceneCamera( _cameraLookAt, _cameraRotation, _cameraDistance, _fov );
 	}
 	
-	// -end- prototype
+	
 	
 	public function SetEntityItems( updateItems : bool, optional previewItems : array<SItemUniqueId>, optional dyePreviewSlots: array<SItemUniqueId>)
 	{
@@ -446,7 +451,7 @@ class CR4GuiSceneController
 					{
 						if( inventory.IsIdValid( previewBySlotList[previewSlot] ))
 						{
-							// replace with item we want to preview
+							
 							itemId = previewBySlotList[previewSlot];
 						}
 					}
@@ -499,21 +504,21 @@ class CR4GuiSceneController
 							info.dye = cachedDye;
 							
 							info.dyeItem = itemName;
-							//enhancements.PushBack( info );
+							
 							_appliedDyesPreview[ previewSlot ] = '';
 							inventory.ClearPreviewColor( itemId );
 						}
 						else
 						if ( _appliedDyesPreview[ previewSlot ] != '' )
 						{							
-							// reset color
+							
 							info.dyeColor = 0;
 							info.dye = 'Dye Default';
 							_appliedDyesPreview[ previewSlot ] = '';
 							inventory.ClearPreviewColor( itemId );
 							
 							info.dyeItem = itemName;
-							//enhancements.PushBack( info );
+							
 						}
 						else
 						if( inventory.IsItemColored( itemId ) )
@@ -524,7 +529,7 @@ class CR4GuiSceneController
 							info.dyeColor = RoundF( cachedColorId );
 							info.dye = appliedDye;
 							info.dyeItem = itemName;
-							//enhancements.PushBack( info );
+							
 						}
 					}
 					

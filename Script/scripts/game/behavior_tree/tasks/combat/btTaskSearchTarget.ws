@@ -1,23 +1,28 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskSearchTarget
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Generate a frost area from which spike of ice will attack the target
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 08-July-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskSearchTarget extends IBehTreeTask
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------	
+	
+	
+	
 	public 	var namedTarget : name;
-	// private
+	
 	private var m_LastKnowPosition	: Vector;	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		var l_npc 			: CNewNPC = GetNPC();
@@ -62,8 +67,8 @@ class BTTaskSearchTarget extends IBehTreeTask
 		
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	latent function Main() : EBTNodeStatus
 	{
 		var l_targetPos : Vector;
@@ -79,13 +84,13 @@ class BTTaskSearchTarget extends IBehTreeTask
 	}
 
 }
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTTaskSearchTargetDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskSearchTarget';
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private editable var namedTarget : name;
 	
 	default namedTarget = 'DangerSource';

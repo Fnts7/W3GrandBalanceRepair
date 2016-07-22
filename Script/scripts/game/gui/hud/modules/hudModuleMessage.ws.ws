@@ -1,9 +1,14 @@
-﻿class CR4HudModuleMessage extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleMessage extends CR4HudModuleBase
 {	
 	private var _bDuringDisplay : bool;		default _bDuringDisplay = false;
 	private var _flashValueStorage : CScriptedFlashValueStorage;
 
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{		
 		var hud : CR4ScriptedHud;
 		
@@ -11,7 +16,7 @@
 		super.OnConfigUI();
 		_flashValueStorage = GetModuleFlashValueStorage();
 
-		//ShowElement(false);
+		
 		
 		hud = (CR4ScriptedHud)theGame.GetHud();
 						
@@ -32,12 +37,12 @@
 		}
 	}
 	
-	event /* flash */ OnMessageHidden()
+	event  OnMessageHidden()
 	{
-		// remove message
+		
 		thePlayer.RemoveHudMessageByIndex(0);
 		_bDuringDisplay = false;
-		// clear
+		
 		_flashValueStorage.SetFlashString( 'hud.message', "" );
 	}
 	
@@ -63,6 +68,6 @@
 			str = strDebug;
 		}
 		_flashValueStorage.SetFlashString( 'hud.message', str );
-		ShowElement(true); //#B OnDemand or OnUpdate ?
+		ShowElement(true); 
 	}
 }

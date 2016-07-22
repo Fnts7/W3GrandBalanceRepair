@@ -1,35 +1,35 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Object classes exprots
-/** Copyright © 2009 Dexio's Late Night R&D Home Center
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/////////////////////////////////////////////
-// Exploration state
-/////////////////////////////////////////////
+
+
+
+
+
+
 
 state Exploration in CR4Player extends ExtendedMovable
 {
 	private var wantsToSheatheWeapon			: bool;		default	wantsToSheatheWeapon			= false;
 	
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Enter/Leave events
-	/**
 	
-	*/
+	
+	
 	event OnEnterState( prevStateName : name )
 	{	
 		super.OnEnterState(prevStateName);
 		
-		//LogChannel( 'States', "Changed state to: " + this + " from " + prevStateName);
+		
 		
 		theInput.SetContext( parent.GetExplorationInputContext() );
 		
 		virtual_parent.SetPlayerCombatStance( PCS_Normal, true );
 		
-		//parent.EnableHardLock( false );
+		
 		
 		theGame.GetGuiManager().DisableHudHoldIndicator();
 		parent.RemoveBuffImmunity_AllCritical('Swimming');
@@ -48,16 +48,14 @@ state Exploration in CR4Player extends ExtendedMovable
 		
 		parent.SetBehaviorMimicVariable( 'gameplayMimicsMode', (float)(int)PGMM_Default );
 		
-		// parent.ActionCancelAll();
+		
 		
 		this.ExplorationInit( prevStateName );
 		
 		theTelemetry.LogWithName(TE_STATE_EXPLORING);
 	} 
 	
-	/**
 	
-	*/
 	event OnLeaveState( nextStateName : name )
 	{
 		parent.RemoveTimer( 'ResetStanceTimer' );
@@ -82,16 +80,16 @@ state Exploration in CR4Player extends ExtendedMovable
 		else
 			parent.tiedWalk = false;
 		
-		// Pass to base class
+		
 		super.OnLeaveState( nextStateName );
 
-//		LogChannel( 'States', this + " FUUUCH");
-//		parent.PopPlayerInput();
+
+
 	}
 	
 	event OnStateCanGoToCombat()
 	{
-		//return thePlayer.substateManager.CanGoToCombat();
+		
 		
 		return true;
 	}
@@ -100,17 +98,13 @@ state Exploration in CR4Player extends ExtendedMovable
 	{
 		return true;
 	}
-	/**
 	
-	*/
 	final function NeedsToSheatheWeapon( sheatheWeapon : bool )
 	{
 		wantsToSheatheWeapon	= sheatheWeapon;
 	}
 	
-	/**
 	
-	*/
 	entry function ExplorationInit( prevStateName : name )
 	{		
 		var stupidArray : array< name >;
@@ -122,8 +116,8 @@ state Exploration in CR4Player extends ExtendedMovable
 		
 		m_lastUsedPCInput = false;
 		
-		//theSound.SoundState( "game_state", "exploration" );
-		//FIXME URGENT - this won't work in OnSpawned() as thePlayer == NULL && parent == NULL
+		
+		
 		parent.BlockAllActions('ExplorationInit', true, , true, parent);
 		if ( prevStateName == 'TraverseExploration' || prevStateName == 'PlayerDialogScene' )
 		{
@@ -144,10 +138,10 @@ state Exploration in CR4Player extends ExtendedMovable
 		
 		parent.BlockAllActions('ExplorationInit', false);
 		
-		//fail safe
+		
 		parent.UnblockAction(EIAB_MeditationWaiting, 'vehicle');
 		
-		//update shallowWater behgraph val if necessery
+		
 		if ( parent.IsInShallowWater() )
 			parent.SetBehaviorVariable( 'shallowWater',1.0);
 		
@@ -185,18 +179,16 @@ state Exploration in CR4Player extends ExtendedMovable
 		}
 		parent.SetBehaviorMimicVariable( 'gameplayMimicsMode', (float)(int)PGMM_Default );
 		
-		// FIXMEFLASH hack fix to make geralt face target when he fires signs
+		
 		parent.AddTimer( 'ExplorationLoop', 0.01f, true );
 	}
 	
 	
-	/**
 	
-	*/
 	timer function ExplorationLoop( time : float , id : int)
 	{
 		ProcessPlayerOrientation();
-		parent.SetBehaviorMimicVariable( 'gameplayMimicsMode', (float)(int)PGMM_Default ); // Because of the fact that players head is on item and items are spawn in async way
+		parent.SetBehaviorMimicVariable( 'gameplayMimicsMode', (float)(int)PGMM_Default ); 
 		
 		if ( parent.IsThreatened() )
 		{
@@ -242,8 +234,8 @@ state Exploration in CR4Player extends ExtendedMovable
 		}
 	}		
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Camera
+	
+	
 	
 	private function InitCamera()
 	{
@@ -266,7 +258,7 @@ state Exploration in CR4Player extends ExtendedMovable
 		animation.additive = true;
 		animation.reset = true;
 		
-		//camera.PlayAnimation( animation );
+		
 	}
 
 	private function CameraCleanup()
@@ -324,7 +316,7 @@ state Exploration in CR4Player extends ExtendedMovable
 				}
 				else
 				{
-					//MS: Hack fix to blend the sprint camera with the interior camera
+					
 					if ( parent.IsSprintActionPressed() )
 						parent.wasRunning = false; 
 						
@@ -362,8 +354,8 @@ state Exploration in CR4Player extends ExtendedMovable
 		if ( ( parent.IsInCombatAction() || buff ) && !parent.IsInCombat() )
 			parent.UpdateCameraCombatActionButNotInCombat( moveData, dt );	
 
-		//if (  dt > 0 )
-		//{
+		
+		
 		playerVel = VecDistance( cachedPos, parent.GetWorldPosition() ) / dt ;
 		cachedPos = parent.GetWorldPosition();
 		
@@ -377,7 +369,7 @@ state Exploration in CR4Player extends ExtendedMovable
 			moveData.pivotRotationController.SetDesiredHeading( moveData.pivotRotationValue.Yaw );
 			moveData.pivotRotationController.SetDesiredPitch( moveData.pivotRotationValue.Pitch );
 		}
-		//}
+		
 		if ( parent.playerMoveType >= PMT_Run && parent.movementLockType == PMLT_Free )
 		{
 			moveData.pivotDistanceController.SetDesiredDistance( 2.85f, 0.5 );
@@ -409,7 +401,7 @@ state Exploration in CR4Player extends ExtendedMovable
 		return false;
 	}	
 	
-	//MSZ: E3 camera for meditation
+	
 	private function UpdateCameraMeditation( out moveData : SCameraMovementData, timeDelta : float )
 	{
 		moveData.pivotPositionController.offsetZ = 0.8f;
@@ -422,11 +414,11 @@ state Exploration in CR4Player extends ExtendedMovable
 		
 		DampVectorSpring( moveData.cameraLocalSpaceOffset, moveData.cameraLocalSpaceOffsetVel, Vector( -0.5f, 0.f, 0.f ), 1.f, timeDelta );
 		
-		// Do we really need this??
-		//camera.SetManualRotationHorTimeout( 10000 );
+		
+		
 	}
 	
-	//MSZ: E3 camera for focus
+	
 	private function UpdateCameraClueGround( out moveData : SCameraMovementData, timeDelta : float )
 	{
 		moveData.pivotPositionController.offsetZ = 1.0f;
@@ -439,13 +431,13 @@ state Exploration in CR4Player extends ExtendedMovable
 		
 		DampVectorSpring( moveData.cameraLocalSpaceOffset, moveData.cameraLocalSpaceOffsetVel, Vector( 0.7f, 0.f, 0.f ), 1.f, timeDelta );
 		
-		// Do we really need this??
-		//camera.SetManualRotationHorTimeout( 10000 );
+		
+		
 	}
 	
 	entry function Mount( vehicle : CVehicleComponent, optional mountType : EVehicleMountType )
 	{
-		// The vehicle should know how to use it
+		
 		vehicle.Mount( parent, mountType, EVS_driver_slot );
 	}
 	
@@ -464,12 +456,12 @@ state Exploration in CR4Player extends ExtendedMovable
 			attacker = (CActor)damageAction.attacker;
 			if(attacker && IsRequiredAttitudeBetween(parent, attacker, true) && parent.IsThreat( attacker ) )
 				parent.playerMode.UpdateCombatMode();
-				//parent.GoToCombatIfNeeded( (CActor)( damageAction.attacker ) );
+				
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Animation events
+	
+	
 	
 	event OnHit(damageData : W3DamageAction , attackType : name, optional hitAnimationPlayType : EActionHitAnim )
 	{

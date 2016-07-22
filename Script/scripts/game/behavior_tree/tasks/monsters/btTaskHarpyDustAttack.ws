@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskHarpyDustAttack extends CBTTaskAttack
 {
@@ -33,7 +35,7 @@ class CBTTaskHarpyDustAttack extends CBTTaskAttack
 				
 				if ( dist <= effectRange*effectRange && angle <= effectAngle )
 				{
-					//FIXME - there is no need to use damage action - simply add the buff
+					
 					action = new W3DamageAction in this;			
 					action.Initialize( (CGameplayEntity)npc, (CGameplayEntity)target, (CGameplayEntity)npc, npc+"'s dust attack", EHRT_None, CPS_AttackPower, false, false, false, false);
 					action.SetHitAnimationPlayType(EAHA_ForceNo);

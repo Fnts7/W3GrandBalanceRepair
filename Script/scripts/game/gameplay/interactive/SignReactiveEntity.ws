@@ -1,11 +1,16 @@
-﻿// Ł.SZ A class for entity that can change appearance when a sign aard or igni is cast
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 
 class CSignReactiveEntity extends W3MonsterClue
 {
 	editable var factOnSignCast 			: string;
 	editable saved  var igni 				: bool;
 	editable saved  var aard 				: bool;
-	editable var clueActionWhenDestroyed	: EClueOperation; default clueActionWhenDestroyed = CO_None;//default clueDisablesWhenDestroyed = false;
+	editable var clueActionWhenDestroyed	: EClueOperation; default clueActionWhenDestroyed = CO_None;
 	editable var igniteOnInteraction		: bool; default igniteOnInteraction = false;
 	
 	editable var destroyingTimeout			: float; default destroyingTimeout = 5;
@@ -106,7 +111,7 @@ class CSignReactiveEntity extends W3MonsterClue
 		}
 		StartDestroyed(true);
 		currentAppearance = "destroyed";
-		PlayEffect(destroyingEffectName);//, this );
+		PlayEffect(destroyingEffectName);
 		AddTimer ( 'ApplyDestroyAppearance', destroyingTimeout, , , , true );
 	}
 	
@@ -118,7 +123,7 @@ class CSignReactiveEntity extends W3MonsterClue
 	private timer function ApplyDestroyAppearance ( timeDelta : float , id : int)
 	{
 		ApplyAppearance( currentAppearance );
-		PlayEffect(destroyedEffectName);//, this );
+		PlayEffect(destroyedEffectName);
 		StopEffect ( destroyingEffectName );
 		AddTimer ( 'StopDestroyedEffect', destroyedEffectsTimeout, , , , true );
 		SetDestroyed(true);
@@ -149,114 +154,4 @@ class CSignReactiveEntity extends W3MonsterClue
 	
 	
 }
-
-/*class CSignReactiveComponent extends CSelfUpdatingComponent
-{
-	editable var igni 						: bool;
-	editable var aard 						: bool;
-	
-	editable var destroyingTimeout			: float; default destroyingTimeout = 5;
-	editable var destroyedEffectsTimeout	: float; default destroyedEffectsTimeout = 10;
-	
-	editable var destroyingEffectName		: name; default destroyingEffectName = 'destroy';
-	editable var destroyedEffectName		: name; default destroyedEffectName = 'destroyed';
-	
-	private saved var isDestroyed			: bool;
-	
-	private saved var currentAppearance 	: string;   default currentAppearance = "default";
-	
-	private var owner 						: CEntity;
-	private var applyDestroyingEffect		: bool; default applyDestroyingEffect = false;
-	private var stopDestroyingEffect		: bool; default stopDestroyingEffect = false;
-	
-	private var counter						: float;		
-	
-	private var factOnSignCast 				: string;
-	
-	
-	
-	
-	event OnComponentAttachFinished()
-	{
-		owner = GetEntity();
-		owner.ApplyAppearance( currentAppearance );
-		StopTicking();
-		
-		factOnSignCast = owner.GetTagsString() + "_signReactiveObjectDestroyed";
-	}
-	event OnComponentTick ( _Dt : float )
-	{
-		Update ( _Dt );
-	}
-	event OnIgniHit( )
-	{
-		if ( igni && !isDestroyed  )
-		{
-			StartTicking();
-			isDestroyed = true;
-			currentAppearance = "destroyed";
-			owner.PlayEffect('destroy', owner );
-			applyDestroyingEffect = true;
-			counter = 0;
-		}
-	}
-	
-	event OnAardHit( )
-	{
-		if ( aard && !isDestroyed )
-		{
-			StartTicking();
-			isDestroyed = true;
-			currentAppearance = "destroyed";
-			owner.PlayEffect('destroy', owner );
-			applyDestroyingEffect = true;
-			counter = 0;
-		}
-	}
-	
-	private function Update ( _Dt : float )
-	{
-		if ( applyDestroyingEffect )
-		{
-			counter += _Dt;
-			
-			if ( counter >= destroyingTimeout )
-			{
-				ApplyDestroyAppearance();
-			}
-		}
-		if ( stopDestroyingEffect )
-		{
-			counter += _Dt;
-			
-			if ( counter >= destroyedEffectsTimeout )
-			{
-				StopDestroyedEffect ( );
-			}
-		}
-	}
-	private function StopDestroyedEffect ( )
-	{
-		stopDestroyingEffect = true;
-		counter = 0;
-		owner.StopEffect ( 'destroyed' );
-		StopTicking();
-	}
-	
-	private  function ApplyDestroyAppearance ( )
-	{
-		applyDestroyingEffect = false;
-		counter = 0;
-		stopDestroyingEffect = true;
-		
-		owner.ApplyAppearance( currentAppearance );
-		owner.PlayEffect('destroyed', this );
-		owner.StopEffect ( 'destroy' );
-		if ( factOnSignCast != "" )
-		{
-			FactsAdd( factOnSignCast, 1, -1 );
-		}
-	}
-	
-	
-}*/
+

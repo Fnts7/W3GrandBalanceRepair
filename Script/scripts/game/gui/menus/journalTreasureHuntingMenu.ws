@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - journal treasure hunting 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4JournalTreasureHuntingMenu extends CR4JournalQuestMenu
 {	
@@ -27,7 +29,7 @@ class CR4JournalTreasureHuntingMenu extends CR4JournalQuestMenu
 			questTemp = (CJournalQuest)tempQuests[i];
 			if( questTemp )
 			{
-				if( questTemp.GetType() == TreasureHunt /*QuestType_TreasureHunt*/ )
+				if( questTemp.GetType() == TreasureHunt  )
 				{
 					allQuests.PushBack(questTemp);
 				}
@@ -35,25 +37,5 @@ class CR4JournalTreasureHuntingMenu extends CR4JournalQuestMenu
 		}
 	}
 	
-	/*function UpdateQuestLegend()
-	{
-		var l_feedbackFlashArray		: CScriptedFlashArray;
-		var l_feedbackDataFlashObject	: CScriptedFlashObject;
-		
-		l_feedbackFlashArray = m_flashValueStorage.CreateTempFlashArray();	
-				
-		l_feedbackDataFlashObject = m_flashValueStorage.CreateTempFlashObject();
-		l_feedbackDataFlashObject.SetMemberFlashUInt(  "tag", NameToFlashUInt('TreasureHunt') );
-		l_feedbackDataFlashObject.SetMemberFlashString(  "dropDownLabel", "" );		
-		l_feedbackDataFlashObject.SetMemberFlashInt( "isStory", 0 );					
-		l_feedbackDataFlashObject.SetMemberFlashString( "iconPath", GetQuestIconByType(TreasureHunt) );			
-		l_feedbackDataFlashObject.SetMemberFlashBool( "isNew", false );
-		l_feedbackDataFlashObject.SetMemberFlashBool( "selected", false );		
-		l_feedbackDataFlashObject.SetMemberFlashInt( "status", JS_Active );
-		l_feedbackDataFlashObject.SetMemberFlashBool( "tracked", false );
-		l_feedbackDataFlashObject.SetMemberFlashString(  "label", GetLocStringByKeyExt("panel_journal_legend_treasurehunt") );
-		l_feedbackFlashArray.PushBackFlashObject(l_feedbackDataFlashObject);		
-		
-		m_flashValueStorage.SetFlashArray( "journal.legend.quests.list", l_feedbackFlashArray );
-	}*/
+	
 }

@@ -1,4 +1,9 @@
-﻿class CR4EnchantingMenu extends CR4MenuBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4EnchantingMenu extends CR4MenuBase
 {
 	private var m_fxEnableRemovingEnchantment : CScriptedFlashFunction;
 	private var m_fxEnableEnchantment 		  : CScriptedFlashFunction;
@@ -41,7 +46,7 @@
 	
 	private var tutorialTriggered:bool;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var initData		   : IScriptable;
 		var inventoryInitData  : W3InventoryInitData;
@@ -98,7 +103,7 @@
 		m_enchantmentManager = new W3EnchantmentManager in this;
 		m_enchantmentManager.Init(m_craftsmanComponent);
 		
-		// #Y TODO: keep only one list!
+		
 		
 		m_runewordsList = m_craftsmanComponent.GetEnchanterItems(true, false);
 		m_glyphwordsList = m_craftsmanComponent.GetEnchanterItems(false, true);
@@ -127,7 +132,7 @@
 		UpdateMerchantData();
 	}
 	
-	event /*flash*/ OnChangePinnedRecipe( tag : name )
+	event  OnChangePinnedRecipe( tag : name )
 	{
 		if (tag != '')
 		{
@@ -253,7 +258,7 @@
 			
 			enchantmentData.SetMemberFlashUInt("name", NameToFlashUInt(schematic.schemName));
 			enchantmentData.SetMemberFlashBool("canApply", canApply);		
-			//enchantmentData.SetMemberFlashBool("notEnoughMoney", playerMoney < schematic.baseCraftingPrice);
+			
 			enchantmentData.SetMemberFlashBool("notEnoughSlots", m_notEnoughSlots);
 			enchantmentData.SetMemberFlashString("localizedName", schematicLocName);
 			enchantmentData.SetMemberFlashString("description", schematicLocDescription);
@@ -273,7 +278,7 @@
 					levelName = GetLocStringByKeyExt("panel_enchanting_filter_level_3_enchant");
 					break;
 				default:
-					levelName = GetLocStringByKeyExt("panel_enchanting_filter_level_1_enchant"); // ERROR
+					levelName = GetLocStringByKeyExt("panel_enchanting_filter_level_1_enchant"); 
 					break;
 			}
 			
@@ -314,7 +319,7 @@
 		}
 	}
 	
-	event /*flash*/ OnConfrimAction(itemId : SItemUniqueId, price : float, removing:bool):void
+	event  OnConfrimAction(itemId : SItemUniqueId, price : float, removing:bool):void
 	{
 		var confirmationText  : string = "";
 		var confirmationTitle : string = "";
@@ -352,29 +357,29 @@
 		}
 		else
 		{
-			// don't need confirmation
+			
 			m_fxStartApplying.InvokeSelf();
 		}
 	}
 	
-	event /*flash*/ OnNotEnoughSockets()
+	event  OnNotEnoughSockets()
 	{
 		showNotification( GetLocStringByKeyExt( "panel_enchanting_warning_not_enough_sockets" ) );
 		OnPlaySoundEvent( "gui_global_denied" );
 	}
 	
-	event /*flash*/ OnNotEnoughMoney()
+	event  OnNotEnoughMoney()
 	{
 		showNotification( GetLocStringByKeyExt( "panel_shop_notification_not_enough_money" ) );
 		OnPlaySoundEvent( "gui_global_denied" );
 	}
 	
-	event /*flash*/ OnUnexpectedError()
+	event  OnUnexpectedError()
 	{
 		OnPlaySoundEvent("gui_global_denied");
 	}
 	
-	event /*flash*/ OnPlayEnchantSound( removeSound : bool )
+	event  OnPlayEnchantSound( removeSound : bool )
 	{
 		if(removeSound)
 		{
@@ -388,7 +393,7 @@
 	
 
 	
-	event /*flash*/ OnEnchantItem(itemId : SItemUniqueId, enchantmentName : name)
+	event  OnEnchantItem(itemId : SItemUniqueId, enchantmentName : name)
 	{
 		var curIngredient       : SItemParts;
 		var enchantSchematic	: SEnchantmentSchematic;
@@ -403,14 +408,14 @@
 		
 		if (!schematicFound)
 		{
-			// unexpected error
+			
 			OnPlaySoundEvent("gui_global_denied");
 			
 			return false;
 		}
 		
-		//price =  enchantSchematic.baseCraftingPrice;
-		price = 0; // #Y Free from now
+		
+		price = 0; 
 		playerMoney = m_playerInventory.GetMoney();
 		
 		if (playerMoney < price)
@@ -434,9 +439,9 @@
 				m_playerInventory.RemoveItemByName(curIngredient.itemName, curIngredient.quantity);
 			}
 			
-			// #Y FREE
-			//m_enchanterInventory.AddMoney(price);
-			//m_playerInventory.RemoveMoney(price);
+			
+			
+			
 			
 			UpdateItemsCounter();
 			
@@ -459,7 +464,7 @@
 		}
 	}
 	
-	event /*flash*/ OnRemoveEnchantment(itemId : SItemUniqueId):void
+	event  OnRemoveEnchantment(itemId : SItemUniqueId):void
 	{
 		var unenchantResult : bool;
 		
@@ -475,7 +480,7 @@
 			
 			m_playerInventory.NotifyEnhancedItem(itemId);
 			
-			//populateEnchantmentsList(itemId); // TODO: UPDATE DATA
+			
 		}
 		else
 		{
@@ -483,7 +488,7 @@
 		}
 	}
 	
-	event /*flash*/ OnShowAllEnchantments():void
+	event  OnShowAllEnchantments():void
 	{
 		m_prevItem = GetInvalidUniqueId();
 		
@@ -500,7 +505,7 @@
 		}
 	}
 	
-	event /*flash*/ OnSelectItem(itemId : SItemUniqueId):void
+	event  OnSelectItem(itemId : SItemUniqueId):void
 	{
 		var hasEnchantment:bool;
 		var removeEnchantmentPrice:float;
@@ -522,12 +527,12 @@
 		}
 		
 		hasEnchantment = m_playerInventory.IsItemEnchanted(itemId);
-		removeEnchantmentPrice = 0; //m_playerInventory.GetItemPriceRemoveEnchantment(invItem);
+		removeEnchantmentPrice = 0; 
 		
 		m_fxEnableRemovingEnchantment.InvokeSelfThreeArgs(FlashArgBool(hasEnchantment), FlashArgNumber(removeEnchantmentPrice), FlashArgBool(removeEnchantmentPrice > playerMoney));
 	}
 	
-	event /*flash*/ OnSelectEnchantment(EnchantmentName : name):void
+	event  OnSelectEnchantment(EnchantmentName : name):void
 	{
 		var canApply:bool;
 		var enchantmentPrice:int;
@@ -543,7 +548,7 @@
 			populateIngredientsList(enchantmentData);
 			
 			canApply = enchantmentData.GetMemberFlashBool("canApply");
-			enchantmentPrice = 0; //enchantmentData.GetMemberFlashInt("price");
+			enchantmentPrice = 0; 
 			
 			playerMoney = m_playerInventory.GetMoney();
 			
@@ -558,17 +563,17 @@
 		}
 	}
 	
-	event /*flash*/ OnGetItemData(item : SItemUniqueId, compareItemType : int) : void
+	event  OnGetItemData(item : SItemUniqueId, compareItemType : int) : void
 	{
 		ShowItemTooltip(item);
 	}
 	
-	event /*flash*/ OnFiltersChanged(showHasIngredients:bool, showMissingIngredients:bool, showLevel1:bool, showLevel2:bool, showLevel3:bool):void
+	event  OnFiltersChanged(showHasIngredients:bool, showMissingIngredients:bool, showLevel1:bool, showLevel2:bool, showLevel3:bool):void
 	{
 		theGame.GetGuiManager().SetEnchantmentFilters(showHasIngredients, showMissingIngredients, showLevel1, showLevel2, showLevel3);
 	}
 	
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		CloseMenu();
 		
@@ -577,17 +582,17 @@
 			m_parentMenu.ChildRequestCloseMenu();
 		}
 	}
-	event /*flash*/ OnEmptyCheckListCloseFailed()
+	event  OnEmptyCheckListCloseFailed()
 	{
 		showNotification(GetLocStringByKeyExt("gui_missing_filter_error"));
 		OnPlaySoundEvent("gui_global_denied");
 	}
 	
-	event /*flash*/ OnEntryRead() {	/* dummy */ }
-	event /*flash*/ OnEntrySelected( tag : name ) {	/* dummy */ }
+	event  OnEntryRead() {	 }
+	event  OnEntrySelected( tag : name ) {	 }
 	
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		theGame.GetGuiManager().SetLastOpenedCommonMenuName( GetMenuName() );
 		
@@ -616,7 +621,7 @@
 	{
 		var tempFlashArray : CScriptedFlashArray;
 		
-		// #Y tmp reset, change upfate system
+		
 		tempFlashArray = m_flashValueStorage.CreateTempFlashArray();
 		m_flashValueStorage.SetFlashArray("populate.enchantments", tempFlashArray);
 		
@@ -667,7 +672,7 @@ class EnchantingConfirmationPopupData extends ConfirmationPopupData
 	
 	private var m_Price : float;
 	
-	public /* override */ function GetGFxData(parentFlashValueStorage : CScriptedFlashValueStorage) : CScriptedFlashObject
+	public  function GetGFxData(parentFlashValueStorage : CScriptedFlashValueStorage) : CScriptedFlashObject
 	{
 		var l_flashObject : CScriptedFlashObject;
 		
@@ -701,7 +706,7 @@ class EnchantingConfirmationPopupData extends ConfirmationPopupData
 	}
 }
 
-// DEBUG
+
 exec function enchantingmenu()
 {
 	theGame.RequestMenuWithBackground( 'EnchantingMenu', 'CommonMenu' );

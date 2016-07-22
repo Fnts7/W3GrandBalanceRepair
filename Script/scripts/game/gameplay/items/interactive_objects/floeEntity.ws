@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Example gameplay device
-/** Copyright © 2012 CD projekt RED
-/***********************************************************************/
+
+
+
 
 statemachine class W3FloeEntity extends W3DestroyableTerrain
 {
@@ -79,30 +81,19 @@ statemachine class W3FloeEntity extends W3DestroyableTerrain
 		
 		rot = super.GetWorldRotation();
 		
-		rot.Yaw=0;//SinF(entryTime)*0.01f; //obrot
+		rot.Yaw=0;
 		
-		rot.Pitch=SinF(entryTime*2)*0.5f; // poziom
+		rot.Pitch=SinF(entryTime*2)*0.5f; 
 		
 		pos = super.GetWorldPosition();
 		
 		if(m_player)
 		{
 			mpac = (CMovingPhysicalAgentComponent)m_player.GetMovingAgentComponent();
-			/*
-			slideDir.X = 0;
-			slideDir.Z = 0.01f;
-			slideDir.Y = (-rot.Pitch );
 			
-			pos = mpac.GetAgentPosition();
-			pos.Z += 0.1f;
-
-			mpac.ApplyVelocity(slideDir);
-			
-			mpac.SetRotation(rot);
-			*/
 		}
 		
-		//super.TeleportWithRotation(super.GetWorldPosition(),rot);
+		
 	}
 	
 	function Split()
@@ -176,7 +167,7 @@ state OnIdle in W3FloeEntity
 		entryTime+=time;
 		if(entryTime>10)
 		{
-			//parent.PushState('OnPreDestroy');
+			
 		}
 		
 	}

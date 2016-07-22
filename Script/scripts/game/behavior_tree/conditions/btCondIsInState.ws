@@ -1,4 +1,9 @@
-﻿class BTCondIsInState extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class BTCondIsInState extends IBehTreeTask
 {
 	var stateName : CName;
 	var ifNot : bool;
@@ -9,15 +14,15 @@
 		var temp : string;
 		var currState : string;
 		
-		//PFTODO: cleanup
+		
 		
 		currState = npc.GetRootAnimatedComponent().GetCurrentBehaviorState();
 		
 		if ( !ifNot )
 		{
-			//npc.Getcurre
+			
 			return currState == (string)stateName;
-			//return npc.GetCurrentBehaviorState('') == stateName;
+			
 		}
 		else
 		{
@@ -37,7 +42,7 @@ class BTCondIsInStateDef extends IBehTreeConditionalTaskDefinition
 	default ifNot = false;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class BTCondIsPlayerUnconscious extends IBehTreeTask
 {
@@ -52,7 +57,7 @@ class BTCondIsPlayerUnconsciousDef extends IBehTreeConditionalTaskDefinition
 	default instanceClass = 'BTCondIsPlayerUnconscious';
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 class BTCondIsPlayerInCombatState extends IBehTreeTask
 {

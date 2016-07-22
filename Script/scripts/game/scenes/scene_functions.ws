@@ -1,4 +1,9 @@
-﻿storyscene function SoundEventScene(player: CStoryScenePlayer, eventName : string, saveBehavior : ESoundEventSaveBehavior )
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+storyscene function SoundEventScene(player: CStoryScenePlayer, eventName : string, saveBehavior : ESoundEventSaveBehavior )
 {
 	theSound.SoundEvent( eventName );
 	switch( saveBehavior )
@@ -12,7 +17,7 @@
 	}
 }
 
-//Remove unwanted hair that Geralt might have, this should be put at the start of a barber scene as failsafe
+
 storyscene function BarberSetupScene( player: CStoryScenePlayer )
 {
 	var inv : CInventoryComponent;
@@ -40,13 +45,13 @@ storyscene function BarberSetupScene( player: CStoryScenePlayer )
 	
 }
 
-//Function for letting music play in background of USM videos
+
 storyscene function SetFinalboardQuest( player: CStoryScenePlayer, isFinalboard: bool )
 {
 	player.SetFinalboardQuest( isFinalboard );
 }
 
-//Cleans up all hair items from player's inventory and applies new by given tag
+
 latent storyscene function SetGeraltHair( player: CStoryScenePlayer, hairstyleName : name )
 {
 	var inv : CInventoryComponent;
@@ -71,7 +76,7 @@ latent storyscene function SetGeraltHair( player: CStoryScenePlayer, hairstyleNa
 		
 	}
 	
-//	ids.Clear();
+
 	
 	ids = inv.AddAnItem( hairstyleName );
 
@@ -91,7 +96,7 @@ struct shopQuestItemDef
 	default quantity = 1;
 }
 
-//Adds quest items to the shop if conditions are met
+
 latent storyscene function ShopQuestItemManager ( player: CStoryScenePlayer, merchantTag : name, questItems : array < shopQuestItemDef > )
 {
 	var merchant : CNewNPC; 
@@ -129,7 +134,7 @@ latent storyscene function ShopQuestItemManager ( player: CStoryScenePlayer, mer
 	
 }
 
-// #Y Block other panels ?
+
 latent function OpenInventoryForScene( containerNPC : CGameplayEntity, filterTags : array<name> )
 {
 	var initDataObject:W3InventoryInitData = new W3InventoryInitData in theGame.GetGuiManager();
@@ -139,7 +144,7 @@ latent function OpenInventoryForScene( containerNPC : CGameplayEntity, filterTag
 	OpenGUIPanelForScene('InventoryMenu', 'CommonMenu', containerNPC, initDataObject);
 }
 
-// Funkcja wlaczajaca interaction Talk
+
 
 latent function OpenGUIPanelForScene( menu : name, backgroundMenu : name , shopOwner : CGameplayEntity, optional menuInitData : W3MenuInitData )
 {
@@ -172,7 +177,7 @@ storyscene function EnableTalkComponent ( player: CStoryScenePlayer, shouldBeEna
 	component.SetEnabled( shouldBeEnabled );
 }
 
-// Funckja odpalajaca panel rzemieslnictwa
+
 latent storyscene function ShowCraftingPanel( player: CStoryScenePlayer, crafterTag : CName )
 {
 	var initDataObject:W3InventoryInitData = new W3InventoryInitData in theGame.GetGuiManager();
@@ -183,7 +188,7 @@ latent storyscene function ShowCraftingPanel( player: CStoryScenePlayer, crafter
 	OpenGUIPanelForScene( 'CraftingMenu', 'CommonMenu', crafterEntity, initDataObject);
 }
 
-// Funckja odpalajaca panel rzemieslnictwa
+
 latent storyscene function ShowEnchanterPanel( player: CStoryScenePlayer, enchanterTag : CName )
 {
 	var initDataObject:W3InventoryInitData = new W3InventoryInitData in theGame.GetGuiManager();
@@ -194,7 +199,7 @@ latent storyscene function ShowEnchanterPanel( player: CStoryScenePlayer, enchan
 	OpenGUIPanelForScene( 'EnchantingMenu', 'CommonMenu', enchanterEntity, initDataObject);
 }
 
-// funkcja do wlaczania sklepu z linii dialogowej 
+
 latent storyscene function ShowMeGoods( player: CStoryScenePlayer, merchantTag : CName )
 {
 	var initDataObject : W3InventoryInitData = new W3InventoryInitData in theGame.GetGuiManager();
@@ -208,7 +213,7 @@ latent storyscene function ShowMeGoods( player: CStoryScenePlayer, merchantTag :
 	    return;
 	}
 	
-	//Firstly search for a merchant close to us
+	
 	merchants = GetActorsInRange(thePlayer, 2.0f, 100000, '', true);
 
 	for(i=0; i < merchants.Size(); i+= 1 )
@@ -221,7 +226,7 @@ latent storyscene function ShowMeGoods( player: CStoryScenePlayer, merchantTag :
 		
 	}
 	
-	//If no merchant close just search for any merchant with that tag
+	
 	if ( !shopOwner )
 	{
 		shopOwner = theGame.GetNPCByTag( merchantTag );
@@ -231,7 +236,7 @@ latent storyscene function ShowMeGoods( player: CStoryScenePlayer, merchantTag :
 		
 	}
 	
-	if( !shopOwner.HasTag('Merchant' ) ) // #Y TODO: Refact
+	if( !shopOwner.HasTag('Merchant' ) ) 
 	{
 		shopOwner.AddTag('Merchant');
 	}
@@ -244,58 +249,13 @@ latent storyscene function ShowMeGoods( player: CStoryScenePlayer, merchantTag :
 		
 	initDataObject.containerNPC = (CGameplayEntity)shopOwner;
 	OpenGUIPanelForScene( 'InventoryMenu', 'CommonMenu', shopOwner, initDataObject );
-	//@FIXME TOMEK CZARNY - IT DOESN'T QUIT
+	
 }
 
 
-/* THIS FUNCTION SHOULD NEVER BE USED, WE DON'T HAVE REPAIR AS SEPERATE CHOICE FOR MERCHANTS
-latent storyscene function RepairForMe( player: CStoryScenePlayer, repairTag : CName, armorer : bool, blacksmith : bool, masteryLevel : int )
-{
-	var initDataObject : W3InventoryInitData = new W3InventoryInitData in theGame.GetGuiManager();
-	var repairNpc : CNewNPC;
-	
-	if ( repairTag == ''  )
-	{
-	    return;
-	}
-	repairNpc = (CNewNPC)theGame.GetNPCByTag( repairTag );
-	if ( !repairNpc )
-	{
-		return;
-	}
-	
-	if ( armorer )
-	{
-		repairNpc.AddTag('Armorer');
-	}	
-	if ( blacksmith )
-	{
-		repairNpc.AddTag('Blacksmith');
-	}	
-	
-	switch( masteryLevel )
-	{
-		case 1:
-			repairNpc.AddTag('Apprentice');
-			break;
-		case 2:
-			repairNpc.AddTag('Specialist');
-			break;
-		case 3:
-		case 4:
-		case 5:
-			repairNpc.AddTag('Master');
-			break;
-	}
-	
-	theGame.GetGuiManager().SetLastOpenedCommonMenuName( 'None' ); 			
-	
-	initDataObject.containerNPC = (CGameplayEntity)repairNpc;
-	OpenGUIPanelForScene( 'BlacksmithParent', 'CommonMenu', repairNpc, initDataObject ); //@FIXME TOMEK CZARNY - IT DOESN'T QUIT
-}
-*/
 
-// #B function for opening containers from dialog lines
+
+
 latent storyscene function OpenContainer( player: CStoryScenePlayer, npcTag : CName, optional tagsFilter : array<name> )
 {
 	var containerOwner    : CGameplayEntity;
@@ -311,7 +271,7 @@ latent storyscene function OpenContainer( player: CStoryScenePlayer, npcTag : CN
 	}
 	
 	OpenInventoryForScene(containerOwner, tagsFilter);
-	//OpenGUIPanelForScene( 'InventoryMenu', 'CommonMenu', containerOwner ); //@FIXME TOMEK CZARNY - IT DOESN'T QUIT
+	
 }
 
 enum ENegotiationResult
@@ -322,7 +282,7 @@ enum ENegotiationResult
 	GetLost
 };
 
-// #B
+
 storyscene function SetRewardModifierScene( player: CStoryScenePlayer, rewardName : name, modifer : float, onlyIfDoesntExist : bool, multiply : bool, notBaseMonsterHuntReward : bool   ) : void
 {
 	if( onlyIfDoesntExist == true )
@@ -352,13 +312,13 @@ storyscene function SetRewardModifierScene( player: CStoryScenePlayer, rewardNam
 	}
 }
 
-// #B
+
 storyscene function GiveRewardToPlayer( player: CStoryScenePlayer, rewardName : name ) : void
 {
 	theGame.GiveReward( rewardName, thePlayer );
 }
 
-// #B
+
 latent storyscene function NegotiateMonsterHunt( player: CStoryScenePlayer, rewardName : name, questUniqueScriptTag : CName, alwaysSuccessful : bool, isItemReward : bool ) : ENegotiationResult
 {
 	var hud : CR4ScriptedHud;
@@ -369,7 +329,7 @@ latent storyscene function NegotiateMonsterHunt( player: CStoryScenePlayer, rewa
 	hud = (CR4ScriptedHud)theGame.GetHud();
 	if( hud )
 	{
-		//minimal value needs to be based on the actual max reward
+		
 		theGame.GetReward( rewardName, currentReward );
 		minimalGold = currentReward.gold;
 		
@@ -410,7 +370,7 @@ latent storyscene function NegotiateLowestPriceScene( player: CStoryScenePlayer,
 
 
 
-// #B
+
 latent storyscene function PlaceBet( player: CStoryScenePlayer, rewardName : name, startingBetPercentage : int )
 {
 	var hud : CR4ScriptedHud;
@@ -430,7 +390,7 @@ latent storyscene function PlaceBet( player: CStoryScenePlayer, rewardName : nam
 
 storyscene function StorePlayerItems( player: CStoryScenePlayer, merchantTag : CName, storageTag : CName ) : bool
 {
-	//theHud.ShowShopNew( theGame.GetNPCByTag( merchantTag ), true, (W2PlayerStorage)theGame.GetEntityByTag( storageTag ) );
+	
 	return true;
 }
 
@@ -448,19 +408,19 @@ storyscene function AddFact_S( player: CStoryScenePlayer, factName: string, valu
 	player.DbFactAdded( factName );
 }
 
-//MT // Removes fact from facts DB
+
 storyscene function RemoveFact_S( player: CStoryScenePlayer, factId : string )
 {
-	// Checks if the specified fact is defined in the DB.
+	
 	if( FactsDoesExist( factId ) )
 	{
-		// Removes a single fact from the facts db.
+		
 		FactsRemove( factId );
 	}
 	player.DbFactRemoved( factId );
 }
 
-// Shave Geralt
+
 latent storyscene function ShaveGeralt( player: CStoryScenePlayer )
 {
 	var acs : array< CComponent >;
@@ -471,7 +431,7 @@ latent storyscene function ShaveGeralt( player: CStoryScenePlayer )
 	Sleep(1.0f);
 }
 
-// Set Geralts beard stage
+
 latent storyscene function SetGeraltBeard( player: CStoryScenePlayer, maxBeard : bool, optional stage : int )
 {
 	var acs : array< CComponent >;
@@ -482,7 +442,7 @@ latent storyscene function SetGeraltBeard( player: CStoryScenePlayer, maxBeard :
 	Sleep(1.0f);
 }
 
-// set / remove tattoo
+
 storyscene function SetTattoo( player: CStoryScenePlayer, hasTattoo : bool )
 {
 	var acs : array< CComponent >;
@@ -491,7 +451,7 @@ storyscene function SetTattoo( player: CStoryScenePlayer, hasTattoo : bool )
 	( ( CHeadManagerComponent ) acs[0] ).SetTattoo( hasTattoo );
 }
 
-//(un) block beard growing
+
 storyscene function BlockBeardGrowth( player: CStoryScenePlayer, optional block : bool )
 {
 	var acs : array< CComponent >;
@@ -500,7 +460,7 @@ storyscene function BlockBeardGrowth( player: CStoryScenePlayer, optional block 
 	( ( CHeadManagerComponent ) acs[0] ).BlockGrowing( block );
 }
 
-// set custom head it also block the beard growth
+
 storyscene function SetCustomHead( player: CStoryScenePlayer, head : name, barberSystem : bool )
 {
 	var acs : array< CComponent >;
@@ -514,7 +474,7 @@ storyscene function SetCustomHead( player: CStoryScenePlayer, head : name, barbe
 	( ( CHeadManagerComponent ) acs[0] ).SetCustomHead( head );
 }
 
-// remove custom head it also block the beard growth
+
 storyscene function RemoveCustomHead( player: CStoryScenePlayer, barberSystem : bool )
 {
 	var acs : array< CComponent >;
@@ -542,7 +502,7 @@ storyscene function RemoveCustomHead( player: CStoryScenePlayer, barberSystem : 
 	}
 }
 
-// Adds an item to target NPC or player
+
 storyscene function AddItemOnNPC_S ( player: CStoryScenePlayer, npc: CName, item_name : CName, optional quantity : int, dontInformGUI : bool)
 {
 	var npc_newnpc : CNewNPC;
@@ -569,7 +529,7 @@ storyscene function AddItemOnNPC_S ( player: CStoryScenePlayer, npc: CName, item
 			if( !dontInformGUI )
 			{
 				hud = (CR4ScriptedHud)theGame.GetHud();
-				hud.OnItemRecivedDuringScene('Crowns',quantity); // #B because our default currency are Crowns !!!
+				hud.OnItemRecivedDuringScene('Crowns',quantity); 
 			}
 			return;
 		}
@@ -613,20 +573,14 @@ storyscene function RemoveItemOnNPC_S( player: CStoryScenePlayer, npc: name, ite
 		LogQuest( "Quest function <<RemoveItemOnNPC_S>>: no arguments provided, aborting!");
 		return;
 	}
-	/*
-	if( quantity < 0 )
-	{
-		LogQuest( "Quest function <<RemoveItemOnNPC_S>>: quantity of <<" + quantity + ">> is not a valid value, aborting!");
-		return;
-	}
-	*/
+	
 	if( npc == 'PLAYER' )
 	{
 		inv = thePlayer.GetInventory();
 	}
 	else
 	{
-		gameplayEntity = (CGameplayEntity)theGame.GetEntityByTag( npc ); //theGame.GetNPCByTag( npc );
+		gameplayEntity = (CGameplayEntity)theGame.GetEntityByTag( npc ); 
 		if ( !gameplayEntity )
 		{
 			LogQuest("Scene function RemoveItemOnNPC_S: cannot find NPC with tag <<" + npc + ">> for item <<" + item_name + ">>, aborting!");
@@ -665,7 +619,7 @@ storyscene function RemoveItemOnNPC_S( player: CStoryScenePlayer, npc: name, ite
 }
 
 
-// Adds an item to target NPC or player
+
 storyscene function EquipItemOnNPC_S( player: CStoryScenePlayer, npc: CName, itemName : CName, optional unequip : bool, optional toHand : bool  )
 {
 	var target : CActor;
@@ -693,7 +647,7 @@ storyscene function EquipItemOnNPC_S( player: CStoryScenePlayer, npc: CName, ite
 	
 	if( inv )
 	{
-		//find item id
+		
 		ids = inv.GetItemsIds(itemName);			
 		if(ids.Size() <= 0)			
 		{
@@ -709,7 +663,7 @@ storyscene function EquipItemOnNPC_S( player: CStoryScenePlayer, npc: CName, ite
 			}
 		}
 	
-		//equip/unequip item
+		
 		if(unequip)
 		{
 			target.UnequipItem(ids[idx]);
@@ -732,7 +686,7 @@ storyscene function EquipItemOnNPC_S( player: CStoryScenePlayer, npc: CName, ite
 	}
 }
 
-latent storyscene function OpenWorldMap( player: CStoryScenePlayer ) : bool //#B
+latent storyscene function OpenWorldMap( player: CStoryScenePlayer ) : bool 
 {
 	return false;
 }
@@ -743,10 +697,10 @@ storyscene function EnableFastTravelPin( player: CStoryScenePlayer ,pinTag : nam
 
 	manager.SetEntityMapPinDisabled( pinTag, !enable );
 	
-	//@FIXME BIDON - Fact database change ?
+	
 }
 
-//This method finds all NPCs with given tag and changes their appearance
+
 storyscene function AppearanceChange_scene(player: CStoryScenePlayer, opponentTag : name, appearanceName : name )
 {
 	AppearanceChange(opponentTag, appearanceName);
@@ -775,8 +729,8 @@ storyscene function DoorManager(player: CStoryScenePlayer, tag : name, newState 
 	
 	for(i=0; i<nodes.Size(); i+=1)
 	{
-		// old door system
-		// TODO: Remove once transition to the new system is complete
+		
+		
 		door = (W3Door)nodes[i];
 		if(door)
 		{			
@@ -804,7 +758,7 @@ storyscene function DoorManager(player: CStoryScenePlayer, tag : name, newState 
 		}
 		else
 		{
-			// new door system
+			
 			entity = (CEntity)nodes[i];
 			if( !entity )
 			{
@@ -884,10 +838,10 @@ latent storyscene function CollectItems ( player: CStoryScenePlayer, collectorTa
 	itemsBeforeChange = inventory.GetItemsNames();
 	theGame.GetGuiManager().SetLastOpenedCommonMenuName( 'None' ); 		
 	
-	//////////////////////////////////////////////////////////////
-	//OpenContainer( player, collectorTag ); ////////////////////
+	
+	
 	OpenContainer( player, collectorTag, filterTagsList);
-	////////////////////////////////////////////////////////////
+	
  
 	while( theGame.GetGuiManager().GetLastOpenedCommonMenuName() == 'None' ) 
     { 
@@ -946,7 +900,7 @@ latent storyscene function CollectItems ( player: CStoryScenePlayer, collectorTa
 
 
 
-//// for mq2049 Atheist and bringing him books - JR
+
 
 enum ECollectItemsCustomRes
 {
@@ -980,13 +934,13 @@ latent storyscene function CollectItemsCustom ( player: CStoryScenePlayer, colle
 	inventory = ent.GetInventory();		
 	itemsBeforeChange = inventory.GetItemsNames();
 	
-	// fix for TTP 129161:
-	// let's remove items that are not considered as "collected" by this quest
-	// (facts for them are not added)
-	// so that they can be properly "received"
+	
+	
+	
+	
     for ( i = itemsBeforeChange.Size() - 1; i >= 0 ; i-=1 )
     {
-		// if this is the item we are interested in
+		
 		if( items.Contains( itemsBeforeChange[ i ] ) )
 		{
 			factId = uniqueTransactionId + "_" + itemsBeforeChange[ i ];
@@ -1000,10 +954,10 @@ latent storyscene function CollectItemsCustom ( player: CStoryScenePlayer, colle
 	
 	theGame.GetGuiManager().SetLastOpenedCommonMenuName( 'None' ); 		
 	
-	//////////////////////////////////////////////////////////////
-	//OpenContainer( player, collectorTag ); ////////////////////
+	
+	
 	OpenContainer( player, collectorTag, filterTagsList);
-	////////////////////////////////////////////////////////////
+	
  
 	while( theGame.GetGuiManager().GetLastOpenedCommonMenuName() == 'None' ) 
     { 

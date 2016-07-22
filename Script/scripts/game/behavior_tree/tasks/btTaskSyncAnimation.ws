@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class CBTTaskPlaySyncedAnimation extends IBehTreeTask
 {
 	private var isRunning				: bool;
@@ -34,8 +39,8 @@ class CBTTaskPlaySyncedAnimation extends IBehTreeTask
 		owner.EnableCharacterCollisions( false );
 		owner.SetCanPlayHitAnim( false );
 		
-		// Add immortality so the monster cannot be killed while he plays the finisher death anim
-		// AK : ability check it's either here or after sync anim, both places are hacks, don't see other way
+		
+		
 		if( !owner.WillBeUnconscious() && !owner.HasAbility( 'mon_vampiress_base' ) )
 		{
 			owner.SetImmortalityMode( AIM_Invulnerable, AIC_Combat );

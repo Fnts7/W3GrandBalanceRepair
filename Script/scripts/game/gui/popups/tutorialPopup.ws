@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Layer for displaying tutorial hints
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Yaroslav Getsevich
-/***********************************************************************/
+
+
+
 
 struct TutorialHighlightedArea
 {
@@ -14,9 +16,7 @@ struct TutorialHighlightedArea
 }
 
 
-/*
-	Tutorial popup class
-*/
+
 
 class CR4TutorialPopup extends CR4PopupBase
 {
@@ -33,7 +33,7 @@ class CR4TutorialPopup extends CR4PopupBase
 	
 	private var m_contextStored : bool;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var initData      : W3TutorialPopupData;
 		var isHidden 	  : bool;
@@ -168,17 +168,17 @@ class CR4TutorialPopup extends CR4PopupBase
 		}
 	}
 	
-	event /*flash*/ OnStartHiding()
+	event  OnStartHiding()
 	{
 		RequestUnpause();
 	}
 	
-	event /*flash*/ OnHideTimer()
+	event  OnHideTimer()
 	{
 		RequestClose();
 	}
 	
-	event /*flash*/ OnGotoGlossary()
+	event  OnGotoGlossary()
 	{
 		if (isVisible)
 		{
@@ -191,7 +191,7 @@ class CR4TutorialPopup extends CR4PopupBase
 		}
 	}
 	
-	event /*flash*/ OnCloseByUser()
+	event  OnCloseByUser()
 	{
 		if ( m_DataObject )
 		{
@@ -203,7 +203,7 @@ class CR4TutorialPopup extends CR4PopupBase
 		RequestClose(true);
 	}
 	
-	event /* C++ */ OnClosingPopup()
+	event  OnClosingPopup()
 	{
 		var scriptTag : name;
 		var commonMenuRef : CR4CommonMenu;
@@ -240,7 +240,7 @@ class CR4TutorialPopup extends CR4PopupBase
 		}
 	}
 	
-	// Enable only if we have at least one active tutorial
+	
 	private function CanEnableGlossaryLink():bool
 	{
 		var tempEntries				: array<CJournalBase>;
@@ -318,7 +318,7 @@ class CR4TutorialPopup extends CR4PopupBase
 		var scriptTag : name;
 		var commonMenuRef : CR4CommonMenu;
 		
-		// #Y Copypaste???
+		
 		if ( m_DataObject )
 		{
 			if (m_DataObject.pauseGame || m_DataObject.fullscreen)
@@ -353,7 +353,7 @@ class CR4TutorialPopup extends CR4PopupBase
 	
 	protected function EnableGlossaryLink(value:bool):void
 	{
-		//
+		
 	}
 	
 	public function setArabicAligmentMode() : void
@@ -406,9 +406,7 @@ class CR4TutorialPopup extends CR4PopupBase
 }
 
 
-/*
-	Popup InitData class
-*/
+
 
 class W3TutorialPopupData extends CObject
 {
@@ -417,7 +415,7 @@ class W3TutorialPopupData extends CObject
 	public var messageTitle:string;
 	public var messageText:string;
 	public var imagePath:string;
-	public var fadeBackground:bool; // #Y not implemented
+	public var fadeBackground:bool; 
 	public var autosize:bool;
 	public var enableGlossoryLink:bool;
 	public var enableAcceptButton:bool;
@@ -440,12 +438,12 @@ class W3TutorialPopupData extends CObject
 	{
 		var newArea:TutorialHighlightedArea;
 		
-		newArea.x = x; // * theGame.uiHorizontalFrameScale;
-		newArea.y = y; // * theGame.uiVerticalFrameScale;
-		newArea.width = width; // * theGame.uiHorizontalFrameScale;
-		newArea.height = height; // * theGame.uiVerticalFrameScale;
+		newArea.x = x; 
+		newArea.y = y; 
+		newArea.width = width; 
+		newArea.height = height; 
 		
-		// #Y TODO: Apply HUD scaling
+		
 		highlightedAreas.PushBack(newArea);
 	}
 	
@@ -471,7 +469,7 @@ class W3TutorialPopupData extends CObject
 		else
 		{
 			closeRequested = true;
-			//LogAssert(false, "Failed to close tutorial hint!");
+			
 		}
 	}
 	

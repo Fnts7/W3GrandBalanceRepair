@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - gwint deck builder
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Jason Slama
-/***********************************************************************/
+
+
+
 
 class W3ChooseGwintTurnPopup extends ConfirmationPopupData
 {
@@ -44,7 +46,7 @@ class CR4GwintGameMenu extends CR4GwintBaseMenu
 	function EnableJournalTutorialEnries()
 	{
 		var tutSystem : CR4TutorialSystem;
-		// Journal - Enable Gwent tutorial entries
+		
 		tutSystem = theGame.GetTutorialSystem();
 		tutSystem.ActivateJournalEntry('gwentintroduction');
 		tutSystem.ActivateJournalEntry('gwentstartinghand');
@@ -63,7 +65,7 @@ class CR4GwintGameMenu extends CR4GwintBaseMenu
 		tutSystem.ActivateJournalEntry('findingcards');
 	}	
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{	
 		super.OnConfigUI();
 		
@@ -105,7 +107,7 @@ class CR4GwintGameMenu extends CR4GwintBaseMenu
 		theTelemetry.LogWithName( TE_HERO_GWENT_MATCH_STARTED );
 	}
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		super.OnClosingMenu();
 		
@@ -134,8 +136,8 @@ class CR4GwintGameMenu extends CR4GwintBaseMenu
 		
 		theSound.LeaveGameState( ESGS_Gwent );
 		
-		// We fire a system_resume event, in order to make sure we'll end up with a correct
-		// mixing state
+		
+		
 		theSound.SoundEvent( "system_resume" );
 		
 		if (!gwintManager.testMatch && theGame.isUserSignedIn())
@@ -147,7 +149,7 @@ class CR4GwintGameMenu extends CR4GwintBaseMenu
 		
 		theSound.SoundUnloadBank( "gwint_ep2.bnk" );
 		
-		// Reset any forced factions.
+		
 		theGame.GetGwintManager().SetForcedFaction( GwintFaction_Neutral );
 	}
 	
@@ -163,14 +165,14 @@ class CR4GwintGameMenu extends CR4GwintBaseMenu
 		
 		l_flashObject = flashConstructor.CreateFlashObject("red.game.witcher3.menus.gwint.GwintCardValues");
 		
-		l_flashObject.SetMemberFlashNumber( "weatherCardValue", 5.0f ); // any weather type card gets those extra value 
-		l_flashObject.SetMemberFlashNumber( "hornCardValue", 5.0f );   // any horn type effect gets this extra value
-		l_flashObject.SetMemberFlashNumber( "drawCardValue", 1.0f ); 	// any card having this extra effect gains this bonus. Note that casting this card should be strategically cheap as it increases player power by draw
-		l_flashObject.SetMemberFlashNumber( "scorchCardValue", 8.0f );   // best strategically card. Expensive cast make it good choice only when other are simply worse or this one gives really huge advantage
-		l_flashObject.SetMemberFlashNumber( "summonClonesCardValue", 0.5f );  // any card having this extra effect gains this extra value
-		l_flashObject.SetMemberFlashNumber( "unsummonCardValue", 2.0f );   // any card with this extra effect gains this bonus
-		l_flashObject.SetMemberFlashNumber( "improveNeighboursCardValue", 4.0f ); 	//  any card with this extra effect gains this bonus
-		l_flashObject.SetMemberFlashNumber( "nurseCardValue", 3.0f ); 	//  Nurse resurects random creatures from grave
+		l_flashObject.SetMemberFlashNumber( "weatherCardValue", 5.0f ); 
+		l_flashObject.SetMemberFlashNumber( "hornCardValue", 5.0f );   
+		l_flashObject.SetMemberFlashNumber( "drawCardValue", 1.0f ); 	
+		l_flashObject.SetMemberFlashNumber( "scorchCardValue", 8.0f );   
+		l_flashObject.SetMemberFlashNumber( "summonClonesCardValue", 0.5f );  
+		l_flashObject.SetMemberFlashNumber( "unsummonCardValue", 2.0f );   
+		l_flashObject.SetMemberFlashNumber( "improveNeighboursCardValue", 4.0f ); 	
+		l_flashObject.SetMemberFlashNumber( "nurseCardValue", 3.0f ); 	
 		
 		m_flashValueStorage.SetFlashObject( "gwint.game.cardValues", l_flashObject );
 	}
@@ -212,7 +214,7 @@ class CR4GwintGameMenu extends CR4GwintBaseMenu
 		m_flashValueStorage.SetFlashString("gwint.player.name.two", GetLocStringByKeyExt("gwint_opponent"));
 	}
 	
-	event /*flash*/ OnChooseCoinFlip():void
+	event  OnChooseCoinFlip():void
 	{
 		chooseTurnPopup = new W3ChooseGwintTurnPopup in this;
 	
@@ -224,22 +226,22 @@ class CR4GwintGameMenu extends CR4GwintBaseMenu
 		RequestSubMenu('PopupMenu', chooseTurnPopup);
 	}
 	
-	event /*flash*/ OnMatchResult(pWon : bool):void
+	event  OnMatchResult(pWon : bool):void
 	{
 		playerWon = pWon;
 	}
 	
-	event /*flash*/ OnNeutralRoundVictoryAchievement():void
+	event  OnNeutralRoundVictoryAchievement():void
 	{
 		theGame.GetGamerProfile().AddAchievement(EA_GeraltandFriends);
 	}
 	
-	event /*flash*/ OnHeroRoundVictoryAchievement():void
+	event  OnHeroRoundVictoryAchievement():void
 	{
 		theGame.GetGamerProfile().AddAchievement(EA_Allin);
 	}
 	
-	event /*flash*/ OnKilledItAchievement():void
+	event  OnKilledItAchievement():void
 	{
 		theGame.GetGamerProfile().AddAchievement(EA_KilledIt);
 	}

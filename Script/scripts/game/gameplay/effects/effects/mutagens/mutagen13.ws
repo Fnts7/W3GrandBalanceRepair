@@ -1,14 +1,17 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//decreases duration of control impairing effects to bare minimum
+
+
+
 class W3Mutagen13_Effect extends W3Mutagen_Effect
 {
 	default effectType = EET_Mutagen13;
 	
-	//one test is done on mutagen add, another in effect manager on buff added
+	
 	event OnEffectAdded(optional customParams : W3BuffCustomParams)
 	{
 		var buffs : array<CBaseGameplayEffect>;
@@ -24,16 +27,16 @@ class W3Mutagen13_Effect extends W3Mutagen_Effect
 		}
 	}
 	
-	//duration which is being forced on affected effects
+	
 	public function GetForcedDuration() : float
 	{
-		//if the value is too low effects might block because they get removed before animation request is processed
-		//the fastest fix is to set a higher value. If this won't work then we'll have to add timers that wait for critical
-		//anim started and then apply forced duration
+		
+		
+		
 		return 0.5;
 	}
 	
-	//checks if given effect type is affected by this mutagen
+	
 	public function IsEffectTypeAffected(effectType : EEffectType) : bool
 	{
 		switch(effectType)

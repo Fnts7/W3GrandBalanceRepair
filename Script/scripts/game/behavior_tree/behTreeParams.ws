@@ -1,4 +1,9 @@
-﻿import abstract class IAIParameters extends IScriptable 
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import abstract class IAIParameters extends IScriptable 
 {
 	import function LoadSteeringGraph( fileName : string ) : CMoveSteeringBehavior;
 	import function OnManualRuntimeCreation();
@@ -17,12 +22,12 @@ import abstract class IAITree extends IAIParameters
 	
 	function Init(){}
 
-	// editable inlined var params : CAIParameters; //! Should include editable, inlined variable params of type CAIDefaults or CAIParameters (or their descendants)	
-	// function Init()								//! Include custom Init() function for parameter set specific initialisation
+	
+	
 };
 import abstract class CAITree extends IAITree {};
 import abstract class CAIBaseTree extends IAITree {};
-//import abstract class CAIPerformCustomWorkTree extends IAITree {};
+
 
 import abstract class ICustomValAIParameters extends CAIRedefinitionParameters
 {

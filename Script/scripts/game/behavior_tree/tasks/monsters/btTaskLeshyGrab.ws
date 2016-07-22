@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskLeshyGrabAttack extends IBehTreeTask
 {
@@ -25,14 +27,7 @@ class CBTTaskLeshyGrabAttack extends IBehTreeTask
 		theGame.GetSyncAnimManager().SetupSimpleSyncAnim('LeshyHeadGrab', master, slaveComponent.GetEntity() );		
 		return BTNS_Active;
 	}
-	/*
-	function OnDeactivate()
-	{
-		var npc : CNewNPC = GetNPC();
-		
-		
-	}
-	*/
+	
 	function OnGameplayEvent( eventName : name ) : bool
 	{
 		var npc : CNewNPC = GetNPC();

@@ -1,20 +1,20 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2014
-/** Author : Rafal Jarczewski, Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Potion_Fact_Params extends W3PotionParams
 {
 	var factName : name;
 }
 
-/*
-	Adds fact for the duration of potion. This is used in quests where we
-	need to keep track of the fact that hero has drunk some special potion.
-*/
+
 class W3Potion_Fact extends CBaseGameplayEffect
 {
-	protected saved var fact : name;				//fact to add to DB
+	protected saved var fact : name;				
 
 	default isPotionEffect = true;
 	default effectType = EET_Fact;
@@ -26,7 +26,7 @@ class W3Potion_Fact extends CBaseGameplayEffect
 	{
 		super.Init(params);
 		
-		//this gets overriden by CacheSettings because it's a potion so we need to set it up again
+		
 		isPositive = false;
 		isNegative = false;
 		isNeutral = true;
@@ -61,9 +61,9 @@ class W3Potion_Fact extends CBaseGameplayEffect
 		return "effect_" + NameToString(fact);
 	}
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////////  BUFF INTERACTIONS  //////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	
+	
 	
 	protected function GetSelfInteraction( e : CBaseGameplayEffect) : EEffectInteract
 	{
@@ -72,8 +72,8 @@ class W3Potion_Fact extends CBaseGameplayEffect
 		factPot = (W3Potion_Fact)e;
 		if(factPot)
 		{
-			//should check if it's the same fact potion here but there's only one in game and fact is set in OnEffectAdded() which
-			//was not called by this point for this new effect so as a hack I'm skipping fact name comparison here
+			
+			
 			return EI_Cumulate;
 		}
 		

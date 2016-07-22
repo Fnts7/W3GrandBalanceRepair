@@ -1,23 +1,28 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskSetEntityAsActionTarget
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Set the action target to an entity with the defined tag
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 05-May-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskSetEntityAsActionTarget extends IBehTreeTask
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	var targetTag			: name;
 	var multipleTargetsTags : array<name>;
 	var completeImmediately : bool;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{	
 		var l_target		: CNode;
@@ -41,13 +46,13 @@ class BTTaskSetEntityAsActionTarget extends IBehTreeTask
 	}
 
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskSetEntityAsActionTargetDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskSetEntityAsActionTarget';
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	editable var targetTag	: CBehTreeValCName;
 	editable var multipleTargetsObjectName : name;
 	editable var completeImmediately : bool;
@@ -56,8 +61,8 @@ class BTTaskSetEntityAsActionTargetDef extends IBehTreeTaskDefinition
 	default completeImmediately = true;
 	
 	hint multipleTargetsObjectName = "only works for parametrization.";
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnSpawn( taskGen : IBehTreeTask )
 	{
 		var task : BTTaskSetEntityAsActionTarget;

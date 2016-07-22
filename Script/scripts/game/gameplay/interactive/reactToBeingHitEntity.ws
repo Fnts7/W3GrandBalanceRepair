@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2016
-/** Author : Andrzej Kwiatkowski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3ReactToBeingHitEntity extends CGameplayEntity
 {
@@ -15,8 +18,8 @@ class W3ReactToBeingHitEntity extends CGameplayEntity
 	editable var killOnHpBelowPerc 			: float;
 	editable var setBehVarOnKill 			: name;
 	editable var behVarValue 				: float;
-	//editable var reactsToAard 			: bool;
-	//editable var reactsToIgni 			: bool;
+	
+	
 	
 	editable var gameplayEventOnAttacker 	: name;
 	editable var effectOnActivation 		: name;
@@ -53,7 +56,7 @@ class W3ReactToBeingHitEntity extends CGameplayEntity
 		{
 			if( !GetAreFistsEquipped() )
 			{
-				//Ignore signs.
+				
 				if ( !act.IsActionWitcherSign() ) 
 				{
 					attacker = (CActor) act.attacker;
@@ -232,22 +235,5 @@ class W3ReactToBeingHitEntity extends CGameplayEntity
 		}
 	}
 	
-	/*
-	event OnAardHit( sign : W3AardProjectile )
-	{
-		if( active && reactsToAard )
-		{
-			
-		}
-		super.OnAardHit( sign );		
-	}
 	
-	event OnIgniHit( sign : W3IgniProjectile )
-	{
-		if( active &&reactsToIgni )
-		{
-			
-		}
-		super.OnIgniHit( sign );			
-	}*/
 };

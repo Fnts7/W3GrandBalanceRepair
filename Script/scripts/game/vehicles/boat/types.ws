@@ -1,10 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013-2014 CDProjektRed
-/** Author : Radosław Grabowski
-/**   		 Tomek Kozera
-/***********************************************************************/
+
+
+
 
 import struct SBoatDestructionVolume
 {
@@ -15,13 +16,13 @@ import struct SBoatDestructionVolume
 
 struct SBoatPartsConfig
 {
-	editable var destructionVolumeIndex : int;						//index of the destruction volume connects to these parts
-	editable saved var parts : array<SBoatDesctructionPart>;		//array of parts mapped to given destruction volume
+	editable var destructionVolumeIndex : int;						
+	editable saved var parts : array<SBoatDesctructionPart>;		
 };
 
 struct SBoatDesctructionPart
 {
-	editable var hpFalloffThreshold : float;		//threshold when to drop parts
-	editable var componentName : string;				//name of the component to drop
-	saved var isPartDropped : bool;					//set to true once the part has fallen off	
+	editable var hpFalloffThreshold : float;		
+	editable var componentName : string;				
+	saved var isPartDropped : bool;					
 };

@@ -1,4 +1,9 @@
-﻿class CBTTaskDefend extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskDefend extends IBehTreeTask
 {
 	public var useCustomHits : bool;
 	public var listenToParryEvents : bool;
@@ -91,23 +96,23 @@
 		
 		if( AbsF(victimToAttackerAngle) <= 90 )
 		{
-			//hit from front
+			
 			npc.SetBehaviorVariable( 'HitReactionDirection',(int)EHRD_Forward);
 		}
 		else if( AbsF(victimToAttackerAngle) > 90 )
 		{
-			//hit from back
+			
 			npc.SetBehaviorVariable( 'HitReactionDirection',(int)EHRD_Back);
 		}
 		
 		if( victimToAttackerAngle > 45 && victimToAttackerAngle < 135 )
 		{
-			//hit from right
+			
 			npc.SetBehaviorVariable( 'HitReactionSide',(int)EHRS_Right);
 		}
 		else if( victimToAttackerAngle < -45 && victimToAttackerAngle > -135 )
 		{
-			//hit from rights
+			
 			npc.SetBehaviorVariable( 'HitReactionSide',(int)EHRS_Left);
 		}
 		else

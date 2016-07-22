@@ -1,5 +1,10 @@
-﻿/////////////////////////////////////////////////////////////////////
-// CBTTaskRidingManagerBoatMount
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 abstract class CBTTaskRidingManagerBoatMount extends CBTTaskRidingManagerVehicleMount
 {
 	var behGraphAlias : name;
@@ -37,10 +42,10 @@ abstract class CBTTaskRidingManagerBoatMount extends CBTTaskRidingManagerVehicle
 	{
 		var riderActor		: CActor = GetActor();
 		var vehicleActor 	: CActor;
-		// must be called first
+		
 		super.OnMountStarted( riderData, behGraphName, vehicleComponent );	
-		// Don't attach to root slot. attach to entity and constraints will make it look proper
-		//riderActor.CreateAttachment( vehicleComponent.GetEntity(), attachSlot );	
+		
+		
 	}
 
 	latent function OnMountFinishedSuccessfully( riderData : CAIStorageRiderData, behGraphName: name, vehicleComponent : CVehicleComponent )
@@ -48,7 +53,7 @@ abstract class CBTTaskRidingManagerBoatMount extends CBTTaskRidingManagerVehicle
 		var riderActor			: CActor = GetActor();
 		var vehicleActor 		: CActor;
 		
-		// Must be called last
+		
 		super.OnMountFinishedSuccessfully( riderData, behGraphName, vehicleComponent );
 	}
 	latent function OnMountFailed( riderData : CAIStorageRiderData, vehicleComponent : CVehicleComponent )
@@ -71,7 +76,7 @@ abstract class CBTTaskRidingManagerBoatMount extends CBTTaskRidingManagerVehicle
         vehicle = EntityHandleGet( riderData.sharedParams.boat );
 		vehicleComponent = (CVehicleComponent)vehicle.GetComponentByClassName('CVehicleComponent');
 		
-		// If actor is already mounted to vehicle to the same slot as shown in rider data
+		
 		if( riderData.sharedParams.vehicleSlot == EVS_driver_slot && vehicleComponent.GetUser() )
 		{
 			return BTNS_Failed;
@@ -86,19 +91,19 @@ abstract class CBTTaskRidingManagerBoatMount extends CBTTaskRidingManagerVehicle
 			}
 		}
 		
-        // [ Step ] Play anim and wait for it to finish
+        
 		MountActor( riderData, behGraphAlias, vehicleComponent );
         return BTNS_Completed;
     }
 }
 
-// CBTTaskRidingManagerBoatMountDef
+
 abstract class CBTTaskRidingManagerBoatMountDef extends CBTTaskRidingManagerVehicleMountDef
 {
 }
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskRidingManagerPlayerBoatMount
+
+
 class CBTTaskRidingManagerPlayerBoatMount extends CBTTaskRidingManagerBoatMount
 {
 	default behGraphAlias  = 'PlayerSailing';
@@ -122,14 +127,14 @@ class CBTTaskRidingManagerPlayerBoatMount extends CBTTaskRidingManagerBoatMount
 
 
 
-// CBTTaskRidingManagerPlayerBoatMountDef
+
 class CBTTaskRidingManagerPlayerBoatMountDef extends CBTTaskRidingManagerBoatMountDef
 {
 	default instanceClass = 'CBTTaskRidingManagerPlayerBoatMount';
 }
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskRidingManagerNPCBoatMount
+
+
 class CBTTaskRidingManagerNPCBoatMount extends CBTTaskRidingManagerBoatMount
 {
 	default behGraphAlias  = 'VehicleBoat';
@@ -138,23 +143,23 @@ class CBTTaskRidingManagerNPCBoatMount extends CBTTaskRidingManagerBoatMount
 	{	
 		var riderActor			: CActor = GetActor();
 	
-		riderActor.EnableCollisions( false ); // needed because rider disapears after finish mounting
-		// Must be called last
+		riderActor.EnableCollisions( false ); 
+		
 		super.OnMountFinishedSuccessfully( riderData, behGraphName, vehicleComponent );
 	}
 }
 
-// CBTTaskRidingManagerNPCBoatMountDef
+
 class CBTTaskRidingManagerNPCBoatMountDef extends CBTTaskRidingManagerBoatMountDef
 {
 	default instanceClass = 'CBTTaskRidingManagerNPCBoatMount';
 }
 
-////////////////////////////////////////////////////////////////////
-// DISMOUNT !
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskRidingManagerBoatDismount
+
+
+
+
 abstract class CBTTaskRidingManagerBoatDismount extends CBTTaskRidingManagerVehicleDismount
 {
 	function OnDismountStarted( riderData : CAIStorageRiderData, vehicleComponent : CVehicleComponent )
@@ -167,8 +172,8 @@ abstract class CBTTaskRidingManagerBoatDismount extends CBTTaskRidingManagerVehi
 		super.OnDismountFinishedA( riderData, vehicleComponent );
     }
 
-    // This function exists because we need to be able to call dismount actor from a non-latent function
-    // I know this sucks but latent function suck too !
+    
+    
     latent function OnDismountFinishedB_Latent( riderData : CAIStorageRiderData, vehicleComponent : CVehicleComponent )
     {
 		super.OnDismountFinishedB_Latent( riderData, vehicleComponent );
@@ -185,13 +190,13 @@ abstract class CBTTaskRidingManagerBoatDismount extends CBTTaskRidingManagerVehi
     }
 }
 
-// CBTTaskRidingManagerBoatDismountDef
+
 abstract class CBTTaskRidingManagerBoatDismountDef extends CBTTaskRidingManagerVehicleDismountDef
 {  
 }
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskRidingManagerPlayerBoatDismount
+
+
 class CBTTaskRidingManagerPlayerBoatDismount extends CBTTaskRidingManagerBoatDismount
 {    
 	function OnDismountStarted( riderData : CAIStorageRiderData, vehicleComponent : CVehicleComponent )
@@ -201,39 +206,26 @@ class CBTTaskRidingManagerPlayerBoatDismount extends CBTTaskRidingManagerBoatDis
 
     function OnDismountFinishedA( riderData : CAIStorageRiderData, vehicleComponent : CVehicleComponent )
     {
-		/*var riderActor : CActor = GetActor();
-		var riderPos : Vector;
-		var riderRot : EulerAngles;
-		var pitchDiff, rollDiff : float;
 		
-		// when player is dismounting while the boat is not leveled, he will keep his rotation in next state, so he will not for example stand straight
-		riderPos = riderActor.GetWorldPosition();
-		riderRot = riderActor.GetWorldRotation();
-		
-		pitchDiff = 0.0 - riderRot.Pitch;
-		rollDiff = 0.0 - riderRot.Roll;
-		
-		riderActor.TeleportWithRotation( riderPos, EulerAngles( 0.0, riderRot.Yaw, 0.0 ) );
-		//riderActor.GetMovingAgentComponent().SetAdditionalOffsetToConsumeMS( Vector(0,0,0), EulerAngles( pitchDiff, 0.0, rollDiff ), 2.0 );*/
 		
 		vehicleComponent.ToggleVehicleCamera( false );
 		super.OnDismountFinishedA( riderData, vehicleComponent );
     }
-    // This function exists because we need to be able to call dismount actor from a non-latent function
-    // I know this sucks but latent function suck too !
+    
+    
     latent function OnDismountFinishedB_Latent( riderData : CAIStorageRiderData, vehicleComponent : CVehicleComponent )
     {
 		super.OnDismountFinishedB_Latent( riderData, vehicleComponent );
     }
 }
-// CBTTaskRidingManagerPlayerBoatDismountDef
+
 class CBTTaskRidingManagerPlayerBoatDismountDef extends CBTTaskRidingManagerBoatDismountDef
 {
 	default instanceClass = 'CBTTaskRidingManagerPlayerBoatDismount';
 }
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskRidingManagerNPCBoatDismount
+
+
 class CBTTaskRidingManagerNPCBoatDismount extends CBTTaskRidingManagerBoatDismount
 {    
 	function OnDismountStarted( riderData : CAIStorageRiderData, vehicleComponent : CVehicleComponent )
@@ -245,18 +237,18 @@ class CBTTaskRidingManagerNPCBoatDismount extends CBTTaskRidingManagerBoatDismou
     {
 		var riderActor			: CActor = GetActor();
 		vehicleComponent.ToggleVehicleCamera( false );
-		riderActor.EnableCollisions( true ); // needed because rider disapears after finish mounting
+		riderActor.EnableCollisions( true ); 
 		super.OnDismountFinishedA( riderData, vehicleComponent );
     }
-    // This function exists because we need to be able to call dismount actor from a non-latent function
-    // I know this sucks but latent function suck too !
+    
+    
     latent function OnDismountFinishedB_Latent( riderData : CAIStorageRiderData, vehicleComponent : CVehicleComponent )
     {
 		super.OnDismountFinishedB_Latent( riderData, vehicleComponent );
     }
 }
 
-// CBTTaskRidingManagerNPCBoatDismountDef
+
 class CBTTaskRidingManagerNPCBoatDismountDef extends CBTTaskRidingManagerBoatDismountDef
 {
 	default instanceClass = 'CBTTaskRidingManagerNPCBoatDismount';

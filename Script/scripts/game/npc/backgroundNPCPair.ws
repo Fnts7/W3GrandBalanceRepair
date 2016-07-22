@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//Work type - for behavior animation choosing
+
+
+
 enum EBackgroundNPCWork_Paired
 {
 	EBNWP_None,
@@ -12,7 +15,7 @@ enum EBackgroundNPCWork_Paired
 	EBNWP_Q106KilledbyMorowa
 }
 
-// Each of NPCs must be either a Master or Slave
+
 enum EBgNPCType
 {
 	EBNPCT_None,
@@ -20,41 +23,35 @@ enum EBgNPCType
 	EBNPCT_Slave
 }
 
-//data to spawn initial entities
+
 struct SBackgroundPairSpawnedEntity
 {
 	editable var entityTemplate : CEntityTemplate;
-	editable var slotName : name;					//on which slot to spawn
-	editable var referenceName : name;				//custom name used in entity template to reference used objects
+	editable var slotName : name;					
+	editable var referenceName : name;				
 };
 
-//data for mount event
+
 struct SMountEvent
 {
-	editable var animEventName : name;					//name of event on which to react to
-	editable var entityReferenceName : name;			//name of the entity that changes slot
-	editable var newSlotName : name;					//name of the new slot to which to attach to
+	editable var animEventName : name;					
+	editable var entityReferenceName : name;			
+	editable var newSlotName : name;					
 	editable var entityContainingSlot : EBgNPCType;
 };
 
-/*
-	Paired background NPC uses two background NPC objects to make a paired work, e.g. 2 man sawing wood.
-	The entity contains slots on which the two background NPCs will be spawned, as well as other slots
-	for other entities used in the animation. If an object will be changing slots (e.g. item being passed
-	on from one npc to the other) then it must be created in the dynamic array. Otherwise if it's static
-	(e.g. a table) it should be placed directly in the entity template.
-*/
+
 statemachine class W3NPCBackgroundPair extends CGameplayEntity
 {
-	public editable var work : EBackgroundNPCWork_Paired;						//type of animation to use
-	public editable var entitiesToSpawn : array<SBackgroundPairSpawnedEntity>;	//array of entities to spawn (npc, tools)
-	private var spawnedEntities : array<CEntity>;								//array of currently spawned entities
-	private var currentAttachments : array<CEntity>;							//mapping - to which entity is the Nth entity currently attached (to handle re-attaching in the same entity)
-	public var slave, master : W3NPCBackground;									//NPC entities
-	public editable var mountEvents : array<SMountEvent>;						//array of mount events we are going to respond to (e.g. 'PassCupToSlave')
-	public var masterAC, slaveAC : CAnimatedComponent;							//animated component of NPCs, just cached for easier use
+	public editable var work : EBackgroundNPCWork_Paired;						
+	public editable var entitiesToSpawn : array<SBackgroundPairSpawnedEntity>;	
+	private var spawnedEntities : array<CEntity>;								
+	private var currentAttachments : array<CEntity>;							
+	public var slave, master : W3NPCBackground;									
+	public editable var mountEvents : array<SMountEvent>;						
+	public var masterAC, slaveAC : CAnimatedComponent;							
 	
-	//Creates initial entities and changes object state
+	
 	event OnSpawned(spawnData : SEntitySpawnData)
 	{
 		var i : int;	
@@ -74,7 +71,7 @@ statemachine class W3NPCBackgroundPair extends CGameplayEntity
 			
 		for(i=0; i<entitiesToSpawn.Size(); i+=1)
 		{									
-			//spawn entity in slot coords
+			
 			spawnedEntities[i] = theGame.CreateEntity(entitiesToSpawn[i].entityTemplate, tmp);	
 			spawnedEntities[i].CreateAttachment(this, entitiesToSpawn[i].slotName);
 			currentAttachments[i] = this;
@@ -87,18 +84,18 @@ statemachine class W3NPCBackgroundPair extends CGameplayEntity
 			
 			LogBgNPC("Initial spawn : pair <<" + this + ">> spawned <<" + spawnedEntities[i] + ">> on slot <<" + entitiesToSpawn[i].slotName + ">>");
 			
-			//cache master & slave anim components
+			
 			if(entitiesToSpawn[i].referenceName == 'master')
 			{
 				newMaster = (W3NPCBackground)spawnedEntities[i];
-				//if npc is of wrong class
+				
 				if(!newMaster)
 				{
 					LogAssert(false, "W3NPCBackgroundPair.OnSpawned: pair <<" + this + ">> master entity must be of class W3NPCBackground - aborting!");
 					return false;
 				}
 				
-				//if master is double defined
+				
 				if(master)
 				{
 					LogAssert(false, "W3NPCBackgroundPair.OnSpawned: pair <<" + this + ">> master entity is defined more than once - aborting!");
@@ -118,14 +115,14 @@ statemachine class W3NPCBackgroundPair extends CGameplayEntity
 			else if(entitiesToSpawn[i].referenceName == 'slave')
 			{
 				newSlave = (W3NPCBackground)spawnedEntities[i];
-				//if npc is of wrong class
+				
 				if(!newSlave)
 				{
 					LogAssert(false, "W3NPCBackgroundPair.OnSpawned: pair <<" + this + ">> slave entity must be of class W3NPCBackground - aborting!");
 					return false;
 				}
 				
-				//if slave is double defined
+				
 				if(slave)
 				{
 					LogAssert(false, "W3NPCBackgroundPair.OnSpawned: pair <<" + this + ">> slave entity is defined more than once - aborting!");
@@ -150,26 +147,26 @@ statemachine class W3NPCBackgroundPair extends CGameplayEntity
 		if(!master || !slave)
 			return false;
 				
-		//for switch in behavior
+		
 		masterAC.SetBehaviorVariable( 'isMaster', 1.f );
 		slaveAC.SetBehaviorVariable( 'isMaster', 0.f );
 		
-		//select work
+		
 		masterAC.SetBehaviorVariable( 'WorkTypeEnum_Paired', (int)work );
 		slaveAC.SetBehaviorVariable( 'WorkTypeEnum_Paired', (int)work );
 		
-		//for playing the animation and syncing on the fly we need to use a state
+		
 		PushState('DoWork');
 	}
 		
-	//If the slot is in slot component entity gets teleported there.
-	//If it's in npc the entity is attached instead
+	
+	
 	public function AttachEntityToSlotRegardlessOfSlotType(i : int, slotName : name, entityContainingSlot : EBgNPCType) : bool
 	{
 		var slotEntity : CEntity;
 		var ret : bool;
 	
-		//set slot parent entity
+		
 		switch(entityContainingSlot)
 		{
 			case EBNPCT_None : 
@@ -183,9 +180,9 @@ statemachine class W3NPCBackgroundPair extends CGameplayEntity
 				break;
 		}
 		
-		//FIXME should be handled by C++ in CreateAttachment
-		//If we're attaching to the same entity as already attached then we don't break the attachment. Otherwise the object will return to origin and will NOT get attached
-		//to new slot
+		
+		
+		
 		if(currentAttachments[i] != slotEntity)
 			spawnedEntities[i].BreakAttachment();
 			
@@ -197,7 +194,7 @@ statemachine class W3NPCBackgroundPair extends CGameplayEntity
 		return ret;
 	}	
 	
-	//Called when NPC actor fires animation event to mount items
+	
 	public function IncomingAnimEvent(eventName : name)
 	{
 		var i,j : int;
@@ -206,14 +203,14 @@ statemachine class W3NPCBackgroundPair extends CGameplayEntity
 		knownEvent = false;
 		for(j=0; j<mountEvents.Size(); j+=1)
 		{
-			//find events
+			
 			if(eventName == mountEvents[j].animEventName)
 			{
 				knownEvent = true;
 				knownEntity = false;
 				for(i=0; i<entitiesToSpawn.Size(); i+=1)
 				{
-					//find entity to move
+					
 					if(mountEvents[j].entityReferenceName == entitiesToSpawn[i].referenceName)
 					{
 						knownEntity = true;
@@ -247,7 +244,7 @@ state DoWork in W3NPCBackgroundPair
 		
 		ResetAnimatedComponentSyncSettings( ass );
 		
-		//syncing animations
+		
 		while( true )
 		{
 			SleepOneFrame();

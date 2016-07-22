@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3PlayerTutorialInput extends CPlayerInput
 {
@@ -11,14 +14,14 @@ class W3PlayerTutorialInput extends CPlayerInput
 	
 		super.Initialize(isFromLoad,previousInput);
 		
-		//player movement listener
+		
 		if(!theGame.GetTutorialSystem().HasSeenTutorial('TutorialMovement'))
 		{
 			theInput.RegisterListener( this, 'OnMovement', 'GI_AxisLeftY' );
 			theInput.RegisterListener( this, 'OnMovement', 'GI_AxisLeftX' );
 		}
 		
-		//camera movement listener
+		
 		if(!theGame.GetTutorialSystem().HasSeenTutorial('TutorialCamera'))
 		{
 			theInput.RegisterListener( this, 'OnCameraMovement', 'GI_AxisRightX' );
@@ -27,7 +30,7 @@ class W3PlayerTutorialInput extends CPlayerInput
 			theInput.RegisterListener( this, 'OnCameraMovement', 'GI_MouseDampY' );
 		}
 		
-		//first time init		
+		
 		if(!isFromLoad)
 		{
 			exceptions.PushBack(EIAB_RunAndSprint);
@@ -35,7 +38,7 @@ class W3PlayerTutorialInput extends CPlayerInput
 			exceptions.PushBack(EIAB_Interactions);
 			exceptions.PushBack(EIAB_DismountVehicle);
 			exceptions.PushBack(EIAB_InteractionAction);			
-			//BlockAllActions('tutorial', true, exceptions, true);
+			
 		}
 	}
 	

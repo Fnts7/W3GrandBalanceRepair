@@ -1,7 +1,12 @@
-﻿// CDoorMarking
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 30/07/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
 
 enum EDoorMarkingState
 {
@@ -10,8 +15,8 @@ enum EDoorMarkingState
 	EDMCT_Selected		,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CDoorMarking extends CScriptedComponent
 {	
 	private editable	var	changeCamera	: bool;				default	changeCamera	= true;
@@ -25,7 +30,7 @@ class CDoorMarking extends CScriptedComponent
 	private				var	initialized		: bool;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnComponentAttached()
 	{
 		initialized	= false;
@@ -33,16 +38,16 @@ class CDoorMarking extends CScriptedComponent
 		PreInit();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function PreInit()
 	{
 		var entity			: CEntity;
 		var gameplayEntity	: CGameplayEntity;
 		
-		// Set it ready to calculate the data first time it is checked
+		
 		calculated	= false;
 		
-		// Ready to debug
+		
 		entity	= GetEntity();
 		if( entity )
 		{
@@ -59,7 +64,7 @@ class CDoorMarking extends CScriptedComponent
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function SetProperTags()
 	{
 		var tag		: name = 'navigation_correction';
@@ -71,7 +76,7 @@ class CDoorMarking extends CScriptedComponent
 		entity	= GetEntity();
 		if( entity )
 		{
-			// Add the tag if it has none
+			
 			if( !entity.HasTag( tag ) )
 			{
 				tags	= entity.GetTags();
@@ -81,10 +86,10 @@ class CDoorMarking extends CScriptedComponent
 		}	
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetClosestPointAndNormal( out outPoint : Vector, out outNormal : Vector )
 	{
-		// Need to calculate the normal?
+		
 		if( !calculated )
 		{
 			CalculateData();
@@ -94,27 +99,27 @@ class CDoorMarking extends CScriptedComponent
 		outNormal	= normal;	
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function CalculateData()
 	{
 		var aux	: float;
 		
 		
-		// Init if needed
+		
 		if( !initialized )
 		{
 			PreInit();
 		}
 		
-		// Get points
+		
 		CalculatePoints();
 		
 		
-		// Middle point
+		
 		middlePoint	= ( pointB + pointA ) * 0.5f;
 		
 		
-		// Normal
+		
 		normal		= pointB - pointA;
 		
 		aux			= normal.X;
@@ -124,11 +129,11 @@ class CDoorMarking extends CScriptedComponent
 		
 		normal		= VecNormalize( normal );
 		
-		// Done
+		
 		calculated	= true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function CalculatePoints()
 	{
 		var slotMatrix	: Matrix;
@@ -141,13 +146,13 @@ class CDoorMarking extends CScriptedComponent
 		pointB		= MatrixGetTranslation( slotMatrix );	
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function SetCheckState( check : EDoorMarkingState )
 	{
 		checkState	= check;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnVisualDebug( frame : CScriptedRenderFrame, flag : EShowFlags )
 	{
 		var offsetVec	: Vector;
@@ -182,7 +187,7 @@ class CDoorMarking extends CScriptedComponent
 		return true;
 	}	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsChangingCamera() : bool
 	{
 		return changeCamera;
@@ -191,26 +196,26 @@ class CDoorMarking extends CScriptedComponent
 	
 	
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CDoorMarkingTester extends CGameplayEntity
 {
 	private var door	: CDoorMarking;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{	
 		Spawned( spawnData );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnSpawnedEditor( spawnData : SEntitySpawnData )
 	{
 		Spawned( spawnData );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function Spawned( spawnData : SEntitySpawnData )
 	{
 		if( !door )
@@ -224,7 +229,7 @@ class CDoorMarkingTester extends CGameplayEntity
 		super.OnSpawned( spawnData );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnVisualDebug( frame : CScriptedRenderFrame, flag : EShowFlags )
 	{
 		door.OnVisualDebug( frame, flag );

@@ -1,4 +1,9 @@
-﻿//General Enum for Behgraph- Tomsin
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 enum EGeneralEnum
 {
 	GE_0,
@@ -14,7 +19,7 @@ enum EGeneralEnum
 	GE_10,
 }
 
-enum EPlayerExplorationAction // when adding stuff here, remember to increase range inside behavior graph variable
+enum EPlayerExplorationAction 
 {
 	PEA_None,
 	PEA_SlotAnimation,
@@ -44,148 +49,148 @@ enum EPlayerBoatMountFacing
 	EPBMD_Right
 }
 
-//actually this is ParryAttackType!
+
 enum EPlayerAttackType
 {
 	PAT_Light,
 	PAT_Heavy
 };
 
-//TODO add all skills
-//[M.J] Inluced books granting abilities and perks
+
+
 enum ESkill
 {
 	S_SUndefined,
 	
-	S_Sword_1,				//fast attack
-	S_Sword_2,				//strong attack
-	S_Sword_3,				//defence
-	S_Sword_4,				//gabriel
-	S_Sword_5,				//battle trance
+	S_Sword_1,				
+	S_Sword_2,				
+	S_Sword_3,				
+	S_Sword_4,				
+	S_Sword_5,				
 	
-	S_Magic_1,				//aard
-	S_Magic_2,				//igni
-	S_Magic_3,				//yrden
-	S_Magic_4,				//quen
-	S_Magic_5,				//axii
+	S_Magic_1,				
+	S_Magic_2,				
+	S_Magic_3,				
+	S_Magic_4,				
+	S_Magic_5,				
 	
-	S_Alchemy_1,			//potions
-	S_Alchemy_2,			//oils
-	S_Alchemy_3,			//bombs
-	S_Alchemy_4,			//mutagens
-	S_Alchemy_5,			//trial of grasses
+	S_Alchemy_1,			
+	S_Alchemy_2,			
+	S_Alchemy_3,			
+	S_Alchemy_4,			
+	S_Alchemy_5,			
 	
 	
-	S_Sword_s01,			//whirl
-	S_Sword_s02,			//rend
-	S_Sword_s03,			//precision
-	S_Sword_s04,			//overwhelm
-	S_Sword_s05,			//crippling strikes
-	S_Sword_s06,			//sunder armor
-	S_Sword_s07,			//crushing blows
-	S_Sword_s08,			//lightning reflex
-	S_Sword_s09,			//fleet footed
-	S_Sword_s10,			//arrow deflection
-	S_Sword_s11,			//counterattack
-	S_Sword_s12,			//preparation
-	S_Sword_s13,			//custom engineering
+	S_Sword_s01,			
+	S_Sword_s02,			
+	S_Sword_s03,			
+	S_Sword_s04,			
+	S_Sword_s05,			
+	S_Sword_s06,			
+	S_Sword_s07,			
+	S_Sword_s08,			
+	S_Sword_s09,			
+	S_Sword_s10,			
+	S_Sword_s11,			
+	S_Sword_s12,			
+	S_Sword_s13,			
 S_UNUSED1,
-	S_Sword_s15,			//improvised speedloader
-	S_Sword_s16,			//resolve
-	S_Sword_s17,			//perfect balance
-	S_Sword_s18,			//second wind
-	S_Sword_s19,			//all out
-	S_Sword_s20,			//still mind
-	S_Sword_s21,			//fiery dancer
+	S_Sword_s15,			
+	S_Sword_s16,			
+	S_Sword_s17,			
+	S_Sword_s18,			
+	S_Sword_s19,			
+	S_Sword_s20,			
+	S_Sword_s21,			
 	
 	
-	S_Magic_s01,			//wave
-	S_Magic_s02,			//burn
-	S_Magic_s03,			//shock
-	S_Magic_s04,			//channeling
-	S_Magic_s05,			//guard me!
-	S_Magic_s06,			//static discharge
-	S_Magic_s07,			//disarm
-	S_Magic_s08,			//melt armor
-	S_Magic_s09,			//combustible
-	S_Magic_s10,			//glyph sustenance
-	S_Magic_s11,			//supercharge
-	S_Magic_s12,			//aard passive spell power
-	S_Magic_s13,			//impulse
-	S_Magic_s14,			//discharge
-	S_Magic_s15,			//fade
-	S_Magic_s16,			//safe zone
-	S_Magic_s17,			//expression
-	S_Magic_s18,			//demotivate
-	S_Magic_s19,			//dominate
-	S_Magic_s20,			//dispersion
+	S_Magic_s01,			
+	S_Magic_s02,			
+	S_Magic_s03,			
+	S_Magic_s04,			
+	S_Magic_s05,			
+	S_Magic_s06,			
+	S_Magic_s07,			
+	S_Magic_s08,			
+	S_Magic_s09,			
+	S_Magic_s10,			
+	S_Magic_s11,			
+	S_Magic_s12,			
+	S_Magic_s13,			
+	S_Magic_s14,			
+	S_Magic_s15,			
+	S_Magic_s16,			
+	S_Magic_s17,			
+	S_Magic_s18,			
+	S_Magic_s19,			
+	S_Magic_s20,			
 S_UNUSED2,
 	
 	
-	S_Alchemy_s01,			//resistances
-	S_Alchemy_s02,			//refreshment
-	S_Alchemy_s03,			//delayed recovery
-	S_Alchemy_s04,			//side effect
-	S_Alchemy_s05,			//protective coating
-	S_Alchemy_s06,			//fixative formula
-	S_Alchemy_s07,			//application
-	S_Alchemy_s08,			//efficiency
-	S_Alchemy_s09,			//bomb aim slowmo (ex proximity bomb, search for PROXIMITY_BOMBS)
-	S_Alchemy_s10,			//fragmentation casing
-	S_Alchemy_s11,			//cluster bomb
-	S_Alchemy_s12,			//by-product
-	S_Alchemy_s13,			//transmutation
-	S_Alchemy_s14,			//mutant
-	S_Alchemy_s15,			//condensation
-	S_Alchemy_s16,			//frenzy
-	S_Alchemy_s17,			//killing spree
-	S_Alchemy_s18,			//taster
-	S_Alchemy_s19,			//adrenaline surge
-	S_Alchemy_s20,			//ignore pain
+	S_Alchemy_s01,			
+	S_Alchemy_s02,			
+	S_Alchemy_s03,			
+	S_Alchemy_s04,			
+	S_Alchemy_s05,			
+	S_Alchemy_s06,			
+	S_Alchemy_s07,			
+	S_Alchemy_s08,			
+	S_Alchemy_s09,			
+	S_Alchemy_s10,			
+	S_Alchemy_s11,			
+	S_Alchemy_s12,			
+	S_Alchemy_s13,			
+	S_Alchemy_s14,			
+	S_Alchemy_s15,			
+	S_Alchemy_s16,			
+	S_Alchemy_s17,			
+	S_Alchemy_s18,			
+	S_Alchemy_s19,			
+	S_Alchemy_s20,			
 	S_Skill_MAX,
 
 	S_Perk_MIN,
-	S_Perk_01,				//TODO
-	S_Perk_02,				//TODO
-	S_Perk_03,				//TODO
-	S_Perk_04,				//TODO
-	S_Perk_05,				//TODO
-	S_Perk_06,				//TODO
-	S_Perk_07,				//TODO
-	S_Perk_08,				//enables use of alchemy level 3 items
-	S_Perk_09,				//TODO
-	S_Perk_10,				//TODO
-	S_Perk_11,				//TODO
-	S_Perk_12,				//TODO
+	S_Perk_01,				
+	S_Perk_02,				
+	S_Perk_03,				
+	S_Perk_04,				
+	S_Perk_05,				
+	S_Perk_06,				
+	S_Perk_07,				
+	S_Perk_08,				
+	S_Perk_09,				
+	S_Perk_10,				
+	S_Perk_11,				
+	S_Perk_12,				
 	
-	//Expansions
-	S_Perk_13,				//Drinking potion drains adrenaline and potion toxicity cost is reduced by 33% per point consumed
-	S_Perk_14,				//Only one place of power bonus can be active at a time but the buff never ends
-	S_Perk_15,				//Health regeneration works only outside of combat, but the effect lasts X minutes
-	S_Perk_16,				//Geralt is immune to effects of his own bombs and bolts
-	S_Perk_17,				//Plus 1 crossbow shot before reload
-	S_Perk_18,				//Damaging hostiles with bombs generates adrenaline
-	S_Perk_19,				//Battle Trance bonus changes from passive attack power increase to passive crit chance increase
-	S_Perk_20,				//Maximum number of bombs in slots is being reduced by $S$%, but their damage is increased by $S$%. Bombs that don't deal damage are not affected.
-	S_Perk_21,				//Every defensive action (parry, counterattack, roll, dodge) generates adrenaline.
-	S_Perk_22,				//increases carry capacity by 60
+	
+	S_Perk_13,				
+	S_Perk_14,				
+	S_Perk_15,				
+	S_Perk_16,				
+	S_Perk_17,				
+	S_Perk_18,				
+	S_Perk_19,				
+	S_Perk_20,				
+	S_Perk_21,				
+	S_Perk_22,				
 	S_Perk_MAX
 }
 
 enum EItemSetBonus
 {
 	EISB_Undefined,
-	EISB_Lynx_1,			//strong attack increase damage of fast attach by x%. Lasts 3s
-	EISB_Lynx_2,			//Back attack has further increased damage and stuns enemies
-	EISB_Gryphon_1,			//Each other sign is cast for free
-	EISB_Gryphon_2,			//While staying in Yrden Geralt gains increased sign power, stamina regen etc
-	EISB_Bear_1,			//x% chance after quen is destroted that new one will be cast for free
-	EISB_Bear_2,			//Quen deals increased damage (on explosion, reflected damage)
-	EISB_Wolf_1,			//Swords can have up to 3 different oils applied at once
-	EISB_Wolf_2,			//Removes 3s delay on throwing bombs
-	EISB_RedWolf_1,			//Crit chance and Crit damage now works with bombs
-	EISB_RedWolf_2,			//Number of alchemy items charges is increased by X
-	EISB_Vampire			//Killing enemies regenerate health
+	EISB_Lynx_1,			
+	EISB_Lynx_2,			
+	EISB_Gryphon_1,			
+	EISB_Gryphon_2,			
+	EISB_Bear_1,			
+	EISB_Bear_2,			
+	EISB_Wolf_1,			
+	EISB_Wolf_2,			
+	EISB_RedWolf_1,			
+	EISB_RedWolf_2,			
+	EISB_Vampire			
 }
 
 enum EItemSetType
@@ -228,7 +233,7 @@ function GetSetBonusAbility( setBonus : EItemSetBonus ) : name
 	}
 }
 
-//remember to update SkillTypeToName as well!!
+
 function SkillNameToEnum(n : name) : ESkill
 {
 	switch(n)
@@ -355,7 +360,7 @@ function SignEnumToSkillEnum( s : ESignType ) : ESkill
 	}
 }
 
-//remember to update SkillNameToType as well!!
+
 function SkillEnumToName(s : ESkill) : name
 {
 	switch(s)
@@ -468,7 +473,7 @@ function SkillEnumToName(s : ESkill) : name
 	}
 }
 
-//Player oneliners
+
 enum EPlayerCommentary
 {
 	PC_MedalionWarning,
@@ -643,7 +648,7 @@ enum EParryStage
 	PS_Stop,
 };
 
-enum EParryType // Light/Heavy
+enum EParryType 
 {
 	PT_Up,
 	PT_UpLeft,
@@ -681,14 +686,7 @@ function IsBufferActionAttackAction(a : EBufferActionType) : bool
 	}
 }
 
-/* not used anywhere?
-enum EDamageReductionType
-{
-	EDRT_None,
-	EDRT_Total,
-	EDRT_OnlyDmg,
-	EDRT_Half,
-}*/
+
 
 struct SParryInfo
 {
@@ -698,9 +696,9 @@ struct SParryInfo
 	var targetToAttackerDist		: float;
 	var attackSwingType				: EAttackSwingType;
 	var attackSwingDir				: EAttackSwingDirection;
-	var attackActionName			: name;						//name of the action used for attack (light_attack, super_skill_18)
-	var attackerWeaponId			: SItemUniqueId;			//id of attacker's weapon
-	var canBeParried				: bool;						//info from animData
+	var attackActionName			: name;						
+	var attackerWeaponId			: SItemUniqueId;			
+	var canBeParried				: bool;						
 };
 
 import struct STargetSelectionWeights
@@ -714,7 +712,7 @@ struct SDrunkMutagen
 {
 	var slot : int;
 	var mutagenName : name;
-	var toxicityOffset : float;				//amount of toxicity locked by mutagens
+	var toxicityOffset : float;				
 	var effectType : EEffectType;
 };
 
@@ -730,14 +728,14 @@ struct SRadialSlotDef
 	var disabledBySources : array < name >;
 }
 
-// blockable input actions (by quest's or player's BlockGameplayFunctionality)
-//
-// ACHTUNG!
-// You need to handle this by hand in quest function BlockGameplayFunctionality - it's NOT updated automatically there!!!
-//
-// ACHTUNG 2!
-// If you add anything here, make sure to add it (if needed) to critical states!
-//
+
+
+
+
+
+
+
+
 enum EInputActionBlock
 {
 	EIAB_Signs,
@@ -783,7 +781,7 @@ enum EInputActionBlock
 	EIAB_OpenGwint,
 	EIAB_MeditationWaiting,
 	EIAB_MountVehicle,
-	EIAB_InteractionContainers,	//looting and taking items
+	EIAB_InteractionContainers,	
 	EIAB_SpecialAttackLight,
 	EIAB_SpecialAttackHeavy,
 	EIAB_OpenMeditation,
@@ -871,16 +869,16 @@ enum EPlayerActionToRestore
 	PATR_None
 	
 }
-//each record of this enum must be assigned unique bit flag ( next power of 2 value )
+
 enum EPlayerInteractionLock
 {
-	PIL_Cutscene = 1,			//C++
+	PIL_Cutscene = 1,			
 	PIL_Default = 2,
 	PIL_CombatAction = 4,
 	PIL_Dialog = 8,
 	PIL_RadialMenu = 16,
 	PIL_Vehicle = 32
-	//2, 4, 8 ,16 ,32 ...
+	
 };
 
 enum EPlayerPreviewInventory
@@ -948,43 +946,5 @@ enum EHorseMode
 	EHM_Unicorn
 }
 
-// imported
-/*
-enum EBufferActionType
-{
-	EBAT_EMPTY,
-	EBAT_LightAttack,
-	EBAT_HeavyAttack,
-	EBAT_CastSign,
-	EBAT_ItemUse,  		//this includes bombs, traps, etc.
-	EBAT_Parry,
-	EBAT_Dodge,			//this includes jump, dodge, evade etc.
-	EBAT_SpecialAttack_Light,
-	EBAT_SpecialAttack_Heavy,
-	EBAT_Roll,
-	EBAT_Ciri_SpecialAttack,		
-	EBAT_Ciri_SpecialAttack_Heavy,	
-	EBAT_Ciri_Counter,				
-	EBAT_Ciri_Dodge,				
-	EBAT_Draw_Steel,				
-	EBAT_Draw_Silver,				
-	EBAT_Sheathe_Sword,				
-}
 
-enum ECombatActionType
-{
-	CAT_Attack,
-	CAT_SpecialAttack,
-	CAT_Dodge,
-	CAT_Roll,
-	CAT_ItemThrow,
-	CAT_LayItem,
-	CAT_CastSign,
-	CAT_Pirouette,
-	CAT_PreAttack,
-	CAT_Parry,
-	CAT_Crossbow,
-	CAT_None2,
-	CAT_CiriDodge,
-}
-*/ 
+ 

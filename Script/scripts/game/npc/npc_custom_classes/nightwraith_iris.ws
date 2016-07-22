@@ -1,17 +1,22 @@
-﻿//>--------------------------------------------------------------------------
-// W3NightWraithIris
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Manages visuals for the Iris monster
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Copyright © 2015 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
 class W3NightWraithIris extends CNewNPC
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------	
+	
+	
+	
 	private var m_CurrentHealthSection  : int;					default m_CurrentHealthSection 	= 4;
 	private var m_ClosestPainting		: CNode;	
 	private var m_TargetPainting		: W3IrisPainting;
@@ -20,34 +25,34 @@ class W3NightWraithIris extends CNewNPC
 	private var m_WaitingForSpawnEnd	: bool;					default m_WaitingForSpawnEnd 	= true;
 	
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function GetPortal() : W3IrisPainting
 	{
 		return m_TargetPainting;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{	
 		var l_MAC : CMovingPhysicalAgentComponent;
 		super.OnSpawned( spawnData );		
 		theGame.GetNodesByTag( 'q604_painting', m_Paintings );
 		
-		//l_MAC = (CMovingPhysicalAgentComponent) GetMovingAgentComponent();
 		
-		//EnableCharacterCollisions( false );
-		//l_MAC.SnapToNavigableSpace( false);
+		
+		
+		
 	}
 		
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnBehaviorGraphNotification( notificationName : name, stateName : name )
 	{
 		super.OnBehaviorGraphNotification( notificationName, stateName );
 		
-		// For some reason SpawnEnd is trigger as soon as Iris spawns, so SpawnStart cancels it
+		
 		if( notificationName == 'SpawnStart' )
 		{
 			RemoveTimer( 'UpdateIris' );
@@ -58,8 +63,8 @@ class W3NightWraithIris extends CNewNPC
 			AddTimer( 'UpdateIris', 0.1, true );
 		}		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private timer function UpdateIris( delta : float , id : int )
 	{		
 		UpdateHealthEffect();
@@ -71,8 +76,8 @@ class W3NightWraithIris extends CNewNPC
 		}
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function RequestPortal()
 	{
 		if( m_TargetPainting && m_TargetPainting.IsOpen() )
@@ -85,8 +90,8 @@ class W3NightWraithIris extends CNewNPC
 		
 		PlayEffect( 'drained_paint', m_TargetPainting);		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function UpdateHealthEffect()
 	{
 		var l_healthPer 	: float;
@@ -139,8 +144,8 @@ class W3NightWraithIris extends CNewNPC
 		}	
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function GetClosestPainting( optional _CheckLineOfSight : bool ) : CNode
 	{
 		var l_delta 				: float;
@@ -154,17 +159,17 @@ class W3NightWraithIris extends CNewNPC
 		return m_ClosestPainting;
 		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function GetAvailablePaitingsQuantity() : int
 	{
 		var l_paintingsAround	: array<CNode>;
 		l_paintingsAround = GetAvailablePaintings();
 		return l_paintingsAround.Size();	
 	}	
-	//>----------------------------------------------------------------------
-	// Get painting on which iris as a line of sight
-	//-----------------------------------------------------------------------
+	
+	
+	
 	public function GetAvailablePaintings( optional _CheckLineOfSight : bool ) : array<CNode>
 	{
 		var i					: int;
@@ -193,8 +198,8 @@ class W3NightWraithIris extends CNewNPC
 		
 		return l_paintingsAround;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function GetRandomPaintingAround() : CNode
 	{
 		var l_paintingsAround	: array<CNode>;
@@ -204,13 +209,13 @@ class W3NightWraithIris extends CNewNPC
 		
 		SortNodesByDistance( thePlayer.GetWorldPosition(), l_paintingsAround );
 		
-		// Avoid if possible to pick painting 0 as it is the closest to the player
+		
 		l_rand = RandRange( l_paintingsAround.Size() - 1 , Min( 1, l_paintingsAround.Size() - 1 ) );
 		
 		return l_paintingsAround[ l_rand ];
 	}	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnDeath( damageAction : W3DamageAction  )
 	{
 		((CEntity) m_ClosestPainting).StopEffect('ghost_appear');

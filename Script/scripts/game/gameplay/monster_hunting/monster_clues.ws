@@ -1,4 +1,9 @@
-﻿enum EFocusClueAttributeAction
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EFocusClueAttributeAction
 {
 	FCAA_ForceSet,
 	FCAA_SetToTrue,
@@ -117,7 +122,7 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 	default isVisibleAsClue					= true;
 	hint isVisibleAsClue	 = "Should the clue use clue color highlight, if false it will highlight as interactive.";
 
-	//Smart Focus Area
+	
 	var linkedFocusArea						: W3FocusAreaTrigger;
 	
 	var dimmingStarted						: bool;
@@ -179,7 +184,7 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 			
 			PlayClueVoiceset ( playerVoiceset );
 			
-			//tutorial
+			
 			if(ShouldProcessTutorial('TutorialFocusClues'))
 			{
 				FactsAdd("tut_clue_interacted", 1, 1);
@@ -268,7 +273,7 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 		return isIgnoringFM;
 	}
 
-	// voicesets
+	
 	function PlayClueVoiceset (voicesetEnum : EPlayerVoicesetType )
 	{
 		switch ( voicesetEnum )
@@ -339,10 +344,10 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 		if ( comp )
 		{
 			enabled = false;
-			// if clue is available, interactive and was not detected
+			
 			if ( IsInteractiveInternal() )
 			{
-				// if interacionAnim is currently not being played
+				
 				if ( !isPlayingInteractionAnim )
 				{
 					enabled = true;
@@ -376,7 +381,7 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 		}
 	}
 	
-	// custom hack for q701 - TTP 141406
+	
 	function OverrideVisibilityParams( focusModeVisibility : EFocusModeVisibility )
 	{
 		if ( focusModeVisibility == FMV_None )
@@ -506,7 +511,7 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 						
 						if(allowVibration)
 						{
-							//check if cutscene ended recently and if so then don't rumble
+							
 							recentDialogueTime = theGame.GetRecentDialogOrCutsceneEndGameTime();
 							currentTime = theGame.GetGameTime();
 							
@@ -634,7 +639,7 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 			{
 				OnClueDetected();
 				
-				//Process linked focus area
+				
 				if ( linkedFocusArea )
 				{
 					linkedFocusArea.SmartFocusAreaCheck();
@@ -648,7 +653,7 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 	{
 		OnClueDetected();
 				
-		//Process linked focus area
+		
 		if ( linkedFocusArea )
 		{
 			linkedFocusArea.SmartFocusAreaCheck();
@@ -697,11 +702,11 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 		return !wasDetected;
 	}
 
-	//Set of functions responsible for changing visible meshes in different releases
+	
 
 	function ProcessReleaseVersions()
 	{
-		//Disable some meshes
+		
 		if( FactsQuerySum( "release_jp" ) >= 1 )
 		{
 			ProcessStaticMeshesReleaseVersions( 'release_jp_hide' );
@@ -821,16 +826,16 @@ class W3MonsterClue extends W3AnimationInteractionEntity
 
 }
 
-//////////////////////////////////////////////////////////////////////////////
 
-// deprecated!!! just to maintain compatibility with old assets
+
+
 
 class W3MonsterClueScent extends W3MonsterClue
 {
 
 }
 
-//////////////////////////////////////////////////////////////////////////////
+
 
 enum EMonsterClueAnim
 {
@@ -943,7 +948,7 @@ class W3MonsterClueAnimated extends W3MonsterClue
 		
 		canBeSeen = ( distance < maxDetectionDistance && ( !useAccuracyTest || accuracy > accuracyError ) );
 		
-		// LogQuest( "accuracy : " + accuracy + " error: " + accuracyError + " canBeSeen: " + canBeSeen);
+		
 		
 		if ( animStarted )
 		{
@@ -978,12 +983,12 @@ class W3ClueStash extends W3MonsterClue
 	editable var lootEntityTemplate : CEntityTemplate;
 	editable var setInvisibleAppearanceAfterLootingStash : bool;
 	editable var showLootPanelImmediately : bool;
-	editable saved var isStashDisabled : bool; //This needs to be saved since the state of the clue changes during quests
+	editable saved var isStashDisabled : bool; 
 	editable var stashOpenDelay : float;
 	editable var stashSpawnOffset : Vector;
 	editable var lootEntityTag : name;
 	
-	// since current appearance is not saved automatically
+	
 	saved var currentAppearance : name;
 	default currentAppearance = 'undetected';
 	
@@ -1045,23 +1050,23 @@ class W3ClueStash extends W3MonsterClue
 	
 	event OnInteractionActivated( interactionComponentName : string, activator : CEntity )
 	{	
-		// TTP 130273 hackfix
+		
 		if ( isAvailable && stashWasLooted && HasTag( 'mq1058_girl_doll' ) )
 		{
-			// if player still doesn't have the doll -> revert stash state to "undetected"
+			
 			if ( thePlayer.GetInventory().GetItemId( 'mq1058_doll' ) == GetInvalidUniqueId() )
 			{
 				stashWasLooted = false;
 				SetAppearance( 'undetected' );			
 			}
 		}
-		// remember to uncomment this if OnInteractionActivated is added to one of the base classes
-		// super.OnInteractionActivated( interactionComponentName, activator );
+		
+		
 	}	
 	
 	event OnInteraction( actionName : string, activator : CEntity )
 	{
-		//failsafe for player interacting with another container between animation end and loot panel open
+		
 		if( stashOpenDelay > interactionAnimTime )
 		{
 			interactionAnimTime = stashOpenDelay;
@@ -1109,7 +1114,7 @@ class W3ClueStash extends W3MonsterClue
 		return true;
 	}
 
-	//Override function to accomodate Take interaction
+	
 	function UpdateInteraction( optional comp : CComponent )
 	{
 		var enabled : bool;
@@ -1121,10 +1126,10 @@ class W3ClueStash extends W3MonsterClue
 		if ( comp )
 		{
 			enabled = false;
-			// if clue is available, interactive and was not detected
+			
 			if ( IsInteractiveInternal() )
 			{
-				// if interacionAnim is currently not being played
+				
 				if ( !isPlayingInteractionAnim )
 				{
 					enabled = true;
@@ -1150,7 +1155,7 @@ class W3ClueStash extends W3MonsterClue
 	
 	public function OnContainerEvent()
 	{
-		if( !lootEntity || lootEntity.IsEmpty() ) // after looting stash it's destroyed so this will become NULL
+		if( !lootEntity || lootEntity.IsEmpty() ) 
 		{
 			stashWasLooted = true;
 			if( setInvisibleAppearanceAfterLootingStash )
@@ -1176,7 +1181,7 @@ class W3ClueStash extends W3MonsterClue
 				
 				if( lootEntity )
 				{
-					SetAttributes( FCAA_ForceSet , false , false , false , false , true , false ); //#DM Spawned lootstash should always disable the clue itself
+					SetAttributes( FCAA_ForceSet , false , false , false , false , true , false ); 
 					lootEntity.AddTag( lootEntityTag );
 				}
 				
@@ -1199,7 +1204,7 @@ class W3ClueStash extends W3MonsterClue
 				}
 			}
 			
-			if( !lootEntity || lootEntity.IsEmpty() ) // after looting stash it's destroyed so this will become NULL
+			if( !lootEntity || lootEntity.IsEmpty() ) 
 			{
 				stashWasLooted = true;
 				if( setInvisibleAppearanceAfterLootingStash )
@@ -1208,7 +1213,7 @@ class W3ClueStash extends W3MonsterClue
 				}
 			}
 
-			RemoveTimer( 'UpdateAppearance' ); //#Y Remove it manualy, because 'repeats' doesn't work
+			RemoveTimer( 'UpdateAppearance' ); 
 		}
 		else
 		{
@@ -1216,7 +1221,7 @@ class W3ClueStash extends W3MonsterClue
 		}
 	}
 	
-	// Swiches state of stash functionality of monster clue stash
+	
 	public function SetStashDisabled( isDisabled : bool )
 	{
 		isStashDisabled = isDisabled;
@@ -1272,19 +1277,19 @@ class W3DisarmClue extends W3MonsterClue
 	}
 }
 
-// custom class that allows to save some of the sound clue's properties
+
 class W3SavedSoundClue extends CGameplayEntity
 {
 	saved var savedFocusModeSoundEffectType	: EFocusModeSoundEffectType;
 	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{		
-		// if restored, use "saved" focusModeSoundEffectType
+		
 		if ( spawnData.restored )
 		{
 			focusModeSoundEffectType = savedFocusModeSoundEffectType;
 		}
-		// otherwise just copy initial value to be stored
+		
 		else
 		{
 			savedFocusModeSoundEffectType = focusModeSoundEffectType;

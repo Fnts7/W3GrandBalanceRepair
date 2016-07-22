@@ -1,27 +1,13 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Exports for CCharacterStats
-/** Copyright © 2010
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/* imported
-// actor's stats
-enum EBaseCharacterStats
-{
-	BCS_Vitality,
-	BCS_Essence,
-	BCS_Stamina,
-	BCS_Toxicity,
-	BCS_Focus,
-	BCS_Morale,
-	BCS_Air,
-	BCS_Panic,			// default panic val is now 100
-	BCS_PanicStatic,	// Used when reducing BCS_Panic. BCS_Panic can't go below BCS_PanicStatic value
-	BCS_SwimmingStamina,
-	BCS_Undefined
-}
-*/
+
+
+
+
 
 function StatNameToEnum(n : name) : EBaseCharacterStats
 {
@@ -59,7 +45,7 @@ function StatEnumToName(s : EBaseCharacterStats) : name
 	}
 }
 
-// power stats - used as damage bonus for attacks or signs
+
 enum ECharacterPowerStats
 {
 	CPS_AttackPower,
@@ -213,7 +199,7 @@ function ResistStatNameToEnum(n : name, out isPointResistance : bool) : ECharact
 		case 'burning_DoT_damage_resistance'	: return CDS_DoTBurningDamageRes;
 		case 'poison_DoT_damage_resistance'		: return CDS_DoTPoisonDamageRes;
 		case 'bleeding_DoT_damage_resistance'	: return CDS_DoTBleedingDamageRes;
-		default :								;//nothing, just continue
+		default :								;
 	}
 	
 	isPointResistance = false;
@@ -240,7 +226,7 @@ function ResistStatNameToEnum(n : name, out isPointResistance : bool) : ECharact
 	}
 }
 
-//if isPointResistance is set returns point resistance otherwise percent resistance
+
 function ResistStatEnumToName(s : ECharacterDefenseStats, isPointResistance : bool) : name
 {
 	if(isPointResistance)
@@ -345,14 +331,14 @@ function GetGenericStatValue(statName : name, out valueStr : string):void
 {
 	var resultValue:string;
 	
-	// try get stat value
-	//resultValue = GetStatValue(statName);
-	//if (resultValue)
-	//{
-	//	valueStr = resultValue;
-	//	return;
-	//}
-	// is generic stat
+	
+	
+	
+	
+	
+	
+	
+	
 	switch (statName)
 	{
 		case 'stat_offense':
@@ -374,31 +360,7 @@ function GetGenericStatValue(statName : name, out valueStr : string):void
 	valueStr = resultValue;
 }
 
-/* imported
-// character resistances
-enum ECharacterDefenseStats
-{
-	CDS_None,
-	CDS_PhysicalRes,
-	CDS_BleedingRes,
-	CDS_PoisonRes,
-	CDS_FireRes,
-	CDS_FrostRes,
-	CDS_ShockRes,
-	CDS_ForceRes,
-	CDS_FreezeRes,	// #B deprecated
-	CDS_WillRes,
-	CDS_BurningRes,
-	CDS_SlashingRes,
-	CDS_PiercingRes,
-	CDS_BludgeoningRes,
-	CDS_RendingRes,
-	CDS_ElementalRes,
-	CDS_DoTBurningDamageRes,
-	CDS_DoTPoisonDamageRes,
-	CDS_DoTBleedingDamageRes
-}
-*/
+
 
 function IsNonPhysicalResistStat(stat : ECharacterDefenseStats) : bool
 {
@@ -465,17 +427,17 @@ import class CCharacterStats
 	
 	import final function GetAbilityAttributeValue(attributeName : name, abilityName : name) : SAbilityAttributeValue;
 	
-	// Give ability - default dont allow multiple 
+	
 	import final function AddAbility( abilityName : name, optional allowMultiple : bool ) : bool;
 	
-	// Take away ability
+	
 	import final function RemoveAbility( abilityName : name ) : bool;
 	
-	// Check ability
+	
 	import final function HasAbility( abilityName : name, optional includeInventoryAbl : bool ) : bool;
 	import final function HasAbilityWithTag( tag : name, optional includeInventoryAbl : bool ) : bool;
 	
-	// Returns true if ability can be bought due to other abilities prerequisites
+	
 	import final function IsAbilityAvailableToBuy( abilityName : name ) : bool;
 	
 	import final function GetAbilities( out abilities : array< name >, optional includeInventoryAbl : bool );
@@ -484,60 +446,13 @@ import class CCharacterStats
 	
 	import final function GetAllContainedAbilities( out abilities : array< name > );
 	
-	public function AddAbilityMultiple(abilityName : name, count : int)
-	{
-		while(count > 0)
-		{
-			count -= 1;
-			AddAbility(abilityName, true);
-		}
-	}
+	import final function AddAbilityMultiple(abilityName : name, count : int);
 	
-	public function RemoveAbilityMultiple(abilityName : name, count : int)
-	{
-		while(count > 0)
-		{
-			count -= 1;
-			RemoveAbility(abilityName);
-		}
-	}
+	import final function RemoveAbilityMultiple(abilityName : name, count : int);
 	
-	public function RemoveAbilityAll(abilityName : name)
-	{
-		while ( HasAbility(abilityName) )
-		{
-			RemoveAbility(abilityName);
-		}
-	}
+	import final function RemoveAbilityAll(abilityName : name);
 	
-	public function GetAbilityCount(abilityName : name) : int
-	{
-		var i, cnt : int;
-		var all : array<name>;
-	
-		GetAbilities(all, true);
-		cnt = 0;
-		for(i=0; i<all.Size(); i+=1)
-			if(all[i] == abilityName)
-				cnt += 1;
-				
-		return cnt;
-	}
+	import final function GetAbilityCount(abilityName : name) : int;
 
-	public function GetAbilitiesWithTag(tag : name) : array<name>
-	{
-		var abs,ret : array<name>;
-		var i : int;
-		var dm : CDefinitionsManagerAccessor;
-		
-		dm = theGame.GetDefinitionsManager();
-		GetAbilities(abs, true);
-		for(i=0; i<abs.Size(); i+=1)		
-		{
-			if(dm.AbilityHasTag(abs[i], tag))
-				ret.PushBack(abs[i]);			
-		}
-		
-		return ret;
-	}
+	import final function GetAbilitiesWithTag(tag : name, out abilitiesList : array<name> );
 }

@@ -1,33 +1,78 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+enum EInputDeviceType
+{
+	IDT_Xbox1 = 0,
+	IDT_PS4 = 1,
+	IDT_Steam = 2,
+	IDT_KeyboardMouse = 3,
+	IDT_Tablet = 4,
+	IDT_Unknown = 5
+}
+
 import class CInputManager
 {
-	import final function GetLastActivationTime( actionName : name ) : float; 	// clamped at 10s 
-	import final function GetActionValue( actionName : name ) : float; 			//[0-1]
+	import final function GetLastActivationTime( actionName : name ) : float; 	
+	import final function GetActionValue( actionName : name ) : float; 			
 	import final function GetAction( actionName : name ) : SInputAction;
 
-	import final function ClearIgnoredInput();									// Resets all blocked inputs
-	//import final function IgnoreGameInput( actionName : name, ignore : bool );	// Ignore input for action 
+	import final function ClearIgnoredInput();									
+	
 	import final function IsInputIgnored( actionName : name ) : bool;			
 		
-	//one listener per action - registerring second one will unregister first
+	
 	import final function RegisterListener( listener : IScriptable, eventName : name, actionName : name );
 	import final function UnregisterListener( listener : IScriptable, actionName : name );
 	
-	import final function SetContext( contextName : name );						// changes current input context
-	import final function GetContext() : name;									// returns name of current context
+	import final function SetContext( contextName : name );						
+	import final function GetContext() : name;									
 	
-	//import final function SuppressSendingEvents( val : bool );
+	
 	
 	import final function StoreContext( newContext : name );
 	
-	// @param storedContext - what was the name of the context stored (what do we restore from)
-	// @param contextCouldChange - is it possible that context has changed?
+	
+	
 	import final function RestoreContext( storedContext : name, contextCouldChange : bool );
 	
 	import final function EnableLog( val : bool );
 	
 	import final function LastUsedPCInput() : bool;
 	import final function LastUsedGamepad() : bool;
+	
+	import final function GetLastUsedDeviceName() : name;
+	public final function GetLastUsedGamepadType() : EInputDeviceType
+	{
+		var deviceName:name = GetLastUsedDeviceName();				
+		
+		switch (deviceName)
+		{
+			case 'xpad':
+				return IDT_Xbox1;
+				break;
+			case 'ps4pad':
+				return IDT_PS4;
+				break;
+			case 'steampad':
+				return IDT_Steam;
+				break;
+			case 'keyboardmouse':
+				return IDT_KeyboardMouse;
+				break;
+			case 'tablet':
+				return IDT_Tablet;
+				break;
+			default:
+				return IDT_Unknown;
+				break;
+		}
+		
+		return IDT_Unknown;
+	}
 	
 	import final function UsesPlaystationPad() : bool;	
 	public final function UsesPlaystationPadScript() : bool
@@ -37,24 +82,24 @@ import class CInputManager
 	
 	import final function ForceDeactivateAction( actionName : name );
 	
-	// get all keys mapped to action (actionName), for PC (keyboard + mouse) input schema
-	//ACHTUNG!!! outKeys is not cleared!!!!
+	
+	
 	import final function GetPCKeysForAction( actionName : name, out outKeys : array< EInputKey > );
-	// get all keys mapped to action (actionName), for gamepad input schema
-	//ACHTUNG!!! outKeys is not cleared!!!!
+	
+	
 	import final function GetPadKeysForAction( actionName : name, out outKeys : array< EInputKey > );
-	// get all keys mapped to action on currently used device (keyboard + mouse / pad )
-	//ACHTUNG!!! outKeys is not cleared!!!!
+	
+	
 	import final function GetCurrentKeysForAction( actionName : name, out outKeys : array< EInputKey > );
 	
-	// get all keys mapped to action (actionName), for PC (keyboard + mouse) input schema
-	//ACHTUNG!!! outKeys is not cleared!!!!
+	
+	
 	import final function GetPCKeysForActionStr( actionName : string, out outKeys : array< EInputKey > );
-	// get all keys mapped to action (actionName), for gamepad input schema
-	//ACHTUNG!!! outKeys is not cleared!!!!
+	
+	
 	import final function GetPadKeysForActionStr( actionName : string, out outKeys : array< EInputKey > );
-	// get all keys mapped to action on currently used device (keyboard + mouse / pad )
-	//ACHTUNG!!! outKeys is not cleared!!!!
+	
+	
 	import final function GetCurrentKeysForActionStr( actionName : string, out outKeys : array< EInputKey > );
 	
 	function IsActionPressed( actionName : name ) : bool
@@ -133,7 +178,7 @@ import class CInputManager
 				glossaryTutorial = (CR4GlossaryTutorialsMenu)commonMenuRef.GetSubMenu();
 				if (glossaryTutorial)
 				{
-					//glossaryTutorial.UpdateTutorials();
+					
 				}
 			}
 			

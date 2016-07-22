@@ -1,18 +1,23 @@
-﻿// IDLE TREES AND PARAMETERS:
-// ---------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-// CAIMonsterIdle
+
+
+
 class CAIMonsterIdle extends CAIIdleTree
 {
 	editable inlined var params : CAIMonsterIdleParams;
 };
 
-// CAIMonsterIdleParams
+
 class CAIMonsterIdleParams extends CAIIdleParameters
 {
 };
 
-// CAIMonsterIdleDefault
+
 class CAIMonsterIdleDefault extends CAIMonsterIdle
 {
 	default aiTreeName = "resdef:ai\monster_idle";
@@ -24,7 +29,7 @@ class CAIMonsterIdleDefault extends CAIMonsterIdle
 	}
 };
 
-// CAIMonsterSearchFoodTree
+
 class CAIMonsterSearchFoodTree extends CAISubTree
 {
 	default aiTreeName = "resdef:ai\idle/monster_search_food_idle";
@@ -40,7 +45,7 @@ class CAIMonsterSearchFoodTree extends CAISubTree
 	}
 };
 
-// CAIMonsterSearchFoodIdleParams
+
 class CAIMonsterSearchFoodIdleParams extends CAISubTreeParameters
 {
 	editable var loopTime		: float;
@@ -60,7 +65,7 @@ class CAIMonsterSearchFoodIdleParams extends CAISubTreeParameters
 	}
 };
 
-// CAILessogIdle
+
 class CAILessogIdle extends CAIMonsterIdle
 {
 	default aiTreeName = "resdef:ai\monster_lessog_idle";
@@ -72,7 +77,7 @@ class CAILessogIdle extends CAIMonsterIdle
 	}
 };
 
-// CAIMonsterIdleDecorator
+
 class CAIMonsterIdleDecorator extends CAIIdleDecoratorTree
 {
 	default aiTreeName = "resdef:ai\idle\monster_idle_decorator";
@@ -88,19 +93,19 @@ class CAIMonsterIdleDecorator extends CAIIdleDecoratorTree
 	}
 }
 
-// CAIScolopendromorphIdleDecorator
+
 class CAIScolopendromorphIdleDecorator extends CAIMonsterIdleDecorator
 {
 	default aiTreeName = "dlc\bob\data\gameplay\trees\monster_scolopendromorph_idle_logic.w2behtree";
 }
 
-// CAIEchinopsIdleDecorator
+
 class CAIEchinopsIdleDecorator extends CAIMonsterIdleDecorator
 {
 	default aiTreeName = "dlc\bob\data\gameplay\trees\monster_echinops_idle_logic.w2behtree";
 }
 
-// CAIMonsterIdleDecoratorParams
+
 class CAIMonsterIdleDecoratorParams extends CAIIdleParameters
 {
 	editable inlined var reactionTree 		: CAIMonsterReactionsTree;
@@ -120,12 +125,12 @@ class CAIMonsterIdleDecoratorParams extends CAIIdleParameters
 	}
 };
 
-// CAIMonsterIdleDecoratorArachas
+
 class CAIMonsterIdleDecoratorArachas extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var eat : CAIMonsterSearchFoodTree = new CAIMonsterSearchFoodTree in this;
 		var dig : CAIMonsterIdleDig = new CAIMonsterIdleDig in this;
 		
@@ -145,12 +150,12 @@ class CAIMonsterIdleDecoratorArachas extends CAIMonsterIdleDecorator
 };
 
 
-// CAIMonsterIdleDecoratorPanther
+
 class CAIMonsterIdleDecoratorPanther extends CAIMonsterIdleDecorator
 {
 function Init()
 {
-// actions
+
 var eat : CAIMonsterIdleEat = new CAIMonsterIdleEat in this;
 
 super.Init();
@@ -164,32 +169,32 @@ params.actions.PushBack( eat );
 }
 };
 
-// CAIMonsterIdleDecoratorBoar
+
 class CAIMonsterIdleDecoratorBoar extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var eat : CAIMonsterSearchFoodTree = new CAIMonsterSearchFoodTree in this;
 		var eatParams : CAIMonsterSearchFoodIdleParams;
 		
 		super.Init();
 		
 		eat.OnCreated();
-		//cough.OnCreated();
+		
 
 		eatParams = (CAIMonsterSearchFoodIdleParams) eat.params;
 		eatParams.corpse 	= true;
 		eatParams.monster 	= true;
 		
 		params.searchFoodTree = eat;
-//		params.actions.PushBack( cough ); 
+
 	}
 };
 
 
 
-// CAIMonsterIdleDecoratorKatakan
+
 class CAIMonsterIdleDecoratorKatakan extends CAIMonsterIdleDecorator
 {
 	function Init()
@@ -198,12 +203,12 @@ class CAIMonsterIdleDecoratorKatakan extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorBear
+
 class CAIMonsterIdleDecoratorBear extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var eat 				: CAIMonsterSearchFoodTree = new CAIMonsterSearchFoodTree in this;
 		var onGroundAndClean 	: CAIMonsterIdleOnGroundAndClean = new CAIMonsterIdleOnGroundAndClean in this;
 		var sleep 				: CAIMonsterIdleSleep = new CAIMonsterIdleSleep in this;
@@ -230,12 +235,12 @@ class CAIMonsterIdleDecoratorBear extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorBies
+
 class CAIMonsterIdleDecoratorBies extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var eat : CAIMonsterSearchFoodTree = new CAIMonsterSearchFoodTree in this;
 		var howl : CAIMonsterIdleHowl = new CAIMonsterIdleHowl in this;
 		
@@ -255,12 +260,12 @@ class CAIMonsterIdleDecoratorBies extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorTroll
+
 class CAIMonsterIdleDecoratorTroll extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var stretch : CAIMonsterIdleStretch = new CAIMonsterIdleStretch in this;		
 		super.Init();		
 		stretch.OnCreated();
@@ -268,12 +273,12 @@ class CAIMonsterIdleDecoratorTroll extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorDrowner
+
 class CAIMonsterIdleDecoratorDrowner extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var eat : CAIMonsterSearchFoodTree = new CAIMonsterSearchFoodTree in this;
 		var cough : CAIMonsterIdleCough = new CAIMonsterIdleCough in this;
 		
@@ -293,7 +298,7 @@ class CAIMonsterIdleDecoratorDrowner extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorGhoul
+
 class CAIMonsterIdleDecoratorGhoul extends CAIMonsterIdleDecorator
 {
 	function Init()
@@ -302,7 +307,7 @@ class CAIMonsterIdleDecoratorGhoul extends CAIMonsterIdleDecorator
 		
 		var eatParams : CAIMonsterSearchFoodIdleParams;
 		
-		// actions
+		
 		super.Init();
 		
 		eat.OnCreated();
@@ -315,12 +320,12 @@ class CAIMonsterIdleDecoratorGhoul extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorGolem
+
 class CAIMonsterIdleDecoratorGolem extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var strikeFists : CAIMonsterIdleStrikeFists = new CAIMonsterIdleStrikeFists in this;
 		var growl : CAIMonsterIdleGrowl = new CAIMonsterIdleGrowl in this;
 		var lookAround : CAIMonsterIdleLookAround = new CAIMonsterIdleLookAround in this;
@@ -337,7 +342,7 @@ class CAIMonsterIdleDecoratorGolem extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorGryphon
+
 class CAIMonsterIdleDecoratorGryphon extends CAIMonsterIdleDecorator
 {
 	editable var arrivalDistance : float;
@@ -346,7 +351,7 @@ class CAIMonsterIdleDecoratorGryphon extends CAIMonsterIdleDecorator
 	default arrivalDistance = 2.5f;
 	function Init()
 	{
-		// actions
+		
 		var eat : CAIMonsterSearchFoodTree = new CAIMonsterSearchFoodTree in this;
 		var growl : CAIMonsterIdleGrowl = new CAIMonsterIdleGrowl in this;
 		var wings : CAIMonsterIdleWings = new CAIMonsterIdleWings in this;
@@ -370,20 +375,20 @@ class CAIMonsterIdleDecoratorGryphon extends CAIMonsterIdleDecorator
 		params.actions.PushBack( wings );
 	}
 };
-///////////////////////////////////////////////////////
-// CAIDynamicFlyingWanderGryphon
+
+
 class CAIDynamicFlyingWanderGryphon extends CAIDynamicFlyingWander
 {	
 	default landingGroundOffset		= 7;
 }
 
 
-// CAIMonsterIdleDecoratorHarpy
+
 class CAIMonsterIdleDecoratorHarpy extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var dig : CAIMonsterIdleDig = new CAIMonsterIdleDig in this;
 		var lookAround : CAIMonsterIdleLookAround = new CAIMonsterIdleLookAround in this;		
 		
@@ -397,8 +402,8 @@ class CAIMonsterIdleDecoratorHarpy extends CAIMonsterIdleDecorator
 	}	
 };
 
-///////////////////////////////////////////////////////
-// CAIDynamicFlyingWanderHarpy
+
+
 class CAIDynamicFlyingWanderHarpy extends CAIDynamicFlyingWander
 {	
 	default landingGroundOffset			= 1;
@@ -412,7 +417,7 @@ class CAIDynamicFlyingWanderHarpy extends CAIDynamicFlyingWander
 	default distanceFromPlayerToLand	= 80;
 }
 
-// CAIMonsterIdleDecoratorWraith
+
 class CAIMonsterIdleDecoratorWraith extends CAIMonsterIdleDecorator
 {
 	function Init()
@@ -421,7 +426,7 @@ class CAIMonsterIdleDecoratorWraith extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorWraith
+
 class CAIMonsterIdleDecoratorNoonWraith extends CAIMonsterIdleDecorator
 {
 	function Init()
@@ -430,7 +435,7 @@ class CAIMonsterIdleDecoratorNoonWraith extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorSiren
+
 class CAIMonsterIdleDecoratorSiren extends CAIMonsterIdleDecorator
 {
 	function Init()
@@ -451,12 +456,12 @@ class CAIMonsterIdleDecoratorSiren extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorGiant
+
 class CAIMonsterIdleDecoratorGiant extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var sit 	: CAIMonsterIdleSit = new CAIMonsterIdleSit in this;
 		var yawn 	: CAIMonsterIdleYawn = new CAIMonsterIdleYawn in this;
 		var sleep 	: CAIMonsterIdleSleep = new CAIMonsterIdleSleep in this;
@@ -475,12 +480,12 @@ class CAIMonsterIdleDecoratorGiant extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorNekker
+
 class CAIMonsterIdleDecoratorNekker extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var growl 		: CAIMonsterIdleGrowl = new CAIMonsterIdleGrowl in this;
 		var dig 		: CAIMonsterIdleDig = new CAIMonsterIdleDig in this;
 		var lookAround	: CAIMonsterIdleLookAround = new CAIMonsterIdleLookAround in this;
@@ -497,12 +502,12 @@ class CAIMonsterIdleDecoratorNekker extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorWerewolf
+
 class CAIMonsterIdleDecoratorWerewolf extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var howl : CAIMonsterIdleHowl = new CAIMonsterIdleHowl in this;
 		var sniff : CAIMonsterIdleSniff = new CAIMonsterIdleSniff in this;
 	
@@ -516,26 +521,26 @@ class CAIMonsterIdleDecoratorWerewolf extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorWolfAlpha
+
 class CAIMonsterIdleDecoratorWolfAlpha extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{	
 	
-		// actions
+		
 		var eat 		 		: CAIMonsterSearchFoodTree 			= new CAIMonsterSearchFoodTree in this;
 		var sit 				: CAIMonsterIdleSit 				= new CAIMonsterIdleSit in this;
 		var howl 				: CAIMonsterIdleHowl 				= new CAIMonsterIdleHowl in this;
 		
 		var eatParams 			: CAIMonsterSearchFoodIdleParams;
 		
-		// reactions
+		
 		var searchForTarget : CAIActionSearchForTarget 		= new CAIActionSearchForTarget in this;
 		var joinSearch 		: CAIActionAllySearchesTarget 	= new CAIActionAllySearchesTarget in this;
 		
 		super.Init();
 		
-		// actions
+		
 		eat.OnCreated();
 		sit.OnCreated();
 		howl.OnCreated();
@@ -548,7 +553,7 @@ class CAIMonsterIdleDecoratorWolfAlpha extends CAIMonsterIdleDecorator
 		params.actions.PushBack( sit );
 		params.actions.PushBack( howl );
 		
-		// reactions
+		
 		searchForTarget	.OnCreated();
 		joinSearch		.OnCreated();
 		
@@ -557,14 +562,14 @@ class CAIMonsterIdleDecoratorWolfAlpha extends CAIMonsterIdleDecorator
 		params.reactionTree.params.reactions.PushBack( joinSearch );
 	}
 }
-// CAIMonsterIdleDecoratorWolf
+
 class CAIMonsterIdleDecoratorWolf extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
 		var i 					: int;
 		var moveInPack			: CAIActionMoveInPack;
-		// actions
+		
 		var eat 		 		: CAIMonsterSearchFoodTree 			= new CAIMonsterSearchFoodTree in this;
 		var sit 				: CAIMonsterIdleSit 				= new CAIMonsterIdleSit in this;
 		var onGroundAndClean 	: CAIMonsterIdleOnGroundAndClean 	= new CAIMonsterIdleOnGroundAndClean in this;
@@ -613,12 +618,12 @@ class CAIMonsterIdleDecoratorWolf extends CAIMonsterIdleDecorator
 	}
 };
 
-// CAIMonsterIdleDecoratorWyvern
+
 class CAIMonsterIdleDecoratorWyvern extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var eat : CAIMonsterSearchFoodTree = new CAIMonsterSearchFoodTree in this;
 		var wings : CAIMonsterIdleWings = new CAIMonsterIdleWings in this;
 		
@@ -640,20 +645,20 @@ class CAIMonsterIdleDecoratorWyvern extends CAIMonsterIdleDecorator
 	}
 };
 
-///////////////////////////////////////////////////////
-// CAIDynamicFlyingWanderWyvern
+
+
 class CAIDynamicFlyingWanderWyvern extends CAIDynamicFlyingWander
 {	
 	default landingGroundOffset		= 2;
 }
 
 
-// CAIMonsterIdleDecoratorGravehag
+
 class CAIMonsterIdleDecoratorGravehag extends CAIMonsterIdleDecorator
 {
 	function Init()
 	{
-		// actions
+		
 		var eat : CAIMonsterSearchFoodTree = new CAIMonsterSearchFoodTree in this;
 		
 		var eatParams : CAIMonsterSearchFoodIdleParams;

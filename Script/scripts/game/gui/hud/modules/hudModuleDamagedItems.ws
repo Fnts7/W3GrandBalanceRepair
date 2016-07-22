@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - HUD Module Damaged items
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4HudModuleDamagedItems extends CR4HudModuleBase
 {	
@@ -12,7 +14,7 @@ class CR4HudModuleDamagedItems extends CR4HudModuleBase
 	private var inv							: CInventoryComponent;
 	private var isDisplayed					: bool;
 
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -42,7 +44,7 @@ class CR4HudModuleDamagedItems extends CR4HudModuleBase
 			return true;
 		}
 		
-		CheckDamagedItems(); // #B we could add come kind of timer here
+		CheckDamagedItems(); 
 	}
 
 	private function CheckDamagedItems()

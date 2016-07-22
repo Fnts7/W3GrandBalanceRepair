@@ -1,13 +1,13 @@
 ﻿/***********************************************************************/
-/** 
-/***********************************************************************/
-/** Copyright © 2012
-/** Author : Rafal Jarczewski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/**
-	Changes group attitude to target attitude
-*/
+
+
+
+
 quest function SetGroupAttitudeQuest( srcGroup : name, dstGroup : name, attitude : EAIAttitude )
 {
 	theGame.SetGlobalAttitude( srcGroup, dstGroup, attitude );
@@ -87,7 +87,7 @@ quest function ForceTargetQuest( npcTag : name, targetTag : name, unforce : bool
 			{
 				npcs[i].NoticeActor( actor );
 				npcs[i].SignalGameplayEventParamObject( 'ForceTarget', actor );
-				//npc.SetTarget( actor, true );
+				
 			}
 			else
 			{

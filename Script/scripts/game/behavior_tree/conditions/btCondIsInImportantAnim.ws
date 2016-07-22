@@ -1,13 +1,18 @@
-﻿//>--------------------------------------------------------------------------
-// BTCondIsInImportantAnim
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Task description
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Andrzej Kwiatkowski
-// Copyright © 2016 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTCondIsInImportantAnim extends IBehTreeTask
 {
 	protected var combatDataStorage : CBaseAICombatStorage;	
@@ -28,8 +33,8 @@ class BTCondIsInImportantAnim extends IBehTreeTask
 	}
 };
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTCondIsInImportantAnimDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTCondIsInImportantAnim';

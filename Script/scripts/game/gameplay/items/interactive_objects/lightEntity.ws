@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © ?-2014 CDProjektRed
-/** Author : ?
-/***********************************************************************/
+
+
+
 
 class CLightEntitySimple extends CScheduledUsableEntity
 {
@@ -19,7 +21,7 @@ class CLightEntitySimple extends CScheduledUsableEntity
 		{
 			TurnLightOff();
 		}
-		// Ł.SZ this set parent class 
+		
 		super.Activate( flag );
 	}
 	
@@ -49,7 +51,7 @@ class CLightEntitySimple extends CScheduledUsableEntity
 		TurnLightOff();
 	}
 	
-	//to be overriden in child classes
+	
 	protected function TurnLightOn()
 	{
 		var comp : CComponent;
@@ -59,7 +61,7 @@ class CLightEntitySimple extends CScheduledUsableEntity
 			return;
 		}
 		
-		//stop smoke
+		
 		StopEffect('smoke');
 		
 		

@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 import abstract class ISpawnTreeInitializer extends CObject
 {
 };
@@ -29,8 +34,8 @@ import abstract class ISpawnTreeScriptedInitializer extends ISpawnTreeInitialize
 
 import abstract class ISpawnTreeInitializerAI extends ISpawnTreeInitializer
 {
-	//editable inlined var ai : CAITree;						// each non-abstract subclass should define such property for ai 
-	import protected var dynamicTreeParameterName : name;		// property name of value that holds tree that can be used to dynamically reload tree
+	
+	import protected var dynamicTreeParameterName : name;		
 	function Init()
 	{
 	}
@@ -163,7 +168,7 @@ import class ISpawnTreeInitializerCommunityAI extends ISpawnTreeInitializerAI
 		
 		super.Init();
 		
-		// redefinition 1: community idle behavior
+		
 		idleAI = new CAICommunityRedefinitionParameters in this;
 		idleAI.OnCreated();
 		workIdle = new CAINpcWorkIdle in this;
@@ -172,14 +177,14 @@ import class ISpawnTreeInitializerCommunityAI extends ISpawnTreeInitializerAI
 		
 		workIdle.actionPointSelector = new CCommunityActionPointSelector in workIdle;
 		
-		// redefinition 2: community guard behavior
+		
 		combatAI = new CAICombatDecoratorRedefinitionParameters in this;
 		combatAI.OnCreated();
 		combatAI.combatDecorator = new CAICombatDecoratorCommunity in this;
 		combatAI.combatDecorator.OnCreated();
 		combatAI.OnManualRuntimeCreation();
 		
-		// assing multiple redefinitions
+		
 		newAi = new CAIMultiRedefinitionParameters in this;
 		newAi.OnCreated();
 		newAi.subParams.Resize( 2 );

@@ -1,7 +1,12 @@
-﻿///////////////////////////////
-//  Copyright © 2016		 //
-//	Author: Andrzej Zawadzki //
-///////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
 
 class W3Effect_WellRested extends CBaseGameplayEffect
 {
@@ -14,7 +19,7 @@ class W3Effect_WellRested extends CBaseGameplayEffect
 		
 		l_bed = (W3WitcherBed)theGame.GetEntityByTag( 'witcherBed' );
 		
-		// Having the best quality bed (level 2) grants the buff doubled, that's why the ability is being applied here for the second time
+		
 		if( l_bed.GetBedLevel() == 2 )
 		{
 			target.AddAbility( abilityName, true );

@@ -1,8 +1,13 @@
-﻿class W3IrisPainting extends CGameplayEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3IrisPainting extends CGameplayEntity
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	private editable var portalHP 		: int; 		default portalHP = 3;
 	
 	private var m_PortalCurrentHP 		: int;
@@ -13,13 +18,13 @@
 	
 	private var m_LocktagsOn			: bool;
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function IsOpen()			:bool 	{		return m_IsOpen;	}
 	public function IsReady()			:bool	{		return m_IsReady;	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnWeaponHit (act : W3DamageAction)
 	{
 		if( !m_IsOpen )
@@ -28,17 +33,17 @@
 		if( (W3NightWraithIris ) act.attacker )
 			return false;
 			
-		//this.PlayEffect( 'weapon_hit' );
+		
 		ReducePortalHealth( 3 );
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnBoltHit()
 	{
 		ReducePortalHealth( 3 );	
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnFireHit(entity : CGameplayEntity)
 	{
 		if( !m_IsOpen )
@@ -46,44 +51,44 @@
 			
 		ReducePortalHealth( 3 );
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnAardHit( sign : W3AardProjectile )
 	{	
 		if( !m_IsOpen )
 			return false;
 			
-		//this.PlayEffect( 'aard_hit' );
+		
 		ReducePortalHealth( 3 );
 	}	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnIgniHit( sign : W3IgniProjectile )
 	{
 		if( !m_IsOpen )
 			return false;
 			
-		//this.PlayEffect( 'aard_hit' );
+		
 		ReducePortalHealth( 3 );
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function IncreasePortalHealth( _Amount : int )
 	{		
 		m_PortalCurrentHP += _Amount;
 		
-		//PlayEffect('force_level_up');		
 		
-		//PlayProperHealthFX();
+		
+		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function ReducePortalHealth( _Amount : int )
 	{		
 		m_PortalCurrentHP -= _Amount;
 		m_PortalCurrentHP = Clamp( m_PortalCurrentHP, 0, portalHP );
 		
-		//PlayEffect('force_level_down');
+		
 		
 		RemoveTimer( 'ReadyPortal' );
 		
@@ -93,11 +98,11 @@
 		}
 		else
 		{
-			//PlayProperHealthFX();
+			
 		}
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function PlayProperHealthFX()	
 	{
 		StopEffect('force_lv1');
@@ -117,8 +122,8 @@
 			PlayEffect('force_lv3');
 		}		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function OpenPortal()
 	{
 		m_ChargingStepDuration = m_ChargingTotalDuration / ( portalHP + 1 );
@@ -129,14 +134,14 @@
 		AddLockTags();
 		
 		AddTimer( 'ChargePortal', m_ChargingStepDuration , true  );
-		//AddTimer( 'UpdatePortalTags', 0.001, true );
 		
-		//PlayEffect( 'glow_painting' );
+		
+		
 		PlayEffect( 'connection' );
 		PlayEffect('force_level_up');
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private timer function ChargePortal( delta : float , id : int )
 	{			
 		if( m_PortalCurrentHP == portalHP )
@@ -148,8 +153,8 @@
 			IncreasePortalHealth( 1 );
 		}
 	}	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private timer function UpdatePortalTags( delta : float , id : int )
 	{
 		if( !m_LocktagsOn && VecDistance( GetWorldPosition(), thePlayer.GetWorldPosition() ) < 5 )
@@ -161,14 +166,14 @@
 			RemoveLockTags();
 		}
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private timer function ReadyPortal( delta : float , id : int )
 	{	
 		m_IsReady = true;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function AddLockTags()
 	{
 		this.AddTag('softLock');
@@ -180,8 +185,8 @@
 		
 		m_LocktagsOn = true;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function RemoveLockTags()
 	{
 		this.RemoveTag('softLock');
@@ -193,18 +198,18 @@
 		
 		m_LocktagsOn = false;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function DestroyPortal()
 	{
 		PlayEffect( 'breaking_connection' );		
 		Close();		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function Close()
 	{
-		//StopEffect( 'glow_painting' );
+		
 		StopEffect( 'connection' );		
 		StopEffect('force_lv1');
 		StopEffect('force_lv2');

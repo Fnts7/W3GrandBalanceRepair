@@ -1,4 +1,9 @@
-﻿class CBTTask3StateCharge extends CBTTask3StateAttack
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTask3StateCharge extends CBTTask3StateAttack
 {
 	var differentChargeEndings 	: bool;
 	var bCollisionWithActor 	: bool;
@@ -64,7 +69,7 @@
 				{
 					npc.SetBehaviorVariable( 'ChargeEndType', 0, true );
 				}
-				// TODO: collision with wall
+				
 			}
 			
 			if( !theGame.GetWorld().NavigationLineTest(npc.GetWorldPosition(), npc.GetWorldPosition()+npc.GetHeadingVector(), GetActor().GetRadius()) )
@@ -75,7 +80,7 @@
 		{
 			action = new W3DamageAction in this;
 			action.Initialize(npc,collidedActor,NULL,npc.GetName(),EHRT_None,CPS_AttackPower,true,false,false,false);
-			action.AddDamage(theGame.params.DAMAGE_NAME_BLUDGEONING,20);		//FIXME URGENT - fixed value -TK
+			action.AddDamage(theGame.params.DAMAGE_NAME_BLUDGEONING,20);		
 			action.AddEffectInfo(EET_KnockdownTypeApplicator, 2.f );
 			theGame.damageMgr.ProcessAction( action );
 			delete action;
@@ -106,7 +111,7 @@
 		
 		if ( loopStart && !bCollisionWithActor && eventName == 'CollisionWithActor' )
 		{
-			//PFTODO: CheckHostile!!!
+			
 			collidedActor = (CActor)GetEventParamObject();
 			if ( IsRequiredAttitudeBetween(npc,collidedActor,true) )
 				bCollisionWithActor = true;

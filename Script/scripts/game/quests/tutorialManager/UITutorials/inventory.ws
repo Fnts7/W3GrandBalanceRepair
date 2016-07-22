@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 state Inventory in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
@@ -104,12 +107,7 @@ state Inventory in W3TutorialManagerUIHandler extends TutHandlerBaseState
 		}
 		else if(hintName == STATS)
 		{
-		/*
-			ShowHint(STATS_DETAILS, 5);
-		}
-		else if(hintName == STATS_DETAILS)
-		{
-		*/
+		
 			ShowHint(EQUIPPING, POS_INVENTORY_X, POS_INVENTORY_Y);
 		}
 		else if(hintName == EQUIPPING)

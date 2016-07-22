@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : collective mind of the CDP
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 enum EQuestConditionPlayerState
 {
@@ -9,17 +12,17 @@ enum EQuestConditionPlayerState
 	QCPS_Walking,
 	QCPS_Running,
 	QCPS_Sprinting,
-	QCPS_Swimming,  // pause checking Swimming should not pass the signal when Geralt is Diving
-	QCPS_Diving,	// pause checking Diving should not pass the signal when Geralt is Swimming
-	QCPS_Climbing,	// everything what is climbable - all kinds of explorations, ladders, jumping over fences, etc.
+	QCPS_Swimming,  
+	QCPS_Diving,	
+	QCPS_Climbing,	
 	QCPS_CastingSign,
 	QCPS_ParryStance,
-	QCPS_Preparation	//kneeling
+	QCPS_Preparation	
 }
 
 class W3QuestCond_PlayerState extends CQuestScriptedCondition
 {
-	// deprecated, will be removed soon
+	
 	editable var stateName 	: name;
 	default stateName = '';
 
@@ -93,7 +96,7 @@ class W3QuestCond_PlayerState extends CQuestScriptedCondition
 
 	function GetWalkState() : EQuestConditionPlayerState
 	{
-		if ( thePlayer.substateManager.GetStateCur() == 'Idle' ) // yes, in the substate manager, Idle contains walk and run and so on
+		if ( thePlayer.substateManager.GetStateCur() == 'Idle' ) 
 		{
 			if( thePlayer.GetIsSprinting() )
 			{

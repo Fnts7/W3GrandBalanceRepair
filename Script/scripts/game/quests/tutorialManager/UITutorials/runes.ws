@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 state Runes in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
@@ -34,13 +37,13 @@ state Runes in W3TutorialManagerUIHandler extends TutHandlerBaseState
 	{
 		if(IsCurrentHint(SELECT) && thePlayer.inv.ItemHasTag(itemId, 'WeaponUpgrade'))
 		{
-			//if selected rune
+			
 			CloseStateHint(SELECT);
 			ShowHint(RUNE, .5f, POS_INVENTORY_Y, ETHDT_Infinite);
 		}
 		else if(IsCurrentHint(RUNE) && !thePlayer.inv.ItemHasTag(itemId, 'WeaponUpgrade'))
 		{
-			//if had rune selected but then changed selection to not a rune or when aborted selection menu and moved around
+			
 			CloseStateHint(RUNE);
 			ShowHint(SELECT, .5f, POS_INVENTORY_Y, ETHDT_Infinite);
 		}

@@ -1,17 +1,22 @@
-﻿//----------------------------------------------------------------------
-// W3FoodComponent
-//----------------------------------------------------------------------
-//>---------------------------------------------------------------------
-// Entity with this component is considered a food source
-//----------------------------------------------------------------------
-// Copyright © 2014 CDProjektRed
-// Author : R.Pergent - 28-April-2014
-//----------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
 class W3FoodComponent extends W3ScentComponent
 {
-	//>---------------------------------------------------------------------
-	// VARIABLES
-	//----------------------------------------------------------------------
+	
+	
+	
 	private editable 	var 	maxEater					: int;
 	private editable	var		distanceToEat				: float;
 	private editable	var 	startAngleToEat				: float;
@@ -26,7 +31,7 @@ class W3FoodComponent extends W3ScentComponent
 	hint startAngleToEat			= "Angle to add to this entity forward. Indicates starting valid position for eating";
 	hint arcWidthToEat				= "From startAngleToEat to where around the food is a suitable position to eat it (>= 360 means all around is good)";
 	
-	// Private
+	
 	private 			var 	m_Eaters			: array<CActor>;
 	private 			var		m_LockDistance		: float;
 	private 			var		m_EatSlots			: array<Vector>;
@@ -34,13 +39,13 @@ class W3FoodComponent extends W3ScentComponent
 	private 			var		m_LastTimeEaten		: float;
 	
 	default	m_LockDistance	= 10;
-	//>---------------------------------------------------------------------
-	// GETTERS
-	//----------------------------------------------------------------------
+	
+	
+	
 	public function GetFoodGroup() 		: EFoodGroup				{		return foodGroup;			}
 	public function GetLockDistance() 	: float						{		return m_LockDistance;		}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	event OnComponentAttached()
 	{
 		var i					: int;
@@ -84,29 +89,19 @@ class W3FoodComponent extends W3ScentComponent
 			m_EatSlots.PushBack( finalPosition );		
 		}
 	}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	
 	event OnFireHit()
 	{
-		/*
-		var entity : CEntity;
 		
-		entity = GetEntity();
-		entity.PlayEffectSingle( 'burn' );
-		
-		if( (CActor) entity && !((CActor) entity).IsAlive() )
-		{
-			
-		}
-		*/
 		attractionRange			= -1;
 		deadAttractionRange 	= -1;
 		bleedingAttractionRange = -1;
 	}
 	
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function IsAvailable( _ForWhom : CActor ) : bool
 	{
 		var l_distance : float;
@@ -116,7 +111,7 @@ class W3FoodComponent extends W3ScentComponent
 			return false;
 		}
 		
-		// If the actor is close enough to "see" if someone is eating the food
+		
 		l_distance = VecDistance( _ForWhom.GetWorldPosition(), GetWorldPosition() );
 		if( l_distance < m_LockDistance * 2 )
 		{		
@@ -129,8 +124,8 @@ class W3FoodComponent extends W3ScentComponent
 		
 		return true;
 	}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function GetEatingPosition( _ForWhom : CActor ) : Vector
 	{		
 		var i					: int;
@@ -157,8 +152,8 @@ class W3FoodComponent extends W3ScentComponent
 		
 		return finalPosition;
 	}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function AddEater( _Eater : CActor ) : bool
 	{
 		if( m_Eaters.Size() >= maxEater ) return false;
@@ -167,8 +162,8 @@ class W3FoodComponent extends W3ScentComponent
 		
 		return true;
 	}	
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function RemoveEater( _Eater : CActor )
 	{
 		m_Eaters.Remove( _Eater );
@@ -178,8 +173,8 @@ class W3FoodComponent extends W3ScentComponent
 			m_LastTimeEaten = theGame.GetEngineTimeAsSeconds();
 		}
 	}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function UpdateEaters()
 	{
 		var 	i 					: int;
@@ -190,7 +185,7 @@ class W3FoodComponent extends W3ScentComponent
 		for ( i = m_Eaters.Size() - 1; i >= 0; i -= 1 )
 		{
 			l_eaterPos = m_Eaters[i].GetWorldPosition();
-			// Remove eater if he is  too far away, or if maxEaters has been set to 0
+			
 			if( VecDistance( l_pos, l_eaterPos ) > m_LockDistance || maxEater == 0 )
 			{
 				m_Eaters.Erase( i );

@@ -1,17 +1,22 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskCaretakerManager
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Manages the caretaker's combat behavior
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Copyright © 2015 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
 class BTTaskCaretakerManager extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	private var drainTemplate			: CEntityTemplate;	
 	private var recoverPercPerHit		: float;
 	private var shadesModifier			: float;
@@ -22,15 +27,15 @@ class BTTaskCaretakerManager extends IBehTreeTask
 	private var m_SummonerComponent		: W3SummonerComponent;
 	private var m_RefreshTargetDelay	: float;
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function Initialize()
 	{
 		m_Npc = GetNPC();
 	}
 		
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	latent function Main() : EBTNodeStatus
 	{
 		var i						: int;
@@ -55,7 +60,7 @@ class BTTaskCaretakerManager extends IBehTreeTask
 			{
 				m_RefreshTargetDelay -= 1;
 				
-				// If the player is far enough, set a shade as my combat target
+				
 				if( m_RefreshTargetDelay <= 0 && VecDistance( m_Npc.GetWorldPosition(), thePlayer.GetWorldPosition() ) > 5 )
 				{
 					SetClosestShadeAsTarget();
@@ -64,12 +69,12 @@ class BTTaskCaretakerManager extends IBehTreeTask
 			}
 			else
 			{
-				// Important to reset the delay to some value before there is any entity spawns. 
-				// Otherwise, the caretaker changes target immediately when the first one spawns and interrupts the spawning task for a split second
+				
+				
 				m_RefreshTargetDelay = 60;
 			}
 			
-			// make sure the summoned entity only target me
+			
 			l_summonedEntity =  m_SummonerComponent.GetSummonedEntities();
 			for( i = 0; i < l_summonedEntity.Size(); i += 1 )
 			{
@@ -87,8 +92,8 @@ class BTTaskCaretakerManager extends IBehTreeTask
 		
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnListenedGameplayEvent( eventName : name ) : bool
 	{
 		var l_damage : float ;
@@ -114,8 +119,8 @@ class BTTaskCaretakerManager extends IBehTreeTask
 		
 		return true;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function RestoreHealth( _Amount : float )
 	{
 		
@@ -130,18 +135,18 @@ class BTTaskCaretakerManager extends IBehTreeTask
 		
 		m_Npc.PlayEffect('drain_energy');
 		m_Npc.PlayEffectOnHeldWeapon('absorb_life');
-		//PlayDrainEnergy();
+		
 		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function CalculateHealingValues()
 	{
 		recoverPercPerHit = CalculateAttributeValue( m_Npc.GetAttributeValue( 'healing_per_hit_perc' ));
 		shadesModifier = CalculateAttributeValue( m_Npc.GetAttributeValue( 'number_of_shades' ));
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function PlayDrainEnergy()
 	{
 		var l_targetNode : CNode;
@@ -167,8 +172,8 @@ class BTTaskCaretakerManager extends IBehTreeTask
 		m_DrainEffectEntity.PlayEffect( 'drain_energy', l_targetNode );		
 		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function SetClosestShadeAsTarget()
 	{
 		var i						: int;
@@ -178,7 +183,7 @@ class BTTaskCaretakerManager extends IBehTreeTask
 		
 		l_summonedEntity = m_SummonerComponent.GetSummonedEntities();
 		
-		//SortNodesByDistance( GetNPC().GetWorldPosition(), l_summonedEntity );				
+		
 		for( i = 0; i < m_SummonerComponent.GetNumberOfSummonedEntities(); i += 1 )
 		{				
 			l_summonedEntityNode.PushBack( l_summonedEntity[i] );
@@ -190,8 +195,8 @@ class BTTaskCaretakerManager extends IBehTreeTask
 		
 		GetNPC().SignalGameplayEventParamObject( 'ForceTarget', l_newTarget );
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{	
 		var i			: int;
@@ -201,15 +206,15 @@ class BTTaskCaretakerManager extends IBehTreeTask
 		
 		if( animEventName == 'Dispel' )
 		{
-			// Remove effects on me
+			
 			m_Npc.RemoveAllBuffsOfType( EET_Burning );
 			m_Npc.RemoveAllBuffsOfType( EET_Frozen );
 			m_Npc.RemoveAllBuffsOfType( EET_Bleeding );
 			m_Npc.RemoveAllBuffsOfType( EET_SlowdownFrost );
 			m_Npc.RemoveAllBuffsOfType( EET_Slowdown );
 			
-			// Remove effects on target if in range
-			//m_Npc.GatherEntitiesInAttackRange( l_entities, 'shock' );			
+			
+			
 			FindGameplayEntitiesInSphere( l_entities, m_Npc.GetWorldPosition(), 10, -1 );
 			
 			for( i = 0; i < l_entities.Size(); i += 1 )
@@ -232,8 +237,8 @@ class BTTaskCaretakerManager extends IBehTreeTask
 	}
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTTaskCaretakerManagerDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskCaretakerManager';
@@ -242,14 +247,14 @@ class BTTaskCaretakerManagerDef extends IBehTreeTaskDefinition
 	private var recoverPercPerHit			: float;
 	private var shadesModifier				: float;
 	
-	//default recoverPercPerHit  	= 0.1f;
-	//default shadesModifier		= 0.1f;
 	
-	// Meant to make it harder for the caretaker to go full health after summoning the shades
+	
+	
+	
 	hint shadesModifier = "the recover per hit value is multiplied by this modifier while shades are around";
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	function InitializeEvents()
 	{
 		super.InitializeEvents();

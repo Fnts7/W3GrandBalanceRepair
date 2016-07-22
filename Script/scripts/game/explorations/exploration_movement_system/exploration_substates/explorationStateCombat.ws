@@ -1,14 +1,19 @@
-﻿// CExplorationStateCombat
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 25/02/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CExplorationStateCombat extends CExplorationStateAbstract
 {	
-	// slide histeresys
+	
 	private editable	var	m_TimeToSlideNeededF			: float;	default	m_TimeToSlideNeededF			= 0.2f;
 	private editable	var	m_TimeToSlideCurF				: float;
 	
@@ -20,7 +25,7 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 	private editable	var	m_TurnAdjustTimeSprintF			: float;	default	m_TurnAdjustTimeSprintF			= 2.5f;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{		
 		if( !IsNameValid( m_StateNameN ) )
@@ -32,36 +37,22 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 		m_InputContextE			= EGCI_Combat; 
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddDefaultStateChangesSpecific()
 	{
-		//AddStateToTheDefaultChangeList('Interaction');
+		
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{
 		return thePlayer.IsInCombatState();
 		
-		//return thePlayer.HasWeaponDrawn( true );
-		/*
-		if( !thePlayer.newCombatProto )
-		{
-			return thePlayer.HasWeaponDrawn( true );
-		}
-		else
-		{
-			if( thePlayer.HasWeaponDrawn( true ) )
-			{
-				return theInput.GetActionValue( 'Focus' ) > 0.2f;
-			}
-		}
 		
-		return false;		
-		*/
+		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function StateCanEnter( curStateName : name ) : bool
 	{			
 		if( curStateName == 'Jump' || curStateName == 'Slide' || curStateName == 'Climb' || curStateName == 'Interaction' || curStateName == 'Land' || curStateName == 'Roll' )
@@ -72,7 +63,7 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function StateEnterSpecific( prevStateName : name )	
 	{
 		m_ExplorationO.m_MoverO.Reset();
@@ -84,16 +75,16 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 		ChangeToCombat();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{	
-		// We can't fall or slide if the combat allowed is not ready to end
+		
 		if( !thePlayer.GetBIsCombatActionAllowed() )
 		{		
 			return super.StateChangePrecheck(); 
 		}
 		
-		// Fall: check here before we can jump or interact
+		
 		if( !m_FallHasToWaitForCombatAction && !IsThisStatequeued( 'StartFalling' ) && !m_ExplorationO.IsOnGround() )
 		{
 			CancelToExploration();
@@ -101,7 +92,7 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 			return 'StartFalling';
 		}
 		
-		// Slide
+		
 		if( !m_SlideHasToWaitForCombatAction && m_TimeToSlideCurF > m_TimeToSlideNeededF )
 		{
 			CancelToExploration();
@@ -109,22 +100,19 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 			return 'Slide';
 		}
 		
-		// Holstered weapon
-		/*if( !thePlayer.HasWeaponDrawn( true ) )
-		{
-			return 'Idle';
-		}*/
 		
-		// Sprint away?
-		// TODO
+		
+		
+		
+		
 		
 		return super.StateChangePrecheck(); 
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{
-		// Parry input fix
+		
 		if( !thePlayer.IsGuarded() )
 		{
 			if( m_ExplorationO.m_InputO.IsGuardPressed() )
@@ -134,37 +122,37 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 			}
 		}
 		
-		// slide hysteresys
+		
 		if( m_ExplorationO.StateWantsAndCanEnter( 'Slide' ) )
 		{
-			m_TimeToSlideCurF	= m_TimeToSlideCurF + _Dt;// MinF( m_TimeToSlideCurF + _Dt, m_TimeToSlideNeededF );
+			m_TimeToSlideCurF	= m_TimeToSlideCurF + _Dt;
 		}
 		else
 		{
-			//m_TimeToSlideCurF	= MaxF( m_TimeToSlideCurF - _Dt * 3.0f , 0.0f );
+			
 			m_TimeToSlideCurF	= 0.0f;
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function StateExitSpecific( nextStateName : name )
 	{
 		ChangeToExploration();
 	}	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function ChangeToExploration()
 	{	
 		thePlayer.GoToExplorationIfNeeded();
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function CancelToExploration()
 	{	
 		thePlayer.GotoState('Exploration');
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function PrepareFall()
 	{
 		var macVelocity	: Vector;
@@ -176,18 +164,18 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 		impulse			= VecNormalize2D( impulse );
 		
 		
-		// Impulse strength
-		// No input
+		
+		
 		if( !m_ExplorationO.m_InputO.IsModuleConsiderable() )
 		{
 			impulse *= m_FallHorizontalImpulseCancelF;
 		}
-		// Countering
+		
 		if( VecDot( impulse, m_ExplorationO.m_InputO.GetMovementOnPlaneV() ) < 0.0f )
 		{
 			impulse *= m_FallHorizontalImpulseCancelF;
 		}
-		// Moving forward
+		
 		else
 		{
 			impulse	*= m_FallHorizontalImpulseF;
@@ -196,25 +184,25 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 		
 		m_ExplorationO.m_MoverO.SetVelocity( impulse );
 		m_ExplorationO.m_MoverO.SetVerticalSpeed( -AbsF( m_FallExtraVerticalImpulseF ) );
-		//m_ExplorationO.m_MoverO.SetVerticalSpeed( 0.0f);
+		
 		
 		m_ExplorationO.m_SharedDataO.m_CanFallSetVelocityB	= false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function ChangeToCombat()
 	{
-		// Go to combat if not there
+		
 		if( !m_ExplorationO.IsThisACombatSuperState( thePlayer.GetCurrentStateName() ) )
 		{
 			thePlayer.GoToCombatIfNeeded();
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function ReactToChanceToFallAndSlide() : bool
 	{
-		// Fall
+		
 		if( m_FallHasToWaitForCombatAction && !IsThisStatequeued( 'StartFalling' ) && !m_ExplorationO.IsOnGround() )
 		{
 			LogChannel( 'CombatExploration', "ChanceToFall Taken" );
@@ -224,8 +212,8 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 			return true;
 		}
 		
-		// Slide
-		// In this case it is enough that we want to enter slide for just this frame
+		
+		
 		if( m_SlideHasToWaitForCombatAction && ( m_TimeToSlideCurF > 0.0f || m_ExplorationO.StateWantsAndCanEnter( 'Slide' ) ) )
 		{
 			LogChannel( 'CombatExploration', "ChanceToSlide Taken" );
@@ -238,10 +226,10 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function ReactToLoseGround() : bool
 	{	
-		// We can't fall or slide if the combat allowed is not ready to end
+		
 		if( m_FallHasToWaitForCombatAction && !thePlayer.GetBIsCombatActionAllowed() )
 		{		
 			return true; 
@@ -254,19 +242,19 @@ class CExplorationStateCombat extends CExplorationStateAbstract
 	}
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToBeingHit( optional damageAction : W3DamageAction ) : bool
 	{		
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function CanInteract( ) : bool
 	{
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetTurnAdjustmentTime() : float
 	{
 		if( thePlayer.GetIsSprinting() || thePlayer.GetPlayerCombatStance() == PCS_AlertFar )

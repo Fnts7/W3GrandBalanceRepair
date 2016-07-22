@@ -1,11 +1,14 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 state AlchemyMutagens in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
-	private const var MUTAGENS : name;	//hints
+	private const var MUTAGENS : name;	
 	private var currentlySelectedRecipe, requiredRecipeName, selectRecipe : name;
 	
 		default MUTAGENS 		= 'TutorialMutagenPotion';

@@ -1,23 +1,28 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskManageAnimatedMovement
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Modify the animated movement value of the moving agent component
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - DD-Month-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskManageAnimatedMovement extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	public var onDeactivate		: bool;
 	public var flag				: bool;	
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		if( !onDeactivate )
@@ -26,8 +31,8 @@ class BTTaskManageAnimatedMovement extends IBehTreeTask
 		}
 		return BTNS_Active;
 	}	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function OnDeactivate()
 	{
 		if( onDeactivate )
@@ -35,8 +40,8 @@ class BTTaskManageAnimatedMovement extends IBehTreeTask
 			Execute( flag );
 		}
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final function Execute( _Flag : bool )
 	{
 		var npc : CNewNPC = GetNPC();
@@ -52,8 +57,8 @@ class BTTaskManageAnimatedMovement extends IBehTreeTask
 
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTTaskManageAnimatedMovementDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskManageAnimatedMovement';

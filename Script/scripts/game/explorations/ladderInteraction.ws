@@ -1,8 +1,13 @@
-﻿// W3LadderInteraction
-//------------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
-// (Eduard Lopez Plans) 	27/10/2014
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
 
 class W3LadderInteraction extends CGameplayEntity
 {
@@ -16,16 +21,16 @@ class W3LadderInteraction extends CGameplayEntity
 		var ic : CInteractionComponent;
 		var i, size : int;
 		
-		// PB:
-		// Hackfix for patch 1.1 (TTP 112159)
-		// This should be fixed in the assets, but since we are limited by patch size we need to do it that way.
-		// Once it will be (hopefully) fixed in assets for patch 1.3 this piece of code should be removed.
+		
+		
+		
+		
 		if ( associatedDoorTag == '' && this.HasTag( 'q305_ladder_midgets_cellar' ) )
 		{
 			associatedDoorTag = 'q305_midgets_trapdoor';
 		}
 
-		// if there is associated door, we force scripted test in components
+		
 		if ( associatedDoorTag )
 		{
 			components = GetComponentsByClassName( 'CInteractionComponent' );
@@ -57,15 +62,7 @@ class W3LadderInteraction extends CGameplayEntity
 		return true;
 	}
 	
-	/*
-	event OnInteraction( actionName : string, activator : CEntity )
-	{
-		if ( actionName == "ClimbLadder" )
-		{
-			GetComponent("ClimbLadder").SetEnabled(false);
-		}
-	}
-	*/
+	
 	
 	
 	private function PlayerHasLadderExplorationReady() : bool

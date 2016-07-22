@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 state FastTravel in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
@@ -19,7 +22,7 @@ state FastTravel in W3TutorialManagerUIHandler extends TutHandlerBaseState
 		
 		theGame.GetTutorialSystem().HideTutorialHint( INTERACTION );
 		theGame.GetTutorialSystem().MarkMessageAsSeen(INTERACTION);
-		FactsAdd("tut_FT_interaction_finish");	//add fact for quest to stop looping pause
+		FactsAdd("tut_FT_interaction_finish");	
 		ShowHint(FAST_TRAVEL, POS_MAP_X, POS_MAP_Y, ETHDT_Input);
 	}
 		

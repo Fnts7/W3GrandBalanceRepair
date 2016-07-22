@@ -1,4 +1,9 @@
-﻿class BTTaskSummonsManager extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class BTTaskSummonsManager extends IBehTreeTask
 {
 	private var npc : CNewNPC;
 	private var summonedEntities : array<CGameplayEntity>;
@@ -10,8 +15,8 @@
 	
 	default summonedEntitiesSearchingRange = 100.0;
 	
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 
 	function Initialize()
 	{
@@ -36,8 +41,8 @@
 		}
 	}
 		
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 	
 	latent function Main() : EBTNodeStatus
 	{
@@ -56,8 +61,8 @@
 		return BTNS_Active;
 	}
 	
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 
 	private function GatherSummonedEntities()
 	{
@@ -109,8 +114,8 @@
 	}
 }
 
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 
 class BTTaskSummonsManagerDef extends IBehTreeTaskDefinition
 {

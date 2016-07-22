@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Shadi Dadenji
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3QuestCond_CheckBrazierPuzzleState extends CQuestScriptedCondition
 {
@@ -35,7 +38,7 @@ class W3QuestCond_CheckBrazierPuzzleState extends CQuestScriptedCondition
 		var j : int;
 			
 
-		//get all required components 1st; if any of the components are null, we immediately return false and start querying again
+		
 		if ( !componentsFound )
 		{
 			for (i = 0; i < lightList.Size(); i+=1)
@@ -51,11 +54,11 @@ class W3QuestCond_CheckBrazierPuzzleState extends CQuestScriptedCondition
 				componentList.PushBack( component );
 			}
 			
-			//at this point, we know we have all valid components
+			
 			componentsFound = true;
 		}
 
-		//figure out what the expected state is for each entity in the list
+		
 		if ( !statesDefined )
 		{
 			for (i = 0; i < lightList.Size(); i+=1)
@@ -72,11 +75,11 @@ class W3QuestCond_CheckBrazierPuzzleState extends CQuestScriptedCondition
 				}
 			}
 
-			//do this process only once
+			
 			statesDefined = true;
 		}
 
-		//query light states and pass on the signal if all states are as expected
+		
 		for (i = 0; i < componentList.Size(); i+=1)
 		{		
 			lightState = ((CGameplayLightComponent)componentList[i]).IsLightOn();

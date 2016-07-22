@@ -1,7 +1,10 @@
-﻿/****************************************/
-/** Copyright © 2016
-/** Author : Andrzej Zawadzki
-/****************************************/
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 
 class W3Effect_Mutation11Debuff extends CBaseGameplayEffect
 {
@@ -12,7 +15,7 @@ class W3Effect_Mutation11Debuff extends CBaseGameplayEffect
 	{
 		super.CalculateDuration( setInitialDuration );
 
-		//FOR DEBUG ONLY
+		
 		if( FactsQuerySum( "debug_mut11_no_cooldown" ) )
 		{
 			duration = 0.00001f;

@@ -1,18 +1,23 @@
-﻿//>--------------------------------------------------------------------------
-// CBTTaskUnderwaterSwimInRandomDirection
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Make the npc swim in a random l_direction (with option to stay inside the guard area)
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 05-November-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class CBTTaskUnderwaterSwimInRandomDirection extends CBTTaskVolumetricMove
 {	
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	public var stayInGuardArea				: bool;
 	public var maxProximityToSurface		: float;
 	public var minimumWaterDepth 			: float;
@@ -34,7 +39,7 @@ class CBTTaskUnderwaterSwimInRandomDirection extends CBTTaskVolumetricMove
 			
 		var l_testsToProcess				: int;
 			
-		var l_correctionAngle		: float; // a multiple of 360
+		var l_correctionAngle		: float; 
 		var l_testsPerPlane			: int;
 		
 		l_correctionAngle = 22.5f;
@@ -50,7 +55,7 @@ class CBTTaskUnderwaterSwimInRandomDirection extends CBTTaskVolumetricMove
 		{
 			l_npcPos 	= l_npc.GetWorldPosition();			
 			
-			// Change l_direction to be inside the guard area			
+			
 			if( l_lastRandomization == 0 || GetLocalTime() - l_lastRandomization > l_delayToNextRand || !DirectionIsValid( l_npcPos, l_direction, l_guardArea ) )
 			{
 				l_direction 			= VecRand();
@@ -60,7 +65,7 @@ class CBTTaskUnderwaterSwimInRandomDirection extends CBTTaskVolumetricMove
 				while( l_testsToProcess > 0 && !DirectionIsValid( l_npcPos, l_direction, l_guardArea ) )
 				{					
 					l_testsToProcess -=1 ;
-					// every time all the angles on a plane have been tested, change the orientation of the normal
+					
 					if( l_testsToProcess % l_testsPerPlane == 0 )
 					{
 						l_normalToDirection = VecRotateAxis( l_normalToDirection, l_direction, l_correctionAngle );
@@ -68,11 +73,11 @@ class CBTTaskUnderwaterSwimInRandomDirection extends CBTTaskVolumetricMove
 					
 					l_direction = VecRotateAxis( l_direction, l_normalToDirection , l_correctionAngle);					
 					
-					//l_npc.GetVisualDebug().AddText( GetRandomName(), "Volumetric TEST Dest", l_npcPos + VecNormalize( l_direction ) * m_destinationDistance, true, 0, Color( 255, 255, 255 ), true, 0.5f );
+					
 					
 					if( l_testsToProcess <= 0 )
 					{
-						// If cannot find a proper direction
+						
 						l_direction 	= l_guardArea.GetWorldPosition() - l_npcPos;
 						l_direction 	= VecNormalize( l_direction );
 						LogChannel( 'AI_SwimInRandomDirection', l_npc.GetName() + " couldn't find a l_direction to swim to inside the guard area" );
@@ -86,7 +91,7 @@ class CBTTaskUnderwaterSwimInRandomDirection extends CBTTaskVolumetricMove
 			
 			l_dest = l_npcPos + VecNormalize( l_direction ) * m_destinationDistance;
 			
-			//UsePathfinding( l_npcPos, l_dest, 2.0 );
+			
 			
 			CalculateBehaviorVariables( l_dest );			
 			
@@ -98,8 +103,8 @@ class CBTTaskUnderwaterSwimInRandomDirection extends CBTTaskVolumetricMove
 		
 		return BTNS_Active;
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private final function DirectionIsValid( _Pos: Vector, _Direction : Vector, _GuardArea : CAreaComponent ) : bool
 	{
 		var l_destination	: Vector;
@@ -150,9 +155,9 @@ class CBTTaskUnderwaterSwimInRandomDirectionDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'CBTTaskUnderwaterSwimInRandomDirection';
 
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	private editable var stayInGuardArea			: bool;
 	private editable var maxProximityToSurface		: float;
 	private editable var minimumWaterDepth 			: float;

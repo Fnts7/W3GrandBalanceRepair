@@ -1,14 +1,17 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013-2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//Class for world interactive item repair items (e.g. whetstone, armor repair table)
+
+
+
 class W3ItemRepairObject extends CR4MapPinEntity
 {
 	private editable var repairSword, repairArmor : bool;
 	public editable var chargesArmor, chargesWeapon : int;
-	private optional autobind interactionComp : CInteractionComponent = single;	//it's mandatory but this (optional keyword) is the only hackfix for xbox log spam now
+	private optional autobind interactionComp : CInteractionComponent = single;	
 	
 		default repairSword = false;
 		default repairArmor = false;
@@ -18,7 +21,7 @@ class W3ItemRepairObject extends CR4MapPinEntity
 		hint chargesArmor = "For how many armor hits will the buff be active";
 		hint chargesWeapon = "For how many weapon attack will the buff be active";
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	event OnSpawned(spawnData : SEntitySpawnData)
 	{
@@ -50,7 +53,7 @@ class W3ItemRepairObject extends CR4MapPinEntity
 		return repairSword;
 	}
 	
-	//FINAL HACK - waiting till thePlayer will not be NULL
+	
 	timer function WaitForPlayerSpawn(dt : float, id : int)
 	{
 		if( !interactionComp || !thePlayer )
@@ -77,13 +80,13 @@ class W3ItemRepairObject extends CR4MapPinEntity
 		
 	event OnInteraction( actionName : string, activator : CEntity )
 	{	
-		//if(thePlayer.inv.AddRepairObjectItemBonuses(repairArmor, repairSword, chargesArmor, chargesWeapon))
+		
 		if(GetWitcherPlayer().AddRepairObjectBuff(repairArmor, repairSword))
 		{
-			//UI info
+			
 			GetWitcherPlayer().DisplayHudMessage(GetLocStringByKeyExt("panel_hud_message_repair_done"));
 			
-			//sound
+			
 			if(repairSword)
 			{
 				SoundEvent("gui_inventory_silversword_attach");
@@ -93,17 +96,17 @@ class W3ItemRepairObject extends CR4MapPinEntity
 				SoundEvent("gui_inventory_armor_attach");
 			}
 			
-			//fade
-			//theGame.FadeOutAsync();
-			//AddTimer('FadeInTimer', 1);
+			
+			
+			
 		}
 		else
 		{
-			//nothing to upgrade
+			
 			GetWitcherPlayer().DisplayHudMessage(GetLocStringByKeyExt("panel_hud_message_repair_nothing"));
 		}
 		
-		//tutorial
+		
 		if(ShouldProcessTutorial('TutorialRepairObjects'))
 		{
 			FactsSet("tut_repair_interaction",1);

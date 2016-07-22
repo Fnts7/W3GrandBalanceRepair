@@ -1,4 +1,9 @@
-﻿import class CBoidPointOfInterestComponent extends CComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CBoidPointOfInterestComponent extends CComponent
 {
 	import function Disable( disable : bool );
 };
@@ -26,7 +31,7 @@ class CFoodBoidPointOfInterest  extends CBoidPointOfInterestComponentScript
 	function OnUsed(count : int, deltaTime : float)
 	{			
 		useCounter += deltaTime * count;
-		// if one boid uses the food for expirationTime sec, despawn/deactivate the entity :
+		
 		if ( useCounter > expirationTime )
 		{
 			entity = this.GetEntity();
@@ -48,7 +53,7 @@ class CFoodBoidPointOfInterest  extends CBoidPointOfInterestComponentScript
 			else
 			{
 				entity.GetComponentByClassName( 'CFoodBoidPointOfInterest' ).SetEnabled( false );
-				//this.GetEntity().Destroy();
+				
 			}
 		}
 	}

@@ -1,21 +1,14 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Copyright © 2013 CD Projekt RED
-/** Author : Andrzej Kwiatkowski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Reaction event name list
-/*
-PlayerAttack
-PlayerCastSign
-PlayerThrowItem
-PlayerEvade
-PlayerSpecialAttack
-PlayerSprint
-MonsterHitReaction
-NPCDeath
-*/
+
+
+
+
+
 
 class CBTTaskSignalReactionEvent extends IBehTreeTask
 {
@@ -84,8 +77,8 @@ class CBTTaskSignalReactionEvent extends IBehTreeTask
 	{
 		var actor : CActor = GetActor();
 		
-		// HACK: Since parametrized variable is only defaulted on task creation,
-		// all of the existing instances of this tasks are set to zero and stopped working.
+		
+		
 		if ( recipientCount == 0 )
 			recipientCount = -1;
 		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, reactionEventName, lifeTime, distanceRange, broadcastInterval, recipientCount, skipInvoker, setActionTargetOnBroadcast );

@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_SilverDust extends CBaseGameplayEffect
 {
@@ -14,7 +17,7 @@ class W3Effect_SilverDust extends CBaseGameplayEffect
 	{
 		super.OnEffectAdded(customParams);
 		
-		//target.PauseEffects(EET_AutoVitalityRegen, 'silver_dust');
+		
 		target.PauseEffects(EET_AutoEssenceRegen, 'silver_dust');
 		
 		BlockAbilities(true);
@@ -22,7 +25,7 @@ class W3Effect_SilverDust extends CBaseGameplayEffect
 	
 	event OnEffectRemoved()
 	{	
-		//target.ResumeEffects(EET_AutoVitalityRegen, 'silver_dust');
+		
 		target.ResumeEffects(EET_AutoEssenceRegen, 'silver_dust');
 		
 		BlockAbilities(false);

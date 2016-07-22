@@ -1,4 +1,9 @@
-﻿////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 abstract class IAICustomActionTree extends IAIActionTree
 {
 }
@@ -41,12 +46,7 @@ class CAISorceressAttacksBoidActionTree extends IAICustomActionTree
 	
 	default animName = 'woman_cowering01_idle03';
 	
-	/*editable var attackConeAngle		: float;		default	attackConeAngle	= 30;
-	editable var attackDistance			: float;		default	attackDistance	= 3;
-	editable var idleDuration			: float;		default	idleDuration	= 0.5;
-	editable var idleEndChance			: float;		default	idleEndChance	= 1.0;
-	editable var xmlResourceName		: name;			default	xmlResourceName	= 'magic_attack_fire';
-	editable var boidNestTag			: name;			default	boidNestTag	= 'sorceress_target';*/
+	
 };
 
 class CAISorceressMagicBubbleActionTree extends IAICustomActionTree
@@ -140,7 +140,7 @@ class CAIShootActionTree extends IAICustomActionTree
 	}
 };
 
-// CAILambertTrainingActionTree
+
 class CAILambertTrainingActionTree extends IAICustomActionTree
 {
 	default aiTreeName = "resdef:ai\scripted_actions\custom\custom_action_lambert_training";
@@ -155,7 +155,7 @@ class CAILambertTrainingActionTree extends IAICustomActionTree
 	}
 };
 
-// CAICiriSnowballFightActionTree
+
 class CAICiriSnowballFightActionTree extends IAICustomActionTree
 {
 	default aiTreeName = "resdef:ai\scripted_actions\custom\custom_action_ciri_snowball_fight";
@@ -174,7 +174,7 @@ class CAICiriSnowballFightActionTree extends IAICustomActionTree
 };
 
 
-// CAIMageBossFightActionTree
+
 class CAIMageBossFightActionTree extends IAICustomActionTree
 {
 	default aiTreeName = "resdef:ai\scripted_actions\custom\custom_action_wh_mage_bossfight";
@@ -189,7 +189,7 @@ class CAIMageBossFightActionTree extends IAICustomActionTree
 	}
 };
 
-// CAIWitcherCastOffensiveSignActionTree
+
 class CAIWitcherCastOffensiveSignActionTree extends IAICustomActionTree
 {
 	default aiTreeName = "resdef:ai\scripted_actions/custom/custom_action_witcher_cast_sign";
@@ -198,7 +198,7 @@ class CAIWitcherCastOffensiveSignActionTree extends IAICustomActionTree
 	editable var castIgniInsteadOfAard : bool;
 };
 
-// CAIKickActionTree
+
 class CAIKickActionTree extends IAICustomActionTree
 {
 	default aiTreeName = "resdef:ai\scripted_actions/custom/custom_action_kick";
@@ -207,8 +207,8 @@ class CAIKickActionTree extends IAICustomActionTree
 	editable var distanceToForceStopAciton 	: float;	default distanceToForceStopAciton = 10.f;
 };
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//DEBUG
+
+
 exec function TestCustomAction( optional actorTag : name)
 {
 	var i :int;

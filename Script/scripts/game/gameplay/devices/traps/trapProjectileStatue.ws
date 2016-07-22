@@ -1,15 +1,16 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013
-/** Author : Ryan Pergent
-/** Edited : Dennis Zoetebier (proper arrow cocking, addition of m_IsStatic)
-/***********************************************************************/
+
+
+
 class W3TrapProjectileStatue extends W3Trap
 {
-	//>---------------------------------------------------------------------
-	// Variables 
-	//----------------------------------------------------------------------
+	
+	
+	
 	private editable 	var 	m_Projectile 				: CEntityTemplate;
 	private editable 	var		m_IsStatic					: bool; 		default m_IsStatic					= false ; 	hint m_IsStatic = "true means launcher does not move";
 	private editable 	var		m_RotationSpeed				: float; 		default m_RotationSpeed 			= 30 ; 		hint m_RotationSpeed = "-1 is instant";
@@ -21,11 +22,11 @@ class W3TrapProjectileStatue extends W3Trap
 	private editable	var		m_TargetPositionPrediction	: float;
 	
 	private editable 	var		m_ProjectileIsCocked		: Bool;															hint m_CockProjectile = "should the projectile be visible when not fired";
-	//private	editable 	var		m_ProjectileDamage			: float;
+	
 	private	editable 	var		m_ProjectileSpeed			: float;		default m_ProjectileSpeed 			= 20;
 	private	editable 	var		m_ProjectileLifeSpan		: float;		default m_ProjectileLifeSpan 		= -1;		hint m_ProjectileLifeSpan = "-1 is infinite";
 	private	editable 	var		m_ProjectileFollowTarget	: bool;	
-	//private editable 	var		m_ProjectileIsDodgeable		: bool;	
+	
 	
 	private				var		m_DelayUntilNextProjectile	: float;
 	private saved		var		m_ShotsLeft					: float;
@@ -33,11 +34,11 @@ class W3TrapProjectileStatue extends W3Trap
 	private				var		m_DelayToNextSorting		: float;
 	
 	default	m_TargetPositionPrediction = 0.5;
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{
-		//m_IsActive = false; ---> this is not required here as it is set in the base class //Ł.SZ
+		
 		super.OnSpawned(spawnData);
 		m_ShotsLeft = m_MaxShots;
 		
@@ -47,9 +48,9 @@ class W3TrapProjectileStatue extends W3Trap
 		}
 	}
 	
-	//>---------------------------------------------------------------------
-	// Override of the TrapUpdate Function
-	//----------------------------------------------------------------------
+	
+	
+	
 	private final timer function Update( _dT:float , id : int):void
 	{	
 		var i					: int;
@@ -61,7 +62,7 @@ class W3TrapProjectileStatue extends W3Trap
 		var l_currentPos		: Vector;
 		var l_actorTarget		: CActor;
 		
-		// Check if target is alive
+		
 		
 		for	( i = m_Targets.Size() - 1; i >= 0; i -= 1 )
 		{
@@ -91,14 +92,14 @@ class W3TrapProjectileStatue extends W3Trap
 		
 		l_target = m_Targets[0];		
 		
-		// Target is set at the same height as the statue may only rotate left and right
+		
 		l_targetPosition 	= l_target.GetWorldPosition();
 		l_currentPos 		= GetWorldPosition();
 		l_targetPosition.Z 	= l_currentPos.Z;		
 		l_vectToTarget 		= l_targetPosition - GetWorldPosition();		
 		l_angleToTarget 	= VecGetAngleBetween( GetHeadingVector(), l_vectToTarget );
 		
-		//If launcher can rotate, rotate until shot is acquired.
+		
 		if(!m_IsStatic)
 		{			
 			if ( l_angleToTarget > m_RotationSpeed * _dT )
@@ -115,7 +116,7 @@ class W3TrapProjectileStatue extends W3Trap
 			}
 		}
 		
-		// Cock a new projectile but not instantly after one has been fired
+		
 		if ( m_ProjectileIsCocked && m_DelayUntilNextProjectile > 0 && m_DelayUntilNextProjectile < m_FireRate * 0.5f )
 		{
 			CockProjectile();
@@ -126,8 +127,8 @@ class W3TrapProjectileStatue extends W3Trap
 			m_CockedProjectile.TeleportWithRotation( GetShootingPosition(), GetWorldRotation() ) ;
 		}
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private function RotateTowardsTarget( _dT:float ):void
 	{
 		var l_currentPos		: Vector;
@@ -148,7 +149,7 @@ class W3TrapProjectileStatue extends W3Trap
 		
 		l_targetEntity = ((CComponent) m_Targets[0]).GetEntity();
 		
-		// Target is set at the same height as the statue may only rotate left and right
+		
 		if( m_TargetPositionPrediction > 0 && (CActor) l_targetEntity )
 		{
 			l_targetPosition 	= ((CActor) l_targetEntity).PredictWorldPosition( m_TargetPositionPrediction );
@@ -199,8 +200,8 @@ class W3TrapProjectileStatue extends W3Trap
 		}
 		
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	public final function Activate( optional _Target: CNode ):void
 	{
 		super.Activate( _Target );
@@ -210,11 +211,11 @@ class W3TrapProjectileStatue extends W3Trap
 			m_DelayUntilNextProjectile = m_FirstShootDelay;
 		}
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private function GetShootingPosition() : Vector
 	{
-		// Get position of 'projectile_origin' slot inside trap entity
+		
 
 		var slotWorldPos : Vector;
 		var slotMatrix : Matrix;
@@ -231,8 +232,8 @@ class W3TrapProjectileStatue extends W3Trap
 		
 		return slotWorldPos;
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private function CockProjectile()
 	{
 		var l_shootPos			: Vector;
@@ -242,8 +243,8 @@ class W3TrapProjectileStatue extends W3Trap
 		l_shootPos = GetShootingPosition();
 		m_CockedProjectile = (W3AdvancedProjectile) theGame.CreateEntity( m_Projectile, l_shootPos, GetWorldRotation() );
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private function ShootProjectile( _dT:float ) : void
 	{	
 		var l_trapPos, l_targetEntityPos		: Vector;
@@ -290,12 +291,12 @@ class W3TrapProjectileStatue extends W3Trap
 			l_trapForwardPitch 	= l_trapAngle.Pitch;
 			l_toTargetPitch 	= l_toTargetAngle.Pitch;
 			
-			// Pitch to reach target
-			// Negative: target is lower - Positive: target is higher
+			
+			
 			l_pitchToTarget = AngleDistance( l_trapForwardPitch, l_toTargetPitch );
 			l_targetIsHigher = l_pitchToTarget > 0;
 			
-			// Shoot to max pitch position if target is too low or too high
+			
 			if( AbsF( l_pitchToTarget ) >  m_MaxAimingPitchCorrection )
 			{
 				l_pitchToTarget = m_MaxAimingPitchCorrection;
@@ -313,10 +314,7 @@ class W3TrapProjectileStatue extends W3Trap
 			
 			l_targetPosition = GetShootingPosition() + (l_pitchedForward * 20);
 			
-			/*((CActor) l_targetEntity).GetVisualDebug().AddArrow('forward', GetWorldPosition(), GetWorldPosition() + l_trapForward,1, 0.3, 0.3,true, Color(255,0,100) );
-			((CActor) l_targetEntity).GetVisualDebug().AddArrow('right', GetWorldPosition(), GetWorldPosition() + l_trapRight,1, 0.3, 0.3,true, Color(255,0,160) );
-			((CActor) l_targetEntity).GetVisualDebug().AddArrow('toTarget', GetShootingPosition(), l_targetPosition,1, 0.3, 0.3,true, Color(255,100,0) );
-			((CActor) l_targetEntity).GetVisualDebug().AddArrow('toEntity', GetShootingPosition(), l_targetEntityPos,1, 0.3, 0.3,true, Color(100,255,0) );*/
+			
 		}
 		
 		if( m_ProjectileFollowTarget )

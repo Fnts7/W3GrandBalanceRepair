@@ -1,20 +1,19 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/*
-	Aura applicator.
-	Auras basically work like in diablo :) They make continuous check for all
-	targets within given range and apply given spawn to them.
-*/
+
+
+
 abstract class W3Effect_Aura extends W3ApplicatorEffect
 {
-	private saved var isOneTimeOnly : bool;						//if true then the aura will fire once and then disable itself
-	protected saved var range : float;							//range of the sphere
-	private var flags : int;									//flags for gathering targets, basically do we look for actors or all gameplay entities
+	private saved var isOneTimeOnly : bool;						
+	protected saved var range : float;							
+	private var flags : int;									
 	
-	// Called continuously to apply the spawns on all targets in range
+	
 	event OnUpdate(deltaTime : float)
 	{
 		var ents : array<CGameplayEntity>;
@@ -56,7 +55,7 @@ abstract class W3Effect_Aura extends W3ApplicatorEffect
 			EffectNameToType(tmpAuraName, type, tmpName);
 			if(effectType == type)
 			{
-				//aura params
+				
 				if(dm.GetCustomNodeAttributeValueBool(main.subNodes[i], 'isOneTimeOnly', tmpBool))
 					isOneTimeOnly = tmpBool;
 				if(dm.GetCustomNodeAttributeValueFloat(main.subNodes[i], 'range', tmpFloat))
@@ -71,9 +70,9 @@ abstract class W3Effect_Aura extends W3ApplicatorEffect
 			}
 		}
 		
-		//set if we need to look for gameplay entities or just actors
+		
 		if(!HasNeutralSpawn())
-			flags = FLAG_OnlyAliveActors;		//if we don't have a neutral => we have only hostile || friendly => we need only actors, not all gameplay entities
+			flags = FLAG_OnlyAliveActors;		
 		else
 			flags = 0;
 	}	

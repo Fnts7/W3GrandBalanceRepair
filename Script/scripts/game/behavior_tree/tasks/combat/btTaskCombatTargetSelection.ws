@@ -1,4 +1,9 @@
-﻿class CBehTreeCombatTargetSelectionTask extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBehTreeCombatTargetSelectionTask extends IBehTreeTask
 {	
 	var maxTargetDistance : float;
 	var testMaxFrequency : float;
@@ -42,10 +47,10 @@
 		target = GetCombatTarget(); 
 		tooFar = (target && !IsTargetInRange());
 		
-		// No target
-		// OR target dead
-		// OR was hit
-		// OR is in combat and too far from current target
+		
+		
+		
+		
 		if( !target || (target && !target.IsAlive()) || owner.lastAttacker || tooFar )
 		{
 			if( FindTarget() )
@@ -64,7 +69,7 @@
 		return BTNS_Completed;
 	} 
 	
-	// Values to be tweaked!
+	
 	function EvaluatePotentialTarget( target : CActor) : float
 	{	
 		var owner : CNewNPC = GetNPC();
@@ -74,36 +79,36 @@
 		
 		npcTarget = (CNewNPC)target;
 		
-		// Ignore friendlies
+		
 		if ( !owner.IsDangerous( target ) )
 		{
 			return 0;
 		}
 		
-		// Attitude for player mismatch - potential enemy	
-		//FIXME what if I'm hostile and npcTarget is neutral - should he still be my enemy?
+		
+		
 		if ( npcTarget && owner.GetAttitude( thePlayer ) != npcTarget.GetAttitude( thePlayer ) )
 		{
 			sum = sum + 10.0;
 		}
 		
-		// Evaluate if was previously targeted and is still alive and kicking
+		
 		if( target == GetCombatTarget() && target.IsAlive() )
 		{
 			sum = sum + 50.0;
 		}
 		
-		// Evaluate if they just attacked us
+		
 		if( target == owner.lastAttacker )
 		{
 			sum = sum + 100.0;
 		}	
 		
-		// Evaluate distance
+		
 		dist = VecDistance2D( owner.GetWorldPosition(), target.GetWorldPosition() );
 		sum = sum + 1000.0 * (1.0 - (dist / maxTargetDistance));
 		
-		// Player priority
+		
 		if( target == thePlayer )
 		{
 			if( RandRange(100) < playerPriority )
@@ -112,7 +117,7 @@
 			}
 		}
 		
-		// Final evaluation score
+		
 		return sum;		
 	}
 	
@@ -135,7 +140,7 @@
 		}
 		else
 		{	
-			// Iterate through detected opponents and evaluate them
+			
 			maxScore = 0;
 			index = 0;
 			newTarget = owner.GetNoticedObject( index );
@@ -157,10 +162,10 @@
 			}
 		}
 		
-		// Reset last attacker after calculations were done
+		
 		owner.lastAttacker = NULL;
 		
-		// Target found and changed
+		
 		if( bestTarget != GetCombatTarget() )
 		{
 			nextTarget = bestTarget;
@@ -168,7 +173,7 @@
 			return true;
 		}
 		
-		// Target was not changed
+		
 		return false;
 	}
 
@@ -190,7 +195,7 @@
 	{		
 		var owner 	: CNewNPC = GetNPC();
 		var data 	: CDamageData;
-		// Respond to hit immediately
+		
 		if ( eventName == 'BeingHit' )
 		{
 			data 				= (CDamageData) GetEventParamBaseDamage();

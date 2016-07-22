@@ -1,36 +1,41 @@
-﻿
-/////////////////////////////////////////////
-// Environment Manager
-/////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
 
 import class CEnvironmentDefinition extends CResource {}
 
-// Activate the passed environment definition with the passed priority, blend factor and time
-// returns the definition's ID to use with DeactivateEnvironment or -1 if failed
+
+
 import function ActivateEnvironmentDefinition( environmentDefinition : CEnvironmentDefinition, priority : int, blendFactor : float, blendInTime : float ) : int;
 
-// Deactivate the environment with the given ID
-// must be the same returned from ActivateEnvironmentDefinition
+
+
 import function DeactivateEnvironment( environmentID : int , blendOutTime : float );
 
-// (used by quest blocks) Deactivates the environment previously activated with
-// this function and activates the passed one (can be NULL to deactivate only)
+
+
 import function ActivateQuestEnvironmentDefinition( environmentDefinition : CEnvironmentDefinition, priority : int, blendFactor : float, blendTime : float );
 
-// Get filenames (without extensions) of definitions of all area environments active at the moment.
+
 import function GetActiveAreaEnvironmentDefinitions( out defs : array< string > );
 
-// FOR DEBUGGING PURPOSE ONLY
-// Changing debug overlay filter preview
+
+
 import function EnableDebugOverlayFilter(enumName : int);
-// Enabling/disabling postprocesses
+
 import function EnableDebugPostProcess(PostProcessName : int, activate : bool);
 
-/////////////////////////////////////////////
-// Environment
-/////////////////////////////////////////////
 
-// Weather
+
+
+
+
 import function GetRainStrength() : float;
 import function GetSnowStrength() : float;
 import function IsSkyClear() : bool;
@@ -46,7 +51,7 @@ function AreaIsCold() : bool
 	return false;
 }
 
-//Sets under water/fog brightness level. Default is 0. Values <0 darken, >0 lighten.
+
 import function SetUnderWaterBrightness(val : float);
 
 import function GetWeatherConditionName() : name;

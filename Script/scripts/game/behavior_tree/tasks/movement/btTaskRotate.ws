@@ -1,6 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////
-// RotateToTarget
-/////////////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 class CBTTaskRotateToEnemy extends IBehTreeTask
 {
 	var toleranceAngle : float;
@@ -29,17 +34,17 @@ class CBTTaskRotateToEnemy extends IBehTreeTask
 			{
 				if ( angleDist > 140 )
 				{
-					//rotate r 180
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 5 );
 				}
 				else if ( angleDist > 70 )
 				{
-					//rotate r 90
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 4 );
 				}
 				else
 				{
-					//rotate r 45
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 3 );
 				}
 			}
@@ -47,17 +52,17 @@ class CBTTaskRotateToEnemy extends IBehTreeTask
 			{
 				if( angleDist < -140 )
 				{
-					//rotate l 180
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 0 );
 				}
 				else if( angleDist < -70 )
 				{
-					//rotate l 90
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 1 );
 				}
 				else
 				{	
-					//rotate l 45
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 2 );
 				}
 				
@@ -94,7 +99,7 @@ class CBTTaskRotateToEnemy extends IBehTreeTask
 		{
 			target = npc.GetTarget();
 			npc.SetRotationAdjustmentRotateTo( target );
-			npc.slideTarget = target; // TODO change to SlideTowards
+			npc.slideTarget = target; 
 			return true;
 		}
 		

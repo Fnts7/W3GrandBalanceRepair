@@ -1,4 +1,9 @@
-﻿class CR4HudModuleCompanion extends CR4HudModuleBase // #B
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleCompanion extends CR4HudModuleBase 
 {	
 	private var m_fxSetNameSFF				: CScriptedFlashFunction;
 	private var m_fxSetPortraitSFF			: CScriptedFlashFunction;
@@ -22,7 +27,7 @@
 	private var companionName 				: string;
 	private var companionName2 				: string;
 
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{		
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -235,7 +240,7 @@
 			
 			if( l_currentVitality != m_LastVitality ||  l_currentMaxVitality != m_LastMaxVitality )
 			{
-				//Percentage is between 0 and 1
+				
 				m_fxSetVitalitySFF.InvokeSelfOneArg( FlashArgNumber(  l_currentVitality / l_currentMaxVitality ) );
 				m_LastVitality = l_currentVitality;
 				m_LastMaxVitality = l_currentMaxVitality;
@@ -254,7 +259,7 @@
 			
 			if( l_currentVitality != m_LastVitality2 ||  l_currentMaxVitality != m_LastMaxVitality2 )
 			{
-				//Percentage is between 0 and 1
+				
 				m_fxSetVitality2SFF.InvokeSelfOneArg( FlashArgNumber(  l_currentVitality / l_currentMaxVitality ) );
 				m_LastVitality2 = l_currentVitality;
 				m_LastMaxVitality2 = l_currentMaxVitality;

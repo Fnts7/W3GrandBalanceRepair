@@ -1,4 +1,9 @@
-﻿// Parent classes used to tidy things
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 abstract class IBehTreeRiderTaskDefinition extends IBehTreeTaskDefinition
 {
 };
@@ -7,8 +12,8 @@ abstract class IBehTreeRiderConditionalTaskDefinition extends IBehTreeConditiona
 {
 
 };
-///////////////////////////////////////////////
-// CBTCondMyHorseIsMounted
+
+
 class CBTCondMyHorseIsMounted extends IBehTreeTask
 {	
 	var waitForMountEnd 		: Bool;
@@ -95,8 +100,8 @@ class CBTCondMyHorseIsMountedDef extends IBehTreeRiderConditionalTaskDefinition
 	}
 };
 
-///////////////////////////////////////////////
-// CBTCondRiderHasPairedHorse
+
+
 class CBTCondRiderHasPairedHorse extends IBehTreeTask
 {	
 	var riderData 	: CAIStorageRiderData;
@@ -136,16 +141,16 @@ class CBTCondRiderHasPairedHorseDef extends IBehTreeRiderConditionalTaskDefiniti
 };
 
 
-///////////////////////////////////////////////
-// CBTCondRiderFightOnHorse
-// If rider is closer to enemy than horse rider should fight enemy on foot
+
+
+
 class CBTCondRiderFightOnHorse extends IBehTreeTask
 {	
 	var riderData 	: CAIStorageRiderData;
 	
 	function IsAvailable() : bool
 	{
-		// Must fight on a horse if we are already mounted ;
+		
 		if ( riderData.sharedParams.mountStatus == VMS_mountInProgress || riderData.sharedParams.mountStatus == VMS_mounted )
 		{
 			return true;
@@ -165,8 +170,8 @@ class CBTCondRiderFightOnHorseDef extends IBehTreeRiderConditionalTaskDefinition
 	default instanceClass = 'CBTCondRiderFightOnHorse';
 };
 
-///////////////////////////////////////////////
-// CBTCondIsTargetMounted
+
+
 class CBTCondIsTargetMounted extends IBehTreeTask
 {		
 	var useCombatTarget : bool;
@@ -205,8 +210,8 @@ class CBTCondIsTargetMountedDef extends IBehTreeRiderConditionalTaskDefinition
 	default useCombatTarget = false;
 };
 
-//////////////////////////////////////////////////////////
-// CBTCondRiderDistanceToHorse
+
+
 class CBTCondRiderDistanceToHorse extends IBehTreeTask
 {	
 	var riderData 		: CAIStorageRiderData;
@@ -248,7 +253,7 @@ class CBTCondRiderDistanceToHorse extends IBehTreeTask
 		riderData = (CAIStorageRiderData)RequestStorageItem( 'RiderData', 'CAIStorageRiderData' );
 	}
 }
-// CBTCondRiderDistanceToHorseDef
+
 class CBTCondRiderDistanceToHorseDef extends IBehTreeRiderConditionalTaskDefinition
 {
 	default instanceClass = 'CBTCondRiderDistanceToHorse';
@@ -259,8 +264,8 @@ class CBTCondRiderDistanceToHorseDef extends IBehTreeRiderConditionalTaskDefinit
 	default maxDistance = 10;
 }
 
-/////////////////////////////////////////////////////
-// CBTCondRiderPlayingSyncAnim
+
+
 class CBTCondRiderPlayingSyncAnim extends IBehTreeTask
 {	
 	var riderData 		: CAIStorageRiderData;
@@ -286,14 +291,14 @@ class CBTCondRiderPlayingSyncAnim extends IBehTreeTask
 	}
 };
 
-// CBTCondRiderPlayingSyncAnimDef
+
 class CBTCondRiderPlayingSyncAnimDef extends IBehTreeRiderConditionalTaskDefinition
 {
 	default instanceClass = 'CBTCondRiderPlayingSyncAnim';
 };
 
-/////////////////////////////////////////////////////
-// CBTCondRiderIsMountInProgress
+
+
 class CBTCondRiderIsMountInProgress extends IBehTreeTask
 {	
 	var riderData 		: CAIStorageRiderData;
@@ -320,15 +325,15 @@ class CBTCondRiderIsMountInProgress extends IBehTreeTask
 	}
 };
 
-// CBTCondRiderIsMountInProgressDef
+
 class CBTCondRiderIsMountInProgressDef extends IBehTreeRiderConditionalTaskDefinition
 {
 	default instanceClass = 'CBTCondRiderIsMountInProgress';
 };
 
 
-/////////////////////////////////////////////////////
-// CBTCondRiderIsDismountInProgress
+
+
 class CBTCondRiderIsDismountInProgress extends IBehTreeTask
 {
 	private var riderData : CAIStorageRiderData;
@@ -352,15 +357,15 @@ class CBTCondRiderIsDismountInProgress extends IBehTreeTask
 	}
 };
 
-// CBTCondRiderIsDismountInProgressDef
+
 class CBTCondRiderIsDismountInProgressDef extends IBehTreeRiderConditionalTaskDefinition
 {
 	default instanceClass = 'CBTCondRiderIsDismountInProgress';
 };
 
 
-///////////////////////////////////////////////
-// CBTCondRiderHasFallenFromHorse
+
+
 class CBTCondRiderHasFallenFromHorse extends IBehTreeTask
 {	
 	var waitForMountEnd 		: Bool;
@@ -377,7 +382,7 @@ class CBTCondRiderHasFallenFromHorse extends IBehTreeTask
 	}
 };
 
-//CBTCondRiderHasFallenFromHorseDef
+
 class CBTCondRiderHasFallenFromHorseDef extends IBehTreeRiderConditionalTaskDefinition
 {
 	default instanceClass = 'CBTCondRiderHasFallenFromHorse';
@@ -385,8 +390,8 @@ class CBTCondRiderHasFallenFromHorseDef extends IBehTreeRiderConditionalTaskDefi
 
 
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskRiderCombatOnHorseDecorator
+
+
 class CBTTaskRiderCombatOnHorseDecorator extends IBehTreeTask
 {	
 	function OnActivate() : EBTNodeStatus
@@ -459,8 +464,8 @@ class CBTTaskRiderCombatOnHorseDecoratorDef extends IBehTreeRiderTaskDefinition
 {
 	default instanceClass = 'CBTTaskRiderCombatOnHorseDecorator';
 }
-/////////////////////////////////////////////////////
-// CBTTaskRiderMountHorse
+
+
 class CBTTaskRiderMountHorse extends IBehTreeTask
 {	
 	var riderData 	: CAIStorageRiderData;
@@ -505,14 +510,14 @@ class CBTTaskRiderMountHorse extends IBehTreeTask
 		return BTNS_Completed;
 	}
 }
-// CBTTaskRiderMountHorseDef
+
 class CBTTaskRiderMountHorseDef extends IBehTreeRiderTaskDefinition
 {
 	default instanceClass = 'CBTTaskRiderMountHorse';
 }
 
-/////////////////////////////////////////////////
-// CBTTaskRiderDismountHorse
+
+
 class CBTTaskRiderDismountHorse extends IBehTreeTask
 {	
 	var riderData 	: CAIStorageRiderData;
@@ -547,8 +552,8 @@ class CBTTaskRiderDismountHorseDef extends IBehTreeRiderTaskDefinition
 	default instanceClass = 'CBTTaskRiderDismountHorse';
 }
 
-///////////////////////////////////////////////////////////
-// CBTTaskRiderWaitForDismount
+
+
 class CBTTaskRiderWaitForDismount extends IBehTreeTask
 {
 	private var rider 			: CActor;	
@@ -616,8 +621,8 @@ class CBTTaskRiderWaitForDismountDef extends IBehTreeRiderTaskDefinition
 	}
 }
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderSetFollowActionOnHorse
+
+
 class CBTTaskRiderSetFollowActionOnHorse extends IBehTreeTask
 {
 	var horseFollowAction				: CAIFollowAction;
@@ -652,8 +657,8 @@ class CBTTaskRiderSetFollowActionOnHorseDef extends IBehTreeRiderTaskDefinition
 }
 
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderSetFollowSideBySideActionOnHorse
+
+
 class CBTTaskRiderSetFollowSideBySideActionOnHorse extends IBehTreeTask
 {
 	var horseFollowSideBySideAction		: CAIFollowSideBySideAction;
@@ -690,8 +695,8 @@ class CBTTaskRiderSetFollowSideBySideActionOnHorseDef extends IBehTreeRiderTaskD
 	}
 }
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderSetDoNothingActionOnHorse
+
+
 class CBTTaskRiderSetDoNothingActionOnHorse extends IBehTreeTask
 {
 	var horseDoNothingAction			: CAIHorseDoNothingAction;
@@ -726,8 +731,8 @@ class CBTTaskRiderSetDoNothingActionOnHorseDef extends IBehTreeRiderTaskDefiniti
 }
 
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderSetMoveToActionOnHorse
+
+
 class CBTTaskRiderSetMoveToActionOnHorse extends IBehTreeTask
 {
 	var horseMoveToAction				: CAIMoveToAction;
@@ -762,8 +767,8 @@ class CBTTaskRiderSetMoveToActionOnHorseDef extends IBehTreeRiderTaskDefinition
 }
 
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderSetMoveAlongPathActionOnHorse
+
+
 class CBTTaskRiderSetMoveAlongPathActionOnHorse extends IBehTreeTask
 {
 	var horseMoveAlongPathAction		: CAIMoveAlongPathAction;
@@ -798,8 +803,8 @@ class CBTTaskRiderSetMoveAlongPathActionOnHorseDef extends IBehTreeRiderTaskDefi
 }
 
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderSetMoveAlongPathWithCompanionActionOnHorse
+
+
 class CBTTaskRiderSetMoveAlongPathWithCompanionActionOnHorse extends IBehTreeTask
 {
 	var horseMoveAlongPathAction		: CAIMoveAlongPathWithCompanionAction;
@@ -834,8 +839,8 @@ class CBTTaskRiderSetMoveAlongPathWithCompanionActionOnHorseDef extends IBehTree
 }
 
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderSetRaceAlongPathActionOnHorse
+
+
 class CBTTaskRiderSetRaceAlongPathActionOnHorse extends IBehTreeTask
 {
 	var horseRaceAlongPathAction		: CAIRaceAlongPathAction;
@@ -868,8 +873,8 @@ class CBTTaskRiderSetRaceAlongPathActionOnHorseDef extends IBehTreeRiderTaskDefi
 		task.horseRaceAlongPathAction.OnManualRuntimeCreation();
 	}
 }
-//////////////////////////////////////////////////////////////////////////
-// CBTTaskRiderAdjustToHorse
+
+
 class CBTTaskRiderAdjustToHorse extends IBehTreeTask
 {
 	var riderData 		: CAIStorageRiderData;
@@ -888,14 +893,14 @@ class CBTTaskRiderAdjustToHorse extends IBehTreeTask
 			return BTNS_Failed;
 		}
 		
-		// Check if actor is close enough
+		
 		squaredDistance = VecDistanceSquared( riderData.sharedParams.GetHorse().GetWorldPosition(), GetActor().GetWorldPosition() );
 		if( squaredDistance > 5.0f * 5.0f )
 		{
 			return BTNS_Failed;
 		}
 		
-		// Computing heading :
+		
 		dir			= riderData.sharedParams.GetHorse().GetWorldPosition() - actor.GetWorldPosition();
 		angle		= VecToRotation( dir );
 		targetYaw 	= angle.Yaw;
@@ -928,8 +933,8 @@ class CBTTaskRiderAdjustToHorseDef extends IBehTreeRiderTaskDefinition
 };
 
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderNotifyScriptedActionOnHorse
+
+
 class CBTTaskRiderNotifyScriptedActionOnHorse extends IBehTreeTask
 {
 	var riderData 		: CAIStorageRiderData;
@@ -955,8 +960,8 @@ class CBTTaskRiderNotifyScriptedActionOnHorseDef extends IBehTreeRiderTaskDefini
 	default instanceClass = 'CBTTaskRiderNotifyScriptedActionOnHorse';
 }
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderNotifyHorseAboutCombatStarted
+
+
 class CBTTaskRiderNotifyHorseAboutCombatTarget extends IBehTreeTask
 {
 	var riderData 		: CAIStorageRiderData;
@@ -978,8 +983,8 @@ class CBTTaskRiderNotifyHorseAboutCombatTargetDef extends IBehTreeRiderTaskDefin
 	default instanceClass = 'CBTTaskRiderNotifyHorseAboutCombatTarget';
 }
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderNotifyHorseAboutMounting
+
+
 class CBTTaskRiderNotifyHorseAboutMounting extends IBehTreeTask
 {
 	var riderData 				: CAIStorageRiderData;
@@ -1005,8 +1010,8 @@ class CBTTaskRiderNotifyHorseAboutMountingDef extends IBehTreeRiderTaskDefinitio
 	default instanceClass = 'CBTTaskRiderNotifyHorseAboutMounting';
 }
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderSetCanBeFollowed
+
+
 class CBTTaskRiderSetCanBeFollowed extends IBehTreeTask
 {
 	var setCanBeFollowed : bool;
@@ -1050,8 +1055,8 @@ class CBTTaskRiderSetCanBeFollowedDef extends IBehTreeRiderTaskDefinition
 	default setCanBeFollowed =  false;
 }
 
-/////////////////////////////////////////////////////
-// CBTTaskRiderStopAttack
+
+
 class CBTTaskRiderStopAttack extends IBehTreeTask
 {
 	var riderData : CAIStorageRiderData;

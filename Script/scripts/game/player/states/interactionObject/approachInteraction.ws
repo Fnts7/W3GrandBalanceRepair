@@ -1,15 +1,17 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 state ApproachInteractionState in W3PlayerWitcher extends ExtendedMovable
 {
-	private var objectPointHeading 		: float;		//heading towards object point - Geralt will turn in that direction
-	private var objectHeadingSet 		: bool;			//set to indicate that heading has been set by external source
-	private var stopRequested 			: bool;			//set to true when something is requesting state stop	
+	private var objectPointHeading 		: float;		
+	private var objectHeadingSet 		: bool;			
+	private var stopRequested 			: bool;			
 	private var objectEntity			: CEntity;
 	private var switchOn				: bool;
 	private var switchAnimationType		: PhysicalSwitchAnimationType;
@@ -19,16 +21,16 @@ state ApproachInteractionState in W3PlayerWitcher extends ExtendedMovable
 	{
 		super.OnEnterState(prevStateName);
 		
-		//holster weapons
-		//thePlayer.OnMeleeForceHolster( true );
+		
+		
 		thePlayer.OnRangedForceHolster( true );
 		parent.BlockAction( EIAB_DrawWeapon, 'Interaction', false );
 		
 		
-		//interaction handled in syncManager
-		//this.SetInteractionComponent( false );
 		
-		// Intall movement timer
+		
+		
+		
 		parent.AddTimer( 'InputCheckDelay', 0.5f, true, false, TICK_PrePhysics );
 		parent.AddTimer( 'ApproachTimeout', 4.0f );
 		
@@ -37,10 +39,10 @@ state ApproachInteractionState in W3PlayerWitcher extends ExtendedMovable
 	
 	event OnLeaveState( nextStateName : name )
 	{
-		// Remove movement timer
+		
 		parent.RemoveTimer( 'InputCheck', TICK_PrePhysics );
 		
-		//this.SetInteractionComponent( true );
+		
 		parent.UnblockAction( EIAB_DrawWeapon, 'Interaction' );
 		super.OnLeaveState(nextStateName);
 	}
@@ -58,7 +60,7 @@ state ApproachInteractionState in W3PlayerWitcher extends ExtendedMovable
 		
 		parent.LockEntryFunction( true );
 		
-		//move to intreaction entity
+		
 		if(objectEntity)
 		{
 			parentPosition 	= parent.GetWorldPosition();
@@ -75,16 +77,16 @@ state ApproachInteractionState in W3PlayerWitcher extends ExtendedMovable
 				if ( theGame.GetWorld().NavigationLineTest( parentPosition, moveToPosition, parentRadius ) && 
 					 theGame.GetWorld().NavigationCircleTest( moveToPosition, parentRadius ))
 				{
-					//we should go to object point with ~1 meter of tolerance radius
-					//movementAdjustor = parent.GetMovingAgentComponent().GetMovementAdjustor();
-					//ticket = movementAdjustor.CreateNewRequest( 'ApproachInterraction' );
-					//movementAdjustor.RotateTo( ticket, VecHeading( moveToPosition - parentPosition ));
+					
+					
+					
+					
 					parent.ActionMoveTo( moveToPosition, MT_Walk, 0.001, 0.3 );
 				}
 			}
 		}
 		
-		//after approach ends, play sync animation
+		
 		PlaySyncInteractionAnimation();
 		
 		parent.LockEntryFunction( false );
@@ -146,28 +148,28 @@ state ApproachInteractionState in W3PlayerWitcher extends ExtendedMovable
 			component.SetEnabled( b );
 	}
 	
-	/////////////////////////////////////////  DEINIT  /////////////////////////////////////////////////////
+	
 	private function StopApproach()
 	{
 		parent.PopState(true);		
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Movement
 	
 	
-	// allows approach interruption on input from axis
+	
+	
+	
 	timer function InputCheckDelay( timeDelta : float, id : int )
 	{
 		parent.AddTimer( 'InputCheck', 0.001, true, false, TICK_PrePhysics );
 	}
 	
-	// allows approach interruption on input from axis
+	
 	timer function InputCheck( timeDelta : float, id : int )
 	{
 		var action : EActorActionType;
 		
-		// Calculate player speed and rotation angle
+		
 		if ( parent.GetIsMovable() )
 		{
 			action = parent.GetCurrentActionType();
@@ -176,17 +178,17 @@ state ApproachInteractionState in W3PlayerWitcher extends ExtendedMovable
 			{
 				if( theInput.GetActionValue( 'GI_AxisLeftX' ) != 0 || theInput.GetActionValue( 'GI_AxisLeftY') != 0 )
 				{
-					//thePlayer.SignalGameplayEvent( 'StopPlayerActionOnInput' );
+					
 					parent.LockEntryFunction( false );
 					StopApproach();
 				}
 			}
 		}
 	}
-	// failsafe for cases when ActionMoveTo fails makes player stuck
+	
 	timer function ApproachTimeout( timeDelta : float, id : int )
 	{
-		// play sync anim after timeout
+		
 		PlaySyncInteractionAnimation();
 		parent.LockEntryFunction( false );
 		StopApproach();

@@ -1,11 +1,16 @@
-﻿///////////////////////////////
-//  Copyright © 2016		 //
-//	Author: Andrzej Zawadzki //
-///////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
 
 class W3WitcherHouseArea extends CGameplayEntity
 {
-	editable var isInner		: bool;		// This flag decides if the trigger is an outer or inner. If false, trigger is outer.
+	editable var isInner		: bool;		
 	
 		hint isInner = "This flag decides if the trigger is an outer or inner.. If false, trigger will be marked as outer";
 		
@@ -23,7 +28,7 @@ class W3WitcherHouseArea extends CGameplayEntity
 			{		
 				FactsAdd( "PlayerInsideInnerWitcherHouse", 1 );
 				
-				// Updating bookshelf appearances
+				
 				l_bookshelf = (W3Bookshelf)theGame.GetEntityByTag( 'mq7024_witcher_bookshelf' );
 				if( l_bookshelf )
 				{

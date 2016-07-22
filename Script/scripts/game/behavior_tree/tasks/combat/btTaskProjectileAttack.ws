@@ -1,4 +1,9 @@
-﻿class CBTTaskProjectileAttack extends CBTTaskAttack
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskProjectileAttack extends CBTTaskAttack
 {
 	var attackRange					: float;
 	var resourceName	 			: name;
@@ -224,7 +229,7 @@
 		{
 			l_3DdistanceToTarget = VecDistance( npc.GetWorldPosition(), target.GetWorldPosition() );		
 			
-			// used to dodge projectile before it hits
+			
 			l_projectileFlightTime = l_3DdistanceToTarget / l_projectile.projSpeed;
 			target.SignalGameplayEventParamFloat( 'Time2DodgeProjectile', l_projectileFlightTime );
 		}
@@ -296,11 +301,11 @@
 	}	
 	
 	
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	protected function GetProjectileStartPosition() : Vector
 	{
-		// Get position of 'projectile_origin' slot inside trap entity
+		
 		var slotWorldPos : Vector;
 		var slotMatrix : Matrix;
 		
@@ -477,7 +482,7 @@ class CBTTaskProjectileAttackWithPrepare extends CBTTaskProjectileAttack
 		{
 			l_3DdistanceToTarget = VecDistance( npc.GetWorldPosition(), target.GetWorldPosition() );		
 			
-			// used to dodge projectile before it hits
+			
 			l_projectileFlightTime = l_3DdistanceToTarget / projectile.projSpeed;
 			target.SignalGameplayEventParamFloat( 'Time2DodgeProjectile', l_projectileFlightTime );
 		}

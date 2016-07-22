@@ -1,19 +1,21 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Resource functions
-/** Copyright © 2009
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Load a resource synchronously by alias from xml definition or using depot path
+
+
+
+
 import function LoadResource( resource : string, optional isDepotPath : bool ) : CResource;
 
-// Load resource latent version
+
 import latent function LoadResourceAsync( resource : string, optional isDepotPath : bool ) : CResource;
 
-/////////////////////////////////////////////
-// CResource class
-/////////////////////////////////////////////
+
+
+
 import class CResource extends CObject
 {
 	import final function GetPath() : string;

@@ -1,4 +1,9 @@
-﻿enum EAimType
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EAimType
 {
 	AT_Bolt,
 	AT_Bomb,
@@ -16,13 +21,13 @@ statemachine class PlayerAiming
 	public var thrownBombImpactRadius : float;
 	protected var aimedTarget 	: CActor;
 	
-	protected var collisionGroupsNames 	: array<name>;			//copy paste collisions groups from petard entities
+	protected var collisionGroupsNames 	: array<name>;			
 	
 	public function Initialize( p : CR4Player )
 	{
 		owner = p;
 		
-		//fill collision groups - the same as in bomb entity
+		
 		collisionGroupsNames.PushBack( 'RigidBody' );
 		collisionGroupsNames.PushBack( 'Character' );		
 		collisionGroupsNames.PushBack( 'Static' );
@@ -55,7 +60,7 @@ statemachine class PlayerAiming
 		{
 			thrownBombImpactRadius = bomb.GetImpactRange();
 			
-			//if 0 then it might be an AoE bomb with no initial impact radius
+			
 			if(thrownBombImpactRadius == 0)
 			{
 				thrownBombImpactRadius = bomb.GetAoERange();
@@ -128,13 +133,13 @@ state Waiting in PlayerAiming
 state Aiming in PlayerAiming
 {
 	protected const var SLOWMO_SPEED : float;
-	private var AIM_ENTITY_DISPLACEMENT : float;			//how many meters is aim entity moved up along throw normal (so it won't draw inside terrain/object)
+	private var AIM_ENTITY_DISPLACEMENT : float;			
 	
 	default SLOWMO_SPEED = 0.6;
 	default AIM_ENTITY_DISPLACEMENT = 0.035f;	
 
-	var aimEntity 				: CEntity;	//aim fx entity for impact point
-	var radiusEntity			: CEntity;	//bomb impact radius entity
+	var aimEntity 				: CEntity;	
+	var radiusEntity			: CEntity;	
 	var stopAiming 				: bool;
 	var startTime				: float;
 	var traceManager 			: CScriptBatchQueryAccessor;
@@ -154,15 +159,15 @@ state Aiming in PlayerAiming
 			}
 			else if ( parent.aimType == AT_Bomb )
 			{
-//in the end: we don't want this feature
-//				aimEntity = theGame.CreateEntity( (CEntityTemplate)LoadResource("petard_impact"), parent.throwPos, parent.owner.GetWorldRotation() );
+
+
 				
-				//if(parent.thrownBombImpactRadius > 0)
-				//{
+				
+				
 					ShowCrosshair( true );
-//in the end: we don't want this feature					
-//					radiusEntity = theGame.CreateEntity( (CEntityTemplate)LoadResource("petard_radius"), parent.throwPos, parent.owner.GetWorldRotation() );
-				//}
+
+
+				
 			}
 			
 			startTime = theGame.GetEngineTimeAsSeconds();
@@ -283,7 +288,7 @@ state Aiming in PlayerAiming
 		parent.owner.GetVisualDebug().AddSphere( 'UpdateThrowPositionBolt_Start', 0.1f, tracePosFromInitial, true, Color( 100, 100, 100 ), 0.2f );
 		parent.owner.GetVisualDebug().AddSphere( 'UpdateThrowPositionBolt', 0.1f, parent.throwPos, true, Color( 100, 0, 100 ), 0.2f );
 		
-		//Test to check for friendlies
+		
 		FindActorsAtLine( tracePosFromInitial, maxRangePos, 0.2f, rayCastResults, parent.collisionGroupsNames );
 		size = rayCastResults.Size();
 
@@ -316,7 +321,7 @@ state Aiming in PlayerAiming
 		else
 			tempSweptFriendly = NULL;				
 		
-		//Raycast from camera to find aim position
+		
 		CalculateAimPosition( tracePosFromInitial, maxRangePos, throwPosInitial, throwPosNormal, aimEnt );
 		
 		aimActor = (CActor)aimEnt;
@@ -337,9 +342,9 @@ state Aiming in PlayerAiming
 		if ( parent.owner.IsUsingHorse() )
 			parent.tracePosFrom.Z += 3.1;
 		else
-			parent.tracePosFrom.Z += 1.6f; // fake head?
+			parent.tracePosFrom.Z += 1.6f; 
 		
-		//Raycast from Geralt to aim position and see if anything blocks Geralt's LOS
+		
 		CalculateAimPosition( parent.tracePosFrom, throwPosInitial, parent.throwPos, throwPosNormal, aimEnt );
 		
 		if ( !tempSweptFriendly )
@@ -369,7 +374,7 @@ state Aiming in PlayerAiming
 		
 		actor = (CActor)ent;
 		
-		//is entity considered a friendly
+		
 		b = ( actor && actor != parent.owner && actor.IsHuman() && actor.IsAlive() && !parent.owner.IsThreat( actor ) );
 		b = b || ( ent && ent == parent.owner.GetUsedVehicle() );
 
@@ -409,12 +414,9 @@ state Aiming in PlayerAiming
 		cameraDir = theCamera.GetCameraDirection();
 		cameraDir.Z = 0.f;
 		
-		/*
-			1.6m above ground 0.5m in front of the player in the direction that the camera is looking (to avoid 
-			static trace finding collision with the player or anything between player and the camera)
-		*/
-		//parent.tracePosFrom = playerPosNoFailsafe + cameraDir * 0.5f;
-		//maxRangePos = VecNormalize( theCamera.GetCameraDirection() ) * theGame.params.MAX_THROW_RANGE + parent.owner.GetWorldPosition();	//actual max range
+		
+		
+		
 		
 		camHeading = VecHeading( theCamera.GetCameraDirection() );
 		camToPlayerVector = parent.owner.GetWorldPosition() - theCamera.GetCameraPosition();
@@ -423,7 +425,7 @@ state Aiming in PlayerAiming
 		tracePosFromInitial = camToPlayerAdjacentDist * VecNormalize( theCamera.GetCameraDirection() ) +  theCamera.GetCameraPosition();	
 		maxRangePos = VecNormalize( theCamera.GetCameraDirection() ) * theGame.params.MAX_THROW_RANGE + tracePosFromInitial;		
 
-		//Raycast from camera to find aim position
+		
 		CalculateAimPosition( tracePosFromInitial, maxRangePos, throwPosInitial, throwPosNormal, aimEnt );
 		
 		parent.tracePosFrom = parent.owner.GetWorldPosition();
@@ -431,9 +433,9 @@ state Aiming in PlayerAiming
 		if ( parent.owner.IsUsingHorse() )
 			parent.tracePosFrom.Z += 3.1f;
 		else
-			parent.tracePosFrom.Z += 1.6f; // fake head?
+			parent.tracePosFrom.Z += 1.6f; 
 		
-		//Raycast from Geralt to aim position and see if anything blocks Geralt's LOS
+		
 		CalculateAimPosition( parent.tracePosFrom, throwPosInitial, parent.throwPos, throwPosNormal, aimEnt );
 		
 		aimActor = (CActor)aimEnt;
@@ -449,24 +451,18 @@ state Aiming in PlayerAiming
 		else
 			parent.aimedTarget = NULL;
 	
-		//try a cast from throw point to max range
-		/*
-		if ( ! theGame.GetWorld().StaticTrace(parent.tracePosFrom, maxRangePos, parent.throwPos, throwPosNormal, parent.collisionGroupsNames ) )
-		{
-			//if failed then use max range as target point
-			parent.throwPos = maxRangePos;
-			throwPosNormal = Vector( 0.f, 0.f, 1.f );
-		}*/
+		
+		
 		parent.owner.GetVisualDebug().AddSphere( 'UpdateThrowPosition2', 0.1f, parent.throwPos, true, Color( 100, 0, 100 ), 0.2f );
 
-		aimEntity.TeleportWithRotation( parent.throwPos + throwPosNormal * AIM_ENTITY_DISPLACEMENT, parent.owner.GetWorldRotation() );	//throw pos + 20cm along throw normal
+		aimEntity.TeleportWithRotation( parent.throwPos + throwPosNormal * AIM_ENTITY_DISPLACEMENT, parent.owner.GetWorldRotation() );	
 		
 		if(radiusEntity)
 		{
 			radiusEntity.TeleportWithRotation(parent.throwPos, parent.owner.GetWorldRotation() );
 		}
 		
-		//Test to check for friendlies
+		
 		petard = (W3Petard)( parent.owner.GetThrownEntity() );
 
 		FindActorsAtLine( parent.throwPos + Vector(0, 0, 5), parent.throwPos + Vector(0, 0, -5), petard.GetImpactRange(), rayCastResults, parent.collisionGroupsNames );
@@ -571,7 +567,7 @@ state Aiming in PlayerAiming
 			}
 			else
 			{
-				//if failed then use max range as target point
+				
 				aimPos = rayCastEndPos;
 				aimPosNormal = Vector( 0.f, 0.f, 1.f );
 				aimEnt = NULL;					
@@ -614,18 +610,18 @@ state Aiming in PlayerAiming
 		else if (parent.aimType == AT_Bomb && parent.owner.CanUseSkill(S_Alchemy_s09) )
 			speed -= CalculateAttributeValue( ((CR4Player)parent.owner).GetSkillAttributeValue(S_Alchemy_s09, 'slowdown_mod', false, true) ) * parent.owner.GetSkillLevel(S_Alchemy_s09);
 		
-		// if( (W3BoltProjectile)parent ) #B in case when we want it only for crossbows 
+		
 			theSound.SoundEvent( "gui_slowmo_start" );
 	
 		theGame.SetTimeScale(speed, theGame.GetTimescaleSource(ETS_ThrowingAim), theGame.GetTimescalePriority(ETS_ThrowingAim), false );
-		speedMultCasuserId = parent.owner.SetAnimationSpeedMultiplier( 1/speed * 0.5 );		//*0.5 as we don't want to have the same ratio, we want geralt slowed but only by half
+		speedMultCasuserId = parent.owner.SetAnimationSpeedMultiplier( 1/speed * 0.5 );		
 	}
 	
 	function RemoveSloMo()
 	{
 		theGame.RemoveTimeScale( theGame.GetTimescaleSource(ETS_ThrowingAim) );
 		parent.owner.ResetAnimationSpeedMultiplier( speedMultCasuserId );
-		// if( (W3BoltProjectile)parent ) #B in case when we want it only for crossbows 
+		
 			theSound.SoundEvent( "gui_slowmo_end" );
 	}
 	
@@ -638,7 +634,7 @@ state Aiming in PlayerAiming
 		if(radiusEntity)
 			radiusEntity.Destroy();
 			
-		//parent.throwable = NULL;
+		
 	}
 		
 	event OnAddAimingSloMo()

@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskSearchForObject extends IBehTreeTask
 {
@@ -92,7 +94,7 @@ class CBTTaskSearchForObject extends IBehTreeTask
 	
 	function FilterOutObjects( out foundObjects : array<CGameplayEntity> )
 	{
-		//Use in child
+		
 	}
 
 	
@@ -112,7 +114,7 @@ class CBTTaskSearchForObject extends IBehTreeTask
 	
 	function OnDeactivate() 
 	{
-		//previouslySelectedObject = selectedObject;
+		
 		selectedObject = NULL;
 	}
 }
@@ -140,7 +142,7 @@ class CBTTaskSearchForObjectDef extends IBehTreeTaskDefinition
 	hint selectRandomObject = "by default it selects closest object";
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////
+
 class CBTTaskSearchForOilBarrel extends CBTTaskSearchForObject
 {
 	final function FilterOutObjects( out foundObjects : array<CGameplayEntity> )
@@ -162,8 +164,8 @@ class CBTTaskSearchForOilBarrelDef extends CBTTaskSearchForObjectDef
 	default instanceClass = 'CBTTaskSearchForOilBarrel';
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-//Search for rift
+
+
 class CBTTaskSearchForRift extends IBehTreeTask
 {
 	private var selectedObject : CNode;

@@ -1,6 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////
-// Idle
-/////////////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 class CBTTaskIdle extends IBehTreeTask
 {
 	var toleranceAngle : float;
@@ -42,32 +47,32 @@ class CBTTaskIdle extends IBehTreeTask
 				temp = AngleDistance( curRot.Yaw, rot.Yaw );
 				if ( temp >= 120 )
 				{
-					//rotate r 180
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 5 );
 				}
 				else if ( temp >= 60 )
 				{
-					//rotate r 90
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 4 );
 				}
 				else if ( temp >= 0 )
 				{
-					//rotate r 45
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 3 );
 				}
 				else if ( temp >= -60 )
 				{
-					//rotate l 45
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 2 );
 				}
 				else if ( temp >= -120 )
 				{
-					//rotate l 90
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 1 );
 				}
 				else
 				{
-					//rotate l 180
+					
 					npc.SetBehaviorVariable( 'rotateAngle', 0 );
 				}
 			}
@@ -107,7 +112,7 @@ class CBTTaskIdle extends IBehTreeTask
 	function OnDeactivate()
 	{
 		var npc : CNewNPC = GetNPC();
-		//npc.RaiseEvent('RotateEnd');
+		
 		isMoving = false;
 	}	
 	

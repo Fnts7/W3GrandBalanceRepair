@@ -1,22 +1,19 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : Marek Roefler, Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/*
-	Executors are used in combat focus mode to deliver special effects to hit
-	target. The effect be either a buff (via CBuffEffectExecutor) or 
-	some instant effect (via IInstantEffectExecutor). 
-	Buffs provide effects with duration while instants perform some
-	actions and are finished.
-*/
 
-// Base class for executors
+
+
+
+
 import abstract class IGameplayEffectExecutor extends CObject
 {
-	// Performs execution of this effect
+	
 	public function Execute( executor : CGameplayEntity, target : CActor, optional source : string ) : bool
 	{
-		// Implement execution in derived classes
+		
 		return false;
 	}
 	
@@ -25,13 +22,13 @@ import abstract class IGameplayEffectExecutor extends CObject
 	public function GetEffectDescriptionLocalisationKey() : string {return "";}
 }
 
-// Executor class for instant effects 
+
 abstract class IInstantEffectExecutor extends IGameplayEffectExecutor
 {
-	protected editable var customIconPath : string;						//optional field for custom icon path (overrides the XML default)
-	protected editable var customNameLocalisationKey : string;			//optional field for effect's name localization key (overrides the XML default)
-	protected editable var customDescriptionLocalisationKey : string;	//optional field for effect's description localization key (overrides the XML default)
-	protected var executorName : name;									//must be defined in each child class!!!
+	protected editable var customIconPath : string;						
+	protected editable var customNameLocalisationKey : string;			
+	protected editable var customDescriptionLocalisationKey : string;	
+	protected var executorName : name;									
 		default executorName = '';
 	
 	hint customIconPath = "Will override XML default";
@@ -40,7 +37,7 @@ abstract class IInstantEffectExecutor extends IGameplayEffectExecutor
 		
 	public function Execute( executor : CGameplayEntity, target : CActor, optional source : string ) : bool
 	{
-		// Implement execution in derived classes
+		
 		return false;
 	}
 	
@@ -58,7 +55,7 @@ abstract class IInstantEffectExecutor extends IGameplayEffectExecutor
 		dm = theGame.GetDefinitionsManager();
 		main = dm.GetCustomDefinition('CFM_instants');
 		
-		//get icon type
+		
 		for(i=0; i<main.subNodes.Size(); i+=1)
 		{
 			if(dm.GetCustomNodeAttributeValueName(main.subNodes[i], 'name_name', tmpName))
@@ -74,7 +71,7 @@ abstract class IInstantEffectExecutor extends IGameplayEffectExecutor
 			}
 		}
 		
-		//get icon path
+		
 		main = dm.GetCustomDefinition('CFM_instants_icons');
 		
 		for(i=0; i<main.subNodes.Size(); i+=1)
@@ -154,14 +151,14 @@ abstract class IInstantEffectExecutor extends IGameplayEffectExecutor
 	}
 }
 
-//////////////////////////////////////////////////////////////////
 
-// Class for executors that apply buff as their result
+
+
 class CBuffEffectExecutor extends IGameplayEffectExecutor
 {
-	private editable var effectType			: EEffectType;				//effect to use
-	private editable var duration			: float;					//custom duration
-	private editable var customEffectValue	: SAbilityAttributeValue;	//custom effect value
+	private editable var effectType			: EEffectType;				
+	private editable var duration			: float;					
+	private editable var customEffectValue	: SAbilityAttributeValue;	
 	
 	public function Execute( executor : CGameplayEntity, target : CActor, optional source : string ) : bool
 	{

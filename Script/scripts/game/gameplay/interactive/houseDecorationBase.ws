@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Authors : Danisz Markiewicz
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 abstract class W3HouseDecorationBase extends W3Container
 {
@@ -20,16 +23,16 @@ abstract class W3HouseDecorationBase extends W3Container
 	default m_decorationEnabled	= true;
 	hint m_decorationEnabled = "Should the decoration entity interaction be enabled."; 
 	
-	//Overriding default setting, we want decorations to be always highlighted
+	
 	default disableFocusHighlightControl = true;
 	hint m_acceptQuestItems = "If true quest item filter we be disabled for this decoration."; 
 	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{
-		//Always mark this container as quest container
+		
 		SetIsQuestContainer( true );
 		
-		//We don't want the player to use quest items as decorations
+		
 		if( !m_acceptQuestItems )
 		{
 			AddItemSelectionForbiddenFilterTag( 'Quest' );
@@ -44,12 +47,12 @@ abstract class W3HouseDecorationBase extends W3Container
 		{
 			if( GetIfPlayerHasValidItems() )
 			{
-				//There are no items in container, open item selection
+				
 				OpenItemCollectionMenu();
 			}
 			else
 			{
-				//If there are no valid items to display in pop-up window display on-screen message instead
+				
 				if( IsNameValid( m_noItemMessageStringKey ) )
 				{
 					thePlayer.DisplayHudMessage( GetLocStringByKeyExt( m_noItemMessageStringKey ) );
@@ -58,14 +61,14 @@ abstract class W3HouseDecorationBase extends W3Container
 		}
 		else
 		{
-			//There is something in container, open loot panel
+			
 			ProcessLoot ();
 		}
 	}
 	
 	event OnInteractionActivationTest( interactionComponentName : string, activator : CEntity )
 	{
-		//If the entity is disabled the interaction should not be displayed
+		
 		if ( !m_decorationEnabled )
 		{
 			return false;
@@ -74,7 +77,7 @@ abstract class W3HouseDecorationBase extends W3Container
 		return true;
 	}	
 	
-	//Waiting for item selection popup to be closed
+	
 	timer function ItemSelectionTimer( delta : float , id : int)
 	{
 		if( m_popupData )
@@ -87,14 +90,14 @@ abstract class W3HouseDecorationBase extends W3Container
 		}
 	}
 	
-	//Performs operatins upon receiving an item
+	
 	public function ProcessItemReceival( optional mute : bool )
 	{
-		//UpdateContainer();
+		
 		SetFocusModeVisibility( focusModeHighlight );
 	}
 	
-	//Updates entities focus highlight mode
+	
 	private function UpdateDecorationFocusHighlight()
 	{
 		if( m_decorationEnabled )
@@ -107,7 +110,7 @@ abstract class W3HouseDecorationBase extends W3Container
 		}	
 	}
 	
-	//Opens item selection popup with correct filters
+	
 	private function OpenItemCollectionMenu()
 	{
 		var itemSelectionPopup : CR4ItemSelectionPopup;	
@@ -119,7 +122,7 @@ abstract class W3HouseDecorationBase extends W3Container
 		tags = GetTags();
 		firstTag = tags[0];
 		
-		//UI popup requires entity tag to be unique, decoration should not work if it's not
+		
 		if( !GetIsTagUnique( firstTag ) )
 		{
 			LogChannel( 'houseDecorations', "Entity tag '" + firstTag + "' is not unique, decoration will not function!" );
@@ -131,7 +134,7 @@ abstract class W3HouseDecorationBase extends W3Container
 		m_popupData.collectorTag = firstTag;
 		m_popupData.overrideQuestItemRestrictions = true;
 		
-		//Following filter settings are modified per child class type
+		
 		m_popupData.filterTagsList = m_itemSelectionTagList;
 		m_popupData.filterForbiddenTagsList = m_itemSelectionForbiddenTagList;
 		m_popupData.selectionMode = m_itemSelectionMode;
@@ -142,31 +145,31 @@ abstract class W3HouseDecorationBase extends W3Container
 		AddTimer( 'ItemSelectionTimer', 0.1f );
 	}
 	
-	//Adds a new tag to filters of item selection popup
+	
 	function AddItemSelectionFilterTag( newTag : name )
 	{
 		m_itemSelectionTagList.PushBack( newTag );
 	}
 	
-	//Adds a new forbidden tag to filters of item selection popup
+	
 	function AddItemSelectionForbiddenFilterTag( newTag : name )
 	{
 		m_itemSelectionForbiddenTagList.PushBack( newTag );
 	}
 
-	//Add item category to items that should be considered during item processing
+	
 	function AddItemSelectionCategory( newCategory : name )
 	{
 		m_itemSelectionCategories.PushBack( newCategory );
 	}
 	
-	//Changes the item selection popup mode
+	
 	function ChangeItemSelectionMode( newMode : EItemSelectionPopupMode )
 	{
 		m_itemSelectionMode = newMode;
 	}
 	
-	//Checks if there is exactly one entity with this tag
+	
 	private function GetIsTagUnique( entityTag : name ) : bool
 	{
 		var entities : array<CEntity>;
@@ -183,19 +186,19 @@ abstract class W3HouseDecorationBase extends W3Container
 		}
 	}
 	
-	//Check if there are any vaild items in the inventory, expanded in child classes
+	
 	private function GetIsDecoractionEmpty() : bool
 	{
 		return GetInventory().IsEmpty();
 	}
 	
-	//Pre-check for items that are valid for pop-up panel, expanded in child classes
+	
 	private function GetIfPlayerHasValidItems() : bool
 	{
 		return true;
 	}
 	
-	//Public function used to enable and disable via external systems
+	
 	public function SetDecorationEnabled( enabled : bool ) 
 	{
 		m_decorationEnabled = enabled;
@@ -203,13 +206,13 @@ abstract class W3HouseDecorationBase extends W3Container
 		UpdateDecorationFocusHighlight();
 	}
 	
-	//Public function used to enable and disable via external systems
+	
 	public function GetAcceptQuestItems() : bool
 	{
 		return m_acceptQuestItems;
 	}
 	
-	//Check if the item has any of the forbidden tags
+	
 	public function GetItemHasForbiddenTag( item : SItemUniqueId ) : bool
 	{
 		var i, size : int;
@@ -231,7 +234,7 @@ abstract class W3HouseDecorationBase extends W3Container
 		return false;
 	}	
 	
-	//Check if the entity has inside it's inventory a sleeveless armor or not
+	
 	public function GetHasSleevlessArmor() : bool
 	{
 		var armors : array<SItemUniqueId>;

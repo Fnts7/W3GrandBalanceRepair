@@ -1,21 +1,26 @@
-﻿//>--------------------------------------------------------------------------
-// BTCondSubmersionLevel
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Check how deep in water the Actor is
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 30-September-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTCondSubmersionLevel extends IBehTreeTask
 {
 	var checkedActor 	: EStatOwner;
 	var value 			: float;
 	var operator 		: EOperator;
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function IsAvailable() : bool
 	{
 		var l_actor			: CActor	= GetNPC();
@@ -48,14 +53,14 @@ class BTCondSubmersionLevel extends IBehTreeTask
 		}
 	}
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTCondSubmersionLevelDef extends IBehTreeConditionalTaskDefinition
 {
 	default instanceClass = 'BTCondSubmersionLevel';
-	//>----------------------------------------------------------------------
-	// VARIABLE
-	//-----------------------------------------------------------------------
+	
+	
+	
 	editable var checkedActor 	: EStatOwner;
 	editable var value 			: float;
 	editable var operator 		: EOperator;

@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 enum EPushSide
 {
 	EPIS_Front	,
@@ -7,8 +12,8 @@ enum EPushSide
 	EPIS_Right	,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CExplorationStatePushed extends CExplorationStateAbstract
 {
 	public	editable	var	enabled				: bool;			default	enabled			= true;
@@ -36,7 +41,7 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{	
 		if( !IsNameValid( m_StateNameN ) )
@@ -47,7 +52,7 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		m_StateTypeE	= EST_Idle;
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	private function AddDefaultStateChangesSpecific()
 	{
 		AddStateToTheDefaultChangeList('Climb');
@@ -56,7 +61,7 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		AddStateToTheDefaultChangeList('CombatExploration');
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{
 		var strength		: float;
@@ -82,40 +87,37 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		return false;
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateCanEnter( curStateName : name ) : bool
 	{	
-		/*if( !enabled )
-		{
-			return false;
-		}*/
+		
 		
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateEnterSpecific( prevStateName : name )	
 	{		
 		var angle		: float;
 		
 		
-		// Get the exact angle to move to		
+		
 		angle		= ComputeAngleToMove();		
 		
-		// Side enum
+		
 		pushSide	= ComputeSide( angle );
 		
-		// Step
+		
 		StartStep( angle, pushSide );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.AddAnimEventCallback( behCanEnd, 'OnAnimEvent_SubstateManager' );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{		
 		if( safetyEndTimeCur <= 0.0f )
@@ -130,7 +132,7 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		return super.StateChangePrecheck();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{		
 		var angle		: float;
@@ -146,45 +148,30 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 			RotateToCollider();
 		}
 		
-		// We are still being pushed
+		
 		if( StateWantsToEnter() )
 		{	
-			// Do we need to chain another step?
+			
 			if( recheckTimeCur <= 0.0f )
 			{
-				// Get the new exact angle to move to		
+				
 				angle	= ComputeAngleToMove();	
 				
-				// Side enum
+				
 				side	= ComputeSide( angle );
 				if( side != pushSide )
 				{
 					LogExplorationPushed( " Interrupted by another step" );
 					
-					// Change step
+					
 					StartStep( angle, side );
 				}
 			}
-			/*
-			// Or modify the angle
-			else
-			{
-				angle		= ComputeAngleToMove();	
-				angleDif	= AngleDistance( pushAngle, angle );
-				if( AbsF( angleDif ) > 45.0f )
-				{
-					ModifyRotation( pushAngle + 45.0f * SignF( angleDif ) );
-				}
-				else
-				{				
-					ModifyRotation( angle );
-				}
-			}
-			*/
+			
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateExitSpecific( nextStateName : name )
 	{		
 		var movementAdjustor	: CMovementAdjustor;
@@ -193,25 +180,25 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		movementAdjustor.CancelByName( 'Pushed_from_idle_reorient' );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function RemoveAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.RemoveAnimEventCallback( behCanEnd );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function ReactToLoseGround() : bool
 	{
 		SetReadyToChangeTo( 'StartFalling' );
 		return true;
 	}
-	//---------------------------------------------------------------------------------
+	
 	function ReactToBeingHit( optional damageAction : W3DamageAction ) : bool
 	{
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		if ( animEventName == behCanEnd )
@@ -220,42 +207,42 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function CanInteract() :bool
 	{		
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function LogExplorationPushed( text : string )
 	{
 		LogChannel( 'ExplorationState'		, "Pushed: " + text );
 		LogChannel( 'ExplorationStatePushed', text );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StartStep( angle : float, side : EPushSide )
 	{	
 		LogExplorationPushed( " Using other movement direction angle " + angle );	
 		LogExplorationPushed( " Resulted in side " + side );
 		
-		// Save it			
+		
 		pushSide	= side;
 		pushAngle	= angle;
 		
-		// Movement adjustor
+		
 		PrepareRotation( angle );
 		
-		// Set data
+		
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behSide, ( float ) ( int ) side ); 
 		
-		// Reset times
+		
 		recheckTimeCur		= recheckTimeMin;
 		safetyEndTimeCur	= safetyEndTimeMax;
 		rotatedToCollider	= false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeAngleToMove( ) : float
 	{
 		var angle			: float;
@@ -263,10 +250,10 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		
 		angleother	= VecHeading( pushDirectionOther );
 		
-		// check if the we shpould move left or right of collider's way
+		
 		movedLeft	= AngleDistance( angleother, VecHeading( pushDirection ) ) >= 0.0f;
 		
-		// Compute the angle difference
+		
 		if( movedLeft )
 		{
 			angle	= AngleNormalize180( angleother - extraTurnAngle ); 
@@ -276,14 +263,14 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 			angle	= AngleNormalize180( angleother + extraTurnAngle );
 		}
 		
-		// Make it to local
+		
 		angle	= AngleDistance( m_ExplorationO.m_OwnerE.GetHeading(), angle );
 		angle	= AngleNormalize180( angle );
 		
 		return angle;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeSide( angle : float ) : EPushSide
 	{
 		var side	: EPushSide;
@@ -309,14 +296,14 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		return side;
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	private function PrepareRotation( angle : float )
 	{
 		var movementAdjustor	: CMovementAdjustor;
 		var rotateAngle			: float;
 		
 		
-		// Get the angle
+		
 		switch( pushSide )
 		{
 			case EPIS_Front:
@@ -344,7 +331,7 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		LogExplorationPushed( "AngleAdjusted by: " + rotateAngle );
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	private function RotateToCollider()
 	{
 		var rotateAngle			: float;
@@ -365,13 +352,13 @@ class CExplorationStatePushed extends CExplorationStateAbstract
 		rotatedToCollider	= true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ModifyRotation( angle : float )
 	{
 		var rotateAngle			: float;
 		var movementAdjustor	: CMovementAdjustor;
 		
-		// Get the angle
+		
 		switch( pushSide )
 		{
 			case EPIS_Front:

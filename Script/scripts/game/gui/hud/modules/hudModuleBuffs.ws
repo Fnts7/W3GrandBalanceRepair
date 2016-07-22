@@ -1,4 +1,9 @@
-﻿class CR4HudModuleBuffs extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleBuffs extends CR4HudModuleBase
 {
 	private var _currentEffects : array <CBaseGameplayEffect>;
 	private var _previousEffects : array <CBaseGameplayEffect>;
@@ -14,10 +19,10 @@
 	
 	private var m_runword5Applied : bool; default m_runword5Applied = false;
 	
-	//private var _inv : CInventoryComponent;
-	//private var iCurrentOilBuff : int;		default iCurrentOilBuff = -1;
+	
+	
 
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -109,7 +114,7 @@
 							)
 						   )
 						{
-							// minor hack, if current duration is > then initial one, it means that it's permanent and counter should now be displayed
+							
 							duration = effectArray[i].GetInitialDuration() + 1;
 						}
 						else if ( effectType == EET_EnhancedWeapon ||
@@ -117,14 +122,14 @@
 						{
 							if ( GetWitcherPlayer().HasRunewordActive('Runeword 5 _Stats') )
 							{
-								// minor hack, if current duration is > then initial one, it means that it's permanent and counter should now be displayed
+								
 								duration = effectArray[i].GetInitialDuration() + 1;
 							}
 						}
 						else
 						{
 							if(duration < 0.f)
-								duration = 0.f;		//e.g. due to S_Alchemy_s03 skill
+								duration = 0.f;		
 						}
 					}
 					
@@ -148,12 +153,9 @@
 					}
 					else if( effectType == EET_BasicQuen )
 					{
-						// USE DEFAULT DURATION VALUES
+						
 						extraValue = ( ( W3Effect_BasicQuen ) effectArray[i] ).GetStacks();
-						/*
-						duration = ( ( W3Effect_BasicQuen ) effectArray[i] ).GetStacks();
-						initialDuration = ( ( W3Effect_BasicQuen ) effectArray[i] ).GetMaxStacks();
-						*/
+						
 					}
 					else if( effectType == EET_Mutation3 )
 					{						
@@ -172,7 +174,7 @@
 					}
 					else if( effectType == EET_Mutation7Buff || effectType == EET_Mutation7Debuff )
 					{	
-						// USE DEFAULT DURATION VALUES
+						
 						extraValue = ( ( W3Mutation7BaseEffect ) effectArray[i] ).GetStacks();
 					}
 					else if( effectType == EET_Mutation10 )
@@ -198,7 +200,7 @@
 				else
 				{
 					offset += 1;
-					//LogChannel('HUDBuffsOff'," offset incremented to "+offset+" by effec "+effectArray[i].effectName);
+					
 				}
 			}
 			
@@ -209,7 +211,7 @@
 			}
 		}
 
-		//we have no buffs whatsoever to display or update
+		
 		if ( _currentEffects.Size() == 0 && _previousEffects.Size() == 0 )
 			return true;
 
@@ -222,26 +224,26 @@
 
 	}
 
-	//compare list of effects from this tick with the previous one and return TRUE if we need to update
+	
 	private function buffListHasChanged( currentEffects : array<CBaseGameplayEffect>, previousEffects : array<CBaseGameplayEffect> ) : bool
 	{
 		var i : int;
 		var currentSize : int = currentEffects.Size();
 		var previousSize : int = previousEffects.Size();
 
-		//1st off, if sizes are different then we know we have a change
+		
 		if( currentSize != previousSize )
 			return true;
 		else 
 		{
-			//we should check element by element and return false only if both arrays are exactly the same
+			
 			for( i = 0; i < currentSize; i+=1 )
 			{
 				if ( currentEffects[i] != previousEffects[i] )
 					return true;
 			}
 
-			//at this point, we have 2 identical arrays
+			
 			return false;
 		}
 	}
@@ -270,7 +272,7 @@
 		var quenBuff 				: W3Effect_BasicQuen;
 
 		l_flashArray = GetModuleFlashValueStorage()().CreateTempFlashArray();
-		for(i = 0; i < Min(buffDisplayLimit,_currentEffects.Size()); i += 1) // #B only first 12 buffs is displayed, probably for remove
+		for(i = 0; i < Min(buffDisplayLimit,_currentEffects.Size()); i += 1) 
 		{
 			if(_currentEffects[i].ShowOnHUD() && _currentEffects[i].GetEffectNameLocalisationKey() != "MISSING_LOCALISATION_KEY_NAME" )
 			{
@@ -291,27 +293,27 @@
 
 				if ( effectType == EET_Oil && thePlayer.IsSkillEquipped( S_Alchemy_s06 ) )
 				{
-					// nothing
+					
 					format = 0;
 				}
 				else if ( effectType == EET_Oil || effectType == EET_Aerondight )
 				{
-					// counter
+					
 					format = 1;
 				}
 				else if ( effectType == EET_Mutation3 || effectType == EET_Mutation4 || effectType == EET_Mutation5 || effectType == EET_Mutation10 )
 				{
-					// counter with percent
+					
 					format = 2;
 				}
 				else if ( effectType == EET_Mutation7Buff || effectType == EET_Mutation7Debuff || effectType == EET_BasicQuen )
 				{
-					// timer (circle) + percents (text)
+					
 					format = 4;
 				}
 				else
 				{
-					// timer
+					
 					format = 3;
 				}
 				
@@ -341,15 +343,8 @@
 						l_flashObject.SetMemberFlashNumber("initialDuration", aerondightEffect.GetMaxCount()	 * 1.0 );
 					}
 				}
-				// USE DEFAULT DURATION VALUES
-				/*
-				else if( effectType == EET_BasicQuen )
-				{						
-					quenBuff = ( W3Effect_BasicQuen ) _currentEffects[i];
-					l_flashObject.SetMemberFlashNumber("duration", 			quenBuff.GetStacks() );
-					l_flashObject.SetMemberFlashNumber("initialDuration", 	quenBuff.GetMaxStacks() );
-				}
-				*/
+				
+				
 				else if( effectType == EET_Mutation3 )
 				{						
 					mut3Buff = ( W3Effect_Mutation3 ) _currentEffects[i];						
@@ -368,15 +363,8 @@
 					l_flashObject.SetMemberFlashNumber("duration", 			mut5Buff.GetStacks() );
 					l_flashObject.SetMemberFlashNumber("initialDuration", 	mut5Buff.GetStacks() );
 				}
-				// USE DEFAULT DURATION VALUES
-				/*
-				else if( effectType == EET_Mutation7Buff || effectType == EET_Mutation7Debuff )
-				{						
-					mut7Buff = ( W3Mutation7BaseEffect ) _currentEffects[i];						
-					l_flashObject.SetMemberFlashNumber("duration", 			mut7Buff.GetStacks() );
-					l_flashObject.SetMemberFlashNumber("initialDuration", 	mut7Buff.GetStacks() );
-				}
-				*/
+				
+				
 				else if( effectType == EET_Mutation10 )
 				{						
 					mut10Buff = ( W3Effect_Mutation10 ) _currentEffects[i];						
@@ -412,10 +400,10 @@
 		var tempY				: float;
 		
 		l_flashModule 	= GetModuleFlash();
-		//theGame.GetUIHorizontalFrameScale()
-		//theGame.GetUIVerticalFrameScale()
 		
-		// #J SUPER LAME
+		
+		
+		
 		tempX = anchorX + (660.0 * (1.0 - theGame.GetUIHorizontalFrameScale()));
 		tempY = anchorY + (645.0 * (1.0 - theGame.GetUIVerticalFrameScale())); 
 		
@@ -423,7 +411,7 @@
 		l_flashModule.SetY( tempY );	
 	}
 	
-	event /* flash */ OnBuffsDisplay( value : bool )
+	event  OnBuffsDisplay( value : bool )
 	{
 		bDisplayBuffs = value;
 	}

@@ -1,10 +1,9 @@
-﻿/*
-enum EMoveFailureAction
-{
-	MFA_REPLAN,
-	MFA_EXIT
-}
-*/
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 
 class CMoveTRGAnimalFlee extends CMoveTRGScript
 {
@@ -66,7 +65,7 @@ class CBTTaskAnimalFlee extends IBehTreeTask
 		
 		distToTarget = VecDistance( actor.GetWorldPosition(), whereFrom );
 		res = actor.ActionMoveToWithHeading( whereTo, heading, moveType, 0.f, 2.f );
-		//I know it's very bad but it's for the demo, and I'll get rid of it ASAP
+		
 		Sleep( 5.f );
 		
 		isMoving = false;

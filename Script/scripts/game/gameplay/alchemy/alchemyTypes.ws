@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Exceptions that may occur during cooking process
+
+
+
 enum EAlchemyExceptions
 {
 	EAE_NoException,	
@@ -16,27 +19,27 @@ enum EAlchemyExceptions
 	EAE_Mounted
 }
 
-// Struct representing alchemy recipe
+
 struct SAlchemyRecipe
 {
-	var cookedItemName : name;							//name of the item that will be cooked
-	var cookedItemType : EAlchemyCookedItemType;		//type of cooked item
+	var cookedItemName : name;							
+	var cookedItemType : EAlchemyCookedItemType;		
 	var cookedItemIconPath : string;
-	var cookedItemQuantity : int;						//how many items are cooked at once
-	var recipeName : name;								//name of the recipe
+	var cookedItemQuantity : int;						
+	var recipeName : name;								
 	var recipeIconPath : string;
-	var typeName : name;								//type of recipe, needed for levels
-	var level : int;									//recipe level
-	var requiredIngredients : array<SItemParts>;		//(fixed) ingredients required or empty if nothing required
+	var typeName : name;								
+	var level : int;									
+	var requiredIngredients : array<SItemParts>;		
 };
 
-enum EAlchemyCookedItemType // #B remove substance add mutagen
+enum EAlchemyCookedItemType 
 {
 	EACIT_Undefined,
 	EACIT_Potion,
 	EACIT_Bomb,
 	EACIT_Oil,
-EACIT_Substance,		//not used anymore
+EACIT_Substance,		
 	EACIT_Bolt,
 	EACIT_MutagenPotion,
 	EACIT_Alcohol,
@@ -80,7 +83,7 @@ function AlchemyCookedItemTypeEnumToName( type : EAlchemyCookedItemType) : name
 		case EACIT_Alcohol 			: return 'alcohol';
 		case EACIT_Quest			: return 'quest';
 		case EACIT_Dye				: return 'dye';
-		default	     				: return '___'; // #B they are needed ?
+		default	     				: return '___'; 
 	}
 }
 

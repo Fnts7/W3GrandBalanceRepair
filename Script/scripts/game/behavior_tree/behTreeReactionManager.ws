@@ -1,4 +1,9 @@
-﻿import class CBehTreeReactionManager extends CObject
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CBehTreeReactionManager extends CObject
 {
 	import final function CreateReactionEventIfPossible( invoker : CEntity, eventName : CName, lifetime : float, distanceRange : float, broadcastInterval : float, recipientCount : int, skipInvoker : bool, optional setActionTargetOnBroadcast : bool, optional customCenter : Vector );
 	import final function CreateReactionEvent( invoker : CEntity, eventName : CName, lifetime : float, distanceRange : float, broadcastInterval : float, recipientCount : int, optional skipInvoker : bool, optional setActionTargetOnBroadcast : bool ) : bool;

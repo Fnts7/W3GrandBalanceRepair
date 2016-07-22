@@ -1,7 +1,12 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class W3NPCBackgroundNew extends CEntity
 {
-	editable var behaviorWorkNumber : int;	//type of work (animation) to play
+	editable var behaviorWorkNumber : int;	
 	editable var randomized : bool;
 	editable var maxWorkNumber : int;
 	editable var excludeIdle : bool;

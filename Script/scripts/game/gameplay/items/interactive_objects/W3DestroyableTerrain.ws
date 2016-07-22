@@ -1,4 +1,9 @@
-﻿statemachine class W3DestroyableTerrain extends CInteractiveEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+statemachine class W3DestroyableTerrain extends CInteractiveEntity
 {
 	var m_destroyableElements 	: array<array< CScriptedDestroyableComponent >>;
 	var m_piecesIdToSplit 		: array< int >;
@@ -61,19 +66,19 @@
 				
 			switch( destroyWay )
 			{
-				case 0:	//DW_Random
+				case 0:	
 					m_destroyableElementsRandom.PushBack(destroyComp);
 					break;
 				
-				case 1:	//DW_Timed
+				case 1:	
 					m_destroyableElementsTimed.PushBack(destroyComp);
 					break;
 				
-				case 2:	//DW_OnContact
+				case 2:	
 					m_destroyableElementsOnContact.PushBack(destroyComp);
 					break;
 				
-				case 3:	//DW_OnDistance
+				case 3:	
 					m_destroyableElementsOnDistance.PushBack(destroyComp);
 					break;
 			}
@@ -103,7 +108,7 @@
 		{
 			tickTime+=time;
 			
-			//Random
+			
 			elements = m_destroyableElements[0];
 			for(i = 0; i < elements.Size(); i+=1)
 			{
@@ -137,7 +142,7 @@
 				}
 			}
 			
-			//Timed
+			
 			elements = m_destroyableElements[1];
 			for(i = 0; i < elements.Size(); i+=1)
 			{
@@ -166,7 +171,7 @@
 				}
 			}
 			
-			//OnContact
+			
 			elements = m_destroyableElements[2];
 			for(i = 0; i < elements.Size(); i+=1)
 			{
@@ -195,7 +200,7 @@
 				}
 			}
 			
-			//OnDistance
+			
 			elements = m_destroyableElements[3];
 			for(i = 0; i < elements.Size(); i+=1)
 			{

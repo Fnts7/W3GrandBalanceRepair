@@ -1,4 +1,9 @@
-﻿class CR4HudModuleMedallion extends CR4HudModuleBase // #B Deprecated
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleMedallion extends CR4HudModuleBase 
 {	
 	private var		m_fxSetFocusPointsSFF			: CScriptedFlashFunction;
 	
@@ -21,7 +26,7 @@
 		m_medallionThreshold = 4.0;
 	}
 
-	/* flash */ event OnConfigUI()
+	 event OnConfigUI()
 	{		
 		var flashModule : CScriptedFlashSprite;
 
@@ -35,7 +40,7 @@
 		m_fxSetMedallionThresholdSFF	= flashModule.GetMemberFlashFunction( "setMedallionThreshold" );
 		
 
-		//ShowElement( true );
+		
 	}
 
 	event OnTick( timeDelta : float )

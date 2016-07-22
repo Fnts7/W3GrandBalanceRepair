@@ -1,13 +1,18 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskManageMistForm
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Monsters ability used by foglings.
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Andrzej Kwiatkowski - 05-August-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskManageMistForm extends CBTTaskPlayAnimationEventDecorator
 {
 	public var manageMistFormOnAnimEvents		: bool;
@@ -27,8 +32,8 @@ class BTTaskManageMistForm extends CBTTaskPlayAnimationEventDecorator
 	public var previousAppearanceName			: name;
 	
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		var npc : CNewNPC = GetNPC();
@@ -130,14 +135,14 @@ class BTTaskManageMistForm extends CBTTaskPlayAnimationEventDecorator
 			if ( animEventName == 'Appear' )
 			{
 				DisableMistForm( true );
-				//owner.SetImmortalityMode( AIM_None, AIC_Combat );
+				
 				
 				return true;
 			}
 			else if ( animEventName == 'Disappear' || animEventName == 'Vanish' )
 			{
 				DisableMistForm( false );
-				//owner.SetImmortalityMode( AIM_Invulnerable, AIC_Combat );
+				
 				
 				return true;
 			}
@@ -146,8 +151,8 @@ class BTTaskManageMistForm extends CBTTaskPlayAnimationEventDecorator
 	}
 };
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskManageMistFormDef extends CBTTaskPlayAnimationEventDecoratorDef
 {
 	default instanceClass = 'BTTaskManageMistForm';

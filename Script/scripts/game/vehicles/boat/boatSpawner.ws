@@ -1,7 +1,12 @@
-﻿//layer must be AutoStatic, Gameplay to work properly
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 import statemachine class W3BoatSpawner extends CGameplayEntity
 {
-	public saved var spawnedBoat : EntityHandle;	//pointer to boat spawned by this spawner	
+	public saved var spawnedBoat : EntityHandle;	
 	editable var respawnDistance : float;
 	var isAttemptingBoatSpawn : bool;
 	
@@ -36,8 +41,8 @@ import statemachine class W3BoatSpawner extends CGameplayEntity
 		}
 	}
 	
-	//ACHTUNG!! actual stream out range is 53% bigger then the one set in entity
-	//Currently setting to 100 to get real value of 153 meters which is a little bit smaller than boat streaming range (160m).
+	
+	
 	event OnStreamOut()
 	{
 		var boat : CEntity;
@@ -48,7 +53,7 @@ import statemachine class W3BoatSpawner extends CGameplayEntity
 		{
 			distToBoat =  VecDistance2D(GetWorldPosition(), boat.GetWorldPosition());
 			
-			//if boat is far away from spawner
+			
 			if(distToBoat > respawnDistance)
 			{
 				theGame.AddDynamicallySpawnedBoatHandle(spawnedBoat);

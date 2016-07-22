@@ -1,18 +1,19 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Rafal Jarczeswki
-//			 Maciej Mach (???)
-//			 Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// handles leveling and exp
+
+
+
 class W3LevelManager
 {
 	private var owner : W3PlayerWitcher;
-	private saved var levelDefinitions : array< SLevelDefinition >;		// describes abilities difining each level
-	private saved var level : int;										// current level
-	private saved var points : array< SSpendablePoints >;				// array of spendable points (exp, knowledge, mutation)
-	private saved var lastCustomLevel : int;							// highest customly set level in XML
+	private saved var levelDefinitions : array< SLevelDefinition >;		
+	private saved var level : int;										
+	private saved var points : array< SSpendablePoints >;				
+	private saved var lastCustomLevel : int;							
 	
 	public function Initialize()
 	{
@@ -28,17 +29,20 @@ class W3LevelManager
 	
 	public function PostInit(own : W3PlayerWitcher, bFromLoad : bool, enableInfiniteLevels : bool)
 	{
-		var i, expForCurrentLevel, pool, usedPoints, freePoints : int;
+		var i, expForCurrentLevel, pool, usedPoints, freePoints, temp, expDiff : int;
+		var dm : CDefinitionsManagerAccessor;
+		var main : SCustomNode;
+		var levelDef : SLevelDefinition;
 		
 		owner = own;
 
-		//load level definitions
+		
 		if(!bFromLoad || (enableInfiniteLevels && lastCustomLevel == 0) )
 		{
 			levelDefinitions.Clear();
 			LoadLevelingDataFromXML();
 			
-			//mark which level is the last one with custom settings
+			
 			for(i=levelDefinitions.Size(); i>=0; i-=1)
 			{
 				if(levelDefinitions[i].number > lastCustomLevel)
@@ -46,21 +50,75 @@ class W3LevelManager
 			}
 		}
 		
-		//set initial level
+		
 		if(!bFromLoad)
 		{	
 			level = levelDefinitions[1].number;		
+		}		
+		
+		
+		if( bFromLoad && levelDefinitions[0].number != -1 )
+		{
+			dm = theGame.GetDefinitionsManager();
+			main = dm.GetCustomDefinition('leveling');
+			
+			for(i=0; i<main.subNodes.Size(); i+=1)
+			{
+				if( dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'number', temp) && temp == -1 )
+				{
+					levelDef.number = temp;
+					dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'requiredTotalExp', temp);
+					levelDef.requiredTotalExp = temp;
+					dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'addedSkillPoints', temp);			
+					levelDef.addedSkillPoints = temp;
+					dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'requiredExp', temp);			
+					levelDef.requiredExp = temp;
+					
+					levelDefinitions.Insert( 0, levelDef );
+					break;
+				}
+			}
 		}
 		
-		//fix for corrupted levelup
+		
+		if( bFromLoad && levelDefinitions.Size() > 51 )
+		{
+			lastCustomLevel = 50;
+			
+			for( i=levelDefinitions.Size()-1; i>=0; i-=1 )
+			{
+				if( levelDefinitions[i].number > lastCustomLevel )
+				{
+					levelDefinitions.EraseFast(i);
+				}
+			}
+		}
+		
+		
 		expForCurrentLevel = GetTotalExpForCurrLevel();
 		usedPoints = points[EExperiencePoint].used;
-		freePoints = points[EExperiencePoint].free;
-		if( bFromLoad && ( ( level > 1 && usedPoints == 0 ) || freePoints >= expForCurrentLevel || usedPoints < 0 || freePoints < 0 ) )
+		if( bFromLoad && usedPoints < expForCurrentLevel )
 		{
-			pool = Max( usedPoints, 0 ) + Max( freePoints, 0 );
-			points[EExperiencePoint].used = expForCurrentLevel;
-			points[EExperiencePoint].free = Max( 0, pool - expForCurrentLevel );
+			
+			if( theGame.IsNewGameInStandaloneDLCMode() && FactsQuerySum( "standalone_ep1" ) > 0 )
+			{
+				points[EExperiencePoint].used = expForCurrentLevel;
+				expDiff = expForCurrentLevel - usedPoints;
+				
+				
+				if( expDiff > 48000 )
+				{
+					points[EExperiencePoint].free = expDiff - 48000;
+				}
+				else
+				{
+					points[EExperiencePoint].free = 0;
+				}
+			}
+			else
+			{
+				points[EExperiencePoint].used = expForCurrentLevel;
+			}
 		}
 	}
 	
@@ -72,9 +130,9 @@ class W3LevelManager
 		points[ ESkillPoint].free += points[ ESkillPoint ].used - mutPoints;
 		points[ ESkillPoint ].used = mutPoints;	
 		
-		//this shouldn't be modified
-		//points[ EExperiencePoint ].free += points[ EExperiencePoint ].used;
-		//points[ EExperiencePoint ].used = 0;
+		
+		
+		
 	}
 	
 	public final function ResetMutationsDev()
@@ -85,14 +143,12 @@ class W3LevelManager
 		points[ ESkillPoint].free += mutPoints;
 		points[ ESkillPoint ].used -= mutPoints;	
 		
-		//this shouldn't be modified
-		//points[ EExperiencePoint ].free += points[ EExperiencePoint ].used;
-		//points[ EExperiencePoint ].used = 0;
+		
+		
+		
 	}
 	
-	/*
-		Loads data regarding levels form XML (required exp, gained points etc.).
-	*/
+	
 	private function LoadLevelingDataFromXML()
 	{	
 		var dm : CDefinitionsManagerAccessor;
@@ -104,7 +160,7 @@ class W3LevelManager
 		dm = theGame.GetDefinitionsManager();
 		main = dm.GetCustomDefinition('leveling');
 		
-		//first read all levels to check if we're not missing any data
+		
 		for(i=0; i<main.subNodes.Size(); i+=1)
 		{
 			dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'number', temp);	
@@ -113,7 +169,7 @@ class W3LevelManager
 		
 		ArraySortInts(tmpLevels);
 		
-		//skip first definition as it has (number == -1) -> definition for infinite leveling up
+		
 		for(i=2; i<tmpLevels.Size()-1; i+=1)
 		{
 			if(tmpLevels[i-1]+1 != tmpLevels[i])
@@ -123,10 +179,10 @@ class W3LevelManager
 			}
 		}
 		
-		//if here, all ok
+		
 		LogChannel('Leveling',"W3LevelManager.LoadLevelingDataFromXML: min level is " + tmpLevels[0] + ", max level is " + tmpLevels[tmpLevels.Size()-1]);
 		
-		//read & fill actual data
+		
 		for(i=0; i<main.subNodes.Size(); i+=1)
 		{
 			dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'number', temp);				
@@ -150,7 +206,7 @@ class W3LevelManager
 		points[ESkillPoint].free = amount;
 	}
 		
-	// adds points of given type
+	
 	public function AddPoints(type : ESpendablePointType, amount : int, show : bool )
 	{
 		var total : int;
@@ -165,12 +221,17 @@ class W3LevelManager
 			LogAssert(false, "W3LevelManager.AddPoints: amount of <<" + type + ">> is <= 0 !!!");
 			return;
 		}
+		
+		if( type == EExperiencePoint && GetLevel() == GetMaxLevel() )
+		{
+			return;				
+		}
 
 		points[type].free += amount;
 
 		if(type == EExperiencePoint)
 		{
-			// M.J. Adjustment needed for scaled NG+
+			
 			if ( FactsQuerySum("NewGamePlus") > 0 )
 			{
 				if ( theGame.params.GetNewGamePlusLevel() - theGame.params.NEW_GAME_PLUS_MIN_LEVEL > 0 )
@@ -178,14 +239,14 @@ class W3LevelManager
 					extraLevels = theGame.params.GetNewGamePlusLevel() - theGame.params.NEW_GAME_PLUS_MIN_LEVEL;
 				}
 			}
-			//NewGame+ grants bonus exp as we cannot lower exp required for next levels
+			
 			if(FactsQuerySum("NewGamePlus") > 0 && GetLevel() < 50 + extraLevels)
 			{
 				points[type].free += amount;
 				amount *= 2;
 			}
 			
-			//keep gaining levels while you have excess experience points
+			
 			while(true)
 			{
 				total = GetTotalExpForNextLevel();
@@ -205,19 +266,26 @@ class W3LevelManager
 					break;
 				}
 			}
+			
+			
+			if( GetLevel() == GetMaxLevel() )
+			{
+				amount -= 2 * points[type].free;	
+				points[type].free = 0;
+			}
 		
 			theTelemetry.LogWithValue(TE_HERO_EXP_EARNED, amount);
 			
 			arrInt.PushBack(amount);
-			//GetWitcherPlayer().DisplayHudMessage(msg);
-			// here exp
+			
+			
 			hud.OnExperienceUpdate(amount, show);
 		}
 		else if(type == ESkillPoint)
 		{
 			theTelemetry.LogWithValue(TE_HERO_SKILL_POINT_EARNED, amount);
 			
-			//show upgrade icon next to health bar
+			
 			hudWolfHeadModule = (CR4HudModuleWolfHead)hud.GetHudModule( "WolfHeadModule" );
 			if ( hudWolfHeadModule )
 			{
@@ -226,9 +294,7 @@ class W3LevelManager
 		}
 	}
 	
-	/*
-		Spends given amount of points (uses them).
-	*/
+	
 	public function SpendPoints(type : ESpendablePointType, amount : int)
 	{
 		if(amount <= 0)
@@ -247,7 +313,7 @@ class W3LevelManager
 		}
 	}
 	
-	//Rollsback spending of points
+	
 	public final function UnspendPoints(type : ESpendablePointType, amount : int)
 	{
 		if(amount <= 0)
@@ -277,7 +343,7 @@ class W3LevelManager
 		var temp : SLevelDefinition;
 		var levelsOverMax : int;
 		
-		//infinite levels
+		
 		if(level > lastCustomLevel)
 		{
 			levelsOverMax = level - lastCustomLevel;
@@ -294,9 +360,7 @@ class W3LevelManager
 		}
 	}
 	
-	/*
-		Returns total experience required for current level or 0 if at 0 level.
-	*/
+	
 	public function GetTotalExpForCurrLevel() : int
 	{
 		var levelDef : SLevelDefinition;
@@ -305,9 +369,7 @@ class W3LevelManager
 		return levelDef.requiredTotalExp;
 	}
 	
-	/*
-		Returns total experience required for next level or -1 if already at max level.
-	*/
+	
 	public function GetTotalExpForNextLevel() : int							
 	{
 		var nextLevelDef : SLevelDefinition;
@@ -396,7 +458,7 @@ class W3LevelManager
 			GetWitcherPlayer().RemoveAbility( GetWitcherPlayer().GetLevelupAbility( l_i ) );
 		} 
 		
-		// Reset development 
+		
 		level = 1;
 		points[ EExperiencePoint ].free = 0;
 		points[ EExperiencePoint ].used = 0;		

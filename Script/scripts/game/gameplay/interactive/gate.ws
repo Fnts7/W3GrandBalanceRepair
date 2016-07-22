@@ -1,4 +1,9 @@
-﻿statemachine class CGateEntity extends W3LockableEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+statemachine class CGateEntity extends W3LockableEntity
 {
 	private saved var currState : name;
 	private var speedModifier : float;
@@ -39,7 +44,7 @@
 		
 		if( currState == 'Closed' )
 			{
-				//RigidMesh is always in closed position, so do nothing.
+				
 				EnableDeniedArea( true );
 			}
 			else
@@ -88,7 +93,7 @@
 	
 	public function PlayGateSounds()
 	{
-		if( runTime * speedModifier >= 2.0 ) // runTime * speedModifier - time of entire animation
+		if( runTime * speedModifier >= 2.0 ) 
 		{
 			SoundEvent( startSound );
 			AddTimer( 'StopGateSounds', runTime * speedModifier - 1.0, false );

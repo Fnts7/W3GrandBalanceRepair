@@ -1,4 +1,9 @@
-﻿struct MerchantNPCEmbeddedScenes
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+struct MerchantNPCEmbeddedScenes
 {
 	editable var voiceTag        : name;
 	editable var storyScene		 : CStoryScene;
@@ -71,7 +76,7 @@ class W3MerchantNPC extends CNewNPC
 			invComp.GetAllItems(ids);
 			for(i=0; i<ids.Size(); i+=1)
 			{
-				//Process items that do not have stats changed already
+				
 				if ( invComp.GetItemModifierInt(ids[i], 'ItemQualityModified') <= 0 )
 					invComp.AddRandomEnhancementToItem(ids[i]);
 			}
@@ -209,15 +214,15 @@ class W3MerchantNPC extends CNewNPC
 			LogChannel( 'DialogueTest', "Activating TALK Interaction - PLAY DIALOGUE" );
 			isPlayingChatScene = IsPlayingChatScene();
 			
-			//If actor has embedded scenes treat this case differently
+			
 			if ( HasEmbeddedScenes() )
 			{
 				if ( !isPlayingChatScene )
 				{
-				// By default, play dialog
+				
 					if ( !PlayDialog() )
 					{
-						// No main dialog found
+						
 						ciriEntity = (W3ReplacerCiri)thePlayer;
 						if ( ciriEntity )
 						{
@@ -225,7 +230,7 @@ class W3MerchantNPC extends CNewNPC
 						}
 						else
 						{
-							// In case that embedded scene failed go back to regular NPC behavior
+							
 							if ( !StartEmbeddedScene() )
 							{
 								super.OnInteraction( actionName, activator);
@@ -241,7 +246,7 @@ class W3MerchantNPC extends CNewNPC
 		}
 	}
 
-	// If merchant has embedded scene trigger is interaction dialogue
+	
 	event OnInteractionActivationTest( interactionComponentName : string, activator : CEntity )
 	{
 		if( HasEmbeddedScenes() && interactionComponentName == "talk" )

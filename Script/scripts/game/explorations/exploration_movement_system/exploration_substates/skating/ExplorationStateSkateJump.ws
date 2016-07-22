@@ -1,23 +1,28 @@
-﻿// CExplorationStateSkateJump
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 14/02/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CExplorationStateSkateJump extends CExplorationStateJump
 {
 	private				var	skateGlobal		: CExplorationSkatingGlobal;
 	
-	// Attack
+	
 	private 			var attacked				: bool;
 	private editable	var attacktimeMin			: float;				default	attacktimeMin			= 0.0f;
 	private editable	var attackVertSpeedMin		: float;				default	attackVertSpeedMin		= 8.0f;
 	private editable	var attackVertSpeedImpulse	: float;				default	attackVertSpeedImpulse	= 3.0f;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{	
 		if( !IsNameValid( m_StateNameN ) )
@@ -30,10 +35,10 @@ class CExplorationStateSkateJump extends CExplorationStateJump
 		super.InitializeSpecific(_Exploration);
 	}
 		
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{			
-		// No jumping on interactions
+		
 		if( thePlayer.IsInsideInteraction() && thePlayer.IsActionAllowed( EIAB_Interactions ) )
 		{
 			return false;
@@ -48,7 +53,7 @@ class CExplorationStateSkateJump extends CExplorationStateJump
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateEnterSpecific( prevStateName : name )	
 	{	
 		attacked	= false;
@@ -56,25 +61,25 @@ class CExplorationStateSkateJump extends CExplorationStateJump
 		super.StateEnterSpecific( prevStateName );
 	}	
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{		
 		return super.StateChangePrecheck();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{
-		// Check for an aerial attack
-		// TODO: There is something very wrong at calling this function, a bug in the engine?
-		//if( skateGlobal.UpdateJumpAttack() )
+		
+		
+		
 		UpdateJumpAttack();
 		
 		
 		super.StateUpdateSpecific( _Dt );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateJumpAttack()
 	{
 		var newVertSpeed	: float;

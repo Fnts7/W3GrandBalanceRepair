@@ -1,16 +1,10 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Renderer exports
-/** Copyright © 2010 CD Projekt RED
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
 
-/*latent function DecalSpawnTest()
-{
-	var mat : IMaterial;		
-	var res : bool;
-	mat=(IMaterial)LoadResourceAsync("materials\testdecal"); 
-	res = RendererDecalSpawn( thePlayer.GetWorldPosition()+Vector(0,0,1), Vector(0,0,-1), Vector(1,0,0), 1.0, 1.0, 2.0, mat );
-	Log("RendererDecalSpawn "+res);
-}*/
+
+
+

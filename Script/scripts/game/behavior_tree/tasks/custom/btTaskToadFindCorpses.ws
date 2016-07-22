@@ -1,4 +1,9 @@
-﻿class CBTTaskToadFindCorpses extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskToadFindCorpses extends IBehTreeTask
 {
 	var corpsesArray 		: array< CGameplayEntity >;
 	var closestCorpse		: CGameplayEntity;
@@ -15,7 +20,7 @@
 	default maxResults = 3;
 	default tag = 'q601_toad_corpse';
 	
-	function OnActivate() : EBTNodeStatus //move to isAvailable
+	function OnActivate() : EBTNodeStatus 
 	{
 		minDist = 1000.0;
 		npc = GetNPC();
@@ -44,10 +49,7 @@
 				closestCorpse = corpsesArray[i];
 			}
 		}
-		/*if( minDist > 9.0)
-		{
-			return BTNS_Failed;
-		}*/
+		
 		SetActionTarget( closestCorpse );
 		
 		return BTNS_Completed;

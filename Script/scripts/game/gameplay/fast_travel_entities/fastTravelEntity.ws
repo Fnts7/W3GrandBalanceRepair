@@ -1,4 +1,9 @@
-﻿import class CR4MapPinEntity extends CGameplayEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CR4MapPinEntity extends CGameplayEntity
 {
 	import var entityName			: name;
 	import var radius				: float;
@@ -17,7 +22,7 @@ class W3FastTravelEntity extends CR4FastTravelEntity
 {
 	editable var onAreaExit	   : bool; 		default onAreaExit = false;
 	
-	//Options to override messages and oneliners for the land border
+	
 	editable var warningTextStringKeyOverride : string;
 	editable var onelinerSceneOverride : CStoryScene;
 	editable var overrideSceneInput : name;
@@ -72,7 +77,7 @@ class W3FastTravelEntity extends CR4FastTravelEntity
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{
 		var mapManager : CCommonMapManager = theGame.GetCommonMapManager();
-		//var initData : W3MapInitData;
+		
 		
 		if ( activator.GetEntity() == thePlayer && GetWitcherPlayer() )
 		{
@@ -107,7 +112,7 @@ class W3FastTravelEntity extends CR4FastTravelEntity
 	
 	event OnAreaExit( area : CTriggerAreaComponent, activator : CComponent )
 	{
-		//var initData : W3MapInitData;
+		
 		
 		if ( activator.GetEntity() == thePlayer )
 		{
@@ -162,7 +167,7 @@ class W3FastTravelEntity extends CR4FastTravelEntity
 			mac = (CMovingAgentComponent)vehicle.GetComponentByClassName( 'CMovingAgentComponent' );
 			if ( mac )
 			{
-				// it's a horse!
+				
 				shift = mac.GetVelocityBasedOnRequestedMovement();
 				shift.Z = 0;
 				shift *= -1;
@@ -174,13 +179,13 @@ class W3FastTravelEntity extends CR4FastTravelEntity
 				bc = (CBoatComponent)vehicle.GetComponentByClassName( 'CBoatComponent' );
 				if ( bc )
 				{
-					// it's a boat!
+					
 
 					if ( thePlayer.GetCurrentStateName() == 'DismountBoat' )
 					{
-						// special case
-						// player dismounts a motionless boat and crosses world border during animation
-						// we can't use boat speed to calculate vector since we're gonna get [0,0,0]
+						
+						
+						
 						shift = VecFromHeading( rotation.Yaw );
 						shift.Z = 0;
 						shift *= -1;
@@ -191,7 +196,7 @@ class W3FastTravelEntity extends CR4FastTravelEntity
 						shift = bc.GetCurrentSpeed();
 						shift.Z = 0;
 						shift *= -1;
-						rotation.Yaw += 90; // doesn't seem to work for boats
+						rotation.Yaw += 90; 
 						useStaticTrace = false;
 					
 						SHIFT_DISTANCE *= 2;
@@ -204,7 +209,7 @@ class W3FastTravelEntity extends CR4FastTravelEntity
 			mac = ( CMovingAgentComponent )thePlayer.GetMovingAgentComponent();
 			if ( mac )
 			{
-				// player on foot
+				
 				shift = mac.GetVelocityBasedOnRequestedMovement();
 				shift.Z = 0;
 				shift *= -1;
@@ -253,14 +258,14 @@ class W3FastTravelEntity extends CR4FastTravelEntity
 			
 			if( GetWitcherPlayer() )
 			{
-				//If override scene is assign try to use it instead of the voiceset line
+				
 				if( onelinerSceneOverride )
 				{
 					theGame.GetStorySceneSystem().PlayScene( onelinerSceneOverride, overrideSceneInput );
 				}
 				else
 				{
-					thePlayer.PlayVoiceset(100, "Input");	//great name btw...
+					thePlayer.PlayVoiceset(100, "Input");	
 				}
 			}
 		}

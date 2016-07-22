@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Entrance entity
-/** Copyright © 2014
-/***********************************************************************/
+
+
+
 
 class W3EntranceEntity extends CR4MapPinEntity
 {	

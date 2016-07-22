@@ -1,4 +1,9 @@
-﻿// CBTTaskFlyAroundTarget
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 
 class CBTTaskFlyAroundTarget extends CBTTaskVolumetricMove
 {
@@ -51,25 +56,25 @@ class CBTTaskFlyAroundTarget extends CBTTaskVolumetricMove
 			anchorPointToNpcVector.Z = 0;
 			anchorPointToNpcVector = VecNormalize( anchorPointToNpcVector );
 			heading = npc.GetHeadingVector();
-			dest = anchorPointPos + anchorPointToNpcVector * distance;// + VecNormalize( npc.GetHeadingVector() ) * frontalHeadingOffset;
-			// determine at which side we are steering now (to continue doing so)
+			dest = anchorPointPos + anchorPointToNpcVector * distance;
+			
 			crossZ = ( anchorPointToNpcVector.X * heading.Y ) - (anchorPointToNpcVector.Y * heading.X );
 			if ( ( crossZ >= 0.0 && !fallingBack ) || ( crossZ < 0.0 && fallingBack ) )
 			{
-				// steer left
+				
 				dest.X = dest.X - anchorPointToNpcVector.Y * frontalHeadingOffset;
 				dest.Y = dest.Y + anchorPointToNpcVector.X * frontalHeadingOffset;
 			}
 			else
 			{
-				// steer right
+				
 				dest.X = dest.X + anchorPointToNpcVector.Y * frontalHeadingOffset;
 				dest.Y = dest.Y - anchorPointToNpcVector.X * frontalHeadingOffset;
 			}
 			
 			if( fallingBack )
 			{
-				// I am done changing heading when facing the current dest.
+				
 				toDestVector 	= dest - npcPos;				
 				toDestHeading 	= VecHeading( toDestVector );
 				
@@ -79,7 +84,7 @@ class CBTTaskFlyAroundTarget extends CBTTaskVolumetricMove
 				}
 			}	
 			
-			// randomizing
+			
 			random = RandRange( randomFactor ) - ( randomFactor / 2 );
 			
 			dest.X = dest.X + random;
@@ -89,14 +94,14 @@ class CBTTaskFlyAroundTarget extends CBTTaskVolumetricMove
 			
 			dest.Z = dest.Z + height + random;
 			
-			// if new dest is too close
+			
 			anchorPointToDestDist = VecDistance( anchorPointPos, dest );
 			if( anchorPointToDestDist < distance )
 			{
 				dest = dest + VecNormalize( dest - anchorPointPos ) * (distance - anchorPointToDestDist); 
 			}
 			
-			//traceStartPos = npcPos;
+			
 			traceStartPos = dest;
 			traceEndPos = traceStartPos;
 			
@@ -127,9 +132,9 @@ class CBTTaskFlyAroundTarget extends CBTTaskVolumetricMove
 				}
 			}
 				
-			//npc.GetVisualDebug().AddLine( 'flyAround', npcPos, dest, true, Color( 255, 255, 0 ), 1.0f );
 			
-			// Fall back if pathfinding cannot be done			
+			
+			
 			if( !UsePathfinding( npcPos, dest, 2.0 ) && !fallingBack )
 			{
 				fallingBack = true;

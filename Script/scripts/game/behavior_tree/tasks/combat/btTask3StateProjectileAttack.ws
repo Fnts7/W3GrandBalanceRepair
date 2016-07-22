@@ -1,4 +1,9 @@
-﻿class CBTTask3StateProjectileAttack extends CBTTask3StateAttack
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTask3StateProjectileAttack extends CBTTask3StateAttack
 {
 	public var attackRange							: float;
 	public var projEntity							: CEntityTemplate;
@@ -115,7 +120,7 @@
 		{
 			distanceToTarget = VecDistance( npc.GetWorldPosition(), target.GetWorldPosition() );		
 			
-			// used to dodge projectile before it hits
+			
 			projectileFlightTime = distanceToTarget / projectile.projSpeed;
 			target.SignalGameplayEventParamFloat('Time2DodgeProjectile', projectileFlightTime );
 		}
@@ -129,7 +134,7 @@ class CBTTask3StateProjectileAttackDef extends CBTTask3StateAttackDef
 	default instanceClass = 'CBTTask3StateProjectileAttack';
 
 	editable var attackRange 							: float;
-	//editable var projEntity	 						: CEntityTemplate;
+	
 	editable var projectileName	 						: name;
 	editable var dodgeable								: bool;
 	editable var useLookatTarget						: bool;

@@ -1,4 +1,9 @@
-﻿statemachine class CMajorPlaceOfPowerEntity extends CInteractiveEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+statemachine class CMajorPlaceOfPowerEntity extends CInteractiveEntity
 {
 	autobind interactionComponent : CInteractionComponent = "activationComponent";
 	
@@ -27,7 +32,7 @@
 	default fxOnSuccess = 'use';
 	
 	default channelingTime = 2.5;
-	default buffDuration = 1800.0; // 30 min
+	default buffDuration = 1800.0; 
 	default skillPointGranted = false;
 	default isRecharging = false;
 	default autoState = 'PlaceOfPower_Idle';
@@ -49,7 +54,7 @@
 	
 	private final function GetBuffCooldown() : GameTime
 	{	
-			return GameTimeCreate( 0, 0, 0, CeilF(ConvertRealTimeSecondsToGameSeconds(60)) );	//1 minute realtime
+			return GameTimeCreate( 0, 0, 0, CeilF(ConvertRealTimeSecondsToGameSeconds(60)) );	
 	}
 
 	event OnInteraction( actionName : string, activator : CEntity )
@@ -77,7 +82,7 @@
 		
 		if ( area == (CTriggerAreaComponent)this.GetComponent( "VoiceSetTrigger" ) &&  isPlaceOfPowerInIdle && !thePlayer.IsCombatMusicEnabled() && !thePlayer.IsInNonGameplayCutscene() )
 		{
-			theGame.VibrateController( 0, 0.3f, 1.0f ); // place of power
+			theGame.VibrateController( 0, 0.3f, 1.0f ); 
 			GetWitcherPlayer().GetMedallion().Activate( true, 5.0f );
 			
 			if ( CanPlayVoiceSet() )
@@ -94,7 +99,7 @@
 			mapManager.SetEntityMapPinDiscoveredScript( false, entityName, true );
 		}
 		
-		//interactionComponent.SetEnabled( true );
+		
 	}
 	
 	
@@ -116,7 +121,7 @@ state PlaceOfPower_Idle in CMajorPlaceOfPowerEntity
 	event OnEnterState( prevStateName : name )
 	{	
 		parent.isPlaceOfPowerInIdle = true;
-		//parent.interactionComponent.SetEnabled( true );
+		
 		parent.PlayEffect( parent.fxOnIdle );
 		if(thePlayer)
 			thePlayer.PlayerStopAction( PEA_Meditation );
@@ -130,7 +135,7 @@ state PlaceOfPower_Idle in CMajorPlaceOfPowerEntity
 	
 	event OnLeaveState( nextStateName : name )
 	{
-		//parent.interactionComponent.SetEnabled( false );
+		
 		parent.StopEffect( parent.fxOnIdle );
 		parent.isPlaceOfPowerInIdle = false;
 	}
@@ -164,7 +169,7 @@ state PlaceOfPower_Channeling in CMajorPlaceOfPowerEntity
 				if( channelingStartTime + parent.channelingTime > theGame.GetEngineTimeAsSeconds() )
 				{
 					channelPerc = (theGame.GetEngineTimeAsSeconds() - channelingStartTime) / parent.channelingTime;
-					theGame.VibrateController(channelPerc, channelPerc, 0.0001); // place of power
+					theGame.VibrateController(channelPerc, channelPerc, 0.0001); 
 					
 					continue;
 				}
@@ -216,7 +221,7 @@ state PlaceOfPower_Activated in CMajorPlaceOfPowerEntity
 	{
 		var params : SCustomEffectParams;
 	
-		//perk that allows only 1 shrine buff at a time but with infinite duration
+		
 		if( GetWitcherPlayer().CanUseSkill( S_Perk_14 ) )
 		{
 			thePlayer.RemoveAllBuffsOfType( EET_ShrineAard );

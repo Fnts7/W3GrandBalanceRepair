@@ -1,4 +1,9 @@
-﻿// See FlyingCrittersLairEntity::RequestGroupStateChange
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 function FlyingSwarm_RequestGroupStateChange( lairTag : name, groupState : name, affectAllGroups : bool )
 {
 	var lair 			: CFlyingCrittersLairEntityScript;
@@ -17,7 +22,7 @@ function FlyingSwarm_RequestGroupStateChange( lairTag : name, groupState : name,
 	}
 }
 
-// See FlyingCrittersLairEntity::RequestGroupStateChange
+
 function FlyingSwarm_RequestCreateGroup( lairTag : name, boidCount : int, spawnPOI : name )
 {
 	var lair 			: CFlyingCrittersLairEntityScript;
@@ -36,7 +41,7 @@ function FlyingSwarm_RequestCreateGroup( lairTag : name, boidCount : int, spawnP
 	}
 }
 
-// See FlyingCrittersLairEntity::RequestAllGroupsInstantDespawn
+
 function FlyingSwarm_RequestAllGroupsInstantDespawn( lairTag : name )
 {
 	var lair 			: CFlyingCrittersLairEntityScript;
@@ -52,7 +57,7 @@ function FlyingSwarm_RequestAllGroupsInstantDespawn( lairTag : name )
 	}
 }
 
-// disables all the POI of a given tag, will be ignored by the swarm until enabled
+
 function Swarm_DisablePOIs( poiTag : name, disable : bool )
 {
 	var poiEntities 		: array< CEntity >;
@@ -79,7 +84,7 @@ function Swarm_DisablePOIs( poiTag : name, disable : bool )
 	}
 }
 
-// 
+
 function Swarm_DisableLair( lairTag : name, disable : bool )
 {
 	var lairEntity 		: CSwarmLairEntity;

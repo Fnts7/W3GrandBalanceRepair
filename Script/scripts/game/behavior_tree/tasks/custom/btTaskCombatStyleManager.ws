@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class CBehTreeCombatStyleManager extends IBehTreeTask
 {
 	protected var combatDataStorage : CHumanAICombatStorage;
@@ -87,7 +92,7 @@ class CBehTreeCombatStyleManager extends IBehTreeTask
 	
 	function OnDeactivate()
 	{
-		//ProjectileFailSafe();
+		
 	}
 	
 	function ProjectileFailSafe()
@@ -109,7 +114,7 @@ class CBehTreeCombatStyleManager extends IBehTreeTask
 	
 	function CheckIfShouldSwitchToMelee( sqrDist : float )
 	{
-		if ( sqrDist <= 36 ) //6^2
+		if ( sqrDist <= 36 ) 
 		{
 			combatDataStorage.LeaveCurrentCombatStyle();
 		}
@@ -121,7 +126,7 @@ class CBehTreeCombatStyleManager extends IBehTreeTask
 	
 	function CheckIfShouldSwitchToRange( sqrDist : float )
 	{
-		if ( sqrDist > 100 ) //10^2
+		if ( sqrDist > 100 ) 
 		{
 			if( rangedWeaponType == 'bow' )
 				combatDataStorage.SetPreferedCombatStyle( EBG_Combat_Bow );

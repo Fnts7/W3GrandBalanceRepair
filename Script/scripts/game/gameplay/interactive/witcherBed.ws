@@ -1,7 +1,12 @@
-﻿///////////////////////////////
-//  Copyright © 2016		 //
-//	Author: Andrzej Zawadzki //
-///////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
 
 statemachine class W3WitcherBed extends W3AnimationInteractionEntity
 {
@@ -9,11 +14,11 @@ statemachine class W3WitcherBed extends W3AnimationInteractionEntity
 	private var m_wereItemsRefilled		: bool;
 	public var m_bedSaveLock			: int;
 	
-	editable var m_bedLevel	: int; 			// represents level of a bed
+	editable var m_bedLevel	: int; 			
 	
 		hint m_bedLevel = "Represent level of bed";
 		
-	editable var m_handsIkActive : bool;	// enables IK for hands
+	editable var m_handsIkActive : bool;	
 	
 		hint m_handsIkActive = "Enables IK for hands";
 		
@@ -114,13 +119,13 @@ state Sleep in W3WitcherBed
 		theGame.CreateNoSaveLock( "Approaching Bed", parent.m_bedSaveLock, true );
 		MovePlayerToBed();
 		
-		// Enabling hands IK
+		
 		parent.EnableHandsIk();
 	}
 	
 	event OnLeaveState( nextStateName : name )
 	{
-		// Disabling hands IK
+		
 		parent.DisableHandsIk();
 	}
 	
@@ -133,7 +138,7 @@ state Sleep in W3WitcherBed
 		var l_HACKmovementCorrector	: CExplorationMovementCorrector;
 		var l_buffsHud				: CR4HudModuleBuffs;
 		
-		// Locking player's ability to rotate while playing animation IF the ubermovement is ON
+		
 		l_HACKmovementCorrector = thePlayer.substateManager.m_MovementCorrectorO;
 		l_HACKmovementCorrector.disallowRotWhenGoingToSleep = true;		
 		
@@ -142,7 +147,7 @@ state Sleep in W3WitcherBed
 		
 		l_node = parent.GetComponent( "witcherBed_WP_1" );
 		
-		// Turning interaction off
+		
 		l_component = parent.GetComponentByClassName( 'CInteractionComponent' );
 		l_component.SetEnabled( false );
 		
@@ -156,16 +161,16 @@ state Sleep in W3WitcherBed
 		thePlayer.AddBuffImmunity_AllCritical( 'Bed', true );
 		thePlayer.AddBuffImmunity_AllNegative( 'Bed', true );
 		
-		// Moving player to bed
+		
 		thePlayer.BlockAllActions( 'WitcherBed', true,,,,,false );
 		thePlayer.ActionMoveToNodeWithHeading( l_node, MT_Walk, 1.f, 0.4f );
 		
-		// Turning off the collision on bed
+		
 		parent.ApplyAppearance( "no_collision" );
 		
 		thePlayer.RaiseEvent( 'ForceIdle' );
 		
-		// Adjusting player's position
+		
 		l_movAdj = thePlayer.GetMovingAgentComponent().GetMovementAdjustor();
 		l_ticket = l_movAdj.CreateNewRequest( 'InteractionEntity' );
 	
@@ -173,7 +178,7 @@ state Sleep in W3WitcherBed
 		l_movAdj.SlideTowards( l_ticket, l_node );	
 		l_movAdj.RotateTowards( l_ticket, parent, 40 );
 
-		// Starting 'Going ot Bed' animation
+		
 		thePlayer.PlayerStartAction( PEA_GoToSleep );
 	}
 }

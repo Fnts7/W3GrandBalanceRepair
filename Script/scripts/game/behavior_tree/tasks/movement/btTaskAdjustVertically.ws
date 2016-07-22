@@ -1,4 +1,9 @@
-﻿class CBTTaskAdjustVertically extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskAdjustVertically extends IBehTreeTask
 {
 	var maxSlidingSpeed : float; 
 	
@@ -10,7 +15,7 @@
 		var movementAdjustor	: CMovementAdjustor;
 		var traceStartPos, traceEndPos, traceEffect, normal, groundLevel, pos : Vector;
 		
-		// find ground level
+		
 		npcPos = npc.GetWorldPosition();
 		traceStartPos = npcPos;
 		traceEndPos = npcPos;

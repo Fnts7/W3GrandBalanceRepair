@@ -1,18 +1,23 @@
-﻿//>--------------------------------------------------------------------------
-// W3TrapDestructSelf
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Trap that will destruct itself when activated (using apex destructible if possible)
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 25-June-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class W3TrapDestructSelf extends W3Trap
 {
-	//>---------------------------------------------------------------------
-	// VARIABLES
-	//----------------------------------------------------------------------
+	
+	
+	
 	private editable var playEffectOnDestruct			: name;
 	private editable var onlyDestructOnAreaEnter		: bool;
 	private editable var denyAreaAfterDestruction		: bool;
@@ -29,8 +34,8 @@ class W3TrapDestructSelf extends W3Trap
 	hint denyAreaAfterDestruction = "should it activates the deniedArea that prevent npc from walking over after activation";
 	hint excludesblockDestruction = "if one of the excluded actor is in the trigger, do not activate the trap";
 
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	event OnAreaEnter( area : CTriggerAreaComponent, activator : CComponent )
 	{	
 		var l_actor	: CActor;
@@ -38,7 +43,7 @@ class W3TrapDestructSelf extends W3Trap
 		
 		if( area.GetName() == "DetectActors" )
 		{
-			// Only keep tracks of actors if we need this info
+			
 			if( l_actor && excludesblockDestruction )
 			{
 				m_actorsInTrigger.PushBack( l_actor );
@@ -59,8 +64,8 @@ class W3TrapDestructSelf extends W3Trap
 			DestructSelf();
 		}		
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	event OnAreaExit( area : CTriggerAreaComponent, activator : CComponent )
 	{	
 		var l_actor	: CActor;
@@ -71,8 +76,8 @@ class W3TrapDestructSelf extends W3Trap
 			m_actorsInTrigger.Remove( l_actor );
 		}		
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private final function ExcludedActorIsInArea() : bool 
 	{
 		var i : int;
@@ -86,8 +91,8 @@ class W3TrapDestructSelf extends W3Trap
 		
 		return false;
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private final function ShouldExcludeActor( _Actor : CActor ) : bool
 	{
 		var i			: int;
@@ -108,8 +113,8 @@ class W3TrapDestructSelf extends W3Trap
 		return false;
 	}
 	
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	public final function Activate( optional _Target: CNode ):void
 	{		
 		if( m_isDestroyed ) return;
@@ -123,8 +128,8 @@ class W3TrapDestructSelf extends W3Trap
 		}		
 		super.Activate( _Target );
 	}
-	//>---------------------------------------------------------------------
-	//----------------------------------------------------------------------
+	
+	
 	private final function DestructSelf()
 	{
 		var l_invisibleCollision : CComponent;

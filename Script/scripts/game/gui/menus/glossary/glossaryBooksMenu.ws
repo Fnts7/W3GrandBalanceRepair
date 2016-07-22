@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Base class 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2015 CDProjektRed
-/** Author : Yaroslav Getsevich
-/***********************************************************************/
+
+
+
 
 class CR4GlossaryBooksMenu extends CR4MenuBase
 {
@@ -22,7 +24,7 @@ class CR4GlossaryBooksMenu extends CR4MenuBase
 	private var SORT_WEIGHT_TH : int;
 	default SORT_WEIGHT_TH = 1000;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		super.OnConfigUI();
 		
@@ -130,8 +132,8 @@ class CR4GlossaryBooksMenu extends CR4MenuBase
 						bookTitle = bookTitle + "<br><font color=\"#FFDB00\">Item name: '" + bookName + "'</font>";
 					}
 					
-					// DBG
-					//dataObject.SetMemberFlashString( "label", bookTitle + " (" + IntToString( getSortWeightByName( bookName ) ) + ")" );
+					
+					
 					
 					dataObject.SetMemberFlashString( "label", bookTitle );
 					dataObject.SetMemberFlashString( "text", bookText );
@@ -140,8 +142,8 @@ class CR4GlossaryBooksMenu extends CR4MenuBase
 					dataObject.SetMemberFlashBool( "isPainting", isPainting);
 					dataObject.SetMemberFlashBool( "isNew", GetWitcherPlayer().IsBookRead( bookName ) );
 					
-					//dataObject.SetMemberFlashBool( "isBookRead", isBookRead);
-					//dataObject.SetMemberFlashBool( "isNew", uiData.isNew );
+					
+					
 					
 					flashDataList.PushBackFlashObject( dataObject );
 				}
@@ -155,7 +157,7 @@ class CR4GlossaryBooksMenu extends CR4MenuBase
 		var questStr : string;
 		var weight	 : int;
 		
-		// trying to exctract quest N to group books by quest in the list
+		
 		
 		strName = NameToString( itemName );
 		questStr = StrBeforeFirst( strName, "_" );
@@ -193,13 +195,13 @@ class CR4GlossaryBooksMenu extends CR4MenuBase
 		GetWitcherPlayer().RemoveReadBook( itemName );
 	}	
 	
-	event /* C++ */ OnClosingMenu() 
+	event  OnClosingMenu() 
 	{
 		super.OnClosingMenu();
 		theGame.GetGuiManager().SetLastOpenedCommonMenuName( GetMenuName() );
 	}
 
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		var commonMenu : CR4CommonMenu;
 		
@@ -215,18 +217,18 @@ class CR4GlossaryBooksMenu extends CR4MenuBase
 		CloseMenu();
 	}
 	
-	// dummy
+	
 	event OnEntryRead( tag : name ) { }	
 	event OnCategoryOpened( tag : name, opened : bool ) { }
 	event OnEntrySelected( tag : name ) { }
 	
-	// TODO: Category
-	// playerInv.GetItemAbilities( curItemId, booksAbilities );
-	// else if( booksAbilities.Contains('Default Note _Stats') )
-	// else if( booksAbilities.Contains('Default Book _Stats') )
+	
+	
+	
+	
 
-	// panel_glossary_questbooks
-	// panel_glossary_paintings
-	// panel_glossary_books
-	// panel_glossary_notes
+	
+	
+	
+	
 }

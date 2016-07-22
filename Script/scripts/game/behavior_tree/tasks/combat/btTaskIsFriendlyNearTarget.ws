@@ -1,4 +1,9 @@
-﻿class CBTTaskIsFriendlyNearTarget extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskIsFriendlyNearTarget extends IBehTreeTask
 {
 	var useCombatTarget : bool;
 	var considerOwnerAsFriendly : bool;
@@ -55,9 +60,9 @@ class CBTTaskIsFriendlyNearTargetDef extends IBehTreeConditionalTaskDefinition
 	default radius = 4.f;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////
-// C-C-Combo Node!!!!
-//////////////////////////////////////////////////////////////////////////////////////
+
+
+
 class CBTTaskIsHostileAndNoFriendlyNearTarget extends IBehTreeTask
 {
 	public var useCombatTarget 			: bool;

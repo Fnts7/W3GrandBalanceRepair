@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Author : Patryk Fiutowski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3QuestCond_HorsePanic extends CQCActorScriptedCondition
 {
@@ -25,7 +28,7 @@ class W3QuestCond_HorsePanic extends CQCActorScriptedCondition
 		
 		perc = horseComp.GetPanicPercent();
 		
-		//if doesn't have that stat
+		
 		if(perc == -1)
 			return false;
 			

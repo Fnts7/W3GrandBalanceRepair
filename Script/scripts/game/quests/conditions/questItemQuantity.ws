@@ -1,8 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Rafal Jarczewski
-/** 		 Bartosz Bigaj
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3QuestCond_IsItemQuantityMet_GlobalListener extends IGlobalEventScriptedListener
 {
@@ -51,7 +53,7 @@ class W3QuestCond_IsItemQuantityMet extends CQuestScriptedCondition
 	
 	function RegisterGlobalListener( flag : bool )
 	{
-		//player by default if not set
+		
 		if(!IsNameValid(entityTag))
 			entityTag = 'PLAYER';
 	
@@ -172,7 +174,7 @@ class W3QuestCond_IsItemQuantityMet extends CQuestScriptedCondition
 			{
 				itemQuantity = inventory.GetItemQuantityByTag( itemTag, includeHorseInventory, ignoreTags );
 			}
-			else	//no item name, category or tag - count all
+			else	
 			{
 				itemQuantity = inventory.GetAllItemsQuantity( includeHorseInventory, ignoreTags );
 			}

@@ -1,4 +1,9 @@
-﻿import class CWitcherSword extends CItemEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CWitcherSword extends CItemEntity
 {
 	var runeCount : int;
 	editable var padBacklightColor : Vector;
@@ -34,14 +39,7 @@
 		
 		invComp = actor.GetInventory();
 		itemId = invComp.GetItemByItemEntity( this );
-		/*
-		Already handled by ResumeOilBuffs()
-		oilBuff = actor.GetInventory().GetMostRecentOilAppliedOnItem( itemId, true );
-
-		if( oilBuff )
-		{
-			ApplyOil( oilBuff.GetOilAbilityName() );
-		}*/
+		
 		
 		runeCount = invComp.GetItemEnhancementCount( itemId );
 		UpdateEnhancements( invComp );
@@ -100,11 +98,11 @@
 		var id : SItemUniqueId;
 		var oil : W3Effect_Oil;
 		
-		//stop effect does not work, see TTP 150685
-		//StopEffect( GetOilFxName( oilAbilityName ) );
+		
+		
 		PlayEffect( 'oil_none' );
 		
-		//if he have other oils on this sword - show one instead
+		
 		inv = ( ( CActor ) GetParentEntity() ).GetInventory();
 		id = inv.GetItemByItemEntity( this );
 		oil = inv.GetNewestOilAppliedOnItem( id, true );
@@ -404,7 +402,7 @@
 
 		invComp.GetItemEnhancementItems( itemId, enhancements );
 
-		// Disable existing rune effect using member var runeCount
+		
 		if ( runeCount > 0 && ( ( runeCount - 1 ) < enhancements.Size() ) )
 		{
 			StopEffect( GetRuneLevel( runeCount ) );
@@ -416,7 +414,7 @@
 			StopEffect( GetEnchantmentFxName( enhancements[ 0 ] ) );
 		}
 		
-		// Get the new rune count and store from deactivation
+		
 		runeCount = invComp.GetItemEnhancementCount( itemId );
 
 		if ( runeCount > 0 && ( ( runeCount - 1 ) < enhancements.Size() ) )

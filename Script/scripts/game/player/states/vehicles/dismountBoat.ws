@@ -1,14 +1,19 @@
-﻿// Please keep this as empty as possible
-// use RidingManager instead
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 state DismountBoat in CPlayer extends DismountTheVehicle
 {
 	var boatComp : CBoatComponent;
 	var remainingSlideDuration : float;
 	var fromPassenger : bool;
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 
 	event OnEnterState( prevStateName : name )
 	{
@@ -27,7 +32,7 @@ state DismountBoat in CPlayer extends DismountTheVehicle
 		theGame.RequestAutoSave( "dismounted_boat", false );		
 		super.OnLeaveState( nextStateName );
 	}
-	// This is called when the state was interupted ( ie the dismount didn't have time to finish )
+	
 	cleanup function DismountCleanup() 
 	{
 		super.DismountCleanup();
@@ -35,9 +40,9 @@ state DismountBoat in CPlayer extends DismountTheVehicle
 		parent.SignalGameplayEventParamInt( 'RidingManagerDismountBoat', DT_instant | DT_fromScript );
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 
 	entry function ProcessDismountBoat()
 	{
@@ -48,9 +53,9 @@ state DismountBoat in CPlayer extends DismountTheVehicle
 		
 		parent.SetCleanupFunction( 'DismountCleanup' );
 		
-		//boatComp.PlayDismountActorAnim( parent, dismountError, dismountType );
 		
-		//parent.ClearCleanupFunction();
+		
+		
 		
 		dismountType = DT_normal;
 		
@@ -58,8 +63,8 @@ state DismountBoat in CPlayer extends DismountTheVehicle
 		parent.SignalGameplayEventParamInt( 'RidingManagerDismountBoat', dismountType );
 		while( true )
 		{
-			//boatComp.GetSlotTransform( 'seat', position, rotQuat );
-			//( ( CR4Player ) parent ).HACK_BoatDismountPositionCorrection( position );
+			
+			
 		
 			if ( riderData.GetRidingManagerCurrentTask() == RMT_None && riderData.sharedParams.mountStatus == VMS_dismounted )
 			{
@@ -112,7 +117,7 @@ state DismountBoat in CPlayer extends DismountTheVehicle
 	event OnDeath( damageAction : W3DamageAction )
 	{
 		virtual_parent.OnDeath( damageAction );
-		//parent.SetKinematic(false);
+		
 		parent.EnableCollisions( true );
 		parent.RaiseForceEvent( 'Death' );
 	}

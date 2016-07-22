@@ -1,22 +1,24 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Loading StoryBook Screen
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4LoadingMenu extends CR4MenuBase
 {
-	//private var m_fxSetMovieData : CScriptedFlashFunction;
-	//private var m_fxEnableSkip : CScriptedFlashFunction;
-	//private var m_fxSetWorldBackground : CScriptedFlashFunction;
-	//protected var m_journalManager		: CWitcherJournalManager;
+	
+	
+	
+	
 	private var guiManager : CR4GuiManager;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
-		//var initData : W3MenuInitData;
-		//var initData2 : IScriptable;
+		
+		
 		theInput.StoreContext( 'EMPTY_CONTEXT' );
 		
 		super.OnConfigUI();
@@ -25,12 +27,12 @@ class CR4LoadingMenu extends CR4MenuBase
 		MakeModal(true);
 	}
 
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		CloseMenu();
 	}	
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		theInput.RestoreContext( 'EMPTY_CONTEXT', true );
 	}

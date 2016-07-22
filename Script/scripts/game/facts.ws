@@ -1,13 +1,15 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Exports for the facts DB
-/** Copyright © 2009
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/////////////////////////////////////////////
-// Facts DB functions
-/////////////////////////////////////////////
+
+
+
+
+
+
 
 
 struct SFactParameters
@@ -17,36 +19,30 @@ struct SFactParameters
 	editable var validFor	: int;
 }
 
-/*
-	Adds a new fact.
-	
-	validFor - in real seconds for which the fact is valid, -1 means valid forever
-	
-	After the time ends the fact's value is set to 0 HOWEVER the fact is not removed - make sure to check it using QuerySum rather than DoesExist
-*/
-import function FactsAdd( ID : string, optional value : int, optional validFor : int /* = -1 */ );
 
-// Returns a sum of values of all the facts with the specified id.
+import function FactsAdd( ID : string, optional value : int, optional validFor : int  );
+
+
 import function FactsQuerySum( ID : string ) : int;
 
-// Returns a sum of values of all the facts with the specified id
-// that were added after the 'sinceTime'
+
+
 import function FactsQuerySumSince( ID : string, sinceTime : EngineTime ) : int;
 
-// Returns the value of the most recently added fact with the specified id.
+
 import function FactsQueryLatestValue( ID : string ) : int;
 
-// Checks if the specified fact is defined in the DB.
+
 import function FactsDoesExist( ID : string ) : bool;
 
-// Removes a single fact from the facts db.
+
 import function FactsRemove( ID : string ) : bool;
 
 function FactsSet(ID : string, val : int, optional validFor : int )
 {
 	FactsRemove(ID);
 	
-	//magic numbers for engine's custom default values
+	
 	if(validFor == 0)
 		validFor = -1;	
 
@@ -62,15 +58,12 @@ function FactsSubstract(ID : string, optional val : int)
 		FactsSet(ID, Max(0, FactsQuerySum(ID) - val) );
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////   GAMEPLAY FACTS   //////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-	Duplicated facts db functionality. The reason is that if game is paused or if gametime is frozen (e.g. constant 15:30)
-	then facts CANNOT be removed from DB until game is unpaused / time is unfrozen.
-*/
+
+
+
+
+
+
 
 struct SGameplayFact
 {

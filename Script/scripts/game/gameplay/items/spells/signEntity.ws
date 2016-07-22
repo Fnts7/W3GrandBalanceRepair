@@ -1,6 +1,11 @@
-﻿statemachine abstract class W3SignEntity extends CGameplayEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+statemachine abstract class W3SignEntity extends CGameplayEntity
 {
-	// cached owner of this sign entity
+	
 	protected 	var owner 				: W3SignOwner;
 	protected 	var attachedTo 			: CEntity;
 	protected 	var boneIndex 			: int;
@@ -23,7 +28,7 @@
 		
 		if( eventName == 'cast_begin' )
 		{
-			//this gets called on EACH sign cast start - but at this point we don't know yet if the cast will succeed or not
+			
 			if(owner.GetActor() == thePlayer)
 			{
 				thePlayer.SetPadBacklightColorFromSign(GetSignType());				
@@ -73,26 +78,26 @@
 				CacheActionBuffsFromSkill();
 			}
 			
-			// send event for reactions only when animation is played;
+			
 			if ( !skipCastingAnimation )
 			{
 				AddTimer( 'BroadcastSignCast', 0.8, false, , , true );
 			}
 			
-			//add adrenaline if player has skill
+			
 			player = (CR4Player)owner.GetPlayer();
 			if(player && !notPlayerCast && player.CanUseSkill(S_Perk_10))
 			{
 				focus = player.GetAttributeValue('focus_gain');
-				//bonus from skill
+				
 				if ( player.CanUseSkill(S_Sword_s20) )
 				{
 					focus += player.GetSkillAttributeValue(S_Sword_s20, 'focus_gain', false, true) * player.GetSkillLevel(S_Sword_s20);
 				}
-				player.GainStat(BCS_Focus, 0.1f * (1 + CalculateAttributeValue(focus)) );	//normally focus has base defined which changes per attack type - here we have no attack type
+				player.GainStat(BCS_Focus, 0.1f * (1 + CalculateAttributeValue(focus)) );	
 			}
 			
-			//mutation 1 custom FX when we start casting sign
+			
 			witcher = (W3PlayerWitcher) owner.GetPlayer();
 			if( witcher && !notPlayerCast )
 			{
@@ -130,7 +135,7 @@
 			swordEnt = thePlayer.inv.GetItemEntityUnsafe( swordID );
 			if( swordEnt )
 			{
-				//why cast? because all signs have signType == ST_Aard... Trzymajcie mnie
+				
 				if( ( W3AardEntity ) this )
 				{
 					playerFx = 'mutation_1_aard_power';
@@ -161,11 +166,11 @@
 			}
 		}
 		
-		//hud helix
+		
 		theGame.MutationHUDFeedback( MFT_PlayRepeat );
 	}
 	
-	//called when arbitrarily you start casting (already well inside casting start animation)
+	
 	event OnStarted()
 	{
 		var player : CR4Player;
@@ -180,12 +185,12 @@
 		}
 	}
 		
-	//called when the sign's effect should be released - this is last moment when it can be canceled
+	
 	event OnThrowing()
 	{
 	}
 	
-	//called when arbitrarily you finish casting (a lot before sign cast end anim finishes)
+	
 	event OnEnded(optional isEnd : bool)
 	{
 		var witcher : W3PlayerWitcher;
@@ -196,7 +201,7 @@
 		var mutagen17 : W3Mutagen17_Effect;
 
 		var camHeading : float;
-		//
+		
 		witcher = (W3PlayerWitcher)owner.GetActor();
 		if(witcher && witcher.IsCurrentSignChanneled() && witcher.GetCurrentlyCastSign() != ST_Quen && witcher.bRAxisReleased )
 		{
@@ -211,7 +216,7 @@
 			witcher.ResetLastAxisInputIsMovement();
 		}
 		
-		//use mutagen 17 boost
+		
 		witcher = (W3PlayerWitcher)owner.GetActor();
 		if(witcher && witcher.HasBuff(EET_Mutagen17))
 		{
@@ -222,7 +227,7 @@
 			 }
 		}		
 		
-		//mutagen 22
+		
 		if(witcher && witcher.HasBuff(EET_Mutagen22) && witcher.IsInCombat() && witcher.IsThreatened())
 		{
 			abilityName = witcher.GetBuff(EET_Mutagen22).GetAbilityName();
@@ -256,19 +261,13 @@
 		CleanUp();
 	}
 
-	/*//called to abort sign cast
-	public function Cancel( optional force : bool )
-	{
-		CleanUp();
-		// Just in case... it must be handled in states
-		Destroy();
-	}*/
 	
-	//called to abort sign cast
+	
+	
 	event OnSignAborted( optional force : bool )
 	{
 		CleanUp();
-		// Just in case... it must be handled in states	
+		
 		Destroy();
 	}	
 
@@ -282,24 +281,24 @@
 		return owner.GetActor();
 	}
 
-	//called when sign relevant skill was unequipped
+	
 	public function SkillUnequipped( skill : ESkill ){}
 	
-	//called when sign relevant skill was equipped
+	
 	public function SkillEquipped( skill : ESkill ){}
 
-	//called when we do a normal (non-alternate) cast
+	
 	public function OnNormalCast()
 	{
 		if(owner.GetActor() == thePlayer && GetWitcherPlayer().IsInitialized())
-			theGame.VibrateControllerLight();	//non-alternate sign cast
+			theGame.VibrateControllerLight();	
 	}
 
 	public function SetAlternateCast( newSkill : ESkill )
 	{
 		fireMode = 1;
 		skillEnum = newSkill;
-		GetSignStats(); // <--- You should only load the changes... not common stuff again
+		GetSignStats(); 
 	}
 	
 	public function IsAlternateCast() : bool
@@ -313,7 +312,7 @@
 	{	
 		owner.RemoveTemporarySkills();
 		
-		//hide hud mutation helix
+		
 		if( (W3PlayerWitcher)owner.GetPlayer() && GetWitcherPlayer().IsMutationActive( EPMT_Mutation1 ) )
 		{
 			theGame.MutationHUDFeedback( MFT_PlayHide );
@@ -330,7 +329,7 @@
 		usedFocus = b;
 	}
 			
-	//WHY THE F*** DOES THIS FUNCTION *** N O T *** ATTACH THE ENTITY!?!?!?!??!?!
+	
 	function Attach( optional toSlot : bool, optional toWeaponSlot : bool )
 	{		
 		var loc : Vector;
@@ -353,11 +352,11 @@
 		}
 		else
 		{
-			//SEE ANY ATTACHMENTS HERE? I DON'T
+			
 			
 			attachedTo = ownerActor;
 			boneIndex = ownerActor.GetBoneIndex( 'l_weapon' );
-			//boneIndex = ownerActor.GetBoneIndex( 'l_hand' );		
+			
 		}
 		
 		if ( attachedTo )
@@ -366,7 +365,7 @@
 			{
 				loc = MatrixGetTranslation( attachedTo.GetBoneWorldMatrixByIndex( boneIndex ) );
 				
-				//MS: Hack fix for weird Aard rotation (Aard should be using l_weapon but it's not. WTF! )
+				
 				if ( ownerActor == thePlayer && (W3AardEntity)this )
 				{
 					rot = VecToRotation( thePlayer.GetLookAtPosition() - MatrixGetTranslation( thePlayer.GetBoneWorldMatrixByIndex( thePlayer.GetHeadBoneIndex() ) ) );
@@ -388,17 +387,17 @@
 				rot = attachedTo.GetWorldRotation();
 			}
 			
-			//WTF? IT'S (SUPPOSEDLY) ATTACHED SO WHY TELEPORT THIS??? AND WHY TELEPORTING IN LOCALSPACE USING GLOBALSPACE COORDS???
+			
 			TeleportWithRotation( loc, rot );
 		}
 		
-		// debug stuff only for player
+		
 		if ( owner.IsPlayer() )
 		{
-			//localrot = this.GetLocalRotation();
-			//thePlayer.GetVisualDebug().AddSphere( 'signEntity', 0.3f, this.GetWorldPosition(), true, Color( 255, 0, 0 ), 30.f ); 
-			//thePlayer.GetVisualDebug().AddSphere( 'signBone', 0.5f, VecTransformDir(attachedTo.GetBoneWorldMatrixByIndex( boneIndex ),Vector(0,1,0)),true, Color( 0,255,0),30.f);
-			//thePlayer.GetVisualDebug().AddArrow( 'signHeading', thePlayer.GetWorldPosition(), thePlayer.GetWorldPosition() + this.GetHeadingVector()*4, 1.f, 0.2f, 0.2f, true, Color(0,128,128), true,10.f );
+			
+			
+			
+			
 		}
 	}
 	
@@ -409,7 +408,7 @@
 		boneIndex = -1;
 	}
 	
-	// Initializes damage info
+	
 	public function InitSignDataForDamageAction( act : W3DamageAction)
 	{
 		act.SetSignSkill( skillEnum );
@@ -483,17 +482,17 @@
 	
 	timer function BroadcastSignCast( deltaTime : float , id : int)
 	{		
-		// right now we react only to signs casted by player
+		
 		if ( owner.IsPlayer() )
 		{			
-			theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'CastSignAction', -1, 8.0f, -1.f, -1, true ); //reactionSystemSearch
+			theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'CastSignAction', -1, 8.0f, -1.f, -1, true ); 
 			if ( GetSignType() == ST_Aard )
 			{
-				theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( this, 'CastSignActionFar', -1, 30.0f, -1.f, -1, true ); //reactionSystemSearch
+				theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( this, 'CastSignActionFar', -1, 30.0f, -1.f, -1, true ); 
 			}
 			LogReactionSystem( "'CastSignAction' was sent by Player - single broadcast - distance: 10.0" ); 
 		}
-		// To have different logic for each sign
+		
 		BroadcastSignCast_Override();
 	}	
 	
@@ -505,8 +504,8 @@
 	{
 		PlayEffect( friendlyCastEffect );
 		AddTimer('DestroyCastFriendlyTimer', 0.1, true, , , true);
-		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'CastSignAction', -1, 8.0f, -1.f, -1, true ); //reactionSystemSearch
-		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( this, 'CastSignActionFar', -1, 30.0f, -1.f, -1, true ); //reactionSystemSearch
+		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'CastSignAction', -1, 8.0f, -1.f, -1, true ); 
+		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( this, 'CastSignActionFar', -1, 30.0f, -1.f, -1, true ); 
 		thePlayer.GetVisualDebug().AddSphere( 'dsljkfadsa', 0.5f, this.GetWorldPosition(), true, Color( 0, 255, 255 ), 10.f );
 	}
 	
@@ -584,12 +583,12 @@ state Finished in W3SignEntity
 		
 		player = GetWitcherPlayer();	
 		
-		//parent.Detach();
+		
 		parent.DestroyAfter( 8.f );
 		
 		if ( parent.owner.IsPlayer() )
 		{
-			//parent.owner.GetPlayer().RemoveCustomOrientationTarget( 'Signs' );	
+			
 			parent.owner.GetPlayer().GetMovingAgentComponent().EnableVirtualController( 'Signs', false );	
 		}
 		parent.CleanUp();
@@ -605,7 +604,7 @@ state Finished in W3SignEntity
 	
 	event OnSignAborted( optional force : bool )
 	{
-		//Already canceled, do nothing
+		
 	}
 }
 
@@ -620,7 +619,7 @@ state Active in W3SignEntity
 	
 	event OnSignAborted( optional force : bool )
 	{
-		// This spell is already active, cancel it only when new one is cast
+		
 		if( force )
 		{
 			parent.StopAllEffects();
@@ -701,20 +700,8 @@ state NormalCast in W3SignEntity extends BaseCast
 		
 		super.OnEnterState(prevStateName);
 		
-		//FIXME URGENT - WHAT IF CASTER IS NOT PLAYER
-		/* 
-		caster.GetActor().DrainStamina( ESAT_Ability, 0, 0, SkillEnumToName( parent.skillEnum ) );
 		
-		player = caster.GetPlayer();
-		if(player && player.CanUseSkill(S_Perk_09))
-		{
-			cost = player.GetStaminaActionCost(ESAT_Ability, SkillEnumToName( parent.skillEnum ), 0);
-			stamina = player.GetStat(BCS_Stamina, true);
-			
-			if(cost > stamina)
-				player.DrainFocus(1);
-		}
-		*/
+		
 		return true;
 	}
 	
@@ -723,20 +710,8 @@ state NormalCast in W3SignEntity extends BaseCast
 		var player : CR4Player;
 		var cost, stamina : float;
 		
-		//FIXME URGENT - WHAT IF CASTER IS NOT PLAYER
-		/*
-		caster.GetActor().DrainStamina( ESAT_Ability, 0, 0, SkillEnumToName( parent.skillEnum ) );
 		
-		player = caster.GetPlayer();
-		if(player && player.CanUseSkill(S_Perk_09))
-		{
-			cost = player.GetStaminaActionCost(ESAT_Ability, SkillEnumToName( parent.skillEnum ), 0);
-			stamina = player.GetStat(BCS_Stamina, true);
-			
-			if(cost > stamina)
-				player.DrainFocus(1);
-		}
-		*/
+		
 		super.OnEnded(isEnd);
 	}
 }
@@ -745,7 +720,7 @@ state Channeling in W3SignEntity extends BaseCast
 {
 	event OnEnterState( prevStateName : name )
 	{
-		//all BUT aard enter here in alternate cast
+		
 		super.OnEnterState( prevStateName );
 		parent.cachedCost = -1.0f;
 		
@@ -761,7 +736,7 @@ state Channeling in W3SignEntity extends BaseCast
 		theGame.GetBehTreeReactionManager().RemoveReactionEvent( parent, 'CastSignActionFar' );
 		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( parent.owner.GetActor(), 'CastSignAction', -1, 8.0f, -1.f, -1, true );
 		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( parent, 'CastSignActionFar', -1, 30.0f, -1.f, -1, true );
-		//LogChannel( 'CreateReactionEventIfPossible', "CreateReactionEventIfPossible : Stop" );	
+		
 		
 		super.OnLeaveState( nextStateName );
 	}
@@ -805,7 +780,7 @@ state Channeling in W3SignEntity extends BaseCast
 		return true;
 	}
 	
-	//called when channeling all signs EXCEPT aard
+	
 	function Update() : bool
 	{
 		var multiplier, stamina, leftStaminaCostPerc, leftStaminaCost : float;
@@ -848,7 +823,7 @@ state Channeling in W3SignEntity extends BaseCast
 		
 		if(stop)
 		{
-			if( parent.skillEnum == S_Magic_s05 && abortAxii )		//can't check signType as it's not set and equal to ST_Aard for Axii... Halp!
+			if( parent.skillEnum == S_Magic_s05 && abortAxii )		
 			{
 				OnSignAborted( true );
 			}
@@ -861,12 +836,12 @@ state Channeling in W3SignEntity extends BaseCast
 		}
 		else
 		{
-			if(player && !((W3QuenEntity)parent) )	//for some reason (signType != ST_Quen) returns ST_Aard for Quen... doh... not that it surprises me...
+			if(player && !((W3QuenEntity)parent) )	
 			{
-				theGame.VibrateControllerLight();	//sign channeling (except aard & quen)
+				theGame.VibrateControllerLight();	
 			}
 			
-			//FIXME URGENT - WHAT IF CASTER IS NOT PLAYER
+			
 			reductionCounter = caster.GetSkillLevel(virtual_parent.skillEnum) - 1;
 			multiplier = 1;
 			if(reductionCounter > 0)
@@ -875,7 +850,7 @@ state Channeling in W3SignEntity extends BaseCast
 				multiplier = 1 - costReduction.valueMultiplicative;
 			}
 			
-			//FIXME URGENT - WHAT IF CASTER IS NOT PLAYER
+			
 			if (!(virtual_parent.GetSignType() == ST_Quen && caster.CanUseSkill(S_Magic_s04) && multiplier == 0))
 			{
 				if(player)
@@ -896,7 +871,7 @@ state Channeling in W3SignEntity extends BaseCast
 					leftStaminaCost = parent.cachedCost - stamina;
 					leftStaminaCostPerc = leftStaminaCost / player.GetStatMax(BCS_Stamina);
 										
-					//1 full stamina bar equals 1 focus point
+					
 					player.DrainFocus(leftStaminaCostPerc);
 				}
 			}
@@ -917,22 +892,10 @@ state Channeling in W3SignEntity extends BaseCast
 		{
 			return false;
 		}
-		else// if ( !theInput.LastUsedPCInput() )
+		else
 		{
 			return true;
 		}
-		/*else
-		{
-			if ( theInput.IsActionJustPressed('CastSign') || theInput.IsActionJustPressed('Dodge') || theInput.IsActionJustPressed('CbtRoll') || theInput.IsActionJustPressed('Sprint') || theInput.IsActionJustPressed('SprintToggle') || theInput.IsActionJustPressed('AttackLight') || theInput.IsActionJustPressed('AttackHeavy') )
-			{
-				return true;
-			}
-			currentInputContext = theInput.GetContext();
-			if ( currentInputContext == thePlayer.GetExplorationInputContext() || currentInputContext == thePlayer.GetCombatInputContext() )
-			{
-				return false;
-			}
-			return true;
-		}*/
+		
 	}
 }

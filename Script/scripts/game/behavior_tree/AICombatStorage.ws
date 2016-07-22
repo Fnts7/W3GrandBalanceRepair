@@ -1,4 +1,9 @@
-﻿// handler for accessing storage objects
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 struct CriticalStateStruct
 {
 	var CSType			:	ECriticalStateType;
@@ -6,26 +11,26 @@ struct CriticalStateStruct
 	var lastTimeActive	: 	float;
 }
 
-// base combat storage class
+
 class CBaseAICombatStorage extends IScriptable
 {
-	// basic states
+	
 	private var isAttacking 		: 	bool;
 	private var isCharging 			: 	bool;
 	private var isTaunting			:	bool;
 	private var isShooting			:	bool;
 	private var isAiming			:	bool;
-	private var isInImportantAnim 	:   bool; 		// for preventing task interruption by ie. combat target selection
+	private var isInImportantAnim 	:   bool; 		
 	private var preCombatWarning	:	bool;		default preCombatWarning = true;
 	
-	//timeStamps
+	
 	protected var atackTimeStamp		: 	float;
 	protected var tauntTimeStamp		: 	float;
 
-	// critical states
+	
 	private var CSArray			: 	array<CriticalStateStruct>;
 	
-	// setters and getters for basic states
+	
 	function SetIsAttacking( value : bool, optional timeStamp : float ) 	
 	{ 
 		isAttacking = value; 
@@ -57,7 +62,7 @@ class CBaseAICombatStorage extends IScriptable
 	function SetPreCombatWarning( value : bool ) 	{ preCombatWarning = value; }
 	function GetPreCombatWarning() : bool 			{ return preCombatWarning; }
 	
-	// setters and getters for critical states
+	
 	function SetCriticalState( cstate : ECriticalStateType, value : bool, timeOfChange : float )
 	{
 		var i : int;
@@ -67,7 +72,7 @@ class CBaseAICombatStorage extends IScriptable
 			if( CSArray[i].CSType == cstate )
 			{
 				CSArray[i].isActive = value;
-				if( !value ) // on deactivation save time
+				if( !value ) 
 				{
 					CSArray[i].lastTimeActive = timeOfChange;
 				}
@@ -105,7 +110,7 @@ class CBaseAICombatStorage extends IScriptable
 		return 0;
 	}
 	
-	// initializer for critical states
+	
 	function Init()
 	{
 		var temp : CriticalStateStruct;
@@ -187,12 +192,12 @@ class CBaseAICombatStorage extends IScriptable
 	}
 }
 
-// human opponent combat storage class
+
 class CHumanAICombatStorage extends CBaseAICombatStorage
 {
 	private var parryCount		: 	int;
 	
-	// combat styles
+	
 	private var activeStyle 			: EBehaviorGraph;
 	private var preferedStyle 			: EBehaviorGraph;
 	private var leaveCurrentStyle 		: bool;
@@ -208,11 +213,11 @@ class CHumanAICombatStorage extends CBaseAICombatStorage
 	function GetParryCount() : int									{ return parryCount; }
 	function ResetParryCount() 										{ parryCount = 0; }
 	
-	// this is just preferedstyle, to leave current one you need to call LeaveCurrentCombatStyle()
+	
 	function SetPreferedCombatStyle ( newStyle : EBehaviorGraph )	{ preferedStyle = newStyle; }
 	function GetPreferedCombatStyle() : EBehaviorGraph				{ return preferedStyle; } 
 	
-	//called only on StyleActivation!!!
+	
 	function SetActiveCombatStyle( newStyle : EBehaviorGraph )
 	{
 		activeStyle = newStyle;
@@ -221,7 +226,7 @@ class CHumanAICombatStorage extends CBaseAICombatStorage
 	
 	function GetActiveCombatStyle() : EBehaviorGraph				{ return activeStyle; }
 	
-	// if there is no prefered style it will activate next on the list, it won't be left if there is no other style
+	
 	function LeaveCurrentCombatStyle() 								{ leaveCurrentStyle = true; }
 	function StopLeavingCurrentCombatStyle() 						{ leaveCurrentStyle = false; }
 	function IsLeavingStyle() : bool								{ return leaveCurrentStyle; }
@@ -241,24 +246,24 @@ class CHumanAICombatStorage extends CBaseAICombatStorage
 		}
 		else if ( combatStyle == EBG_Combat_Undefined )
 		{
-			return -1;//no activation;
+			return -1;
 		}
 		
 		return 50;
 		
-		//switch(combatStyle)
-		//{
-		//	case EBG_Combat_Default 		: return 0;
-		//	case EBG_Combat_Shield 			: return 50;
-		//	case EBG_Combat_Mage 			: return 50;
-		//	case EBG_Combat_1Handed_Sword 	: return 50;
-		//	case EBG_Combat_2Handed_Sword 	: return 50;
-		//	case EBG_Combat_2Handed_Axe 	: return 50;
-		//	case EBG_Combat_Fists 			: return 50;
-		//	case EBG_Combat_Active 			: return 50;
-		//	case EBG_Combat_Bow				: return 50;
-		//	default : return 50;
-		//}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 	
@@ -308,9 +313,9 @@ class CHumanAICombatStorage extends CBaseAICombatStorage
 	function SetProtectedByQuen(toggle : bool)				{ protectedByQuen = toggle; }
 	function IsProtectedByQuen() : bool						{ return protectedByQuen;}
 	
-	/////////////////////////////////////////////////
-	//Follower Section
-	/////////////////////////////////////////////////
+	
+	
+	
 	
 	private var followerAttackCooldown 			: float;		default followerAttackCooldown 			= 10.f;
 	private var followerKeepDistanceToPlayer 	: bool;			default followerKeepDistanceToPlayer 	= true;
@@ -353,7 +358,7 @@ class CHumanAICombatStorage extends CBaseAICombatStorage
 	}
 };
 
-// boss opponent combat storage class
+
 class CBossAICombatStorage extends CHumanAICombatStorage
 {
 	private var isLightbringerAvailable : bool;
@@ -483,7 +488,7 @@ class CBossAICombatStorage extends CHumanAICombatStorage
 	}	
 };
 
-// extended combat storage class
+
 class CExtendedAICombatStorage extends CBaseAICombatStorage
 {
 	private var attackInfos	: array<AttackInfo>;

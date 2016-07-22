@@ -1,23 +1,13 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2016 CD Projekt RED
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
 
-/*
 
-do formacji mogą się nadawać:
-add_gesture_explain_01-13
-add_gesture_question_03-07
-add_gesture_slight_explain_01-07
-add_reaction - wszystkie
 
-do gossip/greeting:
-add_gesture_slight_explain_05
-add_gesture_slight_explain_06
 
-*/
+
 
 
 class CBTTaskGesturesManager extends IBehTreeTask
@@ -33,7 +23,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 	public var cooldownBetweenGesture 			: float;
 	public var chanceToPlayGesture 				: float;
 	
-	//private var 
+	
 	private var m_animListLeftHand 				: array<name>;
 	private var m_animListRightHand 			: array<name>;
 	private var m_animListBothHands 			: array<name>;
@@ -51,19 +41,19 @@ class CBTTaskGesturesManager extends IBehTreeTask
 	
 	function Initialize()
 	{
-		//GOSSIP
-		//animationListGossip.PushBack( 'add_gesture_slight_explain_05' ); r
-		//animationListGossip.PushBack( 'add_gesture_slight_explain_06' ); l
 		
-		//FORMATIONS
-		//both hands
+		
+		
+		
+		
+		
 		m_animList.PushBack( 'add_gesture_explain_01' );
 		m_animList.PushBack( 'add_gesture_explain_02' );
 		m_animList.PushBack( 'add_gesture_explain_03' );
 		m_animList.PushBack( 'add_gesture_explain_04' );
 		m_animList.PushBack( 'add_gesture_explain_05' );
 		m_animList.PushBack( 'add_gesture_explain_06' );
-		m_animList.PushBack( 'add_gesture_explain_07' ); 		//r
+		m_animList.PushBack( 'add_gesture_explain_07' ); 		
 		m_animList.PushBack( 'add_gesture_explain_08' );
 		m_animList.PushBack( 'add_gesture_explain_09' );
 		m_animList.PushBack( 'add_gesture_explain_10' );
@@ -75,13 +65,13 @@ class CBTTaskGesturesManager extends IBehTreeTask
 		m_animList.PushBack( 'add_gesture_question_05' );
 		m_animList.PushBack( 'add_gesture_question_06' );
 		m_animList.PushBack( 'add_gesture_question_07' );
-		//	m_animList.PushBack( 'add_gesture_slight_explain_01' );
-		//	m_animList.PushBack( 'add_gesture_slight_explain_02' );
-		//	m_animList.PushBack( 'add_gesture_slight_explain_03' );
-		//	m_animList.PushBack( 'add_gesture_slight_explain_04' );
+		
+		
+		
+		
 		m_animList.PushBack( 'add_gesture_slight_explain_05' );
 		m_animList.PushBack( 'add_gesture_slight_explain_06' ); 
-		//	m_animList.PushBack( 'add_gesture_slight_explain_07' );
+		
 		m_animList.PushBack( 'add_reaction_agreeing_nod_01' );
 		m_animList.PushBack( 'add_reaction_agreeing_nod_02' );
 		m_animList.PushBack( 'add_reaction_laugh_01' );
@@ -90,12 +80,12 @@ class CBTTaskGesturesManager extends IBehTreeTask
 		m_animList.PushBack( 'add_reaction_shake_head_01' );
 		m_animList.PushBack( 'add_reaction_shake_head_02' );
 		
-		//left hand
-		//	m_animListLeftHand.PushBack( 'add_gesture_question_05' ); 			//l
-		//	m_animListLeftHand.PushBack( 'add_gesture_slight_explain_02' ); 	//l
-		//	m_animListLeftHand.PushBack( 'add_gesture_slight_explain_03' ); 	//l
-		m_animListLeftHand.PushBack( 'add_gesture_slight_explain_06' ); 	//l 
-		m_animListLeftHand.PushBack( 'add_reaction_agreeing_nod_01' ); 		//l
+		
+		
+		
+		
+		m_animListLeftHand.PushBack( 'add_gesture_slight_explain_06' ); 	
+		m_animListLeftHand.PushBack( 'add_reaction_agreeing_nod_01' ); 		
 		m_animListLeftHand.PushBack( 'add_gesture_explain_01' );
 		m_animListLeftHand.PushBack( 'add_gesture_explain_02' );
 		m_animListLeftHand.PushBack( 'add_gesture_explain_03' );
@@ -113,64 +103,54 @@ class CBTTaskGesturesManager extends IBehTreeTask
 		m_animListLeftHand.PushBack( 'add_gesture_question_05' );
 		m_animListLeftHand.PushBack( 'add_gesture_question_06' );
 		m_animListLeftHand.PushBack( 'add_gesture_question_07' );
-		//	m_animListLeftHand.PushBack( 'add_reaction_agreeing_nod_02' ); 		//n
-		//	m_animListLeftHand.PushBack( 'add_reaction_laugh_01' ); 			//n
-		//	m_animListLeftHand.PushBack( 'add_reaction_offended_01' ); 			//n
-		//	m_animListLeftHand.PushBack( 'add_reaction_offended_02' ); 			//n
-		//	m_animListLeftHand.PushBack( 'add_reaction_shake_head_01' ); 		//n
-		//	m_animListLeftHand.PushBack( 'add_reaction_shake_head_02' ); 		//n
 		
-		//right hand
-		//	m_animListRightHand.PushBack( 'add_gesture_slight_explain_01' ); 	//r
-		m_animListRightHand.PushBack( 'add_gesture_slight_explain_05' ); 	//r
+		
+		
+		
+		
+		
+		
+		
+		
+		m_animListRightHand.PushBack( 'add_gesture_slight_explain_05' ); 	
 		m_animListRightHand.PushBack( 'add_gesture_explain_01' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_02' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_03' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_04' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_05' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_06' );
-		m_animListRightHand.PushBack( 'add_gesture_explain_07' ); 			//r
+		m_animListRightHand.PushBack( 'add_gesture_explain_07' ); 			
 		m_animListRightHand.PushBack( 'add_gesture_explain_08' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_09' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_10' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_11' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_12' );
 		m_animListRightHand.PushBack( 'add_gesture_explain_13' );
-		//	m_animListRightHand.PushBack( 'add_reaction_agreeing_nod_02' ); 	//n
-		//	m_animListRightHand.PushBack( 'add_reaction_laugh_01' ); 			//n
-		//	m_animListRightHand.PushBack( 'add_reaction_offended_01' ); 		//n
-		//	m_animListRightHand.PushBack( 'add_reaction_offended_02' ); 		//n
-		//	m_animListRightHand.PushBack( 'add_reaction_shake_head_01' ); 		//n
-		//	m_animListRightHand.PushBack( 'add_reaction_shake_head_02' ); 		//n
-		
-		//both hands
-		m_animListBothHands.PushBack( 'add_reaction_agreeing_nod_02' ); 	//n
-		m_animListBothHands.PushBack( 'add_reaction_laugh_01' ); 			//n
-		m_animListBothHands.PushBack( 'add_reaction_offended_01' ); 		//n
-		m_animListBothHands.PushBack( 'add_reaction_offended_02' ); 		//n
-		m_animListBothHands.PushBack( 'add_reaction_shake_head_01' ); 		//n
-		m_animListBothHands.PushBack( 'add_reaction_shake_head_02' ); 		//n
 		
 		
-		//we'll remove animations from duplicate arrays to avoid repeating same anims
-		//when array size reaches zero duplicate array will be restored from main array
+		
+		
+		
+		
+		
+		
+		m_animListBothHands.PushBack( 'add_reaction_agreeing_nod_02' ); 	
+		m_animListBothHands.PushBack( 'add_reaction_laugh_01' ); 			
+		m_animListBothHands.PushBack( 'add_reaction_offended_01' ); 		
+		m_animListBothHands.PushBack( 'add_reaction_offended_02' ); 		
+		m_animListBothHands.PushBack( 'add_reaction_shake_head_01' ); 		
+		m_animListBothHands.PushBack( 'add_reaction_shake_head_02' ); 		
+		
+		
+		
+		
 		animListLeftHand = m_animListLeftHand;
 		animListRightHand = m_animListRightHand;
 		animListBothHands = m_animListBothHands;
 		animList = m_animList;
 	}
 	
-	/*
-	function IsAvailable() : bool
-	{
-		return true;
-	}
 	
-	function OnActivate() : EBTNodeStatus
-	{
-		return BTNS_Active;
-	}
-	*/
 	
 	latent function Main() : EBTNodeStatus
 	{
@@ -208,7 +188,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 						i = RandRange( animListBothHands.Size() - 1, 0 );
 						actor.RaiseEvent( 'GestureNoHands' );
 						SleepOneFrame();
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_NO_HANDS_SLOT', animListBothHands[i] , 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( animListBothHands[i], 'GESTURE_NO_HANDS_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -229,7 +209,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 					{
 						actor.RaiseEvent( 'GestureRightHand' );
 						SleepOneFrame();
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_RIGHT_HAND_SLOT', 'add_gesture_slight_explain_05', 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( 'add_gesture_slight_explain_06', 'GESTURE_RIGHT_HAND_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -244,7 +224,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 						i = RandRange( animListLeftHand.Size() - 1, 0 );
 						actor.RaiseEvent( 'GestureRightHand' );
 						SleepOneFrame();
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_RIGHT_HAND_SLOT', animListLeftHand[i] , 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( animListLeftHand[i], 'GESTURE_RIGHT_HAND_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -265,7 +245,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 					{
 						actor.RaiseEvent( 'GestureLeftHand' );
 						SleepOneFrame();
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_LEFT_HAND_SLOT', 'add_gesture_slight_explain_06', 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( 'add_gesture_slight_explain_05', 'GESTURE_LEFT_HAND_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -280,7 +260,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 						i = RandRange( animListRightHand.Size() - 1, 0 );
 						actor.RaiseEvent( 'GestureLeftHand' );
 						SleepOneFrame();
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_LEFT_HAND_SLOT', animListRightHand[i] , 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( animListRightHand[i], 'GESTURE_LEFT_HAND_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -301,7 +281,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 					{
 						actor.RaiseEvent( 'GestureBothHands' );
 						SleepOneFrame();
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_BOTH_HANDS_SLOT', 'add_gesture_slight_explain_05', 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( 'add_gesture_slight_explain_05', 'GESTURE_BOTH_HANDS_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -316,7 +296,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 					{
 						actor.RaiseEvent( 'GestureBothHands' );
 						SleepOneFrame();
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_BOTH_HANDS_SLOT', 'add_gesture_slight_explain_06', 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( 'add_gesture_slight_explain_06', 'GESTURE_BOTH_HANDS_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -335,7 +315,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 					tempF = RandF();
 					if ( tempF > 0.67f )
 					{
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_BOTH_HANDS_SLOT', animList[i] , 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( animList[i], 'GESTURE_BOTH_HANDS_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -351,7 +331,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 					}
 					else if ( tempF > 0.33f && tempF <= 0.67f )
 					{
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_BOTH_HANDS_SLOT', animList[i] , 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( animListLeftHand[i], 'GESTURE_LEFT_HAND_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );
@@ -367,7 +347,7 @@ class CBTTaskGesturesManager extends IBehTreeTask
 					}
 					else
 					{
-						//if ( actor.ActionPlaySlotAnimationAsync( 'GESTURE_BOTH_HANDS_SLOT', animList[i] , 0.5, 0.8 ) )
+						
 						if ( mac.PlaySlotAnimationAsync( animListRightHand[i], 'GESTURE_RIGHT_HAND_SLOT' ) )
 						{
 							theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( actor, 'GesticulatingActor', 12.0f, 5, 1, 999, true );

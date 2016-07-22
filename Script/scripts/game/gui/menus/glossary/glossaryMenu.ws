@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - glossary tutorials
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author :		 Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4GlossaryMenu extends CR4ListBaseMenu
 {	
@@ -13,7 +15,7 @@ class CR4GlossaryMenu extends CR4ListBaseMenu
 	
 	var allEntries						: array<CJournalGlossaryGroup>;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{	
 		var i							: int;
 		var tempEntries					: array<CJournalBase>;
@@ -57,7 +59,7 @@ class CR4GlossaryMenu extends CR4ListBaseMenu
 		var l_Title					: string;
 		var l_Tag					: name;
 		var l_IconPath				: string;
-		var l_GroupTitle			: string; // #B to kill
+		var l_GroupTitle			: string; 
 		var l_IsNew					: bool;
 
 		l_DataFlashArray = m_flashValueStorage.CreateTempFlashArray();
@@ -67,7 +69,7 @@ class CR4GlossaryMenu extends CR4ListBaseMenu
 		{	
 			l_groupEntry = allEntries[i];
 		
-			l_GroupTitle = "BZIUM"; // #B to kill
+			l_GroupTitle = "BZIUM"; 
 			m_journalManager.GetActivatedChildren(l_groupEntry,l_tempEntries);
 			
 			for( j = 0; j < l_tempEntries.Size(); j += 1 )
@@ -85,8 +87,8 @@ class CR4GlossaryMenu extends CR4ListBaseMenu
 				l_DataFlashObject = m_flashValueStorage.CreateTempFlashObject();
 					
 				l_DataFlashObject.SetMemberFlashUInt(  "tag", NameToFlashUInt(l_Tag) );
-				l_DataFlashObject.SetMemberFlashString(  "dropDownLabel", l_GroupTitle ); // #B to kill
-				l_DataFlashObject.SetMemberFlashString(  "dropDownIcon", "icons/monsters/ICO_MonsterDefault.png" ); // #B to kill
+				l_DataFlashObject.SetMemberFlashString(  "dropDownLabel", l_GroupTitle ); 
+				l_DataFlashObject.SetMemberFlashString(  "dropDownIcon", "icons/monsters/ICO_MonsterDefault.png" ); 
 									
 				l_DataFlashObject.SetMemberFlashBool( "isNew", l_IsNew );
 				l_DataFlashObject.SetMemberFlashBool( "selected", (currentTag == l_Tag) );			
@@ -154,7 +156,7 @@ class CR4GlossaryMenu extends CR4ListBaseMenu
 	
 	function PlayOpenSoundEvent()
 	{
-		// Common Menu takes care of this for us
-		//OnPlaySoundEvent("gui_global_panel_open");	
+		
+		
 	}
 }

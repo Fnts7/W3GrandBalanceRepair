@@ -1,31 +1,25 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2013
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/*
-	Class handles the crafting process. In order to craft an item we must visit
-	a craftsman of proper type (e.g. weaponsmith) and level (e.g. grand master).
-	We must also have a proper schematic.
-	
-	In general, items used to craft an item add their craft bonus abilities to
-	the item.
-*/
+
+
+
 class W3CraftingManager
 {
-	protected var schematics : array<SCraftingSchematic>;		//schematics known to player
-	protected var craftMasterComp : W3CraftsmanComponent;		//crafting NPC component, holds crafter data
+	protected var schematics : array<SCraftingSchematic>;		
+	protected var craftMasterComp : W3CraftsmanComponent;		
 	
-	/**
-		Initializes crafting - must be called!
-	*/
+	
 	public function Init( masterComp : W3CraftsmanComponent )
 	{
 		craftMasterComp = masterComp;
 		LoadSchematicsXMLData( GetWitcherPlayer().GetCraftingSchematicsNames() );
 	}
 	
-	// Caches recipes' data from XML for given recipes
+	
 	protected function LoadSchematicsXMLData( schematicsNames : array<name> ) : void
 	{
 		var dm : CDefinitionsManagerAccessor;
@@ -58,7 +52,7 @@ class W3CraftingManager
 					if(dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'price', tmpInt))
 						schem.baseCraftingPrice = tmpInt;	
 					
-					//ingredients
+					
 					ingredients = dm.GetCustomDefinitionSubNode(main.subNodes[i],'ingredients');					
 					for(k=0; k<ingredients.subNodes.Size(); k+=1)
 					{		
@@ -77,7 +71,7 @@ class W3CraftingManager
 					
 					schematics.PushBack(schem);		
 
-					//clear
+					
 					schem.baseCraftingPrice = -1;
 					schem.craftedItemName = '';
 					schem.ingredients.Clear();
@@ -91,9 +85,7 @@ class W3CraftingManager
 		}
 	}
 		
-	/**
-		Checks for potential crafting errors (eg. not enough gold) and sets the out error string when necessary
-	*/
+	
 	public function CanCraftSchematic(schematicName : name, checkMerchant : bool) : ECraftingException
 	{
 		var schem : SCraftingSchematic;
@@ -135,7 +127,7 @@ class W3CraftingManager
 		return ECE_NoException;
 	}
 	
-	//returns true if schematic was found at all
+	
 	public function GetSchematic(s : name, out ret : SCraftingSchematic) : bool
 	{
 		var i : int;
@@ -164,7 +156,7 @@ class W3CraftingManager
 		return -1;
 	}
 
-	//Crafts given schematic
+	
 	public function Craft(schemName : name, out item : SItemUniqueId) : ECraftingException
 	{
 		var error : ECraftingException;
@@ -187,11 +179,11 @@ class W3CraftingManager
 			
 		GetSchematic(schemName, schem);
 		
-		//take money
+		
 		craftsman = (CGameplayEntity)craftMasterComp.GetEntity();
 		thePlayer.inv.GiveMoneyTo(craftsman.GetInventory(), GetCraftingCost(schemName), false);
 		
-		//take ingredients
+		
 		equipAfterCrafting = false;
 		for(i=0; i<schem.ingredients.Size(); i+=1)
 		{
@@ -203,7 +195,7 @@ class W3CraftingManager
 					equipAfterCrafting = true;
 				}
 			}
-			//store used socketable items
+			
 			thePlayer.inv.GetItemEnhancementItems(itemsingr[0], temp);
 			ArrayOfNamesAppend(upgrades, temp);
 			temp.Clear();
@@ -211,15 +203,15 @@ class W3CraftingManager
 			thePlayer.inv.RemoveItemByName(schem.ingredients[i].itemName, schem.ingredients[i].quantity);
 		}
 		
-		//add item
+		
 		items = thePlayer.inv.AddAnItem(schem.craftedItemName, schem.craftedItemCount);
 		item = items[0];
 		
 		if ( equipAfterCrafting )
 			thePlayer.EquipItem( item );
 			
-		//restore upgrtades in sockets
-		size = Min(thePlayer.inv.GetItemEnhancementSlotsCount(item), upgrades.Size());	//amount of given upgrades is capped by how many new item can have
+		
+		size = Min(thePlayer.inv.GetItemEnhancementSlotsCount(item), upgrades.Size());	
 		for(i=0; i<size; i+=1)
 		{
 			upgradeItem = thePlayer.inv.AddAnItem(upgrades[i], 1, true, true);
@@ -269,7 +261,7 @@ function getCraftingSchematicFromName(schematicName : name):SCraftingSchematic
 			if(dm.GetCustomNodeAttributeValueInt(main.subNodes[i], 'price', tmpInt))
 				schem.baseCraftingPrice = tmpInt;	
 			
-			//ingredients
+			
 			ingredients = dm.GetCustomDefinitionSubNode(main.subNodes[i],'ingredients');					
 			for(k=0; k<ingredients.subNodes.Size(); k+=1)
 			{		

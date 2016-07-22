@@ -1,11 +1,14 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : Ryan Pergent
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Effect_VitalityDrain extends W3DamageOverTimeEffect
 {
-	//Vitality draining
+	
 	default effectType 		= EET_VitalityDrain;
 	default isPositive = false;
 	default isNeutral = false;
@@ -13,7 +16,7 @@ class W3Effect_VitalityDrain extends W3DamageOverTimeEffect
 	
 	public function OnDamageDealt(dealtDamage : bool)
 	{
-		//if target received no damage then we shut off the particle effect
+		
 		if(!dealtDamage)
 		{
 			shouldPlayTargetEffect = false;

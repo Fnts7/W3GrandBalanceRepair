@@ -1,4 +1,9 @@
-﻿class CR4HudModuleConsole extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleConsole extends CR4HudModuleBase
 {
 	private var m_fxHudConsoleMsg		: CScriptedFlashFunction;
 	private var m_fxTestHudConsole		: CScriptedFlashFunction;
@@ -9,7 +14,7 @@
 	private var displayTime : float;		default displayTime = 0.0;
 	private var pendingMessages : array<string>;
 	
-	event /* Flash */ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -58,7 +63,7 @@
 		return false;
 	}
 	
-	event /* flash */ OnMessageHidden( value : string)
+	event  OnMessageHidden( value : string)
 	{
 		_iDuringDisplay = Max(0,_iDuringDisplay-1);
 		LogChannel('HUD_CONSOLE'," OnMessageHidden _iDuringDisplay "+(_iDuringDisplay-1) +" displayTime "+displayTime+" value "+value);
@@ -98,12 +103,12 @@
 		var tempY				: float;
 		
 		l_flashModule 	= GetModuleFlash();
-		//theGame.GetUIHorizontalFrameScale()
-		//theGame.GetUIVerticalFrameScale()
 		
-		// #J SUPER LAME
+		
+		
+		
 		tempX = anchorX + (300.0 * (1.0 - theGame.GetUIHorizontalFrameScale()));
-		tempY = anchorY;// - (200.0 * (1.0 - theGame.GetUIVerticalFrameScale())); 
+		tempY = anchorY;
 		
 		l_flashModule.SetX( tempX );
 		l_flashModule.SetY( tempY );	

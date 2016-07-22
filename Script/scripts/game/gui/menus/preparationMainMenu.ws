@@ -1,15 +1,17 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - preparation mutagens
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4PreparationMainMenu extends CR4MenuBase
 {
 	
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{	
 		var l_flashObject			: CScriptedFlashObject;
 		var l_flashArray			: CScriptedFlashArray;
@@ -53,19 +55,19 @@ class CR4PreparationMainMenu extends CR4MenuBase
 		var str : string;
 		levelManager = GetWitcherPlayer().levelManager;
 		
-		str = (string)levelManager.GetPointsTotal(EExperiencePoint) + "/" +(string)levelManager.GetTotalExpForNextLevel(); // #B maybe total - previous lvl exp ??
+		str = (string)levelManager.GetPointsTotal(EExperiencePoint) + "/" +(string)levelManager.GetTotalExpForNextLevel(); 
 		return str;
 	}
 	
-	function UpdateNavigationTitles() // @FIXME BIDON - bindings are ok ?
+	function UpdateNavigationTitles() 
 	{
 		m_flashValueStorage.SetFlashString("inventory.navigation.title", GetLocStringByKeyExt("panel_title_preapration"), -1 );
 		m_flashValueStorage.SetFlashString("inventory.navigation.previous", "", -1 );
 		m_flashValueStorage.SetFlashString("inventory.navigation.next", "", -1 );
-		//m_flashValueStorage.SetFlashString("inventory.navigation.enabled", 2, -1 );
+		
 	}
 	
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		if ( !GetSubMenu() )
 		{
@@ -79,7 +81,7 @@ class CR4PreparationMainMenu extends CR4MenuBase
 	
 	
 	
-	event /*flash*/ OnPreparationTabSelected( tabID : int )
+	event  OnPreparationTabSelected( tabID : int )
 	{
 		if( GetSubMenu() )
 		{

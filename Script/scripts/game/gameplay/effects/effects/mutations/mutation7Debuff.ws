@@ -1,4 +1,9 @@
-﻿class W3Effect_Mutation7Debuff extends W3Mutation7BaseEffect
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3Effect_Mutation7Debuff extends W3Mutation7BaseEffect
 {
 	private var minCapStacks : int;
 	
@@ -28,7 +33,7 @@
 		target.SoundEvent( 'ep2_mutations_07_berserk_debuff' );
 	}
 	
-	/* override */
+	
 	public function GetStacks() : int
 	{
 		return (int)( Min( minCapStacks, actorsCount - 1 ) * 100 * apBonus );

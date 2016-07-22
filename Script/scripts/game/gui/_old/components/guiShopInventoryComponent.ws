@@ -1,8 +1,13 @@
-﻿class W3GuiShopInventoryComponent extends W3GuiBaseInventoryComponent
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3GuiShopInventoryComponent extends W3GuiBaseInventoryComponent
 {
 	protected function InvalidateItems( items : array<SItemUniqueId> )
 	{
-		//_dpShop.InvalidateData(); // #B deprecated
+		
 	}
 
 	function SetInventoryFlashObjectForItem( item : SItemUniqueId, out flashObject : CScriptedFlashObject) : void
@@ -33,7 +38,7 @@
 		}
 		
 		flashObject.SetMemberFlashBool( "isQuest", isQuest );
-		flashObject.SetMemberFlashBool( "isNew", false ); // ignore for shop
+		flashObject.SetMemberFlashBool( "isNew", false ); 
 		flashObject.SetMemberFlashString( "questTag", l_questTag );
 	}
 	
@@ -42,13 +47,13 @@
 		return false;
 	}
 	
-	// For override
+	
 	protected function ShopHasInfiniteFunds() : bool
 	{
 		return _inv.GetFundsType() == EInventoryFunds_Unlimited;
 	}
 
-	// Shop is selling Item to the Player
+	
 	public function GiveItem( itemId : SItemUniqueId, customer : W3GuiBaseInventoryComponent, optional quantity : int, optional out newItemID : SItemUniqueId ) : bool
 	{
 		var customerMoney : int;
@@ -85,7 +90,7 @@
 		return success;
 	}
 	
-	// Shop is purchasing Item from the Player; Giver = Player
+	
 	public function ReceiveItem( itemId : SItemUniqueId, giver : W3GuiBaseInventoryComponent, optional quantity : int, optional out newItemID : SItemUniqueId ) : bool
 	{
 		var shopMoney : int;
@@ -126,4 +131,4 @@
 	}
 }
 
-//--------------------------------------------------------------------------------------------------------
+

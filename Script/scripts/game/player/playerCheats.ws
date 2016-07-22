@@ -1,6 +1,9 @@
-﻿/**
-	kills all enemies in range
-*/
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 exec function killall( optional range : float )
 {	
 	var enemies: array<CActor>;
@@ -30,9 +33,7 @@ exec function killall( optional range : float )
 	}
 }
 
-/**
-	restores stamina in player
-*/
+
 exec function RestoreStamina( optional val : int )
 {	
 	if( val == 0 )
@@ -43,9 +44,7 @@ exec function RestoreStamina( optional val : int )
 	thePlayer.GainStat( BCS_Stamina, val );
 }
 
-/**
-	prevent from draining stamina
-*/
+
 exec function staminaboy()
 {
 	StaminaBoyInternal(!FactsDoesExist("debug_fact_stamina_boy"));
@@ -85,9 +84,7 @@ function StaminaPonyInternal(on : bool)
 	}
 }
 
-/**
 
-*/
 exec function buffgeralt( buffName : name, optional duration : float, optional src : string )
 {
 	var type : EEffectType;
@@ -141,17 +138,15 @@ exec function bufftarget( type : EEffectType, optional duration : float, optiona
 	}
 }
 
-/**
 
-*/
 exec function HealGeralt( )
 {
 	thePlayer.GainStat(BCS_Vitality, 10);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////
-// Experience, mutations, skills, knowledge etc.
-//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 exec function addexp( amount : int )
 {
@@ -161,9 +156,7 @@ exec function addexp( amount : int )
 	}
 }
 
-/**
-	Adds levels to reach level specified in parameter
-*/
+
 exec function setlevel( targetLvl : int )
 {
 	var lm : W3PlayerWitcher;
@@ -180,15 +173,13 @@ exec function setlevel( targetLvl : int )
 		currLvl = lm.GetLevel();
 		
 		if(prevLvl == currLvl)
-			break;				//some error, we didnt gain a level this time around
+			break;				
 		
 		prevLvl = currLvl;
 	}	
 }
 
-/**
-	level up geralt by number of timer ( optionally 1 )
-*/
+
 exec function levelup( optional times : int )
 {
 	var lm : W3PlayerWitcher;
@@ -213,70 +204,14 @@ exec function addskillpoints( optional value : int )
 	GetWitcherPlayer().levelManager.AddPoints(ESkillPoint,value, true);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////
-// 
-//////////////////////////////////////////////////////////////////////////////////////////
 
-/**
 
-*/
+
+
+
 exec function LogPlayerDev()
 {
-/*	var currLvl : int;
-	var sp : int;
-	var used : int;
-	var i, size : int;
-	var type : ESpendablePointType;
-	var exp, expThresh : int;
-	var pct : int;
-	var curr, max : int;
-	var statType : EBaseCharacterStats;
-	var statType2 : ECombatCharacterStats;
 
-	currLvl = GetPlayerLevelManager().GetLevel();
-	
-	LogChannel( 'Develop', "*** Character Development *******" );
-	exp = GetPlayerLevelManager().GetExperience();
-	expThresh = GetPlayerLevelManager().GetExperience( true );
-	pct = (int)(GetPlayerLevelManager().GetExperiencePct() * 100);
-	LogChannel( 'Develop', "-> Level : " + currLvl + " :: " + exp + " / " + expThresh + " (" + pct + ")");
-	
-	LogChannel( 'Develop', "-> Points :");
-	
-	size = EnumGetMax( 'ESpendablePointType' ) + 1;
-	
-	for( i = 0; i < size; i += 1 )
-	{
-		type = i;
-		sp = GetPlayerLevelManager().GetAvailSpendablePoints( type );
-		used = GetPlayerLevelManager().GetUsedSpendablePoints( type );
-		LogChannel( 'Develop', "|--> " + type + " : " + sp + " | " + used );
-	}
-	LogChannel( 'Develop', "");
-	LogChannel( 'Develop', "-> Base Stats :");
-	
-	size = EnumGetMax( 'EBaseCharacterStats' ) + 1;
-	for( i = 0; i < size; i += 1 )
-	{
-		statType = i;
-		curr = (int)thePlayer.GetStat( statType );
- 		max = (int)thePlayer.GetStat( statType, true );
-		pct = (int)(thePlayer.GetBaseStatPercents( statType ) * 100);
-		LogChannel( 'Develop', "|--> " + statType + " : " + curr + " / " + max + " (" + pct + ")" );
-	}
-
-	LogChannel( 'Develop', "");
-	
-	size = EnumGetMax( 'ECombatCharacterStats' ) + 1;
-	LogChannel( 'Develop', "-> Combat Stats :");
-	
-	for( i = 0; i < size; i += 1 )
-	{
-		statType2 = i;
-//		curr = (int)(thePlayer.GetCombatStat(statType2) * 100);
-		
-		LogChannel( 'Develop', "|--> " + statType2 + " : " + curr + " '/." );
-	}*/
 }
 
 exec function testsw( tag : name )
@@ -285,7 +220,7 @@ exec function testsw( tag : name )
 	var sw : W3Switch;
 	
 	e = theGame.GetEntityByTag( tag );
-//	LogChannel( 'Switch', " found entity: " + e + " tag: " + tag );
+
 
 	sw = (W3Switch)e;
 
@@ -297,17 +232,13 @@ exec function testsw( tag : name )
 
 }
 
-/**
 
-*/
 exec function readbook( bookName : name )
 {
 	thePlayer.inv.ReadBookByName( bookName, false );
 }
 
-/**
 
-*/
 exec function bookread( bookName : name )
 {
 	var read : bool;
@@ -338,7 +269,7 @@ exec function spush( sname : name )
 	thePlayer.PushState( sname );
 }
 
-//this function sets the combat stage variable in npcs behavior graph
+
 exec function CombatStage( npcTag : name, stage : ENPCFightStage )
 {
 	var npc : CNewNPC;
@@ -390,12 +321,12 @@ exec function xy( x : float, y : float )
 exec function TrajectoryDebug( actorTag : name )
 {
 	var actor : CActor;
-	//var db : CVisualDebug_MovementTrajectory ;
+	
 	
 	actor = theGame.GetActorByTag( actorTag );
 	
-	//db = new CVisualDebug_MovementTrajectory in actor;
-	//db.Init( actor );
+	
+	
 }
 
 exec function BoatTeleport( tag : name, optional offset : float )

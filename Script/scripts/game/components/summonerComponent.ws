@@ -1,24 +1,26 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : R.Pergent - 13-February-2014
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//>---------------------------------------------------------------
-// Keep track of entities summoned by the entity
-//----------------------------------------------------------------
+
+
+
+
+
+
 class W3SummonerComponent extends CScriptedComponent
 {
-	//>---------------------------------------------------------------
-	// Variable
-	//----------------------------------------------------------------	
+	
+	
+	
 	public 	editable var forgetDeadEntities 	: bool;
 	private var m_SummonedEntities 				: array <CEntity>;
 	
 	default forgetDeadEntities = true;
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function AddEntity( _EntityToAdd : CEntity )
 	{
 		var summonedEntityComponent : W3SummonedEntityComponent;
@@ -34,28 +36,28 @@ class W3SummonerComponent extends CScriptedComponent
 			}			
 		}
 	}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function RemoveEntity( _EntityToRemove : CEntity )
 	{
 		m_SummonedEntities.Remove( _EntityToRemove );
 	}	
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function GetSummonedEntities() :  array <CEntity>
 	{
 		UpdateArray();
 		return m_SummonedEntities;
 	}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function GetNumberOfSummonedEntities() :  int
 	{
 		UpdateArray();
 		return m_SummonedEntities.Size();
 	}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	private function UpdateArray()
 	{
 		var i		: int;
@@ -75,8 +77,8 @@ class W3SummonerComponent extends CScriptedComponent
 			}
 		}
 	}
-	//>---------------------------------------------------------------
-	//----------------------------------------------------------------
+	
+	
 	public function OnDeath()
 	{
 		var i 			: int;

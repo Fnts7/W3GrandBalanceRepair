@@ -1,14 +1,19 @@
-﻿class CR4HudModuleAnchors extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleAnchors extends CR4HudModuleBase
 {
-	//>-----------------------------------------------------------------------------------------------------------------
-	// VARIABLES
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
 	private	var m_fxUpdateAnchorsPositions			: CScriptedFlashFunction;
 	private	var m_fxUpdateAnchorsAspectRatio		: CScriptedFlashFunction;
 	
-	//>-----------------------------------------------------------------------------------------------------------------	
-	//------------------------------------------------------------------------------------------------------------------
-	/* flash */ event OnConfigUI()
+	
+	
+	 event OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;

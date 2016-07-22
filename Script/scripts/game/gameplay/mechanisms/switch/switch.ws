@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
-/***********************************************************************/
+
+
+
 
 enum ESwitchState
 {
@@ -27,9 +29,9 @@ abstract class W3Switch extends CGameplayEntity
 	editable  			var isInitiallyEnabled		: bool;				default isInitiallyEnabled		= true;	
 	editable  			var isInitiallyLocked		: bool;
 	editable  			var isInitiallyOn			: bool;
-	//editable 			var canBeActivatedByPlayer	: bool;				default canBeActivatedByPlayer	= true;
-	//editable 			var canBeActivatedByNPC		: bool;
-	//editable			var canBeOnlyTurnedOn		: bool;				default canBeOnlyTurnedOn = false;
+	
+	
+	
 	editable		 	var maxUseCount				: int;				default maxUseCount = -1;
 	editable saved 		var skipEventsAtBeginning	: bool;				default skipEventsAtBeginning = true;
 	editable inlined 	var whenOnEvents			: array< W3SwitchEvent >;
@@ -41,15 +43,15 @@ abstract class W3Switch extends CGameplayEntity
 	protected saved		var locked					: bool;
 	protected saved 	var totalUseCount			: int;
 	protected saved		var skipEvents				: bool;
-	//protected saved		var virtualSwitchesLinked	: array< W3VirtualSwitch >;
+	
 	protected saved		var virtualSwitchesLinkedHandle	: array< EntityHandle >;
 	protected saved 	var lastActivatorHandle 	: EntityHandle;	
 	protected			var restoreUsableItemL		: bool;
 	
-	const				var BEH_ON					: float;			default BEH_ON					= 10;			//to prevent the behavior from reading 0/1 when the value is not yet initialized
-	const				var BEH_OFF					: float;			default BEH_OFF					= 11;			//to prevent the behavior from reading 0/1 when the value is not yet initialized
-	const				var BEH_ON_FROM_OFF			: float;			default BEH_ON_FROM_OFF			= 20;			//to prevent the behavior from reading 0/1 when the value is not yet initialized
-	const				var BEH_OFF_FROM_ON			: float;			default BEH_OFF_FROM_ON			= 21;			//to prevent the behavior from reading 0/1 when the value is not yet initialized
+	const				var BEH_ON					: float;			default BEH_ON					= 10;			
+	const				var BEH_OFF					: float;			default BEH_OFF					= 11;			
+	const				var BEH_ON_FROM_OFF			: float;			default BEH_ON_FROM_OFF			= 20;			
+	const				var BEH_OFF_FROM_ON			: float;			default BEH_OFF_FROM_ON			= 21;			
 	
 	function __PrintState( optional prefix : bool )
 	{
@@ -69,7 +71,7 @@ abstract class W3Switch extends CGameplayEntity
 		
 		if( !spawnData.restored )
 		{
-			// since default value seem to not always work, set undefined state manually
+			
 			currentState = SS_Undefined;
 			Reset( RSM_Default, RSM_Default, RSM_Default, true, skipEventsAtBeginning );
 		}
@@ -176,7 +178,7 @@ abstract class W3Switch extends CGameplayEntity
 	{
 		totalUseCount = 0;
 	
-		// enable
+		
 		if ( enable == RSM_Default )
 		{
 			enabled = isInitiallyEnabled;
@@ -190,7 +192,7 @@ abstract class W3Switch extends CGameplayEntity
 			enabled = false;
 		}
 		
-		// lock
+		
 		if ( lock == RSM_Default )
 		{
 			Lock(isInitiallyLocked);
@@ -233,12 +235,12 @@ abstract class W3Switch extends CGameplayEntity
 		
 		prevState = currentState;
 	
-		// need to clear state to run right functions in Turn()
+		
 		switch( currentState )
 		{
 		case SS_Undefined:
 			LogAssert( false, "Switch shouldn't have undefined state after loading" );
-			// fallback for broken saves -> SS_Off
+			
 			Turn( false, NULL, true, true );
 			break;
 		case SS_Off:
@@ -247,7 +249,7 @@ abstract class W3Switch extends CGameplayEntity
 			break;
 		case SS_SwitchingOff:
 			currentState = SS_Undefined;
-			Turn( false, NULL, true, skipEvents ); // savegame during switch being turned on/off, this could be tested
+			Turn( false, NULL, true, skipEvents ); 
 			break;
 		case SS_On:
 			currentState = SS_Undefined;
@@ -255,7 +257,7 @@ abstract class W3Switch extends CGameplayEntity
 			break;
 		case SS_SwitchingOn:
 			currentState = SS_Undefined;
-			Turn( true, NULL, true, skipEvents ); // savegame during switch being turned on/off, this could be tested
+			Turn( true, NULL, true, skipEvents ); 
 			break;
 		}
 		
@@ -273,7 +275,7 @@ abstract class W3Switch extends CGameplayEntity
 		}
 	}
 
-	// in case of changing this function, make sure to apply changes to overridden Turn in virtualSwitch.ws
+	
 	public function Turn( on : bool, actor : CActor, force : bool, skipEvents : bool )
 	{
 		var wasTurned : bool;
@@ -326,7 +328,7 @@ abstract class W3Switch extends CGameplayEntity
 		}
 		else
 		{
-			// switching, add action to queue?
+			
 		}
 	}
 

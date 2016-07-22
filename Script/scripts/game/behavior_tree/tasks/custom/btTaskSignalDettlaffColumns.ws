@@ -1,4 +1,9 @@
-﻿class CBTTaskSignalDettlaffColumns extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskSignalDettlaffColumns extends IBehTreeTask
 {
 	var npc 						: CNewNPC;
 	var summonerComponent 			: W3SummonerComponent;
@@ -115,7 +120,7 @@ class CBTTaskSignalDettlaffArenaDestruction extends IBehTreeTask
 		
 	function OnDeactivate()
 	{
-		//thePlayer.AddEffectDefault(EET_Stagger, npc, "Dettlaff arena destruction");
+		
 	}
 }
 class CBTTaskSignalDettlaffArenaDestructionDef extends IBehTreeTaskDefinition
@@ -126,7 +131,7 @@ class CBTTaskSignalDettlaffArenaDestructionDef extends IBehTreeTaskDefinition
 	var entity : CEntity;
 	var destroyTime	:float;
 	
-	//default destroyTime = 10.f;
+	
 	
 }
 class CBTTaskLockViewToDettlaff extends IBehTreeTask

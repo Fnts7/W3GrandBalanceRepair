@@ -1,9 +1,14 @@
-﻿struct SUISavedData
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+struct SUISavedData
 {
 	var panelName : name;
 	var selectedTag : name;
-	//var selectedItemId : SItemUniqueID;
-	//var selectedSkillId : SItemUniqueID;
+	
+	
 	var openedCategories : array<name>;
 	var gridItem : SItemUniqueId;
 	var slotID : int;
@@ -106,7 +111,7 @@ import class CR4GuiManager extends CGuiManager
 {
 	private var lastOpenedCommonMenuName : name;
 	
-	private var isColorBlindMode:bool; // #Y Temp solution!
+	private var isColorBlindMode:bool; 
 	
 	saved var displayedObjectivesGUID : array<CGUID>;
 	
@@ -179,7 +184,7 @@ import class CR4GuiManager extends CGuiManager
 	import final function GetPopupList( out popupNames : array< name > );
 	import final function SendCustomUIEvent( eventName : name );
 	
-	// scene
+	
 	import final function SetSceneEntityTemplate( template : CEntityTemplate , optional animationName : name );
 	import final function ApplyAppearanceToSceneEntity( appearanceName : name );
 	import final function UpdateSceneEntityItems( items : array< SItemUniqueId >, enhancements : array< SGuiEnhancementInfo > );
@@ -194,7 +199,7 @@ import class CR4GuiManager extends CGuiManager
 	private var showItemNames : bool;
 	default showItemNames = false;
 	
-	event /* C++ */ OnGameStart( newOrRestored : bool )
+	event  OnGameStart( newOrRestored : bool )
 	{
 		var ingameMenu : CR4IngameMenu;
 		
@@ -222,23 +227,23 @@ import class CR4GuiManager extends CGuiManager
 		}
 	}
 	
-	event /* C++ */ OnGameEnd()
+	event  OnGameEnd()
 	{
 	}
 
-	event /* C++ */ OnWorldStart( newOrRestored : bool )
+	event  OnWorldStart( newOrRestored : bool )
 	{
 	}
 
-	event /* C++ */ OnWorldEnd()
+	event  OnWorldEnd()
 	{
 	}
 	
-	event /* C++ */ OnFailedCreateMenu()
+	event  OnFailedCreateMenu()
 	{
 	}
 	
-	private function /* C++ */ Update( deltaTime : float )
+	private function  Update( deltaTime : float )
 	{
 		if( guiSceneController )
 		{
@@ -292,7 +297,7 @@ import class CR4GuiManager extends CGuiManager
 	
 	public function GetCraftingFilters() : SCraftingFilters
 	{
-		// The following is illegal and can occur after loading a save
+		
 		if (CraftingFilters.showCraftable == false && CraftingFilters.showMissingIngre == false && CraftingFilters.showAlreadyCrafted == false)
 		{
 			CraftingFilters.showCraftable = true;
@@ -312,7 +317,7 @@ import class CR4GuiManager extends CGuiManager
 	
 	public function GetAlchemyFiltters() : SCraftingFilters
 	{
-		// The following is illegal and can occur after loading a save
+		
 		if (AlchemyFiltters.showCraftable == false && AlchemyFiltters.showMissingIngre == false && AlchemyFiltters.showAlreadyCrafted == false)
 		{
 			AlchemyFiltters.showCraftable = true;
@@ -335,7 +340,7 @@ import class CR4GuiManager extends CGuiManager
 	
 	public function GetEnchantmentFilters() : SEnchantmentFilters
 	{
-		// The following is illegal and can occur after loading a save
+		
 		if (EnchantmentFilters.showHasIngredients == false && EnchantmentFilters.showMissingIngredients == false && 
 			EnchantmentFilters.showLevel1 == false && EnchantmentFilters.showLevel2 == false && EnchantmentFilters.showLevel3 == false)
 		{
@@ -373,7 +378,7 @@ import class CR4GuiManager extends CGuiManager
 		
 		buffer = GetInGameConfigBufferedWrapper();
 		
-		if (buffer.buffer.Size() > 0) // hehe double names woooo (tired)
+		if (buffer.buffer.Size() > 0) 
 		{
 			if (keepValues)
 			{
@@ -449,8 +454,8 @@ import class CR4GuiManager extends CGuiManager
 		
 		if( signInChangeInProgress )
 		{
-			// Make sure to close the "please wait" dialog if it's open
-			// Such as being signed out whilst the account picker is open in the main menu
+			
+			
 			HideUserDialog( UMID_SigningInPleaseWait );
 			
 			startScreenMenu = (CR4StartScreenMenuBase)(GetRootMenu());
@@ -580,7 +585,7 @@ import class CR4GuiManager extends CGuiManager
 		menuBase = (CR4MenuBase)GetRootMenu();
 		
 		startScreenMenu = (CR4StartScreenMenuBase)(menuBase);
-		if (startScreenMenu) // If in start screen, fade out
+		if (startScreenMenu) 
 		{
 			startScreenMenu.startFade();
 		}
@@ -601,7 +606,7 @@ import class CR4GuiManager extends CGuiManager
 	{
 		signoutOccurred = true;
 		
-		// Prevent the user profile manager from processing any further input until we return to the start screen
+		
 		theGame.ToggleUserProfileManagerInputProcessing( true );
 	}
 	
@@ -615,7 +620,7 @@ import class CR4GuiManager extends CGuiManager
 			return;
 		}
 		
-		// Only show this once per run
+		
 		if( bKinectMessageAlreadyShown )
 		{
 			return;
@@ -657,18 +662,7 @@ import class CR4GuiManager extends CGuiManager
 		ShowUserDialog( UMID_UserSettingsCorrupted, "", "error_message_settings_corrupted", UDB_Ok );
 	}
 	
-	/* defined on C++ side:
-	enum ESessionRestoreResult
-	{
-		RESTORE_Success,			// ok
-		RESTORE_DataCorrupted,		// corrupted save data
-		RESTORE_DLCRequired,		// save made on DLC, and now that DLC is not enabled
-		RESTORE_MissingContent,		// missing game content chunk (incomplete streaming install)
-		RESTORE_InternalError,		// internal error, should not happen
-		RESTORE_NoGameDefinition,	// save was made on a game definition that is missing now (like: some debug definition)
-		RESTORE_WrongGameVersion,	// save was made on a newer game version (like: ptched game, while we're running unpatched)
-	};
-	*/
+	
 	
 	public function OnLoadingFailed( sres : ESessionRestoreResult, missingContent : array< name > ) : void
 	{
@@ -796,26 +790,10 @@ import class CR4GuiManager extends CGuiManager
 	}
 	
 	
-	/*
-	@param videoFile the filename of the USM to play.
 	
-	The hud or top-level menu can implement the following events to be notified on movie status:
-	- OnVideoStarted()
-	- OnVideoStopped()
-	- OnVideoSubtitles( subtitles:string )
-	
-	The logic for what gets the events is simple: 
-	*) if there's a hud and it's attached, then the hud gets the events.
-	*) otherwise if there's a top-level menu, then that menu gets the events.
-	
-	One use for started/stopped events is to hide parts of the menu to show the video.
-	
-	The file is relative to "r4data\movies\cutscenes\".
-	E.g., if videoFile is "flashbacks\\test.usm" then it will try to play "r4data\movies\cutscenes\flashbacks\test.usm"
-	*/
 	import final function PlayFlashbackVideoAsync( videoFile : string, optional looped : bool );
 	
-	// Cancel any playing flashback video.
+	
 	import final function CancelFlashbackVideo();
 
 	event OnCanSkipChanged( newVal : bool )
@@ -839,17 +817,9 @@ import class CR4GuiManager extends CGuiManager
 	}
 
 
-	/*
-	enum EStandardSwipe
-	{
-		SWIPE_LEFT,
-		SWIPE_RIGHT,
-		SWIPE_DOWN,
-		SWIPE_UP
-	};
-	*/
+	
 
-	event /* C++ */ OnSwipe( swipe : int ) 
+	event  OnSwipe( swipe : int ) 
 	{
 		var outKeys : array< name >;
 		var lastMenuName : name;
@@ -866,50 +836,12 @@ import class CR4GuiManager extends CGuiManager
 			return false;
 		}
 		
-		if ( swipe == 2 || swipe == 3 ) // SWIPE_DOWN || SWIPE_UP
+		if ( swipe == 2 || swipe == 3 ) 
 		{
 			if(thePlayer.IsActionAllowed(EIAB_OpenMap))
 				theGame.RequestMenuWithBackground( 'MapMenu', 'CommonMenu' );
 				
-			/*
-			theInput.GetAllActionsNamesForCurrentContext( outKeys );
 			
-			if ( !IsAnyMenu() && outKeys.Contains('FastMenu') )
-			{
-				if ( lastOpenedCommonMenuName == '' )
-				{
-					lastOpenedCommonMenuName = 'InventoryMenu';
-				}
-				
-				allowOpen = true;
-				
-				if( lastOpenedCommonMenuName == 'InventoryMenu' )
-				{
-					allowOpen = thePlayer.IsActionAllowed(EIAB_OpenInventory);
-				}
-				else if( lastOpenedCommonMenuName == 'GwintMenu' )
-				{
-					allowOpen = thePlayer.IsActionAllowed(EIAB_OpenInventory);
-				}
-				else if( lastOpenedCommonMenuName == 'MapMenu' )
-				{
-					allowOpen = thePlayer.IsActionAllowed(EIAB_OpenMap);
-				}
-				else if( lastOpenedCommonMenuName == 'JournalParent' )
-				{
-					allowOpen = thePlayer.IsActionAllowed(EIAB_OpenJournal);
-				}
-				else if( lastOpenedCommonMenuName == 'AlchemyMenu' )
-				{
-					allowOpen = thePlayer.IsActionAllowed(EIAB_OpenAlchemy);
-				}
-				
-				if( allowOpen )
-				{
-					theGame.RequestMenuWithBackground( lastOpenedCommonMenuName, 'CommonMenu' );
-				}
-			}
-			*/
 		}
 	}
 	
@@ -1010,7 +942,7 @@ import class CR4GuiManager extends CGuiManager
 		return hideMessageRequestId;
 	}
 	
-	// Dialog with callback
+	
 	public function ShowUserDialog( messageId : int, title : string, message : string, type : EUserDialogButtons)
 	{
 		if( messageId != UMID_ControllerDisconnected )
@@ -1046,7 +978,7 @@ import class CR4GuiManager extends CGuiManager
 		messageData.progressType = progressType;
 		messageData.progressTag = progressTag;
 		
-		// #J Progress dialogs do not recover right now if another dialog goes above them. If you want to change this you need to fix progrses dialogs
+		
 		if (messageId == UMID_ControllerDisconnected)
 		{
 			messageData.priority = 1;
@@ -1078,13 +1010,13 @@ import class CR4GuiManager extends CGuiManager
 		messagePopupRef = (CR4MessagePopup)GetPopup('MessagePopup');
 		if (messagePopupRef && messagePopupRef.GetCurrentMsgId() == messageId)
 		{
-			// Hardcoding UMPT_Content because as of writing this new system it was only value and I have a feeling this function is never called but just in case 
-			// making it work like before
+			
+			
 			messagePopupRef.DisplayProgressBar(progressValue, UMPT_Content); 
 		}
 		else
 		{
-			// warning (or creating new dialog?)
+			
 		}
 	}
 	
@@ -1145,7 +1077,7 @@ import class CR4GuiManager extends CGuiManager
 				initData = new W3MenuInitData in this;
 				initData.setDefaultState('SaveGame');
 				
-				//theGame.RequestMenuWithBackground( 'IngameMenu','IngameMenu', initData );
+				
 				theGame.RequestMenu( 'IngameMenu', initData );
 			}
 			else
@@ -1265,7 +1197,7 @@ import class CR4GuiManager extends CGuiManager
 		}
 	}
 	
-	// immediateHide - without hidding animation
+	
 	public function HideLoadingIndicator(optional immediateHide : bool):void
 	{
 		var overlayPopupRef  : CR4OverlayPopup;
@@ -1286,7 +1218,7 @@ import class CR4GuiManager extends CGuiManager
 		}
 	}
 	
-	// immediateHide - without hidding animation
+	
 	public function HideSavingIndicator(optional immediateHide : bool):void
 	{
 		var overlayPopupRef  : CR4OverlayPopup;
@@ -1365,7 +1297,7 @@ import class CR4GuiManager extends CGuiManager
 		}
 	}
 	
-	//to avoid issue when EnableHudHoldIndicator called before HUD loaded
+	
 	public function checkHoldIndicator():void
 	{
 		if (m_cachedHold)
@@ -1377,10 +1309,10 @@ import class CR4GuiManager extends CGuiManager
 	
 	public function DisableHudHoldIndicator():void
 	{
-		//if (label == "panel_input_action_horsedismount")
-		//{
+		
+		
 			horseUnmountFeedbackActive = false;
-		//}
+		
 		
 		DisableHudHoldIndicator_Impl();	
 	}

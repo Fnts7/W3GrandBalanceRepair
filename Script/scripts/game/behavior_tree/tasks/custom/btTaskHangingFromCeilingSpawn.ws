@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2016
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskHangingFromCeilingSpawn extends CBTTaskPlayAnimationEventDecorator
 {
@@ -24,7 +26,7 @@ class CBTTaskHangingFromCeilingSpawn extends CBTTaskPlayAnimationEventDecorator
 	private var timeOfInitialPosCorrection 	: float;
 	private var reuseInitialSpawnPosition 	: bool;
 	
-	// local
+	
 	private var activated 					: bool;
 	private var raisedEvent 				: bool;
 	private var slideEventReceived 			: bool;
@@ -104,7 +106,7 @@ class CBTTaskHangingFromCeilingSpawn extends CBTTaskPlayAnimationEventDecorator
 			{
 				actorPos = actor.GetWorldPosition();
 				theGame.GetWorld().StaticTrace( actorPos + Vector(0,0,3.0), actorPos + Vector(0,0,50), actorPos, normal, collisionGroups );
-				//theGame.GetWorld().StaticTraceWithAdditionalInfo( actorPos + Vector(0,0,50), actorPos, actorPos, normal );
+				
 				actor.TeleportWithRotation( actorPos, actor.GetWorldRotation() );
 				initialPos = actorPos;
 			}
@@ -138,7 +140,7 @@ class CBTTaskHangingFromCeilingSpawn extends CBTTaskPlayAnimationEventDecorator
 				actor.RaiseEvent( raiseEvent );
 				timeStamp = GetLocalTime();
 				raisedEvent = true;
-				// failsafe for reposition
+				
 				if ( timeOfInitialPosCorrection > 0 )
 				{
 					while ( !slideEventReceived && GetLocalTime() < timeStamp + timeOfInitialPosCorrection )
@@ -194,7 +196,7 @@ class CBTTaskHangingFromCeilingSpawn extends CBTTaskPlayAnimationEventDecorator
 			actor.RaiseEvent( raiseEvent );
 			timeStamp = GetLocalTime();
 			raisedEvent = true;
-			// failsafe for reposition
+			
 			if ( timeOfInitialPosCorrection > 0 )
 			{
 				while ( GetLocalTime() < timeStamp + timeOfInitialPosCorrection )
@@ -243,7 +245,7 @@ class CBTTaskHangingFromCeilingSpawn extends CBTTaskPlayAnimationEventDecorator
 		
 		
 		actorPos = actor.GetWorldPosition();
-		//actorPos.Z -= 3.0;
+		
 		actorRadius = actor.GetRadius();
 		theGame.GetWorld().StaticTrace( actorPos - Vector(0,0,3), actorPos - Vector(0,0,50), actorPos, normal, collisionGroups );
 		theGame.GetWorld().NavigationComputeZ( actorPos, actorPos.Z - 50, actorPos.Z + 3, z );

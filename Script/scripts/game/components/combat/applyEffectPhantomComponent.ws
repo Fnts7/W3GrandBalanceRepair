@@ -1,19 +1,24 @@
-﻿//>--------------------------------------------------------------------------
-// W3ApplyEffectPhantomComponent
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Phantom component which apply an effect of the actor it collides with
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 06-May-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 
 class W3ApplyEffectPhantomComponent extends CPhantomComponent
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	editable var effectToApply			: EEffectType;
 	editable var effectDuration			: float;	
 	editable var requiredAbilities		: array<name>;
@@ -48,8 +53,8 @@ class W3ApplyEffectPhantomComponent extends CPhantomComponent
 	hint forcedDamage			= "Apply this damage regardless of the target being immune to the effect";
 	
 	hint decreasePlayerDmgBy		= "Percentage vaule. Min 0, max 1. Apply this to decrease dmg dealt to player";
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	event OnCollisionEnter( object : CObject, physicalActorindex : int, shapeIndex : int )
 	{
 		var i					: int;
@@ -72,7 +77,7 @@ class W3ApplyEffectPhantomComponent extends CPhantomComponent
 		
 		l_actor = (CActor) GetEntity();
 		
-		// Check onlyWhenAlive condition
+		
 		if( l_actor && onlyWhenAlive && !l_actor.IsAlive() ) return false;		
 		
 		if( requiredAbilities.Size() > 0 )
@@ -95,7 +100,7 @@ class W3ApplyEffectPhantomComponent extends CPhantomComponent
 		if( !l_target ) return false;
 		if( l_target == l_actor ) return false;
 		
-		//Check onlyToHostiles condition
+		
 		if( onlyToHostiles && l_actor && l_actor.GetAttitude( l_target ) != AIA_Hostile )
 		{
 			return false;

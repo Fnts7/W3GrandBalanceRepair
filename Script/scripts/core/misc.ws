@@ -1,54 +1,56 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Misc functions
-/** Copyright © 2009 Dexio's Late Night R&D Home Center
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/////////////////////////////////////////////
-// Misc functions
-/////////////////////////////////////////////
 
-// Log script crap
+
+
+
+
+
+
+
 import function Log( text : string );
 
-// Log script crap
+
 import function LogChannel( channel : name, text : string );
 
-// Cast Uint64 to string
+
 import function Uint64ToString( i : Uint64 ) : string;
 
-// Trace current callstack ( to log )
+
 import function Trace();
 
-// Break here if under debugger
+
 import function DebugBreak();
 
-// Sleep execution for given amount of time ( LATENT and ENTRY only )
+
 import latent function Sleep( time : float );
 
-// Sleep execution for one frame ( LATENT and ENTRY only )
+
 import latent function SleepOneFrame();
 
-// Kill internal state thread ( LATENT and ENTRY only )
+
 import latent function KillThread();
 
-// Dump class hierarchy under given baseClass to log
+
 import function DumpClassHierarchy( baseClass : name ) : bool;
 
-// Get the maximum value of an enum
+
 import function EnumGetMax( type : name ) : int;
 
-// Get the minimum value of an enum
+
 import function EnumGetMin( type : name ) : int;
 
-// Is name valid
+
 function IsNameValid( n : name ) : bool
 {
 	return (n!='' && n!='None' );
 }
 
-// Log asset
+
 function LogAssert( condition : bool, text : string )
 {
 	if ( !condition )
@@ -67,9 +69,7 @@ enum ECompareOp
 	CO_NotEqual
 }
 
-/**
-	Compares two values (A to B) using enum given comparison method.
-*/
+
 function ProcessCompare( comparator : ECompareOp, valA : float, valB : float ) : bool
 {
 	switch( comparator )
@@ -103,7 +103,7 @@ function LogBlockGameplayFunctionality(src, msg : string)		{LogChannel('QuestBlo
 function LogCharacterStats(str : string)						{LogChannel('CharacterStats', str);}
 function LogCrafting(str : string)								{LogChannel('Crafting', str);}
 function LogCritical(str : string)								{LogChannel('CriticalStates', str);}
-function LogCriticalPlayer(str : string)						{/*LogChannel('CS_PLAYER', str);*/}	//uncomment for debug, otherwise don't spam
+function LogCriticalPlayer(str : string)						{}	
 function LogEffects(str : string)								{LogChannel('Buffs', str);}
 function LogFacts(str : string)									{LogChannel('Facts', str);}
 function LogHaggle(str : string)								{LogChannel('Haggling', str);}
@@ -130,7 +130,7 @@ function LogStats(str : string)									{LogChannel('Stats', str);}
 function LogThrowable(str : string)								{LogChannel('Throwable', str);}
 function LogTime(str : string)									{LogChannel('GameTime', str);}
 function LogTutorial(str : string)								{LogChannel('Tutorial', str);}
-function LogUnitAtt(str : string)								{/* LogChannel('UninterrAtt', str);                   not needed for now, stop spam*/}
+function LogUnitAtt(str : string)								{}
 function LogItemCollision(str : string)							{LogChannel('ItemCollision', str);}
 function LogSpecialHeavy(str : string)							{LogChannel('SpecialAttackHeavy', str);}
 function LogBoat(str : string)									{LogChannel('Boat', str);}

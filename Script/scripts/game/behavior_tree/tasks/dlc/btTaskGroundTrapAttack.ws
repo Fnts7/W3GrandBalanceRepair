@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2015 CD Projekt RED
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskGroundTrapAttack extends CBTTaskAttack
 {
@@ -39,8 +41,8 @@ class CBTTaskGroundTrapAttack extends CBTTaskAttack
 	private var guaranteedHit 				: bool;
 	
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		if ( onActivateFromTaskAttack )
@@ -50,8 +52,8 @@ class CBTTaskGroundTrapAttack extends CBTTaskAttack
 		return BTNS_Active;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	latent function Main() : EBTNodeStatus
 	{
 		var npc						: CNewNPC = GetNPC();
@@ -198,8 +200,8 @@ class CBTTaskGroundTrapAttack extends CBTTaskAttack
 		}
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnDeactivate()
 	{
 		m_trap.DestroyAfter( 5.0 );
@@ -209,8 +211,8 @@ class CBTTaskGroundTrapAttack extends CBTTaskAttack
 		super.OnDeactivate();
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	final function FindPosition() : Vector
 	{
 		var randVec 			: Vector = Vector( 0.f, 0.f, 0.f );
@@ -280,8 +282,8 @@ class CBTTaskGroundTrapAttack extends CBTTaskAttack
 		return outPos;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	final function IsPositionValid( out whereTo : Vector, optional guarantee : bool ) : bool
 	{
 		var newPos 		: Vector;
@@ -317,8 +319,8 @@ class CBTTaskGroundTrapAttack extends CBTTaskAttack
 		return true;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{
 		if ( animEventName == activateOnAnimEvent )
@@ -332,8 +334,8 @@ class CBTTaskGroundTrapAttack extends CBTTaskAttack
 }
 
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class CBTTaskGroundTrapAttackDef extends CBTTaskAttackDef
 {
 	default instanceClass = 'CBTTaskGroundTrapAttack';
@@ -370,9 +372,8 @@ class CBTTaskGroundTrapAttackDef extends CBTTaskAttackDef
 }
 
 
-/***********************************************************************/
-/** Ensures that no other tasks takes over, waits for reaction to end
-/***********************************************************************/
+
+
 
 class CBTTaskReactionToCustomHit extends CBTTaskPlayAnimationEventDecorator
 {

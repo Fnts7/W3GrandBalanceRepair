@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski, Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 {
@@ -62,7 +64,7 @@ class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 	{
 		var npc : CNewNPC = GetNPC();
 		
-		// choosing parry animation
+		
 		if ( swingDir != -1 )
 		{
 			npc.SetBehaviorVariable( 'HitSwingDirection', swingDir );
@@ -194,13 +196,7 @@ class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 			
 			mult = theGame.params.HEAVY_STRIKE_COST_MULTIPLIER;
 			
-			/*if( counter && npc.RaiseEvent('CounterParryPerform'))
-			{
-				activationTimeLimit = GetLocalTime() + 0.5;
-				npc.SignalGameplayEvent('CounterParryPerformed');
-				npc.DrainStamina( ESAT_Counterattack, 0, 0, '', 0 );
-			}
-			else */if ( npc.RaiseEvent('ParryPerform') )
+			if ( npc.RaiseEvent('ParryPerform') )
 			{
 				if( counter )
 				{
@@ -227,7 +223,7 @@ class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 			Complete(false);
 			activationTimeLimit = 0.0;
 		}
-		//activationTimeLimit = 0.0;
+		
 		
 		return false;
 	}
@@ -261,7 +257,7 @@ class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 			swingDir = this.GetEventParamInt(-1);
 		}
 		
-		//we can parry from now on
+		
 		if ( eventName == 'ParryStart' )
 		{
 			GetStats();
@@ -290,7 +286,7 @@ class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 			}
 			return true;
 		}
-		//we parried
+		
 		else if ( eventName == 'ParryPerform' )
 		{
 			if( AdditiveParry() )
@@ -312,7 +308,7 @@ class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 			}		
 			return true;
 		}
-		//perform counter without chance check
+		
 		else if ( eventName == 'CounterParryPerform' )
 		{
 			if ( TryToParry(true) )
@@ -322,7 +318,7 @@ class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 			}
 			return true;
 		}
-		//should play parry stagger and lower guard
+		
 		else if( eventName == 'ParryStagger' )
 		{
 			if( !isActive )
@@ -341,7 +337,7 @@ class CBTTaskPerformParry extends CBTTaskPlayAnimationEventDecorator
 			}
 			return true;
 		}
-		//we cannot parry anymore
+		
 		else if ( eventName == 'ParryEnd' )
 		{
 			activationTimeLimit = 0.0;

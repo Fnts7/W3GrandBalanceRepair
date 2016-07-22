@@ -1,5 +1,10 @@
-﻿////////////////////////////////////////////////////////////////////
-// CBTTaskSailorMountBoat
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 class CBTTaskSailorMountBoat extends IBehTreeTask
 {
 	var boatTag 			: name;
@@ -17,7 +22,7 @@ class CBTTaskSailorMountBoat extends IBehTreeTask
         var boatEntity	: CEntity;
         var mountType	: EMountType = MT_instant;
         
-        // [ Step ] Find boat entity
+        
 		boatEntity = theGame.GetEntityByTag( boatTag );
 		if( !boatEntity )
 		{
@@ -47,7 +52,7 @@ class CBTTaskSailorMountBoat extends IBehTreeTask
         return BTNS_Completed;
     }
 }
-// CBTTaskSailorMountBoatDef
+
 class CBTTaskSailorMountBoatDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'CBTTaskSailorMountBoat';
@@ -58,8 +63,8 @@ class CBTTaskSailorMountBoatDef extends IBehTreeTaskDefinition
 	default instantMount = true;
 }
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskSailorDismountBoat
+
+
 class CBTTaskSailorDismountBoat extends IBehTreeTask
 {
 	 var riderData 	: CAIStorageRiderData;
@@ -91,15 +96,15 @@ class CBTTaskSailorDismountBoat extends IBehTreeTask
     }
  
 }
-// CBTTaskSailorDismountBoatDef
+
 class CBTTaskSailorDismountBoatDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'CBTTaskSailorDismountBoat';
 }
 
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskCondIsMountedOnBoat
+
+
 class CBTTaskCondIsMountedOnBoat extends IBehTreeTask
 {
 	var riderData 	: CAIStorageRiderData;
@@ -120,15 +125,15 @@ class CBTTaskCondIsMountedOnBoat extends IBehTreeTask
 	}
 }
 
-// CBTTaskSailorDismountBoatDef
+
 class CBTTaskCondIsMountedOnBoatDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'CBTTaskCondIsMountedOnBoat';
 }
 
 
-////////////////////////////////////////////////////////////////////
-// CBTTaskTeleportToEntity
+
+
 class CBTTaskTeleportToEntity extends IBehTreeTask
 {
 	var entityTag : name;
@@ -145,7 +150,7 @@ class CBTTaskTeleportToEntity extends IBehTreeTask
 		return BTNS_Completed;
 	}
 }
-// CBTTaskTeleportToEntityDef
+
 class CBTTaskTeleportToEntityDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'CBTTaskTeleportToEntity';

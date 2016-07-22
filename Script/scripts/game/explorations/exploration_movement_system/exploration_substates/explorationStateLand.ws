@@ -1,11 +1,16 @@
-﻿
-// CExplorationStateLand
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 21/11/2013 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 enum ELandType
 {
 	LT_Death				= 0,
@@ -18,7 +23,7 @@ enum ELandType
 	LT_FrontAircollision	= 7,
 }
 
-//------------------------------------------------------------------------------------------------------------------
+
 enum ELandRunForcedMode
 {
 	LRFM_NotForced	= 0	,
@@ -27,7 +32,7 @@ enum ELandRunForcedMode
 	LRFM_Run		= 3	,
 }
 
-//------------------------------------------------------------------------------------------------------------------
+
 struct SLandData
 {
 	editable var	landType			: ELandType;			default landType				= LT_Normal;
@@ -39,26 +44,26 @@ struct SLandData
 	editable var	shouldFlipFoot		: bool;					default shouldFlipFoot			= false;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CExplorationStateLand extends CExplorationStateAbstract
 {
 	
-	// Behavior
+	
 	protected editable			var	m_BehLandRunS			: name;			default	m_BehLandRunS				= 'LandWalking';
 	protected editable			var	m_LandRunInputAngleF	: float;		default	m_LandRunInputAngleF		= 190.0f;
 	protected editable			var	m_BehLandTypeS			: name;			default	m_BehLandTypeS 				= 'LandType';
-	protected editable			var	m_BehLandCancelN		: name;			default	m_BehLandCancelN 			= 'AnimEndAUX'; //'Jump_Land_Cancel';
+	protected editable			var	m_BehLandCancelN		: name;			default	m_BehLandCancelN 			= 'AnimEndAUX'; 
 	protected editable			var	m_BehLandCanEndN		: name;			default	m_BehLandCanEndN 			= 'LandEnd';
 	protected editable			var	m_BehLandSkipToRunN		: name;			default	m_BehLandSkipToRunN			= 'LandSkipToRun';
 	protected editable			var	m_BehLandSkipToWalkN	: name;			default	m_BehLandSkipToWalkN		= 'LandSkipToWalk';
 	protected editable			var	m_BehLandSkipToIdleN	: name;			default	m_BehLandSkipToIdleN		= 'LandSkipToIdle';
 	protected editable			var	m_BehLandFallForwardN	: name;			default	m_BehLandFallForwardN		= 'LandFallIsForward';
 	
-	// Fall distance
+	
 	protected editable			var	m_HeightToLandCrouch	: float;		default	m_HeightToLandCrouch		= 2.75f;
 	
-	// Land types
+	
 	protected					var	m_LandTypeE				: ELandType;
 	protected editable inlined	var	m_LandDataIdle			: SLandData;
 	protected editable inlined	var	m_LandDataWalk			: SLandData;
@@ -75,10 +80,10 @@ class CExplorationStateLand extends CExplorationStateAbstract
 	
 	protected 					var	m_LandData				: SLandData;
 	
-	// Bend
+	
 	private		editable		var	m_UseBendAddOnLand		: bool;			default	m_UseBendAddOnLand			= true;
 	
-	// Roll
+	
 	private	  editable			var m_AutoRollB				: bool;			default	m_AutoRollB					= false;
 	private	  editable			var m_AutoSlopeAngleB		: float;		default	m_AutoSlopeAngleB			= 30.0f;
 	private	  					var m_AutoRollSlopeCoefF	: float;		
@@ -89,16 +94,16 @@ class CExplorationStateLand extends CExplorationStateAbstract
 	protected editable			var	m_RollTimeAfterF		: float;		default	m_RollTimeAfterF			= 0.1f;
 	protected editable 			var m_RollMinJumpTotalF 	: float; 		default m_RollMinJumpTotalF 		= 0.02f;
 	
-	// Slide
+	
 	protected 					var m_SlidingB					: bool;
 	private						var	m_SlideCheckedSecondFrameB	: bool;
 	private						var m_SlideSavingVelocityV		: Vector;
 	
-	// Height	
+	
 	protected editable			var	m_AllowHigherJumpB		: bool;			default	m_AllowHigherJumpB			= true;
 	protected editable			var	m_HighLandingHeightF	: float;		default	m_HighLandingHeightF		= 0.6f;
 	
-	// Skip
+	
 	protected editable			var	m_AllowSkipB			: bool;			default	m_AllowSkipB				= true;
 	
 	
@@ -108,7 +113,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 	private						var	m_ReadyToEndB			: bool;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{	
 		if( !IsNameValid( m_StateNameN ) )
@@ -118,14 +123,14 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		
 		m_StateTypeE		= EST_Idle;
 		m_InputContextE		= EGCI_JumpClimb; 
-		//m_HolsterIsFastB	= true;
+		
 		
 		m_AutoRollSlopeCoefF	= m_ExplorationO.m_MoverO.ConvertAngleDegreeToSlidECoef( m_AutoSlopeAngleB );
 		
 		LogExplorationLandExit( "	Initialized Log channel: ExplorationStateLandExits" );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function AddActionsToBlock()
 	{
 		AddActionToBlock( EIAB_Signs );
@@ -133,27 +138,27 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		AddActionToBlock( EIAB_SwordAttack );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddDefaultStateChangesSpecific()
 	{
 		AddStateToTheDefaultChangeList('Interaction');
-		//AddStateToTheDefaultChangeList('Slide', 0.0f );
+		
 		AddStateToTheDefaultChangeList('Slide', -1.0f );
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{
 		return false;
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateCanEnter( curStateName : name ) : bool
 	{	
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateEnterSpecific( prevStateName : name )	
 	{
 		var fallDiff		: float;
@@ -166,7 +171,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		var skippingAux2	: bool;
 		var damageRedFactor	: float;
 		
-		// Reset parameters
+		
 		m_ReadyToEndB		= false;
 		m_ToFallB			= false;
 		m_FallIsForwardB	= false;
@@ -174,39 +179,39 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		
 		position			= m_ExplorationO.m_OwnerE.GetWorldPosition();
 		
-		// Get the falling heights
+		
 		m_ExplorationO.m_SharedDataO.CalculateFallingHeights( fallDiff, jumpTotalDiff );
 		
-		// Into Water ?
-		intoWater					= false; // no landing on top of water cause there is not even collision on water surface.
 		
-		// sliding save
+		intoWater					= false; 
+		
+		
 		m_SlidingB					= false;
 		m_SlideCheckedSecondFrameB	= false;
 		m_SlideSavingVelocityV		= m_ExplorationO.m_MoverO.GetMovementVelocity();
 		
-		// Stop vertical movement
+		
 		m_ExplorationO.m_MoverO.StopVerticalMovement();
 		m_ExplorationO.m_MoverO.StopAllMovement();
 		
-		// Rolling?
+		
 		m_RollingB		= CheckIfRolling( prevStateName, fallDiff, jumpTotalDiff );		
 		
-		// Apply Damage
+		
 		damagePerc		= m_ExplorationO.m_OwnerE.ApplyFallingDamage( fallDiff, m_RollingB || intoWater );
 		
-		// don't roll if damaged
+		
 		if( m_DamageOverridesRollB && m_RollingB && damagePerc > 0.0f )
 		{
 			LogExploration( "Damage overrides roll" );
 			m_RollingB	= false;
-			theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'PlayerJumpAction', 3.f, 8.f, -1, 9999, true ); //reactionSystemSearch	
+			theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'PlayerJumpAction', 3.f, 8.f, -1, 9999, true ); 
 		}	
 		
-		// Movement adjustor
+		
 		m_ExplorationO.m_OwnerMAC.GetMovementAdjustor().CancelByName( 'turnOnJump' );
 		
-		// Log
+		
 		LogExploration( "Landed height difference " + jumpTotalDiff + ", fallDiff: " + fallDiff );
 		if ( damagePerc >= 1.0f )
 		{
@@ -221,14 +226,14 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			LogExploration( "Not Damaged from falling" );
 		}
 		
-		// Apply the parameters
+		
 		ApplyProperLandParameters( damagePerc, jumpTotalDiff, fallDiff );
 		
 		
-		// Beh graph
+		
 		SetLandBehGraphParams( damagePerc >= 1.0f );
 		
-		// Death Exit		
+		
 		if( damagePerc >= 1.0f )
 		{
 			m_ExplorationO.m_SharedDataO.ResetHeightFallen();
@@ -236,21 +241,21 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		}
 		
 		
-		// Run / Walk / idle
+		
 		LandTypeInitialize();
 		
-		// IK
+		
 		SetProperLandIK();
 		
-		// Slope// Slope blend
-		//m_ExplorationO.m_SharedDataO.SetTerrainSlopeSpeed( 100.0f );
-		//m_ExplorationO.m_SharedDataO.SetTerrainSlopeInstant( 0.0f );
 		
 		
-		// Skip
-		// distance
+		
+		
+		
+		
+		
 		skipping		= fallDiff < m_ExplorationO.m_SharedDataO.m_SkipLandAnimDistMaxF;
-		// time
+		
 		skippingAux		= m_ExplorationO.GetStateTimeF() <= m_ExplorationO.m_SharedDataO.m_SkipLandAnimTimeMaxF;
 		
 		if( skipping && skippingAux && m_ExplorationO.m_SharedDataO.m_JumpTypeE != EJT_Vault )
@@ -279,21 +284,21 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			}
 		}
 		
-		// Foot forward
+		
 		SetLandFootForward();
 		
-		// Fall parameter
-		//m_ExplorationO.SetBehaviorParamBool( m_BehLandFallForwardN, m_FallIsForwardB );
+		
+		
 		m_ExplorationO.SetBehaviorParamBool( m_BehLandFallForwardN, true );
 		
-		// Block actions
+		
 		BlockActions();
 		
-		// Reset fall height
+		
 		m_ExplorationO.m_SharedDataO.ResetHeightFallen();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetLandFootForward()
 	{
 		var shouldSetFoot	: bool;
@@ -305,7 +310,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		{
 			shouldFlipFoot	= !shouldFlipFoot;
 		}
-		shouldSetFoot	= !m_ExplorationO.m_SharedDataO.m_DontRecalcFootOnLandB; //m_LandTypeE	!= LT_FrontAircollision &&
+		shouldSetFoot	= !m_ExplorationO.m_SharedDataO.m_DontRecalcFootOnLandB; 
 		
 		if( shouldSetFoot )
 		{
@@ -317,21 +322,21 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.AddAnimEventCallback( m_BehLandCanEndN, 'OnAnimEvent_SubstateManager' );
 		m_ExplorationO.m_OwnerE.AddAnimEventCallback( m_BehLandCancelN, 'OnAnimEvent_SubstateManager' );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{		
 		var slideDir 	: Vector;
 		var slideNormal	: Vector;
 		
 		
-		// Jump combo
+		
 		if( CanChainJump() )
 		{
 			if( m_ExplorationO.StateWantsAndCanEnter( 'Jump' ) )
@@ -341,15 +346,15 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			}
 		}
 		
-		// Out
-		if( m_ExplorationO.GetStateTimeF() > 0.0f ) // Cant get ready to end on the same frame
+		
+		if( m_ExplorationO.GetStateTimeF() > 0.0f ) 
 		{
 			if( m_ExplorationO.CanChangeBetwenStates( GetStateName(), 'Idle' ) )
 			{		
-				// Ready out
+				
 				if( m_ReadyToEndB )
 				{
-					if( m_ToFallB ) //&& m_ExplorationO.CanChangeBetwenStates( GetStateName(), 'Jump' ) )
+					if( m_ToFallB ) 
 					{
 						LogExplorationLandExit( GetStateName() + " Exited by fall" );
 						if( m_LandTypeE == LT_KnockBack )
@@ -374,7 +379,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 					}
 				}
 				
-				// Safety end
+				
 				if( ( m_LandData.timeSafetyEnd > 0.0f && m_LandData.timeSafetyEnd < m_ExplorationO.GetStateTimeF() ) || ( m_LandData.timeSafetyEnd == 0.0f && 3.0f < m_ExplorationO.GetStateTimeF() ) )
 				{
 					LogExplorationLandExit( GetStateName() + " Exited by safety time out: " + m_LandData.timeSafetyEnd );
@@ -386,13 +391,13 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		return super.StateChangePrecheck();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{			
-		// Stop vertical movement. We do it here, not at enter, so if the state is left the first frame, we can still use this speed
-		//m_ExplorationO.m_MoverO.StopVerticalMovement();
 		
-		//LandTypeUpdateChange();
+		
+		
+		
 		
 		
 		if( m_RunCoefF > 0.0f )
@@ -400,33 +405,33 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			m_ExplorationO.m_MoverO.UpdateOrientToInput( m_LandData.orientationSpeed, _Dt );
 		}
 		
-		// Force slope coef
-		//m_ExplorationO.m_SharedDataO.SetTerrainSlopeInstant( 0.0f );
+		
+		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateExitSpecific( nextStateName : name )
 	{
 		if( nextStateName == 'Idle' )
 		{
-			//m_ExplorationO.SendAnimEvent( m_BehLandCancelN );
+			
 		}
 		
 		thePlayer.SetBIsCombatActionAllowed( true );
 		thePlayer.SetBIsInCombatAction(false);
 		thePlayer.ReapplyCriticalBuff();
 		
-		// IK  restore
-		m_ExplorationO.m_OwnerMAC.SetEnabledSlidingOnSlopeIK( false );
-		//m_ExplorationO.m_OwnerMAC.SetEnabledFeetIK( true, 0.2f );
 		
-		// Slope blend
+		m_ExplorationO.m_OwnerMAC.SetEnabledSlidingOnSlopeIK( false );
+		
+		
+		
 		m_ExplorationO.m_SharedDataO.SetTerrainSlopeSpeed( 2.0f );
 		
-		// Restore actiions
+		
 		thePlayer.OnCombatActionEndComplete();
 		
-		// Log
+		
 		if( nextStateName == 'Slide' )
 		{
 			LogExplorationLandExit( "Default transition to Slide" );
@@ -438,44 +443,44 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		LogExplorationLandExit( "Land Exited -------------------" );
 		
 		
-		// Fast to combat?
+		
 		if( nextStateName != 'Slide' || nextStateName != 'StartFalling' )
 		{
 			thePlayer.GoToCombatIfWanted();
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function RemoveAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.RemoveAnimEventCallback( m_BehLandCanEndN );
 		m_ExplorationO.m_OwnerE.RemoveAnimEventCallback( m_BehLandCancelN );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function CanInteract( ) :bool
 	{		
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ApplyProperLandParameters( damage, jumpTotalDiff : float, fallDiff : float )
 	{
 		var landType 		: ELandType;
 		
 		
-		// Get the land type
+		
 		landType	= FindLandType( damage, jumpTotalDiff, fallDiff );
 		LogExploration( " Land type : " + landType );
 		
-		// Fast slide
+		
 		if( m_SlidingB )
 		{
 			ReactToSlide();
 			return;
 		}
 		
-		// Decide between roll or crouch
+		
 		if( m_RollingB )
 		{
 			if( RollShouldBeJustCrouch( jumpTotalDiff, fallDiff ) )
@@ -489,28 +494,28 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			}
 		}
 		
-		// Hack for falling higher
+		
 		if( fallDiff > m_HeightToLandCrouch && damage <= 0.0f )
 		{
 			landType	= LT_Crouch;
 		}
 		
-		// Set the proper parameters from it
+		
 		LandParametersSetFromType( landType );		
 		
-		// Modify the camera params
+		
 		if(m_CameraSetS)
 		{
 			m_CameraSetS.animationData.weight = m_LandData.cameraShakeStrength;
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetLandBehGraphParams( isDead : bool )
 	{
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( m_BehLandTypeS, ( float ) ( int ) m_LandTypeE );
 		
-		// Set proper knockback type
+		
 		if( m_LandTypeE == LT_KnockBack )
 		{
 			if( isDead || !thePlayer.IsAlive() )
@@ -529,14 +534,14 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CheckIfRolling( stateLast : name, fallDiff, jumpTotalDiff : float ) : bool
 	{		
 		var slideCoef	: float;
 		
-		// To accomodate for a very small fall (around 0.f) if there is no collision mesh loaded
-		// for few frames after we load game and our hacky nav mesh check would fail as well.
-		// This will prevent roll, only a small stumble will occur.
+		
+		
+		
 		if( jumpTotalDiff < m_RollMinJumpTotalF && fallDiff < m_RollMinJumpTotalF )
 		{
 			if( m_ExplorationO.m_IsDebugModeB )
@@ -547,7 +552,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		}
 		
 		
-		// Slope Roll
+		
 		if( m_ExplorationO.m_CollisionManagerO.IsGoingDownSlopeInstant( m_AutoRollSlopeCoefF ) )
 		{
 			m_RollIsSlopeB	= true;
@@ -555,20 +560,20 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			return true;
 		}
 		
-		// Auto roll if damaged
+		
 		if( m_AutoRollB && thePlayer.GetNeedsToReduceFallingDamage( fallDiff ) )
 		{
 			LogExploration("Auto Roll");
 			return true;
 		}
 		
-		// If we fail jump to water
+		
 		if( m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_ToWater )
 		{
 			return true;
 		}
 		
-		// Manual roll
+		
 		if( m_ExplorationO.m_InputO.IsRollPressedInTime() )
 		{
 			LogExploration( "Roll Pressed in time" );
@@ -578,46 +583,46 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function RollShouldBeJustCrouch( jumpTotalDiff : float, fallDiff : float ) : bool
 	{
 		var dir, normal : Vector;
 		
 		
-		// Knockback is unique
+		
 		if( m_LandTypeE == LT_KnockBack )
 		{
 			return false;
 		}		
 		
 		
-		// Collision in front
+		
 		if( m_ExplorationO.m_CollisionManagerO.CheckCollisionsForwardInHands( 1.7f ) )
 		{
 			LogExploration( "Roll changed to Crouch: found a wall in front" );
 			return true;
 		}
 		
-		// from a slope down
+		
 		if( m_RollIsSlopeB )
 		{
 			return false;
 		}
 		
-		// No input
+		
 		if( m_ExplorationO.m_SharedDataO.m_JumpTypeE != EJT_Sprint && !m_ExplorationO.m_InputO.IsModuleConsiderable() )
 		{
 			LogExploration( "Roll changed to Crouch: input module too small and not in sprint jump" );
 			return true;
 		}
 		
-		// TODO
-		// Should roll from EJT_KnockBack be optional?
 		
-		// Depending on jump type
-		if( m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Idle || m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Walk || m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_WalkHigh ) // || m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Vault )
+		
+		
+		
+		if( m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Idle || m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Walk || m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_WalkHigh ) 
 		{
-			// And height
+			
 			if( fallDiff < m_RollMinHeightF && !thePlayer.IsActionAllowed( EIAB_RunAndSprint ) )
 			{
 				LogExploration( "Roll changed to Crouch: height too small " + jumpTotalDiff + " < m_RollMinHeightF = " + m_RollMinHeightF );
@@ -625,7 +630,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			}
 		}
 		
-		// Slope up check
+		
 		m_ExplorationO.m_MoverO.GetSlideDirAndNormal( dir, normal );
 		if( normal.Z < 0.9f && VecDot( dir, m_ExplorationO.m_OwnerE.GetWorldForward() ) <= 0.0f )
 		{
@@ -633,69 +638,69 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			return true;
 		}
 		
-		// Otherwise
+		
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function FindLandType( damagePerc : float, jumpTotalDiff : float, fallDiff : float ) : ELandType
 	{	
-		// KnockBack
+		
 		if( m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_KnockBack || m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_KnockBackFall )
 		{
 			return LT_KnockBack;
 		}
 		
-		// Death?
+		
 		if( damagePerc >=  1.0f || !m_ExplorationO.m_OwnerE.IsAlive() )
 		{
 			return LT_Death;
 		}
 		
-		// Slide ?
+		
 		else if( m_SlidingB )
 		{
 			return LT_Normal;
 		}
 		
-		// Damaged?		
+		
 		else if( damagePerc > 0.0f )
 		{
 			return LT_Damaged;
 		}	
 		
-		// Roll
+		
 		else if( m_RollingB )
 		{
 			return LT_Crouch;
 		}
 		
-		// Panther
+		
 		else if( m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Sprint && m_ExplorationO.m_SharedDataO.m_UsePantherJumpB )
 		{
 			return LT_Panther;
 		}
 		
-		// Aircollision
+		
 		else if( m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Hit )
 		{
 			return LT_FrontAircollision;
 		}
 		
-		// Higher than normal ?
-		else if ( m_AllowHigherJumpB && m_ExplorationO.m_SharedDataO.m_JumpIsTooSoonToLandB && m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Run ) //fallDiff <= -m_HighLandingHeightF )
+		
+		else if ( m_AllowHigherJumpB && m_ExplorationO.m_SharedDataO.m_JumpIsTooSoonToLandB && m_ExplorationO.m_SharedDataO.m_JumpTypeE == EJT_Run ) 
 		{
 			return LT_Higher;
 		}
 		
-		// Normal
+		
 		return LT_Normal;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function LandParametersSetFromType( landType : ELandType )
 	{
-		// Save the land type
+		
 		m_LandTypeE	= landType;
 		
 		switch( m_LandTypeE )
@@ -771,7 +776,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetThisParameters( parameters : SLandData )
 	{
 		m_LandData.landType				= parameters.landType;
@@ -783,7 +788,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		m_LandData.shouldFlipFoot		= parameters.shouldFlipFoot;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetProperLandIK()
 	{	
 		switch( m_LandTypeE )
@@ -799,13 +804,13 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		m_ExplorationO.m_OwnerMAC.SetEnabledFeetIK( true, 0.4f );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function LandTypeInitialize()
 	{				
-		// Should we go to slide ?
+		
 		CheckGoToSlideOneFrameAfter();	
 		
-		// Find land coef
+		
 		switch( m_LandData.landEndForcedMode )
 		{
 			case LRFM_NotForced	:
@@ -822,7 +827,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 				break;
 		}
 		
-		// Limit on slope
+		
 		if( m_RunCoefF == 1.0f )
 		{
 			if( m_ExplorationO.m_CollisionManagerO.IsGoingUpSlope( m_ExplorationO.m_OwnerE.GetWorldForward() ) )
@@ -837,7 +842,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			SetReadyToChangeTo( 'Idle' );
 		}
 		
-		// Land add bend
+		
 		if( m_RunCoefF > 0.0f )
 		{
 			if( m_UseBendAddOnLand && m_LandTypeE == LT_Normal )
@@ -846,12 +851,12 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			}
 		}
 		
-		// Set on the behavior
+		
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( m_BehLandRunS, m_RunCoefF );
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( m_BehLandTypeS, ( float ) ( int ) m_LandTypeE );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function LandTypeUpdateChange()
 	{
 		var l_NewRunCoefF : float;
@@ -876,14 +881,14 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function GetLandRunCoefFromInput() : float
 	{
-		// Can we change from idle to run or run to idle?
+		
 		if( thePlayer.GetIsWalking() )
-		//if( m_ExplorationO.m_InputO.IsModuleConsiderable() )
+		
 		{
-			// Run forward
+			
 			if( AbsF( m_ExplorationO.m_InputO.GetHeadingDiffFromPlayerF() ) < m_LandRunInputAngleF )
 			{
 				if( thePlayer.GetIsRunning() && m_LandTypeE != LT_Damaged )
@@ -895,8 +900,8 @@ class CExplorationStateLand extends CExplorationStateAbstract
 					return 0.5f;
 				}
 			}
-			// Change direction
-			// TODO: proper direction change (Anim events, specific anims, whatever... )
+			
+			
 			else
 			{
 				return 0.0f;
@@ -908,16 +913,16 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CheckGoToSlideOneFrameAfter()
 	{
-		// Checked already?
+		
 		if( m_SlideCheckedSecondFrameB || m_ExplorationO.GetStateTimeF() <= 0.0f )
 		{
 			return;
 		}
 		
-		// Check once
+		
 		m_SlidingB	= m_ExplorationO.StateWantsAndCanEnter('Slide');
 		if( m_SlidingB )
 		{
@@ -925,27 +930,27 @@ class CExplorationStateLand extends CExplorationStateAbstract
 			ReactToSlide();
 		}
 		
-		// Remember not to check this again
+		
 		m_SlideCheckedSecondFrameB	= true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CanChainJump() : bool
 	{ 
-		// Time
+		
 		if( m_ExplorationO.GetStateTimeF() <= m_LandData.timeBeforeChain )
 		{
 			return false;
 		}
 		
-		// State
+		
 		return m_LandTypeE == LT_Normal ||	m_LandTypeE == LT_Higher || m_LandTypeE == LT_Crouch;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
-		if ( animEventName == m_BehLandCanEndN )//&& !m_ReadyToEndB )
+		if ( animEventName == m_BehLandCanEndN )
 		{
 			m_ReadyToEndB	= true;
 		}
@@ -956,10 +961,10 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function ReactToLoseGround() : bool
 	{
-		// If player is already dead, go to ragdoll
+		
 		if( !m_ExplorationO.m_OwnerE.IsAlive() )
 		{
 			m_ExplorationO.m_OwnerE.SetKinematic( false );
@@ -969,7 +974,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		
 		m_ToFallB	= true;
 		
-		// Remove IK on slope
+		
 		m_ExplorationO.m_OwnerMAC.SetEnabledSlidingOnSlopeIK( false );
 		
 		if( m_LandTypeE == LT_KnockBack  )
@@ -980,7 +985,7 @@ class CExplorationStateLand extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToHitGround() : bool
 	{
 		m_ToFallB	= false;
@@ -989,18 +994,18 @@ class CExplorationStateLand extends CExplorationStateAbstract
 	}	
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToBeingHit( optional damageAction : W3DamageAction ) : bool
 	{
-		// Avoid react on damaged from landing
+		
 		return m_ExplorationO.GetStateTimeF() < m_ExplorationO.m_SharedDataO.m_SkipLandAnimTimeMaxF;
-		//return true;
+		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToSlide() : bool
 	{
-		//if( CanChainJump() )
+		
 		if( m_LandTypeE == LT_Normal ||  m_LandTypeE == LT_Higher )
 		{
 			LogExplorationLandExit( GetStateName() + " SetReadyToChangeTo: slide, from ReactToSlide() function" );
@@ -1011,13 +1016,13 @@ class CExplorationStateLand extends CExplorationStateAbstract
 	}
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	function OnBehGraphNodeExited()
 	{
 		LogExplorationLandExit( GetStateName() + " Behavior graph node exited itself" );
 	}
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function LogExplorationLandExit( text : string )
 	{
 		LogChannel( 'ExplorationState'			,GetStateName() + text );

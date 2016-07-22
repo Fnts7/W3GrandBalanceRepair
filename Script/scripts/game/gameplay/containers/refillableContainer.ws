@@ -1,12 +1,14 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Class to containers that auto-refill after some time with new loot
-class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot window mechanics
+
+
+
+
+class W3RefillableContainer extends W3Container 
 {
 	private saved var isEmpty : bool;
 	private saved var checkedForBonusHerbs : bool;
@@ -24,7 +26,7 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 		
 		super.OnSpawned(spawnData);
 
-		//force this since someone might ignore the fields in entity template - could break OnInteractionActivated in parent class
+		
 		lockedByKey = false;
 		
 		if(spawnData.restored && isEmpty)
@@ -32,7 +34,7 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 			AddTimer( 'Refill', 20, true );
 		}
 		
-		//focus mode highliting
+		
 		inv = GetInventory();
 		if( inv && !inv.IsEmpty() )
 		{
@@ -40,8 +42,8 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 		}
 	}
 		
-	// Overrides parent - substances are just numbers not actual items
-	protected function TakeAllItems() //@FIXME Bidon - apply loot window mechanics
+	
+	protected function TakeAllItems() 
 	{
 		var inv : CInventoryComponent;
 		
@@ -52,7 +54,7 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 		inv = GetInventory();
 		if ( inv )
 		{
-			//inv.GiveAllItemsTo( thePlayer.inv, false, true );
+			
 			super.TakeAllItems();
 		}
 		isEmpty = true;
@@ -77,7 +79,7 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 		}
 	}	
 	
-	// Timer that refills the herb with substances. Automatically checks when to call itself again.
+	
 	timer function Refill(td : float, id : int)
 	{
 		var inv : CInventoryComponent;
@@ -94,7 +96,7 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 				PreRefillContainer();
 			}
 			
-			//cache existing items
+			
 			if(isPlayerInActivationRange)
 			{
 				oldMoney = inv.GetMoney();
@@ -113,7 +115,7 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 			checkedForBonusMoney = false;
 			checkedForBonusHerbs = false;
 			
-			//update bonus gold drop if player is in interaction range, otherwise it will update when player will enter interaction range
+			
 			if(isPlayerInActivationRange)
 			{
 				checkedForBonusMoney = true;
@@ -140,7 +142,7 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 		}
 	}
 	
-	//checks for herbs and adds additional ones if bonus chance succeeds
+	
 	private function CheckForBonusHerbs(oldItems : array<SItemUniqueId>, oldItemsQuantities : array<int>, bonusChance : float)
 	{
 		var oldHerbNames, newHerbNames : array<name>;
@@ -164,7 +166,7 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 			
 		GetHerbsData(newItems, newItemsCounts, newHerbNames, newHerbQuantities);
 		
-		//delta - check how many items are actually newly generated
+		
 		for(i=0; i<newHerbNames.Size(); i+=1)
 		{
 			ind = oldHerbNames.FindFirst(newHerbNames[i]);
@@ -177,28 +179,28 @@ class W3RefillableContainer extends W3Container //@FIXME Bidon - apply loot wind
 		if( inv )
 		{
 			dm = theGame.GetDefinitionsManager();
-			//add bonus
+			
 			for(i=0; i<newHerbNames.Size(); i+=1)
 			{
-				//no new items
+				
 				if(newHerbQuantities[i] <= 0)
 					continue;
 					
-				//skip quest items
+				
 				if(dm.ItemHasTag(newHerbNames[i], 'Quest'))
 					continue;
 					
-				//failed chance
+				
 				if(RandF() > bonusChance)
 					continue;
 					
-				//add bonus item
+				
 				inv.AddAnItem(newHerbNames[i], 1, true, true);
 			}
 		}
 	}
 	
-	//Gets arrays of items and their quantities. Checks which items are herbs and adds their counts per herb type.
+	
 	private function GetHerbsData(items : array<SItemUniqueId>, itemsQuantities : array<int>, out herbNames : array<name>, out herbQuantities : array<int>)
 	{
 		var i, ind : int;

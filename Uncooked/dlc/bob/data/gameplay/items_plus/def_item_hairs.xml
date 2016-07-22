@@ -36,6 +36,16 @@
 						<item>Medium armor 11</item>
 					</variant>
 					<variant equip_template="c_17_mg__witcher_bowl" category="armor"></variant>
+					<variant equip_template="c_17_mg__witcher_bowl" category="mask" all="true">
+						<item>Lynx Armor 4</item>
+					</variant>
+					<variant equip_template="c_17_mg__witcher_bowl" category="mask" all="true">
+						<item>NGP Lynx Armor 4</item>
+					</variant>
+					<variant equip_template="c_08_mg__witcher_lx">
+						<item>Lynx Armor 4</item>
+						<item>NGP Lynx Armor 4</item>
+					</variant>
 				</variants>
 			</item>
 	  

@@ -1,4 +1,9 @@
-﻿class CPopsGasEntity extends CInteractiveEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CPopsGasEntity extends CInteractiveEntity
 {
 	editable var restorationTime	: float;
 	editable var settlingTime		: float;
@@ -76,7 +81,7 @@
 					buffParams.effectType = EET_PoisonCritical;
 					buffParams.creator = this;
 					buffParams.duration = 1.0;
-					//buffParams.effectValue = poisonDamage;
+					
 					buffParams.sourceName = "PopsGasAffliction";
 				}
 				AddTimer( 'PoisonVictim', 0.1, true );

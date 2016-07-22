@@ -1,11 +1,13 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Startup Movies Menu
-/***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Bartosz Bigaj
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// WARNING changes done here should also be done in mainRecapMoviesMenu.ws
+
+
+
+
 
 struct SMovieData
 {
@@ -25,7 +27,7 @@ class CR4StartupMoviesMenu extends CR4MenuBase
 	default wasSkipped 				= false;
 	private var languageName : string;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var menuName : name;
 		var audioLanguageName : string;
@@ -42,23 +44,23 @@ class CR4StartupMoviesMenu extends CR4MenuBase
 		else
 		{
 			m_fxSetGameLogoLanguage = m_flashModule.GetMemberFlashFunction( "setGameLogoLanguage" );
-			//m_fxSetMovieData.InvokeSelfOneArg(FlashArgString(GetCurrentBackgroundMovie()));
+			
 			theGame.GetGameLanguageName(audioLanguageName,languageName);
 			m_fxSetGameLogoLanguage.InvokeSelfTwoArgs( FlashArgBool(m_MovieData[m_CurrentMovieID].showLogo), FlashArgString(languageName) );
 			guiManager.PlayFlashbackVideoAsync(GetCurrentBackgroundMovie());
-			//SetButtons();
+			
 		}
 		
 		theInput.StoreContext( 'EMPTY_CONTEXT' );
 	}
 	
-	private function SetupMoviesData() // #B setup movies played on game start
+	private function SetupMoviesData() 
 	{
 		var movieData : SMovieData;
 		
 		m_MovieData.Clear();
 		
-		// legalscreen and publisher_bumpers are already played back on PS4 at this point
+		
 		if( theGame.GetPlatform() == Platform_PC ) 
 		{
 			movieData.movieName = "gamestart/bumpers/bumpers.usm";
@@ -73,14 +75,14 @@ class CR4StartupMoviesMenu extends CR4MenuBase
 		return m_MovieData[m_CurrentMovieID].movieName;
 	}
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		super.OnClosingMenu();
 		guiManager.CancelFlashbackVideo();
 		theInput.RestoreContext( 'EMPTY_CONTEXT', true );
 	}	
 	
-	event /* flash */ OnSkipMovie()
+	event  OnSkipMovie()
 	{
 		m_CurrentMovieID += 1;
 		if( m_CurrentMovieID >= m_MovieData.Size() )
@@ -94,21 +96,13 @@ class CR4StartupMoviesMenu extends CR4MenuBase
 		wasSkipped = true;
 	}
 
-	/*
-	enum EStandardSwipe
-	{
-		SWIPE_LEFT,
-		SWIPE_RIGHT,
-		SWIPE_DOWN,
-		SWIPE_UP
-	};
-	*/
+	
 
-	event /* C++ */ OnSwipe( swipe : int )
+	event  OnSwipe( swipe : int )
 	{
 	}
 
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		CloseMenuRequest();
 	}
@@ -124,16 +118,16 @@ class CR4StartupMoviesMenu extends CR4MenuBase
 		}
 		else
 		{
-			//menu.CloseMenu();
 			
-			// get parent menu
+			
+			
 		}
 	}
 	
 	event OnVideoSubtitles( subtitles : string )
 	{
-		// #J Look at recap Movies menu to implement this. Currently not needed
-		// May require a rexport of the menu
+		
+		
 	}
 	
 	protected function GatherBindersArray(out resultArray : CScriptedFlashArray, bindersList : array<SKeyBinding>, optional isContextBinding:bool)

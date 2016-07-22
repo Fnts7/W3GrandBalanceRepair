@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2015
-/** Author : A. Kwiatkowski
-/***********************************************************************/
+
+
+
 
 struct SNoiseEntity
 {
@@ -31,7 +33,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 	private var entity 							: CEntity;
 	private var entityTemplate					: CEntityTemplate;
 	
-	private const var PING_SPEED				: float;	default PING_SPEED 		 		 	= 14.5f; //14.5;
+	private const var PING_SPEED				: float;	default PING_SPEED 		 		 	= 14.5f; 
 	private const var PING_NOISE_LEVEL			: float;	default PING_NOISE_LEVEL 		 	= 10.0f;
 	private const var BOMB_NOISE_LEVEL			: float;	default BOMB_NOISE_LEVEL 		 	= 9.0f;
 	private const var SIGN_NOISE_LEVEL			: float;	default SIGN_NOISE_LEVEL 		 	= 8.0f;
@@ -90,12 +92,12 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 			{
 				for ( i = noiseSourceEntities.Size() - 1 ; i >= 0 ; i -= 1 )
 				{
-					// decrease noise level by time delta
+					
 					noiseSourceEntities[i].noiseLevel -= GetLocalTime() - timeStamp;
 					if ( noiseSourceEntities[i].noiseLevel <= MOVE_NOISE_LEVEL )
 					{
 						actor = (CActor)noiseSourceEntities[i].noiseEntity;
-						// update noise level for moving entities
+						
 						if ( noiseSourceEntities[i].animatedComponent && noiseSourceEntities[i].animatedComponent.GetMoveSpeedRel() > 0 )
 						{
 							noiseSourceEntities[i].noiseLevel = MOVE_NOISE_LEVEL;
@@ -113,7 +115,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 					playerNoiseSources = noiseSourceEntities;
 					for ( k = playerNoiseSources.Size() - 1 ; k >= 0 ; k -= 1 )
 					{
-						// remove npcs, we need only player generated noises
+						
 						if ( (CNewNPC)playerNoiseSources[k].noiseEntity )
 						{
 							playerNoiseSources.Erase( k );
@@ -127,7 +129,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 						noiseSourceEntity = noiseSourceEntities[j];
 					}
 				}
-				else // return loudest entity
+				else 
 				{
 					j = ArrayFindMaxFloatFromStruct( noiseSourceEntities );
 					noiseSourceEntity = noiseSourceEntities[j];
@@ -140,7 +142,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 				{
 					if ( ignoreNoiseLowerThanWhenSprinting > 0 )
 					{
-						// if owner is sprinting he cannot hear noises quieter than ignoreNoiseLowerThanWhenSprinting value
+						
 						if ( component && component.GetMoveSpeedRel() > 2.4 )
 						{
 							if ( noiseSourceEntity.noiseLevel > ignoreNoiseLowerThanWhenSprinting )
@@ -171,20 +173,15 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 			}
 			else
 			{
-				/*
-				distance = VecDistance( entity.GetWorldPosition(), noiseSourceEntity.noiseEntity.GetWorldPosition() );
-				if ( distance > 3 )
-				{
-					SetActionTarget( NULL );
-				}*/
+				
 				
 				distance = VecDistance( npc.GetWorldPosition(), noiseSourceEntity.noiseEntity.GetWorldPosition() );
-				// if target is close, sharley doesn't loose the scent
+				
 				if ( remberTargetIfCloserThan > 0 && distance < remberTargetIfCloserThan )
 				{
-					//
+					
 				}
-				// if owner started moving towards the target, he won't forget where he's going in the middle
+				
 				else if ( forgetTargetIfNPCSpeedLowerThan > 0 )
 				{
 					if ( component && component.GetMoveSpeedRel() < forgetTargetIfNPCSpeedLowerThan )
@@ -197,7 +194,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 					SetActionTarget( NULL );
 				}
 			}
-			// detection fx
+			
 			if ( echoPingShot && GetLocalTime() > echoTimeStamp + delayEchoDetectionFX )
 			{
 				echoPingShot = false;
@@ -219,7 +216,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 			noiseSourceEntities.PushBack( noiseSourceEntity );
 			teleportEntity = true;
 		}
-		else if ( eventName == 'CastSignActionFar' ) // AARD - much louder than other Signs
+		else if ( eventName == 'CastSignActionFar' ) 
 		{
 			SetNamedTarget( 'tempTarget', GetNamedTarget( 'ReactionTarget' ) );
 			noiseSourceEntity.noiseEntity = (CEntity) GetNamedTarget( 'tempTarget' );
@@ -275,14 +272,8 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 			teleportEntity = true;
 		}
 		
-		// additional gameplay events that could be used
-		/*
-		PlayerEvade
-		PlayerSpecialAttack
-		DrawSwordAction
-		PlayerSprintAction
-		PlayerJumpAction
-		*/
+		
+		
 		if ( eventName == 'LeavingCombat' && entity )
 		{
 			noiseSourceEntities.Clear();
@@ -306,7 +297,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 		entity = theGame.CreateEntity( entityTemplate, spawnPos );
 	}
 	
-	// Returns index of highest element
+	
 	final function ArrayFindMaxFloatFromStruct( a : array< SNoiseEntity > ) : int
 	{
 		var i, s, index : int;
@@ -376,7 +367,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 			LogChannel( 'dupa', "bTTaskManageBlindCreature : npc cannot navigate to heard noise" );
 		}
 		
-		//npc.GetVisualDebug().AddSphere( 'entityPosTest', 1.0, newPos, true, Color( 255,0,0 ), noiseSourceEntity.noiseLevel );
+		
 	}
 	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
@@ -389,7 +380,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 		
 		return false;
 	}
-	// finds all targets that are not hidden behind obstacles
+	
 	final function Echolocation()
 	{
 		var actor 			: CActor;
@@ -406,7 +397,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 				actor = (CActor)noiseSourceEntities[i].noiseEntity;
 				if ( actor && StaticTrace(i) && actor.IsAlive() && GetAttitudeBetween( GetNPC(), actor ) == AIA_Hostile )
 				{
-					//if ( theGame.GetWorld().NavigationLineTest( npcPos, actor.GetWorldPosition(), 1.5, false, true ) )
+					
 					noiseSourceEntities[i].noiseLevel = PING_NOISE_LEVEL;
 					teleportEntity = true;
 					
@@ -422,7 +413,7 @@ class CBTTaskManageBlindCreature extends IBehTreeTask
 		}
 	}
 	
-	// RETURNS TRUE IF THERE'S NOTHING IN THE WAY
+	
 	final function StaticTrace( i : int ) : bool 
 	{
 		var npcPos, traceStartPos, traceEndPos, traceEffect, normal : Vector;

@@ -1,4 +1,9 @@
-﻿class W3EredinIceSpike extends W3DurationObstacle
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3EredinIceSpike extends W3DurationObstacle
 {
 	editable var explodeAfter : float;
 	editable var damageRadius : float;
@@ -61,35 +66,12 @@
 				
 				delete damage;
 				
-				/*if( actor == thePlayer )
-				{
-					actor.SetAnimationSpeedMultiplier( 0.0 ); // hacky solution, but we cannot use EET_Frozen as actors t-pose when exiting mentioned state
-					actor.PlayEffect( 'critical_frozen' );
-					thePlayer.BlockAllActions( 'W3EredinIceSpike', true );
-					AddTimer( 'RemoveEffects', effectDuration );
-				}*/
+				
 			}
 		}
 		
 		
 	}
 	
-	/*timer function RemoveEffects( deltaTime : float, optional id : int )
-	{
-		var i : int;
-		var actor : CActor;
-		
-		for( i = 0; i < entitiesInRange.Size(); i += 1 )
-		{
-			actor = (CActor)entitiesInRange[i];
-			if( actor )
-			{
-				actor.SetAnimationSpeedMultiplier( 1.0 );
-				actor.StopEffect( 'critical_frozen' );
-				
-				if( actor == thePlayer )
-					thePlayer.BlockAllActions( 'W3EredinIceSpike', false );
-			}
-		}
-	}*/
+	
 }

@@ -1,4 +1,9 @@
-﻿class CR4HudModuleSignInfo extends CR4HudModuleBase // #B deprecated - for remove
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleSignInfo extends CR4HudModuleBase 
 {
 	private var _iconName : string;
 	private var _CurrentSelectedSign : ESignType;
@@ -6,7 +11,7 @@
 	private var m_fxEnableSFF : CScriptedFlashFunction;
 
 
-	/* flash */ event OnConfigUI()
+	 event OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		

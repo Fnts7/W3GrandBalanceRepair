@@ -1,11 +1,14 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3Potion_Blizzard extends CBaseGameplayEffect
 {
-	private saved var slowdownCauserIds : array<int>;		//we need to track IDs of sources that affect the game speed to properly remove them when they cumulate
+	private saved var slowdownCauserIds : array<int>;		
 	private var slowdownFactor : float;
 	private var currentSlowMoDuration : float;
 	private const var SLOW_MO_DURATION : float;

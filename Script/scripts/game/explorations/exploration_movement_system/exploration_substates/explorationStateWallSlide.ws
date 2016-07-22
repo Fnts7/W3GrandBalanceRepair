@@ -1,17 +1,22 @@
-﻿// CExplorationStateWallSlide
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 20/01/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CExplorationStateWallSlide extends CExplorationStateSlide
 {	
 	private	var	wallSlideGenericCoef	: float;	default	wallSlideGenericCoef	= 0.7f;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{	
 		if( !IsNameValid( m_StateNameN ) )
@@ -19,11 +24,11 @@ class CExplorationStateWallSlide extends CExplorationStateSlide
 			m_StateNameN	= 'WallSlide';
 		}
 		
-		// HACK: Wallslide does not update materials atm
+		
 		updateMaterials				= false;
 		useWideTerrainCheckToEnter	= false;
 		
-		// If we have this state, disable sliding by default, till we enter here
+		
 		m_ExplorationO.m_OwnerMAC.SetSliding( false );
 		
 		m_StateTypeE	= EST_Idle;
@@ -31,28 +36,28 @@ class CExplorationStateWallSlide extends CExplorationStateSlide
 		SetCanSave( false );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddDefaultStateChangesSpecific()
 	{
-		//AddStateToTheDefaultChangeList('Jump');
+		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{	
 		var coef	: float;
 		
 		
-		// Wont slide on air
+		
 		if( !m_ExplorationO.IsOnGround() )
 		{
 			return false;
 		}
 		
-		// slide coef
+		
 		coef	= m_ExplorationO.m_MoverO.GetRawSlideCoef( true );
 		
-		// For debug purposes
+		
 		if( coef > wallSlideGenericCoef )
 		{ 
 			return true;
@@ -61,23 +66,23 @@ class CExplorationStateWallSlide extends CExplorationStateSlide
 		return false;
 	}	
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateCanEnter( curStateName : name ) : bool
 	{	
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{
 		if( !StateWantsToEnter() )
 		{
-			// Slide
+			
 			if( m_ExplorationO.StateWantsAndCanEnter( 'Slide' ) )
 			{
 				return 'Slide';
 			}
-			// Fall			
+			
 			if( !m_ExplorationO.IsOnGround() )
 			{
 				if( m_ExplorationO.CanChangeBetwenStates( GetStateName(), 'StartFalling' ) )
@@ -85,7 +90,7 @@ class CExplorationStateWallSlide extends CExplorationStateSlide
 					return 'StartFalling';
 				}
 			}
-			// Land	
+			
 			else if( m_ExplorationO.CanChangeBetwenStates( GetStateName(), 'Land' ) )
 			{
 				return 'Land';
@@ -95,19 +100,19 @@ class CExplorationStateWallSlide extends CExplorationStateSlide
 		return super.StateChangePrecheck();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{
 		super.StateUpdateSpecific( _Dt );
 		
-		// When wallsliding we also get damage
+		
 		m_ExplorationO.m_SharedDataO.UpdateFallHeight();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected  function CheckLandingDamage()
 	{
-		// No landing damage on wall sliding, we just keep increasing the speed
+		
 		return;
 	}
 }

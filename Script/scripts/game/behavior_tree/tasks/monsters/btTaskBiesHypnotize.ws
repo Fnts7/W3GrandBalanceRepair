@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class CBTTaskBiesHypnotize extends CBTTask3StateAttack
 {
 	var cameraIndex 	: int;
@@ -43,11 +48,11 @@ class CBTTaskBiesHypnotize extends CBTTask3StateAttack
 				if ( isPlayerAmongTargets(targets) )
 				{
 					GCameraShake(0.1, true, thePlayer.GetWorldPosition(), 30.0f);
-					//AreaEnvironmentActivate("env_bies_hypnotize");
+					
 					Sleep(0.1);
 					GCameraShake(0.1, true, thePlayer.GetWorldPosition(), 30.0f);
-					//AreaEnvironmentDeactivate("env_bies_hypnotize");
-					// maybe full screen effect?
+					
+					
 				}
 			}
 			else
@@ -55,11 +60,11 @@ class CBTTaskBiesHypnotize extends CBTTask3StateAttack
 				if ( isPlayerAmongTargets(initialTargets) )
 				{
 					GCameraShake(0.1, true, thePlayer.GetWorldPosition(), 30.0f);
-					//AreaEnvironmentActivate("env_bies_hypnotize");
+					
 					Sleep(0.1);
 					GCameraShake(0.1, true, thePlayer.GetWorldPosition(), 30.0f);
-					//AreaEnvironmentDeactivate("env_bies_hypnotize");
-					// maybe full screen effect?
+					
+					
 				}
 			}
 			
@@ -85,7 +90,7 @@ class CBTTaskBiesHypnotize extends CBTTask3StateAttack
 	
 	function GetTargets(out targets : array<CActor>) : bool
 	{
-		//var targets : array<CGameplayEntity>;
+		
 		var owner : CNewNPC = GetNPC();
 		
 		targets = owner.GetAttackableNPCsAndPlayersInCone(20,owner.GetHeading(),120,0);
@@ -138,17 +143,17 @@ class CBTTaskBiesHypnotize extends CBTTask3StateAttack
 		if ( !thePlayer.HasBuff( EET_Hypnotized ) )
 			res = true;
 		
-		// if hypnosis was not applied or player doesn't have hypnosis effect - resisted buff application
+		
 		if ( !done || res )
 		{
 			GetActor().StopEffect('third_eye_fx');
-			//AreaEnvironmentDeactivate("env_bies_hypnotize");
+			
 		}
 		done = false;
 		res = false;
 		
 		super.OnDeactivate();
-		//GetActor().StopEffect('third_eye_fx');
+		
 		GetActor().SoundEvent('monster_bies_confusion_warmup_stop');
 		if ( cameraIndex >= 0 )
 		{
@@ -157,23 +162,7 @@ class CBTTaskBiesHypnotize extends CBTTask3StateAttack
 		}
 	}
 	
-	/*
-	function OnActivate() : EBTNodeStatus
-	{
-		var target : CActor;
-		
-		var i : int;
-		
-		var targets : array<CGameplayEntity>;
-		
-		//target = GetCombatTarget();
-		
-		GetTargets(targets);
-		ApplyBuff(targets);
-		
-		return super.OnActivate();
-	}
-	*/
+	
 	
 	function OnGameplayEvent( eventName : name ) : bool
 	{

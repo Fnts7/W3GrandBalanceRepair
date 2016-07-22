@@ -1,4 +1,9 @@
-﻿statemachine class WeaponHolster
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+statemachine class WeaponHolster
 {
 	private	saved	var currentMeleeWeapon	: EPlayerWeapon;
 	
@@ -12,12 +17,12 @@
 	protected 		var isMeleeWeaponReady	: bool;
 	
 	
-	//---------------------------------------------------------------------------------------------
-	// Declare the events that are in the state
-	//---------------------------------------------------------------------------------------------
+	
+	
+	
 	event OnEquipMeleeWeapon( weapontype : EPlayerWeapon, ignoreActionLock : bool, optional sheatheIfAlreadyEquipped : bool, optional forceHolster : bool ){}
 	
-	// Invoked from C++ side when weapon gets instant equipped
+	
 	event OnEquippedMeleeWeapon( weapontype : EPlayerWeapon ) {}
 	
 	event OnWeaponDrawReady(){}
@@ -26,9 +31,9 @@
 	
 	event OnHolsterLeftHandItem(){}
 	
-	//---------------------------------------------------------------------------------------------
-	// Interface with other systems
-	//---------------------------------------------------------------------------------------------
+	
+	
+	
 	public function Initialize( _owner : CActor, restored : bool )
 	{
 		var item : SItemUniqueId;
@@ -41,8 +46,8 @@
 			isQueuedMeleeWeapon	= false;
 			isMeleeWeaponReady	= true;
 			
-			// temp workaround of not saved states - to be fixed after states are stored in saves properly
-			// ( i mean: Initialize() shouldn't be even called when restored == true )
+			
+			
 			PushState( 'SelectingWeapon' );
 		}
 		else
@@ -50,14 +55,14 @@
 			isQueuedMeleeWeapon	= false;
 			isMeleeWeaponReady	= true;
 			queuedMeleeWeapon	= PW_None;
-			//UpdateRealWeapon();
-			//UpdateBehGraph(true);
-			//UpdateScabbardsBehGraph();
 			
-			// temp workaround of not saved states - to be fixed after states are stored in saves properly
-			// ( i mean: Initialize() shouldn't be even called when restored == true )
+			
+			
+			
+			
+			
 			PushState( 'SelectingWeapon' );
-			//RecoverItemAfterLoad();
+			
 		}
 	}
 	
@@ -119,7 +124,7 @@
 		OnEquipMeleeWeapon( curWeapon, ignoreActionLock, true, forceHolster );
 	}
 	
-	// holsters weapon without animation
+	
 	event OnForcedHolsterWeapon()
 	{
 		DischargePhantomWeapon();
@@ -141,7 +146,7 @@
 	{
 		if( isMeleeWeaponReady )
 		{
-			// End the holster animation if it is playing so it can blend
+			
 			thePlayer.RaiseEvent( 'SwitchWeaponEnd' );
 		}
 		
@@ -160,7 +165,7 @@
 	
 	public function EndedCombat()
 	{
-		// We may need to disarm the player of the fists
+		
 		if( GetCurrentMeleeWeapon() == PW_Fists )
 		{
 			OnEquipMeleeWeapon( PW_None, true );
@@ -187,19 +192,19 @@
 		}
 		
 		
-		// If we don't have automatic unholster we can use only equipped weapon or fists
+		
 		if( !automaticUnholster )
 		{
 			return PW_Fists;
 		}
 		
-		// If there is no target, use fists
+		
 		if ( !targetToDrawAgainst )
 		{
 			return PW_Fists;
 		}
 		
-		// With human we use fists if he has fists
+		
 		targetToDrawAgainst.GetInventory().GetAllHeldAndMountedItemsCategories( heldItems, mountedItems );
 		
 		if ( heldItems.Size() > 0 )
@@ -221,11 +226,11 @@
 		
 		npc = (CNewNPC)targetToDrawAgainst;
 		
-		if ( targetToDrawAgainst.IsHuman() && ( !hasPhysicalWeapon || ( targetToDrawAgainst.GetAttitude( thePlayer ) != AIA_Hostile ) ) ) //&& heldItems.Size() <= 0 
+		if ( targetToDrawAgainst.IsHuman() && ( !hasPhysicalWeapon || ( targetToDrawAgainst.GetAttitude( thePlayer ) != AIA_Hostile ) ) ) 
 		{
 			ret = PW_Fists;
 		}
-		else if ( npc.IsHorse() && !npc.GetHorseComponent().IsDismounted() ) // failSafe. We shouldn't target mounted horses
+		else if ( npc.IsHorse() && !npc.GetHorseComponent().IsDismounted() ) 
 		{
 			ret = PW_Fists;
 		}
@@ -240,7 +245,7 @@
 			}
 			else
 			{
-				// Use the most efective weapon based on used health type
+				
 				if(targetToDrawAgainst.UsesVitality())
 				{
 					ret = PW_Steel;
@@ -278,13 +283,13 @@
 	}	
 	
 	
-	//---------------------------------------------------------------------------------------------
-	// Utils
-	//---------------------------------------------------------------------------------------------
+	
+	
+	
 	
 	protected function IsThisWeaponAlreadyEquipped( weaponType : EPlayerWeapon ) : bool
 	{
-		//make sure we don't want to change to what we already have
+		
 		if ( weaponType == GetCurrentMeleeWeapon() )
 		{
 			return true;
@@ -293,7 +298,7 @@
 		return false;
 	}
 	
-	//doesn't return proper category of held item ( e.g. you cna have axe equipped )
+	
 	protected function GetWeaponCategoryName( weaponType : EPlayerWeapon ) : name
 	{
 		switch( weaponType )
@@ -316,16 +321,16 @@
 			thePlayer.GetPhantomWeaponMgr().DischargeWeapon();
 	}
 	
-	//---------------------------------------------------------------------------------------------
-	// Queuing
-	//---------------------------------------------------------------------------------------------
+	
+	
+	
 	
 	protected function QueueMeleeWeapon( weapontype : EPlayerWeapon, optional sheatheIfAlreadyEquipped : bool )
 	{
-		// Sheathe it
+		
 		if( sheatheIfAlreadyEquipped && ( weapontype == PW_Silver || weapontype == PW_Steel ) )
 		{
-			// Do we have it equipped?
+			
 			if( IsThisWeaponAlreadyEquipped( weapontype ) )
 			{
 				weapontype	= PW_None;
@@ -359,11 +364,8 @@
 			return false;
 		}
 		
-		//you should only que weapon that ignore action lock
-		/*if( !thePlayer.IsWeaponActionAllowed( queuedMeleeWeapon ) )
-		{
-			return false;
-		}*/
+		
+		
 		
 		OnEquipMeleeWeapon( queuedMeleeWeapon, true );
 		
@@ -387,7 +389,7 @@
 		
 		thePlayer.SetBehaviorVariable( 'WeaponType', 0);
 		
-		// hack for Ciri
+		
 		if ( !GetWitcherPlayer() && weapontype == PW_Fists && thePlayer.IsInCombat()  )
 		{
 			thePlayer.SetBehaviorVariable( 'playerWeapon', (int) PW_Steel );
@@ -480,22 +482,22 @@ state SelectingWeapon in WeaponHolster
 	{
 		var canWeEquipNow : bool;
 		
-		// Find real weapon
-		//parent.UpdateRealWeapon();
 		
-		// Can we equip now ?
+		
+		
+		
 		canWeEquipNow	= parent.isMeleeWeaponReady;		
 		if( canWeEquipNow && !ignoreActionLock && !thePlayer.IsWeaponActionAllowed( weapontype ) )
 		{
 			canWeEquipNow	= false;
 		}
 		
-		// Equip
+		
 		if( canWeEquipNow )
 		{
 			EquipMeleeWeapon( weapontype, sheatheIfAlreadyEquipped );
 		}
-		// Queue for later
+		
 		else if ( ignoreActionLock )
 		{
 			parent.QueueMeleeWeapon( weapontype, sheatheIfAlreadyEquipped );
@@ -504,7 +506,7 @@ state SelectingWeapon in WeaponHolster
 	
 	event OnEquippedMeleeWeapon( weaponType : EPlayerWeapon )
 	{	
-		//show current oil buff on HUD
+		
 		if( weaponType == PW_Steel || weaponType == PW_Silver )
 		{
 			thePlayer.ResumeOilBuffs( weaponType == PW_Steel );
@@ -551,21 +553,21 @@ state SelectingWeapon in WeaponHolster
 			return;
 		}	
 		
-		//parent.UpdateBehGraph(true);
+		
 		
 		thePlayer.SetBehaviorVariable( 'holsterReadyToSkip', 0.0f, true );
 		
-		// Unqueue if there was any
+		
 		parent.UnqueueMeleeWeapon( );
 		
-		// Are we asking for a physical weapon?
+		
 		isAWeapon	= weapontype == PW_Silver || weapontype == PW_Steel;	
 		
-		// Do we have it equipped?
+		
 		if( parent.IsThisWeaponAlreadyEquipped( weapontype ) )
 		{
-			// E# hack. Let's remove the complete  sheatheIfAlreadyEquipped thing
-			// Sheathe it
+			
+			
 			if( sheatheIfAlreadyEquipped && isAWeapon )
 			{
 				if( thePlayer.IsInCombat() )
@@ -578,7 +580,7 @@ state SelectingWeapon in WeaponHolster
 				}
 				isAWeapon	= false;
 			}
-			// Dont equip the same weapon again
+			
 			else
 			{
 				return;
@@ -587,17 +589,17 @@ state SelectingWeapon in WeaponHolster
 		
 		owner = parent.GetOwner();
 		
-		// Stop any attack
+		
 		fists = ((W3PlayerWitcherStateCombatFists)owner.GetState('Combat'));
 		if( fists )
 		{
 			fists.comboPlayer.StopAttack();
 		}
 		
-		// Remember what we have		
+		
 		parent.SetCurrentMeleWeapon( weapontype );	
 		
-		// Start changing
+		
 		Lock();
 		
 		parent.UpdateBehGraph();
@@ -609,10 +611,7 @@ state SelectingWeapon in WeaponHolster
 				thePlayer.ProcessRequiredItems();
 				break;
 			case PW_Fists : 
-/*				if ( thePlayer.IsHoldingItemInLHand () )
-				{
-					HideUsableItemL();
-				}*/
+
 				if ( !thePlayer.inv.HasItem('Geralt fists') && !thePlayer.IsFistFightMinigameEnabled() )
 				{
 					thePlayer.inv.AddAnItem( 'Geralt fists', 1, true, true, false );
@@ -643,7 +642,7 @@ state SelectingWeapon in WeaponHolster
 		}
 		
 		parent.UpdateRealWeapon();
-		// End changing
+		
 		Unlock();		
 		parent.SetCurrentMeleWeapon( weapontype );		
 	}	
@@ -652,9 +651,9 @@ state SelectingWeapon in WeaponHolster
 	{
 		Lock();
 		
-		//thePlayer.SetRequiredItems('fists', 'None');
+		
 		thePlayer.SetRequiredItems( 'None', 'Any' );
-		//thePlayer.HideUsableItem();
+		
 		thePlayer.ProcessRequiredItems();
 		
 		Unlock();
@@ -662,7 +661,7 @@ state SelectingWeapon in WeaponHolster
 	
 	event OnWeaponDrawReady()
 	{
-		// Restore control
+		
 		Unlock();
 		
 		SignalDrawSwordAction();
@@ -672,7 +671,7 @@ state SelectingWeapon in WeaponHolster
 	}
 	event OnWeaponHolsterReady()
 	{
-		// Restore control
+		
 		Unlock();
 		
 		SignalHolsterSwordAction();
@@ -697,12 +696,12 @@ state SelectingWeapon in WeaponHolster
 	}
 	private function SignalDrawSwordAction()
 	{
-		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'DrawSwordAction', -1, 8.0f, -1, 9999, true); //reactionSystemSearch
+		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'DrawSwordAction', -1, 8.0f, -1, 9999, true); 
 	}
 	
 	private function SignalHolsterSwordAction()
 	{
-		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'HolsterSwordAction', -1, 8.0f, -1, 9999, true); //reactionSystemSearch
+		theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( thePlayer, 'HolsterSwordAction', -1, 8.0f, -1, 9999, true); 
 	}
 	 
 	private function Lock()
@@ -710,21 +709,21 @@ state SelectingWeapon in WeaponHolster
 		var actionBlockingExceptions : array<EInputActionBlock>;
 		var horseComp : W3HorseComponent;
 		
-		// Lock entry function
-		//parent.LockEntryFunction( true );
-		
-		// Lock Save
-		//theGame.CreateNoSaveLock( 'weapon_holster', noSaveLock );
 		
 		
-		// Block actions
+		
+		
+		
+		
+		
+		
 		actionBlockingExceptions.PushBack(EIAB_Movement);
 		actionBlockingExceptions.PushBack(EIAB_RunAndSprint);
 		actionBlockingExceptions.PushBack(EIAB_Signs);
 		actionBlockingExceptions.PushBack(EIAB_CallHorse);
 		actionBlockingExceptions.PushBack(EIAB_Jump);
-		//actionBlockingExceptions.PushBack(EIAB_DrawWeapon);
-		actionBlockingExceptions.PushBack(EIAB_Roll);		// ED: Don't comment this line
+		
+		actionBlockingExceptions.PushBack(EIAB_Roll);		
 		actionBlockingExceptions.PushBack(EIAB_Dodge);
 		actionBlockingExceptions.PushBack(EIAB_Climb);
 		actionBlockingExceptions.PushBack(EIAB_Slide);
@@ -746,7 +745,7 @@ state SelectingWeapon in WeaponHolster
 		actionBlockingExceptions.PushBack(EIAB_QuickSlots);
 		thePlayer.BlockAllActions( 'WeaponHolster', true, actionBlockingExceptions, false);
 		
-		// Weapon is not ready
+		
 		parent.isMeleeWeaponReady	= false;
 		
 		horseComp = thePlayer.GetUsedHorseComponent();
@@ -763,12 +762,12 @@ state SelectingWeapon in WeaponHolster
 		
 		parent.UpdateScabbardsBehGraph();
 		
-		//theGame.ReleaseNoSaveLock( noSaveLock );
 		
-		// Unlock all actions
+		
+		
 		thePlayer.BlockAllActions( 'WeaponHolster', false);
 		
-		// Weapon is ready
+		
 		parent.isMeleeWeaponReady	= true;
 		
 		horseComp = thePlayer.GetUsedHorseComponent();
@@ -778,10 +777,10 @@ state SelectingWeapon in WeaponHolster
 			horseComp.GetUserCombatManager().OnMeleeWeaponReady();
 		}
 		
-		// We cna use entry function again
-		//parent.LockEntryFunction( false );
 		
-		// Do we have something queued that is not the current weapon?		
+		
+		
+		
 		parent.EquipQueuedMeleeWeaponIfAny();
 	}
 	
@@ -796,11 +795,5 @@ state SelectingWeapon in WeaponHolster
 			}
 		}
 	}
-	/*timer function CheckForQueuedWeapon( timeDelta : float , id : int)
-	{			
-		if( parent.EquipQueuedMeleeWeaponIfAny() )
-		{
-			parent.RemoveTimer( 'CheckForQueuedWeapon' );
-		}
-	}*/
+	
 }

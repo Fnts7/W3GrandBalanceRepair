@@ -1,4 +1,9 @@
-﻿import class CSwarmLairEntity extends IBoidLairEntity
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+import class CSwarmLairEntity extends IBoidLairEntity
 {
 	import function Disable( disable : bool ); 
 };
@@ -20,18 +25,18 @@ import struct CFlyingSwarmGroup
 	import const var 	currentGroupState 		: CName;
 	import const var 	boidCount		 		: int;
 	
-	// To spawn more birds use the toSpawnCount
-	// Don't forget to set the spawnPoiType var
+	
+	
 	import var toSpawnCount		: int;
 	import var spawnPoiType		: CName;
 	
-	// To despawn birds use the toDespawnCount
-	// Don't forget to set the despawnPoiType var
+	
+	
 	import var toDespawnCount		: int;
 	import var despawnPoiType		: CName;
 	
-	// To change the cohesion state of this group set this variable to the 
-	// group state you wish
+	
+	
 	import var 			changeGroupState 		: CName;
 };
 
@@ -61,17 +66,17 @@ class W3FlyingSwarmCreateGroupRequest
 import class CFlyingSwarmScriptInput extends CObject
 {
 	import public var groupList : array< CFlyingSwarmGroup >;
-	// if fromOtherGroup_Id is set then the birds will ba taken from the group corresponding to fromOtherGroup_Id
+	
 	import final function CreateGroup( toSpawnCount : int, spawnPoiType : CName, groupState : CName, optional fromOtherGroup_Id : CFlyingGroupId );
 	
-	// If you remove a group with birds inside that are still alive then the birds will disapear !
+	
 	import final function RemoveGroup( groupId : CFlyingGroupId );
 	import final function MoveBoidToGroup( groupIdA : CFlyingGroupId, count : int, groupIdB : CFlyingGroupId );
 };
 
 class GotoRequest
 {
-	// request params
+	
 	public var 	groupId 				: CFlyingGroupId;
 	public var  groupState				: CName;
 	public var  groupStateSetOnArrival	: CName;
@@ -82,14 +87,14 @@ class GotoRequest
 	public var	factID					: string;
 	public var	factValue				: int;
 	
-	// job data
+	
 	public var 	groupCenterWhenStart 	: Vector;
 	public var 	init					: bool;
 };
 
 import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 {
-	// Option configurable from the editor
+	
 	editable var dynamicGroups 	: bool;
 	editable var doCircling 	: bool;
 	editable var isAgressive 	: bool;
@@ -97,30 +102,30 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 	default doCircling		= false;
 	default isAgressive 	= false;
 	
-	// for initialisation purpose
+	
 	private var initDynamicGroups, initDoCircling, initAgressive, initMain 	: bool;
 	default initDynamicGroups 	= true;
 	default initDoCircling 		= true;
 	default initAgressive 		= true;
 	default initMain			= true;
 	
-	// imported variables 
+	
 	import var spawnLimit 		: int;
 	
-	// used for OnActivate and OnDeactivate callbacks
+	
 	private var isActive : Bool;
 	default isActive = false;
 	
-	// used for first activation callback
+	
 	private var firstActivation : bool;
 	default firstActivation = false;
 	
-	// the array of idle group ids
+	
 	protected var idleGroupIndexArray : array< int >;
 
-	//protected var m_groupIDArray : array< CFlyingGroupId >;
 	
-	// Array of pending requests :
+	
+	
 	private var m_requestGroupStateArray 	: array< CName >;
 	private var m_requestGroupIdStateArray 	: array< W3FlyingSwarmStateChangeRequest >;
 	private var m_requestCreateGroupArray 	: array< W3FlyingSwarmCreateGroupRequest >;
@@ -131,7 +136,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 	public var m_birdMaster 					: CGameplayEntity;
 	private var m_gotoRequestArray 				: array<GotoRequest>;
 	
-	// standalone behaviour vars :
+	
 	private var m_requestCircle, m_requestSupernatural, m_requestAttack, m_requestDespawnTest, m_requestGroupMerge, m_requestGroupSplit, m_requestPopulateGroup : Bool;
 	default m_requestCircle 		= false;
 	default m_requestAttack 		= false;
@@ -142,7 +147,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 	import function GetPoiCountByType( poiType : name ) : int;
 	import function GetSpawnPointArray( out spawnPointArray : array<name> );
 	
-	// Change the state of a random group to 'groupState' 
+	
 	public function RequestGroupStateChange( groupState : CName, optional affectAllGroups : bool )
 	{
 		if ( affectAllGroups == false )
@@ -204,7 +209,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 		m_gotoRequestArray.PushBack( gotoRequest );
 	}
 	
-	//called when being hit by a flying swarm
+	
 	function OnBoidPointOfInterestReached( boidCount : int, entity : CEntity, deltaTime : float  )
 	{
 		var action 				: W3DamageAction;
@@ -226,8 +231,8 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 				action.Initialize( this, (CGameplayEntity)entity, this, this.GetName()+"_"+"root_projectile", EHRT_None, CPS_AttackPower,false,false,false,true);
 				action.AddDamage(theGame.params.DAMAGE_NAME_RENDING, damage );
 				
-				//FIXME
-				//you can still get the effect if damage will be 0 - you don't know final damage here
+				
+				
 				LogCritical("About to apply new swarm effect");
 				action.AddEffectInfo(EET_Swarm);
 				
@@ -282,7 +287,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 	
 	function OnDeactivated( scriptInput: CFlyingSwarmScriptInput, deltaTime: float )
 	{
-		// reiniting timers to make sure groups have spawned before we order them stuff
+		
 		initDynamicGroups 			= true;
 		initDoCircling				= true;
 		initAgressive				= true;
@@ -307,7 +312,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 			{
 				OnDeactivated( scriptInput, deltaTime );
 			}
-			return; // idleGroupIdArray will be empty 
+			return; 
 		}
 		if ( isActive != active )
 		{
@@ -315,13 +320,13 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 		}
 		isActive = active;
 		
-		// do not perform any requests before we have groups to work with
+		
 		if ( scriptInput.groupList.Size() == 0 )
 		{
 			return;
 		}
 		
-		// first updating idle group array
+		
 		for ( i = 0; i < scriptInput.groupList.Size(); i += 1 )
 		{
 			if ( scriptInput.groupList[ i ].currentGroupState == 'idle' )
@@ -338,7 +343,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 			m_requestAllGroupChangeState 	= false;
 			m_requestAllGroupsDespawn 		= false;
 			
-			// resetting all group doing gotos to idle to cancel any ongoing attacks and other stuff
+			
 			for ( i = 0; i < m_gotoRequestArray.Size(); i += 1 )
 			{
 				groupIndex 	= GroupIdToGroupIndex( scriptInput, m_gotoRequestArray[ i ].groupId );
@@ -397,7 +402,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 				if ( gotoRequest.delay < gotoRequest.delayTimer )
 				{
 					poiPos 		= gotoRequest.targetNode.GetWorldPosition();
-					// Doing a 2D dot product because a Z attack might fail :
+					
 					startPos 	= m_gotoRequestArray[ i ].groupCenterWhenStart;
 					startPos.Z	= 0.0f;
 					poiPos.Z	= 0.0f;
@@ -411,7 +416,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 						{
 							scriptInput.groupList[ groupIndex ].changeGroupState = gotoRequest.groupStateSetOnArrival;
 						}
-						//gotoRequest.listener.OnFlyingGroupArrived( gotoRequest );
+						
 						if ( m_birdMaster )
 						{
 							((CActor)m_birdMaster).SignalGameplayEventParamCName( 'BoidGoToRequestCompleted', gotoRequest.groupState );
@@ -491,11 +496,11 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 		{
 			initDynamicGroups = false;	
 			
-			// Note : No need to cancel timers called before because AddTimer does it for us
+			
 			AddTimer('GroupMergeTimer', RandRangeF( 60.0, 30.0 ), false );
 			AddTimer('GroupSplitTimer', RandRangeF( 60.0, 30.0 ), false );
 			
-			// Resetting flags in case activation for the second time
+			
 			m_requestGroupMerge		= false;
 			m_requestGroupSplit		= false;
 			m_requestPopulateGroup	= false;
@@ -529,7 +534,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 					{
 						indexA = 0;
 					}
-					// merging all bird from group indexA to group indexB
+					
 					scriptInput.MoveBoidToGroup( scriptInput.groupList[ indexA ].groupId, scriptInput.groupList[ indexA ].boidCount, scriptInput.groupList[ indexB ].groupId );
 					scriptInput.RemoveGroup( scriptInput.groupList[ indexA ].groupId );
 				}
@@ -578,7 +583,7 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 		{
 			initDoCircling = false;	
 			
-			// Resetting flags in case activation for the second time
+			
 			m_requestCircle 		= false;
 			
 			RequestGroupStateChange( 'circle' );
@@ -591,10 +596,10 @@ import class CFlyingCrittersLairEntityScript  extends CFlyingCrittersLairEntity
 		{
 			initAgressive = false;	
 			
-			// Note : No need to cancel timers called before because AddTimer does it for us
+			
 			AddTimer('AttackTimer', RandRangeF( 30.0, 15.0 ), false );
 			
-			// Resetting flags in case activation for the second time
+			
 			m_requestAttack 		= false;
 		}
 		
@@ -650,10 +655,10 @@ class CFlyingSwarmMasterLair extends CFlyingCrittersLairEntityScript
 		spawnCount		= CeilF ( spawnLimit * 0.4 );
 		GetSpawnPointArray( spawnPointArray );
 		
-		scriptInput.CreateGroup( CeilF ( spawnCount * 0.25 ), spawnPointArray[ 0 ], 'idle' );  // this sets the group state to idle by default
+		scriptInput.CreateGroup( CeilF ( spawnCount * 0.25 ), spawnPointArray[ 0 ], 'idle' );  
 		scriptInput.CreateGroup( CeilF ( spawnCount * 0.25 ), spawnPointArray[ 1 ], 'idle' );
-		scriptInput.CreateGroup( spawnCount, spawnPointArray[ 2 ], 'idle' ); // shield
-		scriptInput.CreateGroup( 0, spawnPointArray[ 3 ], 'idle' ); // teleport
+		scriptInput.CreateGroup( spawnCount, spawnPointArray[ 2 ], 'idle' ); 
+		scriptInput.CreateGroup( 0, spawnPointArray[ 3 ], 'idle' ); 
 		
 		dynamicGroups	 	= false;
 		doCircling 			= false;
@@ -697,10 +702,10 @@ class CFlyingSwarmMasterLair extends CFlyingCrittersLairEntityScript
 			teleportGroupIndex = GroupIdToGroupIndex( scriptInput, teleportGroupId );			
 			if ( teleportGroupIndex != -1 )
 			{
-				//group = scriptInput.groupList[ groupIndex ];
+				
 				scriptInput.groupList[ teleportGroupIndex ].toSpawnCount 		= m_spawnFromBirdMasterRequest;
 				scriptInput.groupList[ teleportGroupIndex ].spawnPoiType		= 'BirdMaster';
-				//scriptInput.groupList[ teleportGroupIndex ].changeGroupState 	= 'teleport';
+				
 			}
 			
 			m_spawnFromBirdMasterRequest = -1;
@@ -754,14 +759,7 @@ class CFlyingSwarmMasterLair extends CFlyingCrittersLairEntityScript
 			{
 				scriptInput.groupList[ teleportGroupIndex ].changeGroupState  = 'idle';
 				
-				/*
-				group = scriptInput.groupList[ teleportGroupIndex ];
-				if ( m_despawnFromBirdMasterRequest > teleportBirdCount )
-				{
-					m_despawnFromBirdMasterRequest = teleportBirdCount;
-				}
-				scriptInput.groupList[ teleportGroupIndex ].toDespawnCount 	= m_despawnFromBirdMasterRequest;
-				scriptInput.groupList[ teleportGroupIndex ].despawnPoiType	= 'teleport';*/
+				
 			}
 		}
 		
@@ -846,37 +844,9 @@ class CFlyingSwarmMasterLair extends CFlyingCrittersLairEntityScript
 		}
 		return false;
 	}
-	/*
-	function RequestGoToPOI( groupState : CName, targetPoiComponent : CBoidPointOfInterestComponent, optional groupStateSetOnArrival : CName, optional groupID : CFlyingGroupId, optional delay : float )
-	{
-		super.RequestGoToPOI( groupState, targetPoiComponent, groupStateSetOnArrival, groupID, delay );
-		
-		if ( groupState == 'beginAttack' )
-		{
-			checkBeginAttackArray.PushBack( groupID );
-		}
-	}
-	*/
+	
 };
-/*
-class CFlyingSwarmMasterLeshyNoSpawn extends CFlyingSwarmMasterLair
-{
-	function FirstActivation( scriptInput: CFlyingSwarmScriptInput, deltaTime: float )
-	{
-		var i : int;
-		spawnCount		= CeilF ( spawnLimit * 0.4 );
-		
-		scriptInput.CreateGroup( CeilF ( spawnCount * 0.25 ), 'FlyingSpawn1', 'idle' );  // this sets the group state to idle by default
-		scriptInput.CreateGroup( CeilF ( spawnCount * 0.25 ), 'FlyingSpawn2', 'idle' );
-		scriptInput.CreateGroup( spawnCount, 'FlyingSpawn3', 'idle' ); // shield
-		scriptInput.CreateGroup( 0, 'FlyingSpawn4', 'idle' ); // teleport
-		
-		dynamicGroups	 	= false;
-		doCircling 			= false;
-		isAgressive			= false;
-	}
-};
-*/
+
 
 exec function HideLayer( layerName : string )
 {

@@ -1,4 +1,9 @@
-﻿class W3ArchesporBulb extends CNewNPC
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3ArchesporBulb extends CNewNPC
 {
 	private var parentEntity : CNewNPC;
 	private var entitiesInRange : array< CGameplayEntity >;
@@ -109,7 +114,7 @@
 	
 	private function DisableEntity()
 	{
-		RemoveTag( 'archespor_base' ); // it won't be added to base entities list anymore
+		RemoveTag( 'archespor_base' ); 
 		RefreshBaseEntitiesList();
 		thePlayer.OnBecomeUnawareOrCannotAttack( this );
 	}

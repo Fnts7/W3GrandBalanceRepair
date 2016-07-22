@@ -1,22 +1,27 @@
-﻿//>----------------------------------------------------------------------
-// Update various variables used in the NPC Behavior graph
-//-----------------------------------------------------------------------
-// Copyright © 2014
-// Author : R.Pergent - 17-March-2014
-//-----------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
 class CBTTaskUpdateBehGraphVariables extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	var updateOnlyOnActivate		: bool;
 	var DistanceToTarget			: bool;
 	var AngleToTarget				: bool;
 	var TargetIsOnGround			: bool;
 	var predictionDelay				: float;
 	var useCombatTarget				: bool;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	latent function Main() : EBTNodeStatus
 	{	
 		while( !updateOnlyOnActivate )
@@ -26,16 +31,16 @@ class CBTTaskUpdateBehGraphVariables extends IBehTreeTask
 		}		
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		if( !updateOnlyOnActivate ) return BTNS_Active;		
 		Update();		
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function Update()
 	{
 		var l_npc							: CNewNPC = GetNPC();
@@ -84,8 +89,8 @@ class CBTTaskUpdateBehGraphVariables extends IBehTreeTask
 			l_npcForwardYaw = l_npcAngle.Yaw;
 			l_toTargetYaw 	= l_toTargetAngle.Yaw;	
 			
-			// POSITIVE value : target is on my RIGHT
-			// NEGATIVE value : target is on my LEFT
+			
+			
 			l_angleValue = AngleDistance( l_npcForwardYaw, l_toTargetYaw );
 			l_npc.SetBehaviorVariable( 'AngleToTarget', l_angleValue );
 			
@@ -104,13 +109,13 @@ class CBTTaskUpdateBehGraphVariables extends IBehTreeTask
 		}
 	}
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class CBTTaskUpdateBehGraphVariablesDef extends IBehTreeTaskDefinition
 {	
 	default instanceClass = 'CBTTaskUpdateBehGraphVariables';
 	
-	//-----------------------------------------------------------------------
+	
 	editable var updateOnlyOnActivate		: bool;
 	editable var DistanceToTarget			: bool;
 	editable var AngleToTarget				: bool;

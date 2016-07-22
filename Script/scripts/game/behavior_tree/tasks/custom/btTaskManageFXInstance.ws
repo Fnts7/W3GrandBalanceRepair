@@ -1,13 +1,18 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskManageFXInstance
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Manages FX so only one instance is played among a group of actors
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// A.Kwiatkowski - 04-March-2015
-// Copyright © 2015 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskManageFXInstance extends IBehTreeTask
 {
 	public var hasAbilityCondition		: name;
@@ -103,8 +108,8 @@ class BTTaskManageFXInstance extends IBehTreeTask
 }
 
 
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTTaskManageFXInstanceDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskManageFXInstance';

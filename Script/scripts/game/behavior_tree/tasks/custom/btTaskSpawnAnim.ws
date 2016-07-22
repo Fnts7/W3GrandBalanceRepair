@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014
-/** Author : R. Pergent (Based on SpawnSwarmAnim from A. Kwiatkowski)
-/***********************************************************************/
+
+
+
 
 enum ESpawnCondition
 {
@@ -133,8 +135,8 @@ class CBTTaskSpawnAnim extends IBehTreeTask
 		waterDepth = theGame.GetWorld().GetWaterDepth( pos );
 		if( waterDepth > 1000 ) waterDepth = 0;
 		
-		// If there is no navdata more than 100 meters below, and we are not above water, the navmesh is probably not loaded yet.
-		// Try to get navdata for max 2 seconds before really accepting that we are more than 100 meters above the ground
+		
+		
 		while( !theGame.GetWorld().NavigationComputeZ( pos, pos.Z - 100, pos.Z + 3, navDataZ ) && waterDepth <= 0 && security < 120 )
 		{			
 			SleepOneFrame();
@@ -145,27 +147,27 @@ class CBTTaskSpawnAnim extends IBehTreeTask
 		
 		if( security >= 120 )
 		{
-			//LogChannel('SpawnLogic', npc.GetName() + " - couldn't find navdata, proceeding with a default ground Z value ..." );
+			
 		}
 		
-		//LogChannel('SpawnLogic', npc.GetName() + " - spawn Z: " + pos.Z + " | nav Z: " + navDataZ + " | distance from nav :" + distFromNavZ + " ..." );
 		
-		// If the NPC is underwater, set the spawn anim to Water
+		
+		
 		waterLevel = theGame.GetWorld().GetWaterLevel( pos );
 		if(  waterLevel > pos.Z + 2 )
 		{
 			npc.SetBehaviorVariable( 'SpawnAnim', 3 );
 			npc.ChangeStance( NS_Swim );
 			
-			//LogChannel('SpawnLogic', npc.GetName() + " - water level: " + waterLevel  + " | pick underwater spawn anim");
+			
 		}		
-		// Set the spawn anim to Air if the npc is spawned 1 meter above the "ground" (terrain (distFromNavZ) or static object ( GetDistanceFromGround) )
+		
 		else if( distFromNavZ > 1 && npc.HasAbility('Flying') && !npc.IsAbilityBlocked('Flying') )
 		{
 			npc.SetBehaviorVariable( 'SpawnAnim', 2 );
 			npc.ChangeStance( NS_Fly );
 			
-			//LogChannel('SpawnLogic', npc.GetName() + " - pick flying spawn anim");
+			
 		}
 		else
 		{
@@ -174,7 +176,7 @@ class CBTTaskSpawnAnim extends IBehTreeTask
 			{
 				LogChannel('SpawnLogic', npc.GetName() + " - Flying ability is blocked ...");
 			}
-			//LogChannel('SpawnLogic', npc.GetName() + " - pick ground spawn anim");
+			
 		}
 		
 		if( raiseEventName )
@@ -211,13 +213,13 @@ class CBTTaskSpawnAnim extends IBehTreeTask
 				((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetSwimming( true );
 				((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetDiving( true );
 				((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetGravity( false );
-				//LogChannel('SpawnLogic', npc.GetName() + " - Ground spawn anim but underwater - Activate swimming");
+				
 			}
 			else
 			{
 				npc.EnablePhysicalMovement( false );
 				((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetGravity( true );
-				//LogChannel('SpawnLogic', npc.GetName() + " - Ground spawn anim - Activate Gravity");
+				
 			}
 		}
 		
@@ -238,11 +240,11 @@ class CBTTaskSpawnAnim extends IBehTreeTask
 				((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetSwimming( true );
 				((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetDiving( true );
 			
-				//LogChannel('SpawnLogic', npc.GetName() + " - Fly or swim anim, underwater - Activate swimming");
+				
 			}
 			else
 			{
-				//LogChannel('SpawnLogic', npc.GetName() + " - Fly or swim anim, above water - Activate Animated movement");
+				
 				((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetAnimatedMovement( true );
 			}
 			((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetGravity( false );
@@ -253,8 +255,8 @@ class CBTTaskSpawnAnim extends IBehTreeTask
 			pos = npc.GetWorldPosition();
 			theGame.GetWorld().NavigationComputeZ( pos, pos.Z - 1, pos.Z + 1, navDataZ );
 			distFromNavZ = pos.Z - navDataZ;
-			// Add the second test only if we have bugs saying that it doesn't detect physical objects
-			if( distFromNavZ < 1 /*|| npc.GetDistanceFromGround( 2 ) < 1*/ )
+			
+			if( distFromNavZ < 1  )
 			{
 				npc.SetBehaviorVariable( 'GroundContact', 1.0 );
 				monitorGroundContact = false;
@@ -265,7 +267,7 @@ class CBTTaskSpawnAnim extends IBehTreeTask
 		
 		npc.WaitForBehaviorNodeDeactivation('SpawnEnd', 15 );
 		
-		// If is in the air at the end of the spawn anim, goes into flying		
+		
 		theGame.GetWorld().NavigationComputeZ( pos, pos.Z - 1, pos.Z + 1, navDataZ );
 		distFromNavZ = pos.Z - navDataZ;
 		if(  waterLevel < pos.Z + 2 && manageGravity && distFromNavZ > 1 && npc.GetDistanceFromGround( 2 ) > 1 && npc.HasAbility('Flying') && !npc.IsAbilityBlocked('Flying') )
@@ -274,16 +276,16 @@ class CBTTaskSpawnAnim extends IBehTreeTask
 			((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetAnimatedMovement( true );
 			npc.ChangeStance( NS_Fly );
 			
-			//LogChannel('SpawnLogic', npc.GetName() + " - End of Spawn animation - NPC in the air - Activate Animated movement, set stance to FLY");
+			
 		}
-		// If is on the ground at the end of spawn anim, goes into normal
+		
 		else if( waterLevel < pos.Z + 2 )
 		{
 			((CMovingPhysicalAgentComponent)npc.GetMovingAgentComponent()).SetAnimatedMovement( false );
 			npc.EnablePhysicalMovement( false );
 			npc.ChangeStance( NS_Normal );
 			
-			//LogChannel('SpawnLogic', npc.GetName() + " - End of Spawn animation - NPC on the ground - Deactivate Animated movement, set stance to NORMAL");
+			
 		}		
 
 		spawned = true;		
@@ -393,5 +395,5 @@ class CBTTaskSpawnAnimDef extends IBehTreeTaskDefinition
 	default spawnCondition			= SC_PlayerInRange;
 	default manageGravity 			= false;
 	default distToActors			= 30.f;
-	//default spawnType = ST_Ground;
+	
 };

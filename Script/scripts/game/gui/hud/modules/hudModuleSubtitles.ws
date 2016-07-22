@@ -1,10 +1,15 @@
-﻿class CR4HudModuleSubtitles extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleSubtitles extends CR4HudModuleBase
 {
 	private var m_fxAddSubtitleSFF		: CScriptedFlashFunction;
 	private var m_fxRemoveSubtitleSFF	: CScriptedFlashFunction;
 	private var m_fxUpdateWidthSFF		: CScriptedFlashFunction;
 
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var configValue : string;
@@ -24,7 +29,7 @@
 		SetEnabled(configValue == "true");
 	}
 
-	event /*C++*/ OnSubtitleAdded( id : int, speakerNameDisplayText : string, htmlString : string, alternativeUI : bool )
+	event  OnSubtitleAdded( id : int, speakerNameDisplayText : string, htmlString : string, alternativeUI : bool )
 	{
 		if (alternativeUI)
 		{
@@ -46,7 +51,7 @@
 		AddSubtitleToPosterHack( speakerNameDisplayText, htmlString );
 	}
 	
-	event /*C++*/ OnSubtitleRemoved( id : int )
+	event  OnSubtitleRemoved( id : int )
 	{
 		m_fxRemoveSubtitleSFF.InvokeSelfOneArg( FlashArgInt( id ) );
 		

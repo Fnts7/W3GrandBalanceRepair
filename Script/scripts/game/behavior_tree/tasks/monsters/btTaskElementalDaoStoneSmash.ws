@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskElementalDaoStoneSmash extends CBTTaskAttack
 {
@@ -42,12 +44,7 @@ class CBTTaskElementalDaoStoneSmash extends CBTTaskAttack
 		{
 			SleepOneFrame();
 		}
-		/*
-		Stone1.Teleport(targetPos);
-		Stone2.Teleport(targetPos);
-		Stone1.PlayEffect('destroy');
-		Stone2.PlayEffect('destroy');
-		*/
+		
 		
 		shootPos = GetCombatTarget().GetWorldPosition();
 		shootPos.Z += 1.5;
@@ -59,7 +56,7 @@ class CBTTaskElementalDaoStoneSmash extends CBTTaskAttack
 		{
 			distanceToTarget = VecDistance( npc.GetWorldPosition(), target.GetWorldPosition() );		
 			
-			// used to dodge projectile before it hits
+			
 			projectileFlightTime = distanceToTarget / 20;
 			target.SignalGameplayEventParamFloat('Time2DodgeProjectile', projectileFlightTime );
 		}
@@ -83,7 +80,7 @@ class CBTTaskElementalDaoStoneSmash extends CBTTaskAttack
 			npc = GetNPC();
 			
 			tempHeading = npc.GetWorldPosition() - target.GetWorldPosition();
-			//targetPos = target.GetWorldPosition();
+			
 			targetPos = npc.GetWorldPosition();
 			stonePos1 = targetPos + spawnDist*VecFromHeading( VecHeading(tempHeading) - 90 );
 			stonePos2 = targetPos + spawnDist*VecFromHeading( VecHeading(tempHeading) + 90 );
@@ -178,7 +175,7 @@ class CBTTaskElementalThrowFire extends CBTTaskAttack
 				target = GetCombatTarget();
 				distanceToTarget = VecDistance( npc.GetWorldPosition(), target.GetWorldPosition() );		
 				
-				// used to dodge projectile before it hits
+				
 				projectileFlightTime = distanceToTarget / 15;
 				target.SignalGameplayEventParamFloat('Time2DodgeProjectile', projectileFlightTime );
 			}

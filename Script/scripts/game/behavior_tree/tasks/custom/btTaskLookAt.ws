@@ -1,4 +1,9 @@
-﻿class BTTaskLookat extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class BTTaskLookat extends IBehTreeTask
 {
 	var lookatAtStart : bool;
 	var useHeadBoneRotation : bool;
@@ -21,7 +26,7 @@
 		{
 			GetNPC().SetBehaviorVariable( 'lookatOn', 1, true);
 		}
-		//lookAtTargetCheck = true;
+		
 		
 		return BTNS_Active;
 	}
@@ -112,7 +117,7 @@
 			
 			if ( useHeadBoneRotation )
 			{
-				npcHeadVec = MatrixGetAxisX(headMatrix); // X vec from matrix
+				npcHeadVec = MatrixGetAxisX(headMatrix); 
 				localHorAngle = -VecGetAngleDegAroundAxis(npcHeadVec, npcDesiredHeadDir, Vector(0,0,1));
 				if ( verticalLookAt )
 				{
@@ -129,13 +134,13 @@
 				}
 			}
 			
-			///////////// DEBUG
-			//npc.GetVisualDebug().AddArrow('lookatHeading',npcHeadPos,npcHeadPos + 2*VecNormalize( npcHeadVec ) );
-			//npc.GetVisualDebug().AddArrow('lookatHeading',npc.GetWorldPosition(),npc.GetWorldPosition() + 2*npc.GetHeadingVector(), 1, 0.3, 0.3, true, Color(0,255,0),false,-1 );
-			//npc.GetVisualDebug().AddArrow('lookatHeading',npcHeadPos, npcHeadPos + 2*VecNormalize( npcHeadVec ) , 1, 0.3, 0.3, true, Color(0,255,0),false,-1 );
+			
+			
+			
+			
 			npc.GetVisualDebug().AddArrow('lookatHeading',npc.GetWorldPosition(), targetPos , 1, 0.3, 0.3, true, Color(0,0,255),false,-1 );
-			//npc.GetVisualDebug().AddArrow('lookatHeading',npcHeadPos, npcHeadPos + 2*VecNormalize( npcDesiredHeadDir ) , 1, 0.3, 0.3, true, Color(0,255,0),false,-1 );
-			/////////////
+			
+			
 			
 			desiredHorAngle = (localHorAngle)/90;
 			
@@ -221,8 +226,8 @@ class BTTaskLookatDef extends IBehTreeTaskDefinition
 }
 
 
-////////////////////////////////////////////////////////////
-//BTTaskUpdateLookatTarget
+
+
 class BTTaskUpdateLookatTarget extends IBehTreeTask
 {
 	protected var combatDataStorage 		: CHumanAICombatStorage;
@@ -277,9 +282,7 @@ class BTTaskUpdateLookatTarget extends IBehTreeTask
 		{
 			if ( !npc )
 				npc = GetActor();
-			/*GetNPC().GetVisualDebug().AddArrow('toActionTarget', GetNPC().GetWorldPosition(), GetActionTarget().GetWorldPosition(), 1.f, 0.2f, 0.2f, true, Color(255,0,0), true );
-			GetCustomTarget( targetPos, heading );
-			GetNPC().GetVisualDebug().AddArrow('toCustomTarget', GetNPC().GetWorldPosition(), targetPos, 1.f, 0.2f, 0.2f, true, Color(200,255,0), true );*/
+			
 			
 			if( useCustomTarget )
 			{			
@@ -401,8 +404,8 @@ class BTTaskUpdateLookatTargetDef extends IBehTreeTaskDefinition
 	}
 }
 
-////////////////////////////////////////////////////////////
-//BTTaskAimingUpdateLookatTarget
+
+
 class BTTaskAimingUpdateLookatTarget extends BTTaskUpdateLookatTarget
 {
 	function PredictPosition( target : CActor, targetPos : Vector ) : Vector
@@ -434,8 +437,8 @@ class BTTaskAimingUpdateLookatTargetDef extends BTTaskUpdateLookatTargetDef
 }
 
 
-////////////////////////////////////////////////////////////
-//BTTaskUpdateLookatTargetByTag
+
+
 class BTTaskUpdateLookatTargetByTag extends BTTaskUpdateLookatTarget
 {
 	public var targetTag 	: name;

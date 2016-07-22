@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012-2013
-/** Author : Rafal Jarczewski, Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// Automatic essence regeneration - set this up in entity template
+
+
+
 class W3Effect_AutoEssenceRegen extends W3AutoRegenEffect
 {
 	default effectType = EET_AutoEssenceRegen;

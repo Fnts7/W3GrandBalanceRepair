@@ -1,4 +1,9 @@
-﻿state MutationsEquippedCharPanel in W3TutorialManagerUIHandler extends TutHandlerBaseState
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+state MutationsEquippedCharPanel in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
 	private const var EQUIPPED, MUTAGENS, MASTER : name;
 	private var isClosing : bool;
@@ -43,11 +48,7 @@
 		
 		if( hintName == EQUIPPED )
 		{
-		/*
-			ShowHint( MUTAGENS, POS_CHAR_DEV_X, POS_CHAR_DEV_Y, ETHDT_Input, GetHighlightsCharPanelMutagenSlots() );
-		}
-		else if( hintName == MUTAGENS )
-		{*/
+		
 			ShowHint( MASTER, POS_CHAR_DEV_X, POS_CHAR_DEV_Y, ETHDT_Input, GetHighlightsCharPanelMutationSkillSlots() );
 		}
 		else if( hintName == MASTER )

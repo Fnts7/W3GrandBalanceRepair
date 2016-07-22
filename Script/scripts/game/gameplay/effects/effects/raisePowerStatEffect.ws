@@ -1,14 +1,15 @@
 ﻿/***********************************************************************/
-/** Copyright © 2013
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/*
-	Effect that raises power stat value (attack/spell power)
-*/
+
+
+
 abstract class W3RaisePowerStatEffect extends CBaseGameplayEffect
 {
-	protected saved var stat : ECharacterPowerStats;		//stat to increase
+	protected saved var stat : ECharacterPowerStats;		
 	
 	default isPositive = true;
 	default isNeutral = false;

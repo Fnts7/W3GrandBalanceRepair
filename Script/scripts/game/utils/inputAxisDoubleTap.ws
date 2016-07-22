@@ -1,20 +1,25 @@
-﻿// CInputAxisDoubleTap
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 22/10/2013 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CInputAxisDoubleTap
 {	
-	// Settings
+	
 	public	editable	var m_ActionN				: name;
 	public	editable	var	m_ThresholdUnpressF		: float;			default m_ThresholdUnpressF		= 0.1f;
 	public	editable	var	m_ThresholdPressF		: float;			default m_ThresholdPressF		= 0.9f;
 	public	editable	var	m_TimeThresholdF		: float;			default	m_TimeThresholdF		= 0.1f;
 	
-	//State
+	
 	private				var	m_IsActivatedB			: bool;
 	
 	private				var	m_PressedNowB			: bool;
@@ -25,7 +30,7 @@ class CInputAxisDoubleTap
 	private				var	m_LastTimesPressFArr	: array< float >;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	function Initialize( _ActionN : name, _PressF, _UnpressF, _TimeF : float )
 	{
 		m_ActionN			= _ActionN;
@@ -38,7 +43,7 @@ class CInputAxisDoubleTap
 		m_TimeF	= 0.0f;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ResetValues()
 	{
 		m_LastTimesUnpressFArr.Clear();
@@ -55,7 +60,7 @@ class CInputAxisDoubleTap
 		m_IsActivatedB	= false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function Update()
 	{
 		var l_ValueF	: float;
@@ -64,7 +69,7 @@ class CInputAxisDoubleTap
 		
 		l_ValueF	= theInput.GetActionValue( m_ActionN );
 		
-		// Press
+		
 		if( CheckPressB( l_ValueF ) )
 		{
 			if( !m_PressedNowB )
@@ -75,10 +80,10 @@ class CInputAxisDoubleTap
 			
 			m_PressedNowB	= true;
 		}
-		// Not press
+		
 		else
 		{
-			// Unpress
+			
 			if( CheckUnPressB( l_ValueF ) )
 			{
 				if( !m_UnpressedNowB )
@@ -89,7 +94,7 @@ class CInputAxisDoubleTap
 				
 				m_UnpressedNowB	= true;
 			}
-			// Not unpress
+			
 			else
 			{
 				m_UnpressedNowB	= false;
@@ -101,7 +106,7 @@ class CInputAxisDoubleTap
 		m_IsActivatedB	= CheckActivation();
 	}	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CheckPressB( _ValueF : float ) : bool
 	{
 		if( m_ThresholdPressF > 0.0f )
@@ -114,50 +119,50 @@ class CInputAxisDoubleTap
 		}
 	}	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CheckUnPressB( _ValueF : float ) : bool
 	{
 		if( m_ThresholdPressF >= 0.0f )
 		{
 			return _ValueF <= m_ThresholdUnpressF;
 		}
-		else //( m_ThresholdPressF < 0.0f )
+		else 
 		{
 			return _ValueF >= m_ThresholdUnpressF;
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CheckActivation() : bool
 	{
-		// We need unpress -> press -> unpress -> press, 
-		// So we check starting from the last input ( press <- unpress <- press <- unpress )
 		
-		// Order
+		
+		
+		
 		if( m_LastTimesUnpressFArr[1] > m_LastTimesPressFArr[1] )
 		{
 			return false;
 		}
 		
-		// Last press, the activator
+		
 		if( m_LastTimesPressFArr[1] > m_TimeF + m_TimeThresholdF )
 		{
 			return false;
 		}
 		
-		// Last unpress
+		
 		if( m_LastTimesUnpressFArr[1] > m_LastTimesPressFArr[1] + m_TimeThresholdF )
 		{
 			return false;
 		}
 		
-		// Old press
+		
 		if( m_LastTimesPressFArr[0] > m_LastTimesUnpressFArr[1] + m_TimeThresholdF )
 		{
 			return false;
 		}
 		
-		// Old unpress
+		
 		if( m_LastTimesUnpressFArr[1] > m_LastTimesPressFArr[0] + m_TimeThresholdF )
 		{
 			return false;
@@ -166,13 +171,13 @@ class CInputAxisDoubleTap
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function IsActiveB() : bool
 	{
 		return m_IsActivatedB;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ConsumeIfActivated()
 	{
 		if( m_IsActivatedB )

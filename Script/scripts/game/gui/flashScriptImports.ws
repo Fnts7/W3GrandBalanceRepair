@@ -1,14 +1,19 @@
-﻿//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Don't add any non-imported script stuff to this file please.
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 
 import abstract class CHud extends CGuiObject
 {
 	import final function GetHudFlash() : CScriptedFlashSprite;
 	import final function GetHudFlashValueStorage() : CScriptedFlashValueStorage;
 	
-	import final function CreateHudModule( moduleName : string, optional userData : int /*=-1*/ );
-	import final function DiscardHudModule( moduleName : string, optional userData : int /*=-1*/ );
+	import final function CreateHudModule( moduleName : string, optional userData : int  );
+	import final function DiscardHudModule( moduleName : string, optional userData : int  );
 	import final function GetHudModule( moduleName : string ) : CHudModule;
 }
 
@@ -18,7 +23,7 @@ import abstract class CHudModule extends CGuiObject
 	import final function GetModuleFlashValueStorage() : CScriptedFlashValueStorage;
 }
 
-// Opened with theGame.RequestMenu(...)
+
 import abstract class CMenu extends CGuiObject
 {
 	import final function GetMenuFlash() : CScriptedFlashSprite;
@@ -43,7 +48,7 @@ import function ItemToFlashUInt( value : SItemUniqueId ) : int;
 
 import abstract class CScriptedFlashObject extends IScriptedFlash
 {
-	import final function CreateFlashObject( optional flashClassName : string /*="Object"*/ ) : CScriptedFlashObject;
+	import final function CreateFlashObject( optional flashClassName : string  ) : CScriptedFlashObject;
 	import final function CreateFlashArray() : CScriptedFlashArray;
 
 	import final function GetMemberFlashObject( memberName : string ) : CScriptedFlashObject;
@@ -129,7 +134,7 @@ import abstract class CScriptedFlashArray extends IScriptedFlash
 	import final function PushBackFlashNumber( value : float );
 
 	import final function RemoveElement( index : int );
-	import final function RemoveElements( index : int, optional count : int /*=-1*/ );
+	import final function RemoveElements( index : int, optional count : int  );
 }
 
 function GetObjectFromArrayWithLabel(csArray:CScriptedFlashArray, variableName:string, labelName:string, out matchingObject:CScriptedFlashObject):bool
@@ -182,13 +187,13 @@ import abstract class CScriptedFlashFunction extends IScriptedFlash
 
 import abstract class CScriptedFlashValueStorage extends IScriptedFlash
 {
-	import final function SetFlashObject( key : string, value : CScriptedFlashObject, optional index : int /*=-1*/ );
-	import final function SetFlashArray( key : string, value : CScriptedFlashArray ); // No index -> No arrays of arrays please...
-	import final function SetFlashString( key : string, value : string, optional index : int /*=-1*/ );
-	import final function SetFlashBool( key : string, value : bool, optional index : int /*=-1*/ );
-	import final function SetFlashInt( key : string, value : int, optional index : int /*=-1*/ );
-	import final function SetFlashUInt( key : string, value : int, optional index : int /*=-1*/ );
-	import final function SetFlashNumber( key : string, value : float, optional index : int /*=-1*/ );
-	import final function CreateTempFlashObject( optional flashClassName : string /*="Object"*/ ) : CScriptedFlashObject;
+	import final function SetFlashObject( key : string, value : CScriptedFlashObject, optional index : int  );
+	import final function SetFlashArray( key : string, value : CScriptedFlashArray ); 
+	import final function SetFlashString( key : string, value : string, optional index : int  );
+	import final function SetFlashBool( key : string, value : bool, optional index : int  );
+	import final function SetFlashInt( key : string, value : int, optional index : int  );
+	import final function SetFlashUInt( key : string, value : int, optional index : int  );
+	import final function SetFlashNumber( key : string, value : float, optional index : int  );
+	import final function CreateTempFlashObject( optional flashClassName : string  ) : CScriptedFlashObject;
 	import final function CreateTempFlashArray() : CScriptedFlashArray;
 }

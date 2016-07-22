@@ -1,19 +1,24 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskFrostAreaAttack
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Generate a frost area moving towards the target from which ice spikes come out
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 11-August-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTTaskFrostSnakeAttack extends CBTTaskAttack
 {
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
-	// public
+	
+	
+	
+	
 	public var useActionTarget					: bool;
 	public var spawnedEntityTemplates			: array<CEntityTemplate>;
 	public var duration							: SRangeF;
@@ -27,14 +32,14 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 	public var ThreeStateAttack					: bool;
 	public var loopHeadFX						: bool;
 	public var waitForAnimEventToSummon			: name;
-	// effects
+	
 	public var snakeHeadTemplate				: CEntityTemplate;
 	public var playEffectOnOwner				: name;
 	public var additionalSnakeHeadFXName		: name;
 	public var destroyEffectDelay				: float;
 	public var canTriggerFrenzySlowmo			: bool;
 	
-	// private	
+	
 	private var m_Npc							: CNewNPC;	
 	private var m_SnakeHead						: CEntity;
 	private var m_SnakeHeadPos					: Vector;
@@ -44,8 +49,8 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 	private var m_CanStartSummon				: bool;
 	
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	final function Initialize()
 	{
 		m_Npc				= GetNPC();
@@ -57,20 +62,20 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 			m_CanStartSummon = true;
 	}
 	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	final function OnActivate() : EBTNodeStatus
 	{
 		if ( ThreeStateAttack )
 		{
-			// reset 3StateAttack variable for beh graph node
+			
 			GetNPC().SetBehaviorVariable( 'AttackEnd', 0, true );
 		}
 		m_PlayEffect = true;
 		
 		if( canTriggerFrenzySlowmo  )
 		{
-			//if has skill, toxicity and can dodge
+			
 			if( ( (W3PlayerWitcher) GetCombatTarget() ) && ( thePlayer.IsActionAllowed(EIAB_Dodge) || thePlayer.IsActionAllowed(EIAB_Roll) ) && thePlayer.GetStat(BCS_Toxicity) > 0 && thePlayer.CanUseSkill(S_Alchemy_s16))
 				((W3PlayerWitcher) GetCombatTarget()).StartFrenzy();
 		}
@@ -78,8 +83,8 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 		return super.OnActivate();
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	latent function Main() : EBTNodeStatus
 	{
 		var i						: int;
@@ -127,7 +132,7 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 			l_deltaTime = GetLocalTime() - l_lastLocalTime;
 			
 			l_timeBeforeWarning -= l_deltaTime;
-			// Warning attack (spawn next to the npc) 
+			
 			if( !l_warningDone && l_timeBeforeWarning < 0 )
 			{
 				l_headingToTarget	= VecHeading( l_targetPos - l_npcPos );
@@ -145,7 +150,7 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 		l_timeLeft 		= RandRangeF( duration.max, duration.min );		
 		
 		
-		// Create entity
+		
 		m_SnakeHead = theGame.CreateEntity( snakeHeadTemplate, m_SnakeHeadPos, m_Npc.GetWorldRotation() );
 		
 		while( l_timeLeft > 0 )
@@ -169,7 +174,7 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 			{
 				l_targetPos = GetCombatTarget().GetWorldPosition();
 			}
-			// Abort attack when Target has been reached
+			
 			if( clampDurationWhenTargetReached >= 0 && VecDistance( l_targetPos, m_SnakeHeadPos ) < radius * 0.3f )
 			{
 				l_timeLeft = ClampF( l_timeLeft, 0, clampDurationWhenTargetReached ); 
@@ -197,14 +202,14 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 		
 		if ( ThreeStateAttack )
 		{
-			// 3StateAttack variable for beh graph node
+			
 			GetNPC().SetBehaviorVariable( 'AttackEnd', 1, true );
 		}
 		
 		return BTNS_Completed;
 	}	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final function MoveHead( _DeltaTime : float )
 	{
 		var l_targetPos, l_normal		: Vector;
@@ -222,7 +227,7 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 		theGame.GetWorld().StaticTrace( m_SnakeHeadPos + Vector(0,0,3), m_SnakeHeadPos - Vector(0,0,3), m_SnakeHeadPos, l_normal );
 		
 		m_SnakeHead.Teleport( InterpTo_V( m_SnakeHeadPos, m_SnakeHead.GetWorldPosition(), 0.05f, 0.5f ) );
-		//looped effects should be played only once
+		
 		if ( IsNameValid( additionalSnakeHeadFXName ) && m_PlayEffect )
 		{
 			m_SnakeHead.PlayEffect(additionalSnakeHeadFXName);
@@ -232,10 +237,10 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 			}
 		}
 		
-		//GetNPC().GetVisualDebug().AddSphere( 'SnakeHead', radius, m_SnakeHeadPos, true );		
+		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final function SpawnAttack( optional _Pos : Vector )
 	{
 		var l_npcPos			: Vector;
@@ -279,8 +284,8 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 		
 		CreateEntity( l_spawnPos, l_rotation );
 	}	
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private final function CreateEntity( _SpawnPos : Vector, _Rotation : EulerAngles ) : CEntity
 	{		
 		var l_spawnedEntity 			: CEntity;
@@ -310,8 +315,8 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 		
 		return l_spawnedEntity;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnDeactivate()
 	{
 		m_SnakeHead.DestroyAfter( destroyEffectDelay );
@@ -324,19 +329,19 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 			
 		if ( ThreeStateAttack )
 		{
-			// 3StateAttack variable for beh graph node
+			
 			GetNPC().SetBehaviorVariable( 'AttackEnd', 1, true );
 		}
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{
 		if ( animEventName == 'AllowBlend' && animEventType == AET_DurationStart )
 		{
 			if ( ThreeStateAttack )
 			{
-				// 3StateAttack variable for beh graph node
+				
 				GetNPC().SetBehaviorVariable( 'AttackEnd', 1, true );
 			}
 			else
@@ -353,14 +358,14 @@ class BTTaskFrostSnakeAttack extends CBTTaskAttack
 		return super.OnAnimEvent( animEventName, animEventType, animInfo );
 	}
 }
-//>--------------------------------------------------------------------------
-//---------------------------------------------------------------------------
+
+
 class BTTaskFrostSnakeAttackDef extends CBTTaskAttackDef
 {
 	default instanceClass = 'BTTaskFrostSnakeAttack';
-	//>--------------------------------------------------------------------------
-	// VARIABLES
-	//---------------------------------------------------------------------------
+	
+	
+	
 	private editable var useActionTarget					: bool;
 	private editable var spawnedEntityTemplates				: array<CEntityTemplate>;
 	private editable var clampDurationWhenTargetReached		: CBehTreeValFloat;

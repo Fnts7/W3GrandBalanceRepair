@@ -1,4 +1,9 @@
-﻿state NewInventory in W3TutorialManagerUIHandler extends TutHandlerBaseState
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+state NewInventory in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
 	private const var TAB_CRAFTING, TAB_QUEST, TAB_MISC, TAB_ALCHEMY, TAB_WEAPONS, TOOLTIPS, PREVIEW, PREVIEW2, SORTING, GEEKPAGE : name;
 	private var isClosing : bool;
@@ -28,18 +33,8 @@
 		highlights[0].width = 0.33f;
 		highlights[0].height = 0.65f;
 
-		//skip first tutorial message if 'new inventory' tutorial is played directly after 'normal' inventory tutorial in new game
-		/*
-		if( theGame.GameplayFactsQuerySum( 'panel_on_since_inv_tut' ) > 0 )
-		{
-			ShowHint( TAB_CRAFTING, POS_INVENTORY_X, POS_INVENTORY_Y, ETHDT_Input, GetHighlightInvTabCrafting() );
-			theGame.GetTutorialSystem().MarkMessageAsSeen( TABS );
-		}
-		else
-		{
-			ShowHint( TABS, POS_INVENTORY_X, POS_INVENTORY_Y, ETHDT_Input, highlights, , , true );
-		}
-		*/
+		
+		
 		ShowHint( TAB_CRAFTING, POS_INVENTORY_X, POS_INVENTORY_Y, ETHDT_Input, GetHighlightInvTabCrafting() );		
 	}
 			

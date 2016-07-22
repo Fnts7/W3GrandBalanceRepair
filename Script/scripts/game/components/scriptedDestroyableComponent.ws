@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 enum EScriptedDetroyableComponentState
 {
 	DC_Idle,
@@ -17,9 +22,9 @@ import abstract class CScriptedDestroyableComponent extends CRigidMeshComponent
 	
 	import final function GetDestroyWay() : EDestroyWay;
 	
-	//import final function GetDestroyOrderID() : int; 
 	
-	//For OnDistance destroys //Default to the Player
+	
+	
 	function GetDistanceToTargetValue() : float
 	{
 		return distanceValue; 
@@ -42,9 +47,9 @@ import abstract class CScriptedDestroyableComponent extends CRigidMeshComponent
 	
 	
 	
-	import function GetDestroyAtTime() : float; //For OnTime destroys
+	import function GetDestroyAtTime() : float; 
 	
-	import function GetDestroyTimeDuration() : float; //Time it takes until it will get 'destroyed'
+	import function GetDestroyTimeDuration() : float; 
 	
 	function IdleTick(time : float);
 	function PreDestroyTick(time : float);

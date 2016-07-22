@@ -1,13 +1,15 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Object classes exprots
-/** Copyright © 2009 Dexio's Late Night R&D Home Center
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/////////////////////////////////////////////
-// Movable state
-/////////////////////////////////////////////
+
+
+
+
+
+
 enum EDir
 {
 	Dir_L180,
@@ -32,52 +34,48 @@ enum EPlayerStopPose
 
 import state Movable in CPlayer extends Base
 {
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Enter/Leave events
-
-	/**
 	
-	*/
+	
+
+	
 	event OnEnterState( prevStateName : name )
 	{
-		// Pass to base class
+		
 		super.OnEnterState(prevStateName);
 				
-		// Intall movement timer
+		
 		parent.AddTimer( 'ProcessMovement', 0.001, true, false, TICK_PrePhysics );
 		
-		// Enable player movement
-		//parent.isMovable = true;
+		
+		
 	}
 	
-	/**
 	
-	*/
 	event OnLeaveState( nextStateName : name )
 	{ 
 		var currRotation : EulerAngles;
 		var agent : CMovingAgentComponent = parent.GetMovingAgentComponent();
 		
-		// Pass to base class
+		
 		super.OnLeaveState(nextStateName);
 		
-		// Remove movement timer
+		
 		parent.RemoveTimer( 'ProcessMovement', TICK_PrePhysics );		
 		
-		// reset additional movement flags
+		
 		if(agent)
 			agent.SetBehaviorVariable( 'headingChange', 0 );
 		
-		// Prevent CMoveTRGPlayerManualMovement from being updated from this point
-		//if ( nextStateName == 'Exploration' )
-		//	thePlayer.ActionCancelAll();
+		
+		
+		
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Animation events
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Movement
+	
+	
+	
+	
 	
 	timer function ProcessMovement( timeDelta : float , id : int)
 	{
@@ -85,7 +83,7 @@ import state Movable in CPlayer extends Base
 		var r4player : CR4Player;
 		r4player = (CR4Player) parent;
 		
-		// Calculate player speed and rotation angle	
+		
 		if ( parent.GetIsMovable() )
 		{
 			action = parent.GetCurrentActionType();
@@ -97,7 +95,7 @@ import state Movable in CPlayer extends Base
 					r4player.SetDefaultLocomotionController();
 				}
 			}
-			else //if ( action == ActorAction_Moving )
+			else 
 			{
 				MonitorInput();
 			}
@@ -130,7 +128,7 @@ import state Movable in CPlayer extends Base
 
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 struct SHeadingHistory
 {
@@ -173,7 +171,7 @@ class CMoveTRGPlayerManualMovement extends CMoveTRGScript
 		dist = AngleDistance(inputValue, value);
 		absDist = AbsF(dist);
 
-		//LogChannel( 'Combat Damp ', "currV " +value + " destV : " + inputValue + " dist : " + dist);
+		
 		
 		deltaValue = (dampFactor * timeDelta * speed);
 
@@ -201,7 +199,7 @@ class CMoveTRGPlayerManualMovement extends CMoveTRGScript
 			value  -= 360.0f;
 		}
 		
-		//LogChannel( 'Combat Damp ', "currV " +value);
+		
 		
 		return value ;
 	}
@@ -215,24 +213,12 @@ class CMoveTRGPlayerManualMovement extends CMoveTRGScript
 		var dist : float;
 		var deltaValue : float;
 		
-		//TEMP
+		
 		var entities : array<CGameplayEntity>;
 		var player : CPlayer;
 		var size : int;
 		
-		/*
-		player = (CPlayer)agent.GetEntity();
-		entities = ... get something in range from player
-		size =  entities.Size();
-		if ( size <= 1 )
-		{
-			dampFactor = player.dampValue;
-		}
-		else
-		{
-			dampFactor = player.dampValue;
-		}
-		*/
+		
 		
 		if ( dampValue )
 		{
@@ -246,7 +232,7 @@ class CMoveTRGPlayerManualMovement extends CMoveTRGScript
 		dist = AngleDistance(inputValue, value);
 		absDist = AbsF(dist);
 
-		//LogChannel( 'Combat Damp ', "currV " +value + " destV : " + inputValue + " dist : " + dist);
+		
 		
 		deltaValue = (dampFactor *timeDelta * absDist);
 
@@ -274,7 +260,7 @@ class CMoveTRGPlayerManualMovement extends CMoveTRGScript
 			value  -= 360.0f;
 		}
 		
-		//LogChannel( 'Combat Damp ', "currV " +value);
+		
 		
 		return value ;
 	}
@@ -358,36 +344,11 @@ class CMoveTRGPlayerManualMovement extends CMoveTRGScript
 		
 		angleDiff = AngleDistance( angleWS, entity.GetHeading() ) / 180.f;
 		
-		//player.GetVisualDebug().AddArrow( 'orientation', player.GetWorldPosition(), player.GetWorldPosition() + VecFromHeading( player.tomsinTest + player.GetHeading() ), 1.f, 0.2f, 0.2f, true, Color(255,128,128), true );
+		
 		
 		entity.SetBehaviorVariable( 'torsoOrientation', angleDiff );
 	}
-	/*
-	private function SetHandAim()
-	{
-		var pitch : float;
-		var player : CPlayer = thePlayer;
-		var m : Matrix;
-		var ea : EulerAngles;
-		m = theCamera.GetCameraMatrixWorldSpace();
-		ea = MatrixGetRotation( m );//camera.GetWorldRotation();
-		
-		pitch = ea.Pitch;
-		
-		if ( pitch < -15.0 )
-		{
-			pitch += 15.0;
-			player.handAimPitch = (pitch/(-40.0));
-			player.SetBehaviorVariable( 'handAimPitch',player.handAimPitch);
-		}
-		else
-		{
-			player.handAimPitch = 0;
-			player.SetBehaviorVariable( 'handAimPitch',player.handAimPitch);
-		}
-		//LogChannel('handAimDebug', "pitch = " + pitch);
-	}
-	*/
+	
 	
 	private function SetHandAim()
 	{
@@ -413,7 +374,7 @@ class CMoveTRGPlayerManualMovement extends CMoveTRGScript
 		targetPos = target.GetWorldPosition();
 		targetPos.Z += 2;
 		
-		//pos = playerPos + 2*player.GetHeadingVector();
+		
 		pos = targetPos;
 		pos.Z = playerPos.Z;
 		
@@ -422,7 +383,7 @@ class CMoveTRGPlayerManualMovement extends CMoveTRGScript
 		firstVec = pos - playerPos;
 		secondVec = targetPos - playerPos;
 		
-		//secondVec = VecProjectPointToPlane(playerPos,pos,posZ,secondVec);
+		
 		
 		crossVec = VecCross(VecNormalize(firstVec),VecNormalize(secondVec));
 		

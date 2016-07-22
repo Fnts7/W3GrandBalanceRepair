@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskPickUpAndThrow extends IBehTreeTask
 {
@@ -40,18 +42,11 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 	
 		ResetAnimatedSlideSettings( ass );
 		
-		/*
-		object = (W3EnvironmentThrowable)this.GetActionTarget();
 		
-		if ( !object )
-		{
-			return BTNS_Failed;
-		}
-		*/
-//		phantom component needs to used here
-		//components = object.GetComponents();
+
+		
 	
-		//physicalComponent = (CComponent)this.GetActionTarget();
+		
 		
 		if ( physicalComponent && physicalComponent.HasDynamicPhysic() )
 		{
@@ -61,15 +56,7 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 			return BTNS_Failed;
 		}
 		
-		/*
-		size = components.Size();
-		for( i = 0; i < size; i += 1 )
-		{
-			if( ! components[ i ].HasDynamicPhysic() ) continue;
 		
-			physicalComponent = components[ i ];
-			break;
-		}*/
 
 		angleDist = NodeToNodeAngleDistance(GetCombatTarget(), npc);
 		if ( angleDist > 0 )
@@ -87,19 +74,19 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 		
 		ass.slotName = 'GAMEPLAY_SLOT';
 		
-		//if ( !npc.RaiseForceEvent('Throw') )
-		//{
-		//	return BTNS_Failed;
-		//}
 		
-		//angleDist = NodeToNodeAngleDistance(GetCombatTarget(), npc);
+		
+		
+		
+		
+		
 		heading = npc.GetHeading() + angleDist;
 		AngleNormalize180( heading );
 		
 		npc.ActionAnimatedSlideToStatic(ass,npc.GetWorldPosition(),heading,false,false);
 		
 		
-		//npc.WaitForBehaviorNodeDeactivation('Throw',3.0);
+		
 		
 		return BTNS_Active;
 	}
@@ -117,7 +104,7 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 		
 		if ( eventName == 'RotateEventStart' )
 		{
-			// TODO rotate?
+			
 			return true;
 		}
 		else if ( eventName == 'Throwable' )
@@ -150,13 +137,13 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 		angleDist = NodeToNodeAngleDistance(GetCombatTarget(), npc);
 		heading = npc.GetHeading() + angleDist;
 		AngleNormalize180( heading );
-		//npc.ActionAnimatedSlideToStatic(ass,npc.GetWorldPosition(),heading,false,true);
+		
 		
 	}
 	
 	function SpawnAndAttach()
 	{
-		//var proj : W3AdvencedProj;
+		
 		var res : bool;
 		
 		proj = (W3AdvancedProjectile)(theGame.CreateEntity(projectileTemplate,GetActor().GetWorldPosition()));
@@ -181,7 +168,7 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 			else
 				GetActor().CreateChildAttachment( physicalComponent, slotName );
 				
-			//ScaleAnim();
+			
 			
 			return true;
 		}
@@ -199,7 +186,7 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 				{
 					distanceToTarget = VecDistance( npc.GetWorldPosition(), target.GetWorldPosition() );		
 					
-					// used to dodge projectile before it hits
+					
 					projectileFlightTime = distanceToTarget / proj.projSpeed;
 					target.SignalGameplayEventParamFloat('Time2DodgeProjectile', projectileFlightTime );
 				}
@@ -219,16 +206,16 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 			{
 				if ( !thePlayer.IsInCombatAction() )
 				{
-					//FIXME this does not mean that the player is or will move, he can use radial menu or be immobilized at the same time
-					//if player is pushing stick
+					
+					
 					if(theInput.GetActionValue( 'GI_AxisLeftX' ) != 0 || theInput.GetActionValue( 'GI_AxisLeftY' ) != 0)
 						targetPos += 1.5*VecNormalize(VecFromHeading(thePlayer.rawPlayerHeading));
 				}
 			}
-			//targetPos = (targetPos - spawnPos);
+			
 			targetPos.Z += 2;
 			
-			//resultForce = VecNormalize(targetPos - spawnPos)*20;
+			
 			resultForce = targetPos - spawnPos;
 			resultForce = VecNormalize( resultForce );
 			
@@ -236,9 +223,9 @@ class CBTTaskPickUpAndThrow extends IBehTreeTask
 			
 			tempvec = physicalComponent.GetPhysicalObjectLinearVelocity();
 			
-			//resultForce.W = 1;
 			
-			//GetCombatTarget().SetOnContact();
+			
+			
 			
 			physicalComponent.SetPhysicalObjectLinearVelocity( resultForce );
 			physicalComponent.SetPhysicalObjectAngularVelocity( resultForce );

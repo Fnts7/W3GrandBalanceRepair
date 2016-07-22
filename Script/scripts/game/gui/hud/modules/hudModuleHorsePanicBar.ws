@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Panic bar expressing horse's fear level
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Shadi Dadenji, Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4HudModuleHorsePanicBar extends CR4HudModuleBase
 {	
@@ -17,7 +19,7 @@ class CR4HudModuleHorsePanicBar extends CR4HudModuleBase
 		_panic = 0.0;
 	}
 	
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{		
 		var hud : CR4ScriptedHud;
 		var flashModule : CScriptedFlashSprite;
@@ -36,7 +38,7 @@ class CR4HudModuleHorsePanicBar extends CR4HudModuleBase
 
 	event OnTick( timeDelta : float )
 	{
-		//only update if we've mounted a horse
+		
 		if ( thePlayer.GetCurrentStateName() == 'HorseRiding' )
 			UpdatePanic();
 		else
@@ -61,7 +63,7 @@ class CR4HudModuleHorsePanicBar extends CR4HudModuleBase
 		var horse : CActor;
 		var curPanic : float;
 		
-		//for some reason if we do this in one line SS tries to convert vehicle to CName o_0
+		
 		vehicle = thePlayer.GetUsedHorseComponent();
 		curPanic = vehicle.GetPanicPercent();
 

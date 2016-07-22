@@ -1,37 +1,37 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Layer for displaying system messages
-/***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Jason Slama
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/*
-	Book popup. Used inside Inventory menu
-*/
+
+
+
+
 class CharacterStatsPopupData extends TextPopupData
 {	
 	var m_flashValueStorage : CScriptedFlashValueStorage;
 	
-	protected /* override */ function GetContentRef() : string 
+	protected  function GetContentRef() : string 
 	{
 		return "StatisticsFullRef";
 	}
 	
-	protected /* override */ function DefineDefaultButtons():void
+	protected  function DefineDefaultButtons():void
 	{
 		AddButtonDef("panel_button_common_exit", "escape-gamepad_B", IK_Escape);
 		AddButtonDef("input_feedback_scroll_text", "gamepad_R_Scroll");
 	}
 	
-	public function /* override */ OnUserFeedback( KeyCode:string ) : void
+	public function  OnUserFeedback( KeyCode:string ) : void
 	{
-		if (KeyCode == "escape-gamepad_B") // +"gamepad_R2"?
+		if (KeyCode == "escape-gamepad_B") 
 		{
 			ClosePopup();
 		}
 	}
 	
-	public /* override */ function GetGFxData(parentFlashValueStorage : CScriptedFlashValueStorage) : CScriptedFlashObject 
+	public  function GetGFxData(parentFlashValueStorage : CScriptedFlashValueStorage) : CScriptedFlashObject 
 	{
 		var gfxData : CScriptedFlashObject;
 		
@@ -77,17 +77,17 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	gfxData = parentFlashValueStorage.CreateTempFlashObject();
 	statsArray = parentFlashValueStorage.CreateTempFlashArray();
 	
-	// If we don't add a character stat in one of the slots below, it will not be visible.
-	// Note that stats don't readjust position for missing (hidden) attributes
-	// format of function:
-	// Parameter1: stat key, determines which text area the data will be associated with
-	// Parameter2: A helper name for fetching the value of the stat
-	// Parameter3: The localization key for the stat name
-	// Parameter4: The icon item name. Only specific stat slots support these icons. They must match what is in the swf for expected behavior
-	// Parameter5: The flash array to push the object into	
-	// #J Redundancy allows flexibility for setting stuff
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-	// --- SILVER DAMAGE ---
+	
 	
 	gfxSilverDamage = AddCharacterStatU("mainSilverStat", 'silverdamage', "panel_common_statistics_tooltip_silver_dps", "attack_silver", statsArray, parentFlashValueStorage);
 	gfxSilverDamageSub = parentFlashValueStorage.CreateTempFlashArray();
@@ -109,7 +109,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStatU2("silverStat14", 'silver_desc_staggerchance_mult', "attribute_name_desc_staggerchance_mult", "", gfxSilverDamageSub, parentFlashValueStorage);
 	gfxSilverDamage.SetMemberFlashArray("subStats", gfxSilverDamageSub);
 	
-	// --- STEEL DAMAGE ---
+	
 	
 	gfxSteelDamage = AddCharacterStatU("mainSteelStat", 'steeldamage', "panel_common_statistics_tooltip_steel_dps", "attack_steel", statsArray, parentFlashValueStorage);
 	gfxSteelDamageSub = parentFlashValueStorage.CreateTempFlashArray();
@@ -130,7 +130,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStatU2("steelStat14", 'steel_desc_staggerchance_mult', "attribute_name_desc_staggerchance_mult", "", gfxSteelDamageSub, parentFlashValueStorage);
 	gfxSteelDamage.SetMemberFlashArray("subStats", gfxSteelDamageSub);
 	
-	// --- ARMOR ---
+	
 	
 	gfxArmor = AddCharacterStat("mainResStat", 'armor', "attribute_name_armor", "armor", statsArray, parentFlashValueStorage);
 	gfxArmorSub = parentFlashValueStorage.CreateTempFlashArray();
@@ -146,7 +146,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStatF("defStat10", 'burning_resistance_perc', "attribute_name_burning_resistance_perc", "", gfxArmorSub, parentFlashValueStorage);
 	gfxArmor.SetMemberFlashArray("subStats", gfxArmorSub);
 	
-	// --- CROSSBOW ---
+	
 	
 	gfxCrossbow = AddCharacterStat("majorStat4", 'crossbow', "item_category_crossbow", "crossbow", statsArray, parentFlashValueStorage);
 	gfxCrossbowSub = parentFlashValueStorage.CreateTempFlashArray();
@@ -156,7 +156,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStatU("steelStat19", 'crossbowSilverDmg', "attribute_name_silverdamage", "", gfxCrossbowSub, parentFlashValueStorage);
 	gfxCrossbow.SetMemberFlashArray("subStats", gfxCrossbowSub);
 	
-	// --- VITALITY ---
+	
 	
 	gfxVitality =  AddCharacterStat("majorStat1", 'vitality', "vitality", "vitality", statsArray, parentFlashValueStorage);
 	gfxVitalitySub = parentFlashValueStorage.CreateTempFlashArray();
@@ -165,7 +165,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStat("defStat13", 'vitalityCombatRegen', "panel_common_statistics_tooltip_incombat_regen", "", gfxVitalitySub, parentFlashValueStorage);
 	gfxVitality.SetMemberFlashArray("subStats", gfxVitalitySub);
 	
-	// --- TOXICITY ---
+	
 	
 	gfxToxicity = AddCharacterStat("majorStat2", 'toxicity', "attribute_name_toxicity", "toxicity", statsArray, parentFlashValueStorage);
 	gfxToxicitySub = parentFlashValueStorage.CreateTempFlashArray();
@@ -174,7 +174,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStatToxicity("toxicity", 'toxicity', "toxicity", "", gfxToxicitySub, parentFlashValueStorage);
 	gfxToxicity.SetMemberFlashArray("subStats", gfxToxicitySub);
 	
-	// --- SIGNS --- 
+	
 	
 	gfxSpellPower = AddCharacterStat("mainMagicStat", 'spell_power', "stat_signs", "spell_power", statsArray, parentFlashValueStorage);
 	gfxSpellPowerSub = parentFlashValueStorage.CreateTempFlashArray();
@@ -195,7 +195,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStatSigns("axiiStat1", 'axii_duration_confusion', "duration", "", gfxSpellPowerSub, parentFlashValueStorage);
 	gfxSpellPower.SetMemberFlashArray("subStats", gfxSpellPowerSub);
 	
-	// --- STAMINE ---
+	
 	
 	gfxStamina = AddCharacterStat("majorStat3", 'stamina', "stamina", "stamina", statsArray, parentFlashValueStorage);
 	gfxStaminaSub = parentFlashValueStorage.CreateTempFlashArray();
@@ -204,7 +204,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStat("defStat15", 'staminaRegen', "attribute_name_staminaregen", "", gfxStaminaSub, parentFlashValueStorage);
 	gfxStamina.SetMemberFlashArray("subStats", gfxStaminaSub);
 	
-	// --- ADDITIONAL ---
+	
 	
 	gfxAdditional = AddCharacterStat("majorStat5", 'additional', "panel_common_statistics_category_additional", "additional", statsArray, parentFlashValueStorage);
 	gfxAdditionalSub = parentFlashValueStorage.CreateTempFlashArray();
@@ -215,7 +215,7 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	AddCharacterStatU("extraStat4", 'nonhuman_exp_bonus_when_fatal', "nonhuman_exp_bonus_when_fatal", "", gfxAdditionalSub , parentFlashValueStorage);
 	gfxAdditional.SetMemberFlashArray("subStats", gfxAdditionalSub);
 	
-	// ---
+	
 	
 	gameTime =	theGame.CalculateTimePlayed();
 	gameTimeHours = (string)(GameTimeDays(gameTime) * 24 + GameTimeHours(gameTime));
@@ -227,23 +227,9 @@ function GetPlayerStatsGFxData(parentFlashValueStorage : CScriptedFlashValueStor
 	
 	return gfxData;
 	
-	/*
-		adrenalin?
-		AddCharacterStat("majorStat4", 'focus', "focus", "focus", statsArray, parentFlashValueStorage); // Battle Trance :S // ADRENALIN
-		
-		time?
-		AddCharacterStat("majorStat5", 'timeplayed', "message_total_play_time", "timeplayed", statsArray, parentFlashValueStorage); // TIME PLAYED
-	*/
 	
-	/*
-		titles?
-		
-		AddCharacterHeader("item_category_crossbow", statsArray, parentFlashValueStorage);
-		AddCharacterHeader("panel_common_statistics_category_additional", statsArray, parentFlashValueStorage);
-		AddCharacterHeader("panel_common_statistics_category_resistance", statsArray, parentFlashValueStorage);
-		AddCharacterHeader("panel_common_statistics_category_signs", statsArray, parentFlashValueStorage);
-		AddCharacterHeader("panel_inventory_tooltip_damage", statsArray, parentFlashValueStorage);
-	*/
+	
+	
 }
 
 function AddCharacterHeader(locKey:string, toArray : CScriptedFlashArray, flashMaster:CScriptedFlashValueStorage, optional isSuperHeader : bool, optional color : string):void
@@ -456,7 +442,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		mutDmgMod.valueBase *= CalculateAttributeValue(mutMin);
 	}
 	
-	//GetGenericStatValue(varKey, valueStr);
+	
 	if ( varKey == 'aard_knockdownchance' )	
 	{ 
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_1);
@@ -539,12 +525,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		sp += GetWitcherPlayer().GetSkillAttributeValue(S_Magic_5, 'duration', false, true);
 		valueStr = FloatToStringPrec( CalculateAttributeValue(sp), 2 ) + GetLocStringByKeyExt("per_second");
 	}
-	/*else if ( varKey == 'axii_duration_control' )
-	{
-		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_s05);
-		sp += GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, 'duration', false, true);
-		valueStr = FloatToStringPrec( CalculateAttributeValue(sp), 2 ) + " s";
-	}*/
+	
 	else
 	{	
 		valueAbility =  CalculateAttributeValue( GetWitcherPlayer().GetAttributeValue( varKey ) );
@@ -578,7 +559,7 @@ function AddCharacterStatF(tag : string, varKey:name, locKey:string, iconTag:str
 	
 	statObject = flashMaster.CreateTempFlashObject();
 		
-	//GetGenericStatValue(varKey, valueStr);
+	
 	witcher = GetWitcherPlayer();
 	stat = StatNameToEnum(varKey);
 	if(stat != BCS_Undefined)
@@ -613,7 +594,7 @@ function AddCharacterStatF(tag : string, varKey:name, locKey:string, iconTag:str
 		}
 	}
 	
-	//valueStr = FloatToStringPrec( valueAbility, 2 );
+	
 	valueStr = NoTrailZeros( RoundMath(valueAbility * 100) );
 	
 	final_name = GetLocStringByKeyExt(locKey);
@@ -644,11 +625,11 @@ function AddCharacterStatU(tag : string, varKey:name, locKey:string, iconTag:str
 
 	statObject = flashMaster.CreateTempFlashObject();
 	
-	//GetGenericStatValue(varKey, valueStr);
-	//valueAbility =  CalculateAttributeValue( GetWitcherPlayer().GetAttributeValue( varKey ) );
-	//valueStr = FloatToStringPrec( valueAbility, 2 );
 	
-	//get stats
+	
+	
+	
+	
 	if(varKey != 'instant_kill_chance_mult' && varKey != 'human_exp_bonus_when_fatal' && varKey != 'nonhuman_exp_bonus_when_fatal' && varKey != 'area_nml' && varKey != 'area_novigrad' && varKey != 'area_skellige')
 	{
 		curStats = GetWitcherPlayer().GetOffenseStatsList();
@@ -712,8 +693,8 @@ function AddCharacterStatU(tag : string, varKey:name, locKey:string, iconTag:str
 			locKey = "";
 		else
 		{
-			//valueAbility =  1 - CalculateAttributeValue( GetWitcherPlayer().GetAttributeValue( 'nomansland_price_mult' ) );
-			//valueStr = IntToString( RoundF(  valueAbility * 100 ) ) + " %";
+			
+			
 		}
 	}
 	else if (varKey == 'area_novigrad') 
@@ -722,8 +703,8 @@ function AddCharacterStatU(tag : string, varKey:name, locKey:string, iconTag:str
 			locKey = "";
 		else
 		{
-			//valueAbility =  1 - CalculateAttributeValue( GetWitcherPlayer().GetAttributeValue( 'novigrad_price_mult' ) );
-			//valueStr = IntToString( RoundF(  valueAbility * 100 ) ) + " %";
+			
+			
 		}
 	}
 	else if (varKey == 'area_skellige') 
@@ -732,8 +713,8 @@ function AddCharacterStatU(tag : string, varKey:name, locKey:string, iconTag:str
 			locKey = "";
 		else
 		{
-			//valueAbility =  1 - CalculateAttributeValue( GetWitcherPlayer().GetAttributeValue( 'skellige_price_mult' ) );
-			//valueStr = IntToString( RoundF(  valueAbility * 100 ) ) + " %";
+			
+			
 		}
 	}
 	
@@ -887,7 +868,7 @@ function GetEquippedCrossbowDamage():float
 	
 	if (crossbowStatValueMult == 0)
 	{
-		// show only bolt damage
+		
 		crossbowStatValueMult = 1;
 	}
 	GetWitcherPlayer().GetItemEquippedOnSlot(EES_Bolt, equippedBolt);
@@ -902,7 +883,7 @@ function GetEquippedCrossbowDamage():float
 		thePlayer.inv.GetItemStatByName('Bodkin Bolt', 'SilverDamage', silverDamageValue);
 	}
 	
-	//mutation 9 increases base damage
+	
 	if( GetWitcherPlayer().IsMutationActive( EPMT_Mutation9 ) )
 	{
 		theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation9', 'damage', min, max );

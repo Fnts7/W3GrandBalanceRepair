@@ -1,8 +1,13 @@
-﻿//>---------------------------------------------------------------
-//----------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
 class CR4Component extends CScriptedComponent
 {
-	// Function will be called if the component is added as a listener in the CActor it is attached to
+	
 	public function IgniHit()
 	{
 		OnIgniHit();
@@ -14,11 +19,11 @@ class CR4Component extends CScriptedComponent
 	
 	event OnIgniHit()
 	{
-		//LogAssert(false,"CR4Component hit by Igni");
+		
 	}
 	
 	event OnAardHit()
 	{
-		//LogAssert(false,"CR4Component hit by Aard");
+		
 	}
 }

@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-// types of craftsmen
+
+
+
 enum ECraftsmanType
 {
 	ECT_Undefined,
@@ -47,16 +50,16 @@ function CraftingExceptionToString( result : ECraftingException ) : string
 	return "";
 }
 
-// Struct for holding crafted attribute
+
 struct SCraftAttribute{
-	var attributeName : name;		//attribute name
-	var valAdditive : float;		//additive value
-	var valMultiplicative : float;	//multiplicative value
-	var displayPercMul : bool;		//should the mul value be displayed
-	var displayPercAdd : bool;		//should the add value be displayed
+	var attributeName : name;		
+	var valAdditive : float;		
+	var valMultiplicative : float;	
+	var displayPercMul : bool;		
+	var displayPercAdd : bool;		
 };
 
-//must be added by ascending levels (requirement checking)
+
 enum ECraftsmanLevel
 {
 	ECL_Undefined,
@@ -73,8 +76,8 @@ function ParseCraftsmanTypeStringToEnum(s : string) : ECraftsmanType
 		case "Crafter" 	: return ECT_Crafter;
 		case "Smith" 	: return ECT_Smith;
 		case "Armorer" 	: return ECT_Armorer;
-		case "Armourer"	: return ECT_Armorer; // TBD - Remove
-		case "Enchanter": return ECT_Enchanter; // TBD - Unused
+		case "Armourer"	: return ECT_Armorer; 
+		case "Enchanter": return ECT_Enchanter; 
 	}
 
 	return ECT_Undefined;
@@ -119,24 +122,24 @@ function CraftsmanLevelToLocalizationKey(type : ECraftsmanLevel) : string
 	return "";
 }
 
-// Class representing schematics. Because it's a class we pass it by reference instead of by value.
+
 struct SCraftingSchematic
 {
-	var craftedItemName			: name;					//name of the crafted item
-	var craftedItemCount 		: int;					//amount of items crafted
-	var requiredCraftsmanType	: ECraftsmanType;		//required type of craftsman
-	var requiredCraftsmanLevel	: ECraftsmanLevel;		//required level of craftsman
-	var baseCraftingPrice		: int;					//base price of crafting
-	var ingredients				: array<SItemParts>;	//required ingredients
-	var schemName				: name;					//name of schematic	
+	var craftedItemName			: name;					
+	var craftedItemCount 		: int;					
+	var requiredCraftsmanType	: ECraftsmanType;		
+	var requiredCraftsmanLevel	: ECraftsmanLevel;		
+	var baseCraftingPrice		: int;					
+	var ingredients				: array<SItemParts>;	
+	var schemName				: name;					
 };
 
 struct SEnchantmentSchematic
 {
-	var schemName				 : name;				//name of schematic	
-	var baseCraftingPrice		 : int;					//base price of crafting
-	var level					 : int;					//enchantment level
-	var ingredients				 : array<SItemParts>;	//required ingredients
+	var schemName				 : name;				
+	var baseCraftingPrice		 : int;					
+	var level					 : int;					
+	var ingredients				 : array<SItemParts>;	
 	var localizedName 			 : name;
 	var localizedDescriptionName : string;
 };
@@ -149,14 +152,14 @@ struct SItemUpgradeListElement
 
 struct SItemUpgrade
 {
-	var upgradeName : name;						//upgrade name
-	var localizedName : name;					//localization key for upgrade name
-	var localizedDescriptionName : name;		//localization key for upgrade description
-	var cost : int;								//gold upgrade cost
-	var iconPath : string;						//string with path to icon
-	var ability : name;							//name of the ability added to item when the upgrade is purchased
-	var ingredients : array<SItemParts>;		//array of ingredients
-	var requiredUpgrades : array<name>;			//array of required prerequisite upgrades
+	var upgradeName : name;						
+	var localizedName : name;					
+	var localizedDescriptionName : name;		
+	var cost : int;								
+	var iconPath : string;						
+	var ability : name;							
+	var ingredients : array<SItemParts>;		
+	var requiredUpgrades : array<name>;			
 };
 
 enum EItemUpgradeException

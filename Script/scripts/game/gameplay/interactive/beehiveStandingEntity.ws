@@ -1,4 +1,9 @@
-﻿//-------------------------------------------------------------------  ENTITY  --------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 statemachine class W3BeehiveStandingEntity extends W3AnimatedContainer
 {
 	editable var damageVal : SAbilityAttributeValue;
@@ -17,9 +22,9 @@ statemachine class W3BeehiveStandingEntity extends W3AnimatedContainer
 	
 	event OnItemGiven(data : SItemChangedData)
 	{
-		//This gets called when entity is created to add items from template to the object.
-		//We only want to agitate when it was due to players action so I set flag when player interacts.
-		//As a result if we're here and flag is false it means that player never interacted with it so it's coming from spawn (actually even before OnSpawned() is called).
+		
+		
+		
 		if(wasInteracted)
 			GotoState('Agitated');
 		
@@ -61,10 +66,10 @@ statemachine class W3BeehiveStandingEntity extends W3AnimatedContainer
 	}
 }
 
-//-------------------------------------------------------------------  IDLE  --------------------------------------------------------------------------
+
 state Idle in W3BeehiveStandingEntity {}
 
-//-------------------------------------------------------------------  AGITATED  --------------------------------------------------------------------------
+
 state Agitated in W3BeehiveStandingEntity
 {
 	event OnEnterState( prevStateName : name )
@@ -74,7 +79,7 @@ state Agitated in W3BeehiveStandingEntity
 		parent.PlayEffect('bee_cloud');
 		parent.GetComponentByClassName('CTriggerAreaComponent').SetEnabled(true);
 		
-		//spawn moving bees
+		
 		entityTemplate = (CEntityTemplate)LoadResource('bees');		
 		if ( entityTemplate )
 			theGame.CreateEntity( entityTemplate, parent.GetWorldPosition());

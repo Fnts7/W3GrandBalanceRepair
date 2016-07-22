@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - character development : Main
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Yaroslav Getsevich
-/***********************************************************************/
+
+
+
 
 class W3BuySkillConfirmation extends ConfirmationPopupData
 {
@@ -32,7 +34,7 @@ enum CharacterMenuTabIndexes
 	CharacterMenuTab_Mutagens = 4
 };
 
-// related to MutationResourceType.as
+
 enum EMutationResourceType
 {
 	MRT_SkillPoints,
@@ -82,7 +84,7 @@ class CR4CharacterMenu extends CR4MenuBase
 	private var MAX_MASTER_MUTATION_STAGE : int;
 	default MAX_MASTER_MUTATION_STAGE = 4;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{	
 		var l_flashObject			: CScriptedFlashObject;
 		var l_flashArray			: CScriptedFlashArray;
@@ -92,7 +94,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		
 		m_initialSelectionsToIgnore = 3;
 		
-		//theInput.StoreContext( 'EMPTY_CONTEXT' );
+		
 		m_fxPaperdollChanged = m_flashModule.GetMemberFlashFunction( "onPaperdollChanged" );
 		m_fxClearSkillSlot = m_flashModule.GetMemberFlashFunction( "clearSkillSlot" );
 		m_fxNotifySkillUpgraded = m_flashModule.GetMemberFlashFunction( "notifySkillUpgraded" );
@@ -120,7 +122,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			m_fxSetMutationBonusMode.InvokeSelfOneArg( FlashArgBool( false ) );
 		}
 		
-		//UpdateAllMutationsData();
+		
 		UpdateMasterMutation();
 		UpdateData(true);
 		
@@ -140,7 +142,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		var hud : CR4ScriptedHud;
 		super.OnClosingMenu();
@@ -161,7 +163,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		BlockClosing( false );
 	}
 
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		if ( _playerInv )
 		{
@@ -181,12 +183,12 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnTabDataRequested(tabIndex : int )
+	event  OnTabDataRequested(tabIndex : int )
 	{
 		PopulateTabData(tabIndex);
 	}
 	
-	event /*flash*/ OnTabChanged(tabIndex:int)
+	event  OnTabChanged(tabIndex:int)
 	{
 		var uiState : W3TutorialManagerUIHandlerStateCharDevMutagens;
 		
@@ -200,7 +202,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnOpenMutationPanel():void
+	event  OnOpenMutationPanel():void
 	{
 		OnPlaySoundEvent( "gui_tutorial_big_appear" );
 		theGame.GetTutorialSystem().uiHandler.OnClosingMenu( 'CharacterMenu' );
@@ -209,18 +211,18 @@ class CR4CharacterMenu extends CR4MenuBase
 		BlockClosing( true );
 	}
 	
-	event /*flash*/ OnCloseMutationPanel():void
+	event  OnCloseMutationPanel():void
 	{
 		OnPlaySoundEvent( "gui_character_remove_mutagen" );
 		theGame.GetTutorialSystem().uiHandler.OnClosingMenu( 'MutationMenu' );
 		theGame.GetTutorialSystem().uiHandler.OnOpeningMenu( 'CharacterMenu' );
 		
-		// #Y TODO: if changed
+		
 		UpdateData( true ); 
 		BlockClosing( false );
 	}
 	
-	event /*flash*/ OnMutationSelected( mutationId : EPlayerMutationType ):void
+	event  OnMutationSelected( mutationId : EPlayerMutationType ):void
 	{
 		var canResearch : W3TutorialManagerUIHandlerStateMutationsCanResearch;
 		
@@ -232,7 +234,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnResearchOpened( mutationId : EPlayerMutationType ):void
+	event  OnResearchOpened( mutationId : EPlayerMutationType ):void
 	{
 		var canResearch : W3TutorialManagerUIHandlerStateMutationsCanResearch;
 		
@@ -244,7 +246,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		OnPlaySoundEvent( "gui_global_panel_open" );
 	}
 	
-	event /*flash*/ OnResearchClosed():void
+	event  OnResearchClosed():void
 	{
 		OnPlaySoundEvent( "gui_global_panel_close" );
 	}
@@ -274,12 +276,12 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnCantResearchMutation()
+	event  OnCantResearchMutation()
 	{
-		//
+		
 	}
 	
-	event /*flash*/ OnResearchMutation( mutationId : int, points : int, red : int, green : int, blue : int ) // #0
+	event  OnResearchMutation( mutationId : int, points : int, red : int, green : int, blue : int ) 
 	{
 		var isChanged:bool = false;
 		var i : int;
@@ -322,7 +324,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event OnUpdateAfterResearch( mutationId : int ) // #1
+	event OnUpdateAfterResearch( mutationId : int ) 
 	{
 		var researchedMutation	   : int;
 		var requaredForNextLevel   : int;
@@ -332,7 +334,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		if(GetWitcherPlayer().IsMutationResearched( mutationId ) )
 		{
 			UpdateAllMutationsData();
-			//UpdateData( true ); // #Y TMP, REMOVE
+			
 			
 			masterStage = GetWitcherPlayer().GetMasterMutationStage();
 			if (masterStage > 0)
@@ -344,7 +346,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				
 				if (requaredForNextLevel == researchedMutation )
 				{
-					// master mutation level-up
+					
 					OnPlaySoundEvent( "gui_enchanting_runeword_add" );		
 				}
 			}
@@ -357,7 +359,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnEquipMutation( mutationId : int )
+	event  OnEquipMutation( mutationId : int )
 	{
 		var currentlyEquipped : EPlayerMutationType;
 		
@@ -381,7 +383,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnUnequipMutation()
+	event  OnUnequipMutation()
 	{
 		var currentlyEquipped : EPlayerMutationType;
 		
@@ -414,12 +416,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			
 			if( m_mutationBonusMode )
 			{
-				/*
-				GetWitcherPlayer().UnequipItemFromSlot( EES_SkillMutagen1 );
-				GetWitcherPlayer().UnequipItemFromSlot( EES_SkillMutagen2 );
-				GetWitcherPlayer().UnequipItemFromSlot( EES_SkillMutagen3 );
-				GetWitcherPlayer().UnequipItemFromSlot( EES_SkillMutagen4 );
-				*/
+				
 			}
 			else
 			{
@@ -560,7 +557,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		mutationData.SetMemberFlashString( "progressInfo",  progressStrInfo );
 		
 		mutationData.SetMemberFlashInt( "mutationId", curMutationId );
-		mutationData.SetMemberFlashInt( "overallProgress", overalProgress ); // [0-100]
+		mutationData.SetMemberFlashInt( "overallProgress", overalProgress ); 
 		mutationData.SetMemberFlashBool( "researchCompleted", overalProgress >= 100 );
 		
 		if (equippedMutationId == curMutationId)
@@ -638,7 +635,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 		else
 		{
-			// REQUIRED MUTATIONS
+			
 			
 			isResearchEnabled = true;
 			curRequiredMutations = curMutation.requiredMutations;
@@ -664,7 +661,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			mutationData.SetMemberFlashArray( "requiredMutations", mutationRequirementList );
 			mutationData.SetMemberFlashBool( "enabled", isResearchEnabled );
 			
-			// COLORS
+			
 			
 			mutationColorList = m_flashValueStorage.CreateTempFlashArray();
 			colorsList = curMutation.colors;
@@ -694,11 +691,11 @@ class CR4CharacterMenu extends CR4MenuBase
 			
 			mutationData.SetMemberFlashArray( "colorsList", mutationColorList );
 			
-			// RESOURCES
+			
 			
 			mutationResourceList = m_flashValueStorage.CreateTempFlashArray();
 			
-			// skill points
+			
 			avaliableSkillPoints = GetCurrentSkillPoints();
 			mutationResourceData = m_flashValueStorage.CreateTempFlashObject();
 			mutationResourceData.SetMemberFlashString( "title", GetLocStringByKeyExt("mutation_research_knowledge") );
@@ -715,7 +712,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			mutationResourceData.SetMemberFlashUInt( "itemName", 0 );
 			mutationResourceList.PushBackFlashObject( mutationResourceData );
 			
-			// green mutagens
+			
 			mutationResourceData = m_flashValueStorage.CreateTempFlashObject();
 			mutationResourceData.SetMemberFlashString( "title", GetLocStringByKeyExt("mutation_strain_research_green") );
 			mutationResourceData.SetMemberFlashInt( "type", MRT_GreenMutation );
@@ -729,7 +726,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			
 			mutationResourceList.PushBackFlashObject( mutationResourceData );
 			
-			// red mutagens
+			
 			mutationResourceData = m_flashValueStorage.CreateTempFlashObject();
 			mutationResourceData.SetMemberFlashString( "title", GetLocStringByKeyExt("mutation_strain_research_red") );
 			mutationResourceData.SetMemberFlashInt( "type", MRT_RedMutation );
@@ -742,7 +739,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			
 			mutationResourceList.PushBackFlashObject( mutationResourceData );
 			
-			// blue mutagens
+			
 			mutationResourceData = m_flashValueStorage.CreateTempFlashObject();
 			mutationResourceData.SetMemberFlashString( "title", GetLocStringByKeyExt("mutation_strain_research_blue") );
 			mutationResourceData.SetMemberFlashInt( "type", MRT_BlueMutation );
@@ -830,7 +827,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		{
 			curSkill = skillsList[i];
 			
-			if (curSkill.skillPath == skillType && /*!curSkill.isCoreSkill &&*/
+			if (curSkill.skillPath == skillType && 
 				curSkill.skillSubPath != ESSP_NotSet && curSkill.skillSubPath != ESSP_Core)
 			{
 				gfxSkill = m_flashValueStorage.CreateTempFlashObject();
@@ -911,17 +908,17 @@ class CR4CharacterMenu extends CR4MenuBase
 		return CharacterMenuTab_Sword;
 	}
 	
-	event /*flash*/ OnStartApplyMode():void
+	event  OnStartApplyMode():void
 	{
 		OnPlaySoundEvent("gui_global_panel_open");
 	}
 	
-	event /*flash*/ OnCancelApplyMode():void
+	event  OnCancelApplyMode():void
 	{
 		OnPlaySoundEvent("gui_global_panel_close");
 	}
 	
-	event /*flash*/ OnInventoryItemSelected(itemId:SItemUniqueId) : void
+	event  OnInventoryItemSelected(itemId:SItemUniqueId) : void
 	{
 		if (_inv.IsIdValid(itemId))
 		{
@@ -929,7 +926,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnBuySkill(skill : ESkill, slotID : int)
+	event  OnBuySkill(skill : ESkill, slotID : int)
 	{
 		if (thePlayer.IsInCombat())
 		{
@@ -944,14 +941,14 @@ class CR4CharacterMenu extends CR4MenuBase
 			
 			OnPlaySoundEvent("gui_character_buy_skill");
 			
-			//UpdateData();
+			
 			UpdateMasterMutation();
 			UpdateSkillPoints();
 			PopulateTabData( GetTabForSkill( skill ), skill );
 		}
 	}
 	
-	event /*flash*/ OnSwapSkill(skill1 : ESkill, slotID1 : int, skill2 : ESkill, slotID2 : int)
+	event  OnSwapSkill(skill1 : ESkill, slotID1 : int, skill2 : ESkill, slotID2 : int)
 	{
 		if (thePlayer.IsInCombat())
 		{
@@ -974,7 +971,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnEquipSkill(skill : ESkill, slotID : int)
+	event  OnEquipSkill(skill : ESkill, slotID : int)
 	{
 		var oldSkill:ESkill;
 		var foundSkill:bool;
@@ -1021,7 +1018,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnUnequipSkill(slotID : int)
+	event  OnUnequipSkill(slotID : int)
 	{	
 		var skill : ESkill;
 		
@@ -1041,7 +1038,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			PopulateTabData(GetTabForSkill(skill));
 			
 			UpdateAppliedSkill(slotID);
-			//UpdateAppliedSkills();
+			
 			UpdateMutagens();
 			UpdatePlayerStatisticsData();			
 			UpdateGroupsData();
@@ -1051,7 +1048,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnUpdateMutationData()
+	event  OnUpdateMutationData()
 	{
 		UpdateAppliedSkills();
 		PopulateTabData(CharacterMenuTab_Mutagens);
@@ -1060,7 +1057,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		UpdatePlayerStatisticsData();
 	}
 	
-	event /*flash*/ OnUpgradeSkill(skillID : ESkill)
+	event  OnUpgradeSkill(skillID : ESkill)
 	{
 		var skill : SSkill;
 		
@@ -1095,7 +1092,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnEquipMutagen(itemID:SItemUniqueId, slotId:EEquipmentSlots)
+	event  OnEquipMutagen(itemID:SItemUniqueId, slotId:EEquipmentSlots)
 	{
 		if (thePlayer.IsInCombat())
 		{
@@ -1118,7 +1115,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnUnequipMutagen(slotID : int)
+	event  OnUnequipMutagen(slotID : int)
 	{
 		var mutagen : SItemUniqueId;
 		if (thePlayer.IsInCombat())
@@ -1168,7 +1165,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			
 			RemoveMutagenBonus();
 			UpdateMutagens();
-			//UpdateGroupsData(); //Only called when equiping a different skill, updating this results in double update		
+			
 		}
 	}
 	
@@ -1266,7 +1263,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		pam = (W3PlayerAbilityManager)thePlayer.abilityManager;
 		curAbilityName = thePlayer.GetSkillGroupBonus(groupId);
 		curColorCount =  1 + thePlayer.GetGroupBonusCount( thePlayer.GetInventory().GetSkillMutagenColor( mutagen ), groupId );
-		//if ( GetWitcherPlayer().CanUseSkill ( S_Alchemy_s19 ) ) curColorCount = curColorCount + 1;
+		
 		hasAbility = thePlayer.HasAbility(curAbilityName);
 		
 		color = SC_None;
@@ -1363,7 +1360,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 		else
 		{
-			//thePlayer.RemoveAbility( pam.GetMutagenBonusAbilityName(mutagen) );
+			
 		}
 		
 		return curDescription;
@@ -1483,7 +1480,7 @@ class CR4CharacterMenu extends CR4MenuBase
 	
 	protected function SkillColorEnumToName( color : ESkillColor ) : void
 	{
-		// TODO: ???
+		
 	}
 	
 	protected function GetSlotForSkill(skill : ESkill):int
@@ -1664,7 +1661,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		
 		skillColor = thePlayer.GetSkillColor(curSkill.skillType);
 		
-		dataObject.SetMemberFlashInt('id', curSkill.skillType); // tooltip key field
+		dataObject.SetMemberFlashInt('id', curSkill.skillType); 
 		dataObject.SetMemberFlashInt('skillTypeId', curSkill.skillType);
 		
 		originSkillLevel = GetWitcherPlayer().GetBoughtSkillLevel(curSkill.skillType);
@@ -1689,9 +1686,9 @@ class CR4CharacterMenu extends CR4MenuBase
 		
 		dataObject.SetMemberFlashString('dropDownLabel', GetLocStringByKeyExt( SkillPathTypeToName( curSkill.skillPath ) ) );
 		dataObject.SetMemberFlashString('skillType', curSkill.skillType);
-		dataObject.SetMemberFlashString('skillPath', curSkill.skillPath); // #Y change only int value in action script !!!
+		dataObject.SetMemberFlashString('skillPath', curSkill.skillPath); 
 		dataObject.SetMemberFlashString('skillSubPath',  SkillSubPathTypeToName( curSkill.skillSubPath ) );
-		dataObject.SetMemberFlashString('abilityName', curSkill.abilityName); // wrong
+		dataObject.SetMemberFlashString('abilityName', curSkill.abilityName); 
 		dataObject.SetMemberFlashString('cost', curSkill.cost);
 		dataObject.SetMemberFlashString('iconPath', curSkill.iconPath);
 		dataObject.SetMemberFlashString('isCoreSkill', curSkill.isCoreSkill);
@@ -1715,14 +1712,14 @@ class CR4CharacterMenu extends CR4MenuBase
 		dataObject.SetMemberFlashBool('isCoreSkill', curSkill.isCoreSkill);
 	}
 	
-	protected function CheckIfLocked( skill : SSkill ) : bool //#J
+	protected function CheckIfLocked( skill : SSkill ) : bool 
 	{
 		var skillType : ESkill;
 		skillType = SkillNameToEnum(skill.abilityName);
 		return GetWitcherPlayer().HasSpentEnoughPoints(skillType);
 	}
 	
-	protected function SkillsPathsPointsSpent( skill : SSkill ) : int // #J
+	protected function SkillsPathsPointsSpent( skill : SSkill ) : int 
 	{
 		var skillType : ESkill;
 		skillType = SkillNameToEnum(skill.abilityName);
@@ -1753,20 +1750,20 @@ class CR4CharacterMenu extends CR4MenuBase
 		var baseString	: string;
 		var locKey		: string;
 		
-		// TODO: Make the parameters of description work by values in scripts other than values in localization strings
+		
 		if (skillLevel == 2)
 		{
-			//baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel2Key);
+			
 			locKey = targetSkill.localisationDescriptionLevel2Key;
 		}
 		else if (skillLevel >= 3)
 		{
-			//baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel3Key);
+			
 			locKey = targetSkill.localisationDescriptionLevel3Key;
 		}
 		else
 		{
-			//baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionKey);
+			
 			locKey = targetSkill.localisationDescriptionKey;
 		}
 		
@@ -1797,7 +1794,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		var min, max	: SAbilityAttributeValue;
 		var dm 			: CDefinitionsManagerAccessor;
 		
-		// Stamina regen bonus per skill level
+		
 		dm = theGame.GetDefinitionsManager();
 		dm.GetAbilityAttributeValue('sword_adrenalinegain', 'focus_gain', min, max);
 		ability =  GetAttributeRandomizedValue(min, max);
@@ -1849,18 +1846,18 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 				
 			case S_Sword_s01:				
-				//base duration
+				
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s01, 'cost_reduction', false, false);				
 				argsInt.PushBack( RoundMath(ability.valueMultiplicative * 100 * skillLevel) );
 				
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)+ "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";;					
 				break;
 			case S_Sword_s02:
-				//crit chance
+				
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s02, theGame.params.CRITICAL_HIT_CHANCE, false, false)) * skillLevel;
 				argsInt.PushBack(Min(RoundMath(arg*100),100));
 				
-				//AP bonus from adrenaline				
+				
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s02, 'adrenaline_final_damage_bonus', false, false);
 				argsInt.PushBack(RoundMath(ability.valueMultiplicative*100));
 				
@@ -1969,9 +1966,9 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
 				break;
 			default:
-				if (skillLevel == 2) 		baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel2Key);// + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
-				else if (skillLevel >= 3) 	baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel3Key);// + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
-				else 						baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionKey);// + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
+				if (skillLevel == 2) 		baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel2Key);
+				else if (skillLevel >= 3) 	baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel3Key);
+				else 						baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionKey);
 		}
 		
 		return baseString;
@@ -1988,7 +1985,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		var min, max	: SAbilityAttributeValue;
 		var dm 			: CDefinitionsManagerAccessor;
 		
-		// Stamina regen bonus per skill level
+		
 		dm = theGame.GetDefinitionsManager();
 		dm.GetAbilityAttributeValue('magic_staminaregen', 'staminaRegen', min, max);
 		ability =  GetAttributeRandomizedValue(min, max);
@@ -2050,12 +2047,12 @@ class CR4CharacterMenu extends CR4MenuBase
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s10, 'trap_duration', false, false)) * skillLevel;
 				argsInt.PushBack(RoundMath(arg));
 				
-				//show total shots, not just increase
+				
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s03, 'charge_count', false, false));
 				arg += CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s10, 'charge_count', false, false)) * skillLevel;
 				argsInt.PushBack(RoundMath(arg));
 				
-				//base trap count
+				
 				if(skillLevel > 1)
 					argsInt.PushBack(2);
 				else
@@ -2135,7 +2132,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		var min, max		: SAbilityAttributeValue;
 		var dm 				: CDefinitionsManagerAccessor;
 		
-		// Potion duration bonus per skill level
+		
 		dm = theGame.GetDefinitionsManager();
 		dm.GetAbilityAttributeValue('alchemy_potionduration', 'potion_duration', min, max);
 		ability =  GetAttributeRandomizedValue(min, max);
@@ -2144,11 +2141,11 @@ class CR4CharacterMenu extends CR4MenuBase
 		switch (targetSkill.skillType)
 		{
 			case S_Alchemy_s01:
-				//base threshold
+				
 				toxThreshold = 100 * theGame.params.TOXICITY_DAMAGE_THRESHOLD;
 				argsString.PushBack( RoundMath( toxThreshold ) );				
 				
-				//current threshold
+				
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s01, 'threshold', false, false)) * skillLevel;
 				argsString.PushBack( RoundMath( toxThreshold + arg * 100 ) );
 				
@@ -2376,7 +2373,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		currentLevelDesc = "";
 		nextLevelDesc = "";
 		
-		// #J &#10; is equivalent to /n in html since /n doesn't work ><
+		
 		
 		if ( isGridView )
 			skillLevel = GetWitcherPlayer().GetBoughtSkillLevel(targetSkill.skillType);
@@ -2399,18 +2396,18 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnNotEnoughtPoints()
+	event  OnNotEnoughtPoints()
 	{
 		theSound.SoundEvent( "gui_global_denied" );
 		showNotification(GetLocStringByKeyExt("message_common_not_enough_skill_points"));
 	}
 	
-	event /*flash*/ OnGetGridSkillTooltipData(targetSkill : ESkill, compareItemType : int)
+	event  OnGetGridSkillTooltipData(targetSkill : ESkill, compareItemType : int)
 	{
 		GetSkillTooltipData(targetSkill, compareItemType, true);
 	}
 	
-	event /*flash*/ OnGetSlotSkillTooltipData(targetSkill : ESkill, compareItemType : int)
+	event  OnGetSlotSkillTooltipData(targetSkill : ESkill, compareItemType : int)
 	{
 		GetSkillTooltipData(targetSkill, compareItemType, false);
 	}
@@ -2458,7 +2455,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 		else
 		{
-			//skillLevelString = " <font size = '32'>" + targetSkillData.level + "</font> / "+targetSkillData.maxLevel;
+			
 			
 			originSkillLevel = GetWitcherPlayer().GetBoughtSkillLevel(targetSkillData.skillType);
 			
@@ -2472,7 +2469,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				
 				if (boostedSkillLevel > originSkillLevel)
 				{
-					//skillLevelString = " " + originSkillLevel + " <font color = '#A664D9'>(+" + (boostedSkillLevel - originSkillLevel) + ") </font>/" + targetSkillData.maxLevel;
+					
 					skillLevelString = " <font color = '#f68104'>" + boostedSkillLevel + "</font>/" + targetSkillData.maxLevel;
 				}
 				else
@@ -2523,7 +2520,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		m_flashValueStorage.SetFlashObject("context.tooltip.data", resultGFxData);
 	}
 	
-	event /*flash*/ OnGetEmptySlotTooltipData(unlockedAtLevel : int):void
+	event  OnGetEmptySlotTooltipData(unlockedAtLevel : int):void
 	{
 		var resultGFxData 	: CScriptedFlashObject;
 		
@@ -2543,7 +2540,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		m_flashValueStorage.SetFlashObject("context.tooltip.data", resultGFxData);
 	}
 	
-	event /*flash*/ OnGetLockedTooltipData(unlockedAtLevel : int):void
+	event  OnGetLockedTooltipData(unlockedAtLevel : int):void
 	{
 		var resultGFxData 	: CScriptedFlashObject;
 		
@@ -2562,7 +2559,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		m_flashValueStorage.SetFlashObject("context.tooltip.data", resultGFxData);
 	}
 	
-	event /*flash*/ OnGetLockedMutationSkillSlotTooltipData(unlockedAtLevel : int):void
+	event  OnGetLockedMutationSkillSlotTooltipData(unlockedAtLevel : int):void
 	{
 		var resultGFxData 	 : CScriptedFlashObject;
 		var abilityManager   : W3PlayerAbilityManager;
@@ -2590,7 +2587,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		m_flashValueStorage.SetFlashObject("context.tooltip.data", resultGFxData);
 	}
 	
-	event /*flash*/ OnGetMutagenEmptyTooltipData(unlockedAtLevel : int)
+	event  OnGetMutagenEmptyTooltipData(unlockedAtLevel : int)
 	{
 		var resultGFxData 	: CScriptedFlashObject;
 		
@@ -2610,7 +2607,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		m_flashValueStorage.SetFlashObject("context.tooltip.data", resultGFxData);
 	}
 	
-	event /*flash*/ OnGetMutagenLockedTooltipData(unlockedAtLevel : int)
+	event  OnGetMutagenLockedTooltipData(unlockedAtLevel : int)
 	{
 		var resultGFxData 	: CScriptedFlashObject;
 		
@@ -2630,7 +2627,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		m_flashValueStorage.SetFlashObject("context.tooltip.data", resultGFxData);
 	}
 		
-	event /*flash*/ OnGetItemData(item : SItemUniqueId, compareItemType : int)
+	event  OnGetItemData(item : SItemUniqueId, compareItemType : int)
 	{
 		var tooltipInv 			: CInventoryComponent;
 		var compareItem 		: SItemUniqueId;
@@ -2674,8 +2671,8 @@ class CR4CharacterMenu extends CR4MenuBase
 			itemName = GetLocStringByKeyExt(itemName);
 			resultData.SetMemberFlashString("ItemName", itemName);
 			
-			//_data
-			if( tooltipInv.GetItemName(item) != _inv.GetItemName(compareItem) ) // #B by name because they could be in different inventoryComponents, and then they have different id
+			
+			if( tooltipInv.GetItemName(item) != _inv.GetItemName(compareItem) ) 
 			{
 				_inv.GetItemStats(compareItem, compareItemStats);
 			}
@@ -2683,7 +2680,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			CompareItemsStats(itemStats, compareItemStats, statsList);
 			resultData.SetMemberFlashArray("StatsList", statsList);
 			
-			if( tooltipInv.ItemHasTag(item, 'Quest') || tooltipInv.IsItemIngredient(item) || tooltipInv.IsItemAlchemyItem(item) ) // #B item weight check
+			if( tooltipInv.ItemHasTag(item, 'Quest') || tooltipInv.IsItemIngredient(item) || tooltipInv.IsItemAlchemyItem(item) ) 
 			{
 				weight = 0;
 			}
@@ -2693,11 +2690,11 @@ class CR4CharacterMenu extends CR4MenuBase
 			}
 			
 			category = GetItemCategoryLocalisedString( tooltipInv.GetItemCategory(item) );
-			typeStr = /*GetLocStringByKeyExt(GetFilterTypeName( IFT_AlchemyItems )); //+ " / " + */GetLocStringByKeyExt("item_category_" + tooltipInv.GetItemCategory(item) );
+			typeStr = GetLocStringByKeyExt("item_category_" + tooltipInv.GetItemCategory(item) );
 			resultData.SetMemberFlashString("ItemType", typeStr);
 			
 			categoryDescription = getCategoryDescription(tooltipInv.GetItemCategory(item));
-			resultData.SetMemberFlashString("CommonDescription", categoryDescription); //<-- #Y ? 		
+			resultData.SetMemberFlashString("CommonDescription", categoryDescription); 
 			resultData.SetMemberFlashString("UniqueDescription", GetLocStringByKeyExt(tooltipInv.GetItemLocalizedDescriptionByUniqueID(item)));		
 			resultData.SetMemberFlashString("PrimaryStatLabel", primaryStatLabel);
 			resultData.SetMemberFlashNumber("PrimaryStatValue", primaryStatValue);
@@ -2707,12 +2704,12 @@ class CR4CharacterMenu extends CR4MenuBase
 			
 			tmpStr = NoTrailZeros( weight );
 			addGFxItemStat(propsList, "weight", tmpStr, "attribute_name_weight");
-			//addGFxItemStat(propsList, "price", tooltipInv.GetItemPrice(item), "panel_inventory_item_price");
+			
 			addGFxItemStat(propsList, "price", 0, "panel_inventory_item_price");
 			
 		
-			//durabilityValue = NoTrailZeros(_inv.GetItemDurability(item)/_inv.GetItemMaxDurability(item) * 100);
-			//addGFxItemStat(propsList, "repair", durabilityValue, "panel_inventory_tooltip_durability");
+			
+			
 			
 			oilName = _inv.GetOldestOilAppliedOnItem( item, false ).GetOilItemName();
 			if (oilName != '')
@@ -2757,7 +2754,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			l_flashObject.SetMemberFlashString("name",itemStats[i].attributeName);
 			l_flashObject.SetMemberFlashString("color",itemStats[i].attributeColor);
 			
-			//HERE, WE'RE COMPARING STATS AGAINST POSSIBLE OVERLAPS WITH A POSSIBLY EQUIPPED SIMILAR ITEM IN ORDER TO SHOW BENEFIT DIFFERENCE
+			
 			for( j = 0; j < compareItemStats.Size(); j += 1 )
 			{
 				if( itemStats[j].attributeName == compareItemStats[i].attributeName )
@@ -2765,26 +2762,26 @@ class CR4CharacterMenu extends CR4MenuBase
 					nDifference = itemStats[j].value - compareItemStats[i].value;
 					percentDiff = AbsF(nDifference/itemStats[j].value);
 					
-					//better
+					
 					if(nDifference > 0)
 					{
 						strDifValue = "(+" + NoTrailZeros(nDifference) + ")";
-						if(percentDiff < 0.25) //1 arrow
+						if(percentDiff < 0.25) 
 							strDifference = "better";
-						else if(percentDiff > 0.75) //3 arrows
+						else if(percentDiff > 0.75) 
 							strDifference = "wayBetter";
-						else						//2 arrows
+						else						
 							strDifference = "reallyBetter";
 					}
-					//worse
+					
 					else if(nDifference < 0)
 					{
 						strDifValue = "(" + RoundMath(nDifference) + ")";
-						if(percentDiff < 0.25) //1 arrow
+						if(percentDiff < 0.25) 
 							strDifference = "worse";
-						else if(percentDiff > 0.75) //3 arrows
+						else if(percentDiff > 0.75) 
 							strDifference = "wayWorse";
-						else						//2 arrows
+						else						
 							strDifference = "reallyWorse";					
 					}
 					break;					
@@ -2863,34 +2860,11 @@ class CR4CharacterMenu extends CR4MenuBase
 		var lastSentStatString		: string;
 		
 		l_flashArray = m_flashValueStorage.CreateTempFlashArray();
-		/*statsNr = theGame.playerStatisticsSettings.GetNumRows();
 		
-		for( i = 0; i < statsNr; i += 1 )
-		{
-			statName = theGame.playerStatisticsSettings.GetValueAtAsName(0,i);
-			GetGenericStatValue(statName,valueStr);
-			l_flashObject = m_flashValueStorage.CreateTempFlashObject();
-			l_flashObject.SetMemberFlashString("name",GetLocStringByKeyExt(statName));
-			l_flashObject.SetMemberFlashUInt("id",NameToFlashUInt(statName));
-			
-			lastSentStatString = getLastSentStatValue(statName);
-			if (lastSentStatString != "" && valueStr != lastSentStatString)
-			{
-				l_flashObject.SetMemberFlashBool("changedValue", true);
-			}
-			else
-			{
-				l_flashObject.SetMemberFlashBool("changedValue", false);
-			}
-			
-			l_flashObject.SetMemberFlashString("value", valueStr);
-			updateSentStatValue(statName, valueStr);
-			l_flashArray.PushBackFlashObject(l_flashObject);
-		}*/
 		
 		AddCharacterStatU("mainSilverStat", 'silverdamage', "panel_common_statistics_tooltip_silver_dps", "attack_silver", l_flashArray, m_flashValueStorage); 
 		AddCharacterStatU("mainSteelStat", 'steeldamage', "panel_common_statistics_tooltip_steel_dps", "attack_steel", l_flashArray, m_flashValueStorage); 
-		AddCharacterStat("mainResStat", 'armor', "attribute_name_armor", "armor", l_flashArray, m_flashValueStorage); // Armor :S
+		AddCharacterStat("mainResStat", 'armor', "attribute_name_armor", "armor", l_flashArray, m_flashValueStorage); 
 		AddCharacterStat("mainMagicStat", 'spell_power', "stat_signs", "spell_power", l_flashArray, m_flashValueStorage);
 		AddCharacterStat("majorStat1", 'vitality', "vitality", "vitality", l_flashArray, m_flashValueStorage);
 		
@@ -2931,14 +2905,14 @@ class CR4CharacterMenu extends CR4MenuBase
 		return "";
 	}
 	
-	event /*flash*/ OnSelectPlayerStat(statId : name)
+	event  OnSelectPlayerStat(statId : name)
 	{
 		ShowStatTooltip(statId);
 	}
 	
-	event /*flash*/ OnStatisticsLostFocus()
+	event  OnStatisticsLostFocus()
 	{
-		m_flashValueStorage.SetFlashBool("statistic.tooltip.hide", true); // #J value is ignored by AS at the time I wrote this
+		m_flashValueStorage.SetFlashBool("statistic.tooltip.hide", true); 
 	}
 	
 	public function ShowStatTooltip(statName : name)
@@ -2988,7 +2962,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		maxHealth = thePlayer.GetStatMax(BCS_Vitality);
 		curHealth = thePlayer.GetStatPercents(BCS_Vitality);
 		inCombatRegen = CalculateAttributeValue(thePlayer.GetAttributeValue('vitalityCombatRegen'));
-		outOfCombatRegen = CalculateAttributeValue(thePlayer.GetAttributeValue('vitalityRegen')); //#Y WARNING: We have no out-of-combat regen now
+		outOfCombatRegen = CalculateAttributeValue(thePlayer.GetAttributeValue('vitalityRegen')); 
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_current_health", (string)RoundMath(maxHealth * curHealth));
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_maximum_health", (string)RoundMath(maxHealth));
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_incombat_regen", (string)NoTrailZeros(RoundTo(inCombatRegen, 1)));
@@ -3009,7 +2983,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_current_toxicity", (string)RoundMath(curToxicity));
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_current_maximum", (string)RoundMath(maxToxicity));
-		//PushStatItem(GFxData, "panel_common_statistics_tooltip_base_maximum", (string)RoundMath(maxToxicity - lockedToxicity));
+		
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_locked", (string)RoundMath(lockedToxicity));		
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_threshold", (string)RoundMath(toxicityThreshold));
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_degeneration", (string)RoundMath(0));
@@ -3026,7 +3000,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		maxStamina = thePlayer.GetStatMax(BCS_Stamina);
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_maximum_stamina ", (string)RoundMath(maxStamina));
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_regeneration_rate", (string)NoTrailZeros( RoundTo(regenStamia, 2) ) );
-		//PushStatItem(GFxData, "panel_common_statistics_tooltip_regeneration_delay", "");
+		
 	}
 	
 	private function GetAdrenalineTooltipData(out GFxData: CScriptedFlashArray):void
@@ -3038,7 +3012,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		curAdrenaline = thePlayer.GetStat(BCS_Focus);
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_adrenaline_current", (string)FloorF(curAdrenaline));
 		PushStatItem(GFxData, "panel_common_statistics_tooltip_adrenaline_max", (string)RoundMath(maxAdrenaline));
-		//PushStatItem(GFxData, "panel_common_statistics_tooltip_adrenaline_bonus", "");
+		
 	}
 	
 	private function GetOffenseTooltipData(out GFxData: CScriptedFlashArray):void
@@ -3133,7 +3107,7 @@ class CR4CharacterMenu extends CR4MenuBase
 		statsList.PushBackFlashObject(statItemData);
 	}
 	
-	event /*flash*/ OnShowFullStats()
+	event  OnShowFullStats()
 	{
 		if (_charStatsPopupData)
 		{
@@ -3148,7 +3122,7 @@ class CR4CharacterMenu extends CR4MenuBase
 	
 	function PlayOpenSoundEvent()
 	{
-		// Common Menu takes care of this for us
-		//OnPlaySoundEvent("gui_global_panel_open");
+		
+		
 	}
 }

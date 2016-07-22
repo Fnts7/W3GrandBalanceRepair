@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Patryk Fiutowski
-/***********************************************************************/
+
+
+
 
 class CBehTreeTaskCSEffectFlying extends CBehTreeTaskCSEffect
 {
@@ -26,9 +28,9 @@ class CBehTreeTaskCSEffectFlying extends CBehTreeTaskCSEffect
 			owner.SetBehaviorVariable( 'DistanceFromGround', distToGround );
 			
 			
-			//if ( owner.GetMovingAgentComponent().IsFlying() && CSType != ECST_Hypnotized && CSType != ECST_Confusion )
+			
 			owner.SetBehaviorVariable( '5AnimCriticalState', 1.0 );
-			owner.EnablePhysicalMovement( true ); // enable physics
+			owner.EnablePhysicalMovement( true ); 
 			((CMovingPhysicalAgentComponent)owner.GetComponentByClassName('CMovingPhysicalAgentComponent')).SetAnimatedMovement( true );
 			wasFlying = true;
 				
@@ -80,11 +82,11 @@ class CBehTreeTaskCSEffectFlying extends CBehTreeTaskCSEffect
 			{
 				OnGroundContact();
 			}
-			else // If is still flying
+			else 
 			{
 				((CMovingPhysicalAgentComponent)owner.GetComponentByClassName('CMovingPhysicalAgentComponent')).SetAnimatedMovement( true );
-				owner.EnablePhysicalMovement( true ); // enable physics
-				owner.SetBehaviorVariable('ForceExitCSEffect', 1); // In case the branch gets interrupted by a scripted action, stop the critical falling animation
+				owner.EnablePhysicalMovement( true ); 
+				owner.SetBehaviorVariable('ForceExitCSEffect', 1); 
 			}
 		}
 		

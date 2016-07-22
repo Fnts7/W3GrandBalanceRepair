@@ -1,17 +1,22 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-// Please keep this as empty as possible
-// use RidingManager instead
+
+
+
 state DismountHorse in CR4Player extends DismountTheVehicle
 {
 	public var horseComp : W3HorseComponent;
 	
-	//const variables
 	
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
+	
 
 	event OnEnterState( prevStateName : name )
 	{
@@ -31,9 +36,9 @@ state DismountHorse in CR4Player extends DismountTheVehicle
 		thePlayer.RemoveBuffImmunity( EET_Pull, 'HorseRidingBuffImmunity' );
 		
 		parent.RemoveTimer( 'CheckSwimmingOnDismount' );
-		//horseRiderSharedParams = thePlayer.GetRiderSharedParams();
-		//horseRiderSharedParams.horse = NULL;
-		//horseComp.riderSharedParams = NULL;
+		
+		
+		
 		
 		parent.RemoveAnimEventCallback( 'SlideBack' );
 		
@@ -41,7 +46,7 @@ state DismountHorse in CR4Player extends DismountTheVehicle
 		
 		super.OnLeaveState( nextStateName );
 	}
-	// This is called when the state was interupted ( ie the dismount didn't have time to finish )
+	
 	cleanup function DismountCleanup() 
 	{
 		super.DismountCleanup();
@@ -49,9 +54,9 @@ state DismountHorse in CR4Player extends DismountTheVehicle
 		parent.SignalGameplayEventParamInt( 'RidingManagerDismountHorse', DT_instant | DT_fromScript );
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	
 
 	entry function ProcessDismountHorse()
 	{
@@ -60,7 +65,7 @@ state DismountHorse in CR4Player extends DismountTheVehicle
 		var target : CActor;
 		var position : Vector;
 		
-		//var timeStamp : float;
+		
 		
 		riderData = thePlayer.GetRiderData();
 		parent.SetCleanupFunction( 'DismountCleanup' );
@@ -68,22 +73,22 @@ state DismountHorse in CR4Player extends DismountTheVehicle
 		parent.SignalGameplayEventParamInt( 'RidingManagerDismountHorse', dismountType );
 		
 		parent.AddTimer( 'CheckSwimmingOnDismount', 0.f, true );
-		// HACK for what ? - when you pushstate in the same frame that entry function is called state machine will be fucked
+		
 		SleepOneFrame();
 		
 		if ( dismountType == DT_shakeOff )
 		{
 			if ( parent.rangedWeapon && parent.rangedWeapon.GetCurrentStateName() != 'State_WeaponWait' )
 			{
-				//LogChannel( 'HorseShake', "shakeOffStart" );
+				
 				parent.WaitForBehaviorNodeActivation('shakeOffStart',0.5f);
-				//LogChannel( 'HorseShake', "OnRangedForceHolster" );
+				
 				parent.OnRangedForceHolster( true, true );
 			}
 			
-			//timeStamp = EngineTimeToFloat( theGame.GetEngineTime() );
+			
 			parent.WaitForBehaviorNodeActivation('recoverStart',3.f);
-			//LogChannel( 'HorseShake', EngineTimeToFloat( theGame.GetEngineTime() ) - timeStamp );
+			
 			target = (CActor)thePlayer.GetDisplayTarget();
 			if ( target && thePlayer.IsInCombat() )
 			{
@@ -118,9 +123,9 @@ state DismountHorse in CR4Player extends DismountTheVehicle
 	event OnAnimEvent_AllowFall( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		HACK_ActivatePhysicsRepresentation();
-		//parent.EnableCollisions( true );
-		//parent.PopState(true);
-		//parent.OnAnimEvent_AllowFall(animEventName, animEventType, animInfo);
+		
+		
+		
 	}
 	
 	event OnAnimEvent_SlideBack( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
@@ -152,8 +157,8 @@ state DismountHorse in CR4Player extends DismountTheVehicle
 		var fallDist : float;
 		var waterLevel : float;
 		
-		// start to swim
-		if ( !thePlayer.IsSwimming() && thePlayer.IsAlive() ) //&& thePlayer.GetCurrentStateName() != 'AimThrow'
+		
+		if ( !thePlayer.IsSwimming() && thePlayer.IsAlive() ) 
 		{
 			depth = ((CMovingPhysicalAgentComponent)parent.GetMovingAgentComponent()).GetSubmergeDepth();
 			

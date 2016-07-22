@@ -1,16 +1,21 @@
-﻿enum EMonsterCluesTypes
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+enum EMonsterCluesTypes
 {
 	MCT_MonsterSize,
 	MCT_MonsterSound,
 	MCT_DamageMarks,
 	MCT_VictimState,
-	MCT_MonsterApperance, 	//#B
-	MCT_SkinFacture,		//#B
-	MCT_MonsterMovement,	//#B
-	MCT_MonsterBehaviour,	//#B
-	MCT_MonsterAttitude,	//#B
-	MCT_AttackTime,			//#B
-	MCT_MonsterHideout		//#B
+	MCT_MonsterApperance, 	
+	MCT_SkinFacture,		
+	MCT_MonsterMovement,	
+	MCT_MonsterBehaviour,	
+	MCT_MonsterAttitude,	
+	MCT_AttackTime,			
+	MCT_MonsterHideout		
 }
 
 enum EMonsterSize
@@ -77,8 +82,8 @@ enum EMonsterVictimState
 	VS_Suffocated,
 }
 
-//#B dialogue monster clues
-enum EMonsterApperance //#B
+
+enum EMonsterApperance 
 {	
 	MAE_Muscular,
     MAE_GlowingEyes,
@@ -99,7 +104,7 @@ enum EMonsterApperance //#B
     MAE_Owl_like
 }
 
-enum EMonsterSkinFacture //#B
+enum EMonsterSkinFacture 
 {
 	MSF_Callous,
     MSF_VeinySmooth,
@@ -115,7 +120,7 @@ enum EMonsterSkinFacture //#B
     MSF_Fur
 }
 
-enum EMonsterMovement //#B
+enum EMonsterMovement 
 {
 	MM_FastWalk,
     MM_VeryFastRun,
@@ -131,7 +136,7 @@ enum EMonsterMovement //#B
     MM_NoMovement
 }
 
-enum EMonsterBehaviour //#B
+enum EMonsterBehaviour 
 {	
 	MB_Lurking,
 	MB_Ambushing,
@@ -140,7 +145,7 @@ enum EMonsterBehaviour //#B
 	MB_Stalking
 }
 
-enum EMonsterAttitude //#B
+enum EMonsterAttitude 
 {
 	MA_Aggressive,
 	MA_Cunning,
@@ -148,7 +153,7 @@ enum EMonsterAttitude //#B
 	MA_Vicious
 }
 
-enum EMonsterAttackTime //#B
+enum EMonsterAttackTime 
 {
 	AT_AllDay,
 	AT_Day,

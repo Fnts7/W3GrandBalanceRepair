@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Main Menu
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4DeathScreenMenu extends CR4MenuBase
 {
@@ -11,7 +13,7 @@ class CR4DeathScreenMenu extends CR4MenuBase
 	
 	private var m_fxShowInputFeedback : CScriptedFlashFunction;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var tutorialPopupRef  : CR4TutorialPopup;
 		
@@ -42,7 +44,7 @@ class CR4DeathScreenMenu extends CR4MenuBase
 	{
 	}
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		m_guiManager.RequestMouseCursor(false);
 		
@@ -57,7 +59,7 @@ class CR4DeathScreenMenu extends CR4MenuBase
 		RequestSubMenu( menuName, initData );
 	}
 
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		var menu			: CR4MenuBase;
 		
@@ -92,21 +94,7 @@ class CR4DeathScreenMenu extends CR4MenuBase
 		
 		m_fxShowInputFeedback.InvokeSelfOneArg(FlashArgBool(true));
 		
-		/*menu = (CR4MenuBase)GetSubMenu();
-	
-		if( menu )
-		{
-			//menu.CloseMenu();
-			menuToOpen = GetParentMenuName(currentMenuName);
-			if( menuToOpen )
-			{
-				OnRequestSubMenu( menuToOpen, GetMenuInitData() );
-			}
-			else
-			{
-				CloseMenu();
-			}
-		}*/
+		
 	}
 	
 	function PopulateData()
@@ -168,7 +156,7 @@ class CR4DeathScreenMenu extends CR4MenuBase
 		m_flashModule.SetAlpha(value);
 	}
 	
-	event /* flash */ OnPress( tag : name )
+	event  OnPress( tag : name )
 	{
 		switch( tag )
 		{
@@ -177,11 +165,11 @@ class CR4DeathScreenMenu extends CR4MenuBase
 				break;
 			case 'Respawn' :
 				OnRespawn();
-				//ShowElement();
+				
 				break;
 			case 'Quit' :
 				OnQuit();
-				//CloseMenu();
+				
 				break;
 			case 'DebugResurrect' :
 				thePlayer.CheatResurrect();
@@ -194,19 +182,19 @@ class CR4DeathScreenMenu extends CR4MenuBase
 		m_fxShowInputFeedback.InvokeSelfOneArg(FlashArgBool(false));
 	}
 	
-	event /* flash */ OnLoad()
+	event  OnLoad()
 	{
 		var initData : W3MenuInitData = new W3MenuInitData in this;
 		initData.setDefaultState('LoadGame');
 		RequestSubMenu( 'IngameMenu', initData );
 	}		
 
-	event /* flash */ OnQuit()
+	event  OnQuit()
 	{
 		theGame.GetGuiManager().TryQuitGame();
 	}		
 	
-	event /* flash */ OnRespawn()
+	event  OnRespawn()
 	{
 		theGame.SetIsRespawningInLastCheckpoint();
 		theGame.LoadLastGameInit( true );

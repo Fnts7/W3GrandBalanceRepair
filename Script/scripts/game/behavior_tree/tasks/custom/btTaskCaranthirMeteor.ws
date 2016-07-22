@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014
-/** Author : Paweł Kapała
-/***********************************************************************/
+
+
+
 class CBTTaskCaranthirMeteor extends CBTTaskProjectileAttack
 {	
 	var riftResourceName 					: name;
@@ -53,7 +55,7 @@ class CBTTaskCaranthirMeteor extends CBTTaskProjectileAttack
 			combatTargetPos = GetActionTarget().GetWorldPosition();
 		}
 		npcToTargetVector = npc.GetWorldPosition() - combatTargetPos;
-		//npcToTargetVector = 2/3;
+		
 		combatTargetPos = combatTargetPos + 3*VecNormalize(npcToTargetVector);
 		
 		((CActor)npc).GetVisualDebug().AddSphere( 'lineTestEnd', 0.15, npc.GetWorldPosition(), true, Color( 255, 0, 0 ), 1.0 );

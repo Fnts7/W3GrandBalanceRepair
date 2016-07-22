@@ -1,11 +1,13 @@
 ﻿/***********************************************************************/
-/** 
-/***********************************************************************/
-/** Copyright © 2013
-/** Author : Tomek Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//equips all weapons (makes them 'HELD') - use with non-human opponents that have fake weapons such as claws, talons, tails etc.
+
+
+
+
 class CBehTreeTaskEquipMonsterWeapons extends IBehTreeTask
 {
 	function IsAvailable() : bool
@@ -17,7 +19,7 @@ class CBehTreeTaskEquipMonsterWeapons extends IBehTreeTask
 		inv = GetNPC().GetInventory();
 		ids = inv.GetItemsByCategory('monster_weapon');
 		
-		//if any weapon not held then available
+		
 		for(i=0; i<ids.Size(); i+=1)
 			if(!inv.IsItemHeld(ids[i]))
 				return true;

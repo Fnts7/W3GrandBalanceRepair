@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 import class CR4LocomotionDirectController extends CObject
 {
 	import protected var agent : CMovingAgentComponent;
@@ -44,7 +49,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 	var _inputMagDiffPrev		: float;	default _inputMagDiffPrev = 0.f;
 	var _inputMagLastCached		: float;	default _inputMagLastCached = 0.f;
 	
-	//var	inputModuleNeededToRun	: float;	default	inputModuleNeededToRun	= 0.8f;
+	
 	var speedSlowWalkingMax	 	: float;	default	speedSlowWalkingMax	 	= 0.3f;
 	var speedWalkingMax			: float;	default	speedWalkingMax			= 0.6f;
 	var speedRunning			: float;	default	speedRunning			= 1.0f;
@@ -53,10 +58,10 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 	
 	var	maxTerrainPitchToWalkUp	: float;	default	maxTerrainPitchToWalkUp	= 70.0f;
 	
-	//++DEBUG
+	
 	var prevPosition			: Vector;
 	var prevRotation			: EulerAngles;
-	//--
+	
 	
 	function Activate() : bool
 	{
@@ -65,7 +70,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		_inputVecCurr = Vector(0.f,0.f,0.f);
 		_inputVecPrev = Vector(0.f,0.f,0.f);
 		
-		player.SetBehaviorVariable( 'AIControlled', 0.f ); // 0.f means do not block
+		player.SetBehaviorVariable( 'AIControlled', 0.f ); 
 		stopCheckEnabled = false;
 	
 		return super.Activate();
@@ -75,8 +80,8 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 	{
 		var movingAgentComponent 	: CMovingAgentComponent = player.GetMovingAgentComponent();
 		
-		player.SetBehaviorVariable( 'inputDirectionIsNotReady', 0.f ); // 0.f means do not block
-		player.SetBehaviorVariable( 'AIControlled', 1.f ); // 0.f means do not block
+		player.SetBehaviorVariable( 'inputDirectionIsNotReady', 0.f ); 
+		player.SetBehaviorVariable( 'AIControlled', 1.f ); 
 		
 		player.UpdateRequestedDirectionVariables_PlayerDefault();
 		
@@ -98,11 +103,11 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 	var stoppedTimeStampDelta : float;
 	function UpdateLocomotion()
 	{
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//FIXME URGENT - THE SPEED IS SET EVEN IF YOU STAND STILL E.G. IN INVENTORY PANEL, RADIAL MENU ETC. !!!!!!!!!!!!!!!!!!!!!!!!!
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+		
+		
+		
+		
 	
 		var inputInCameraSpace, inputAngleToRotate, previousSpeed, haxStrafe, haxForward : float;		
 		var playerYaw				: float;
@@ -114,7 +119,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		var inputHeading180_WS, inputHeading360_WS, inputHeading180_CS, cameraHeading360_WS, inputMagDiff : float;
 		var currentTime : float;
 			
-		// if RadialMenu is open igore input
+		
 		if ( player.IsUITakeInput() )
 		{
 			return;
@@ -122,60 +127,60 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		
 		previousSpeed = movingAgentComponent.GetRelativeMoveSpeed();
 		
-		// Input vector
+		
 		_inputVecPrev = _inputVecCurr;
 		_inputVecCurr = CalculateInputVector();
 		
-		// Cache prev values
+		
 		_inputHeading180Prev = _inputHeading180Curr;
 		_inputMagPrev = _inputMagCurr;
 		
-		// Convert input vector to heading and mag
+		
 		ConvertVecToHeadingWS180AndMag( _inputVecCurr, inputHeading180_WS, _inputMagCurr );
 		inputHeading360_WS = AngleNormalize( inputHeading180_WS );
 		
-		// Convert heading WS to camera space (CS)
+		
 		cameraHeading360_WS = GetCameraHeading360WS();
 		inputHeading180_CS = AngleNormalize180( inputHeading360_WS + cameraHeading360_WS );
 		
-		// Calc diff for input mag - no timedelta here because we use only sign
+		
 		_inputMagDiffPrev = _inputMagDiffCurr;
 		_inputMagDiffCurr = _inputMagCurr - _inputMagPrev;
 		
-		// We move in camera space
+		
 		_inputHeading180Curr = inputHeading180_CS;
 		
-		// Player rotation
+		
 		playerYaw = player.GetHeading();
 		
-		// Is input valid?
+		
 		UpdateInputReadyness();
 		
-		// Check if everthing is ok - display data
-		//player.GetVisualDebug().AddText( 'inputtext01', "Input heading:"+inputHeading180_WS, Vector(0,0,1.5), false, 0, Color(0,255,0), true );
-		// Camera - green
+		
+		
+		
 		player.GetVisualDebug().AddArrow( 'input01', player.GetWorldPosition(), player.GetWorldPosition() + VecFromHeading( cameraHeading360_WS ), 1.f, 0.1f, 0.1f, true, Color(0,255,0), true );
-		// Player entity heading - grey
+		
 		player.GetVisualDebug().AddArrow( 'input02', player.GetWorldPosition(), player.GetWorldPosition() + player.GetHeadingVector(), 1.f, 0.1f, 0.1f, true, Color(128,128,128), true );
-		// Input - purple
-		//if ( inputHeading180_WS != 0.f ) player.GetVisualDebug().AddArrow( 'input04b', player.GetWorldPosition(), player.GetWorldPosition() + VecFromHeading( cameraHeading360_WS + inputHeading180_WS ), 1.f, 0.2f, 0.2f, true, Color(255,128,255), true );
+		
+		
 		player.GetVisualDebug().AddArrow( 'input04', player.GetWorldPosition(), player.GetWorldPosition() + VecFromHeading( _inputHeading180LastCached ), 1.f, 0.2f, 0.2f, true, Color(255,0,255), true );
 		
 		if( player.GetIsMovable() && player.GetCurrentStateName() != 'PlayerDialogScene' )
 		{					
-			// Forcing direction
+			
 			if( HasToForceToFall( forcedDirection ) )
 			{
 				localMoveDirection	= forcedDirection;
 				moveSpeed			= MaxF( moveSpeed, 0.5f );
 				
-				// We need to cash the input if it comes from correction
+				
 				_inputHeading180Curr		= (localMoveDirection * -180.0f) + playerYaw;
 				_inputHeading180LastCached	= _inputHeading180Curr;
 				
 				MakeInputReady();
 			} 
-			// Stop on heavy slope up
+			
 			else if( HasToStopBecauseOfSlope() )
 			{
 				moveSpeed					= 0.0f;
@@ -219,25 +224,25 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 				
 				localMoveDirectionPrevFrame = localMoveDirection;
 				
-				//++ DEBUG
+				
 				currPosition = player.GetWorldPosition();
 				currRotation = player.GetWorldRotation();
 				
 				diffPosition = currPosition - prevPosition;
 				diffRotation = AngleDistance( currRotation.Yaw, prevRotation.Yaw );
 				
-				// Debug
-				//player.GetVisualDebug().AddArrow( 'heading1', player.GetWorldPosition(), player.GetWorldPosition() + VecFromHeading( player.rawPlayerHeading ), 1.f, 0.2f, 0.2f, true, Color(255,0,255), true );
-				//player.GetVisualDebug().AddArrow( 'heading2', player.GetWorldPosition(), player.GetWorldPosition() + player.GetHeadingVector(), 1.f, 0.2f, 0.2f, true, Color(255,255,255), true );
-				//player.GetVisualDebug().AddArrow( 'heading3', player.GetWorldPosition(), player.GetWorldPosition() + theCamera.GetCameraDirection(), 1.f, 0.2f, 0.2f, true, Color(0,255,0), true );
-				//player.GetVisualDebug().AddText( 'headingt1', "Input h: "+AngleNormalize180(GetInputHeading()), Vector(0,0,1.5), false, 0, Color(255,255,255), true );
-				//player.GetVisualDebug().AddText( 'headingt2', "Diff WS: "+AngleNormalize180(GetHeadingInCamSpace(VecHeading(diffPosition))), Vector(0,0,1.5), false, 2, Color(255,255,255), true );
-				//player.GetVisualDebug().AddText( 'headingt2', "Diff P: "+diffPosition.X+" "+diffPosition.Y+" "+diffPosition.Z, Vector(0,0,1.5), false, 4, Color(255,255,255), true );
-				//player.GetVisualDebug().AddText( 'headingt3', "Diff R: "+diffRotation, Vector(0,0,1.5), false, 8, Color(255,255,255), true );
+				
+				
+				
+				
+				
+				
+				
+				
 				
 				prevPosition = currPosition;
 				prevRotation = currRotation;
-				//--
+				
 				
 				ProcessMovementEvent();
 				
@@ -246,7 +251,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 					MakeInputReady();
 				}	
 				
-				// OverEncumbered
+				
 				if( thePlayer.HasBuff( EET_OverEncumbered ) )
 				{
 					moveSpeed	= MinF( moveSpeed, speedWalkingMax );
@@ -261,14 +266,9 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 			localMoveDirection 		= 0;
 		}
 		
-		/* AK: removing on request from review
-		// clamping speed so the player only walks in focusMode
-		if( theGame.IsFocusModeActive() )
-		{
-			moveSpeed = ClampF( moveSpeed, 0.0, 0.55 );
-		}*/
 		
-		// shallowWater check
+		
+		
 		player.SetSubmergeDepth( ((CMovingPhysicalAgentComponent)player.GetMovingAgentComponent()).GetSubmergeDepth() );
 		player.SetBehaviorVariable( 'submergeDepth', player.GetSubmergeDepth() );
 		
@@ -282,12 +282,12 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		}
 		
 		
-		// Locked input
+		
 		if ( _inputLocoEnabled )
 		{
 			worldMoveDirection = _inputHeading180LastCached;
 		}
-		// Update world dir opnly if input is acceptable
+		
 		else if ( moveSpeed > 0.f )
 		{
 			worldMoveDirection 	= (localMoveDirection * -180.0f) + playerYaw;
@@ -332,30 +332,30 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 			movingAgentComponent.SetGameplayMoveDirection( worldMoveDirection );
 		}
 		
-		// This ensures SetGameplayMoveDirection will never be damped
+		
 		movingAgentComponent.SetDirectionChangeRate( 10000.0f );
 		
 		player.SetBehaviorVariable( 'playerInputAngSpeed', angularInputSpeed);
 		
 		UpdateRequestedDirectionVariables( worldMoveDirection, theCamera.GetCameraHeading());
 		
-		// Display final direction. This value is sent to behavior graph
+		
 		player.GetVisualDebug().AddArrow( 'heading1', player.GetWorldPosition(), player.GetWorldPosition() + VecFromHeading( worldMoveDirection ), 1.f, 0.4f, 0.2f, true, Color(255,0,0), true );
 		
 		player.SetBehaviorVariable( 'actorMoveDirection', localMoveDirection );
 		
-		//++MARWIN
+		
 		angularSpeed = 512.f;
 		if ( inputAngleToRotate < 0.f )
 		{
 			angularSpeed = -angularSpeed;
 		}
 		player.SetBehaviorVariable( 'inputSpeedToRotate', angularSpeed );
-		//--
 		
-		// Set the walking and running state			
+		
+		
 		player.SetIsWalking( moveSpeed > 0.1f );
-		player.SetIsRunning( moveSpeed > 0.85f ); // at this point we have already reduced the speed in all cases (walk toggle flag, running allowed etc... )
+		player.SetIsRunning( moveSpeed > 0.85f ); 
 	}
 	
 	private function UpdateInputReadyness()
@@ -367,62 +367,62 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		inputMagReady = true;
 		canRecalcInputHeading = false;
 		
-		// Special mode 1. - wait for final input value, you move stick too fast so inbetween values can be wrong
-		if ( AbsF( _inputMagDiffCurr ) > 0.2f ) // 0.4 magic value ( test it with high fps like 90 )
+		
+		if ( AbsF( _inputMagDiffCurr ) > 0.2f ) 
 		{
-			//LogChannel( 'locoInput', "input is skipped - input curr and prev frame difference is too high, case1, _inputMagCurr: "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );
+			
 			inputHeadingReady = false;
 			inputMagReady = false;
 			canRecalcInputHeading = true;
 		}
 		
-		// Spacial mode 2. - like 1. but if you have 0 in this frame ( so difference can not be that high )
+		
 		if ( inputHeadingReady && _inputMagCurr < 0.001f && _inputMagPrev > 0.1f )
 		{
-			//LogChannel( 'locoInput', "input is skipped - input curr and prev frame difference is too high, case2, _inputMagCurr: "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );
+			
 			inputHeadingReady = false;
 			canRecalcInputHeading = true;
-			//inputMagReady = false; Zero is important for speed
+			
 		}
 		
-		// Spacial mode 3. - input value is decreasing and x is already 0 while y is still decreasing
+		
 		if ( inputHeadingReady && _inputMagDiffCurr < 0.f && AbsF( _inputVecCurr.X ) < 0.001f && AbsF( _inputVecCurr.Y ) > 0.001f && _inputVecCurr.Y < _inputVecPrev.Y  )
 		{
-			//LogChannel( 'locoInput', "input is skipped - input X is already 0 but Y is still going to 0, _inputMagCurr: "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );
+			
 			inputHeadingReady = false;
-			//inputMagReady = false; Zero is important for speed
+			
 		}
 		
-		// Special mode 4. - drop small values for input
+		
 		if ( inputHeadingReady && _inputMagCurr < 0.1f )
 		{
-			//LogChannel( 'locoInput', "input is too small - to inputMagDiff is too high, _inputMagCurr: "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );
+			
 			inputHeadingReady = false;
-			//inputMagReady = false; Zero is important for speed
+			
 		}
 		
-		// Special mode 5. - you just push stick, wait one frame because input value can be messy for first frame
+		
 		if ( inputHeadingReady && _inputMagPrev < 0.001f && _inputMagCurr > 0.001f )
 		{
-			//LogChannel( 'locoInput', "input is skipped - transition from 0 detected, _inputMagCurr: "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );
+			
 			inputHeadingReady = false;
 			inputMagReady = false;
 		}
 		
-		// Special mode 6. - support case when input is super fast and move back and forth
+		
 		if ( canRecalcInputHeading && _inputMagPrev > 0.001f && _inputMagDiffCurr > 0.001f && _inputMagDiffPrev < 0.001f )
 		{
-			//LogChannel( 'locoInput', "input is forced to be processed - fast stick movement back and forth, case1 : "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );	
+			
 				
 			_inputHeading180Curr = _inputHeading180Prev;
 				
 			inputHeadingReady = true;
 			inputMagReady = true;
 		}
-		//else if ( canRecalcInputHeading && _inputMagPrev > 0.001f && _inputMagCurr < 0.001f && _inputMagDiffCurr < 0.001f && _inputMagDiffPrev > 0.001f )
+		
 		else if ( canRecalcInputHeading && _inputMagPrev > 0.001f && _inputMagDiffCurr < 0.001f && _inputMagDiffPrev > 0.001f )
 		{
-			//LogChannel( 'locoInput', "input is forced to be processed - fast stick movement back and forth, case2 : "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );	
+			
 				
 			_inputHeading180Curr = _inputHeading180Prev;
 			_inputMagCurr = _inputMagPrev;
@@ -431,21 +431,21 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 			inputMagReady = true;
 		}
 		
-		// Cache last valid input heading
+		
 		if ( inputHeadingReady )
 		{
 			_inputHeading180LastCached = _inputHeading180Curr;
-			//LogChannel( 'locoInput', "YES - _inputHeading180Curr: "+ _inputHeading180Curr + "_inputMagCurr: "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );
 			
-			// Block/Unblock transitions which are based on direction - direction (is not)/is ready
-			player.SetBehaviorVariable( 'inputDirectionIsNotReady', 0.f ); // 0.f means do not block
+			
+			
+			player.SetBehaviorVariable( 'inputDirectionIsNotReady', 0.f ); 
 		}
 		else
 		{
-			//LogChannel( 'locoInput', "NO - _inputHeading180Curr: "+ _inputHeading180Curr + "_inputMagCurr: "+_inputMagCurr + " input: " + inputHeading180_WS + " input raw x:"+_inputVecCurr.X+" y: "+_inputVecCurr.Y );
 			
-			// Block/Unblock transitions which are based on direction - direction (is not)/is ready
-			player.SetBehaviorVariable( 'inputDirectionIsNotReady', 1.f ); // 1.f means block
+			
+			
+			player.SetBehaviorVariable( 'inputDirectionIsNotReady', 1.f ); 
 		}
 		
 		player.SetInputHeadingReady( inputHeadingReady );
@@ -459,7 +459,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 	
 	private function MakeInputReady()
 	{
-		player.SetBehaviorVariable( 'inputDirectionIsNotReady', 0.f ); // 0.f means do not block
+		player.SetBehaviorVariable( 'inputDirectionIsNotReady', 0.f ); 
 	}
 	
 	private function HasToForceToFall( out direction : float ) : bool
@@ -469,7 +469,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		
 		thrownEntity = (CThrowable)EntityHandleGet( thePlayer.thrownEntityHandle );
 		
-		// Can we force fall?
+		
 		if( thePlayer.rangedWeapon && thePlayer.rangedWeapon.GetCurrentStateName() != 'State_WeaponWait' )
 		{
 			return false;
@@ -479,7 +479,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 			return false;
 		} 
 		
-		// Do we have to force fall?
+		
 		if( thePlayer.substateManager.m_CollisionManagerO.GetHasToFallInDirection( direction ) )
 		{			
 			return true;
@@ -490,8 +490,8 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 	
 	private function HasToStopBecauseOfSlope() : bool
 	{
-		//return 
-		//return player.substateManager.m_CollisionManagerO.IsGoingUpSlopeInInputDir( 0.6f, 0.0f );
+		
+		
 		
 		var direction	: Vector;
 		var	pitch		: float;
@@ -499,10 +499,10 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		
 		pitch		= player.terrainPitch;
 		if( pitch < 90.0f - maxTerrainPitchToWalkUp )
-		//direction	= thePlayer.substateManager.m_OwnerMAC.GetTerrainNormal( false );
-		//if( AbsF( direction.Z ) < 0.6f )
-		//pitch		= player.substateManager.m_MoverO.GetRealSlideAngle();
-		//if( pitch > 70.0f )
+		
+		
+		
+		
 		{
 			if(  thePlayer.substateManager.m_InputO.IsModuleConsiderable() )
 			{
@@ -526,35 +526,35 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		var corrected			: bool;
 		
 		
-		// Get player heading in camera space		
+		
 		playerDirCamSpace = GetPlayerHeadingInCamSpace();
 		
-		// Set the raw heading to the behabiour graph
+		
 		player.SetBehaviorVariable( 'rawPlayerHeading', playerDirCamSpace - 180);
 		
-		// Get the input in player space
+		
 		moveDir	= GetInputInPlayerSpace( playerDirCamSpace, anyInput );
 		
-		// Readjust direction based on prediction
+		
 		moveDir	= CorrectDirection( moveDir, anyInput, corrected ); 
 		
-		// Nothing else if there is no input
+		
 		if( !anyInput )
 		{
 			return 0.0f;
 		}
 		
-		// We need to cash the input if it comes from correction
+		
 		if( corrected )
 		{
 			_inputHeading180Curr		= VecHeading( moveDir );
 			_inputHeading180LastCached	= _inputHeading180Curr;
 		}
 		
-		// Convert to player space
+		
 		direction	= -(VecHeading( moveDir ) - player.GetHeading()); 
 		
-		// Convert to -1, 1	
+		
 		direction	= AngleNormalize180( direction );
 		direction	= direction / 180.0f;
 		
@@ -616,8 +616,8 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 	{
 		var inputVector	: Vector;
 		
-		inputVector.X = theInput.GetActionValue( 'GI_AxisLeftX' );//player.mainInput.aLeftJoyX;
-		inputVector.Y = theInput.GetActionValue( 'GI_AxisLeftY' );//player.mainInput.aLeftJoyY;
+		inputVector.X = theInput.GetActionValue( 'GI_AxisLeftX' );
+		inputVector.Y = theInput.GetActionValue( 'GI_AxisLeftY' );
 		
 		return AngleNormalize( VecHeading( inputVector ) );
 	}
@@ -629,12 +629,12 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		var direction			: float;
 		var inputHeading		: float;
 		
-		inputVector.X	= theInput.GetActionValue( 'GI_AxisLeftX' );//player.mainInput.aLeftJoyX;
-		inputVector.Y	= theInput.GetActionValue( 'GI_AxisLeftY' );//player.mainInput.aLeftJoyY;
+		inputVector.X	= theInput.GetActionValue( 'GI_AxisLeftX' );
+		inputVector.Y	= theInput.GetActionValue( 'GI_AxisLeftY' );
 		
-		anyInput		= inputVector.X != 0.0f || inputVector.Y != 0.0f; //VecLengthSquared( inputVector ) >= 0.1f;//
+		anyInput		= inputVector.X != 0.0f || inputVector.Y != 0.0f; 
 		
-		// Transform the input 
+		
 		if( anyInput )
 		{
 			inputHeading		= AngleNormalize( VecHeading(inputVector) );		
@@ -683,10 +683,10 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		var vecNorm : Vector;
 		var heading : float;
 		
-		// Mag is simple length in 2d
+		
 		mag = VecLength2D( vec );
 		
-		// Heading (-180,180)
+		
 		vecNorm = VecNormalize2D( vec );
 		heading = VecHeading( vecNorm );
 		heading180 = AngleNormalize180( heading );
@@ -730,15 +730,15 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		
 		angSpeed = AbsF(angSpeed);
 	
-		//timerValue += theTimer.timeDelta;
 		
 		
 		
-		//if( timerValue > 0.05 )
-		//{
-			//timerValue = 0;
+		
+		
+		
+			
 			previousInputVector = inputVec;
-		//}
+		
 		
 		return angSpeed;
 	}
@@ -784,15 +784,12 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		}
 		else
 		{
-			// Get speed from input
-			/*speedVec.X = theInput.GetActionValue( 'GI_AxisLeftX' ); //player.mainInput.aLeftJoyX;
-			speedVec.Y = theInput.GetActionValue( 'GI_AxisLeftY' );//player.mainInput.aLeftJoyY;		
 			
-			speed = VecLength2D( speedVec );*/
+			
 			speed	= thePlayer.substateManager.m_InputO.GetModuleF();
 		}
 		
-		//swim	
+		
 		if( thePlayer.IsSwimming() )
 		{
 			if ( thePlayer.rangedWeapon 
@@ -804,12 +801,12 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		}
 		
 		player.terrainPitch 		= 90.0f - player.substateManager.m_MoverO.GetRealSlideAngle();
-		//terrainAngles				= VecToRotation( thePlayer.substateManager.m_OwnerMAC.GetTerrainNormal( false ) );
-		//player.terrainPitch 		= terrainAngles.Pitch;
-		//player.terrainPitch		= AbsF( player.terrainPitch );
 		
 		
-		// Sprinting checks	
+		
+		
+		
+		
 		if( thePlayer.CanSprint( speed ) )
 		{
 			if ( thePlayer.IsInCombat() 
@@ -845,7 +842,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 			}		
 		}
 		
-		// Modified speed
+		
 		if ( player.modifyPlayerSpeed )
 		{
 			if ( speed > 0.0f )
@@ -856,7 +853,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 					speed = ClampF( speed, 0.f, speedWalkingMax );
 			}
 		}
-		// Walk / run shift
+		
 		else if( !thePlayer.IsActionAllowed( EIAB_Sprint ) && thePlayer.IsActionAllowed( EIAB_RunAndSprint ) && !thePlayer.IsCombatMusicEnabled() )
 		{			
 			if ( speed <= 0.f )
@@ -882,7 +879,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 				player.playerMoveType = PMT_Walk;
 			}			
 		}
-		// Normal movement
+		
 		else
 		{
 			if ( theInput.LastUsedGamepad() )
@@ -1032,13 +1029,13 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 				}
 				else
 				{
-					speed = speedWalkingMax; //MinF( speed, speedWalkingMax );
+					speed = speedWalkingMax; 
 					player.playerMoveType = PMT_Walk;					
 				}
 			}
 			else
 			{
-				speed = speedWalkingMax; //MinF( speed, speedWalkingMax );
+				speed = speedWalkingMax; 
 				player.playerMoveType = PMT_Walk;
 			}
 		}
@@ -1049,21 +1046,11 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		}
 		
 		
-		/*
-		if ( thePlayer.IsActionAllowed( EIAB_Sprint ) && thePlayer.movementLockType == PMLT_Free )
-		{
-			if( thePlayer.GetIsSprinting() && speed > 0 )
-				thePlayer.PauseEffects(EET_AutoStaminaRegen, 'Sprint', true );
-			else
-				thePlayer.ResumeEffects(EET_AutoStaminaRegen, 'Sprint');
-		}
-		else
-			thePlayer.ResumeEffects(EET_AutoStaminaRegen, 'Sprint');
-		*/
+		
 			
-		// Set beh vars
+		
 		tempInt = (int)( player.playerMoveType );
-		player.substateManager.SetBehaviorParamBool(  'onSteepSlope', thePlayer.IsTerrainTooSteepToRunUp() );    //( player.terrainPitch <= player.steepSlopeNormalPitch )  );
+		player.substateManager.SetBehaviorParamBool(  'onSteepSlope', thePlayer.IsTerrainTooSteepToRunUp() );    
 		player.SetBehaviorVariable( 'terrainPitch', player.terrainPitch );
 		player.SetBehaviorVariable( 'playerMoveType', tempInt );
 		player.SetBehaviorVariable( 'playerMoveTypeForOverlay', tempInt );
@@ -1071,7 +1058,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		player.substateManager.SetBehaviorParamBool( 'ikWeight',  player.playerMoveType == PMT_Walk || player.playerMoveType == PMT_Idle );
 		
 		
-		// Camera speed
+		
 		rawRightJoyVec.X = theInput.GetActionValue( 'GI_AxisRightX' ); 
 		rawRightJoyVec.Y = theInput.GetActionValue( 'GI_AxisRightY' );
 		player.SetBehaviorVariable( 'cameraSpeed', VecLength2D( rawRightJoyVec ) );
@@ -1087,15 +1074,15 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		var dir :  float =  AbsF( localMoveDirection );
 		if ( angularInputSpeed > 0 )
 		{
-			//LogChannel( 'angularInputSpeed', "angularInputSpeed" + angularInputSpeed );
-			//LogChannel( 'angularInputSpeed', "localMoveDirection" + dir );
+			
+			
 			if ( dir >= 0.8  && ( !player.rangedWeapon || player.rangedWeapon.GetCurrentStateName() == 'State_WeaponWait' ) )
 			{
 				player.SetBehaviorVariable( 'latchWalkDirection', 1.f );
 				player.SetBehaviorVariable( 'walkTurnDampSpeed', 0.5f );
 				fastTurnEnabled = false;
 				player.RaiseEvent( 'QuickTurnWalk' );
-				//LogChannel( 'angularInputSpeed', "Success!!!" );
+				
 			}
 			else
 			{
@@ -1104,7 +1091,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 			}
 		}
 
-		if ( dir <= 0.027f ) //5 degrees
+		if ( dir <= 0.027f ) 
 		{
 			player.SetBehaviorVariable( 'latchWalkDirection', 0.f );	
 			fastTurnEnabled = false;
@@ -1133,7 +1120,7 @@ class CR4LocomotionPlayerControllerScript extends CR4LocomotionDirectControllerS
 		}
 		else if ( orientationTarget == OT_CameraOffset )
 		{
-			useFacingWS = cameraHeadingWS - player.GetOTCameraOffset();//
+			useFacingWS = cameraHeadingWS - player.GetOTCameraOffset();
 		}
 		else if ( orientationTarget == OT_Actor )
 		{

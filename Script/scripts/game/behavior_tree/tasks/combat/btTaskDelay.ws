@@ -1,4 +1,9 @@
-﻿//////////////////////////////////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 class CBTTaskDelay extends IBehTreeTask
 {
 	var delay : float;
@@ -37,7 +42,7 @@ class CBTTaskDelayDef extends IBehTreeTaskDefinition
 	default delay = 10.0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////
+
 class CBTTaskActivateOnlyOnce extends IBehTreeTask
 {
 	private var successOnly					: bool;	

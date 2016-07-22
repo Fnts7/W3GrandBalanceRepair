@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
-/** Author : collective mind of the CDP
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 import class CInteractionsManager extends IGameSystem
 {	
@@ -9,7 +12,7 @@ import class CInteractionsManager extends IGameSystem
 
 	public function CanProcessGuiInteractions( activator : CEntity ) : bool
 	{
-		// only player can process interactions
+		
 		if ( !( (CPlayer)activator ) )
 		{
 			return false;
@@ -43,7 +46,7 @@ import class CInteractionsManager extends IGameSystem
 		{
 			theInput.GetPadKeysForAction('Sprint', outSprintKeys );
 			theInput.GetPadKeysForAction(action.aName, outInteractionKeys );
-			// Don't allow this behavior if the interaction shares the same gamepad mapping as sprint
+			
 			if (outSprintKeys.Size() > 0 && outInteractionKeys.Size() > 0 && outSprintKeys[0] == outInteractionKeys[0])
 			{
 				return false;
@@ -115,14 +118,7 @@ import class CInteractionsManager extends IGameSystem
 	
 	event OnGuiInteractionChanged( newInteraction : CInteractionComponent )
 	{
-		/*if ( !thePlayer.IsActionBlockedBy( EIAB_Sprint, 'interaction' ) && !thePlayer.isSprinting() )
-		{
-			thePlayer.BlockAction( EIAB_Sprint, 'interaction' );
-		}
-		else if ( !shouldBlockAttacks && thePlayer.IsActionBlockedBy( EIAB_Sprint, 'interaction' ) )
-		{
-			thePlayer.UnblockAction( EIAB_Sprint, 'interaction' );
-		}*/
+		
 		
 		if ( ShouldProcessInteractionTutorials() )
 		{

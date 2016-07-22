@@ -1,11 +1,16 @@
-﻿// CExplorationCollisionManager
-//------------------------------------------------------------------------------------------------------------------
-//
-// Eduard Lopez Plans	( 29/04/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
 
 	
-//------------------------------------------------------------------------------------------------------------------
+
 enum ESideSelected
 {
 	SS_SelectedNone		,
@@ -24,14 +29,14 @@ enum EPlayerCollisionStance
 };
 
 	
-//>-----------------------------------------------------------------------------------------------------------------
+
 class CExplorationCollisionManager
 {
-	// Owner
+	
 	private 			var m_ExplorationO						: CExplorationStateManager;
 	
 	
-	// Beh graph
+	
 	private	editable	var	m_CollideWithNPCEventCenter			: name;		default	m_CollideWithNPCEventCenter			= 'CollideCenter';
 	private	editable	var	m_CollideWithNPCEventLeft			: name;		default	m_CollideWithNPCEventLeft			= 'CollideLeft';
 	private	editable	var	m_CollideWithNPCEventRight			: name;		default	m_CollideWithNPCEventRight			= 'CollideRight';
@@ -42,7 +47,7 @@ class CExplorationCollisionManager
 	private editable	var m_CollideBehGraphStrengthRelNameS	: name;		default	m_CollideBehGraphStrengthRelNameS	= 'PlayerCollisionRelStrength';
 	private editable	var m_CollideBehGraphHeightN			: name;		default	m_CollideBehGraphHeightN			= 'PlayerCollisionHeight';
 	
-	// Conditions to collide
+	
 	private	editable	var	m_CanCollideWithStaticaB			: bool;		default	m_CanCollideWithStaticaB		= false;
 	private	editable	var	m_VisualReactionToPushB				: bool;		default	m_VisualReactionToPushB			= false;
 	private	editable	var	m_SpeedToCollideWihNPCsF			: float;	default	m_SpeedToCollideWihNPCsF		= 0.1f;
@@ -51,13 +56,13 @@ class CExplorationCollisionManager
 	private editable	var m_AcceptableZToBumpF				: float;	default	m_AcceptableZToBumpF			= 0.4f;
 	private editable	var playerHandHeightRange				: float;	default	playerHandHeightRange			= 0.5f;
 	
-	// Traces
+	
 	private				var	m_LandWaterMinDepthF				: float;	default	m_LandWaterMinDepthF			= 1.9f;
 	private 			var m_CollisionGroupsNamesNArr			: array<name>;
 	private 			var m_CollisionSightNArr				: array<name>;
 	public	 			var m_CollisionObstaclesNArr			: array<name>;
 	
-	// State
+	
 	private				var m_CollidingB						: bool;
 	private				var	m_IsThereAnyCollisionB				: bool;
 	private				var m_CollidingWithNpcB					: bool;
@@ -81,16 +86,16 @@ class CExplorationCollisionManager
 	public				var	m_CollidingIsLowB					: bool;
 	public editable		var	m_CollidingLowMinHeightF			: float;	default	m_CollidingLowMinHeightF		= 1.7f;
 	
-	// Debug
+	
 	public	editable	var	debugEnabled						: bool;		default	debugEnabled					= true;
 	
-	// Auxiliars
+	
 	private 			var m_UpV								: Vector;
 	private 			var m_ZeroV								: Vector;
 	public 				var lastWaterCheckPoint					: Vector;
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Initialize( explorationManager : CExplorationStateManager )
 	{
 		m_ExplorationO					= explorationManager;
@@ -113,7 +118,7 @@ class CExplorationCollisionManager
 		m_CollidingSideE			= SS_SelectedNone;
 		
 		
-		// Set collision flags
+		
 		m_CollisionSightNArr.PushBack( 'Terrain' );
 		m_CollisionSightNArr.PushBack( 'Static' );
 		m_CollisionSightNArr.PushBack( 'Destructible' );
@@ -129,7 +134,7 @@ class CExplorationCollisionManager
 		m_CollisionObstaclesNArr.PushBack( 'BoatDocking' );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function Update( _Dt : float )
 	{
 		var isThereAnyCollision			: bool;
@@ -155,7 +160,7 @@ class CExplorationCollisionManager
 		
 		if( isThereAnyCollision || isThereAnyCollision != m_IsThereAnyCollisionB )
 		{			
-			// Pre init data		
+			
 			m_CollidingB				= false;
 			m_CollidingWithStaticsB		= false;
 			m_CollidingWithNpcB			= false;
@@ -169,16 +174,16 @@ class CExplorationCollisionManager
 		{		
 			canPlayerReactToCollisions	= CanPlayerCollide();
 			
-			// Check collisions with statics
+			
 			if( m_CanCollideWithStaticaB && canPlayerReactToCollisions )
 			{
 				UpdateCollisionsWithStatics();
 			}
 			
-			// Check Character collisions
+			
 			if( !m_CollidingWithStaticsB && m_ExplorationO.m_OwnerMAC.GetCollisionCharacterDataCount() > 0 )
 			{
-				// Init data
+				
 				canPlayerReactToPushes		= CanPlayerBePushed();
 				canNpcsReactToCollisions	= CanNPCsCollide();
 				
@@ -189,13 +194,13 @@ class CExplorationCollisionManager
 			}
 		}
 		
-		//SetPlayerCollisionBehaviorData();
 		
-		//UpdateCollisionTime( _Dt );
+		
+		
 		UpdateCollidingSideEvent( _Dt );		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateCollisionWithNPCs( canPlayerReactToCollisions, canPlayerReactToPushes : bool, canNpcsReactToCollisions : bool )
 	{
 		var collisionData	: SCollisionData;
@@ -217,30 +222,30 @@ class CExplorationCollisionManager
 			npc	= ( CNewNPC ) collisionData.entity;
 			if( !npc )
 			{
-				continue; // something wrong happened, skip it
+				continue; 
 			}
 			
-			//if( AbsF( collisionData.point.Z - playerHandHeight ) > playerHandHeightRange )
-			//{
-			//	continue;
-			//} 
+			
+			
+			
+			
 			
 			if( !CanThisNpcCollide( npc ) )
 			{
 				continue;
 			}
 			
-			// Make the NPC collide
+			
 			if( canNpcsReactToCollisions )
 			{
 				m_CollidingB		= true;
 				m_CollidingWithNpcB	= true;
 				
-				// Tell the npc
+				
 				MakeNPCCollide( npc );
 			}
 			
-			// Player collision
+			
 			if( canPlayerReactToCollisions )
 			{
 				if( CanPlayerReactToThisNPC( npc ) )
@@ -250,7 +255,7 @@ class CExplorationCollisionManager
 				}
 			}
 			
-			// Player pushes
+			
 			if( canPlayerReactToPushes )
 			{
 				UpdatePlayerCollidingStrength( npc.GetWorldPosition(), npc.GetMovingAgentComponent().GetVelocityBasedOnRequestedMovement() );
@@ -259,7 +264,7 @@ class CExplorationCollisionManager
 	}
 	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateCollisionsWithStatics()
 	{
 		if( m_ExplorationO.m_MovementCorrectorO.GetIsCollisionCorrected() )
@@ -270,44 +275,18 @@ class CExplorationCollisionManager
 		}
 		
 		
-		/*
-		var collisionData	: SCollisionData;
-		var collisionNum	: int;
-		var i				: int;
 		
-		collisionNum	= m_ExplorationO.m_OwnerMAC.GetCollisionDataCount();			
-		for( i = 0; i < collisionNum; i += 1 )
-		{
-			m_CollidingWithStaticsB	= true;
-			m_CollidingB			= true;
-			collisionData			= m_ExplorationO.m_OwnerMAC.GetCollisionData( i );
-			UpdatePlayerCollidingSide( collisionData.point, collisionData.normal.Z );
-		}
-		*/
 		
-		/*
-		// Only walk reactions for static collisions
-		if( m_CollidingWithStaticsB )
-		{
-			if( m_CollidingSideE == SS_SelectedLeft )
-			{
-				m_CollidingSideE = SS_SelectedRight;
-			}
-			else if( m_CollidingSideE == SS_SelectedRight )
-			{
-				m_CollidingSideE = SS_SelectedLeft;
-			}
-		}
-		*/
+		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsCollidingWithStatics() : bool
 	{
 		return m_ExplorationO.m_OwnerMAC.GetCollisionDataCount() > 0; 
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetAngleBlockedByStatics( out min : float, out max : float, angleBlocked : float ) : bool
 	{
 		var collisionData	: SCollisionData;
@@ -317,7 +296,7 @@ class CExplorationCollisionManager
 		var collided		: bool;
 		
 		
-		// Init angles
+		
 		min					= 360.0f;
 		max					= -360.0f;
 		collided			= false;
@@ -344,7 +323,7 @@ class CExplorationCollisionManager
 		return collided;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsAngleBlockedByStatics( angle : float, angleNeeded : float ) : bool
 	{
 		var collisionData	: SCollisionData;
@@ -376,7 +355,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdateCollisionTime( _Dt : float )
 	{
 		if( m_CollidingB )
@@ -389,7 +368,7 @@ class CExplorationCollisionManager
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function CanPlayerCollide() : bool
 	{
 		if( ( m_ExplorationO.GetStateCur() == 'Idle' || m_ExplorationO.GetStateCur() == 'Pushed' )
@@ -401,7 +380,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function CanPlayerBePushed() : bool
 	{
 		if( m_ExplorationO.GetStateCur() == 'CombatExploration' )
@@ -409,7 +388,7 @@ class CExplorationCollisionManager
 			return true;
 		}
 		
-		if( m_ExplorationO.GetStateCur() == 'Idle'  || m_ExplorationO.GetStateCur() == 'Pushed' ) //&& !thePlayer.GetIsWalking() )
+		if( m_ExplorationO.GetStateCur() == 'Idle'  || m_ExplorationO.GetStateCur() == 'Pushed' ) 
 		{
 			return true;
 		}
@@ -417,10 +396,10 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function CanPlayerReactToThisNPC( npc :CNewNPC ) : bool
 	{
-		// No collision with vehicles ( like the horse )
+		
 		if( npc.GetComponentByClassName('CVehicleComponent') )
 		{
 			return false;
@@ -429,13 +408,10 @@ class CExplorationCollisionManager
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function CanNPCsCollide() : bool
 	{
-		/*if( m_ExplorationO.m_MoverO.GetMovementSpeedF() >= m_SpeedToCollideWihNPCsF )
-		{
-			return true;
-		}*/
+		
 		if( m_ExplorationO.GetStateCur() != 'Idle' && VecLengthSquared( m_ExplorationO.m_OwnerMAC.GetVelocity() ) >= m_SpeedToCollideWihNPCsF * m_SpeedToCollideWihNPCsF )
 		{
 			return true;
@@ -448,7 +424,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private  function CanThisNpcCollide( npc : CNewNPC ) : bool
 	{
 		var actor		: CActor;
@@ -464,43 +440,39 @@ class CExplorationCollisionManager
 			return false;
 		}
 		
-		/*cantPush	= npc.SignalGameplayEventReturnInt( 'AI_CantPush', 0 );
-		if( cantPush == 1 )
-		{
-			return false;
-		}	*/
+		
 		
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function MakeNPCCollide( npc : CNewNPC )
 	{
-		//npc.SignalGameplayEvent( 'AI_GetOutOfTheWay' ); // break the job if we can
-		npc.SignalGameplayEventParamObject( 'CollideWithPlayer', m_ExplorationO.m_OwnerE ); // Actual collision
+		
+		npc.SignalGameplayEventParamObject( 'CollideWithPlayer', m_ExplorationO.m_OwnerE ); 
 		theGame.GetBehTreeReactionManager().CreateReactionEvent( npc, 'BumpAction', 1, 1, 1, 1, false );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdatePlayerCollidingSide( pointToConsider : Vector, normalZ : float )
 	{
 		var newAngle	: float;
 		var auxAngle	: float;	
 		
 		
-		// Can we react to another collision
+		
 		if( m_CollidingSideE != SS_SelectedNone && ( !m_CollideCenterIfBothSidesB || m_CollidingSideE == SS_SelectedCenter ) )
 		{
 			return;
 		}
 		
-		// Is collision considerable
+		
 		if( normalZ > m_AcceptableZToBumpF )
 		{
 			return;
 		}	
 		
-		// Consider the collision
+		
 		m_CollidingB	= true;
 		
 		auxAngle		= VecHeading( pointToConsider - m_ExplorationO.m_OwnerMAC.GetWorldPosition() );
@@ -539,7 +511,7 @@ class CExplorationCollisionManager
 		m_CollidingAngleF	= newAngle;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdatePlayerCollidingHeight( npc : CNewNPC )
 	{
 		var mac				: CMovingAgentComponent;
@@ -565,12 +537,12 @@ class CExplorationCollisionManager
 		m_CollidingIsLowB	= positionOwner.Z + m_CollidingLowMinHeightF > positionNpc.Z + height;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function UpdatePlayerCollidingStrength( otherPosition : Vector, otherSpeed : Vector )
 	{	
 		m_CollidingDirOtherV			= VecNormalize2D( m_ExplorationO.m_OwnerE.GetWorldPosition() - otherPosition );
 		m_CollidingStrengthRelativeF	= VecDot2D( m_CollidingDirOtherV, otherSpeed );
-		//m_CollidingStrengthRelativeF	= VecDot2D( m_ExplorationO.m_InputO.GetMovementOnPlaneV(), otherSpeed );
+		
 		
 		if( m_CollidingStrengthRelativeF < 0.0f)
 		{
@@ -583,7 +555,7 @@ class CExplorationCollisionManager
 		}
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetPushData( out strength : float, out direction : Vector, out otherSpeed : float, out otherVelocity : Vector )
 	{
 		strength		= m_CollidingStrengthRelativeF;
@@ -592,34 +564,34 @@ class CExplorationCollisionManager
 		otherVelocity	= m_CollidingSpeedOtherV;
 	}
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function SetPlayerCollisionBehaviorData()
 	{
 		var desiredStance		: EPlayerCollisionStance;
 		
 		
-		// Set the collision stance
+		
 		desiredStance	= GetDesiredStance();		
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( m_CollideBehGraphStanceNameS, ( float ) ( int )desiredStance );
 		
-		// Set the collision side
+		
 		if( m_CollidingSideLastE != m_CollidingSideE )
 		{
 			m_ExplorationO.m_OwnerE.SetBehaviorVariable( m_CollideBehGraphSideNameS, ( float ) ( int )m_CollidingSideE );
 		}
 		
-		// Set height
+		
 		m_ExplorationO.SetBehaviorParamBool( m_CollideBehGraphHeightN, m_CollidingIsLowB );
 		
-		// Set the collision Strength
+		
 		if( m_VisualReactionToPushB )
 		{
 			m_ExplorationO.m_OwnerE.SetBehaviorVariable( m_CollideBehGraphStrengthRelNameS, m_CollidingStrengthRelativeF );
-			//m_ExplorationO.m_OwnerE.SetBehaviorVariable( m_CollideBehGraphStrengthRelNameS, m_CollidingStrengthOtherF );
+			
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateCollidingSideEvent( _Dt : float )
 	{
 		if( m_CollidingSideLastE != m_CollidingSideE )
@@ -627,7 +599,7 @@ class CExplorationCollisionManager
 			switch( m_CollidingSideE )
 			{
 				case SS_SelectedNone	:
-					// Cooldown
+					
 					m_CollidingSideCooldownF	-= _Dt;
 					if( m_CollidingSideCooldownF > 0.0f )
 					{
@@ -654,10 +626,10 @@ class CExplorationCollisionManager
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function GetDesiredStance() : EPlayerCollisionStance
 	{
-		// Only walk reactions for static collisions
+		
 		if( m_CollidingWithStaticsB )
 		{
 			return GCS_Walk;
@@ -665,7 +637,7 @@ class CExplorationCollisionManager
 		
 		if( thePlayer.GetIsSprinting() )
 		{
-			// When sprinting, only collide with npcs
+			
 			if( m_CollidingWithNpcB )
 			{
 				return GCS_Sprint;
@@ -687,7 +659,7 @@ class CExplorationCollisionManager
 		return GCS_Idle;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IsThereWaterAndIsItDeepEnough( point : Vector, height : float, radius : float ) : bool
 	{
 		var world 			: CWorld;
@@ -702,39 +674,39 @@ class CExplorationCollisionManager
 		var tempPlayerpos	: Vector;
 		
 		
-		// World and water data
+		
 		world		= theGame.GetWorld();
 		if( !world )
 		{
 			return false;
 		}
 		
-		//save the endPos
+		
 		posEnd		= point;
 		posEnd.Z	= height;
 		posOrigin	= point;
 		
 		waterLevel	= world.GetWaterLevel( point );
 		
-		// Not at water level
+		
 		if( height >= waterLevel )
 		{
 			return false;
 		}
 		
-		// Function GetWaterDepth gives wrong data when the point is below waterLevel
+		
 		point.Z = waterLevel + 0.2f;
 		waterDepth = world.GetWaterDepth( point, true );
 		
-		// Not Deep enough?
+		
 		if( waterDepth < m_LandWaterMinDepthF )
 		{
 			return false;
 		}
 		
-		// Terrain in between?
-		posEnd.Z	= waterLevel - 0.2f; // To a bit below the water level, to make sure it is not exactl the same
-		//res = world.SweepTest( posOrigin, posEnd, radius, posCollided, normalCollided, m_CollisionObstaclesNArr );
+		
+		posEnd.Z	= waterLevel - 0.2f; 
+		
 		res = world.StaticTrace( posOrigin, posEnd, posCollided, normalCollided, m_CollisionObstaclesNArr );
 		if( res )
 		{
@@ -744,19 +716,19 @@ class CExplorationCollisionManager
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CheckLandBelow( distance : float, optional offset : Vector, optional useDefaultCollisionObstacles : bool  ) : bool
 	{
 		return CheckSwipeInDir( -m_UpV, distance, 0.2f, offset, useDefaultCollisionObstacles );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CheckCollisionsForwardInHands( distance : float ) : bool
 	{
 		return CheckSwipeInDir( m_ExplorationO.m_OwnerE.GetWorldForward(), distance, 0.3f, m_UpV );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CheckCollisionsToNoStepOnInputDir( distForward, heightToStep : float ) : bool
 	{
 		var direction : Vector;
@@ -771,19 +743,19 @@ class CExplorationCollisionManager
 		return CheckSwipeInDir( direction, distForward + 0.4f, 0.3f, m_UpV * ( heightToStep + 0.3f ), true );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CheckCollisionsInJumpTrajectory( height : float, distance : float ) : bool
 	{
 		return CheckSwipeInDir( m_ExplorationO.m_OwnerE.GetWorldForward(), distance, 0.3f, m_UpV * ( height + 0.3f ) );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function EnableVerticalSliding( enable : bool )
 	{		
 		m_ExplorationO.m_OwnerMAC.EnableAdditionalVerticalSlidingIteration( enable );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function TeleportPlayerToHisGroundIfNeeded( tolerance : float )
 	{
 		var world 			: CWorld;
@@ -797,7 +769,7 @@ class CExplorationCollisionManager
 		var movementAdjustor: CMovementAdjustor;
 		
 		
-		// World and water data
+		
 		world		= theGame.GetWorld();
 		if( !world )
 		{
@@ -806,28 +778,28 @@ class CExplorationCollisionManager
 		
 		posOrigin	= m_ExplorationO.m_OwnerE.GetWorldPosition();
 		
-		// If the player is not in the water
+		
 		waterLevel	= world.GetWaterLevel( posOrigin );
 		if( waterLevel >= posOrigin.Z )
 		{
 			return;
 		}
 		
-		// Check the ground
+		
 		posEnd		= posOrigin;
 		posOrigin.Z	+= 1.8f;
 		posEnd.Z	-= 30.0f;
 		res	= world.SweepTest( posOrigin, posEnd, 0.4f, posCollided, normalCollided, m_CollisionObstaclesNArr );
 		
-		// If there is ground, teleport
+		
 		if( res && AbsF( posOrigin.Z - posCollided.Z ) > tolerance || AbsF( posOrigin.Z - posCollided.Z ) < 1.0f )
 		{
-			// If there is water on the middle
+			
 			if( waterLevel >= posCollided.Z )
 			{
 				posOrigin.Z	= waterLevel;
 			}
-			// Or on the ground exactly
+			
 			else
 			{
 				posOrigin.Z	= posCollided.Z;
@@ -843,7 +815,7 @@ class CExplorationCollisionManager
 		}		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CheckSwipeInDir( directionNormalized : Vector, distance : float, radius : float, optional vecOffset : Vector, optional useDefaultCollisionObstacles : bool ) : bool
 	{
 		var world 			: CWorld;
@@ -853,19 +825,19 @@ class CExplorationCollisionManager
 		var normalCollided	: Vector;
 		var res				: bool;
 		
-		// Physics World 
+		
 		world	= theGame.GetWorld();
 		if( !world )
 		{
 			return false;
 		}
 		
-		// Get points to sweep
+		
 		posCurrent		= m_ExplorationO.m_OwnerE.GetWorldPosition() + vecOffset;
 		posPredicted	= posCurrent;
 		posPredicted	+= directionNormalized * distance;
 		
-		// Do the sweep
+		
 		if( useDefaultCollisionObstacles )
 		{
 			res	= world.SweepTest( posCurrent, posPredicted, radius, posCollided, normalCollided, m_CollisionObstaclesNArr );
@@ -879,7 +851,7 @@ class CExplorationCollisionManager
 			return false;
 		}
 		
-		// Collision is going in the general direction
+		
 		if( VecDot( normalCollided, -directionNormalized ) < 0.75f )
 		{
 			return false;
@@ -888,7 +860,7 @@ class CExplorationCollisionManager
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function CheckLineOfSightHorizontal( point : Vector ) : bool
 	{
 		var world 			: CWorld;
@@ -900,14 +872,14 @@ class CExplorationCollisionManager
 		var res				: bool;
 		
 		
-		// World and water data
+		
 		world		= theGame.GetWorld();
 		if( !world )
 		{
 			return true;
 		}
 		
-		// Height modification
+		
 		posOrigin	= m_ExplorationO.m_OwnerE.GetWorldPosition() + m_ExplorationO.m_OwnerE.GetWorldUp();
 		point.Z		= posOrigin.Z;
 		direction	= point - posOrigin;
@@ -920,7 +892,7 @@ class CExplorationCollisionManager
 		
 		point		-= direction * 0.3f / distance;
 		
-		// Terrain in between?
+		
 		res = world.StaticTrace( posOrigin, point, posCollided, normalCollided, m_CollisionGroupsNamesNArr );
 		if( res )
 		{
@@ -930,7 +902,7 @@ class CExplorationCollisionManager
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function HasGroundCollisions() : bool
 	{
 		var mac				: CMovingPhysicalAgentComponent;
@@ -954,7 +926,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetHasToFallInDirection( out direction: float ) : bool
 	{
 		var mac				: CMovingPhysicalAgentComponent;
@@ -970,7 +942,7 @@ class CExplorationCollisionManager
 			return false;
 		}
 		
-		if( m_ExplorationO.GetStateCur() != 'Idle' && m_ExplorationO.GetStateCur() != 'CombatExploration' ) // || 
+		if( m_ExplorationO.GetStateCur() != 'Idle' && m_ExplorationO.GetStateCur() != 'CombatExploration' ) 
 		{
 			return false;
 		}
@@ -988,29 +960,24 @@ class CExplorationCollisionManager
 			return false;
 		}
 		
-		// Init
+		
 		direction	= 0.0f;
 		
-		/*
-		front	= !mac.GetGroundGridCollisionOn( CS_FRONT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_LEFT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_LEFT ) && !mac.GetGroundGridCollisionOn( CS_RIGHT );
-		left	= !mac.GetGroundGridCollisionOn( CS_LEFT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_LEFT ) && !mac.GetGroundGridCollisionOn( CS_BACK_LEFT ) && !mac.GetGroundGridCollisionOn( CS_FRONT ) && !mac.GetGroundGridCollisionOn( CS_BACK );
-		right	= !mac.GetGroundGridCollisionOn( CS_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_BACK_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_FRONT ) && !mac.GetGroundGridCollisionOn( CS_BACK );
-		back	= !mac.GetGroundGridCollisionOn( CS_BACK ) && !mac.GetGroundGridCollisionOn( CS_BACK_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_BACK_LEFT ) && !mac.GetGroundGridCollisionOn( CS_LEFT ) && !mac.GetGroundGridCollisionOn( CS_RIGHT );
-		*/
+		
 		
 		front	= !mac.GetGroundGridCollisionOn( CS_FRONT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_LEFT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_RIGHT );
 		left	= !mac.GetGroundGridCollisionOn( CS_LEFT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_LEFT ) && !mac.GetGroundGridCollisionOn( CS_BACK_LEFT );
 		right	= !mac.GetGroundGridCollisionOn( CS_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_BACK_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_RIGHT );
-		//back	= !mac.GetGroundGridCollisionOn( CS_BACK ) && !mac.GetGroundGridCollisionOn( CS_BACK_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_BACK_LEFT );
+		
 		back	= !mac.GetGroundGridCollisionOn( CS_BACK ) && !mac.GetGroundGridCollisionOn( CS_BACK_RIGHT ) && !mac.GetGroundGridCollisionOn( CS_BACK_LEFT ) && !mac.GetGroundGridCollisionOn( CS_LEFT ) && !mac.GetGroundGridCollisionOn( CS_RIGHT );
 		
-		// No ground anywhere
+		
 		if( front && left && right && back )
 		{
 			return false;
 		}
 		
-		// Decide direction		
+		
 		else if( front  && left && right )
 		{
 			direction	= 0.0f;
@@ -1037,7 +1004,7 @@ class CExplorationCollisionManager
 			{
 				direction	= 0.0f;
 			}
-			else // back
+			else 
 			{
 				direction	= -1.0f;
 			}
@@ -1051,7 +1018,7 @@ class CExplorationCollisionManager
 			direction	= 0.5f;
 		}
 		
-		// We have a direction to go
+		
 		if( front || right || left || back )
 		{
 			if( !front && !right && !left && m_ExplorationO.GetStateCur() != 'Idle' )
@@ -1075,7 +1042,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IsInSolidGround() : bool
 	{
 		var mac	: CMovingPhysicalAgentComponent;
@@ -1094,33 +1061,30 @@ class CExplorationCollisionManager
 		}		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IsDirectionToFallFree( headingLocal : float ) : bool
 	{
 		var direction	: Vector;
 		
 		
-		// Is the capsule already colliding with a wall in that direction?
+		
 		
 		
 		direction	= VecFromHeading( headingLocal + m_ExplorationO.m_OwnerE.GetHeading() );
 		
-		// Direction is not clear
+		
 		if( CheckSwipeInDir( direction, 0.6f, 0.4f, m_ExplorationO.m_OwnerE.GetWorldUp(), true ) )
 		{
 			return false;
 		}
 		
-		// There is ground to cloose forward
-		/*if( CheckLandBelow( 0.3f, direction * 0.5f ) )
-		{
-			return false;
-		}*/
+		
+		
 		
 		return true;
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	public function GetLandGoesToFall( ) : bool
 	{
 		var mac				: CMovingPhysicalAgentComponent;
@@ -1131,21 +1095,21 @@ class CExplorationCollisionManager
 		
 		mac					= ( CMovingPhysicalAgentComponent ) m_ExplorationO.m_OwnerMAC;
 		
-		// If we have no collisions on the sides and back, we will not enter
+		
 		restOfCollisions	= !mac.GetGroundGridCollisionOn( CS_CENTER ) && !mac.GetGroundGridCollisionOn( CS_BACK ) && !mac.GetGroundGridCollisionOn( CS_BACK_LEFT ) && !mac.GetGroundGridCollisionOn( CS_BACK_RIGHT );
 		if( restOfCollisions )
 		{
 			return false;
 		}
 		
-		// If we have no collisions in front, we will enter
+		
 		front	= !mac.GetGroundGridCollisionOn( CS_FRONT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_LEFT ) && !mac.GetGroundGridCollisionOn( CS_FRONT_RIGHT );
 		
 		return front;
 	}
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IsGoingDownSlopeInstant( _AutoRollSlopeCoefF : float ) : bool
 	{
 		var world 			: CWorld;
@@ -1161,15 +1125,15 @@ class CExplorationCollisionManager
 		var	slideCoef		: float;
 		
 		
-		// World data
+		
 		world		= theGame.GetWorld();
 		if( !world )
 		{
 			return false;
 		}
 		
-		// We'll do 2 raycasts, one in the back and one in the front, and we'll get the forward slope of it
-		// Positions to raycast
+		
+		
 		posOrigin	= m_ExplorationO.m_OwnerE.GetWorldPosition();
 		direction	= m_ExplorationO.m_OwnerE.GetWorldForward() * 0.4f;
 		
@@ -1178,7 +1142,7 @@ class CExplorationCollisionManager
 		posEnd.Z	-= 0.75f;		
 		posOrigin.Z	+= 0.75f;	
 		
-		//res = world.StaticTrace( posOrigin, posEnd, posCollided1, normalCollided1 );
+		
 		res = world.SweepTest( posOrigin, posEnd,0.2f, posCollided1, normalCollided1 );
 		if( !res )
 		{
@@ -1188,22 +1152,22 @@ class CExplorationCollisionManager
 		posOrigin	+= 2.0f * direction;
 		posEnd		+= 2.0f * direction;
 		
-		//res = world.StaticTrace( posOrigin, posEnd, posCollided2, normalCollided2, m_CollisionObstaclesNArr );
+		
 		res = world.SweepTest( posOrigin, posEnd,0.2f, posCollided2, normalCollided2 );
 		if( !res )
 		{
 			return false;
 		}
 		
-		//slideCoef	= m_ExplorationO.m_MoverO.GetRawSlideCoef( false ); slideCoef > m_AutoRollSlopeCoefF
+		
 		
 		direction	= VecNormalize( posCollided2 - posCollided1 ); 
 		
-		// If slope goes "down"
+		
 		if( VecDot( direction, Vector( 0.0f, 0.0f, -1.0f ) ) > 0.0f )
 		{
 			slideCoef	= direction.Z;
-			// And is sloped enough
+			
 			if( slideCoef < -_AutoRollSlopeCoefF )
 			{
 				return true;
@@ -1213,7 +1177,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IsGoingUpSlope( direction : Vector, optional upCoef : float, optional frontCoef : float ) : bool
 	{	
 		var slopeDir 	: Vector;
@@ -1221,14 +1185,14 @@ class CExplorationCollisionManager
 		var slopeDot	: float;
 		
 		
-		// Defaults
+		
 		if( upCoef == 0.0f )
 		{
 			upCoef	= 0.75;
 		}
 		
 		
-		//slopeNormal	= m_ExplorationO.m_OwnerMAC.GetTerrainNormal( false );
+		
 		m_ExplorationO.m_MoverO.GetSlideDirAndNormal( slopeDir, slopeNormal );
 		if( slopeNormal.Z < upCoef )
 		{
@@ -1242,7 +1206,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function IsGoingUpSlopeInInputDir( optional upCoef : float, optional frontCoef : float ) : bool
 	{	
 		if( !m_ExplorationO.m_InputO.IsModuleConsiderable() )
@@ -1255,7 +1219,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetJumpGoesToWater() : bool
 	{
 		var	inputVector			: Vector;
@@ -1266,13 +1230,13 @@ class CExplorationCollisionManager
 		var collisionPoint		: Vector;
 		var endUpPoint			: Vector;
 		var	wallFound			: bool;
-		var jumpDistance		: float		= 3.8f; //4.5f;
+		var jumpDistance		: float		= 3.8f; 
 		var jumpRadius			: float		= 0.6f;
 		var jumpHeight			: float		= 0.5f;
 		var jumpMaxFallHeight	: float		= 250.0f;
 		
 		
-		// get the direction to check the jump
+		
 		if( m_ExplorationO.m_InputO.IsModuleConsiderable() )
 		{
 			inputVector	= m_ExplorationO.m_InputO.GetMovementOnPlaneV();
@@ -1283,7 +1247,7 @@ class CExplorationCollisionManager
 		}
 		m_ExplorationO.m_SharedDataO.m_JumpDirectionForcedV = inputVector;
 		
-		// Boat special case
+		
 		if( thePlayer.IsOnBoat() )
 		{
 			if( !GetJumpGoesToWaterFromBoat( inputVector ) )
@@ -1292,18 +1256,18 @@ class CExplorationCollisionManager
 			}
 		}
 		
-		// Do we have some physic world?
+		
 		if( !theGame.GetWorld() )
 		{
 			return false;
 		}
 		
-		// Get the points
+		
 		origin		= m_ExplorationO.m_OwnerE.GetWorldPosition() + m_ExplorationO.m_OwnerE.GetWorldUp() * ( jumpHeight + jumpRadius ) + m_ExplorationO.m_OwnerE.GetWorldForward() * 0.4f;
 		end			= origin + inputVector * jumpDistance;
 		midPoint	= origin + inputVector * jumpDistance * 0.5f;
 		
-		// Do we have a clear path forward?		
+		
 		wallFound		= theGame.GetWorld().SweepTest( origin, midPoint, jumpRadius, collisionPoint, normal, m_CollisionObstaclesNArr );
 		if( wallFound )
 		{			
@@ -1317,14 +1281,14 @@ class CExplorationCollisionManager
 			return false;
 		}
 		
-		// Is there water below?
+		
 		endUpPoint			= end;
 		endUpPoint.Z		= origin.Z;
 		lastWaterCheckPoint	= endUpPoint;
 		return IsThereWaterAndIsItDeepEnough( endUpPoint, end.Z - jumpMaxFallHeight, jumpRadius );		
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function GetJumpGoesToWaterFromBoat( inputVector : Vector ) : bool
 	{
 		var	vehicleComponent	: CVehicleComponent;
@@ -1335,19 +1299,19 @@ class CExplorationCollisionManager
 		var	dot2				: float;
 		var	angle				: float;
 		
-		// Get exploration from closest boat vehicle
+		
 		vehicleComponent		= thePlayer.FindTheNearestVehicle( 6.0f, false );
 		if( vehicleComponent )
 		{
 			vehicleEntity		= ( CEntity ) vehicleComponent.GetParent();		
 			if( vehicleEntity )
 			{
-				// Are we aiming to the side?
+				
 				dot				= VecDot( inputVector, vehicleEntity.GetWorldForward() );
 				dot				= AbsF( dot );
 				if( dot < 0.5f )
 				{
-					// To the proper side?
+					
 					direction	= m_ExplorationO.m_OwnerE.GetWorldPosition() - vehicleEntity.GetWorldPosition();
 					dot			= VecDot( direction, vehicleEntity.GetWorldRight() );
 					dot2		= VecDot( inputVector, vehicleEntity.GetWorldRight() );
@@ -1362,7 +1326,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetJumpGoesOutOfBoat() : bool
 	{
 		var	vehicleComponent	: CVehicleComponent;
@@ -1375,7 +1339,7 @@ class CExplorationCollisionManager
 		var	inputVector			: Vector;
 		
 		
-		// get the direction to check the jump
+		
 		if( m_ExplorationO.m_InputO.IsModuleConsiderable() )
 		{
 			inputVector	= m_ExplorationO.m_InputO.GetMovementOnPlaneV();
@@ -1385,14 +1349,14 @@ class CExplorationCollisionManager
 			inputVector	= m_ExplorationO.m_OwnerE.GetWorldForward();
 		}
 		
-		// Get exploration from closest boat vehicle
+		
 		vehicleComponent		= thePlayer.FindTheNearestVehicle( 6.0f, false );
 		if( vehicleComponent )
 		{
 			vehicleEntity		= ( CEntity ) vehicleComponent.GetParent();		
 			if( vehicleEntity )
 			{
-				// Are we aiming to the side?
+				
 				dot				= VecDot( inputVector, vehicleEntity.GetWorldForward() );
 				dot				= AbsF( dot );
 				return dot < 0.6f;
@@ -1402,7 +1366,7 @@ class CExplorationCollisionManager
 		return false;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function UpdateDebugInfo()
 	{
 		var auxString		: string;
@@ -1462,7 +1426,7 @@ class CExplorationCollisionManager
 		thePlayer.GetVisualDebug().AddBar( 'CS_BACK_RIGHT', right, heightCur, width, height, 0.0f, textColor, auxString, 0.0f );		
 	}	
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnVisualDebug( frame : CScriptedRenderFrame, flag : EShowFlags )
 	{
 		var vectorUp	: Vector;
@@ -1473,13 +1437,7 @@ class CExplorationCollisionManager
 			return true;
 		}
 		
-		/*vectorUp	= Vector( 0.0f, 0.0f, 1.0f );
 		
-		destination	= m_ExplorationO.m_OwnerE.GetWorldPosition() + m_CollidingDirOtherV * 1.3f + vectorUp;
-		frame.DrawLine( m_ExplorationO.m_OwnerE.GetWorldPosition() + vectorUp, destination, Color( 0, 255, 0 ) );
-		frame.DrawSphere( destination, 0.2f, Color( 0, 255, 0 ) );
-		frame.DrawText( "Strength " + m_CollidingStrengthRelativeF, destination, Color( 0, 255, 0 ) );
-		*/
 		
 		frame.DrawSphere( lastWaterCheckPoint, 0.3f, Color( 0, 255, 0 ) );
 		frame.DrawText( "Water ", lastWaterCheckPoint, Color( 0, 255, 0 ) );

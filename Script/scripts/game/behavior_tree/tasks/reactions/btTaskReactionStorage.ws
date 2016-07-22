@@ -1,4 +1,9 @@
-﻿class CBTTaskReactionStorage extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskReactionStorage extends IBehTreeTask
 {
 	protected var reactionDataStorage 	: CAIStorageReactionData;
 	
@@ -65,8 +70,8 @@ class CBTTaskReactionStorageDef extends IBehTreeReactionTaskDefinition
 	editable var reset			: bool;
 }
 
-/////////////////////////////////////////////////////////
-// CBehTreeTaskCombatStorageCleanup
+
+
 class CBehTreeTaskReactionStorageCleanup extends IBehTreeTask
 {
 	protected var reactionDataStorage 	: CAIStorageReactionData;

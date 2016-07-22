@@ -1,4 +1,9 @@
-﻿class CR4HudModuleRadialMenu extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleRadialMenu extends CR4HudModuleBase
 {
 	private var m_flashValueStorage 			  : CScriptedFlashValueStorage;	
 	private var m_fxBlockRadialMenuSFF			  : CScriptedFlashFunction;
@@ -21,7 +26,7 @@
 	private	var m_allowAutoRotationReturnValue	: bool;
 	private var m_swappedAcceptCancel			: bool;
 	private var m_tutorialsHidden				: bool;
-	private var _currentSelection				: string; // ???
+	private var _currentSelection				: string; 
 	
 	
 	default m_shown = false;
@@ -29,7 +34,7 @@
 	default m_isDesaturated = false;
 	default m_allowAutoRotationReturnValue = true;
 
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		
@@ -118,14 +123,14 @@
 
 	event OnRadialMenuItemChoose( choosenSymbol : string )
 	{
-		//thePlayer.OnRadialMenuItemChoose(choosenSymbol);
+		
 	}	
 
 	event OnRadialMenuConfirmSelection(  action : SInputAction  )
 	{
 		if( IsPressed(action) )
 		{
-			// option for J version
+			
 			if (m_swappedAcceptCancel)
 			{
 				UserClose();
@@ -141,7 +146,7 @@
 	{
 		if( IsPressed(action) )
 		{
-			// option for J version
+			
 			if (m_swappedAcceptCancel)
 			{
 				UserConfirmSelection();
@@ -169,7 +174,7 @@
 		}
 	}
 	
-	event /*flash*/ OnActivateSlot(slotName:string)
+	event  OnActivateSlot(slotName:string)
 	{
 		var outKeys : array< EInputKey >;
 		var player : W3PlayerWitcher;
@@ -177,10 +182,10 @@
 		
 		thePlayer.OnRadialMenuItemChoose(slotName);
 		
-		//UpdateItemsIcons();
+		
 	}
 	
-	event /*flash*/ OnRequestCloseRadial()
+	event  OnRequestCloseRadial()
 	{
 		UserClose();
 	}
@@ -209,15 +214,15 @@
 					ResetMeditationSavedData();
 					thePlayer.OnRadialMenuItemChoose("Meditation"); 
 					
-					//if failed to kneel down and enter meditation (for whatever animation-driven reason)
-					//  show message that you cannot do this action now and fail
+					
+					
 					if(thePlayer.GetCurrentStateName() != 'Meditation')
 					{
 						thePlayer.DisplayActionDisallowedHudMessage(EIAB_OpenMeditation, , witcher.IsThreatened(), !witcher.CanMeditateHere(), witcher.IsThreatened());
 					}
 					else
 					{
-						//theGame.Unpause( "RadialMenu" );
+						
 						return true;
 					}
 				}
@@ -243,8 +248,8 @@
 		{
 			if( m_shown )
 			{
-				//HideRadialMenu();
-				//theGame.Unpause( "RadialMenu" );
+				
+				
 				return true;
 			}
 			if(!thePlayer.IsActionAllowed(EIAB_RadialMenu))
@@ -257,10 +262,10 @@
 				return false;
 				
 			ShowRadialMenu();
-			//theGame.Pause( "RadialMenu" );
+			
 		}
 	}
-	event /*flash*/ OnRadialPauseGame()
+	event  OnRadialPauseGame()
 	{
 		theGame.Pause( "FastMenu" );
 	}
@@ -271,10 +276,10 @@
 		
 		if( !m_shown && !theGame.IsDialogOrCutscenePlaying())
 		{
-			// Ł.SZ to make this work properly a fix on Action Script side is reqired. Right now radial menu slots are rest after this is called. It must by fixed.
+			
 			thePlayer.RestoreBlockedSlots();
 			
-			//theGame.GetGuiManager().RequestMouseCursor(true);
+			
 			theGame.CenterMouse();
 			
 			theGame.ForceUIAnalog(true);
@@ -294,11 +299,11 @@
 			theGame.SetTimeScale( 0.1, theGame.GetTimescaleSource(ETS_RadialMenu), theGame.GetTimescalePriority(ETS_RadialMenu), false, true);
 			GetWitcherPlayer().SetUITakeInput(true);
 
-			// TEMP HACK
+			
 			camera = (CCustomCamera)theCamera.GetTopmostCameraObject();
 			m_allowAutoRotationReturnValue = camera.allowAutoRotation;
 			camera.allowAutoRotation = false;
-			// /HACK
+			
 			
 			m_shown = true;
 			ResetItemsModule();
@@ -309,7 +314,7 @@
 			}
 			m_fxSetMeditationButtonEnabledSFF.InvokeSelfOneArg(FlashArgBool(GetWitcherPlayer().IsActionAllowed(EIAB_OpenMeditation)));
 			
-			//SelectCurrentSign();
+			
 			
 			LogChannel( 'GWINT_AI', "SHOW RADIAL");
 			if (!m_tutorialsHidden)
@@ -356,15 +361,15 @@
 		
 		if( m_shown )
 		{	
-			//theGame.GetGuiManager().RequestMouseCursor(false);
+			
 			theGame.ForceUIAnalog(false);
 			theSound.SoundEvent( "gui_ingame_wheel_close" );
-			//m_fxShowRadialMenuSFF.InvokeSelfOneArg( FlashArgBool(false) );
+			
 			theGame.RemoveTimeScale( theGame.GetTimescaleSource(ETS_RadialMenu) );
 			theGame.Unpause( "FastMenu" );
 			GetWitcherPlayer().SetUITakeInput(false);
 
-			// TEMP HACK
+			
 			camera = (CCustomCamera)theCamera.GetTopmostCameraObject();
 			camera.allowAutoRotation = m_allowAutoRotationReturnValue;
 			
@@ -462,15 +467,9 @@
 		}
 		else
 		{
-			// --- ITEMS
 			
-			/*
-				deprecated  
-				UpdateItemIconByIdx( 6, EES_Petard1 );
-				UpdateItemIconByIdx( 7, EES_RangedWeapon );
-				UpdateItemIconByIdx( 8, EES_Quickslot1 );
-			}
-			*/
+			
+			
 			
 			itemsDataList = m_flashValueStorage.CreateTempFlashArray();
 			
@@ -485,7 +484,7 @@
 			
 			m_flashValueStorage.SetFlashArray( "hud.radial.items", itemsDataList );
 			
-			// --- SIGNS
+			
 			
 			outKeys.Clear();
 			theInput.GetCurrentKeysForAction('CastSign',outKeys);
@@ -500,7 +499,7 @@
 		
 		if ( boltItemId == GetInvalidUniqueId() )
 		{
-			// for some reason this event comes twice, so make sure to unequip only finite ammo bolts
+			
 			GetWitcherPlayer().GetItemEquippedOnSlot( EES_Bolt, equippedBolts );
 			inv = GetWitcherPlayer().GetInventory();
 			if ( inv.IsIdValid( equippedBolts ) && !inv.ItemHasTag( equippedBolts, theGame.params.TAG_INFINITE_AMMO ) )
@@ -554,7 +553,7 @@
 		
 		itemsList = m_flashValueStorage.CreateTempFlashArray();
 		containerObject = m_flashValueStorage.CreateTempFlashObject();
-		//slotName = "Slot" + ( radialSlotId - 5 ); // to fit deprecated slots system
+		
 		
 		slotName = "Crossbow";
 		containerObject.SetMemberFlashInt( "slotId", radialSlotId );
@@ -565,7 +564,7 @@
 		
 		if( inv.IsIdValid( equippedItem ) )
 		{
-			// crossbow data
+			
 			
 			itemName = GetLocStringByKeyExt( inv.GetItemLocalizedNameByUniqueID( equippedItem ) );
 			itemDescription = GetLocStringByKeyExt( inv.GetItemLocalizedDescriptionByUniqueID( equippedItem ) );
@@ -580,12 +579,12 @@
 			containerObject.SetMemberFlashInt( "quality", itemQuality );
 			containerObject.SetMemberFlashBool( "isEquipped", selectedItem == equippedItem );
 			
-			// bolts list from inventory
+			
 			
 			boltsList = inv.GetItemsByCategory('bolt');
 			count = boltsList.Size();
 			
-			// add botkin bolt
+			
 			dm = theGame.GetDefinitionsManager();
 			itemName = GetLocStringByKeyExt( dm.GetItemLocalisationKeyName( infiniteBoltItemName ) );
 			itemDescription = GetLocStringByKeyExt( dm.GetItemLocalisationKeyDesc( infiniteBoltItemName ) );
@@ -599,7 +598,7 @@
 				itemDataObject.SetMemberFlashString( "name", itemName );
 				itemDataObject.SetMemberFlashString( "description", itemDescription );
 				itemDataObject.SetMemberFlashString( "itemIconPath", itemIconPath );
-				itemDataObject.SetMemberFlashBool( "isEquipped", false ); // since it doesn't exist in inventory, it can't be equipped atm
+				itemDataObject.SetMemberFlashBool( "isEquipped", false ); 
 				itemDataObject.SetMemberFlashInt( "charges", -1 );
 				itemDataObject.SetMemberFlashInt( "id", 0 );
 
@@ -614,7 +613,7 @@
 				{
 					if ( inv.GetItemName( currentBolt ) == infiniteBoltItemName )
 					{
-						// already added
+						
 						continue;
 					}
 					itemDataObject = m_flashValueStorage.CreateTempFlashObject();
@@ -683,7 +682,7 @@
 		
 		itemsList = m_flashValueStorage.CreateTempFlashArray();
 		containerObject = m_flashValueStorage.CreateTempFlashObject();
-		slotName = "Slot" + ( radialSlotId - 5 ); // to fit deprecated slots system
+		slotName = "Slot" + ( radialSlotId - 5 ); 
 		containerObject.SetMemberFlashInt( "slotId", radialSlotId );
 		containerObject.SetMemberFlashBool( "isPocketData", true );
 		containerObject.SetMemberFlashString( "slotName", slotName );
@@ -691,7 +690,7 @@
 		for ( i = 0; i < count; i += 1 )
 		{
 			itemDataObject = m_flashValueStorage.CreateTempFlashObject();
-			slotName = "Slot" + ( radialSlotId - 5 + i ); // to fit deprecated slots system
+			slotName = "Slot" + ( radialSlotId - 5 + i ); 
 			itemDataObject.SetMemberFlashString( "slotName", slotName );
 			player.GetItemEquippedOnSlot( slotsList[i], equippedItem );
 			
@@ -730,7 +729,7 @@
 		dataList.PushBackFlashObject( containerObject );
 	}
 	
-	private function UpdateItemIconByIdx( i : int, slotId : EEquipmentSlots ) : void // depricated
+	private function UpdateItemIconByIdx( i : int, slotId : EEquipmentSlots ) : void 
 	{			
 		var inv : CInventoryComponent;
 		var item : SItemUniqueId;
@@ -740,7 +739,7 @@
 		var itemPath : string;
 		var itemCategory : name;
 		var itemQuality: int;
-		var _CurrentSelectedItem : SItemUniqueId; // ??
+		var _CurrentSelectedItem : SItemUniqueId; 
 		
 		player = GetWitcherPlayer();
 		inv = player.GetInventory();
@@ -760,7 +759,7 @@
 			
 			itemName = "Slot" + ( i - 5 );
 			
-			// TODO: check it:
+			
 			if( item == _CurrentSelectedItem )
 			{
 				if( inv.IsIdValid(_CurrentSelectedItem) )
@@ -772,7 +771,7 @@
 			{
 				m_fxUpdateFieldEquippedStateSFF.InvokeSelfFourArgs( FlashArgString(itemName), FlashArgString(itemDescription), FlashArgBool(false), FlashArgInt(0) );
 			}
-			// ----
+			
 		}
 		else
 		{
@@ -791,38 +790,16 @@
 	
 	public function SetDesaturated( value : bool, fieldName : string )
 	{
-		// Ł.Sz --> there was already working a proper functinality for bloking radial slots. For thje future please use function "EnableRadialSlotsWithSource" in R4Player class. 
-		//Enabling Radial Slots should use BlockAction mechanics but it doesn't and at this point due to
-		//patches rewriting that could break saves for someone so we need to handle it here
-		/*if(GetWitcherPlayer())
-		{
-			switch(StrLower(fieldName))
-			{
-				case "aard" :
-					GetWitcherPlayer().BlockSignSelection(ST_Aard, value);
-					break;
-				case "axii" :
-					GetWitcherPlayer().BlockSignSelection(ST_Axii, value);
-					break;
-				case "igni" :
-					GetWitcherPlayer().BlockSignSelection(ST_Igni, value);
-					break;
-				case "quen" :
-					GetWitcherPlayer().BlockSignSelection(ST_Quen, value);
-					break;
-				case "yrden" :
-					GetWitcherPlayer().BlockSignSelection(ST_Yrden, value);
-					break;
-				default:
-					break;
-			}
-		}*/
 		
-		// #B use Yrden, Quen, Igni, Axii, Aard, Slot1, Slot2, Slot3, Slot4, Slot5
+		
+		
+		
+		
+		
 		m_fxSetDesaturatedSFF.InvokeSelfTwoArgs(FlashArgBool(value),FlashArgString(fieldName));
 	}
 		
-	protected function UpdateScale( scale : float, flashModule : CScriptedFlashSprite ) : bool // #B should be scaling ?
+	protected function UpdateScale( scale : float, flashModule : CScriptedFlashSprite ) : bool 
 	{
 		return false;
 	}

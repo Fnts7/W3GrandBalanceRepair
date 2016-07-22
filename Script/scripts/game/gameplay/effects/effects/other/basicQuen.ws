@@ -1,4 +1,9 @@
-﻿class W3Effect_BasicQuen extends CBaseGameplayEffect
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class W3Effect_BasicQuen extends CBaseGameplayEffect
 {
 	private var quenEntity : W3QuenEntity;
 	
@@ -24,12 +29,12 @@
 		CacheQuen();
 	}
 	
-	//stacks represent % of shield health
+	
 	public final function GetStacks() : int
 	{
 		if( !quenEntity )
 		{
-			//if buff would load before quen entity on game load
+			
 			CacheQuen();
 		}
 		

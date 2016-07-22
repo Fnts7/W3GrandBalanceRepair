@@ -1,9 +1,12 @@
 ﻿/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-//Enum used in behavior to decide which type of work to use with given entity
+
+
+
 enum EBackgroundNPCWork_Single
 {
 	EBNWS_None,
@@ -34,27 +37,18 @@ enum EBackgroundNPCWork_Single
 	EBNWS_Fishing
 }
 
-/* 
-	Class for background NPC entity. It's a fake entity of NPC doing some static job e.g. sawing wood
-	or sitting with a pipe. The NPC does not move out of it's actionpoint.
-	The entity is not an acutal NPC or even Actor - that was the whole point.
-	This way we can have a lot of these on a level while not caring about AI, movement and other
-	overhead which is not needed at all in this case.
-	
-	The Entity has an animated model and a fake physics (in template). So basically it's only a model 
-	with looped animation and fake simple physics (most likely box).
-*/
+
 class W3NPCBackground extends CGameplayEntity
 {
-	public editable var work : EBackgroundNPCWork_Single;					//type of work (animation) to play
-	private var parentPairedBackgroundNPCEntity : W3NPCBackgroundPair;		//background pair entity - used for paired background npcs only
-	private var isWorkingSingle : bool;										//set to true if it's a single NPC or a pair (false)
+	public editable var work : EBackgroundNPCWork_Single;					
+	private var parentPairedBackgroundNPCEntity : W3NPCBackgroundPair;		
+	private var isWorkingSingle : bool;										
 	
 		default isWorkingSingle = false;
 	
 	event OnSpawned(spawnData : SEntitySpawnData)
 	{
-		//if not a paired NPC then fire single work
+		
 		if(!parentPairedBackgroundNPCEntity)
 		{
 			isWorkingSingle = true;

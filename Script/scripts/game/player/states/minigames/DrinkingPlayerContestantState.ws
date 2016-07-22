@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
-/***********************************************************************/
+
+
+
 
 state DrinkingPlayerContestant in CPlayer
 {
@@ -11,7 +13,7 @@ state DrinkingPlayerContestant in CPlayer
 	{
 		parent.DisableLookAt();
 		theSound.EnterGameState( ESGS_Minigame );
-		//theSound.SoundState( "game_state", "minigames" );		// SET MINIGAME SOUND STATE
+		
 		Init();
 	}
 	

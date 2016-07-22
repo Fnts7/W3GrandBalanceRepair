@@ -1,4 +1,9 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 enum HudItemInfoBinding
 {
 	HudItemInfoBinding_item1 = 0,
@@ -50,7 +55,7 @@ class CR4HudModuleItemInfo extends CR4HudModuleBase
 	private var m_previousShowButtonHints		: int;						default m_previousShowButtonHints    = -1;
 	private var m_previousSetItemInfo			: array< SHudItemInfo >;
 	
-	event /* flash */ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -200,7 +205,7 @@ class CR4HudModuleItemInfo extends CR4HudModuleBase
 			}
 		}
 		
-		//always display quickslots when the player is not at full health
+		
 		if ( thePlayer.IsCombatMusicEnabled() || thePlayer.GetHealthPercents() < 1.f )
 			SetAlwaysDisplayed( true );
 		else
@@ -463,15 +468,15 @@ class CR4HudModuleItemInfo extends CR4HudModuleBase
 		{ 
 			case HudItemInfoBinding_item1 :
 				theInput.GetPadKeysForAction('ThrowItem',outKeys);
-				//theInput.GetCurrentKeysForAction('ThrowItem',outKeys);
+				
 				break;
 			case HudItemInfoBinding_potion1 :
 				theInput.GetPadKeysForAction('DrinkPotion1',outKeys);
-				//theInput.GetCurrentKeysForAction('DrinkPotion1',outKeys);
+				
 				break;
 			case HudItemInfoBinding_potion2 :
 				theInput.GetPadKeysForAction('DrinkPotion2',outKeys);
-				//theInput.GetCurrentKeysForAction('DrinkPotion2',outKeys);
+				
 				break;
 			default:
 				return -1;
@@ -501,22 +506,7 @@ class CR4HudModuleItemInfo extends CR4HudModuleBase
 				theInput.GetPCKeysForAction('DrinkPotion4',outKeys);
 				break;
 			
-			/*
-			case HudItemInfoBinding_potion1 :
-				if(GetWitcherPlayer().GetSelectedPotionSlotUpper() == EES_Potion1)
-					theInput.GetPCKeysForAction('DrinkPotion1',outKeys);
-				else
-					theInput.GetPCKeysForAction('DrinkPotion3',outKeys);
-				break;
-				
-			case HudItemInfoBinding_potion2 :
-				
-				if(GetWitcherPlayer().GetSelectedPotionSlotLower() == EES_Potion2)
-					theInput.GetPCKeysForAction('DrinkPotion2',outKeys);
-				else
-					theInput.GetPCKeysForAction('DrinkPotion4',outKeys);
-				break;
-			*/
+			
 				
 			default:
 				return -1;
@@ -531,10 +521,10 @@ class CR4HudModuleItemInfo extends CR4HudModuleBase
 		var tempY				: float;
 		
 		l_flashModule 	= GetModuleFlash();
-		//theGame.GetUIHorizontalFrameScale()
-		//theGame.GetUIVerticalFrameScale()
 		
-		// #J SUPER LAME
+		
+		
+		
 		tempX = anchorX + (300.0 * (1.0 - theGame.GetUIHorizontalFrameScale()));
 		tempY = anchorY - (200.0 * (1.0 - theGame.GetUIVerticalFrameScale())); 
 		
@@ -549,7 +539,7 @@ class CR4HudModuleItemInfo extends CR4HudModuleBase
 	
 	public function EnableElement( enable : bool ) : void
 	{
-		//m_fxEnableSFF.InvokeSelfOneArg( FlashArgBool( enable ) ); 
+		
 	}	
 	
 	public function ShowElementIgnoreState( show : bool, optional bImmediately : bool ) : void

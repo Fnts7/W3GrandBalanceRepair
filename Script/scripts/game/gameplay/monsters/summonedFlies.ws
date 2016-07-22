@@ -1,18 +1,23 @@
-﻿//>--------------------------------------------------------------------------
-// W3SummonedFlies
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Flies summoned by an entity
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 05-September-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class W3SummonedFlies extends CGameplayEntity
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	private editable var	fleeDuration		: float;
 	private editable var	lookForTarget		: bool;
 	private editable var	detectionDistance	: float;
@@ -28,11 +33,11 @@ class W3SummonedFlies extends CGameplayEntity
 	default fleeDuration 		= 3;
 	default detectionDistance 	= 10;
 	default pursueDistance 		= 15;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function SetTarget( _Target : CNode ) { m_Target = _Target; } 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{
 		super.OnSpawned( spawnData );
@@ -50,8 +55,8 @@ class W3SummonedFlies extends CGameplayEntity
 			AddTimer( 'LookForTarget', 1.0f, true,,,true);
 		}
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function Init( _Summoner : CActor, _Target : CEntity )
 	{
 		m_SummonedCmp.Init( _Summoner );
@@ -60,21 +65,21 @@ class W3SummonedFlies extends CGameplayEntity
 		m_SlideCmp.SetTargetNode( m_Target );
 		StartFlee();
 	}	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function OnSummonerEnterCombat()
 	{		
 		RemoveTimer( 'Die' );
 	}	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function OnSummonerLeaveCombat()
 	{
 		AddTimer( 'Die', 5.0f, true,,,true);		
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private timer function LookForTarget( _Dt : float, id : int)
 	{
 		var	i					: int;
@@ -106,7 +111,7 @@ class W3SummonedFlies extends CGameplayEntity
 			
 			if( IsNameValid( ignoreTag ) && l_actor.HasTag( ignoreTag ) ) continue;
 			
-			// Ignore actors in water
+			
 			l_actorPos 		= l_actor.GetWorldPosition();
 			l_waterLevel 	= theGame.GetWorld().GetWaterLevel ( l_actorPos, true );
 			
@@ -147,8 +152,8 @@ class W3SummonedFlies extends CGameplayEntity
 		}
 		
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private timer function PursueTarget( _Dt : float, id : int )
 	{
 		var l_pos 				: Vector;
@@ -161,7 +166,7 @@ class W3SummonedFlies extends CGameplayEntity
 		l_pos 		= GetWorldPosition();		
 		l_distance  = VecDistance( l_pos, m_SlideCmp.GetTargetPosition() );  
 		
-		// Ignore targets in water
+		
 		l_targetPos 	= m_SlideCmp.GetTargetPosition();
 		l_waterLevel 	= theGame.GetWorld().GetWaterLevel ( l_targetPos, true );
 		
@@ -172,45 +177,45 @@ class W3SummonedFlies extends CGameplayEntity
 			StopPursue();
 		}
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private final function StopPursue()
 	{
 		m_SlideCmp.SetTargetVector( m_StartPos );
 		m_Target = NULL;
 		RemoveTimer( 'PursueTarget');
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function Die( optional _Dt : float, optional id : int )
 	{		
 		StopEffect('flies');
 		m_SummonedCmp.GetSummoner().SignalGameplayEvent('FliesDestroyed');
 		DestroyAfter( 3 );
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	public function StartFlee()
 	{		
 		AddTimer( 'Flee', 0.0f, true,,,false, true );
 		AddTimer( 'StopFlee', fleeDuration, false,,,false, true );
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private timer function Flee( _Dt : float, id : int )
 	{		
 		m_SlideCmp.SetStopDistance( 10 );
 		m_SlideCmp.SetFallBackSpeed( 5 );
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private timer function StopFlee( _Dt : float, id : int )
 	{
 		RemoveTimer('Flee');
 	}
-	//>----------------------------------------------------------------------
-	// SIGNS EVENTS	
-	//-----------------------------------------------------------------------	
+	
+	
+	
 	event OnAardHit( sign : W3AardProjectile )
 	{
 		super.OnAardHit( sign );

@@ -1,6 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2014
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 class W3BuffImmunityEntity extends CGameplayEntity
 {
@@ -12,7 +16,7 @@ class W3BuffImmunityEntity extends CGameplayEntity
 	
 	protected var actorsInRange : array<CActor>;
 	
-	// -----------------------------------------------------------
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{	
 		if ( isActive )
@@ -44,7 +48,7 @@ class W3BuffImmunityEntity extends CGameplayEntity
 		var index		: int;
 		var i, size		: int;
 		
-		// finding living actors in range
+		
 		FindGameplayEntitiesInSphere( entities, this.GetWorldPosition(), range, -1, '', FLAG_OnlyAliveActors );
 		size = entities.Size();
 		for ( i = 0; i < size; i+=1 )
@@ -52,25 +56,25 @@ class W3BuffImmunityEntity extends CGameplayEntity
 			actor = (CActor)entities[i];
 			if ( actor )
 			{
-				// checking if he was previously in range
+				
 				index = actorsInRange.FindFirst( actor );
 				if ( index != -1 )
 				{
-					// already was in range
-					// let's remove him from deactivation list
+					
+					
 					actorsInRange.EraseFast( index );
 				}
 				else
 				{
-					// wasn't in range yet so let's activate his immunity
+					
 					ToggleBuffImmunity( actor, true );
 				}
 				newActors.PushBack( actor );
 			}		
 		}
 		
-		// deactivate immunity for actors that are not in range anymore
-		RemoveImmunityFromActorsInRange(); // it operates on actorsInRange array, but in this moment this array contains only actors outside of range
+		
+		RemoveImmunityFromActorsInRange(); 
 		
 		actorsInRange = newActors;
 	}
@@ -86,8 +90,8 @@ class W3BuffImmunityEntity extends CGameplayEntity
 		}
 	}
 		
-	// -----------------------------------------------------------
-	// misc
+	
+	
 	protected function ToggleBuffImmunity( actor : CActor, toggle : bool )
 	{
 		var i : int;
@@ -112,7 +116,7 @@ class W3MagicBubbleEntity extends W3BuffImmunityEntity
 	
 	private var damper : VectorSpringDamper;
 	
-	// -----------------------------------------------------------
+	
 	event OnSpawned( spawnData : SEntitySpawnData )
 	{
 		var scale : Vector;

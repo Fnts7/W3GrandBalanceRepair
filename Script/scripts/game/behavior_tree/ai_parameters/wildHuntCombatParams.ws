@@ -1,6 +1,11 @@
-﻿//////////////////////////////////////////////////////////////
-// WILD HUNT - SWORD
-//////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 class CAIWildHuntTwoHandedSwordDefaults extends CAINpcDefaults
 {
 	function Init()
@@ -11,7 +16,7 @@ class CAIWildHuntTwoHandedSwordDefaults extends CAINpcDefaults
 		combatTree.Init();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedSwordCombat extends CAINpcCombat
 {	
 	function Init()
@@ -20,7 +25,7 @@ class CAIWildHuntTwoHandedSwordCombat extends CAINpcCombat
 		params.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedSwordCombatParams extends CAINpcCombatParams
 {
 	private function SetupCombatStyles()
@@ -31,7 +36,7 @@ class CAIWildHuntTwoHandedSwordCombatParams extends CAINpcCombatParams
 		InitializeCombatStyles();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedSwordCombatStyle extends CAINpcCombatStyle
 {
 	function Init()
@@ -41,7 +46,7 @@ class CAIWildHuntTwoHandedSwordCombatStyle extends CAINpcCombatStyle
 		params.OnCreated();
 	}	
 };
-//------------------------------------------------------------
+
 class CAIWildHuntStyleTwoHandedSwordParams extends CAINpcCombatStyleParams
 {
 	default RightItemType = 'steelsword';
@@ -53,16 +58,16 @@ class CAIWildHuntStyleTwoHandedSwordParams extends CAINpcCombatStyleParams
 		
 		super.Init();
 		
-		//tactic
+		
 		combatTacticTree = new CAINpcSurroundTacticTree in this;
 		combatTacticTree.OnCreated();
 		
-		//attack behavior
+		
 		attackBehavior.params.attackAction = new CAIWildHuntTwoHandedSwordAttackActionTree in attackBehavior.params;
 		attackBehavior.params.attackAction.OnCreated();
 		attackBehavior.params.attackActionRange = 'basic_strike';
 		
-		//defense actions
+		
 		defenseActions.Clear();
 		defenseActions.PushBack( new CAIWildHuntCounterHitAction in this );
 		
@@ -73,9 +78,9 @@ class CAIWildHuntStyleTwoHandedSwordParams extends CAINpcCombatStyleParams
 	}
 };
 
-//////////////////////////////////////////////////////////////
-// WILD HUNT - AXE
-//////////////////////////////////////////////////////////////
+
+
+
 class CAIWildHuntTwoHandedAxeDefaults extends CAINpcDefaults
 {
 	function Init()
@@ -86,7 +91,7 @@ class CAIWildHuntTwoHandedAxeDefaults extends CAINpcDefaults
 		combatTree.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedAxeCombat extends CAINpcCombat
 {	
 	function Init()
@@ -95,7 +100,7 @@ class CAIWildHuntTwoHandedAxeCombat extends CAINpcCombat
 		params.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedAxeCombatParams extends CAINpcCombatParams
 {
 	private function SetupCombatStyles()
@@ -106,7 +111,7 @@ class CAIWildHuntTwoHandedAxeCombatParams extends CAINpcCombatParams
 		InitializeCombatStyles();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedAxeCombatStyle extends CAINpcCombatStyle
 {
 	function Init()
@@ -116,7 +121,7 @@ class CAIWildHuntTwoHandedAxeCombatStyle extends CAINpcCombatStyle
 		params.OnCreated();
 	}	
 };
-//------------------------------------------------------------
+
 class CAIWildHuntStyleTwoHandedAxeParams extends CAINpcCombatStyleParams
 {
 	default RightItemType = 'axe2h';
@@ -128,16 +133,16 @@ class CAIWildHuntStyleTwoHandedAxeParams extends CAINpcCombatStyleParams
 		
 		super.Init();
 		
-		//tactic
+		
 		combatTacticTree = new CAINpcSurroundTacticTree in this;
 		combatTacticTree.OnCreated();
 		combatTacticTree.params.dontUseRunWhileStrafing = true;
 		
-		//attack behavior
+		
 		attackBehavior.params.attackAction = new CAIWildHuntTwoHandedPolearmAttackActionTree in attackBehavior.params;
 		attackBehavior.params.attackAction.OnCreated();
 		
-		//defense actions
+		
 		defenseActions.Clear();
 		defenseActions.PushBack( new CAINpcCounterHitAction in this );
 		
@@ -148,9 +153,9 @@ class CAIWildHuntStyleTwoHandedAxeParams extends CAINpcCombatStyleParams
 	}
 };
 
-//////////////////////////////////////////////////////////////
-// WILD HUNT - HALBERD
-//////////////////////////////////////////////////////////////
+
+
+
 class CAIWildHuntTwoHandedHalberdDefaults extends CAINpcDefaults
 {
 	function Init()
@@ -161,7 +166,7 @@ class CAIWildHuntTwoHandedHalberdDefaults extends CAINpcDefaults
 		combatTree.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedHalberdCombat extends CAINpcCombat
 {	
 	function Init()
@@ -170,7 +175,7 @@ class CAIWildHuntTwoHandedHalberdCombat extends CAINpcCombat
 		params.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedHalberdCombatParams extends CAINpcCombatParams
 {
 	private function SetupCombatStyles()
@@ -181,7 +186,7 @@ class CAIWildHuntTwoHandedHalberdCombatParams extends CAINpcCombatParams
 		InitializeCombatStyles();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedHalberdCombatStyle extends CAINpcCombatStyle
 {
 	function Init()
@@ -191,7 +196,7 @@ class CAIWildHuntTwoHandedHalberdCombatStyle extends CAINpcCombatStyle
 		params.OnCreated();
 	}	
 };
-//------------------------------------------------------------
+
 class CAIWildHuntStyleTwoHandedHalberdParams extends CAINpcCombatStyleParams
 {
 	default RightItemType = 'halberd2h';
@@ -203,18 +208,18 @@ class CAIWildHuntStyleTwoHandedHalberdParams extends CAINpcCombatStyleParams
 		
 		super.Init();
 		
-		//tactic
+		
 		combatTacticTree = new CAINpcSurroundTacticTree in this;
 		combatTacticTree.OnCreated();
 		combatTacticTree.params.dontUseRunWhileStrafing = true;
 		
-		//attack behavior
+		
 		attackBehavior.params.attackAction = new CAIWildHuntTwoHandedPolearmAttackActionTree in attackBehavior.params;
 		attackBehavior.params.attackAction.OnCreated();
 		attackBehavior.params.attackActionRange 	= 'thrust250';
 		attackBehavior.params.farAttackActionRange 	= 'thrust320';
 		
-		//defense actions
+		
 		defenseActions.Clear();
 		defenseActions.PushBack( new CAINpcCounterHitAction in this );
 		
@@ -225,9 +230,9 @@ class CAIWildHuntStyleTwoHandedHalberdParams extends CAINpcCombatStyleParams
 	}
 };
 
-//////////////////////////////////////////////////////////////
-// WILD HUNT - HAMMER
-//////////////////////////////////////////////////////////////
+
+
+
 class CAIWildHuntTwoHandedHammerDefaults extends CAINpcDefaults
 {
 	function Init()
@@ -238,7 +243,7 @@ class CAIWildHuntTwoHandedHammerDefaults extends CAINpcDefaults
 		combatTree.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedHammerCombat extends CAINpcCombat
 {	
 	function Init()
@@ -247,7 +252,7 @@ class CAIWildHuntTwoHandedHammerCombat extends CAINpcCombat
 		params.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedHammerCombatParams extends CAINpcCombatParams
 {
 	private function SetupCombatStyles()
@@ -258,7 +263,7 @@ class CAIWildHuntTwoHandedHammerCombatParams extends CAINpcCombatParams
 		InitializeCombatStyles();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedHammerCombatStyle extends CAINpcCombatStyle
 {
 	function Init()
@@ -268,7 +273,7 @@ class CAIWildHuntTwoHandedHammerCombatStyle extends CAINpcCombatStyle
 		params.OnCreated();
 	}	
 };
-//------------------------------------------------------------------
+
 class CAIWildHuntStyleTwoHandedHammerParams extends CAINpcCombatStyleParams
 {
 	default RightItemType = 'hammer2h';
@@ -280,16 +285,16 @@ class CAIWildHuntStyleTwoHandedHammerParams extends CAINpcCombatStyleParams
 		
 		super.Init();
 		
-		//tactic
+		
 		combatTacticTree = new CAINpcSurroundTacticTree in this;
 		combatTacticTree.OnCreated();
 		combatTacticTree.params.dontUseRunWhileStrafing = true;
 		
-		//attack behavior
+		
 		attackBehavior.params.attackAction = new CAIWildHuntTwoHandedPolearmAttackActionTree in attackBehavior.params;
 		attackBehavior.params.attackAction.OnCreated();
 		
-		//defense actions
+		
 		defenseActions.Clear();
 		defenseActions.PushBack( new CAINpcCounterHitAction in this );
 		
@@ -300,9 +305,9 @@ class CAIWildHuntStyleTwoHandedHammerParams extends CAINpcCombatStyleParams
 	}
 };
 
-//////////////////////////////////////////////////////////////
-// WILD HUNT - SPEAR
-//////////////////////////////////////////////////////////////
+
+
+
 class CAIWildHuntTwoHandedSpearDefaults extends CAINpcDefaults
 {
 	function Init()
@@ -313,7 +318,7 @@ class CAIWildHuntTwoHandedSpearDefaults extends CAINpcDefaults
 		combatTree.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedSpearCombat extends CAINpcCombat
 {	
 	function Init()
@@ -322,7 +327,7 @@ class CAIWildHuntTwoHandedSpearCombat extends CAINpcCombat
 		params.OnCreated();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedSpearCombatParams extends CAINpcCombatParams
 {
 	private function SetupCombatStyles()
@@ -333,7 +338,7 @@ class CAIWildHuntTwoHandedSpearCombatParams extends CAINpcCombatParams
 		InitializeCombatStyles();
 	}
 };
-//------------------------------------------------------------
+
 class CAIWildHuntTwoHandedSpearCombatStyle extends CAINpcCombatStyle
 {
 	function Init()
@@ -343,7 +348,7 @@ class CAIWildHuntTwoHandedSpearCombatStyle extends CAINpcCombatStyle
 		params.OnCreated();
 	}	
 };
-//------------------------------------------------------------
+
 class CAIWildHuntStyleTwoHandedSpearParams extends CAINpcCombatStyleParams
 {
 	default RightItemType = 'spear2h';
@@ -355,12 +360,12 @@ class CAIWildHuntStyleTwoHandedSpearParams extends CAINpcCombatStyleParams
 		
 		super.Init();
 		
-		//tactic
+		
 		combatTacticTree = new CAINpcSurroundTacticTree in this;
 		combatTacticTree.OnCreated();
 		combatTacticTree.params.dontUseRunWhileStrafing = true;
 		
-		//attack behavior
+		
 		attackBehavior.params.attackAction = new CAIWildHuntTwoHandedPolearmAttackActionTree in attackBehavior.params;
 		attackBehavior.params.attackAction.OnCreated();
 		attackBehavior.params.attackActionRange = 'thrust250';
@@ -368,7 +373,7 @@ class CAIWildHuntStyleTwoHandedSpearParams extends CAINpcCombatStyleParams
 		attackBehavior.params.farAttackAction.OnCreated();
 		attackBehavior.params.farAttackActionRange = 'thrust320';
 		
-		//defense actions
+		
 		defenseActions.Clear();
 		defenseActions.PushBack( new CAINpcCounterHitAction in this );
 		
@@ -379,9 +384,9 @@ class CAIWildHuntStyleTwoHandedSpearParams extends CAINpcCombatStyleParams
 	}
 };
 
-//////////////////////////////////////////////////////////////
-// ATTACK ACTION
-//////////////////////////////////////////////////////////////
+
+
+
 class CAIWildHuntTwoHandedSwordAttackActionTree extends CAIAttackActionTree
 {
 	default aiTreeName = "resdef:ai\combat\wildhunt_attackaction_sword2h";

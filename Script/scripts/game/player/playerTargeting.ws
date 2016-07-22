@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Author : collective mind of the CDP
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 import struct STargetingInfo
 {
@@ -24,7 +27,7 @@ import struct STargetingInfo
 	import var rsHeadingLimitCos	: float;
 }
 
-////////////////////////////////////////////////////////////////
+
 
 import struct STargetSelectionData
 {
@@ -34,7 +37,7 @@ import struct STargetSelectionData
 	import var softLockDistance		: float;
 };
 
-////////////////////////////////////////////////////////////////
+
 
 import struct SR4PlayerTargetingConsts
 {
@@ -42,7 +45,7 @@ import struct SR4PlayerTargetingConsts
 	import var softLockFrameSize	: float;
 }
 
-////////////////////////////////////////////////////////////////
+
 
 import struct SR4PlayerTargetingPrecalcs
 {
@@ -56,7 +59,7 @@ import struct SR4PlayerTargetingPrecalcs
 	import var cameraHeadingVector	: Vector;	
 }
 
-////////////////////////////////////////////////////////////////
+
 
 import struct SR4PlayerTargetingIn
 {
@@ -96,7 +99,7 @@ import struct SR4PlayerTargetingIn
 	import var defaultSelectionWeights 			: STargetSelectionWeights;
 }
 
-////////////////////////////////////////////////////////////////
+
 
 import struct SR4PlayerTargetingOut
 {
@@ -106,7 +109,7 @@ import struct SR4PlayerTargetingOut
 	import var forceDisableUpdatePosition	: bool;	
 }
 
-////////////////////////////////////////////////////////////////
+
 
 import class CR4PlayerTargeting extends IScriptable
 {
@@ -117,7 +120,7 @@ import class CR4PlayerTargeting extends IScriptable
 	import final function WasVisibleInScaledFrame( entity : CEntity, frameSizeX : float, frameSizeY : float ) : bool;
 }
 
-////////////////////////////////////////////////////////////////
+
 
 exec function UseNativeTargeting( use : bool )
 {

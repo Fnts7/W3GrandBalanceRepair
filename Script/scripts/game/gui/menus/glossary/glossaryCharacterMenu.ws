@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - glossary character
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author :		 Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4GlossaryCharacterMenu extends CR4ListBaseMenu
 {	
@@ -13,7 +15,7 @@ class CR4GlossaryCharacterMenu extends CR4ListBaseMenu
 	
 	var allCharacters					: array<CJournalCharacter>;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{	
 		var i							: int;
 		var tempCharacters				: array<CJournalBase>;
@@ -111,12 +113,12 @@ class CR4GlossaryCharacterMenu extends CR4ListBaseMenu
 		}
 	}
 
-	function GetDescription( currentCharacter : CJournalCharacter ) : string // #B todo
+	function GetDescription( currentCharacter : CJournalCharacter ) : string 
 	{
 		var i : int;
 		var str : string;
 		var locStrId : int;
-		//var descriptionsGroup, tmpGroup : CJournalCreatureDescriptionGroup;
+		
 		var description : CJournalCharacterDescription;
 		
 		str = "";
@@ -144,7 +146,7 @@ class CR4GlossaryCharacterMenu extends CR4ListBaseMenu
 		var description : string;
 		var title : string;
 		
-		// #B could add description for creatures group here !!!
+		
 		l_character = (CJournalCharacter)m_journalManager.GetEntryByTag( entryName );
 		description = GetDescription( l_character );
 		title = GetLocStringById( l_character.GetNameStringId());	
@@ -159,8 +161,8 @@ class CR4GlossaryCharacterMenu extends CR4ListBaseMenu
 	
 	function PlayOpenSoundEvent()
 	{
-		// Common Menu takes care of this for us
-		//OnPlaySoundEvent("gui_global_panel_open");	
+		
+		
 	}
 	
 	function GetCharacterImportanceLocKey( character : CJournalCharacter ) : name

@@ -1,11 +1,16 @@
-﻿// CExplorationStateSkatingHitFrontal
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 18/02/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbstract
 {		
 	private						var	skateGlobal		: CExplorationSkatingGlobal;
@@ -15,7 +20,7 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 	protected editable			var dotCollToEnter	: float;		default	dotCollToEnter	= 0.75f;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{	
 		if( !IsNameValid( m_StateNameN ) )
@@ -28,16 +33,16 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 		
 		m_InterceptStateN	= 'SkateHitLateral';
 		
-		// Set the type
+		
 		m_StateTypeE	= EST_Skate;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddDefaultStateChangesSpecific()
 	{
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{	
 		var collisionData	: SCollisionData;
@@ -48,7 +53,7 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 		
 		direction	= m_ExplorationO.m_MoverO.GetMovementVelocityNormalized();
 		
-		// Check collisions
+		
 		collisionNum = m_ExplorationO.m_OwnerMAC.GetCollisionDataCount();
 		for( i = 0; i < collisionNum; i += 1 )
 		{
@@ -66,7 +71,7 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateCanEnter( curStateName : name ) : bool
 	{	
 		var collisionData	: SCollisionData;
@@ -77,7 +82,7 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 		
 		direction	= m_ExplorationO.m_MoverO.GetMovementVelocityNormalized();
 		
-		// Check collisions
+		
 		collisionNum	= m_ExplorationO.m_OwnerMAC.GetCollisionDataCount();
 		for( i = 0; i < collisionNum; i += 1 )
 		{
@@ -95,13 +100,13 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateEnterSpecific( prevStateName : name )	
 	{		
 		m_ExplorationO.m_MoverO.StopAllMovement();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{
 		if( m_ExplorationO.GetStateTimeF() > timeMax )
@@ -113,22 +118,22 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 		return super.StateChangePrecheck();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateExitSpecific( nextStateName : name )
 	{		
 	}	
 	
 	
-	//---------------------------------------------------------------------------------
-	// Anim events
-	//---------------------------------------------------------------------------------
+	
+	
+	
 
-	//------------------------------------------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		if( animEventName	== behAnimEnd )
@@ -137,11 +142,11 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
-	// Collision events
-	//---------------------------------------------------------------------------------
 	
-	//---------------------------------------------------------------------------------
+	
+	
+	
+	
 	function ReactToLoseGround() : bool
 	{
 		SetReadyToChangeTo( 'StartFalling' );
@@ -149,13 +154,13 @@ class CExplorationStateSkatingHitFrontal extends CExplorationInterceptorStateAbs
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToHitGround() : bool
 	{		
 		return true;
 	}		
 	
-	//---------------------------------------------------------------------------------
+	
 	function CanInteract( ) : bool
 	{		
 		return false;

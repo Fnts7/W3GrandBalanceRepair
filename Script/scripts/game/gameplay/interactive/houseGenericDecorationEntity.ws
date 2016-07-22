@@ -1,7 +1,10 @@
 ﻿/***********************************************************************/
-/** Copyright © 2015
-/** Authors : Danisz Markiewicz
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
+
+
 
 struct SHouseDecorationItemData
 {
@@ -29,25 +32,25 @@ class W3HouseGenericDecoration extends W3HouseDecorationBase
 		
 		ChangeItemSelectionMode( EISPM_Painting );
 		
-		//Apply saved appearance on spawn
+		
 		ApplyAppearance( m_currentApperance );
 	}
 	
-	//Upon taking item from the container we want to reset it's appearance
+	
 	event OnItemTaken(itemId : SItemUniqueId, quantity : int)
 	{
 		super.OnItemTaken(itemId, quantity);
 		ApplyNewPaintingAppearance( true );
 	}
 	
-	//Performs operations upon receiving an item
+	
 	public function ProcessItemReceival( optional mute : bool )
 	{
 		super.ProcessItemReceival();
 		ApplyNewPaintingAppearance( false, !mute );
 	}
 	
-	//Switch entity appearance base on the item that was put inside
+	
 	private function ApplyNewPaintingAppearance( optional reset : bool, optional playSound : bool )
 	{
 		var i, size : int;
@@ -83,17 +86,17 @@ class W3HouseGenericDecoration extends W3HouseDecorationBase
 			}
 		}
 		
-		//None of the appearances fit the item, apply empty appearance
+		
 		m_currentApperance  = 'empty';
 		ApplyAppearance( m_currentApperance );
 	}
 
-	//Check if player has any items with given tag that are not equiped
+	
 	private function GetIfPlayerHasValidItems() : bool
 	{
 		var items : array<SItemUniqueId>;
 		
-		//Item filter tag needs to be provided
+		
 		if( !IsNameValid( m_itemFilterTag ) )
 		{
 			LogChannel( 'houseDecorations', "No valid item filter tag provided!" );

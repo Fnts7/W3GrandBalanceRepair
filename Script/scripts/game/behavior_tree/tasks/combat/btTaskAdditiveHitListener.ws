@@ -1,4 +1,9 @@
-﻿class BTTaskAdditiveHitListener extends IBehTreeTask
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class BTTaskAdditiveHitListener extends IBehTreeTask
 {
 	public var playHitSound 					: bool;
 	public var sounEventName 					: string;
@@ -20,16 +25,16 @@
 	default timeStamp = 0;
 	
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		GetActor().AddAbility( 'AdditiveHits' );
 		return BTNS_Active;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function CheckGuardOrCounter() : bool
 	{
 		var npc : CNewNPC = GetNPC();
@@ -62,8 +67,8 @@
 		return false;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function GetStats()
 	{
 		var raiseGuardMultiplier 	: int;
@@ -89,8 +94,8 @@
 		}
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------	
+	
+	
 	function Roll( chance : float ) : bool
 	{
 		if ( chance >= 100 )
@@ -103,14 +108,14 @@
 		return false;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------	
+	
+	
 	function OnGameplayEvent( eventName : name ) : bool
 	{		
 		var owner 	: CNewNPC = GetNPC();
 		var data 	: CDamageData;
 		
-		// play hit but not more frequent then 0.4 sec
+		
 		if ( eventName == 'BeingHit' && timeStamp + 0.4 <= GetLocalTime() )
 		{
 			data = (CDamageData) GetEventParamBaseDamage();
@@ -137,7 +142,7 @@
 					}
 				}
 				owner.RaiseEvent('AdditiveHit');
-				theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( owner, 'ActorInHitReaction', -1, 30.0f, -1.f, -1, true ); //reactionSystemSearch
+				theGame.GetBehTreeReactionManager().CreateReactionEventIfPossible( owner, 'ActorInHitReaction', -1, 30.0f, -1.f, -1, true ); 
 				timeStamp = GetLocalTime();
 			}
 		}
@@ -150,7 +155,7 @@
 		var npc 				: CNewNPC = GetNPC();
 		var playerToOwnerAngle 	: float;
 		
-		// reaction to player's Signs attack
+		
 		if ( manageIgnoreSignsEvents )
 		{
 			if ( eventName == 'IgnoreSigns' )

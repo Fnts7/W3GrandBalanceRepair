@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** gameplayLightComponent - Class that can manipulate light entities
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Shadi Dadenji
-/***********************************************************************/
+
+
+
 
 import class CGameplayLightComponent extends CInteractionComponent
 {
@@ -22,7 +24,7 @@ import class CGameplayLightComponent extends CInteractionComponent
 	private saved var restoreItemLAtEnd	: bool;
 	
 	
-	//this event allows us to toggle lights on/off using the interaction button
+	
 	event OnInteraction( actionName : string, activator : CEntity )
 	{
 		if ( activator == thePlayer )
@@ -41,7 +43,7 @@ import class CGameplayLightComponent extends CInteractionComponent
 			thePlayer.AddAnimEventChildCallback(this,'UnlockInteraction','OnAnimEvent_UnlockInteraction');
 		}
 		
-		//if light is off
+		
 		if(!IsLightOn())
 		{
 			thePlayer.PlayerStartAction( PEA_IgniLight );
@@ -89,7 +91,7 @@ import class CGameplayLightComponent extends CInteractionComponent
 		{
 			SetLight(true);
 			
-			//adds Fact on Ignite, added for Quests
+			
 			if( factOnIgnite )
 			{
 				FactsAdd( factOnIgnite, 1 );
@@ -101,7 +103,7 @@ import class CGameplayLightComponent extends CInteractionComponent
 		}
 	}
 	
-	//these get triggered from gameplayEntity
+	
 	function AardHit()
 	{
 		if(IsInteractive())
@@ -140,7 +142,7 @@ import class CGameplayLightComponent extends CInteractionComponent
 			{
 				SetLight(true);
 				
-				//adds Fact on Ignite, added for Quests
+				
 				if( factOnIgnite )
 				{
 					FactsAdd( factOnIgnite, 1 );
@@ -157,9 +159,9 @@ import class CGameplayLightComponent extends CInteractionComponent
 
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////QUEST BLOCKS//////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 quest function SetLightSignsReaction(value:bool, tag:name)
 {
@@ -205,9 +207,9 @@ quest function SetLights(value:bool, tag:name, optional allowLightsFade:bool)
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////CONSOLE FUNCS//////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 exec function execSetLight(value:bool, tag:name)
 {

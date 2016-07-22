@@ -1,4 +1,9 @@
-﻿class CR4StartScreenMenuBase extends CR4MenuBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4StartScreenMenuBase extends CR4MenuBase
 {	
 	private var _fadeDuration : float;
 	default _fadeDuration = 0.1;
@@ -8,7 +13,7 @@
 	private var m_fxSetGameLogoLanguage	: CScriptedFlashFunction;
 	protected var m_fxSetText			: CScriptedFlashFunction;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{	
 		var languageName : string;
 		var audioLanguageName : string;
@@ -42,7 +47,7 @@
 		}
 	}
 	
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		if( !thePlayer.GetStartScreenEndWithBlackScreen() )
 		{
@@ -54,7 +59,7 @@
 		
 		theGame.GetGuiManager().SetIsDuringFirstStartup( false );
 		
-		theSound.SoundEvent("stop_music"); // Need to stop it for the cinematic between and main menu
+		theSound.SoundEvent("stop_music"); 
 	}
 
 	private function SetFadeTime()
@@ -100,11 +105,11 @@
 	
 	public function setWaitingText()
 	{
-		// Same for all platforms
+		
 		m_fxSetText.InvokeSelfOneArg(FlashArgString(GetLocStringByKeyExt("panel_please_wait")));
 	}
 	
-	function PlayOpenSoundEvent() // # Disable the open sound when entering start screen
+	function PlayOpenSoundEvent() 
 	{
 	}
 }

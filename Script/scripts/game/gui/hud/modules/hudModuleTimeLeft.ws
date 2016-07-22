@@ -1,8 +1,13 @@
-﻿class CR4HudModuleTimeLeft extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleTimeLeft extends CR4HudModuleBase
 {	
 	private	var m_fxSetTimeOutPercent				: CScriptedFlashFunction;
 	
-	/* flash */ event OnConfigUI()
+	 event OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -45,7 +50,7 @@
 
 	public function Show( timeOut : float )
 	{
-		// TODO save timeout in player
+		
 		thePlayer.SetInitialTimeOut( timeOut );
 		thePlayer.SetCurrentTimeOut( timeOut );
 		
@@ -68,13 +73,13 @@
 		currentTimeOut = thePlayer.GetCurrentTimeOut();
 		if ( currentTimeOut <= 0 )
 		{
-			// there'e no time left anyway
+			
 			return;
 		}
 		newTimeOut = currentTimeOut + timeOut;
 		if ( newTimeOut > thePlayer.GetInitialTimeOut() )
 		{
-			// not more than the initial timeout
+			
 			newTimeOut = thePlayer.GetInitialTimeOut();
 		}
 		thePlayer.SetCurrentTimeOut( newTimeOut );

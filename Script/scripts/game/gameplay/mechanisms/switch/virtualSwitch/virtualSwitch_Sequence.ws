@@ -1,17 +1,16 @@
 ﻿/***********************************************************************/
-/** 
-/***********************************************************************/
-/** Copyright © 2012
-/** Author : Tomasz Kozera
-/**			 Rafal Jarczewski
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/**
 
-*/
+
+
+
 class W3VirtualSwitch_Sequence extends W3VirtualSwitch
 {
-	private saved var nextSwitchIndex : int;						//index of the next switch to be triggered
+	private saved var nextSwitchIndex : int;						
 	
 	public function Notify( activeSwitch : W3Switch )
 	{
@@ -46,12 +45,12 @@ class W3VirtualSwitch_Sequence extends W3VirtualSwitch
 					
 		if( activeSwitchIndex == requiredSwitches.Size() - 1 )
 		{
-			// sequence completed, toggle virtual switch
+			
 			Toggle( NULL, false, false );
 		}
 		else
 		{
-			// wait for next switch
+			
 			nextSwitchIndex += 1;
 		}
 	}

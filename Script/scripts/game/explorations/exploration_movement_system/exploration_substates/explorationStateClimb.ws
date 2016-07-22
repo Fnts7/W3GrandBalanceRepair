@@ -1,9 +1,14 @@
-﻿// CExplorationStateClimb
-//------------------------------------------------------------------------------------------------------------------
-// Eduard Lopez Plans	( 08/08/2014 )	 
-//------------------------------------------------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-//>-----------------------------------------------------------------------------------------------------------------
+
+
+
+
+
 enum EClimbRequirementType
 {
 	ECRT_Landed			= 0,
@@ -13,21 +18,21 @@ enum EClimbRequirementType
 	ECRT_Running		= 4,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 enum EClimbRequirementVault
 {
 	ECRV_NoVault	= 0,
 	ECRV_Vault		= 1,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 enum EClimbRequirementPlatform
 {
 	ECRV_NoPlatform	= 0,
 	ECRV_Platform	= 1,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 enum EClimbHeightType
 {
 	ECHT_Step		= 0,
@@ -38,7 +43,7 @@ enum EClimbHeightType
 	ECHT_VeryHigh	= 5,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 enum EClimbDistanceType
 {
 	ECDT_Normal	= 0,
@@ -46,7 +51,7 @@ enum EClimbDistanceType
 	ECDT_Far	= 2,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 enum EClimbEndReady
 {
 	ECR_NotReady	= 0,
@@ -56,7 +61,7 @@ enum EClimbEndReady
 	ECR_Idle		= 4,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
+
 enum EOutsideCapsuleState
 {
 	EOCS_Inactive		= 0,
@@ -65,32 +70,32 @@ enum EOutsideCapsuleState
 	EOCS_Recover		= 3,
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 struct CClimbType
 {		
-	// type
+	
 	editable			var requiredState			: EClimbRequirementType;
 	editable			var requiredVault			: EClimbRequirementVault;
 	editable			var requiredPlatform		: EClimbRequirementPlatform;
 	editable			var	type					: EClimbHeightType;				default	type				= ECHT_Medium;
 	
-	// Heights
+	
 	editable			var	heightUseDefaults		: bool;							default	heightUseDefaults	= true;
 	editable			var	heightMax				: float;						default	heightMax			= 1.4f;
 	editable			var	heightMin				: float;						default	heightMin			= 0.2f;
-	editable			var heightExact				: float;						default	heightExact			= 1.0f; // we will use to correct all heights in range to exact height 
+	editable			var heightExact				: float;						default	heightExact			= 1.0f; 
 	
-	// Forward Distance
+	
 	editable			var forwardDistExact		: float;						default	forwardDistExact	= 0.4f;
 	
-	// Camera
+	
 	editable 			var	playCameraAnimation		: bool;							default	playCameraAnimation	= false;
 	editable 			var	cameraAnimation			: name;
 }
 
-//>-----------------------------------------------------------------------------------------------------------------
-//------------------------------------------------------------------------------------------------------------------
+
+
 class CExplorationStateClimb extends CExplorationStateAbstract
 {	
 	public 						var	m_ClimbOracleO			: CExplorationClimbOracle;
@@ -98,14 +103,14 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private editable			var	enabled					: bool;					default	enabled					= true;
 	
 	
-	// Climb types
+	
 	private editable inlined	var	climbTypes				: array< CClimbType >;
 	private						var	climbCur				: CClimbType;
 	private	editable inlined	var	heightMaxToRun			: float;
 	private	editable inlined	var	platformHeightMinAir	: float;
 	private	editable inlined	var	platformHeightMin		: float;
 	
-	// Cur climb data
+	
 	private						var	climbPoint				: Vector;
 	private						var	wallNormal				: Vector;
 	private						var	heightTarget			: float;
@@ -114,7 +119,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private						var curPlayerStateType		: EClimbRequirementType;
 	private						var	vaultEndsFalling		: bool;
 	
-	// State
+	
 	private						var	ended					: bool;
 	private						var	canWalk					: bool;
 	private						var	canRun					: bool;
@@ -122,7 +127,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	editable					var animDurationLimit		: float;				default	animDurationLimit		= 5.0f;
 	editable					var slideDistMaxOnRun		: float;				default	slideDistMaxOnRun		= 1.5f;
 	
-	// Input
+	
 	private	editable			var	autoClimb				: bool;					default	autoClimb				= false;
 	private	editable			var	autoClimbOnAir			: bool;					default	autoClimbOnAir			= false;
 	private editable			var	inputAngleToEnter		: float;				default	inputAngleToEnter		= 180.0f;
@@ -133,7 +138,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private editable			var	inputAirTimeGap			: bool;					default	inputAirTimeGap			= false;
 	private editable			var	inputTimeGapCheck		: float;				default	inputTimeGapCheck		= 0.3f;
 	
-	// Adjustment	
+	
 	private						var	characterRadius			: float;				default	characterRadius			= 0.4f;
 	private						var	adjustInitiallRotat 	: float;
 	private						var	adjustRotation			: float;
@@ -154,7 +159,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private						var heightToAdd				: float;
 	
 	
-	// Translation outside capsule
+	
 	private						var	pelvisTransMax			: float;				default	pelvisTransMax			= 0.4f;
 	private						var	pelvisTransAllow		: bool;					default	pelvisTransAllow		= true;
 	private						var	pelvisTransState		: EOutsideCapsuleState;
@@ -165,7 +170,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private						var	pelvisTransSpeedOut		: float;				default	pelvisTransSpeedOut		= 10.0f;
 	
 	
-	// Anim Receive
+	
 	private editable			var	behAnimAdjustInitRot	: name;					default	behAnimAdjustInitRot	= 'ClimbInitialRotate';
 	private editable			var	behAnimAdjustRot		: name;					default	behAnimAdjustRot		= 'ClimbStartRotate';
 	private editable			var	behAnimAdjustTrans		: name;					default	behAnimAdjustTrans		= 'ClimbStartTranslate';
@@ -183,7 +188,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private editable			var	behDisableHandLIK		: name;					default	behDisableHandLIK		= 'ClimbDisableHandLIK';
 	private editable			var	behDisableHandRIK		: name;					default	behDisableHandRIK		= 'ClimbDisableHandRIK';
 	
-	// Anim send
+	
 	private editable			var	behHeightTypeEnum		: name;					default	behHeightTypeEnum		= 'ClimbHeightType';
 	private editable			var	behVaultTypeEnum		: name;					default	behVaultTypeEnum		= 'ClimbVaultType';
 	private editable			var	behPlatformTypeEnum		: name;					default	behPlatformTypeEnum		= 'ClimbPlatformType';
@@ -195,7 +200,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private editable			var	behAnimSpeed			: name;					default	behAnimSpeed			= 'ClimbAnimSpeed';
 	
 	
-	// IK	
+	
 	private	editable			var continousHandIK			: bool;					default	continousHandIK			= true;
 	private editable			var	handIKMinDistToEnable	: float;				default	handIKMinDistToEnable	= 0.05f;
 	private editable			var	handIKMaxDist			: float;				default	handIKMaxDist			= 0.3f;
@@ -203,7 +208,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private editable			var	handIKHalfMaxHeight		: float;				default	handIKHalfMaxHeight		= 1.0f;
 	private editable			var	handIKBlendSpeedIn		: float;				default	handIKBlendSpeedIn		= 3.5f;
 	private editable			var	handIKBlendSpeedOut		: float;				default	handIKBlendSpeedOut		= 1.5f;
-	private editable			var	handThickness			: float;				default	handThickness			= 0.02;//0,035f;
+	private editable			var	handThickness			: float;				default	handThickness			= 0.02;
 	protected 					var	boneRightHand			: name;					default	boneRightHand			= 'r_hand';
 	protected 					var	boneLeftHand			: name;					default	boneLeftHand			= 'l_hand';
 	protected 					var	boneIndexRightHand		: int;
@@ -229,7 +234,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	
 	private						var	collisionObstaclesNames	: array<name>;
 	
-	// Cmaera
+	
 	protected editable inlined	var	cameraSetVault			: CCameraParametersSet;		
 	protected editable inlined	var	cameraSetJump			: CCameraParametersSet;		
 	private editable			var	updateCameraManual		: bool;					default	updateCameraManual		= false;
@@ -243,20 +248,20 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	private	editable			var	camFollowBoneName		: name;					default	camFollowBoneName		= 'torso';
 	
 	
-	//Aux
+	
 	private						var	vectorUp				: Vector;	
 	
-	// Debug
+	
 	private	editable			var	forceAirCollision		: bool;					default	forceAirCollision		= false;
 	private	editable			var	forceJumpGrab			: bool;					default	forceJumpGrab			= false;
 	private	editable			var	noAdjustor				: bool;					default	noAdjustor				= false;
 	private	editable			var	noPelvisCorection		: bool;					default	noPelvisCorection		= false;
 	
-	//items
+	
 	private	saved				var restoreUsableItemLAtEnd : bool;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InitializeSpecific( _Exploration : CExplorationStateManager )
 	{	
 		var	heightTotalMin			: float;
@@ -280,7 +285,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		SetCanSave( false );
 		
 		
-		// Init climbs
+		
 		if( climbTypes.Size() <= 0 )
 		{
 			LogExplorationError( "No climb data was found in state CExplorationStateClimb" );
@@ -288,10 +293,10 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 		InitClimbs();
 		
-		// Get min and max climb heights we have
+		
 		ComputeMinMaxHeight( heightTotalMin, heightTotalMax );
 		
-		// Oracle
+		
 		if( !m_ClimbOracleO )
 		{
 			m_ClimbOracleO	= new CExplorationClimbOracle in this;
@@ -299,75 +304,75 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		m_ClimbOracleO.Initialize( m_ExplorationO, heightTotalMin, heightTotalMax, MinF( platformHeightMin, platformHeightMinAir ), characterRadius );
 		
 		
-		// Get and store bone indexes
+		
 		boneIndexRightHand	= m_ExplorationO.m_OwnerE.GetBoneIndex( boneRightHand );
 		boneIndexLeftHand	= m_ExplorationO.m_OwnerE.GetBoneIndex( boneLeftHand );
 		camFollowBoneID		= m_ExplorationO.m_OwnerE.GetBoneIndex( camFollowBoneName );
 		
 		
-		// Collisions
+		
 		collisionObstaclesNames.PushBack( 'Terrain' );
 		collisionObstaclesNames.PushBack( 'Static' );
 		collisionObstaclesNames.PushBack( 'Platforms' );
 		collisionObstaclesNames.PushBack( 'Fence' );
 		collisionObstaclesNames.PushBack( 'Boat' );
 		collisionObstaclesNames.PushBack( 'BoatDocking' );
-		//collisionObstaclesNames.PushBack( 'Character' );
+		
 		collisionObstaclesNames.PushBack( 'Foliage' );
 		collisionObstaclesNames.PushBack( 'Dynamic' );
 		collisionObstaclesNames.PushBack( 'Destructible' );
 		collisionObstaclesNames.PushBack( 'RigidBody' );
 		
 		
-		// Init aux
+		
 		vectorUp	= Vector( 0.0f,0.0f, 1.0f );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddDefaultStateChangesSpecific()
 	{
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateWantsToEnter() : bool
 	{		
-		// Get other input related stuff
+		
 		ComputeInput();
 		
-		// Get the player state
+		
 		curPlayerStateType								= FindPlayerState();
 		m_ExplorationO.m_SharedDataO.m_ClimbStateTypeE	= curPlayerStateType;
 		
-		//DebugEnterToClimb();
 		
-		// Make the oracle find the best climb, if any
+		
+		
 		if( !OracleWantsToEnter() )
 		{
 			return false;
 		}
 		
-		// Do we have a raw situation valid
+		
 		if( !PreRefineIsValid() )
 		{
 			return false;
 		}
 		
-		// Refine player state based on data
+		
 		RefinePlayerState();
 		
-		// Do we have a fitting climb?
+		
 		if( !FindApropriateClimb() )
 		{
 			return false;
 		}	
 		
-		// Refine again
+		
 		PostRefineState();	
 		
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function DebugEnterToClimb()
 	{
 		heightTarget		= 2.6f;
@@ -378,10 +383,10 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		wallNormal			= -m_ExplorationO.m_OwnerE.GetWorldForward();
 	}
 
-	//---------------------------------------------------------------------------------
+	
 	function StateCanEnter( curStateName : name ) : bool
 	{	
-		// Input is required		
+		
 		if( !InputWantsToEnter() )
 		{
 			return false;
@@ -400,52 +405,52 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateEnterSpecific( prevStateName : name )	
 	{		
-		// Leave swim state
+		
 		if( prevStateName == 'Swim' )
 		{
 			thePlayer.GotoState('Exploration');
 		}
 		
-		// Update character radius (to make sure it works )
-		//characterRadius		= m_ExplorationO.m_OwnerMAC.GetCapsuleRadius();
-		//LogExplorationClimb( "characterRadius: " + characterRadius );
 		
-		// Initial displacement 
+		
+		
+		
+		
 		SetInitialMovementAdjustor();
 		
-		// Disable snapping to ground
+		
 		m_ExplorationO.m_MoverO.SetManualMovement( true );
 		
-		//kill sheath sword timer
+		
 		thePlayer.RemoveTimer( 'DelayedSheathSword' );
 		
 		thePlayer.SetBehaviorVariable( 'inJumpState', 1.f );
 		
-		// Crossbow instant disappear
+		
 		thePlayer.OnRangedForceHolster( true, true );
 		
-		// Translation forward
+		
 		pelvisTransCur		= 0.0f;
 		pelvisTransState	= EOCS_Inactive;
 		
-		// Anim
+		
 		SetBehaviorData();
 		
-		// Camera
+		
 		camStart	= true;
-		//camOriginalPosition = m_ExplorationO.m_OwnerE.GetWorldPosition() - 0.5f * m_ExplorationO.m_OwnerE.GetWorldForward() + 2.0f * m_ExplorationO.m_OwnerE.GetWorldUp();
+		
 		SetProperCameraAnim( true, 1.0f );
 		
-		// Debug
+		
 		if( m_ExplorationO.m_IsDebugModeB )
 		{			
 			DebugLogSuccesfullClimb();
 		}
 		
-		// Prepare		
+		
 		canFall					= false;
 		ended					= false;
 		canWalk					= false;
@@ -455,7 +460,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		adjustRotDone			= false;	
 		adjustTransDone			= false;	
 		
-		// IK		
+		
 		m_ExplorationO.m_OwnerMAC.SetEnabledFeetIK( false );
 		
 		leftHandOffset			= 0.0f;
@@ -470,42 +475,37 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		
 		adjust2Dduration		= 0.0f;	
 		
-		// Items in hands
+		
 		if ( thePlayer.IsHoldingItemInLHand() )
 		{			
 			thePlayer.OnUseSelectedItem ( true );
 			restoreUsableItemLAtEnd	= true;		
 		}
 		
-		//Abort all signs
+		
 		thePlayer.AbortSign();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function AddActionsToBlock()
 	{
 		AddActionToBlock( EIAB_DrawWeapon );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetIfCameraIsKept() : bool
 	{
 		return false;
-		/*
-		if( curPlayerStateType == ECRT_Jumping || curPlayerStateType == ECRT_AirColliding )
-		{
-			return false;
-		}
-		*/
-		//return vaultingFound != ECRV_Vault;
+		
+		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetCameraSet( out cameraSet : CCameraParametersSet) : bool
 	{
 		if( ( curPlayerStateType == ECRT_Jumping || curPlayerStateType == ECRT_AirColliding ) && cameraSetJump )
 		{
-			//cameraSet	= m_ExplorationO.m_DefaultCameraSetS;
+			
 			cameraSet	= cameraSetJump;
 			return true;
 		}
@@ -517,7 +517,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return super.GetCameraSet( cameraSet );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function AddAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.AddAnimEventCallback( behAnimCanFall, 			'OnAnimEvent_SubstateManager' );
@@ -537,7 +537,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		m_ExplorationO.m_OwnerE.AddAnimEventCallback( behDisableHandRIK, 		'OnAnimEvent_SubstateManager' );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateChangePrecheck( )	: name
 	{		
 		if( canFall )
@@ -560,12 +560,12 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			}
 		}
 		
-		// Blend to walk or runn
+		
 		if( m_ExplorationO.CanChangeBetwenStates( GetStateName(), 'Idle' ) )
 		{			
 			if( AbsF( m_ExplorationO.m_InputO.GetHeadingDiffFromPlayerF() ) < inputAngleToRun )
 			{
-				if( canRun && thePlayer.GetIsRunning() ) //m_ExplorationO.m_InputO.IsSprintPressed() )
+				if( canRun && thePlayer.GetIsRunning() ) 
 				{
 					if( m_ExplorationO.m_InputO.IsModuleConsiderable() )
 					{
@@ -591,8 +591,8 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			}
 		}
 		
-		// End
-		if( ended || m_ExplorationO.GetStateTimeF() > animDurationLimit ) // got the event to start blending out or the time has ended
+		
+		if( ended || m_ExplorationO.GetStateTimeF() > animDurationLimit ) 
 		{
 			if( vaultEndsFalling || !m_ExplorationO.m_CollisionManagerO.CheckLandBelow( 0.2f, Vector( 0.0f,0.0f, 0.0f ), true ) )
 			{
@@ -616,13 +616,13 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return super.StateChangePrecheck();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	protected function StateUpdateSpecific( _Dt : float )
 	{		
 		var posCur	: Vector;
 		
 		
-		// Recover time coef
+		
 		if( adjustSpeedRequire )
 		{
 			if( m_ExplorationO.GetStateTimeF() >= adjustSpeedEndTime )
@@ -640,41 +640,41 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		
 		UpdateRunOrWalk();
 		
-		// Disable vertical slidingness
+		
 		CheckVerticalSlideEnd();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StateExitSpecific( nextStateName : name )
 	{
 		var movAdj 			: CMovementAdjustor;
 		
-		// Recover snapping and cancel adjustments
+		
 		movAdj = m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
 		movAdj.CancelByName( 'ClimbAdjusInitialRotation' );
 		movAdj.CancelByName( 'ClimbAdjustments' );
 		movAdj.CancelByName( 'ClimbAdjusTranslation' );
 		movAdj.CancelByName( 'ClimbAdjusRotation' );
 		movAdj.CancelByName( 'ClimbFakeGravity' );
-		//movAdj.CancelByName( 'ClimbAdjusPelvisCorrection' );
+		
 		
 		CorrectPelvisStartEnd();
 		
 		
-		// Anim speed coef
+		
 		if( adjustSpeedRequire )
 		{				
 			ApplyAnimationSpeed( 1.0f );
 		}
 		
-		// Camera
+		
 		if( m_ExplorationO.GetStateTimeF() < 0.25f )
 		{
 			CancelCameraAnimation();
 		}
 		
-		// Ik and physics
-		if( vaultingFound == ECRV_NoVault ) // !vaultEndsFalling )
+		
+		if( vaultingFound == ECRV_NoVault ) 
 		{
 			m_ExplorationO.m_OwnerMAC.SetEnabledFeetIK( true );
 		}
@@ -684,7 +684,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		
 		m_ExplorationO.m_MoverO.SetManualMovement( false );
 		
-		// Items
+		
 		if ( restoreUsableItemLAtEnd )
 		{
 			restoreUsableItemLAtEnd = false;
@@ -694,16 +694,16 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		thePlayer.SetBehaviorVariable( 'inJumpState', 0.f );
 		
 		thePlayer.ReapplyCriticalBuff();
-		//thePlayer.SetBehaviorVariable( 'holsterFastForced', 0.f, true );
+		
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function StateUpdateInactive( _Dt : float )
 	{
 		UpdateAndSetHandsIKBlend( _Dt );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function RemoveAnimEventCallbacks()
 	{
 		m_ExplorationO.m_OwnerE.RemoveAnimEventCallback( behAnimCanFall );
@@ -723,25 +723,25 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		m_ExplorationO.m_OwnerE.RemoveAnimEventCallback( behDisableHandRIK );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToLoseGround() : bool
 	{
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function ReactToHitGround() : bool
 	{	
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function CanInteract( ) : bool
 	{		
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo )
 	{
 		var duration		: float	= -1.0f;
@@ -749,14 +749,14 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		var text			: string;
 		
 		
-		// Fall
+		
 		if( animEventName == behAnimCanFall )
 		{
 			canFall = true;
-			//m_ExplorationO.m_OwnerE.SetBehaviorVariable( behVarEnd, ( float ) ( int ) ECR_Fall );
+			
 		}
 		
-		// End
+		
 		else if ( animEventName == behAnimEnded )
 		{
 			ended	= true;
@@ -764,13 +764,13 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			canRun	= true;
 		}
 		
-		// Walk
+		
 		else if( !canWalk && animEventName == behAnimCanWalk )
 		{
 			canWalk	= true;
 		}
 		
-		// Run
+		
 		else if( !canRun && animEventName == behAnimCanRun )
 		{
 			canRun	= true;
@@ -782,35 +782,35 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			StartMovementAdjustorInitialRotation( duration );
 		}
 		
-		// Rotation
+		
 		else if( animEventName == behAnimAdjustRot && !adjustRotDone )
 		{
 			duration	= GetEventDurationFromEventAnimInfo( animInfo );
 			StartMovementAdjustorRotation( duration );
 		}
 		
-		// Translation
+		
 		else if( animEventName == behAnimAdjustTrans && !adjustTransDone )
 		{
 			duration	= GetEventDurationFromEventAnimInfo( animInfo );
 			StartMovementAdjustorTranslation( duration );
 			
 			
-			// Also, pivot translation
+			
 			if( pelvisTransAllow && pelvisTransState == EOCS_Inactive )
 			{
 				pelvisTransState	= EOCS_Starting;
 			}
 		}
 		
-		// Pelvis
+		
 		else if( animEventName == behDisablePelvisTrans )
 		{
-			// Also, translation
+			
 			CorrectPelvisStartEnd();
 		}
 		
-		// FeetIk
+		
 		else if( animEventName == behEnableIK )
 		{
 			if( vaultingFound == ECRV_NoVault )
@@ -820,7 +820,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			}
 		}
 		
-		// HandsIK
+		
 		else if( animEventName == behEnableHandsIK )
 		{
 			handIKqueuedL	= true;
@@ -847,13 +847,13 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			StopHandIK( false, true );
 		}
 		
-		// Nothing to do
+		
 		else
 		{
 			unwantedEvent = true;
 		}
 		
-		// Log the event
+		
 		if( !unwantedEvent )
 		{
 			text	= "GotEvent: " + animEventName;
@@ -865,7 +865,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InitClimbs()
 	{
 		var i	: int;
@@ -876,7 +876,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InitializeClimb( i : int )
 	{
 		if( climbTypes[ i ].heightUseDefaults )
@@ -909,7 +909,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 					break;
 			}
 			
-			// The exact height is the minimum except for the very small
+			
 			if( climbTypes[ i ].type == ECHT_VerySmall )
 			{
 				climbTypes[ i ].heightExact	= 1.0f;
@@ -925,20 +925,20 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeMinMaxHeight( out heightTotalMin : float, out heightTotalMax : float )
 	{
 		var i	: int;
 		
 		
-		// Initialize
+		
 		heightTotalMin			= climbTypes[ 0 ].heightMin;
 		heightTotalMax			= climbTypes[ 0 ].heightMax;
 		platformHeightMin		= 1000.0f;
 		platformHeightMinAir	= 1000.0f;
 		heightMaxToRun			= 0.0f;
 		
-		// Find them
+		
 		for( i = 0; i < climbTypes.Size(); i += 1 )
 		{
 			if( climbTypes[ i ].requiredState == ECRT_Running && heightMaxToRun < climbTypes[ i ].heightMax )
@@ -970,13 +970,13 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function FindPlayerState() : EClimbRequirementType
 	{
-		// Air
+		
 		if( m_ExplorationO.GetStateTypeCur() ==  EST_OnAir )
 		{
-			// Test force
+			
 			if( forceAirCollision )
 			{
 				return ECRT_AirColliding;
@@ -993,27 +993,27 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			return ECRT_Jumping;
 		}
 		
-		// Swim
+		
 		else if( m_ExplorationO.GetStateTypeCur() ==  EST_Swim )
 		{
 			return ECRT_Swimming;
 		}
 		
-		// Run
-		//else if( thePlayer.GetIsRunning() )
-		else if( thePlayer.GetIsRunning() && m_ExplorationO.m_InputO.IsModuleConsiderable() ) //&& m_ExplorationO.m_InputO.IsSprintPressed() 
+		
+		
+		else if( thePlayer.GetIsRunning() && m_ExplorationO.m_InputO.IsModuleConsiderable() ) 
 		{
 			return ECRT_Running;
 		}
 		
-		// Idle or walk
+		
 		return ECRT_Landed;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function InputWantsToEnter() : bool
 	{
-		// Manual climb		
+		
 		if( m_ExplorationO.m_InputO.IsExplorationJustPressed() )
 		{
 			return true;
@@ -1027,39 +1027,13 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			return false;
 		}
 		
-		/*
-		// Auto climb
-		if( autoClimb && m_ExplorationO.m_InputO.IsModuleConsiderable() && AbsF( m_ExplorationO.m_InputO.GetHeadingDiffFromPlayerF() ) <= inputAngleToEnter && thePlayer.GetIsRunning() ) // && m_ExplorationO.m_InputO.IsSprintPressed()
-		{
-			return true;
-		}
 		
-		// On air climb
-		if( m_ExplorationO.GetStateTypeCur() == EST_OnAir )
-		{
-			if( autoClimbOnAir && m_ExplorationO.m_InputO.IsModuleConsiderable() )
-			{
-				return true;
-			}
-			if( inputAirHold && m_ExplorationO.m_InputO.IsExplorationPressed() )
-			{
-				return true;
-			}
-			if( inputAirTimeGap && m_ExplorationO.m_InputO.GetExplorationLastJustPressedTime( ) < inputTimeGapCheck )
-			{
-				return true;
-			}
-		}
-		
-		return false;
-		
-		*/
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ComputeInput()
 	{
-		inputAttemptsTop	= !thePlayer.GetIsRunning(); //m_ExplorationO.m_InputO.IsSprintPressed();
+		inputAttemptsTop	= !thePlayer.GetIsRunning(); 
 		
 		if( m_ExplorationO.m_InputO.IsModuleConsiderable() )
 		{
@@ -1071,7 +1045,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function OracleWantsToEnter() : bool
 	{
 		var originPosition	: Vector;
@@ -1085,28 +1059,28 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		
 		distanceType	= GetDistanceType();
 		
-		// Do we require to go in the direction?
+		
 		requireInputDir		= m_ExplorationO.m_InputO.IsModuleConsiderable();
 		
-		// Compute
+		
 		m_ClimbOracleO.ComputeAll( inputAttemptsTop, originPosition, inputDirection, distanceType, requireInputDir, logFails );
 		
-		// No climb found
+		
 		if( !m_ClimbOracleO.CanWeClimb() )
 		{
 			return false;
 		}
 		
-		// Get target climb data
+		
 		m_ClimbOracleO.GetClimbData( heightTarget, vaultingFound, vaultEndsFalling, platformFound, climbPoint, wallNormal );
 		
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function GetDistanceType() : EClimbDistanceType
 	{
-		// Which distance are we checking for
+		
 		if( curPlayerStateType == ECRT_Jumping )
 		{		
 			return ECDT_Close;
@@ -1123,21 +1097,21 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return ECDT_Normal;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function PreRefineIsValid() : bool
 	{
 		var	dot			: float;
 		var distance2D	: float;
 		
 		
-		// No step climb or vault if running
+		
 		if( curPlayerStateType == ECRT_Running && heightTarget < 0.75f )
 		{
 			LogExplorationClimb( "Climb skipped because of running state and height < 0.75f" );
 			return false;
 		}
 		
-		// No climbing if it is a high climb and the poit is too far away
+		
 		if( curPlayerStateType == ECRT_Running && heightTarget >= 3.0f )
 		{
 			distance2D	= VecDistanceSquared2D( climbPoint, m_ExplorationO.m_OwnerE.GetWorldPosition() );
@@ -1148,7 +1122,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			}
 		}
 		
-		// Check angle
+		
 		if( curPlayerStateType == ECRT_Running )
 		{
 			dot	= VecDot( wallNormal, inputDirection );
@@ -1162,25 +1136,17 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function RefinePlayerState()
 	{
-		// Run to landed
+		
 		if( curPlayerStateType == ECRT_Running && heightTarget > heightMaxToRun )
 		{
      		curPlayerStateType = ECRT_Landed;
 		}
-		/*
-		// For the lowest height, we use run if walking
-		else if( curPlayerStateType == ECRT_Landed && heightTarget < 0.75f )
-		{
-			if( m_ExplorationO.m_InputO.IsModuleConsiderable() )
-			{
-				curPlayerStateType = ECRT_Running;
-			}
-		}*/
 		
-		// Platform to no platform
+		
+		
 		if( platformFound == ECRV_Platform )
 		{
 			if( curPlayerStateType == ECRT_Jumping || curPlayerStateType == ECRT_AirColliding )
@@ -1200,14 +1166,14 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function PostRefineState()
 	{
 		var	characterPos	: Vector;
 		var	distance2D		: float;
 		
 		return;
-		// Going too close
+		
 		if( curPlayerStateType == ECRT_Running )
 		{
 			characterPos		= m_ExplorationO.m_OwnerMAC.GetWorldPosition();
@@ -1221,14 +1187,14 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function FindApropriateClimb() : bool
 	{	
 		var i					: int;		
 		var searchingForState	: EClimbRequirementType;
 		
 		
-		// we use jump anims for air collision climbs
+		
 		searchingForState	= curPlayerStateType;
 		
 		if( searchingForState == ECRT_AirColliding )
@@ -1236,34 +1202,34 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			searchingForState	= ECRT_Jumping;
 		}
 		
-		// Find the closest explroation in the range that is valid
+		
 		for( i = 0; i < climbTypes.Size(); i += 1 )
 		{			
-			// Proper state ?
-			if( climbTypes[ i ].requiredState != searchingForState )//&& climbTypes[ i ].requiredStateAlt != curPlayerStateType )
+			
+			if( climbTypes[ i ].requiredState != searchingForState )
 			{
 				continue;
 			}
 			
-			// Vaulting ?
+			
 			if( vaultingFound != climbTypes[ i ].requiredVault ) 
 			{
 				continue;
 			}
 			
-			// Platform?
+			
 			if( platformFound != climbTypes[ i ].requiredPlatform ) 
 			{
 				continue;
 			}
 			
-			// Proper height ?
+			
 			if( climbTypes[ i ].heightMax < heightTarget || climbTypes[ i ].heightMin > heightTarget )
 			{
 				continue;
 			}
 			
-			// Save the climb we found for when we enter the state
+			
 			climbCur	= climbTypes[ i ];
 			
 			return true;
@@ -1273,10 +1239,10 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return false;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetBehaviorData()
 	{
-		//m_ExplorationO.m_SharedDataO.ForceFotForward( false );
+		
 		m_ExplorationO.m_SharedDataO.SetFotForward();
 		SetTranslationToBehaviour();
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behVarEnd, ( float ) ( int ) ECR_NotReady );
@@ -1296,7 +1262,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetProperCameraAnim( reset : bool, speed : float )
 	{
 		var camera		: CCustomCamera = theGame.GetGameCamera();
@@ -1307,7 +1273,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			return;
 		}
 		
-		animation.animation	= climbCur.cameraAnimation; // 'vault_idle_300';
+		animation.animation	= climbCur.cameraAnimation; 
 		animation.priority	= 10;
 		animation.blendIn	= 0.5f;
 		animation.blendOut	= 0.5f;
@@ -1320,7 +1286,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		camera.PlayAnimation( animation );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CancelCameraAnimation()
 	{
 		var camera		: CCustomCamera = theGame.GetGameCamera();
@@ -1328,20 +1294,20 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		camera.StopAnimation( climbCur.cameraAnimation );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetInitialMovementAdjustor()
 	{
-		// Stop movement from jump if any
+		
 		m_ExplorationO.m_OwnerMAC.GetMovementAdjustor().CancelByName( 'turnOnJump' );
 		
-		// Anim speed coef
+		
 		ApplyAnimationSpeed( 1.0f );
 		
-		// Gather info
+		
 		PrepareMovementAdjustorParameters();
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function PrepareMovementAdjustorParameters()
 	{
 		var initialrotation		: float;
@@ -1354,27 +1320,27 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		var	isCiri				: bool;
 		
 		
-		// Get data
+		
 		heightToAdd			= heightTarget - climbCur.heightExact;	
-		characterRadius		= 0.4f;//m_ExplorationO.m_OwnerMAC.GetCapsuleRadius();
+		characterRadius		= 0.4f;
 		characterPos		= m_ExplorationO.m_OwnerMAC.GetWorldPosition();
 		
-		// Final orientation is perpendicular to the wall
+		
 		rotation			= VecHeading( -wallNormal );
 		
-		// Base translation
+		
 		translation			= climbPoint - characterPos;
 		
-		// Initial rotation is toward climb point, not target position point
+		
 		initialrotation		= VecHeading( translation ); 
 		
-		// Target position point is behind the point in the wall;
+		
 		translation			+= wallNormal * characterRadius;
 		
 		
-		// The translation back is separate
+		
 		translationBackDist	= MaxF( 0.0f, VecDot( translation, wallNormal ) );
-		// Temporary fix for Ciri
+		
 		isCiri	= false;
 		if( (W3ReplacerCiri)thePlayer )
 		{
@@ -1388,47 +1354,40 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		{
 			translationBackDist	+= 0.05f;
 		}
-		/*if( translationBackDist > 0.0f )
-		{
-			if( !isCiri )
-			{
-				translationBackDist	+= 1.2f;
-			}
-			//translation			= wallNormal * translationBackDist;
-		}*/
 		
-		// Extra distances forward
-		//if( climbCur.forwardDistExact > characterRadius ) //distanceToAdd )
+		
+		
+		
 		{
 			distanceToAdd		= VecLength( translation ); 
-			//translation			-= wallNormal * MaxF( 0.0f,  distanceToAdd - climbCur.forwardDistExact ) ;
-			//translation			-= wallNormal * ( distanceToAdd - climbCur.forwardDistExact - 10.2f );
+			
+			
 			translation			-= wallNormal * ( characterRadius - climbCur.forwardDistExact );
 		}
 		
 		translation.Z			= heightToAdd;
 		
-		// Save distances
+		
 		adjustInitiallRotat		= initialrotation;
 		adjustRotation			= rotation;
 		adjustTranslation		= translation;
 		
-		// Init flags
+		
 		adjustInitialRotDone	= false;
 		adjustRotDone			= false;
 		adjustTransDone			= false;
 		adjustSpeedRequire		= false;
 		
-		//StartMovementAdjustorInitialRotation( adjustInitRotTime );
 		
-		// Start the initial adjustments
+		
+		
 		if( translationBackDist > 0.0f )
 		{
 			StartMovementAdjustorInitialTranslation( translationBackDist * wallNormal );
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StartMovementAdjustorTranslation( duration : float )
 	{
 		var movAdj 			: CMovementAdjustor;
@@ -1450,7 +1409,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			return;
 		}
 		
-		// Modify time and speed for a smoother translation
+		
 		distance	= VecLength( adjustTranslation );
 		speed		= distance / duration;
 		if( speed > adjustSpeedMax )
@@ -1463,7 +1422,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			ApplyAnimationSpeed( animSpeedCoef );
 		}
 		
-		// setup movement adjustment
+		
 		movAdj	= m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
 		ticket	= movAdj.CreateNewRequest( 'ClimbAdjusTranslation' );		
 		movAdj.AdjustmentDuration( ticket, duration );
@@ -1471,27 +1430,18 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		
 		movAdj.SlideBy( ticket, adjustTranslation );
 		
-		// Apply movement Vertical
-		//movAdj.SlideBy( ticket, Vector( 0.0f, 0.0f, adjustTranslation.Z ) );
+		
+		
 		
 		adjust2Dduration	= duration;
 		adjust2Translation	= Vector( adjustTranslation.X, adjustTranslation.Y, 0.0f );
 		adjust2Speed		= VecLength2D( adjust2Translation ) / duration;
 		
-		/*
-		// Aply movement 2D
-		ticket2	= movAdj.CreateNewRequest( 'ClimbAdjusTranslation2D' );		
-		movAdj.AdjustmentDuration( ticket2, duration );
-		movAdj.AdjustLocationVertically( ticket2, false );
 		
-		
-		// Apply movement
-		movAdj.SlideBy( ticket2, Vector( adjustTranslation.X, adjustTranslation.Y, 0.0f ) );
-		*/
 		adjustTransDone	= true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StartMovementAdjustorInitialRotation( duration : float )
 	{
 		var movAdj 		: CMovementAdjustor;
@@ -1511,26 +1461,26 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 		
 		
-		// Initial rotation modification	
+		
 		angle	= 	AngleDistance( adjustInitiallRotat, adjustRotation );
-		if( AbsF( angle ) > 90.0f ) //120.0f )
+		if( AbsF( angle ) > 90.0f ) 
 		{
 			adjustInitiallRotat		= adjustRotation;
 		}
 		
-		// setup movement adjustment
+		
 		movAdj = m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
 		ticket = movAdj.CreateNewRequest( 'ClimbAdjusInitialRotation' );		
 		movAdj.AdjustmentDuration( ticket, duration );
 		movAdj.LockMovementInDirection( ticket, adjustInitiallRotat );
 		
 		
-		// Apply movement
+		
 		movAdj.RotateTo( ticket, adjustInitiallRotat );	
 		adjustInitialRotDone	= true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StartMovementAdjustorInitialTranslation( translationBack : Vector )
 	{
 		var movAdj 			: CMovementAdjustor;
@@ -1542,18 +1492,18 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			return;
 		}
 		
-		// setup movement adjustment
+		
 		movAdj	= m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
 		ticket	= movAdj.CreateNewRequest( 'ClimbAdjusInitialTranslation' );		
 		movAdj.AdjustmentDuration( ticket, 0.1f );
 		movAdj.AdjustLocationVertically( ticket, true );
 		
 		
-		// Apply movement
+		
 		movAdj.SlideBy( ticket, translationBack );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StartMovementAdjustorRotation( duration : float )
 	{
 		var movAdj 			: CMovementAdjustor;
@@ -1568,23 +1518,23 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		movAdj = m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
 		movAdj.CancelByName( 'ClimbAdjusInitialRotation' );
 		
-		// already heading there
+		
 		if( adjustRotation	== m_ExplorationO.m_OwnerE.GetHeading() )
 		{
 			return;
 		}
 		
-		// setup movement adjustment
+		
 		ticket = movAdj.CreateNewRequest( 'ClimbAdjusRotation' );		
 		movAdj.AdjustmentDuration( ticket, duration );
 		
 		
-		// Apply movement
+		
 		movAdj.RotateTo( ticket, adjustRotation );	
 		adjustRotDone	= true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ApplyFakeGravity()
 	{
 		var movAdj 			: CMovementAdjustor;
@@ -1596,19 +1546,19 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			return;
 		}
 		
-		// setup movement adjustment
+		
 		movAdj = m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
 		ticket = movAdj.CreateNewRequest( 'ClimbFakeGravity' );		
 		movAdj.AdjustmentDuration( ticket, 0.5 );
 		movAdj.AdjustLocationVertically( ticket, true );
 		
 		
-		// Apply movement
+		
 		movAdj.SlideBy( ticket, Vector( 0.0f, 0.0f, -0.75f ) );
 		adjustTransDone	= true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateAdjusting2D( _Dt : float )
 	{
 		var movAdj 		: CMovementAdjustor;
@@ -1617,12 +1567,12 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		
 		if( adjust2Dduration > 0.0f )
 		{
-			movAdj.AddOneFrameTranslationVelocity( adjust2Translation * adjust2Speed );// * _Dt );
+			movAdj.AddOneFrameTranslationVelocity( adjust2Translation * adjust2Speed );
 			adjust2Dduration	-= _Dt;
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ApplyAnimationSpeed( speed : float )
 	{
 		m_ExplorationO.m_OwnerE.SetBehaviorVariable( behAnimSpeed, speed );
@@ -1630,7 +1580,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	}
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StartMovementAdjustorCorrectPelvis()
 	{
 		var movAdj 			: CMovementAdjustor;
@@ -1641,22 +1591,22 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			return;
 		}
 		
-		// setup movement adjustment
+		
 		movAdj	= m_ExplorationO.m_OwnerMAC.GetMovementAdjustor();
-		//movAdj.CancelByName( 'ClimbAdjusInitialRotation' );
-		//movAdj.CancelByName( 'ClimbAdjustments' );
-		//movAdj.CancelByName( 'ClimbAdjusTranslation' );
-		//movAdj.CancelByName( 'ClimbAdjusRotation' );
-		//movAdj.CancelByName( 'ClimbFakeGravity' );
+		
+		
+		
+		
+		
 		ticket	= movAdj.CreateNewRequest( 'ClimbAdjusPelvisCorrection' );		
-		movAdj.AdjustmentDuration( ticket, 0.2f ); //pelvisTransCur * pelvisTransSpeedOut );
+		movAdj.AdjustmentDuration( ticket, 0.2f ); 
 		
 		
-		// Apply movement
+		
 		movAdj.SlideBy( ticket, m_ExplorationO.m_OwnerE.GetWorldForward() * pelvisTransCur );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StartHandIK( left : bool, right : bool )
 	{
 		var rightHand		: Vector;
@@ -1667,7 +1617,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		var world			: CWorld;
 		
 		
-		// Left hand
+		
 		if( left )
 		{
 			leftHand			= m_ExplorationO.m_OwnerE.GetBoneWorldPositionByIndex( boneIndexLeftHand );
@@ -1693,7 +1643,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			}
 		}
 		
-		// Right hand
+		
 		if( right )
 		{
 			rightHand			= m_ExplorationO.m_OwnerE.GetBoneWorldPositionByIndex( boneIndexRightHand );
@@ -1715,7 +1665,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			}
 		}
 		
-		// Start it
+		
 		if( handIKEnabledLeft || handIKEnabledRight )
 		{
 			m_ExplorationO.m_OwnerMAC.SetEnabledHandsIK( true );
@@ -1723,7 +1673,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function StopHandIK(  left : bool, right : bool )
 	{			
 		if( left )
@@ -1738,15 +1688,15 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateHandsIK( _Dt : float )
 	{
-		// Waiting to check for hand IK?
+		
 		if( handIKqueuedL || handIKqueuedR )
 		{
 			StartHandIK( handIKqueuedL, handIKqueuedR );
 			
-			// If we found a proper IK adjustment for the request, the request is finished
+			
 			if( handIKqueuedL && handIKEnabledLeft )
 			{
 				handIKqueuedL	= false;
@@ -1756,7 +1706,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 				handIKqueuedR	= false;
 			}
 		}
-		// If we are tracing every frame
+		
 		else if( continousHandIK )
 		{
 			if( handIKEnabledLeft || handIKEnabledRight )
@@ -1765,16 +1715,16 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			}
 		}
 		
-		// Blend and apply it
+		
 		UpdateAndSetHandsIKBlend( _Dt );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateAndSetHandsIKBlend( _Dt : float )
 	{
 		if( handIKEnabledLeft || handIKEnabledRight || AbsF( leftHandOffsetCur ) > 0.0f || AbsF( rightHandOffsetCur ) > 0.0f )
 		{
-			// Blend offsets
+			
 			if( leftHandOffset == 0.0f )
 			{
 				leftHandOffsetCur	= BlendLinearF( leftHandOffsetCur, leftHandOffset, _Dt * handIKBlendSpeedOut );
@@ -1793,7 +1743,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			}
 			m_ExplorationO.m_OwnerMAC.SetHandsIKOffsets( leftHandOffsetCur, rightHandOffsetCur );
 		}
-		// Time to disable?
+		
 		else if( handIKEnabled && !handIKEnabledLeft && !handIKEnabledRight && leftHandOffsetCur == 0.0f && rightHandOffsetCur == 0.0f )
 		{
 			m_ExplorationO.m_OwnerMAC.SetEnabledHandsIK( false );
@@ -1801,7 +1751,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateTranslationOutsideCapsule( _Dt : float )
 	{
 		switch( pelvisTransState )
@@ -1827,7 +1777,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateTargetPelvisTranslationTarget()
 	{
 		var directionToPoint : Vector;
@@ -1842,7 +1792,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		pelvisTransTarget	= ClampF( pelvisTransTarget, 0.0f, pelvisTransMax );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CorrectPelvisStartEnd()
 	{
 		if(	pelvisTransState == EOCS_PerfectFollow || pelvisTransState == EOCS_Starting )
@@ -1854,7 +1804,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function SetTranslationToBehaviour()
 	{
 		if( noPelvisCorection )
@@ -1865,7 +1815,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		m_ExplorationO.m_OwnerMAC.SetAdditionalOffsetToConsumeMS( Vector( 0.0f, pelvisTransCur, 0.0f ), EulerAngles( 0.0f, 0.0f, 0.0f ), 1.0f );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function ResetTranslationToBehaviour()
 	{
 		if( noPelvisCorection )
@@ -1876,15 +1826,15 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		m_ExplorationO.m_OwnerMAC.SetAdditionalOffsetToConsumeMS( Vector( 0.0f, pelvisTransCur, 0.0f ), EulerAngles( 0.0f, 0.0f, 0.0f ), 0.1f );
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	private function UpdateRunOrWalk()
 	{
 		var runValue	: float;
 		
-		// Check end type (we can end to idle walk (if there is anim) or run
+		
 		if( m_ExplorationO.m_InputO.IsModuleConsiderable() && AbsF( m_ExplorationO.m_InputO.GetHeadingDiffFromPlayerF() ) < inputAngleToRun )
 		{
-			if( thePlayer.GetIsRunning() ) //m_ExplorationO.m_InputO.IsSprintPressed() )
+			if( thePlayer.GetIsRunning() ) 
 			{
 				runValue	= 1.0f;
 			}
@@ -1902,7 +1852,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 	}
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	private function CheckVerticalSlideEnd()
 	{
 		var posCur	: Vector;
@@ -1918,7 +1868,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		}
 	}
 		
-	//---------------------------------------------------------------------------------
+	
 	function UpdateCameraIfNeeded( out moveData : SCameraMovementData, dt : float ) : bool
 	{
 		var blend			: float;
@@ -1936,35 +1886,35 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 			return false;
 		}
 		
-		// Target position and rotation
+		
 		targetPos		= m_ExplorationO.m_OwnerE.GetBoneWorldPositionByIndex( camFollowBoneID );
 		rotationDesired	= m_ExplorationO.m_OwnerE.GetWorldRotation();
 		
-		// Start
+		
 		if( camStart == true )
 		{
-			//camOriginalPosition = moveData.pivotPositionValue - targetPos;
-			camOriginalPosition = moveData.pivotPositionValue;// - targetPos;
+			
+			camOriginalPosition = moveData.pivotPositionValue;
 			camOriginalRotation	= moveData.pivotRotationValue;
 			camCurRotation		= rotationDesired;
 			camOriginalOffset	= moveData.cameraLocalSpaceOffset;
 			camStart			= false;
 		}
 		
-		// Input
+		
 		inputX							= theInput.GetActionValue( 'GI_AxisRightX' );
 		inputY							= theInput.GetActionValue( 'GI_AxisRightY' );
 		camCurRotation.Yaw				= camCurRotation.Yaw - inputX * dt * 200.0f;
 		camCurRotation.Pitch			= ClampF( camCurRotation.Pitch + inputY * dt * 100.0f, -45.0f, 45.0f );
 		
-		// Blend
+		
 		camOriginalRotation.Yaw			= LerpAngleF( dt * 5.0f, camOriginalRotation.Yaw, camCurRotation.Yaw );
 		camOriginalRotation.Pitch		= LerpAngleF( dt * 5.0f, camOriginalRotation.Pitch, camCurRotation.Pitch );
 		
 		positionDesired					= targetPos - m_ExplorationO.GetWorldForward() * 0.8f + m_ExplorationO.m_OwnerE.GetWorldUp() * 0.8f;
 		camOriginalPosition				= LerpV( camOriginalPosition, positionDesired, dt * 2.0f );
 		
-		// Set
+		
 		moveData.pivotPositionValue		= camOriginalPosition;
 		moveData.pivotRotationValue		= camOriginalRotation;
 		moveData.cameraLocalSpaceOffset	= camOriginalOffset;
@@ -1974,7 +1924,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function GetDebugText() : string
 	{
 		var text	: string;
@@ -1988,7 +1938,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return text;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	event OnVisualDebug( frame : CScriptedRenderFrame, flag : EShowFlags, active : bool )
 	{
 		var colorAux		: Color;
@@ -2002,7 +1952,7 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		frame.DrawSphere( climbPoint, 0.1f, colorAux );
 		frame.DrawLine( climbPoint, climbPoint + wallNormal, colorAux );
 		
-		// IK
+		
 		colorAux	= Color( 255, 255, 255 );
 		frame.DrawLine( handIKLRayOrigin, handIKLRayEnd, colorAux );		
 		frame.DrawText( "IK: " + leftHandOffsetCur,  handIKLRayCollision, colorAux );
@@ -2013,27 +1963,27 @@ class CExplorationStateClimb extends CExplorationStateAbstract
 		return true;
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function DebugLogSuccesfullClimb()
 	{				
 		LogExplorationClimb( "------------------ Climb Found ------------------" );
 		LogExplorationClimb( GetClimbTypeText() );
 		LogExplorationClimb( "Translation " + VecToString( adjustTranslation ) + ", Rotation " + adjustRotation 
-							//+ ", translationBackDist " + translationBackDist
+							
 							+ ", heightToAdd " + heightToAdd );		
 		m_ClimbOracleO.DebugLogSuccesfullClimb();
 		LogExplorationClimb( "------------------   ------   ------------------" );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function GetClimbTypeText() : string
 	{
 		return climbCur.requiredState + ", " + climbCur.type + ", " + climbCur.requiredVault + ", " + climbCur.requiredPlatform;
-		//return "State: " + climbCur.requiredState + ", HeightType: " + climbCur.type + ", requiredVault: " + climbCur.requiredVault + "requiredPlatform: " + climbCur.requiredPlatform;
+		
 	}
 }
 
-//------------------------------------------------------------------------------------------------------------------
+
 function LogExplorationClimb( text : string )
 {
 	LogChannel( 'ExplorationState'		, "Climb: " + text );

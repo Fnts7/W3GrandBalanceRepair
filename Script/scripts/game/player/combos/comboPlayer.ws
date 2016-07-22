@@ -1,16 +1,15 @@
-﻿
-// Global event name for combo state: 'ComboSlot'
-// Name of the manual slot inside combo state: 'ComboSlot'
-// Name of the variable for control blend out transition form combo state: 'ComboAllowBlend'
-// Combat state has to have function OnComboAttackCallback( out callbackInfo : SComboAttackCallbackInfo )
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-/*enum EComboAttackType
-{
-	ComboAT_Normal,
-	ComboAT_Directional,
-	ComboAT_Restart,
-	ComboAT_Stop,
-}*/
+
+
+
+
+
+
 
 import struct SComboAttackCallbackInfo
 {
@@ -52,7 +51,7 @@ import class CComboPlayer extends CObject
 	import final function PlayAttack( comboAspect : name ) : bool;
 	import final function StopAttack();
 
-	//plays different animation for end of the swing for attacker (instead of continuing the swing, the hand 'stops' to visually indicate that a hit landed)
+	
 	import final function PlayHit() : bool;
 	
 	import final function SetDurationBlend( timeDelta : float );

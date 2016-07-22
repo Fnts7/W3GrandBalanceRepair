@@ -1,4 +1,9 @@
-﻿state BooksCommonMenu in W3TutorialManagerUIHandler extends TutHandlerBaseState
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+state BooksCommonMenu in W3TutorialManagerUIHandler extends TutHandlerBaseState
 {
 	private const var OPEN_COMMON_MENU, SELECT_GLOSSARY : name;
 		
@@ -9,11 +14,11 @@
 	{
 		super.OnEnterState(prevStateName);
 		
-		//close hint asking to open menus
+		
 		theGame.GetTutorialSystem().HideTutorialHint( OPEN_COMMON_MENU );
 		theGame.GetTutorialSystem().MarkMessageAsSeen( OPEN_COMMON_MENU );
 		
-		//hint about going to glossary panel
+		
 		ShowHint( SELECT_GLOSSARY, 0.35f, 0.65f, ETHDT_Infinite, GetHighlightHubMenuGlossary(), , , true );		
 	}
 	

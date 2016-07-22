@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Encounter System Conditions
-/** Copyright © 2013
-/***********************************************************************/
+
+
+
 
 import abstract class ISpawnCondition extends IScriptable
 {
@@ -12,8 +14,8 @@ import abstract class ISpawnCondition extends IScriptable
 
 import abstract class ISpawnScriptCondition extends ISpawnCondition
 {
-	// README: when defining custom conditions, extend this class, override the function 
-	// below and fill it with custom condition logic, return true if condition met
+	
+	
 	function TestCondition( encounter : CEncounter ) : bool
 	{
 		return true;

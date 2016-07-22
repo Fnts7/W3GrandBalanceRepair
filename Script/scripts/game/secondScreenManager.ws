@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Exports for CR4SecondScreenManagerScriptProxy
-/** Copyright © 2014
-/***********************************************************************/
+
+
+
 
 import class CR4SecondScreenManagerScriptProxy extends CObject
 {
@@ -17,37 +19,11 @@ import class CR4SecondScreenManagerScriptProxy extends CObject
 
 	private function FastTravelLocal( mapPinTag: name ) : void
 	{
-	/*
-		var manager	: CCommonMapManager;
-		manager	= theGame.GetCommonMapManager();
-		
-		if ( !manager )
-		{
-			return;
-		}
-		
-		manager.UseMapPin( mapPinTag, true );
-		manager.DelayedLocalFastTravelTeleport( mapPinTag );
-			
-		// lets give some time for the loading menu to open before teleporting to other place
-		thePlayer.AddTimer( 'LocalFastTravelTimer', 1.5 );
-	*/
+	
 	}
 	
 	private function FastTravelGlobal( areaType: int, mapPinTag: name ) : void
 	{		
-	/*
-		var manager	: CCommonMapManager;
-		manager	= theGame.GetCommonMapManager();
-		
-		if ( !manager )
-		{
-			return;
-		}
-		manager.DelayedGlobalFastTravelTeleport( areaType, mapPinTag );
-			
-		// lets give some time for the loading menu to open before loading other world
-		thePlayer.AddTimer( 'GlobalFastTravelTimer', 1.5 );
-	*/
+	
 	}
 }

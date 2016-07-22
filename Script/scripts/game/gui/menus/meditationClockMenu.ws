@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Meditation Menu
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4MeditationClockMenu extends CR4MenuBase
 {
@@ -19,7 +21,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 	private var BONUS_MEDITATION_TIME : int;
 	default BONUS_MEDITATION_TIME = 1;
 
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{	
 		var commonMenu : CR4CommonMenu;
 		var locCode : string;
@@ -37,8 +39,8 @@ class CR4MeditationClockMenu extends CR4MenuBase
 		m_fxSetBonusMeditationTime.InvokeSelfOneArg( FlashArgInt( BONUS_MEDITATION_TIME ) );
 		
 		
-		//we need to unpause menus because CanMeditateWait() returns false if game time is paused (if time does not flow we cannot speed it up
-		//by waiting)
+		
+		
 		theGame.Unpause("menus");		
 		
 		initData = (W3SingleMenuInitData)GetMenuInitData();
@@ -59,7 +61,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 			isGameTimePaused = true;
 		}
 		
-		if (canMeditateWait) // Comment out when enabling rendering in meditation
+		if (canMeditateWait) 
 		{
 			commonMenu = (CR4CommonMenu)m_parentMenu;
 			if (commonMenu)
@@ -67,29 +69,29 @@ class CR4MeditationClockMenu extends CR4MenuBase
 				commonMenu.SetMeditationMode(true);
 			}
 			
-			m_fxSetGeraltBackgroundVisible.InvokeSelfOneArg(FlashArgBool(false)); // Uncomment to enable rendering in meditation
+			m_fxSetGeraltBackgroundVisible.InvokeSelfOneArg(FlashArgBool(false)); 
 		}
 		
 		m_fxSetBlockMeditation.InvokeSelfOneArg( FlashArgBool( !canMeditateWait ) );
 		
-		//24-hr time format
+		
 		
 		locCode = GetCurrentTextLocCode();
 		m_fxSet24HRFormat.InvokeSelfOneArg(FlashArgBool(locCode != "EN"));
 		
-		//meditation restoring		
+		
 		if(GameplayFactsQuerySum("GamePausedNotByUI") > 0 && !thePlayer.IsInCombat())
 		{
 			GetWitcherPlayer().MeditationRestoring(0);				
 		}	
 		
-		//if (!canMeditateWait)
-		//{
+		
+		
 			theGame.Pause("menus");
-		//}
+		
 	}
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		var commonMenu : CR4CommonMenu;
 		
@@ -109,7 +111,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 		GetWitcherPlayer().MeditationClockStop();
 	}
 	
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		if(thePlayer.GetCurrentStateName() == 'MeditationWaiting')
 		{
@@ -148,7 +150,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 		bedEntity = (W3WitcherBed)theGame.GetEntityByTag( 'witcherBed' );
 		flashArray = m_flashValueStorage.CreateTempFlashArray();
 		
-		// BED
+		
 		
 		if( bedEntity )
 		{
@@ -193,7 +195,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 			flashArray.PushBackFlashObject( flashObject );
 		}
 		
-		// BOOKSHELF
+		
 		
 		flashObject = m_flashValueStorage.CreateTempFlashObject();
 		
@@ -216,7 +218,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 		
 		flashArray.PushBackFlashObject( flashObject );
 		
-		// ALCHEMY TABLE
+		
 		
 		flashObject = m_flashValueStorage.CreateTempFlashObject();
 		flashObject.SetMemberFlashString( "title", GetLocStringByKeyExt( "panel_title_buff_alchemy_table" ) );
@@ -237,7 +239,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 			flashObject.SetMemberFlashBool( "available",  false );
 		}
 		
-		// STABLES
+		
 		
 		flashObject = m_flashValueStorage.CreateTempFlashObject();
 		flashObject.SetMemberFlashString( "title", GetLocStringByKeyExt( "panel_title_buff_stables" ) );
@@ -267,7 +269,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 		
 		flashArray.PushBackFlashObject( flashObject );
 		
-		// --
+		
 		
 		m_flashValueStorage.SetFlashArray( "meditation.bonus", flashArray );
 	}
@@ -295,7 +297,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 		m_flashValueStorage.SetFlashInt( "meditation.clock.minutes", timeMinutes );
 	}
 	
-	event /*flash*/ OnMeditate( dayTime : float )
+	event  OnMeditate( dayTime : float )
 	{
 		var medd : W3PlayerWitcherStateMeditation;
 		
@@ -320,19 +322,19 @@ class CR4MeditationClockMenu extends CR4MenuBase
 				
 				medd = (W3PlayerWitcherStateMeditation)thePlayer.GetCurrentState();
 				medd.MeditationWait(CeilF(dayTime));
-				//m_flashValueStorage.SetFlashBool( "meditation.clock.blocked", false );
+				
 				
 				StartWaiting();
 			}
 		}
 	} 
 	
-	event /*flash*/ OnMeditateBlocked()
+	event  OnMeditateBlocked()
 	{
 		ShowDisallowedNotification();
 	}
 	
-	event /*flash*/ OnStopMeditate()
+	event  OnStopMeditate()
 	{
 		var waitt : W3PlayerWitcherStateMeditationWaiting;
 	
@@ -346,7 +348,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 		MeditatingEnd();
 	}
 	
-	function GetCurrentDayTime( type : string ) : int //@FIXME BIDON -> move it to better place
+	function GetCurrentDayTime( type : string ) : int 
 	{
 		var gameTime : GameTime = theGame.GetGameTime();
 		var currentDays : int;
@@ -365,7 +367,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 			{
 				currentDays = GameTimeDays( gameTime );
 				currentHours = GameTimeHours( gameTime );
-				currentTime = currentHours /*- currentDays*24*/;
+				currentTime = currentHours ;
 				break;
 			}
 			case "minutes" :
@@ -373,7 +375,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 				currentDays = GameTimeDays( gameTime );
 				currentHours = GameTimeHours( gameTime );
 				currentMinutes = GameTimeMinutes( gameTime );
-				currentTime = currentMinutes/* - (currentHours - currentDays*24)*60*/;
+				currentTime = currentMinutes;
 				break;
 			}	
 		}
@@ -381,7 +383,7 @@ class CR4MeditationClockMenu extends CR4MenuBase
 	}
 	
 	
-	// TODO: Implement input blocking:
+	
 	
 	public function StartWaiting():void
 	{
@@ -406,8 +408,8 @@ class CR4MeditationClockMenu extends CR4MenuBase
 	
 	function PlayOpenSoundEvent()
 	{
-		// Common Menu takes care of this for us
-		//OnPlaySoundEvent("gui_global_panel_open");	
+		
+		
 	}
 	
 	private final function ShowDisallowedNotification()

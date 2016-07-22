@@ -1,4 +1,9 @@
-﻿// CAIMonsterIdleAction
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 abstract class CAIMonsterIdleAction extends IAIActionTree
 {
 	editable inlined var params : CAIMonsterIdleActionParams;
@@ -10,7 +15,7 @@ abstract class CAIMonsterIdleAction extends IAIActionTree
 	}
 };
 
-// CAIMonsterIdleAction
+
 abstract class CAIMonsterFlyIdleAction extends CAIMonsterIdleAction
 {
 	function Init()
@@ -20,7 +25,7 @@ abstract class CAIMonsterFlyIdleAction extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleActionParams
+
 class CAIMonsterIdleActionParams extends CAISubTreeParameters
 {
 	editable var cooldown 		: float;
@@ -32,13 +37,13 @@ class CAIMonsterIdleActionParams extends CAISubTreeParameters
 	default onlyOnGround = true;
 };
 
-// CAIMonsterFlyIdleActionParams
+
 class CAIMonsterFlyIdleActionParams extends CAIMonsterIdleActionParams
 {
 	editable var minDistanceFromGround 		: float;
 };
 
-// CAIMonsterIdleEat
+
 class CAIMonsterIdleEat extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -54,7 +59,7 @@ class CAIMonsterIdleEat extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleDig
+
 class CAIMonsterIdleDig extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -69,7 +74,7 @@ class CAIMonsterIdleDig extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleClean
+
 class CAIMonsterIdleClean extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -83,7 +88,7 @@ class CAIMonsterIdleClean extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleOnGroundAndClean
+
 class CAIMonsterIdleOnGroundAndClean extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -98,7 +103,7 @@ class CAIMonsterIdleOnGroundAndClean extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleSit
+
 class CAIMonsterIdleSit extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -113,7 +118,7 @@ class CAIMonsterIdleSit extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleSit
+
 class CAIMonsterIdleLie extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -128,7 +133,7 @@ class CAIMonsterIdleLie extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleOnGround
+
 class CAIMonsterIdleOnGround extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -143,7 +148,7 @@ class CAIMonsterIdleOnGround extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleHowl
+
 class CAIMonsterIdleHowl extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_howl";
@@ -157,7 +162,7 @@ class CAIMonsterIdleHowl extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleSleep
+
 class CAIMonsterIdleSleep extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -172,7 +177,7 @@ class CAIMonsterIdleSleep extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleRoll
+
 class CAIMonsterIdleRoll extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -185,7 +190,7 @@ class CAIMonsterIdleRoll extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleStretch
+
 class CAIMonsterIdleStretch extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -198,7 +203,7 @@ class CAIMonsterIdleStretch extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleCough
+
 class CAIMonsterIdleCough extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -211,7 +216,7 @@ class CAIMonsterIdleCough extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleStrikeFists
+
 class CAIMonsterIdleStrikeFists extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -224,7 +229,7 @@ class CAIMonsterIdleStrikeFists extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleGrowl
+
 class CAIMonsterIdleGrowl extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -237,7 +242,7 @@ class CAIMonsterIdleGrowl extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleWings
+
 class CAIMonsterIdleWings extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -250,7 +255,7 @@ class CAIMonsterIdleWings extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleLookAround
+
 class CAIMonsterIdleLookAround extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -263,7 +268,7 @@ class CAIMonsterIdleLookAround extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleYawn
+
 class CAIMonsterIdleYawn extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -276,7 +281,7 @@ class CAIMonsterIdleYawn extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleSniff
+
 class CAIMonsterIdleSniff extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -289,7 +294,7 @@ class CAIMonsterIdleSniff extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleTail
+
 class CAIMonsterIdleTail extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_slot";
@@ -306,7 +311,7 @@ class CAIMonsterIdleTail extends CAIMonsterIdleAction
 
 
 
-// CAIMonsterIdleFlyBarrel
+
 class CAIMonsterIdleFlyBarrel extends CAIMonsterFlyIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_flying_idle_action_slot";
@@ -318,7 +323,7 @@ class CAIMonsterIdleFlyBarrel extends CAIMonsterFlyIdleAction
 	}
 };
 
-// CAIMonsterIdleFlyAirDive
+
 class CAIMonsterIdleFlyAirDive extends CAIMonsterFlyIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_flying_idle_action_slot";
@@ -333,7 +338,7 @@ class CAIMonsterIdleFlyAirDive extends CAIMonsterFlyIdleAction
 	}
 };
 
-// CAIMonsterIdlePlayAround
+
 class CAIMonsterIdlePlayAround extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_play_around_idle";
@@ -345,7 +350,7 @@ class CAIMonsterIdlePlayAround extends CAIMonsterIdleAction
 	}
 };
 
-// CAIAnimalRunWild
+
 class CAIAnimalRunWild extends CAIDynamicWander
 {
 	editable var packRegroupEvent 	: name;
@@ -360,7 +365,7 @@ class CAIAnimalRunWild extends CAIDynamicWander
 };
 
 
-// CAIMonsterIdleFlyOnCurve
+
 class CAIMonsterIdleFlyOnCurve extends CAIMonsterIdleAction
 {
 	default aiTreeName = "resdef:ai\idle/monster_idle_action_fly_on_curve";
@@ -374,7 +379,7 @@ class CAIMonsterIdleFlyOnCurve extends CAIMonsterIdleAction
 	}
 };
 
-// CAIMonsterIdleFlyOnCurveParamsDefault
+
 class CAIMonsterIdleFlyOnCurveParamsDefault extends CAIMonsterIdleActionParams
 {
 	editable var curveTag				: name;

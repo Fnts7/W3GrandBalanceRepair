@@ -1,38 +1,9 @@
-﻿/* Available values for dialog action icons - for reference
-enum EDialogActionIcon
-{
-	DialogAction_NONE            	= 0x00000000, 
-    DialogAction_AXII            	= 0x00000001, // DEPRECATED: W2 only 
-    DialogAction_CONTENT_MISSING   	= 0x00000002, // W3 new
-    DialogAction_BRIBE            	= 0x00000010, // W3 
-    DialogAction_HOUSE   			= 0x00000020, // W3
-    DialogAction_PERSUASION        	= 0x00000040, // DEPRECATED: W2 only 
-    DialogAction_GETBACK        	= 0x00000080, // W3
-    DialogAction_GAME_DICES        	= 0x00000100, // W3 
-    DialogAction_GAME_FIGHT        	= 0x00000200, // W3 
-    DialogAction_GAME_WRESTLE    	= 0x00000400, // W3 
-    DialogAction_CRAFTING        	= 0x00001000, // DEPRECATED: W2 only 
-    DialogAction_SHOPPING        	= 0x00002000, // W3 
-    DialogAction_TimedChoice		= 0x00004000, // W3 new
-    DialogAction_EXIT            	= 0x00010000, // W3 
-    DialogAction_HAIRCUT       		= 0x00020000, // W3  
-    DialogAction_MONSTERCONTRACT	= 0x00040000, // W3 new 
-    DialogAction_BET            	= 0x00080000, // W3 new 
-    DialogAction_STORAGE        	= 0x00100000, // DEPRECATED: W2 only 
-    DialogAction_GIFT            	= 0x00200000, // W3 
-    DialogAction_GAME_DRINK        	= 0x00400000, // W3 
-    DialogAction_GAME_DAGGER    	= 0x00800000, // W3 new 
-    DialogAction_SMITH            	= 0x01000000, // W3 new 
-    DialogAction_ARMORER        	= 0x02000000, // W3 new 
-    DialogAction_RUNESMITH        	= 0x04000000, // W3 new 
-    DialogAction_TEACHER        	= 0x08000000, // W3 new 
-    DialogAction_FAST_TRAVEL    	= 0x10000000, // W3 new 
-    DialogAction_GAME_CARDS        	= 0x20000000, // W3 new 
-    DialogAction_SHAVING        	= 0x40000000, // W3 new
-    DialogAction_TimedChoice		= 0x80000000, // W3 new
-    DialogAction_AUCTION			= 0x80000000, // W3 new
-}
-*/
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 
 function GetDialogActionIcons(flag : int) : array<EDialogActionIcon>
 {
@@ -266,7 +237,7 @@ class CHairCutSceneChoiceAction extends CStorySceneChoiceLineActionScripted
 	function PerformAction()
 	{
 		thePlayer.RemoveMoney( money );
-		theSound.SoundEvent("gui_bribe"); // #B money sound
+		theSound.SoundEvent("gui_bribe"); 
 	}
 	
 	function GetActionText() : string 				
@@ -299,7 +270,7 @@ class CShavingSceneChoiceAction extends CStorySceneChoiceLineActionScripted
 	function PerformAction()
 	{
 		thePlayer.RemoveMoney( money );
-		theSound.SoundEvent("gui_bribe"); // #B money sound
+		theSound.SoundEvent("gui_bribe"); 
 	}
 	
 	function GetActionText() : string

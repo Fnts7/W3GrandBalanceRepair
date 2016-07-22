@@ -1,4 +1,9 @@
-﻿//FIXMEFLASH add ability to target with softlock cone
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
 
 class CInteractiveEntity extends CR4MapPinEntity
 {	
@@ -21,11 +26,11 @@ class CInteractiveEntity extends CR4MapPinEntity
 
 	function Activate( flag : bool )
 	{
-		//Ł. SZ. This is is set to true to earily. Before the the fx on fireplace is started
+		
 		bIsActive = flag;
 	}
 	
-	// completely enable/disable this interactive entity and all its effects
+	
 	function EnableEntity ( flag : bool )
 	{
 		bIsEnabled = flag;
@@ -62,7 +67,7 @@ class CUsableEntity extends CInteractiveEntity
 	{
 		var interactionComponent	: CInteractionComponent;
 		
-		// disable the interaction component
+		
 		interactionComponent = (CInteractionComponent)this.GetComponentByClassName( 'CInteractionComponent' );
 		if ( interactionComponent )
 		{
@@ -117,8 +122,8 @@ class CScheduledUsableEntity extends CUsableEntity
 			}
 		}
 		else
-		{	// Ł.SZ this timer was removed but never added again. Schedule should be active all the time.
-			//RemoveTimer( 'ProcessSwitchingSchedule' );	
+		{	
+			
 		}
 		super.Init();
 	}
@@ -136,8 +141,8 @@ class CScheduledUsableEntity extends CUsableEntity
 		{
 			if ( bUseSwitchingSchedule )
 			{
-			// Ł.SZ this timer was removed but never added again. Schedule should be active all the time.
-				//RemoveTimer( 'ProcessSwitchingSchedule' );		
+			
+				
 			}
 		}
 		super.Activate( flag );
@@ -151,7 +156,7 @@ class CScheduledUsableEntity extends CUsableEntity
 		
 		if ( switchOnHour > switchOffHour )
 		{
-		//Ł.SZ the value "bIsActive" is set to true before fire starts
+		
 			if ( bIsActive )
 			{
 				if ( currentTime >= switchOffHour && currentTime < switchOnHour )

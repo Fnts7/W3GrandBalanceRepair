@@ -1,13 +1,18 @@
-﻿class CR4HudModuleBoatHealth extends CR4HudModuleBase
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CR4HudModuleBoatHealth extends CR4HudModuleBase
 {	
-	//>-----------------------------------------------------------------------------------------------------------------	
-	// VARIABLES
-	//------------------------------------------------------------------------------------------------------------------
+	
+	
+	
 	private	var m_fxSetVolumeHealth			: CScriptedFlashFunction;
 
 	private var m_wasInBoat : bool;
 
-	/* flash */ event OnConfigUI()
+	 event OnConfigUI()
 	{
 		var flashModule : CScriptedFlashSprite;
 		var hud : CR4ScriptedHud;
@@ -20,12 +25,12 @@
 		
 		m_fxSetVolumeHealth		= flashModule.GetMemberFlashFunction( "setVolumeHealth" );
 		
-		//fix for TTP 100895 - Shadi Dadenji
+		
 		ClearVolumes();
 		
 		m_wasInBoat = false;
 
-		//ShowElement( false );
+		
 		SetTickInterval( 1 );
 		
 		hud = (CR4ScriptedHud)theGame.GetHud();
@@ -57,7 +62,7 @@
 			UpdateVolumes();
 			if ( isInBoat != m_wasInBoat )
 			{
-				ShowElement( true ); //#B OnUpdate
+				ShowElement( true ); 
 				m_wasInBoat = isInBoat;
 			}
 		}
@@ -67,7 +72,7 @@
 			{
 				m_wasInBoat = false;
 				ClearVolumes();
-				ShowElement( false ); //#B OnUpdate
+				ShowElement( false ); 
 			}
 		}
 	}

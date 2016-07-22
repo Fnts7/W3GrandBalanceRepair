@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - Main Menu
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4CommonMainMenuBase extends CR4MenuBase
 {
@@ -16,7 +18,7 @@ class CR4CommonMainMenuBase extends CR4MenuBase
 	
 	protected var currentMenuName : name;
 	
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var menuName : name;
 		var inGameConfigWrapper	: CInGameConfigWrapper;
@@ -26,12 +28,12 @@ class CR4CommonMainMenuBase extends CR4MenuBase
 		m_flashModule = GetMenuFlash();
 		theGame.GetGuiManager().OnEnteredMainMenu();
 		
-		//m_fxSetMovieData = m_flashModule.GetMemberFlashFunction( "SetMovieData" );
-		//m_fxSetMovieData.InvokeSelfOneArg(FlashArgString(GetCurrentBackgroundMovie()));
 		
-		//menuName = theGame.GetMenuToOpen();
 		
-		//if( menuName == '')
+		
+		
+		
+		
 		{
 			menuName = 'IngameMenu';
 		}
@@ -56,13 +58,13 @@ class CR4CommonMainMenuBase extends CR4MenuBase
 		SetupMenu();
 		OnRequestSubMenu( menuName, GetMenuInitData() );
 		
-		theGame.FadeInAsync(300); // 0.3 seconds
+		theGame.FadeInAsync(300); 
 		
 		theInput.StoreContext( 'MAIN_MENU_CONTEXT' );
 		
 		theGame.ReleaseNoSaveLock(theGame.deathSaveLockId);
 		
-		// Every time we end up in main menu, update hud values in case hud is still loaded but profile has changed
+		
 		updateHudConfigs();
 		
 		theSound.SoundEvent( "play_music_main_menu" );
@@ -95,10 +97,10 @@ class CR4CommonMainMenuBase extends CR4MenuBase
 	
 	function GetCurrentBackgroundMovie() : string
 	{
-		return "mainmenu.usm"; // #B differ it depending on game advance
+		return "mainmenu.usm"; 
 	}
 	
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		if (m_configUICalled)
 		{
@@ -116,17 +118,9 @@ class CR4CommonMainMenuBase extends CR4MenuBase
 		currentMenuName = menuName;
 	}
 
-	/*
-	enum EStandardSwipe
-	{
-		SWIPE_LEFT,
-		SWIPE_RIGHT,
-		SWIPE_DOWN,
-		SWIPE_UP
-	};
-	*/
+	
 
-	event /* C++ */ OnSwipe( swipe : int )
+	event  OnSwipe( swipe : int )
 	{
 	}
 
@@ -145,15 +139,10 @@ class CR4CommonMainMenuBase extends CR4MenuBase
 	
 	private function SetupMenu() : void
 	{
-		/*var l_flashSubArray   : CScriptedFlashArray;
 		
-		l_flashSubArray = m_flashValueStorage.CreateTempFlashArray();
-		GetGFxMenuStruct(l_flashSubArray);
-		
-		m_flashValueStorage.SetFlashArray( "panel.main.setup", l_flashSubArray);*/
 	}
 
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		var menu			: CR4MenuBase;
 		
@@ -192,7 +181,7 @@ class CR4CommonMainMenuBase extends CR4MenuBase
 		
 			if( menu )
 			{
-				//menu.CloseMenu();
+				
 				menuToOpen = GetParentMenuName(currentMenuName);
 				if( menuToOpen )
 				{

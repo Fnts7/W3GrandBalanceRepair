@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Object classes exprots
-/** Copyright © 2009 Dexio's Late Night R&D Home Center
-/***********************************************************************/
+
+
+
 
 enum ECameraState
 {
@@ -36,92 +38,92 @@ enum ECameraShakeMagnitude
 import class CCamera extends CEntity
 {
 	var cameraState : ECameraState;
-	// Activate camera's selected camera component
+	
 	import final function SetActive( blendTime : float );
 
-	// Is selected camera component active
+	
 	import final function IsActive() : bool;
 	
-	// Is camera on stack
+	
 	import final function IsOnStack() : bool;
 
-	// Get direction
+	
 	import final function GetCameraDirection() : Vector;
 
-	// Get position
+	
 	import final function GetCameraPosition() : Vector;
 
-	// Get camera position in world space
+	
 	import final function GetCameraMatrixWorldSpace() : Matrix;
 
-	// Set fov
+	
 	import final function SetFov( fov : float );
 
-	// Get fov
+	
 	import final function GetFov() : float;
 	
-	// Set zoom
+	
 	import final function SetZoom( value : float );
 
-	// Get zoom
+	
 	import final function GetZoom() : float;
 
-	// Reset camera state and data
+	
 	import final function Reset();
 	
-	// Reset camera rotations. Optionals: smoothly - true, horizontal - true, vertical - true.
+	
 	import final function ResetRotation( optional smoothly : bool, optional horizontal : bool, optional vertical : bool, optional duration : float );
 	import final function ResetRotationTo( smoothly : bool, horizontalAngle : float, optional verticalAngle : float, optional duration : float );
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	// Rotate - use behavior for rotating
+	
+	
 	import final function Rotate( leftRightDelta, upDownDelta : float );
 
-	// Follow node
+	
 	import final function Follow( dest : CEntity );
 	
-	// Follow node with rotation
+	
 	import final function FollowWithRotation( dest : CEntity );
 
-	// Look at target
+	
 	import final function LookAt( target : CNode, optional duration : float, optional activatingTime : float );
 	
-	// Look at static target 
+	
 	import final function LookAtStatic( staticTarget : Vector, optional duration : float, optional activatingTime : float );
 	
-	// Look at bone in an animated component
+	
 	import final function LookAtBone( target : CAnimatedComponent, boneName : string, optional duration : float, optional activatingTime : float );
 	
-	// Deactivate focus on target
+	
 	import final function LookAtDeactivation( optional deactivatingTime : float );
 	
-	// Has look at target
+	
 	import final function HasLookAt() : bool;
 
-	// Get look at target position
+	
 	import final function GetLookAtTargetPosition() : Vector;
 	
-	// Focus on target
+	
 	import final function FocusOn( target : CNode, optional duration : float, optional activatingTime : float );
 	
-	// Focus on static target
+	
 	import final function FocusOnStatic( staticTarget : Vector, optional duration : float, optional activatingTime : float );
 	
-	// Focus on bone in an animated component
+	
 	import final function FocusOnBone( target : CAnimatedComponent, boneName : string, optional duration : float, optional activatingTime : float );
 	
-	// Deactivate focus
+	
 	import final function FocusDeactivation( optional deactivatingTime : float );
 	
-	// Is focused
+	
 	import final function IsFocused() : bool;
 
-	// Get focus target position
+	
 	import final function GetFocusTargetPosition() : Vector;
 	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Script functions
+	
+	
 	
 	final function SetCameraState( newState : ECameraState ) : bool
 	{
@@ -209,7 +211,7 @@ import class CCamera extends CEntity
 		res = SetBehaviorVariable( 'cameraShakeState', (float) ((int)newState) );
 		
 		if(newState == CSS_Normal)
-			strength = 0;			//because otherwise CSS_Normal does not work!!!!!
+			strength = 0;			
 		
 		res2 = SetBehaviorVariable( 'cameraShakeStrength', strength );
 		

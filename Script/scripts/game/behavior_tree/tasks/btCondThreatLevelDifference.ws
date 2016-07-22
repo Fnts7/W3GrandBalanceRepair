@@ -1,18 +1,23 @@
-﻿//>--------------------------------------------------------------------------
-// BTCondThreatLevelDifference
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Compare the threat level of the NPC with a target
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// R.Pergent - 27-September-2014
-// Copyright © 2014 CD Projekt RED
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
+
+
+
+
 class BTCondThreatLevelDifference extends IBehTreeTask
 {
-	//>----------------------------------------------------------------------
-	// VARIABLES
-	//-----------------------------------------------------------------------
+	
+	
+	
 	public var operator 					: EOperator;
 	public var value						: int;
 	public var useCombatTarget				: bool;
@@ -20,8 +25,8 @@ class BTCondThreatLevelDifference extends IBehTreeTask
 	public var saveTargetOnGameplayEvent	: name;
 	
 	private var m_Target					: CNode;
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	final function IsAvailable() : bool
 	{
 		var threatLevel			: int;
@@ -57,14 +62,14 @@ class BTCondThreatLevelDifference extends IBehTreeTask
 			default : 				result = false; break;
 		}
 		
-		// More complex syntax, just so I can put a break point separately when it fails or succeed
+		
 		if( result )
 			return true;
 		else
 			return false;
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	final function OnListenedGameplayEvent( eventName : CName ) : bool
 	{
 		if ( eventName == saveTargetOnGameplayEvent )
@@ -74,8 +79,8 @@ class BTCondThreatLevelDifference extends IBehTreeTask
 		
 		return true;		
 	}
-	//>--------------------------------------------------------------------------
-	//---------------------------------------------------------------------------
+	
+	
 	private final function SaveTarget()
 	{
 		if( IsNameValid( useNamedTarget ) )
@@ -95,26 +100,26 @@ class BTCondThreatLevelDifference extends IBehTreeTask
 		}
 	}
 }
-//>----------------------------------------------------------------------
-//-----------------------------------------------------------------------
+
+
 class BTCondThreatLevelDifferenceDef extends IBehTreeConditionalTaskDefinition
 {
 	default instanceClass = 'BTCondThreatLevelDifference';
 
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private editable var operator 					: EOperator;
 	private editable var value						: int;
 	private editable var useCombatTarget			: bool;
 	private editable var useNamedTarget 			: CBehTreeValCName;
 	private editable var saveTargetOnGameplayEvent 	: CBehTreeValCName;
 	
-	// This is used when you check for ReactionTarget, because ReactionTarget can change between the actual reaction event and the isAvailable check
-	// (if another reaction is triggered in between)
+	
+	
 	hint saveTargetOnGameplayEvent 	= "To only change the target on a specific event. Leave empty to change target at every check";	
 	hint useNamedTarget				= "Overrides the 'useCombatTarget' flag";
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnSpawn( taskGen : IBehTreeTask )
 	{
 		var eventName : name;

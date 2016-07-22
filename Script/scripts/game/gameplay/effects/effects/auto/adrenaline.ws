@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2014
-/** Author : Tomek Kozera
-/***********************************************************************/
+
+
+
 
 class W3Effect_AdrenalineDrain extends CBaseGameplayEffect
 {
@@ -34,14 +36,14 @@ class W3Effect_AdrenalineDrain extends CBaseGameplayEffect
 		var drainVal : float;
 		var buff : W3Effect_Toxicity;
 		
-		//if entered combat again - remove effect
+		
 		if(target.IsInCombat() && !target.HasBuff(EET_Runeword8))
 			isActive = false;
 			
 		drainVal = dt * (effectValue.valueAdditive + (target.GetStatMax(BCS_Focus) + effectValue.valueBase) * effectValue.valueMultiplicative);
 		((CR4Player)target).DrainFocus(drainVal);
 		
-		//if all focus drained
+		
 		if(target.GetStat(BCS_Focus) <= 0)
 		{
 			isActive = false;			

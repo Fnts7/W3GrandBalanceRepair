@@ -1,14 +1,15 @@
 ﻿/***********************************************************************/
-/** 
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2012
-/***********************************************************************/
+
+
+
 
 state CombatSteel in W3PlayerWitcher extends CombatSword
 {
-	/**
 	
-	*/
 	event OnEnterState( prevStateName : name )
 	{
 		super.OnEnterState(prevStateName);
@@ -16,15 +17,13 @@ state CombatSteel in W3PlayerWitcher extends CombatSword
 		this.CombatSteelInit( prevStateName );
 	}
 	
-	/**
 	
-	*/
 	event OnLeaveState( nextStateName : name )
 	{ 
-		//marwin
+		
 		this.CombatSteelDone( nextStateName );
 		
-		// Pass to base class
+		
 		super.OnLeaveState(nextStateName);
 	}
 	
@@ -32,15 +31,13 @@ state CombatSteel in W3PlayerWitcher extends CombatSword
 	{ 
 		return 'steelsword';
 	}
-	/**
 	
-	*/
 	entry function CombatSteelInit( prevStateName : name )
 	{		
 		parent.OnEquipMeleeWeapon( PW_Steel, true );
 		parent.SetBIsCombatActionAllowed( true );
 		
-		// It have to be after behavior activate
+		
 		BuildComboPlayer();
 		
 		super.ProcessStartupAction( startupAction );
@@ -48,18 +45,14 @@ state CombatSteel in W3PlayerWitcher extends CombatSword
 		CombatSteelLoop();
 	}
 	
-	/**
 	
-	*/
 	entry function CombatSteelDone( nextStateName : name )
 	{
 		if ( nextStateName != 'AimThrow' && nextStateName != 'CombatSilver' && nextStateName != 'CombatFists' )
 			parent.SetBehaviorVariable( 'playerCombatStance', (float)( (int)PCS_Normal ) );
 	}
 	
-	/**
 	
-	*/
 	private latent function CombatSteelLoop()
 	{
 		while( true )
@@ -68,8 +61,8 @@ state CombatSteel in W3PlayerWitcher extends CombatSword
 		}
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// HACKS
+	
+	
 	
 	public final function HACK_ExternalCombatComboUpdate( timeDelta : float )
 	{
@@ -77,11 +70,11 @@ state CombatSteel in W3PlayerWitcher extends CombatSword
 	}
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Ciri Replacer
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 state CombatSteel in W3ReplacerCiri extends CombatSword
 {
 	event OnEnterState( prevStateName : name )
@@ -94,10 +87,10 @@ state CombatSteel in W3ReplacerCiri extends CombatSword
 	
 	event OnLeaveState( nextStateName : name )
 	{ 
-		//marwin
+		
 		this.CombatSteelDone( nextStateName );
 		
-		// Pass to base class
+		
 		super.OnLeaveState(nextStateName);
 	}
 	
@@ -112,7 +105,7 @@ state CombatSteel in W3ReplacerCiri extends CombatSword
 		
 		parent.LockEntryFunction( false );
 		
-		// It have to be after behavior activate
+		
 		BuildComboPlayer();
 		
 		super.ProcessStartupAction( startupAction );
@@ -136,8 +129,8 @@ state CombatSteel in W3ReplacerCiri extends CombatSword
 		}
 	}
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// HACKS
+	
+	
 	
 	public final function HACK_ExternalCombatComboUpdate( timeDelta : float )
 	{

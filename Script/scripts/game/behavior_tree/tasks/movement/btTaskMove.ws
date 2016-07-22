@@ -1,6 +1,11 @@
-﻿/////////////////////////////////////////////////////////////////////
-// MoveTo
-/////////////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 class CBTTaskMoveToEnemy extends IBehTreeTask
 {
 	var maxDistance : float;
@@ -19,16 +24,16 @@ class CBTTaskMoveToEnemy extends IBehTreeTask
 		
 		isMoving = true;
 		
-		//Log( "ActionMoveTo Main" );
+		
 		
 		res = npc.ActionMoveTo( pos, moveType, absSpeed, maxDistance );
 		isMoving = false;
 		if( res )
 		{
-			//Log( "ActionMoveTo" );
+			
 			return BTNS_Completed;
 		}
-		//Log( "ActionMoveTo failed" );	
+		
 		return BTNS_Failed;
 	}
 	
@@ -55,9 +60,9 @@ class CBTTaskMoveToEnemyDef extends IBehTreeTaskDefinition
 	default moveType = MT_Run;
 }
 
-/////////////////////////////////////////////////////////////////////
-// PursueTarget 
-/////////////////////////////////////////////////////////////////////
+
+
+
 class CBTTaskPursueTarget extends IBehTreeTask
 {
 	var moveType : EMoveType;
@@ -66,7 +71,7 @@ class CBTTaskPursueTarget extends IBehTreeTask
 	var isMoving : bool;
 
 	
-	//Actor will attept to move until minDistance is reached, but will not move is closer than maxDistance
+	
 	default moveType = MT_Run;
 	default minDistance = 2.0f;
 	default keepDistance = false;
@@ -77,21 +82,21 @@ class CBTTaskPursueTarget extends IBehTreeTask
 		var target : CActor;
 		var npc : CNewNPC;
 		
-		//Log( "PURSUE TARGET MAIN" );
+		
 		
 		npc = GetNPC();
 		target = GetCombatTarget();
 		
 		isMoving = true;
 		npc.ActionMoveToDynamicNode( target, moveType, 5.0f, minDistance, keepDistance, MFA_EXIT );
-		//Log( "PURSUE TARGET MAIN FINISHED" );
+		
 		isMoving = false;
 		
 		return BTNS_Completed;
 	}
 	function OnDeactivate() : void
 	{
-		//Log( "PURSUE TARGET DEACTIVATE" );
+		
 		if ( isMoving )
 		{
 			GetNPC().ActionCancelAll();
@@ -116,9 +121,9 @@ class CBTTaskPursueTargetDef extends IBehTreeTaskDefinition
 }
 
 
-/////////////////////////////////////////////////////////////////////
-// FlyPursueTarget 
-/////////////////////////////////////////////////////////////////////
+
+
+
 class CBTTaskFlyPursueTarget extends IBehTreeTask
 {
 	var useCustom 						: bool;
@@ -201,7 +206,7 @@ class CBTTaskFlyPursueTarget extends IBehTreeTask
 			npcPosition = npc.GetWorldPosition();
 			
 			
-			//When pursuing a target, movePos needs to keep updating because it can possibly move.				
+			
 			if ( useCustom )
 			{
 				targetToNpcVector = npcPosition - targetPosition;
@@ -217,7 +222,7 @@ class CBTTaskFlyPursueTarget extends IBehTreeTask
 			
 			
 			positionOnPath = movePos;			
-			// do we need pathfinding to reach target?
+			
 			if( theGame.GetVolumePathManager().IsPathfindingNeeded( npcPosition, movePos ) )
 			{
 				positionOnPath = theGame.GetVolumePathManager().GetPointAlongPath( npcPosition, movePos, 2.0f );
@@ -225,7 +230,7 @@ class CBTTaskFlyPursueTarget extends IBehTreeTask
 			
 			movePos = positionOnPath;
 			
-			// Go straith up if target is more than 5 meters higher
+			
 			if ( ( targetPosition.Z - npcPosition.Z ) >= 5.f )
 			{
 				movePos = npcPosition;
@@ -237,7 +242,7 @@ class CBTTaskFlyPursueTarget extends IBehTreeTask
 			npcToMovePosVector2.Z = 0;
 			npcToMovePosDistance = VecDistance( npcPosition, movePos );
 		
-			//Set Flying Speed and Turning Speed
+			
 			if ( npcToMovePosDistance <= 20.f )
 			{
 				flySpeed = 1.f;
@@ -267,7 +272,7 @@ class CBTTaskFlyPursueTarget extends IBehTreeTask
 				turnSpeedScale = 3.0f;
 			}
 		
-			// Calculate Pitch
+			
 			flyPitch = Rad2Deg( AcosF( VecDot( VecNormalize(npcToMovePosVector), VecNormalize(npcToMovePosVector2) ) ) );
 			if ( npcPosition.X == movePos.X && npcPosition.Y == movePos.Y )
 			{
@@ -292,7 +297,7 @@ class CBTTaskFlyPursueTarget extends IBehTreeTask
 			}
 			
 		
-			// Calculate Yaw		
+			
 			flyYaw = AngleDistance( VecHeading( npcToMovePosVector ), VecHeading( npc.GetHeadingVector() ) ) ;
 			flyYaw = flyYaw / 180;
 			flyYaw = flyYaw * PowF( turnSpeedScale , AbsF( flyYaw ) );
@@ -322,7 +327,7 @@ class CBTTaskFlyPursueTarget extends IBehTreeTask
 				if ( npcToTargetDistance2D <= distanceFromTarget + distanceTolerance && npcToTargetDistance2D >= distanceFromTarget - distanceTolerance && 
 					npcToTargetHeight <= heightFromTarget + distanceTolerance && npcToTargetHeight >= heightFromTarget - distanceTolerance )
 				{
-					//flySpeed = 0.f;
+					
 					return BTNS_Completed;
 				}
 			}
@@ -384,8 +389,8 @@ class CBTTaskFlyPursueTarget extends IBehTreeTask
 	
 	function OnDeactivate() : void
 	{
-		//flySpeed = 0.f;
-		//GetNPC().ActionCancelAll();
+		
+		
 		((CMovingAgentComponent)GetNPC().GetMovingAgentComponent()).SnapToNavigableSpace( true );
 	}
 }
@@ -410,9 +415,9 @@ class CBTTaskFlyPursueTargetDef extends IBehTreeTaskDefinition
 	hint predictPositionTime = "Pursue the position the combat target will be in this amount of time. If <= 0, it will use the current position of target";
 }
 
-/////////////////////////////////////////////////////////////////////
-// UnderwaterPursueTarget 
-/////////////////////////////////////////////////////////////////////
+
+
+
 class CBTTaskUnderwaterPursueTarget extends IBehTreeTask
 {
 	var useCustom 				: bool;
@@ -488,17 +493,11 @@ class CBTTaskUnderwaterPursueTarget extends IBehTreeTask
 			npcPosition = npc.GetWorldPosition();
 			waterLevel = world.GetWaterLevel(npcPosition);
 			
-			/*
-			// do we need pathfinding to reach target?
-			if( theGame.GetVolumePathManager().IsPathfindingNeeded( npcPosition, targetPosition + Vector( 0.0f, 0.0f, 1.5f ) ) )
-			{
-				movePos = theGame.GetVolumePathManager().GetPointAlongPath( npcPosition, targetPosition + Vector( 0.0f, 0.0f, 1.5f ), 2.0f, waterLevel - 4 );
-			}
-			*/
+			
 			
 			movePos = theGame.GetVolumePathManager().GetPointAlongPath( npcPosition, targetPosition + Vector( 0.0f, 0.0f, 1.5f ), 2.0f, waterLevel - 4 );
 			
-			//When pursuing a target, movePos needs to keep updating because it can possibly move.
+			
 			
 			
 			npcToMovePosVector = movePos - npcPosition;		
@@ -506,7 +505,7 @@ class CBTTaskUnderwaterPursueTarget extends IBehTreeTask
 			npcToMovePosVector2.Z = 0;
 			npcToMovePosDistance = VecDistance( npcPosition, movePos );
 		
-			//Set Flying Speed and Turning Speed
+			
 			if ( npcToMovePosDistance <= 20.f )
 			{
 				flySpeed = 1.f;
@@ -536,7 +535,7 @@ class CBTTaskUnderwaterPursueTarget extends IBehTreeTask
 				turnSpeedScale = 3.0f;
 			}
 		
-			// Calculate Pitch
+			
 			flyPitch = Rad2Deg( AcosF( VecDot( VecNormalize(npcToMovePosVector), VecNormalize(npcToMovePosVector2) ) ) );
 			if ( npcPosition.X == movePos.X && npcPosition.Y == movePos.Y )
 			{
@@ -561,7 +560,7 @@ class CBTTaskUnderwaterPursueTarget extends IBehTreeTask
 			}
 			
 		
-			// Calculate Yaw		
+			
 			flyYaw = AngleDistance( VecHeading( npcToMovePosVector ), VecHeading( npc.GetHeadingVector() ) ) ;
 			flyYaw = flyYaw / 180;
 			flyYaw = flyYaw * PowF( turnSpeedScale , AbsF( flyYaw ) );
@@ -593,7 +592,7 @@ class CBTTaskUnderwaterPursueTarget extends IBehTreeTask
 					npcToTargetHeight <= heightFromTarget + distanceTolerance && 
 					npcToTargetHeight >= heightFromTarget - distanceTolerance )
 				{
-					//flySpeed = 0.f;
+					
 					return BTNS_Completed;
 				}
 			}
@@ -655,8 +654,8 @@ class CBTTaskUnderwaterPursueTarget extends IBehTreeTask
 	
 	function OnDeactivate() : void
 	{
-		//flySpeed = 0.f;
-		//GetNPC().ActionCancelAll();
+		
+		
 		((CMovingAgentComponent)GetNPC().GetMovingAgentComponent()).SnapToNavigableSpace( true );
 	}
 }
@@ -678,9 +677,9 @@ class CBTTaskUnderwaterPursueTargetDef extends IBehTreeTaskDefinition
 	default randomHeight = 13;
 }
 
-/////////////////////////////////////////////////////////////////////
-// Pursue / Flee
-/////////////////////////////////////////////////////////////////////
+
+
+
 class CMoveTRGPursueFlee extends CMoveTRGScript
 {
 	public var dangerNode : CNode;
@@ -689,7 +688,7 @@ class CMoveTRGPursueFlee extends CMoveTRGScript
 	
 	default flee = false;
 	
-	// Called in order to update the movement goal's channels
+	
 	function UpdateChannels( out goal : SMoveLocomotionGoal )
 	{
 		var newHeading : Vector;
@@ -771,7 +770,7 @@ class CBTTaskMoveTRG extends IBehTreeTask
 		
 		owner.ActionMoveCustom( targeter );
 		
-		//return BTNS_Completed;
+		
 		return BTNS_Active;
 	}
 	
@@ -794,15 +793,15 @@ class CBTTaskMoveTRGDef extends IBehTreeTaskDefinition
 	default flee = false;
 };
 
-/////////////////////////////////////////////////////////////////////
-// Follow
-/////////////////////////////////////////////////////////////////////
+
+
+
 class CMoveTRGFollowLocomotion extends CMoveTRGScript
 {
 	public var attractor : CNode;
 	public var minimumDistance : float;
 	
-	// Called in order to update the movement goal's channels
+	
 	function UpdateChannels( out goal : SMoveLocomotionGoal )
 	{
 		var newHeading : Vector;
@@ -870,7 +869,7 @@ class CBTTaskFollowOwnerTRG extends IBehTreeTask
 		
 		owner.ActionMoveCustom( targeter );
 		
-		//return BTNS_Completed;
+		
 		return BTNS_Active;
 	}
 	

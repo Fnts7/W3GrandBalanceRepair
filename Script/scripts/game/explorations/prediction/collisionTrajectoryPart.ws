@@ -1,7 +1,12 @@
-﻿
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
 
-//---------------------------------------------------------------------------------
-//---------------------------------------------------------------------------------
+
+
+
 class CollisionTrajectoryPart extends CPhantomComponent
 {
 	private 			var triggeredCollisions 		: int;
@@ -12,7 +17,7 @@ class CollisionTrajectoryPart extends CPhantomComponent
 	private	editable	var	waterDownPosCheckSlotName	: name;
 	
 	
-	//---------------------------------------------------------------------------------
+	
 	public function Initialize( owner : CollisionTrajectory )
 	{
 		triggeredCollisions	= 0;
@@ -20,15 +25,15 @@ class CollisionTrajectoryPart extends CPhantomComponent
 		ownerTrajectory		= owner;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	public function HasCollisions() : bool
 	{
-		//return GetNumObjectsInside();
+		
 		
 		return triggeredCollisions	> 0;
 	}	
 	
-	//---------------------------------------------------------------------------------
+	
 	event OnCollisionEnter( object : CObject, physicalActorindex : int, shapeIndex : int  )
 	{
 		var component : CComponent;
@@ -52,7 +57,7 @@ class CollisionTrajectoryPart extends CPhantomComponent
 		triggeredCollisions	+= 1;
 	}
 	
-	//---------------------------------------------------------------------------------
+	
 	event OnCollisionExit( object : CObject, physicalActorindex : int, shapeIndex : int  )
 	{
 		var component : CComponent;
@@ -76,16 +81,16 @@ class CollisionTrajectoryPart extends CPhantomComponent
 		triggeredCollisions	= Max( triggeredCollisions - 1, 0 );
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	private function IsValidCollider( component :CComponent ) : bool
 	{
-		// Part of the trajectory
+		
 		if( component && ( CPhantomComponent ) component )
 		{
 			return false;
 		}
 		
-		// owner
+		
 		if( component.GetEntity() == ownerTrajectory.stateManager.m_OwnerE )
 		{
 			return false;
@@ -94,13 +99,13 @@ class CollisionTrajectoryPart extends CPhantomComponent
 		return true;
 	}	
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function GetDebugText() : string
 	{
-		return "   " + part + " " + triggeredCollisions; // GetNumObjectsInside(); //
+		return "   " + part + " " + triggeredCollisions; 
 	}
 	
-	//------------------------------------------------------------------------------------------------------------------
+	
 	public function IsGoingToWater() : bool
 	{
 		var positionUp		: Vector;

@@ -1,35 +1,37 @@
 ﻿/***********************************************************************/
-/** Witcher Script file
-/***********************************************************************/
-/** Object classes exprots
-/** Copyright © 2009 Dexio's Late Night R&D Home Center
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
-/////////////////////////////////////////////
-// Generic component 
-/////////////////////////////////////////////
+
+
+
+
+
+
 
 import class CComponent extends CNode
 {
-	// Get entity that owns this component
+	
 	import final function GetEntity() : CEntity;
 	
-	// Is component enabled
+	
 	import final function IsEnabled() : bool;
 	
-	// Set component enabled
+	
 	import final function SetEnabled( flag : bool );
 	
-	// Set local-space position. PLEASE use with caution. It's broken, don't use it!! Sometimes the final position is few meters away from what you pass to this function!!
+	
 	import final function SetPosition( position : Vector );
 	
-	// Set local-space rotation. PLEASE use with caution.
+	
 	import final function SetRotation( rotation : EulerAngles );
 	
-	// Set local-space scale. PLEASE use with caution.
+	
 	import final function SetScale( scale : Vector );
 	
-	//physical part
+	
 	import final function HasDynamicPhysic() : bool;
 	import final function HasCollisionType( collisionTypeName : name, optional actorIndex : int, optional shapeIndex : int ) : bool;
 	import final function GetPhysicalObjectLinearVelocity( optional actorIndex : int ) : Vector;
@@ -45,7 +47,7 @@ import class CComponent extends CNode
 	
 	import final function SetShouldSave( shouldSave : bool );
 	
-	// signal custom event
+	
 	public function SignalCustomEvent( eventName : name )
 	{
 	}
@@ -57,9 +59,9 @@ struct SAnimMultiplyCauser
 	saved var mul : float;
 };
 
-/////////////////////////////////////////////
-// Interaction area component
-/////////////////////////////////////////////
+
+
+
 
 import class CInteractionAreaComponent extends CComponent
 {
@@ -74,9 +76,9 @@ import class CInteractionAreaComponent extends CComponent
 	import final function SetCheckLineOfSight( flag : bool );
 }
 
-/////////////////////////////////////////////
-// Interaction component
-/////////////////////////////////////////////
+
+
+
 
 import class CInteractionComponent extends CInteractionAreaComponent
 {
@@ -102,20 +104,20 @@ import class CInteractionComponent extends CInteractionAreaComponent
 
 	public function ShouldIgnoreLocks() : bool 	{return shouldIgnoreLocks;}
 
-	// Get the interaction name, as set from the 
+	
 	import final function GetActionName() : string;
 
-	// Set interaction name
+	
 	import final function SetActionName( actionName : string );
 
-	// Get the localized name of the interaction
+	
 	import final function GetInteractionFriendlyName() : string;
 
 	import final function GetInteractionKey() : int;
 	
 	import final function GetInputActionName() : name;
 	
-	//default checkCameraVisibility = true;
+	
 	
 	public function EnableInCombat( enable : bool )
 	{
@@ -129,7 +131,7 @@ import class CInteractionComponent extends CInteractionAreaComponent
 	
 	event OnInteraction( actionName : string, activator : CEntity )
 	{
-		//MS: Event in component fires first before event in entity. If this event returns false, then event in entity is triggered after.
+		
 		if ( theGame.GetInteractionsManager().GetActiveInteraction() == this )
 		{
 			if ( thePlayer.IsInCombat() && !thePlayer.IsSwimming() )
@@ -176,9 +178,9 @@ import class CInteractionComponent extends CInteractionAreaComponent
 	}
 }
 
-/////////////////////////////////////////////
-// Animated component
-/////////////////////////////////////////////
+
+
+
 
 import class CAnimatedComponent extends CComponent
 {
@@ -187,50 +189,50 @@ import class CAnimatedComponent extends CComponent
 	
 	var animationMultiplierCausers : array<SAnimMultiplyCauser>;
 	
-	// Activate behavior graph instances
+	
 	import final latent function ActivateBehaviors( names : array< name > ) : bool;
 	
-	// Attach behavior graph
+	
 	import final latent function AttachBehavior( instanceName : name ) : bool;
 	
-	// Detach behavior graph
+	
 	import final function DetachBehavior( instanceName : name ) : bool;
 	
-	// Get behavior float variable
+	
 	import final function GetBehaviorVariable( varName : name ) : float;
 	
-	// Get behavior vector variable
+	
 	import final function GetBehaviorVectorVariable( varName : name ) : Vector;
 	
-	// Set behavior float variable
+	
 	import final function SetBehaviorVariable( varName : name, varValue : float ): bool;
 	
-	// Set behavior vector variable
+	
 	import final function SetBehaviorVectorVariable( varName : name, varValue : Vector ) : bool;
 
-	// Display skeleton
+	
 	import final function DisplaySkeleton( bone : bool, optional axis : bool, optional names : bool );
 	
-	// Get animation time multiplier of this actor
+	
 	import final function GetAnimationTimeMultiplier() : float;
 	
-	// Updating by other animated component
+	
 	import final function DontUpdateByOtherAnimatedComponent();
 	import final function UpdateByOtherAnimatedComponent( slaveComponent : CAnimatedComponent );
 	
-	//NOT SAFE WHEN MORE THAN 1 EFFECT
-	//
-	//
-	// Set animation time multiplier of this actor
+	
+	
+	
+	
 	import final function SetAnimationTimeMultiplier( mult : float );
 		
-	//Adds new 'causer' of animation multiplier and sets the final animation multiplier. Returns assigned causer's id.
+	
 	public function SetAnimationSpeedMultiplier(mul : float) : int
 	{
 		var causer : SAnimMultiplyCauser;
 		var finalMul : float;
 				
-		//add new causer		
+		
 		causer.mul = mul;
 		causer.id = nextFreeAnimMultCauserId;
 		
@@ -238,13 +240,13 @@ import class CAnimatedComponent extends CComponent
 		
 		animationMultiplierCausers.PushBack(causer);
 				
-		//calculate output multiplier
+		
 		SetAnimationTimeMultiplier(CalculateFinalAnimationSpeedMultiplier());
 		
 		return causer.id;
 	}
 	
-	//Calculates final animation multiplier based on working causers
+	
 	private function CalculateFinalAnimationSpeedMultiplier() : float
 	{
 		if(animationMultiplierCausers.Size() > 0)
@@ -253,14 +255,14 @@ import class CAnimatedComponent extends CComponent
 		return 1;
 	}
 	
-	//Removes animation multiplier causer and sets final animation multiplier.
+	
 	public function ResetAnimationSpeedMultiplier(id : int)
 	{
 		var i,size : int;
 		
 		size = animationMultiplierCausers.Size();
 		if(size == 0)
-			return;	//yeah, right
+			return;	
 		
 		for(i=size-1; i>=0; i-=1)
 			if(animationMultiplierCausers[i].id == id)
@@ -275,80 +277,80 @@ import class CAnimatedComponent extends CComponent
 		SetAnimationTimeMultiplier(CalculateFinalAnimationSpeedMultiplier());
 	}
 	
-	// Get absolute move speed
+	
 	import final function GetMoveSpeedAbs() : float;
 	
-	// Retrieve relative speed
+	
 	import final function GetMoveSpeedRel() : float;
 
-	// Raise behavior event
+	
 	import final function RaiseBehaviorEvent( eventName : name ) : bool;
 	
-	// Raise behavior force event
+	
 	import final function RaiseBehaviorForceEvent( eventName : name ) : bool;
 	
-	// Find bone nearest to given world-space position, and return bone index. Bone position will be written back to 'position' argument.
+	
 	import final function FindNearestBoneWS( out position : Vector ) : int; 
 	
 	import final function FindNearestBoneToEdgeWS( a : Vector, b : Vector ) : int; 
 
-	// Get current state name in beavior graph with input instance name
+	
 	import final function GetCurrentBehaviorState( optional instanceName : name ) : string;
 	
-	// Use with care!!! Freeze pose, behavior and other stuff can not be update ect.
+	
 	import final function FreezePose();
 	
-	// Use with care!!! Unfreeze pose
+	
 	import final function UnfreezePose();
 	
-		// Use with care!!! Freeze pose, behavior and other stuff can not be update ect.
+		
 	import final function FreezePoseFadeIn( fadeInTime : float );
 	
-	// Use with care!!! Unfreeze pose
+	
 	import final function UnfreezePoseFadeOut( fadeOutTime : float );
 	
-	// Use with care!!! Has frozen pose
+	
 	import final function HasFrozenPose() : bool;
 	
-	// Synchronize slave component to master ( this ) component
+	
 	import final function SyncTo( slaveComponent : CAnimatedComponent, ass : SAnimatedComponentSyncSettings ) : bool;
 	
-	// Test if extracted motion is being used
+	
 	import final function UseExtractedMotion() : bool;
 	
-	// Set if extracted motion is being used
+	
 	import final function SetUseExtractedMotion( use : bool ); 
 	
-	// Checks if the ragdoll resource is set
+	
 	import final function HasRagdoll() : bool;
 
 	import final function GetRagdollBoneName( actorIndex : int ) : name;
 
-	// Pull ragdoll to capsule if too far away
+	
 	import final function StickRagdollToCapsule( stick : bool);
 	
-	// Play animation on slot
+	
 	import final function PlaySlotAnimationAsync( animation : name, slotName : name, optional settings : SAnimatedComponentSlotAnimationSettings ) : bool;
 	
-	// Play animation directly on skeleton ( don't use animation graph ). Default value for 'looped' is false
+	
 	import final function PlaySkeletalAnimationAsync ( animation : name, optional looped : bool ) : bool;
 
 	import final function GetBoneMatrixMovementModelSpaceInAnimation( boneIndex : int, animation : name, time : float, deltaTime : float, out boneAtTimeMS : Matrix, out boneWithDeltaTimeMS : Matrix );
 }
 
-/////////////////////////////////////////////
+
 
 import class CDropPhysicsComponent extends CComponent
 {
 	import final function DropMeshByName( meshName : string,
-										  optional direction : Vector /* = Vector::ZEROS */,
-     								      optional curveName : name /* = CName::NONE */ ) : bool;
+										  optional direction : Vector ,
+     								      optional curveName : name  ) : bool;
 	import final function DropMeshByTag( meshTag : name,
-                                          optional direction : Vector /* = Vector::ZEROS */,
-     									  optional curveName : name /* = CName::NONE */ ) : bool;
+                                          optional direction : Vector ,
+     									  optional curveName : name  ) : bool;
 }
 
-/////////////////////////////////////////////
+
 
 enum EDismembermentEffectTypeFlags
 { 
@@ -360,18 +362,7 @@ enum EDismembermentEffectTypeFlags
 	DETF_Mutation6	= 32, 
 };
 
-/*
-defined in C++
 
-enum EWoundTypeFlags
-{
-	WTF_None		= 0,
-	WTF_Cut			= FLAG( 0 ),
-	WTF_Explosion	= FLAG( 1 ),
-	WTF_Frost		= FLAG( 2 ),
-	WTF_All			= WTF_Cut | WTF_Explosion | WTF_Frost,
-};
-*/
 
 import class CDismembermentComponent extends CComponent
 {
@@ -383,32 +374,32 @@ import class CDismembermentComponent extends CComponent
 	import final function GetVisibleWoundName() : name;
 	import final function CreateWoundParticles( woundName : name ) : bool;
 	import final function GetNearestWoundName( positionMS : Vector, normalMS : Vector,
-											   optional woundTypeFlags : EWoundTypeFlags /* = WTF_All */ ) : name;
+											   optional woundTypeFlags : EWoundTypeFlags  ) : name;
 	import final function GetNearestWoundNameForBone( boneIndex : int, normalWS : Vector,
-													  optional woundTypeFlags : EWoundTypeFlags /* = WTF_All */ ) : name;
+													  optional woundTypeFlags : EWoundTypeFlags  ) : name;
 	import final function GetWoundsNames( out names : array< name >,
-										  optional woundTypeFlags : EWoundTypeFlags /* = WTF_All */ );
+										  optional woundTypeFlags : EWoundTypeFlags  );
 	import final function IsExplosionWound( woundName : name ) : bool;
 	import final function IsFrostWound( woundName : name ) : bool;
 	import final function GetMainCurveName( woundName : name ) : name;
 }
 
-/////////////////////////////////////////////
-// Component with bounds
-/////////////////////////////////////////////
+
+
+
 
 import class CBoundedComponent extends CComponent
 {
-	// Gets component's bounding box
+	
 	import final function GetBoundingBox() : Box;
 }
 
 import class CAreaComponent extends CBoundedComponent
 {
-	//WARNING ! ! !
-	//this is broken if the bottom of bounding box of entity is below the lower border of area
-	//WARNING 2 ! ! !
-	//even if there is no overlap, function might return true!
+	
+	
+	
+	
 	import final function TestEntityOverlap( ent : CEntity ) : Bool;
 	
 	import final function TestPointOverlap( point : Vector ) : Bool;
@@ -416,127 +407,127 @@ import class CAreaComponent extends CBoundedComponent
 	import final function GetWorldPoints( out points : array< Vector > );
 }
 
-/////////////////////////////////////////////
-// Component that can be drawn
-/////////////////////////////////////////////
+
+
+
 
 import class CDrawableComponent extends CBoundedComponent
 {
-	// Is component visible
+	
 	import final function IsVisible() : bool;
 	
-	// Set component visible
+	
 	import final function SetVisible( flag : bool );
 
-	// Changes gameplay parameter ( used for highlighting )
-//	import final function SetGameplayParameter( paramIdx : int, enable : bool, changeTime : float );
 	
-	// Is component casting shadows
+
+	
+	
 	import final function SetCastingShadows ( flag : bool );
 
-	// By default we use physical bounds
+	
 	public function GetObjectBoundingVolume( out box : Box ) : bool
 	{
 		return GetPhysicalObjectBoundingVolume( box );
 	}	
 }
 
-/////////////////////////////////////////////
-// Mesh components
-/////////////////////////////////////////////
+
+
+
 
 import class CRigidMeshComponent extends CStaticMeshComponent
 {
-	// Enables buoyancy on rigid mesh physics wrapper. Returns true on success.
+	
 	import function EnableBuoyancy( enable : bool ) : bool;
 }
 
-/////////////////////////////////////////////
-// Decal component
-/////////////////////////////////////////////
+
+
+
 
 import class CDecalComponent extends CDrawableComponent
 {
 }
 
-/////////////////////////////////////////////
-// Normal-Blend component
-/////////////////////////////////////////////
+
+
+
 
 import class CNormalBlendComponent extends CComponent
 {
 }
 
-/////////////////////////////////////////////
-// Sprite component
-/////////////////////////////////////////////
+
+
+
 
 import class CSpriteComponent extends CComponent
 {
 }
 
-/////////////////////////////////////////////
-// Generic waypoint component
-/////////////////////////////////////////////
+
+
+
 
 import class CWayPointComponent extends CSpriteComponent 
 {
 }
 
-/////////////////////////////////////////////
-// Trigger channels
-/////////////////////////////////////////////
+
+
+
 
 enum ETriggerChannels
 {
-	TC_Default			= 1,			// Default group
-	TC_Player			= 2,			// Player
-	TC_Camera			= 4,			// Camera object
-	TC_NPC				= 8,			// General NPC
-	TC_SoundReverbArea	= 16,			// Sound source
-	TC_SoundAmbientArea	= 32,			// Sound ambient area external shell
-	TC_Quest			= 64,			// Used in quest conditions
-	TC_Projectiles		= 128,			// Projectiles' collisions
-	TC_Horse			= 256,			// Horse collisions	
-	TC_Custom0			= 65536,		// Custom group
-	TC_Custom1			= 131072,		// Custom group
-	TC_Custom2			= 262144,		// Custom group
-	TC_Custom3			= 524288,		// Custom group
-	TC_Custom4			= 1048576,		// Custom group
-	TC_Custom5			= 2097152,		// Custom group
-	TC_Custom6			= 4194304,		// Custom group
-	TC_Custom7			= 8388608,		// Custom group
-	TC_Custom8			= 16777216,		// Custom group
-	TC_Custom9			= 33554432,		// Custom group
-	TC_Custom10			= 67108864,		// Custom group
-	TC_Custom11			= 134217728,	// Custom group
-	TC_Custom12			= 268435456,	// Custom group
-	TC_Custom13			= 536870912,	// Custom group
-	TC_Custom14			= 1073741824,	// Custom group
+	TC_Default			= 1,			
+	TC_Player			= 2,			
+	TC_Camera			= 4,			
+	TC_NPC				= 8,			
+	TC_SoundReverbArea	= 16,			
+	TC_SoundAmbientArea	= 32,			
+	TC_Quest			= 64,			
+	TC_Projectiles		= 128,			
+	TC_Horse			= 256,			
+	TC_Custom0			= 65536,		
+	TC_Custom1			= 131072,		
+	TC_Custom2			= 262144,		
+	TC_Custom3			= 524288,		
+	TC_Custom4			= 1048576,		
+	TC_Custom5			= 2097152,		
+	TC_Custom6			= 4194304,		
+	TC_Custom7			= 8388608,		
+	TC_Custom8			= 16777216,		
+	TC_Custom9			= 33554432,		
+	TC_Custom10			= 67108864,		
+	TC_Custom11			= 134217728,	
+	TC_Custom12			= 268435456,	
+	TC_Custom13			= 536870912,	
+	TC_Custom14			= 1073741824,	
 };
 
-/////////////////////////////////////////////
-// Generic trigger component
-/////////////////////////////////////////////
+
+
+
 
 import class CTriggerAreaComponent extends CAreaComponent
 {
-	// Change the trigger area channel masks
+	
 	import final function SetChannelMask( includedChannels, excludedChannes : int );
 	
-	// Add a trigger channel to the included channels list (trigger will start reacting to activators on this channel)
+	
 	import final function AddIncludedChannel( channel : ETriggerChannels );
 
-	// Remove a trigger channel from the included channels list (trigger will stop reacting to activators on this channel)
+	
 	import final function RemoveIncludedChannel( channel : ETriggerChannels );
 
-	// Add a trigger channel to the excluded channels list (trigger will ignore activators on this channel)
+	
 	import final function AddExcludedChannel( channel : ETriggerChannels );
 
-	// Remove a trigger channel from the excluded channels list (trigger will ignore activators on this channel)
+	
 	import final function RemoveExcludedChannel( channel : ETriggerChannels );
 	
-	// Get entities inside area. Slow!!! Use with caution!!!
+	
 	public function GetGameplayEntitiesInArea( out entities : array< CGameplayEntity >, optional range : float, optional onlyActors : bool )
 	{
 		var i, curr, size : int;
@@ -556,11 +547,11 @@ import class CTriggerAreaComponent extends CAreaComponent
 		source = GetEntity();
 		if ( onlyActors )
 		{
-			FindGameplayEntitiesInRange( entities, source, range, 1000, /* tag */, FLAG_ExcludeTarget + FLAG_OnlyActors, (CGameplayEntity)source );
+			FindGameplayEntitiesInRange( entities, source, range, 1000, , FLAG_ExcludeTarget + FLAG_OnlyActors, (CGameplayEntity)source );
 		}
 		else
 		{
-			FindGameplayEntitiesInRange( entities, source, range, 1000, /* tag */, FLAG_ExcludeTarget, (CGameplayEntity)source );
+			FindGameplayEntitiesInRange( entities, source, range, 1000, , FLAG_ExcludeTarget, (CGameplayEntity)source );
 		}
 		
 		size = entities.Size();
@@ -577,54 +568,54 @@ import class CTriggerAreaComponent extends CAreaComponent
 	}
 }
 
-/////////////////////////////////////////////
-// Generic trigger activator
-/////////////////////////////////////////////
+
+
+
 
 import class CTriggerActivatorComponent extends CComponent
 {
-	// Change radius of the trigger activator
+	
 	import final function SetRadius( radius : float );
 	
-	// Change height of the trigger activator
+	
 	import final function SetHeight( height : float );
 	
-	// Get radius of the trigger activator
+	
 	import final function GetRadius() : float;
 	
-	// Get height of the trigger activator
+	
 	import final function GetHeight() : float;
 	
-	// Add activator to given trigger channel (activator will start interacting with triggers on this channel)
+	
 	import final function AddTriggerChannel( channel : ETriggerChannels );
 	
-	// Remove activator from given trigger channel
+	
 	import final function RemoveTriggerChannel( channel : ETriggerChannels );
 }
 
-/////////////////////////////////////////////
-// Combat data
-/////////////////////////////////////////////
+
+
+
 
 import class CCombatDataComponent extends CComponent
 {
-	// Get number of attackers
+	
 	import final function GetAttackersCount() : int;
 	import final function GetTicketSourceOwners( out actors : array< CActor >, ticketName : name );
 	import final function HasAttackersInRange( range : float ) : bool;
 	
-	// Modifies ticket pool. Return override id used to cancel this precise override request. Returns -1 on faiulure.
+	
 	import final function TicketSourceOverrideRequest( ticketName : name, ticketsCountMod : int, minimalImportanceMod : float ) : int;
-	// Clears ticket source override. Use override id provided from above function. Returns false on failure.
+	
 	import final function TicketSourceClearRequest( ticketName : name, requestId : int ) : bool;
-	// Force importance update for every1 interested in given ticket.
+	
 	import final function ForceTicketImmediateImportanceUpdate( ticketName : name );
 	
 }
 
-/////////////////////////////////////////////
-// Destruction system
-/////////////////////////////////////////////
+
+
+
 
 import class CDestructionSystemComponent extends CDrawableComponent
 {
@@ -633,23 +624,23 @@ import class CDestructionSystemComponent extends CDrawableComponent
 	import final function IsDestroyed() : bool;
 	import final function IsObstacleDisabled() : bool;
 	
-	// For destructions, let's try to use "visual" bounding box first
+	
 	public function GetObjectBoundingVolume( out box : Box ) : bool
 	{
-		// first, lets try to use bounding box directly from drawable component	
+		
 		box = GetBoundingBox();
 		if ( box.Min != box.Max )
 		{
 			return true;
 		}
-		// if this is not enough, calculate physical bounding box (can be expensive for many actors/shapes - e.g. CDestructionSystemComponent)
+		
 		return GetPhysicalObjectBoundingVolume( box );
 	}	
 }
 
-/////////////////////////////////////////////
-// Destruction system
-/////////////////////////////////////////////
+
+
+
 
 import class CDestructionComponent extends CMeshTypeComponent
 {
@@ -657,16 +648,16 @@ import class CDestructionComponent extends CMeshTypeComponent
 	import final function IsDestroyed() : bool;
 	import final function IsObstacleDisabled() : bool;
 	
-	// For destructions, let's try to use "visual" bounding box first
+	
 	public function GetObjectBoundingVolume( out box : Box ) : bool
 	{
-		// first, lets try to use bounding box directly from drawable component	
+		
 		box = GetBoundingBox();
 		if ( box.Min != box.Max )
 		{
 			return true;
 		}
-		// if this is not enough, calculate physical bounding box (can be expensive for many actors/shapes - e.g. CDestructionSystemComponent)
+		
 		return GetPhysicalObjectBoundingVolume( box );
 	}	
 }
@@ -676,9 +667,9 @@ import class CSoundAmbientAreaComponent extends CSoftTriggerAreaComponent
 
 }
 
-/////////////////////////////////////////////
-// Cloth component
-/////////////////////////////////////////////
+
+
+
 
 import class CClothComponent extends CMeshTypeComponent
 {

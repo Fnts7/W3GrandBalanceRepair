@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** Witcher Script file - world map
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2013 CDProjektRed
-/** Author : Bartosz Bigaj
-/***********************************************************************/
+
+
+
 
 class CR4MapMenu extends CR4MenuBase
 {
@@ -28,7 +30,7 @@ class CR4MapMenu extends CR4MenuBase
 
 	var currentTag			: name;
 
-	event /*flash*/ OnConfigUI()
+	event  OnConfigUI()
 	{
 		var initData : W3MapInitData;
 		var manager : CCommonMapManager;
@@ -45,15 +47,15 @@ class CR4MapMenu extends CR4MenuBase
 		}
 	
 		m_menuState = 'GlobalMap';
-		//theGame.Pause("menus");
 		
-		//tutorial, this has to go before super.OnConfigUI()		
+		
+		
 		initData = (W3MapInitData)GetMenuInitData();
 		if ( initData )
 		{			
 			if(ShouldProcessTutorial('TutorialFastTravelHighlight'))
 			{
-				//if map opened due to fast travel
+				
 				if(initData.GetTriggeredExitEntity() || initData.GetUsedFastTravelEntity() || thePlayer.IsOnBoat())
 				{
 					GameplayFactsAdd("tutorial_fast_travel_open", 1, 1);
@@ -86,20 +88,20 @@ class CR4MapMenu extends CR4MenuBase
 		
 		UpdateCurrentQuestData( false );
 		
-		// default state
+		
 		if (!((W3MenuInitData)GetMenuInitData()))
 		{
 			SetMenuState('GlobalMap');
 		}
 		
-		//
-		// DEBUG START
-		//
-		//ShowBorders( true );
-		//EnableDebugMode( true );
-		//
-		// DEBUG END
-		//
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		m_fxShowToussaint.InvokeSelfOneArg( FlashArgBool( theGame.GetDLCManager().IsEP2Available() ) );
 		UpdatePlayerLevel();
@@ -141,7 +143,7 @@ class CR4MapMenu extends CR4MenuBase
 	{
 		var manager: CWitcherJournalManager = theGame.GetJournalManager();
 	    var areasWithQuests : array< int >;
-	    //var areasNamesWithQuests : array< string >;
+	    
 	    var i : int;
 		var flashObject	: CScriptedFlashObject;
 		var flashArray 	: CScriptedFlashArray;
@@ -151,7 +153,7 @@ class CR4MapMenu extends CR4MenuBase
 		flashArray = m_flashValueStorage.CreateTempFlashArray();
 		for ( i = 0; i < areasWithQuests.Size(); i += 1 )
 		{
-			//areasNamesWithQuests.PushBack( AreaTypeToName( areasWithQuests[ i ] ) );
+			
 			flashObject = m_flashValueStorage.CreateTempFlashObject();
 			flashObject.SetMemberFlashString( "area", AreaTypeToName( areasWithQuests[ i ] ) );
 			flashArray.PushBackFlashObject( flashObject );
@@ -159,7 +161,7 @@ class CR4MapMenu extends CR4MenuBase
 		m_flashValueStorage.SetFlashArray( "worldmap.global.universe.questareas", flashArray );
 	}
 	
-	public /* override */ function SetMenuState(newState : name) : void
+	public  function SetMenuState(newState : name) : void
 	{
 		SaveStateData();
 		super.SetMenuState(newState);
@@ -170,7 +172,7 @@ class CR4MapMenu extends CR4MenuBase
 		UpdateInputFeedback();
 	}
 	
-	// #Y TODO: 
+	
 	private function UpdateInputFeedback():void
 	{
 		m_defaultInputBindings.Clear();
@@ -193,7 +195,7 @@ class CR4MapMenu extends CR4MenuBase
 		}
 	}
 
-	event /*flash*/ OnDebugEvent( id : int )
+	event  OnDebugEvent( id : int )
 	{
 		LogChannel( 'MapTimer', "Flash " + id );
 	}
@@ -214,7 +216,7 @@ class CR4MapMenu extends CR4MenuBase
 		{
 			UpdatePlayerPin( l_flashArray );
 		}
-		// user pins need to be added at the end
+		
 		UpdateUserMapPins( l_flashArray, -1 );
 		
 		LogChannel( 'MapTimer', "UpdateData MIDDLE2" );
@@ -307,21 +309,12 @@ class CR4MapMenu extends CR4MenuBase
 		}
 			
 			
-		//////////////
-		// test only
-		/*
-		for ( i = 0; i < 5 - objectives.Size(); i += 1 )
-		{
-			flashObjective = GetMenuFlashValueStorage().CreateTempFlashObject();
-			flashObjective.SetMemberFlashString( "objectiveName", "temp objective " + i );
-			//flashObjective.SetMemberFlashString( "objectiveScriptName", "[unknown]" );
-			flashObjective.SetMemberFlashBool(   "highlighted", false );
-			flashArray.PushBackFlashObject( flashObjective );
-		}
-		*/
+		
+		
+		
 		m_flashValueStorage.SetFlashArray(  "map.objectives", flashArray );
-		//
-		//////////////
+		
+		
 	}
 	
 	private function UpdateDataWithSingleUserMapPin( indexToUpdate : int )
@@ -548,7 +541,7 @@ class CR4MapMenu extends CR4MenuBase
 			}
 			if ( commonMapManager.IsUserPinType( pin.type ) )
 			{
-				// we add it separately later
+				
 				continue;
 			}
 			
@@ -578,7 +571,7 @@ class CR4MapMenu extends CR4MenuBase
 			
 			if ( m_shownArea == (EAreaName)AN_Dlc_Bob )
 			{
-				// ignore fairytale world
+				
 				if ( pin.position.X > 1200 &&
 					 pin.position.Y > 800 &&
 					 pin.type != 'User1' && 
@@ -588,7 +581,7 @@ class CR4MapMenu extends CR4MenuBase
 				{
 					continue;
 				}
-				// ignore corvo bianco icons
+				
 				if ( pin.tag == 'mq7024_mutagen_dismantling_table' ||
 					 pin.tag == 'mq7024_alchemy_table' ||
 					 pin.tag == 'corvo_bianvo_bookshelf_poor' ||
@@ -653,16 +646,16 @@ class CR4MapMenu extends CR4MenuBase
 		description = "";
 		switch (targetPin.visibleType)
 		{
-////////////////////////////////////////////
-// QUESTS
-			// make sure the list below is the same as in CCommonMapManager::m_questName
-			// specified in CJournalQuest
+
+
+			
+			
 			case 'StoryQuest':
 			case 'ChapterQuest':
 			case 'SideQuest':
 			case 'MonsterQuest':
 			case 'TreasureQuest':
-			// specified in CJournalQuestMapPin
+			
 			case 'QuestReturn':
 			case 'HorseRace':
 			case 'BoatRace':
@@ -681,7 +674,7 @@ class CR4MapMenu extends CR4MenuBase
 					
 					dataObject.SetMemberFlashBool( "tracked",      isTracked );
 					dataObject.SetMemberFlashBool( "highlighted",  targetPin.isHighlighted );
-					// there is also targetPin.isHighlightable flag if needed
+					
 				}
 				break;
 			
@@ -699,8 +692,8 @@ class CR4MapMenu extends CR4MenuBase
 				label = GetLocStringByKeyExt( StrLower("map_location_" + targetPin.visibleType) );
 				description = GetLocStringByKeyExt( StrLower("map_description_" + targetPin.visibleType) );
 				break;
-////////////////////////////////////////////
-// POIS			
+
+
 			case 'MonsterNest':
 			case 'MonsterNestDisabled':
 			case 'InfestedVineyard':
@@ -736,8 +729,8 @@ class CR4MapMenu extends CR4MenuBase
 			case 'SignalingStake':
 			case 'SignalingStakeDisabled':
 			
-////////////////////////////////////////////
-// EP2 STUFF
+
+
 			case 'AlchemyTable':
 			case 'MutagenDismantle':
 			case 'Stables':
@@ -747,20 +740,20 @@ class CR4MapMenu extends CR4MenuBase
 				description = GetLocStringByKeyExt( StrLower("map_description_" + targetPin.type) );
 				break;
 
-////////////////////////////////////////////
-// STASH
+
+
 			case 'PlayerStash':
 			case 'PlayerStashDiscoverable':
 				label = GetLocStringByKeyExt( "map_location_playerstash" );
 				description = GetLocStringByKeyExt( "map_description_playerstash" );
 				break;
 				
-////////////////////////////////////////////
-// SHOPKEEPERS
+
+
 			case 'Shopkeeper':
 			case 'Blacksmith':
 			case 'Armorer':
-			//case 'BoatBuilder': // gone
+			
 			case 'Hairdresser':
 				label = GetLocStringByKeyExt( StrLower("map_location_" + targetPin.type) );
 				description = GetLocStringByKeyExt( StrLower("map_description_" + targetPin.type) );
@@ -782,63 +775,63 @@ class CR4MapMenu extends CR4MenuBase
 				description = GetLocStringByKeyExt( "panel_map_enchanter_pin_description" );
 				break;
 				
-////////////////////////////////////////////
-// TORCH (EP2) (custom)		
+
+
 			case 'Torch':
 				label       = GetLocStringByKeyExt( "map_location_torch" );
 				description = GetLocStringByKeyExt( "map_description_torch" );
 				break;
 
-////////////////////////////////////////////
-// PROSTITUTE (custom)				
+
+
 			case 'Prostitute':
 				label       = GetLocStringByKeyExt( "novigrad_courtisan" );
 				description = GetLocStringByKeyExt( "map_description_prostitute" );
 				break;
 
-////////////////////////////////////////////
-// ARMORER TABLE (custom)				
+
+
 			case 'ArmorRepairTable':
 				label       = GetLocStringByKeyExt( "map_location_armor_repair_table" );
 				description = GetLocStringByKeyExt( "map_description_armor_repair_table" );
 				break;
 
-////////////////////////////////////////////
-// HERBS (custom)				
-			case 'Herb': // no prefixes for herbs
+
+
+			case 'Herb': 
 				label       = GetLocStringByKeyExt( definitionManager.GetItemLocalisationKeyName( targetPin.tag ) );
 				description = GetLocStringByKeyExt( definitionManager.GetItemLocalisationKeyDesc( targetPin.tag ) );
 				break;
 
-////////////////////////////////////////////
-// FAST TRAVEL POINTS (custom)
+
+
 			case 'RoadSign':
 				label = GetLocStringByKeyExt( StrLower("map_location_" + targetPin.tag ) );
 				description = GetLocStringByKeyExt( StrLower("map_description_" + targetPin.tag ) );
 				break;
 
-////////////////////////////////////////////
-// NOTICEBOARDS (custom)
+
+
 			case 'NoticeBoard':
 			case 'NoticeBoardFull':
 				label = GetLocStringByKeyExt( StrLower("map_location_noticeboard" ) );
 				description = GetLocStringByKeyExt( StrLower("map_description_noticeboard" ) );
 				break;
 
-////////////////////////////////////////////
-// BOATS (custom)
+
+
 			case 'Boat':
 				label = GetLocStringByKeyExt( StrLower("panel_hud_boat" ) );
 				description = GetLocStringByKeyExt("map_description_player_boat");
 				break;
 
-////////////////////////////////////////////
-// THE REST				
+
+
 			default:
 				if ( targetPin.customNameId != 0 )
 				{
 					label = GetLocStringById( targetPin.customNameId );
-					description = ""; // ?
+					description = ""; 
 				}
 				else
 				{
@@ -866,13 +859,13 @@ class CR4MapMenu extends CR4MenuBase
 		theGame.GetCommonMapManager().DisableMapPin( pinName, disable );
 	}
 	
-	event /* C++ */ OnPinch( value : float )
+	event  OnPinch( value : float )
 	{
-		// PMTODO zooming map
+		
 		LogChannel( 'Gui', "CR4MapMenu::OnPinch " + value );
 	}
 
-	event /* C++ */ OnClosingMenu()
+	event  OnClosingMenu()
 	{
 		var initData : W3MapInitData;
 		SaveStateData();
@@ -890,7 +883,7 @@ class CR4MapMenu extends CR4MenuBase
 		super.OnClosingMenu();
 	}
 
-	event /*flash*/ OnCloseMenu()
+	event  OnCloseMenu()
 	{
 		if( m_parentMenu )
 		{
@@ -913,7 +906,7 @@ class CR4MapMenu extends CR4MenuBase
 		}
 	}	
 	
-	event /*flash*/ OnSwitchToWorldMap()
+	event  OnSwitchToWorldMap()
 	{
 		var continentMapState : W3TutorialManagerUIHandlerStateContinentMap;
 		
@@ -931,7 +924,7 @@ class CR4MapMenu extends CR4MenuBase
 		}
 	}
 
-	event  /*flash*/ OnSwitchToHubMap( areaName : string )
+	event   OnSwitchToHubMap( areaName : string )
 	{
 		var areaType : EAreaName;
 		areaType = AreaNameToType( areaName );
@@ -956,7 +949,7 @@ class CR4MapMenu extends CR4MenuBase
 		}
 	}
 	
-	event /* flash */ OnHighlightNextObjective()
+	event  OnHighlightNextObjective()
 	{
 		var highlightedObjective : CJournalQuestObjective;
 		var objectives : array< SJournalQuestObjectiveData >;
@@ -989,7 +982,7 @@ class CR4MapMenu extends CR4MenuBase
 		}
 	}
 
-	// #Y Warning: copypaste from journalQuestMenu
+	
 	event OnHighlightObjective( tag : name )
 	{
 		var l_objective						: CJournalQuestObjective;
@@ -1020,7 +1013,7 @@ class CR4MapMenu extends CR4MenuBase
 		LogChannel('asdf', "H AFTER  " + theGame.GetCommonMapManager().GetHighlightedMapPinTag() );
 	}
 	
-	// #Y Warning: copypaste from journalQuestMenu
+	
 	event OnTrackQuest( tag : name )
 	{
 		var journalManager : CWitcherJournalManager;
@@ -1031,9 +1024,7 @@ class CR4MapMenu extends CR4MenuBase
 		journalManager.SetTrackedQuest( l_quest );
 	}
 	
-	/*
-		-----
-	*/
+	
 
 	function SwitchToHubMap( area : EAreaName, onStartup : bool )
 	{
@@ -1045,35 +1036,35 @@ class CR4MapMenu extends CR4MenuBase
 		
 		if ( area == AN_Undefined )
 		{
-			// huh?
+			
 			return;
 		}
 		
-		//
-		// WARNING, BE EXTREMELY CAREFUL IF YOU'RE GOING TO CHANGE SOMETHING HERE
-		//
 		
-		// this is needed to set proper map name (two journal areas share the same world)
+		
+		
+		
+		
 		if ( area == AN_Velen || area == AN_NMLandNovigrad )
 		{
-			// if we want to show novigrad/velen map
+			
 			if ( m_currentArea == AN_NMLandNovigrad )
 			{
-				// and we are currently there, get correct map name based on player position
+				
 				journalArea = manager.GetCurrentJournalArea();
 			}
 			else
 			{
-				// and we're in different world, use provided area
+				
 				journalArea = area;
 			}
 			
-			// replace velen with novigrad
+			
 			area = AN_NMLandNovigrad;
 		}
 		else
 		{
-			// get map name for all different worlds
+			
 			journalArea = area;
 		}
 		
@@ -1095,18 +1086,18 @@ class CR4MapMenu extends CR4MenuBase
 		}
 	}
 	
-	event OnEntrySelected( tag : name ) // #B common
+	event OnEntrySelected( tag : name ) 
 	{
 		LogChannel('WORLDMAP', "OnEntrySelected tag: "+tag+"  area: ");
 		currentTag = tag;
 	}
 
-	event  /*flash*/ OnSwitchToInterior( )
+	event   OnSwitchToInterior( )
 	{
 		LogChannel('WORLDMAP', "OnSwitchToInterior" );
 	}
 
-	event /*flash*/ OnUserMapPinSet( posX : float, posY : float, type : int, fromSelectionPanel : bool )
+	event  OnUserMapPinSet( posX : float, posY : float, type : int, fromSelectionPanel : bool )
 	{
 		var manager	: CCommonMapManager = theGame.GetCommonMapManager();
 		var worldPath : string;
@@ -1143,7 +1134,7 @@ class CR4MapMenu extends CR4MenuBase
 			showNotification( GetLocStringByKeyExt("panel_hud_message_actionnotallowed") );
 		}
 		
-		// always allow to remove
+		
 		if ( idToRemove != 0 )
 		{
 			m_fxRemoveUserMapPin.InvokeSelfOneArg( FlashArgUInt( idToRemove ) );
@@ -1159,7 +1150,7 @@ class CR4MapMenu extends CR4MenuBase
 		}
 	}
 	
-	event /*flash*/ OnStaticMapPinUsed( pinTag : name, areaId : int)
+	event  OnStaticMapPinUsed( pinTag : name, areaId : int)
 	{
 		var initData : W3MapInitData;
 		var manager	: CCommonMapManager = theGame.GetCommonMapManager();
@@ -1212,11 +1203,11 @@ class CR4MapMenu extends CR4MenuBase
 		{
 			if ( thePlayer.IsSailing() )
 			{
-				// don't check if player used fast travel point if he's sailing on boat
+				
 				initData = (W3MapInitData)GetMenuInitData();
 				if ( initData && initData.GetTriggeredExitEntity() )
 				{
-					// clear so player will not be teleported
+					
 					initData.SetTriggeredExitEntity( false );
 				}
 			}
@@ -1238,7 +1229,7 @@ class CR4MapMenu extends CR4MenuBase
 				}
 				if ( initData.GetTriggeredExitEntity() )
 				{
-					// clear so player will not be teleported
+					
 					initData.SetTriggeredExitEntity( false );
 				}
 			}
@@ -1246,7 +1237,7 @@ class CR4MapMenu extends CR4MenuBase
 		
 		manager.UseMapPin( pinTag, true );
 		
-		// From hub map
+		
 		if (areaId == -1)
 		{
 			areaId == m_shownArea;
@@ -1377,7 +1368,7 @@ class CR4MapMenu extends CR4MenuBase
 		return m_currentArea == m_shownArea;
 	}
 
-	event /* flash */ OnSkipPressed()
+	event  OnSkipPressed()
 	{
 		OnCloseMenu();
 	}
@@ -1428,11 +1419,11 @@ class CR4MapMenu extends CR4MenuBase
 	
 	function PlayOpenSoundEvent()
 	{
-		// Common Menu takes care of this for us
-		//OnPlaySoundEvent("gui_global_panel_open");	
+		
+		
 	}
 	
-	event /* flash */ OnDebugTeleportToHighlightedMappin( posX : float , posY : float )
+	event  OnDebugTeleportToHighlightedMappin( posX : float , posY : float )
 	{
 		if( !theGame.IsFinalBuild() )
 		{
@@ -1533,7 +1524,7 @@ exec function innkeep()
 	numbers.PushBack(175619);
 	numbers.PushBack(475415);
 	numbers.PushBack(538568);
-	numbers.PushBack(1084890); // nie dziala na cooku
+	numbers.PushBack(1084890); 
 
 	for ( i = 0; i < numbers.Size(); i += 1 )
 	{

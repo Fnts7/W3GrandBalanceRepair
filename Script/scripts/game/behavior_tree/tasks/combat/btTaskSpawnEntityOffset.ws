@@ -1,4 +1,9 @@
-﻿class CBTTaskSpawnEntityOffset extends CBTTaskPlayAnimationEventDecorator
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+class CBTTaskSpawnEntityOffset extends CBTTaskPlayAnimationEventDecorator
 {
 	var positionOffset						: Vector;
 	var npc 								: CNewNPC;	
@@ -110,9 +115,9 @@
 			spawnPos = VecTransform( matrix, positionOffset);
 			rotation = npc.GetWorldRotation();
 		}
-		//createEntityHelper = new CCreateEntityHelper in this;
-		//theGame.CreateEntityAsync( createEntityHelper, entityTemplate, spawnPos, rotation );
-		//entity = createEntityHelper.GetCreatedEntity();
+		
+		
+		
 		
 		entity = theGame.CreateEntity( entityTemplate, spawnPos, rotation );
 		
@@ -221,14 +226,7 @@ class CBTTaskSpawnSlidingEntity extends CBTTaskSpawnEntityOffset
 		}
 		
 		Sleep( timeToFollow );
-		/*while(( timeToFollow + timeStamp ) > GetLocalTime())
-		{
-			if( VecDistance2D( entity.GetWorldPosition(), thePlayer.GetWorldPosition()) > 4 )
-			{
-				entity.RaiseEvent('DiveForward');
-			}
-			Sleep(0.2);
-		}*/
+		
 		
 		
 		slideComponent.SetTargetNode(NULL);

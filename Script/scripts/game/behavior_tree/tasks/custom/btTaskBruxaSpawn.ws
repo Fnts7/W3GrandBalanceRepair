@@ -1,9 +1,11 @@
 ﻿/***********************************************************************/
-/** CBTTaskBruxaSpawn
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
-/** Copyright © 2016
-/** Author : Andrzej Kwiatkowski
-/***********************************************************************/
+
+
+
 
 class CBTTaskBruxaSpawn extends IBehTreeTask
 {
@@ -14,7 +16,7 @@ class CBTTaskBruxaSpawn extends IBehTreeTask
 	public var baseOffsetOnCasterRotation	: bool;
 	public var rotateEntityToTarget 		: bool;
 	public var resourceName 				: name;
-	//public var spawnEntityOnDeathName		: name;
+	
 	public var spawnAfter					: float;
 	public var validateSpawnPosition 		: bool;
 	public var spawnOnAnimEvent				: name;
@@ -307,7 +309,7 @@ class CBTTaskBruxaSpawn extends IBehTreeTask
 		pos = spawnPos;
 		rot = spawnRot;
 		
-		//actor.GetVisualDebug().AddSphere( 'fxPos', 1.0, pos, true, Color( 0,0,255 ), 5 );
+		
 	}
 	
 	final function FindTeleportPosition() : Vector
@@ -384,7 +386,7 @@ class CBTTaskBruxaSpawnDef extends IBehTreeTaskDefinition
 	editable var teleportInterval 				: float;
 	editable var minTeleportDistFromTarget 		: float;
 	editable var maxTeleportDistFromTarget 		: float;
-	//editable var entityTemplate 				: name;
+	
 	
 	default useCombatTarget 					= true;
 	default inheritTagsFromOwner 				= true;
@@ -398,8 +400,8 @@ class CBTTaskBruxaSpawnDef extends IBehTreeTaskDefinition
 		{
 			thisTask.resourceName = GetValCName( spawnEntityOnDeathName );
 		}
-		//thisTask.entityTemplate = ( CEntityTemplate )GetObjectByVar( entityTemplate );
+		
 	}
 	
-	// hint useTargetInsteadOfOwner = "use target position for fx entity spawn";
+	
 };

@@ -1,6 +1,11 @@
-﻿//////////////////////////////////////////////////////////////////////////////////
-// Custom Scripts & Classes for Quest purposes
-//////////////////////////////////////////////////////////////////////////////////
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
 
 enum EBookDirection
 {
@@ -8,8 +13,8 @@ enum EBookDirection
 	BD_right
 }
 
-//////////////////////////////////////////////////////////////////////////////////
-// Scene functions
+
+
 
 storyscene function BooksMinigameInit( player: CStoryScenePlayer, minigameTag: name )
 {
@@ -30,8 +35,8 @@ storyscene function BooksMinigameSwitch( player: CStoryScenePlayer, minigameTag:
 }
 
 
-/////// SLOT PUZZLE CLASSES for q401
-//////////////////////////////////////////////////////////////////////////////////
+
+
 
 class CBooksMinigameManager extends CGameplayEntity
 {
@@ -43,7 +48,7 @@ class CBooksMinigameManager extends CGameplayEntity
 	var books: array<CBookMinigameBook>;
 
 
-	//initialization of Books Minigame
+	
 	function init()
 	{
 		var i: int;
@@ -51,11 +56,11 @@ class CBooksMinigameManager extends CGameplayEntity
 		var loopEntity: CBookMinigameBook;
 		var slotPos: Vector;
 		
-		//Reset all variables
+		
 		bookSlots.Clear();
 		books.Clear();
 		
-		// Get book slots
+		
 		if( bookSlotTags.Size() > 0 )
 		{
 			for( i = 0; bookSlotTags.Size() > i; i += 1 )
@@ -64,13 +69,13 @@ class CBooksMinigameManager extends CGameplayEntity
 				loopSlot.init();
 				
 				bookSlots.PushBack( loopSlot );
-				//loopSlot = NULL;
+				
 			}
 		}
 		
 		i = 0;
 		
-		//Get books
+		
 		if( bookTags.Size() > 0 )
 		{
 			for( i = 0; bookTags.Size() > i; i += 1 )
@@ -83,12 +88,12 @@ class CBooksMinigameManager extends CGameplayEntity
 		
 		i = 0;
 		
-		//Put books in starting order
+		
 		if( books.Size() > 0 )
 		{
 			for( i = 0; books.Size() > i; i += 1 )
 			{
-				//slotPos = bookSlots[i].GetWorldPosition();
+				
 				books[i].TeleportWithRotation( bookSlots[i].GetWorldPosition(), bookSlots[i].GetWorldRotation() );
 				bookSlots[i].FillSlot( books[i] );
 			}
@@ -97,7 +102,7 @@ class CBooksMinigameManager extends CGameplayEntity
 		i = 0;
 	}
 	
-	// function for moving books
+	
 	function MoveBook( bookSlotNumber: int, direction: EBookDirection )
 	{
 		var bookA, bookB: CBookMinigameBook; 
@@ -127,7 +132,7 @@ class CBooksMinigameManager extends CGameplayEntity
 		CheckBooksOrder();
 	}
 	
-	// function for checking books order
+	
 	function CheckBooksOrder()
 	{
 		var i: int;

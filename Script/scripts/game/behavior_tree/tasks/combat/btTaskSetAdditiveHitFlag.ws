@@ -1,9 +1,14 @@
-﻿//>--------------------------------------------------------------------------
-// BTTaskSetAdditiveHitFlag
-//---------------------------------------------------------------------------
-//>--------------------------------------------------------------------------
-// Set if the npc should or should not 
-//---------------------------------------------------------------------------
+﻿/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
+/** 	The Witcher game is based on the prose of Andrzej Sapkowski.
+/***********************************************************************/
+
+
+
+
+
+
 class BTTaskSetAdditiveHitFlag extends IBehTreeTask
 {	
 	public var onDeactivate 			: bool;
@@ -19,8 +24,8 @@ class BTTaskSetAdditiveHitFlag extends IBehTreeTask
 	
 	private var m_waitingForEventEnd	: bool;
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnActivate() : EBTNodeStatus
 	{
 		var npc : CNewNPC = GetNPC();
@@ -32,8 +37,8 @@ class BTTaskSetAdditiveHitFlag extends IBehTreeTask
 			Execute( flag, flag );
 		return BTNS_Active;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function OnDeactivate()
 	{
 		if( onDeactivate )
@@ -49,8 +54,8 @@ class BTTaskSetAdditiveHitFlag extends IBehTreeTask
 		m_waitingForEventEnd = false;
 	}
 	
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
 	{	
 		if( animEventName == onAnimEvent && animEventType != AET_DurationEnd && animEventType != AET_Duration )
@@ -66,8 +71,8 @@ class BTTaskSetAdditiveHitFlag extends IBehTreeTask
 		
 		return true;
 	}
-	//>----------------------------------------------------------------------
-	//-----------------------------------------------------------------------
+	
+	
 	private function Execute( _Flag : bool, _criticalStateFlag : bool )
 	{
 		var npc : CNewNPC = GetNPC();
