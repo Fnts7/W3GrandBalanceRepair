@@ -950,7 +950,7 @@ state YrdenSlowdown in W3YrdenEntity extends Active
 		params.customPowerStatValue = casterActor.GetTotalSignSpellPower(virtual_parent.GetSkill());
 		params.customAbilityName = parent.actionBuffs[0].effectAbilityName;
 		params.duration = 0.1;	
-		scale = params.customPowerStatValue.valueMultiplicative / 4;
+		scale = params.customPowerStatValue.valueMultiplicative / 5;
 		params.effectValue.valueAdditive = min + (max - min) * scale;
 		params.effectValue.valueAdditive = ClampF( params.effectValue.valueAdditive, min, max );
 		

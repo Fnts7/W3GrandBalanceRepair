@@ -106,18 +106,18 @@
 			</ability>
 			
 			<ability name="Mutagen26Effect">
-				<returned_damage type="add" min="10" />
-				<returned_damage type="mult" min="0.02" />
+				<returned_damage type="add" min="5" />
+				<returned_damage type="mult" min="0.08" />
 			</ability>
 			
 			<ability name="Mutagen27Effect">
-				<slashing_resistance_perc type="add" min="0.01" />
-				<piercing_resistance_perc type="add" min="0.01" />
-				<bludgeoning_resistance_perc type="add" min="0.01" />
-				<rending_resistance_perc type="add" min="0.01" />
-				<elemental_resistance_perc type="add" min="0.01" />
+				<slashing_resistance_perc type="add" min="0.02" />
+				<piercing_resistance_perc type="add" min="0.02" />
+				<bludgeoning_resistance_perc type="add" min="0.02" />
+				<rending_resistance_perc type="add" min="0.02" />
+				<elemental_resistance_perc type="add" min="0.02" />
 				
-				<mutagen27_max_stack type="add" min="25" />
+				<mutagen27_max_stack type="add" min="10" />
 			</ability>
 			
 			<ability name="Mutagen28Effect">

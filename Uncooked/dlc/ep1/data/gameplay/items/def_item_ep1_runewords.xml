@@ -115,7 +115,7 @@
 				<glyphword12_burning_delay type="add" min="1.0" />
 
 				<!-- range in which enemies get burned -->
-				<glyphword12_range type="add" min="2.0" />
+				<glyphword12_range type="add" min="3.0" />
 				
 				<!-- duration of burning on triggered enemies -->
 				<duration type="add" min="1" />

@@ -2319,7 +2319,7 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		var names, abs : array<name>;
 		var buff : W3Effect_Toxicity;
 		var witcher : W3PlayerWitcher;
-		var i, skillLevel : int;
+		var i, j, skillLevel : int;
 		var isPassive, isNight : bool;
 		var m_alchemyManager : W3AlchemyManager;
 		var recipe : SAlchemyRecipe;
@@ -2388,14 +2388,20 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		
 		if(skill == S_Alchemy_s18)
 		{
-			m_alchemyManager = new W3AlchemyManager in this;
+			/*m_alchemyManager = new W3AlchemyManager in this;
 			m_alchemyManager.Init();
-			names = witcher.GetAlchemyRecipes();
+			names = witcher.GetAlchemyRecipes();*/
 			skillName = SkillEnumToName(S_Alchemy_s18);
-			for(i=0; i<names.Size(); i+=1)
+			/*for(i=0; i<names.Size(); i+=1)
 			{
 				m_alchemyManager.GetRecipe(names[i], recipe);
 				if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
+					charStats.AddAbility(skillName, true);
+			}*/
+			
+			for (i=0; i < 36; i+=1)
+			{
+				for (j=0; j < GetSkillLevel(S_Alchemy_s18); j+=1)
 					charStats.AddAbility(skillName, true);
 			}
 		}
@@ -2618,10 +2624,11 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		}
 		else if(skill == S_Alchemy_s18)			
 		{
-			names = GetWitcherPlayer().GetAlchemyRecipes();
+			//names = GetWitcherPlayer().GetAlchemyRecipes();
 			skillName = SkillEnumToName(S_Alchemy_s18);
-			for(i=0; i<names.Size(); i+=1)
-				charStats.RemoveAbility(skillName);
+			charStats.RemoveAbilityAll(skillName);
+			/*for(i=0; i<names.Size(); i+=1)
+				charStats.RemoveAbility(skillName);*/
 		}
 		else if(skill == S_Sword_s13)			
 		{
@@ -2829,7 +2836,7 @@ class W3PlayerAbilityManager extends W3AbilityManager
 	
 	private final function OnSkillEquippedLevelChange(skill : ESkill, prevLevel : int, currLevel : int)
 	{
-		var cnt, i : int;
+		var cnt, i, j : int;
 		var names : array<name>;
 		var skillAbilityName : name;
 		var mutagens : array<CBaseGameplayEffect>;
@@ -2848,19 +2855,24 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		}
 		else if(skill == S_Alchemy_s18)
 		{
-			m_alchemyManager = new W3AlchemyManager in this;
+			/*m_alchemyManager = new W3AlchemyManager in this;
 			m_alchemyManager.Init();
-			names = GetWitcherPlayer().GetAlchemyRecipes();
+			names = GetWitcherPlayer().GetAlchemyRecipes();*/
 			skillAbilityName = SkillEnumToName(S_Alchemy_s18);
 			cnt = 0;
 			
+			for (i=0; i < 36; i+=1)
+			{
+				for (j=0; j < GetSkillLevel(S_Alchemy_s18); j+=1)
+					cnt += 1;
+			}
 			
-			for(i=0; i<names.Size(); i+=1)
+			/*for(i=0; i<names.Size(); i+=1)
 			{
 				m_alchemyManager.GetRecipe(names[i], recipe);
 				if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
 					cnt += 1;
-			}
+			}*/
 			
 			
 			cnt -= owner.GetAbilityCount(skillAbilityName);
