@@ -205,10 +205,11 @@
         <tags> "base" </tags>
         <level type="add" always_random="false" min="1" max="1" />
         <vitality type="base" always_random="false" min="55" max="55" />
-		<force_resistance_perc type="add" always_random="false" min="0.007" max="0.007" />
+		<force_resistance_perc type="add" always_random="false" min="0.006" max="0.006" />
+		<frost_resistance_perc type="add" always_random="false" min="0.004" max="0.004" />
 		<burning_resistance_perc type="add" always_random="false" min="0.007" max="0.007" />
 		<will_resistance_perc type="add" always_random="false" min="0.007" max="0.007" />
-		<shock_resistance_perc type="add" always_random="false" min="0.007" max="0.007" />
+		<shock_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />
         <light_attack_damage_vitality type="base" always_random="false" min="20" max="20" />
         <heavy_attack_damage_vitality type="base" always_random="false" min="20" max="20" />
       </ability>
