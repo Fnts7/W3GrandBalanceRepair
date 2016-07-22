@@ -849,6 +849,10 @@ function GetEquippedCrossbowDamage():float
 	var silverDamageValue	  : float;
 	var min, max 			  : SAbilityAttributeValue;
 	
+	// CrossbowDamageBoost
+	var extraBoltDamage		  : float;
+	var boltDamageMod		  : float;
+	
 	GetWitcherPlayer().GetItemEquippedOnSlot(EES_RangedWeapon, equippedCrossbow);
 	if (!thePlayer.inv.IsIdValid(equippedCrossbow))
 	{
@@ -876,15 +880,20 @@ function GetEquippedCrossbowDamage():float
 	{
 		thePlayer.inv.GetItemPrimaryStat(equippedBolt, primaryStatLabel, primaryStatValue);
 		silverDamageValue = CalculateAttributeValue(GetWitcherPlayer().GetInventory().GetItemAttributeValue(equippedBolt, theGame.params.DAMAGE_NAME_SILVER));
+		// CrossbowDamageBoost
+		boltDamageMod = GetWitcherPlayer().crossbowDmgProcessor.GetBoltDamageMod(GetWitcherPlayer().GetInventory().GetItemName(equippedBolt));
 	}
 	else
 	{
 		thePlayer.inv.GetItemStatByName('Bodkin Bolt', 'PiercingDamage', primaryStatValue);
 		thePlayer.inv.GetItemStatByName('Bodkin Bolt', 'SilverDamage', silverDamageValue);
+		// CrossbowDamageBoost
+		boltDamageMod = GetWitcherPlayer().crossbowDmgProcessor.GetBoltDamageMod('Bodkin Bolt');
 	}
 	
-	
-	if( GetWitcherPlayer().IsMutationActive( EPMT_Mutation9 ) )
+	// CrossbowDamageBoost
+	// Deactivated vanilla code
+	/*if( GetWitcherPlayer().IsMutationActive( EPMT_Mutation9 ) )
 	{
 		theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation9', 'damage', min, max );
 		primaryStatValue += min.valueAdditive;
@@ -892,7 +901,33 @@ function GetEquippedCrossbowDamage():float
 	}
 	
 	primaryStatValue = (primaryStatValue + crossbowPower.valueBase) * crossbowPower.valueMultiplicative + crossbowPower.valueAdditive;
-	silverDamageValue = (silverDamageValue + crossbowPower.valueBase) * crossbowPower.valueMultiplicative + crossbowPower.valueAdditive;
+	silverDamageValue = (silverDamageValue + crossbowPower.valueBase) * crossbowPower.valueMultiplicative + crossbowPower.valueAdditive;*/
 	
+	// CrossbowDamageBoost - updated code for mod
+	
+	// - 1.0 crossbow hack - calculate crossbow multiplicative value as it is displayed on crossbow damage
+	// so 101% means 1.01 of bolt damage, not 2.01
+	crossbowPower.valueMultiplicative -= 1.0;
+			
+	if(thePlayer.CanUseSkill(S_Sword_s15))
+	{				
+		crossbowPower.valueMultiplicative += 0.12 * GetWitcherPlayer().GetSkillLevel(S_Sword_s15);
+	}
+			
+	// Cat eyes mutation simply gives attack power bonus instead of base damage increase
+	if (GetWitcherPlayer().IsMutationActive( EPMT_Mutation9 ) )
+	{
+		crossbowPower.valueMultiplicative += 0.6;
+	}
+	
+	extraBoltDamage = GetWitcherPlayer().crossbowDmgProcessor.GetExtraBoltDamage(GetWitcherPlayer().GetLevel());
+
+	primaryStatValue = (primaryStatValue * GetWitcherPlayer().crossbowDmgProcessor.crossbowDamageBoostData.SteelBoltFactor + crossbowPower.valueBase + extraBoltDamage * GetWitcherPlayer().crossbowDmgProcessor.crossbowDamageBoostData.SteelWitcherFactor * boltDamageMod)
+		* crossbowPower.valueMultiplicative + crossbowPower.valueAdditive;
+	silverDamageValue = (silverDamageValue * GetWitcherPlayer().crossbowDmgProcessor.crossbowDamageBoostData.SilverBoltFactor + crossbowPower.valueBase + extraBoltDamage * GetWitcherPlayer().crossbowDmgProcessor.crossbowDamageBoostData.SilverWitcherFactor * boltDamageMod)
+		* crossbowPower.valueMultiplicative + crossbowPower.valueAdditive;
+
+	// CrossbowDamageBoost - end of updated code
+
 	return (primaryStatValue + silverDamageValue) / 2;
 }

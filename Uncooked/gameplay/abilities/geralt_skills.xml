@@ -172,7 +172,7 @@
       <!-- Precision -->
       <ability name="sword_s7">
         <tags>sword_s7</tags>
-        <critical_hit_chance type="add" min="0.05" />
+        <critical_hit_chance type="add" min="0.02" />
       </ability>
 	
 	  <!-- Critical hits -->
@@ -217,7 +217,7 @@
       <!-- Improvised Speedloader -->
       <ability name="sword_s15">
         <tags>sword_s15</tags>
-        <focus_gain type="add" min="0.04" />
+        <focus_gain type="add" min="0.03" />
       </ability>
 	
 	  <!-- Resolve -->
@@ -627,7 +627,7 @@
 		
 		<ability name="perk_2">
 			<tags>perk_2</tags>
-			<attack_power type="mult" min="0.25" />
+			<attack_power type="mult" min="0.40" />
 		</ability>
 		<ability name="perk_3">
 			<tags>perk_3</tags>

@@ -7,8 +7,8 @@
 	<!-- GABRIEL AMMO -->
 	<ability name="q704_vampire_lure_bolt _Stats">
 		<quality type="add" min="1" max="1"/>
-		<PiercingDamage type="add" always_random="false" min="5" max="5" />
-		<SilverDamage type="add" min="4" max="4" />
+		<PiercingDamage type="add" always_random="false" min="20" max="20" />
+		<SilverDamage type="add" min="30" max="30" />
 	</ability>
 
 </abilities>

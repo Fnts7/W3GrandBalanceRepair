@@ -69,9 +69,16 @@
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
 	  <ability name="BleedingEffect_BroadheadBolt">
-		<DirectDamage type="add" min="10" max="10" />
-        <DirectDamage type="mult" min="0.001" max="0.002" />
-        <duration type="add" min="10" max="10" />
+		<DirectDamage type="add" min="7" max="7" />
+        <DirectDamage type="mult" min="0.003" max="0.005" />
+        <duration type="add" min="5" max="5" />
+        <hp_regen_reduction_strength type="add" min="200" />
+        <hp_regen_reduction_duration type="add" min="5" />
+      </ability>
+	  <ability name="BleedingEffect_BroadheadBoltLegendary">
+		<DirectDamage type="add" min="7" max="7" />
+        <DirectDamage type="mult" min="0.005" max="0.007" />
+        <duration type="add" min="5" max="5" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
@@ -108,7 +115,14 @@
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
-	  
+
+	  <ability name="BurningEffect_ExplosiveBolt">
+        <FireDamage type="mult" min="0.02" max="0.02" />
+        <duration type="add" min="2" max="2" />
+        <hp_regen_reduction_strength type="add" min="200" />
+        <hp_regen_reduction_duration type="add" min="5" />
+      </ability>
+
 	  <ability name="BurningEffect_FireStream">
         <FireDamage type="mult" min="0.01" max="0.01" />
         <duration type="add" min="1" max="1" />
@@ -217,6 +231,9 @@
 	  
       <ability name="HeavyKnockdownEffect">
         <duration type="add" min="3" max="5" />
+      </ability>
+	  <ability name="HeavyKnockdownEffect_BluntBolt">
+        <duration type="add" min="1" max="4" />
       </ability>
       <ability name="HypnotizedEffect">
         <duration type="add" min="3" max="3" />
@@ -449,8 +466,8 @@
       <effect name_name="ShrineQuenEffect" 		 	defaultAbilityName_name="ShrineQuenEffect" 			iconType_name="EffectQuen"   	showOnHUD="1" effectNameLocalisationKey_name="skill_name_magic_4" 		/>
       <effect name_name="ShrineYrdenEffect" 	 	defaultAbilityName_name="ShrineYrdenEffect" 		iconType_name="EffectYrden"  	showOnHUD="1" effectNameLocalisationKey_name="skill_name_magic_3" 		/>
 	  <effect name_name="EnhancedArmorEffect" 	 	defaultAbilityName_name="EnhancedArmorEffect" 		iconType_name="EnhancedArmor"  	showOnHUD="1" effectNameLocalisationKey_name="effect_enhanced_armor"	/>
-	  <effect name_name="EnhancedWeaponEffect" 	 	defaultAbilityName_name="EnhancedWeaponEffect" 		iconType_name="EnhancedWeapon" 	showOnHUD="1" effectNameLocalisationKey_name="effect_enhanced_weapon"	/>
-	  
+	  <effect name_name="EnhancedWeaponEffect" 	 	defaultAbilityName_name="EnhancedWeaponEffect" 		iconType_name="EnhancedWeapon" 	showOnHUD="1" effectNameLocalisationKey_name="effect_enhanced_weapon"	/>	  
+	
       <!-- not displayed on hud-->
       <effect name_name="BoostedEssenceRegen" 			defaultAbilityName_name="BoostedEssenceRegen"      		showOnHUD="0" />
 	  <effect name_name="BoostedStaminaRegen" 			defaultAbilityName_name="BoostedStaminaRegen"      		showOnHUD="0" />

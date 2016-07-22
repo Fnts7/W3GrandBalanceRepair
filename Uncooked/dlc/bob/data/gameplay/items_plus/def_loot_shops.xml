@@ -609,9 +609,18 @@
 		<loot_entry name="WeaponRepairKit_1 schematic"				player_level_min="13"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"		/>
 		<loot_entry name="WeaponRepairKit_2 schematic"				player_level_min="18"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"		/>
 		<loot_entry name="WeaponRepairKit_3 schematic"				player_level_min="23"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"		/>
+
+<!-- CrossbowDamageBoost bolt supply -->
+		<loot_entry name="Blunt Bolt Legendary"						player_level_min="6"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
+		<loot_entry name="Broadhead Bolt Legendary"					player_level_min="10"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
+		<loot_entry name="Target Point Bolt Legendary"				player_level_min="15"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
+		<loot_entry name="Split Bolt Legendary"						player_level_min="20"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
+		<loot_entry name="Explosive Bolt Legendary"					player_level_min="25"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
+		<loot_entry name="Blunt Bolt Heavy"							player_level_min="23"	player_level_max="0"	quantity_min="40"	quantity_max="100"	chance="-1"			/>
+
 <!-- STEEL 10 -->	
-		<loot_entry name="Toussaint Crossbow 1"						player_level_min="0"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="5"		/>
-		<loot_entry name="Toussaint Crossbow 2"						player_level_min="0"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="5"		/>
+		<loot_entry name="Toussaint Crossbow 1"						player_level_min="35"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"		/>
+		<loot_entry name="Toussaint Crossbow 2"						player_level_min="40"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="-1"		/>
 		<loot_entry name="Guard Lvl1 steel sword 1"					player_level_min="0"	player_level_max="0"	quantity_min="1"	quantity_max="2"	chance="5"		/>
 		<loot_entry name="Guard Lvl1 steel sword 2"					player_level_min="0"	player_level_max="0"	quantity_min="1"	quantity_max="1"	chance="5"		/>
 		<loot_entry name="Guard Lvl2 steel sword 1"					player_level_min="0"	player_level_max="0"	quantity_min="1"	quantity_max="2"	chance="5"		/>

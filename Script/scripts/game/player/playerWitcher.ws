@@ -124,7 +124,13 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	private var invUpdateTransaction : bool;
 		default invUpdateTransaction = false;
-	
+		
+	// CrossbowDamageBoost
+	var crossbowDmgProcessor : CrossbowDamageBoostProcessor;
+	/*(testing purposes)
+	public var lastCrossbowSilver : float;
+	public var lastCrossbowSteel : float;*/
+
 	
 	
 	
@@ -226,7 +232,10 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		AddCraftingSchematic('Starting Armor Upgrade schematic 1',true,true);
 		
-		
+		// CrossbowDamageBoost
+		crossbowDmgProcessor = new CrossbowDamageBoostProcessor in this;
+		crossbowDmgProcessor.Init();
+
 		if( inputHandler )
 		{
 			inputHandler.BlockAllActions( 'being_ciri', false );
@@ -3681,6 +3690,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 		var tmp, tmp2, tox, critBonusDamage, val : float;
 		var stats, stats2 : SPlayerOffenseStats;
 		var buffPerc, exampleEnemyCount, debuffPerc : int;
+		// CrossbowDamageBoost
+		var result : string;
 	
 		pam = (W3PlayerAbilityManager)GetWitcherPlayer().abilityManager;
 		locKey = pam.GetMutationDescriptionLocalizationKey( mutationType );
@@ -3868,8 +3879,15 @@ statemachine class W3PlayerWitcher extends CR4Player
 				
 				break;
 		}
+
+		// CrossbowDamageBoost
+		result = GetLocStringByKeyExtWithParams( locKey, , , arrStr );
+		if (mutationType == EPMT_Mutation9)
+		{
+			result += "<br>Increases manually aimed shot critical chance by additional 15%. Increases critical hit damage by 50%.";
+		}
 		
-		return GetLocStringByKeyExtWithParams( locKey, , , arrStr );
+		return result;
 	}
 		
 	public final function ApplyMutation10StatBoost( out statValue : SAbilityAttributeValue )
@@ -7394,6 +7412,10 @@ statemachine class W3PlayerWitcher extends CR4Player
 		var mutagen : CBaseGameplayEffect;
 		var thunder : W3Potion_Thunderbolt;
 		
+		//CrossbowDamageBoost
+		var extraBoltDamage : float;
+		var boltDamageFactor : float;
+		
 		if(!abilityManager || !abilityManager.IsInitialized())
 			return playerOffenseStats;
 		
@@ -7576,13 +7598,19 @@ statemachine class W3PlayerWitcher extends CR4Player
 		{
 			
 			
+			// CrossbowDamageBoost
+			extraBoltDamage = crossbowDmgProcessor.GetExtraBoltDamage(GetLevel());
+			boltDamageFactor = crossbowDmgProcessor.GetBoltDamageMod(GetInventory().GetItemName(item));
+			
 			steelDmg = CalculateAttributeValue(GetInventory().GetItemAttributeValue(item, theGame.params.DAMAGE_NAME_FIRE));
 			if(steelDmg > 0)
 			{
-				playerOffenseStats.crossbowSteelDmg = steelDmg;
-				
+				playerOffenseStats.crossbowSteelDmg = steelDmg * crossbowDmgProcessor.crossbowDamageBoostData.ExplosiveBoltFactor;				
 				playerOffenseStats.crossbowSteelDmgType = theGame.params.DAMAGE_NAME_FIRE;
-				playerOffenseStats.crossbowSilverDmg = steelDmg;
+				// CrossbowDamageBoost
+				extraBoltDamage *= crossbowDmgProcessor.crossbowDamageBoostData.ExplosiveWitcherFactor;
+				// unmodified game bug fix - fire bolts also have silver damage
+				playerOffenseStats.crossbowSilverDmg = CalculateAttributeValue(GetInventory().GetItemAttributeValue(item, theGame.params.DAMAGE_NAME_SILVER)) * crossbowDmgProcessor.crossbowDamageBoostData.ExplosiveBoltFactor;
 			}
 			else
 			{
@@ -7605,21 +7633,47 @@ statemachine class W3PlayerWitcher extends CR4Player
 		if (GetItemEquippedOnSlot(EES_RangedWeapon, item))
 		{
 			attackPower += GetInventory().GetItemAttributeValue(item, PowerStatEnumToName(CPS_AttackPower));
+
+			// CrossbowDamageBoost
+			// - 1.0 crossbow hack - calculate crossbow multiplicative value as it is displayed on crossbow damage
+			// so 101% means 1.01 of bolt damage, not 2.01
+			attackPower.valueMultiplicative -= 1.0;
+
 			if(CanUseSkill(S_Perk_02))
 			{				
 				attackPower += GetSkillAttributeValue(S_Perk_02, PowerStatEnumToName(CPS_AttackPower), false, true);
 			}
 
+			// CrossbowDamageBoost
+			if(CanUseSkill(S_Sword_s15))
+			{				
+				attackPower.valueMultiplicative += 0.12 * GetSkillLevel(S_Sword_s15);
+			}
 			
-			if( hackMode != 1 && ( IsMutationActive( EPMT_Mutation9 ) || hackMode == 2 ) )
+			// CrossbowDamageBoost
+			// Cat eyes mutation simply gives attack power bonus instead of base damage increase
+			if (hackMode != 1 && ( IsMutationActive( EPMT_Mutation9 ) || hackMode == 2 ) )
+			{
+				attackPower.valueMultiplicative += 0.6;
+			}
+
+			//mutation 9 increases base damage
+			/*if( hackMode != 1 && ( IsMutationActive( EPMT_Mutation9 ) || hackMode == 2 ) )
 			{
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation9', 'damage', min, max );
 				playerOffenseStats.crossbowSteelDmg += min.valueAdditive;
 				playerOffenseStats.crossbowSilverDmg += min.valueAdditive;
-			}		
-			
-			playerOffenseStats.crossbowSteelDmg = (playerOffenseStats.crossbowSteelDmg + attackPower.valueBase) * attackPower.valueMultiplicative + attackPower.valueAdditive;
-			playerOffenseStats.crossbowSilverDmg = (playerOffenseStats.crossbowSilverDmg + attackPower.valueBase) * attackPower.valueMultiplicative + attackPower.valueAdditive;
+			}*/
+
+			// CrossbowDamageBoost - include extra bolt base damage
+			playerOffenseStats.crossbowSteelDmg = (playerOffenseStats.crossbowSteelDmg * crossbowDmgProcessor.crossbowDamageBoostData.SteelBoltFactor + attackPower.valueBase + extraBoltDamage * crossbowDmgProcessor.crossbowDamageBoostData.SteelWitcherFactor * boltDamageFactor)
+				* attackPower.valueMultiplicative + attackPower.valueAdditive;
+			playerOffenseStats.crossbowSilverDmg = (playerOffenseStats.crossbowSilverDmg * crossbowDmgProcessor.crossbowDamageBoostData.SilverBoltFactor + attackPower.valueBase + extraBoltDamage * crossbowDmgProcessor.crossbowDamageBoostData.SilverWitcherFactor * boltDamageFactor)
+				* attackPower.valueMultiplicative + attackPower.valueAdditive;
+
+			/* testing purposes
+			playerOffenseStats.crossbowSteelDmg = lastCrossbowSteel;
+			playerOffenseStats.crossbowSilverDmg = lastCrossbowSilver;*/
 		}
 		else
 		{
@@ -7631,6 +7685,24 @@ statemachine class W3PlayerWitcher extends CR4Player
 		return playerOffenseStats;
 	}
 	
+	// CrossbowDamageBoost
+	public function GetCrossbowCritChanceReduction() : float
+	{
+		if (CanUseSkill(S_Perk_19))
+		{
+			return FloorF(GetStat(BCS_Focus)) * 0.02;
+		}
+		else
+		{
+			return 0.0;
+		}
+	}
+	
+	public timer function OnCrossbowDmgProcessorTimer(dt : float, id : int)
+	{
+		crossbowDmgProcessor.OnTimer();
+	}
+	
 	public function GetTotalWeaponDamage(weaponId : SItemUniqueId, damageTypeName : name, crossbowId : SItemUniqueId) : float
 	{
 		var damage, durRatio, durMod, itemMod : float;
@@ -7639,12 +7711,12 @@ statemachine class W3PlayerWitcher extends CR4Player
 		durMod = 0;
 		damage = super.GetTotalWeaponDamage(weaponId, damageTypeName, crossbowId);
 		
-		
-		if( IsMutationActive( EPMT_Mutation9 ) && inv.IsItemBolt( weaponId ) && IsDamageTypeAnyPhysicalType( damageTypeName ) )
+		// CrossbowDamageBoost code disable. This mutation no longer gives base damage bonus.
+		/*if( IsMutationActive( EPMT_Mutation9 ) && inv.IsItemBolt( weaponId ) && IsDamageTypeAnyPhysicalType( damageTypeName ) )
 		{
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation9', 'damage', min, max);
 			damage += min.valueAdditive;
-		}
+		}*/
 		
 		
 		if(IsPhysicalResistStat(GetResistForDamage(damageTypeName, false)))

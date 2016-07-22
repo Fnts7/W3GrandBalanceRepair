@@ -24,8 +24,6 @@ class W3Action_Attack extends W3DamageAction
 	private var soundAttackType : name;				
 	private var usedZeroStaminaPerk : bool;			
 	private var applyBuffsIfParried : bool;			
-		
-	
 	
 	
 	public function Init( attackr : CGameplayEntity, victm : CGameplayEntity, causr : IScriptable, weapId : SItemUniqueId, attName : name, src :string, hrt : EHitReactionType, canParry : bool, canDodge : bool, skillName : name, swType : EAttackSwingType, swDir : EAttackSwingDirection, isM : bool, isR : bool, isW : bool, isE : bool, optional hitFX_ : name, optional hitBackFX_ : name, optional hitParriedFX_ : name, optional hitBackParriedFX_ : name, optional crossId : SItemUniqueId)
@@ -65,7 +63,7 @@ class W3Action_Attack extends W3DamageAction
 			attackTypeName = '';
 		
 		FillDataFromWeapon();
-		FillDataFromAttackName();		
+		FillDataFromAttackName();
 	}
 	
 	protected function Clear()
@@ -304,9 +302,29 @@ class W3Action_Attack extends W3DamageAction
 				result += witcherAttacker.GetSkillAttributeValue(S_Sword_s21, PowerStatEnumToName(CPS_AttackPower), false, true) * witcherAttacker.GetSkillLevel(S_Sword_s21);
 						
 			
-			if(witcherAttacker.inv.IsIdValid(crossbowId) && witcherAttacker.CanUseSkill(S_Perk_02))
-			{				
-				result += witcherAttacker.GetSkillAttributeValue(S_Perk_02, PowerStatEnumToName(CPS_AttackPower), false, true);
+			if(witcherAttacker.inv.IsIdValid(crossbowId))
+			{
+				// CrossbowDamageBoost
+				// - 1.0 crossbow hack - calculate crossbow multiplicative value as it is displayed on crossbow damage
+				// so 101% means 1.01 of bolt damage, not 2.01
+				result.valueMultiplicative -= 1.0;
+
+				if (witcherAttacker.CanUseSkill(S_Perk_02))
+				{				
+					result += witcherAttacker.GetSkillAttributeValue(S_Perk_02, PowerStatEnumToName(CPS_AttackPower), false, true);
+				}
+			
+				// CrossbowDamageBoost
+				if( witcherAttacker.CanUseSkill(S_Sword_s15))
+				{				
+					result.valueMultiplicative += 0.12 * witcherAttacker.GetSkillLevel(S_Sword_s15);
+				}
+				
+				// CrossbowDamageBoost
+			    if (witcherAttacker.IsMutationActive( EPMT_Mutation9 ) )
+				{
+					result.valueMultiplicative += 0.6;
+				}
 			}
 
 			

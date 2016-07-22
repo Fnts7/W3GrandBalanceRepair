@@ -18,8 +18,13 @@ class W3BoltProjectile extends W3ArrowProjectile
 	protected saved var wasShotUnderWater	: bool;						
 	
 		default dodgeable = true;
-	
-	
+		
+	// CrossbowDamageBoost
+	protected var wasAimedBolt : bool;
+	default wasAimedBolt = false;
+	protected var boltName : name;
+	default boltName = '';
+
 	public function InitializeCrossbow(ownr : CActor, boltId : SItemUniqueId, crossId : SItemUniqueId)
 	{
 		super.Initialize(ownr, boltId);
@@ -259,12 +264,16 @@ class W3BoltProjectile extends W3ArrowProjectile
 		
 		splitCount = (int)CalculateAttributeValue(inv.GetItemAttributeValue(itemId, 'split_count'));
 		
+		// CrossbowDamageBoost
+		boltName = inv.GetItemName(itemId);
+		
 		if (splitCount == 2 || splitCount == 3)
 		{
 			
-			
+
 			additionalProjectile = (W3BoltProjectile)Duplicate();
 			additionalProjectile.Init(GetOwner());
+			additionalProjectile.boltName = boltName;
 			additionalProjectile.CreateAttachment(GetOwner(), 'bolt' );
 			projectiles.PushBack(additionalProjectile);
 			
@@ -272,6 +281,7 @@ class W3BoltProjectile extends W3ArrowProjectile
 			{
 				additionalProjectile = (W3BoltProjectile)Duplicate();
 				additionalProjectile.Init(GetOwner());
+				additionalProjectile.boltName = boltName;
 				additionalProjectile.CreateAttachment(GetOwner(), 'bolt' );
 				projectiles.PushBack(additionalProjectile);
 			}
@@ -350,6 +360,18 @@ class W3BoltProjectile extends W3ArrowProjectile
 		{
 			collisionGroups.Remove('Character');
 		}
+
+		if (target) {
+			distanceToTarget = VecDistance( thePlayer.GetWorldPosition(), target.GetWorldPosition() );
+		}
+
+		// CrossbowDamageBoost
+		if (thePlayer.playerAiming.GetCurrentStateName() == 'Aiming')
+		{
+			if (!target || distanceToTarget >= 3.0)
+				wasAimedBolt = true;
+		}
+
 		if ( boneIndex >= 0 )
 			projectiles[0].ShootProjectileAtBone( projAngle, projSpeed, npc, 'torso2', attackRange, collisionGroups );
 		else
@@ -368,7 +390,8 @@ class W3BoltProjectile extends W3ArrowProjectile
 		
 		if ( dodgeable && target )
 		{
-			distanceToTarget = VecDistance( thePlayer.GetWorldPosition(), target.GetWorldPosition() );		
+			// CrossbowDamageBoost - line moved higher
+			//distanceToTarget = VecDistance( thePlayer.GetWorldPosition(), target.GetWorldPosition() );
 			
 			
 			projectileFlightTime = distanceToTarget / projSpeed;
@@ -390,5 +413,24 @@ class W3BoltProjectile extends W3ArrowProjectile
 				projectiles[2].SoundEvent("cmb_arrow_swoosh");
 			}
 		} 
+	}
+	
+	// CrossbowDamageBoost
+	public function GetWasAimedBolt() : bool
+	{
+		return wasAimedBolt;
+	}
+	
+	// CrossbowDamageBoost
+	public function GetBoltName() : name
+	{
+		return boltName;
+	}
+
+	// CrossbowDamageBoost
+	// Override W3ArrowProjectile
+	protected function CancelAimedBolt()
+	{
+		wasAimedBolt = false;
 	}
 }

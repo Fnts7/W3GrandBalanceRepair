@@ -13,11 +13,42 @@
 #
 
 # SCRIPT FILES BEGIN
-scriptFile[0]=""
+scriptFile[0]="/game/gameParams.ws"
+scriptFile[1]="/game/player/playerWitcher.ws"
+
+scriptFile[2]="/game/gameplay/actions/attackAction.ws"
+scriptFile[3]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[4]="/game/projectile/arrowProjectile.ws"
+scriptFile[5]="/game/projectile/explosiveBolt.ws"
+scriptFile[6]="/game/projectile/playerBoltProjectile.ws"
+
+scriptFile[7]="/game/gui/menus/characterMenu.ws"
+scriptFile[8]="/game/gui/popups/CharacterStatsPopup.ws"
+
+scriptFile[9]="/mod/crossbowDamageBoostData.ws"
+scriptFile[10]="/mod/crossbowDamageBoostProcessor.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
-assetFile[0]=""
+assetFile[0]="/gameplay/abilities/effects.xml"
+assetFile[1]="/gameplay/abilities_plus/effects.xml"
+assetFile[2]="/gameplay/abilities/geralt_skills.xml"
+assetFile[3]="/gameplay/abilities_plus/geralt_skills.xml"
+assetFile[4]="/gameplay/items/def_item_bolts.xml"
+assetFile[5]="/gameplay/items_plus/def_item_bolts.xml"
+assetFile[6]="/gameplay/items/def_item_crafting_recipes_bolts.xml"
+assetFile[7]="/gameplay/items_plus/def_item_crafting_recipes_bolts.xml"
+assetFile[8]="/gameplay/items/def_loot_shops.xml"
+assetFile[9]="/gameplay/items_plus/def_loot_shops.xml"
+
+assetFile[10]="/dlc/bob/data/gameplay/abilities/geralt_mutations.xml"
+assetFile[11]="/dlc/bob/data/gameplay/abilities_plus/geralt_mutations.xml"
+assetFile[12]="/dlc/bob/data/gameplay/items/def_item_bolts.xml"
+assetFile[13]="/dlc/bob/data/gameplay/items/def_item_weapons_crossbows.xml"
+assetFile[14]="/dlc/bob/data/gameplay/items/def_loot_shops.xml"
+assetFile[15]="/dlc/bob/data/gameplay/items_plus/def_item_bolts.xml"
+assetFile[16]="/dlc/bob/data/gameplay/items_plus/def_item_weapons_crossbows.xml"
+assetFile[17]="/dlc/bob/data/gameplay/items_plus/def_loot_shops.xml"
 # ASSET FILES END
 
 set -e
@@ -28,7 +59,7 @@ then
 	exit
 fi
 
-modReadyFolder=$1"/Packed/[modReadyFolder]"
+modReadyFolder=$1"/Packed/modCrossbowDamageBoost"
 modContentPath=$modReadyFolder"/content"
 
 inXMLPath="Uncooked"

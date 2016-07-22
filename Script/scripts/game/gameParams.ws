@@ -975,15 +975,15 @@ import class W3GameParams extends CObject
 			if ( itemName == 'Bait Bolt' ) { level = 2; }  else
 			if ( itemName == 'Blunt Bolt' ) { level = 2; }  else
 			if ( itemName == 'Broadhead Bolt' ) { level = 10; }  else
-			if ( itemName == 'Target Point Bolt' ) { level = 5; }  else
-			if ( itemName == 'Split Bolt' ) { level = 15; }  else
-			if ( itemName == 'Explosive Bolt' ) { level = 20; }  else
+			if ( itemName == 'Target Point Bolt' ) { level = 7; }  else
+			if ( itemName == 'Split Bolt' ) { level = 14; }  else
+			if ( itemName == 'Explosive Bolt' ) { level = 21; }  else
 			if ( itemName == 'Blunt Bolt Legendary' ) { level = 5; }  else
 			if ( itemName == 'Broadhead Bolt Legendary' ) { level = 20; }  else
-			if ( itemName == 'Target Point Bolt Legendary' ) { level = 15; }  else
-			if ( itemName == 'Blunt Bolt Legendary' ) { level = 12; }  else
-			if ( itemName == 'Split Bolt Legendary' ) { level = 24; }  else
-			if ( itemName == 'Explosive Bolt Legendary' ) { level = 26; } 
+			if ( itemName == 'Target Point Bolt Legendary' ) { level = 18; }  else
+			if ( itemName == 'Blunt Bolt Heavy' ) { level = 26; }  else
+			if ( itemName == 'Split Bolt Legendary' ) { level = 25; }  else
+			if ( itemName == 'Explosive Bolt Legendary' ) { level = 28; } 
 		} else
 		if ( itemCategory == 'crossbow' )
 		{
@@ -999,6 +999,8 @@ import class W3GameParams extends CObject
 			if ( stat.valueMultiplicative > 1.7 ) level = 25;
 			if ( stat.valueMultiplicative > 1.8 ) level = 27;
 			if ( stat.valueMultiplicative > 1.9 ) level = 32;
+			if ( stat.valueMultiplicative > 2.3 ) level = 36;
+			if ( stat.valueMultiplicative > 2.5 ) level = 41;
 		} 
 		level = level - 1;
 		if ( level < 1 ) level = 1;	if ( level > GetWitcherPlayer().GetMaxLevel() ) level = GetWitcherPlayer().GetMaxLevel();

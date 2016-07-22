@@ -289,6 +289,7 @@ class W3DamageManagerProcessor extends CObject
 		var witcher : W3PlayerWitcher;
 		var canLog : bool;
 		var immortalityChannels : array<EActorImmortalityChanel>;
+		var boltCauser : W3BoltProjectile;
 		
 		canLog = theGame.CanLog();
 		
@@ -297,7 +298,15 @@ class W3DamageManagerProcessor extends CObject
 		size = action.GetDTs( dmgInfos );
 		action.SetDealtFireDamage(false);		
 		
+		witcher = GetWitcherPlayer();
 		
+		// CrossbowDamageBoost
+		boltCauser = (W3BoltProjectile)(action.causer);
+		if (witcher == playerAttacker && action.IsActionRanged() && boltCauser && attackAction && actorVictim)
+		{
+			witcher.crossbowDmgProcessor.ProcessBoltDamage(dmgInfos, attackAction, boltCauser, actorVictim);
+		}
+
 		if(!actorVictim || (!actorVictim.UsesVitality() && !actorVictim.UsesEssence()) )
 		{
 			
@@ -343,7 +352,6 @@ class W3DamageManagerProcessor extends CObject
 		
 		anyDamageProcessed = false;
 		directDmgIndex = -1;
-		witcher = GetWitcherPlayer();
 		size = dmgInfos.Size();			
 		for( i = 0; i < size; i += 1 )
 		{
@@ -624,6 +632,7 @@ class W3DamageManagerProcessor extends CObject
 		var samum : CBaseGameplayEffect;
 		var signPower, min, max : SAbilityAttributeValue;
 		var aerondight : W3Effect_Aerondight;
+		var boltCauser : W3BoltProjectile;
 		
 		meleeOrRanged = playerAttacker && attackAction && ( attackAction.IsActionMelee() || attackAction.IsActionRanged() );
 		redWolfSet = ( W3Petard )action.causer && ( W3PlayerWitcher )actorAttacker && GetWitcherPlayer().IsSetBonusActive( EISB_RedWolf_1 );
@@ -666,8 +675,30 @@ class W3DamageManagerProcessor extends CObject
 					
 					isLightAttack = playerAttacker.IsLightAttack( attackAction.GetAttackName() );
 					isHeavyAttack = playerAttacker.IsHeavyAttack( attackAction.GetAttackName() );
-					critChance += playerAttacker.GetCriticalHitChance(isLightAttack, isHeavyAttack, actorVictim, victimMonsterCategory, (W3BoltProjectile)action.causer );
-					
+					boltCauser = (W3BoltProjectile)action.causer;
+					critChance += playerAttacker.GetCriticalHitChance(isLightAttack, isHeavyAttack, actorVictim, victimMonsterCategory, boltCauser);
+
+					// CrossbowDamageBoost
+					if ( ( W3PlayerWitcher )actorAttacker && boltCauser)
+					{
+						if (boltCauser.GetWasAimedBolt())
+						{
+							// Doubling crit chance for aimed bolt for precision skill and cat eyes mutation
+							if (playerAttacker.CanUseSkill(S_Sword_s07))
+							{
+								critChance += CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Sword_s07, theGame.params.CRITICAL_HIT_CHANCE, false, true)) * playerAttacker.GetSkillLevel(S_Sword_s07);
+							}
+
+							if ( ((W3PlayerWitcher)actorAttacker).IsMutationActive( EPMT_Mutation9 ) )
+							{
+								theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation9', 'critical_hit_chance', min, max);
+								critChance += 0.75 * min.valueMultiplicative;;
+							}
+						}
+
+						critChance -= GetWitcherPlayer().GetCrossbowCritChanceReduction();
+					}
+
 					
 					if(action.GetIsHeadShot())
 					{
@@ -1355,6 +1386,7 @@ class W3DamageManagerProcessor extends CObject
 		var powerMod, criticalDamageBonus, min, max, critReduction, sp : SAbilityAttributeValue;
 		var mutagen : CBaseGameplayEffect;
 		var totalBonus : float;
+		var playerWitcher : W3PlayerWitcher;
 			
 		
 		powerMod = action.GetPowerStatValue();
@@ -1372,8 +1404,7 @@ class W3DamageManagerProcessor extends CObject
 		
 		if ( playerAttacker && (W3AardProjectile)action.causer )
 			powerMod.valueMultiplicative = 1;
-		
-		
+
 		if(action.IsCriticalHit())
 		{
 			
@@ -1392,10 +1423,28 @@ class W3DamageManagerProcessor extends CObject
 				
 				if(attackAction && playerAttacker)
 				{
-					if(playerAttacker.IsHeavyAttack(attackAction.GetAttackName()) && playerAttacker.CanUseSkill(S_Sword_s08))
-						criticalDamageBonus += playerAttacker.GetSkillAttributeValue(S_Sword_s08, theGame.params.CRITICAL_HIT_DAMAGE_BONUS, false, true) * playerAttacker.GetSkillLevel(S_Sword_s08);
-					else if (!playerAttacker.IsHeavyAttack(attackAction.GetAttackName()) && playerAttacker.CanUseSkill(S_Sword_s17))
-						criticalDamageBonus += playerAttacker.GetSkillAttributeValue(S_Sword_s17, theGame.params.CRITICAL_HIT_DAMAGE_BONUS, false, true) * playerAttacker.GetSkillLevel(S_Sword_s17);
+					// CrossbowDamageBoost
+					if (attackAction.IsActionRanged())
+					{
+						if (playerAttacker.CanUseSkill(S_Sword_s07))
+						{
+							criticalDamageBonus.valueAdditive += 0.2 * playerAttacker.GetSkillLevel(S_Sword_s07);
+						}
+						
+						playerWitcher = (W3PlayerWitcher)playerAttacker;
+						
+						if (playerWitcher && playerWitcher.IsMutationActive( EPMT_Mutation9 ))
+						{
+							criticalDamageBonus.valueAdditive += 0.5;
+						}
+					}
+					else
+					{				
+						if(playerAttacker.IsHeavyAttack(attackAction.GetAttackName()) && playerAttacker.CanUseSkill(S_Sword_s08))
+							criticalDamageBonus += playerAttacker.GetSkillAttributeValue(S_Sword_s08, theGame.params.CRITICAL_HIT_DAMAGE_BONUS, false, true) * playerAttacker.GetSkillLevel(S_Sword_s08);
+						else if (!playerAttacker.IsHeavyAttack(attackAction.GetAttackName()) && playerAttacker.CanUseSkill(S_Sword_s17))
+							criticalDamageBonus += playerAttacker.GetSkillAttributeValue(S_Sword_s17, theGame.params.CRITICAL_HIT_DAMAGE_BONUS, false, true) * playerAttacker.GetSkillLevel(S_Sword_s17);
+					}
 				}
 			}
 			
@@ -2297,12 +2346,22 @@ class W3DamageManagerProcessor extends CObject
 	{
 		var inv : CInventoryComponent;
 		var ret : bool;
-	
+		
+		// CrossbowDamageBoost
+		var witcher : W3PlayerWitcher;
+		var boltCauser : W3BoltProjectile;
 		
 		if(!action.victim.IsAlive() || action.WasDodged() || (attackAction && attackAction.IsActionMelee() && !attackAction.ApplyBuffsIfParried() && attackAction.CanBeParried() && attackAction.IsParried()) )
 			return true;
-			
-		
+
+		// CrossbowDamageBoost
+		witcher = (W3PlayerWitcher)actorAttacker;
+		boltCauser = (W3BoltProjectile)(action.causer);
+		if (witcher && action.IsActionRanged() && boltCauser)
+		{
+			witcher.crossbowDmgProcessor.ProcessBoltBuffs(action, boltCauser);
+		}
+
 		ApplyQuenBuffChanges();
 	
 		
@@ -2987,6 +3046,8 @@ class W3DamageManagerProcessor extends CObject
 			if( AbsF( maxHealth - currHealth ) < 1.f )
 			{
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation9', 'health_reduction', min, max);
+				// CrossbowDamageBoost
+				min.valueMultiplicative *= GetWitcherPlayer().crossbowDmgProcessor.GetBoltDamageModCatEyes(((W3BoltProjectile)action.causer).GetBoltName());
 				actorVictim.ForceSetStat( actorVictim.GetUsedHealthType(), maxHealth * ( 1 - min.valueMultiplicative ) );
 			}
 			

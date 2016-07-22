@@ -11,7 +11,7 @@
 		name							="Bodkin Bolt schematic"
 		category						="crafting_schematic"
 		price							="8"
-		weight							="0.1"
+		weight						F:\Witcher3Work\Mods\CrossbowDamageBoost\Uncooked\gameplay\items_plus\def_item_crafting_recipes_bolts.xml	="0.1"
 		stackable						="100"
 		localisation_key_name			="item_name_bodkin_bolt_schematic_schematic"
 		localisation_key_description	="item_desc_crafting_schematic"
@@ -154,7 +154,7 @@
 		craftsmanLevel_name				="Journeyman"
 		craftedItemQuantity				="20"
 	>
-		<ingredients>					<ingredient	quantity="2"	item_name="Timber"				/>
+		<ingredients>					<iF:\Witcher3Work\Mods\CrossbowDamageBoost\Uncooked\gameplay\items_plus\def_item_crafting_recipes_bolts.xmlngredient	quantity="2"	item_name="Timber"				/>
 										<ingredient	quantity="2"	item_name="Steel ingot"			/>
 										<ingredient	quantity="1"	item_name="Silver ore"			/>
 										<ingredient	quantity="2"	item_name="Monstrous feather"	/>
@@ -263,9 +263,11 @@
 	>
 		<ingredients>					<ingredient	quantity="2"	item_name="Timber"				/>
 										<ingredient	quantity="1"	item_name="Steel ingot"			/>
+										<ingredient	quantity="1"	item_name="Dark iron ingot"		/>
 										<ingredient	quantity="1"	item_name="Silver ingot"		/>
 										<ingredient	quantity="2"	item_name="Feather"				/>
 										<ingredient	quantity="1"	item_name="Blasting powder"		/>
+										<ingredient	quantity="1"	item_name="Stammelfords dust"	/>
 		</ingredients>
 	</schematic>
 

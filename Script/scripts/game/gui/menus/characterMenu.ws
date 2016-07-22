@@ -1889,7 +1889,12 @@ class CR4CharacterMenu extends CR4MenuBase
 			case S_Sword_s07:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s07, theGame.params.CRITICAL_HIT_CHANCE, false, false)) * skillLevel;
 				argsInt.PushBack(RoundMath(arg*100));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>"
+				// CrossbowDamageBoost
+				+ "Increases manually aimed shot critical chance by " + (4 * skillLevel) + "%.<br>"
+				+ "Increases critical hit damage by " + (20 * skillLevel) + "%.<br>"
+				// CrossbowDamageBoost end
+				+ GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
 				break;
 			case S_Sword_s08:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s08, theGame.params.CRITICAL_HIT_CHANCE, false, false)) * skillLevel;
@@ -1926,7 +1931,11 @@ class CR4CharacterMenu extends CR4MenuBase
 			case S_Sword_s15:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s15, 'focus_gain', false, false)) * skillLevel;
 				argsFloat.PushBack(arg);
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt, argsFloat) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt, argsFloat) + "<br>"
+				// CrossbowDamageBoost
+				+ "Increases bolt damage by " + (12 * skillLevel) + "%.<br>"
+				// CrossbowDamageBoost end
+				+ GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
 				break;
 			case S_Sword_s16:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s16, 'focus_drain_reduction', false, false)) * skillLevel;
@@ -2272,6 +2281,8 @@ class CR4CharacterMenu extends CR4MenuBase
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Perk_02, PowerStatEnumToName(CPS_AttackPower), false, true);
 				argsInt.PushBack(RoundMath(ability.valueMultiplicative*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
+				// CrossbowDamageBoost
+				baseString += "<br>Manually aimed shot base damage grows from +10% to +20%.";
 				break;
 			case S_Perk_04:
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Perk_04, 'vitality', false, true);
