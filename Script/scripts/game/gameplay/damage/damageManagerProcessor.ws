@@ -1653,6 +1653,15 @@ class W3DamageManagerProcessor extends CObject
 				encumbranceBonus *= CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
 				resistPercents += encumbranceBonus;
 			}
+
+			// Reduce resist with quen active on Witcher for all damage that quen reduces
+			if (playerVictim == GetWitcherPlayer() && resistPercents > 0.3f && GetWitcherPlayer().IsAnyQuenActive()
+				&& dmgInfo.dmgType != theGame.params.DAMAGE_NAME_DIRECT && dmgInfo.dmgType != theGame.params.DAMAGE_NAME_STAMINA
+				&& DamageHitsVitality(dmgInfo.dmgType) && !((W3Effect_Bleeding)action.causer) )
+			{
+				resistPercents = 0.3f + (resistPercents - 0.3f) / 2.0f;
+			}
+
 			finalDamage *= 1 - resistPercents;
 		}		
 		

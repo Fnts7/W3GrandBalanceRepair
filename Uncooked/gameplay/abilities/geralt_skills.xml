@@ -263,7 +263,7 @@
 	
       <ability name="magic_staminaregen">
         <tags></tags>
-        <staminaRegen type="mult" always_random="false" min="0.005" max="0.005" />
+        <staminaRegen type="mult" always_random="false" min="0.008" max="0.008" />
       </ability>
 	
       <!-- Base Skills -->
@@ -297,7 +297,7 @@
         <trap_duration type="mult" min="1" />
 		<SlowdownEffect is_ability="true" />
 		<min_slowdown type="add" min="0.20" />
-		<max_slowdown type="add" min="0.45" />
+		<max_slowdown type="add" min="0.60" />
 		<range type="add" min="2.7" />
       </ability>
 	
@@ -360,7 +360,7 @@
         <charge_count type="mult" min="1" />
         <trap_duration type="base" min="18" />
         <trap_duration type="mult" min="1" />
-        <ShockDamage type="add" min="120" />
+        <ShockDamage type="add" min="50" />
 		<damage_bonus_flat_after_1 type="add" min="5" />
 		<!-- range is set by using different trigger component in sign entity -->
       </ability>
@@ -396,7 +396,7 @@
       <!-- Igni Power -->
       <ability name="magic_s7">
         <tags>magic_s7,Igni</tags>
-        <spell_power type="mult" min="0.05" />
+        <spell_power type="mult" min="0.08" />
       </ability>
 	
       <!-- Melt Armor -->
@@ -429,7 +429,7 @@
       <!-- aard passive spell power bonus -->
       <ability name="magic_s12">
         <tags>magic_s12,Aard</tags>
-        <spell_power min="0.05" type="mult" />
+        <spell_power min="0.08" type="mult" />
       </ability>
 	
 	  <!-- quen impulse -->
@@ -452,13 +452,13 @@
       <ability name="magic_s15">
         <tags>magic_s15,Quen</tags>
         <!-- take a look at how it's used in scripts before modifying it -->
-        <spell_power type="mult" min="0.05" />
+        <spell_power type="mult" min="0.08" />
       </ability>
 	
       <!-- Yrden Power -->
       <ability name="magic_s16">
         <tags>magic_s16,Yrden</tags>
-        <spell_power type="mult" min="0.05" />
+        <spell_power type="mult" min="0.08" />
       </ability>
 	
       <ability name="magic_s17">
@@ -645,8 +645,8 @@
 		</ability>
 		<ability name="perk_6">
 			<tags>perk_6</tags>
-			<spell_power type="mult" min="0.05" />
-			<staminaRegen type="mult" min="0.05" />
+			<spell_power type="mult" min="0.07" />
+			<staminaRegen type="mult" min="0.03" />
 		</ability>
 		<ability name="perk_7">
 			<tags>perk_7</tags>

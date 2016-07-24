@@ -83,6 +83,12 @@ statemachine class W3QuenEntity extends W3SignEntity
 		
 		shieldDuration = CalculateAttributeValue(owner.GetSkillAttributeValue(skillEnum, 'shield_duration', true, true));
 		shieldHealth = CalculateAttributeValue(owner.GetSkillAttributeValue(skillEnum, 'shield_health', false, true));
+		
+		if (owner.GetPlayer())
+		{
+			shieldHealth += owner.GetPlayer().GetLevel();
+		}
+		
 		initialShieldHealth = shieldHealth;
 		
 		if ( owner.CanUseSkill(S_Magic_s14))
@@ -654,7 +660,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 {
 	private const var HEALING_FACTOR : float;		
 	
-		default HEALING_FACTOR = 1.0f;
+		default HEALING_FACTOR = 0.4f;
 
 	event OnEnterState( prevStateName : name )
 	{
@@ -885,6 +891,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		
 		
 		spellPower = casterActor.GetTotalSignSpellPower(virtual_parent.GetSkill());
+
 		
 		if ( caster.CanUseSkill( S_Magic_s15 ) )
 			skillBonus = CalculateAttributeValue( caster.GetSkillAttributeValue( S_Magic_s15, 'bonus', false, true ) );
@@ -904,6 +911,11 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		}
 		
 		shieldFactor = CalculateAttributeValue( caster.GetSkillAttributeValue( S_Magic_s04, 'shield_health_factor', false, true ) );
+		
+		if (caster.GetPlayer())
+		{
+			shieldFactor += caster.GetPlayer().GetLevel() / 20.0f;
+		}
 		
 		if(reducibleDamage > 0)
 		{
@@ -939,8 +951,11 @@ state QuenChanneled in W3QuenEntity extends Channeling
 			if(!damageData.IsDoTDamage())
 				GCameraShake( parent.effects[parent.fireMode].cameraShakeStranth, true, parent.GetWorldPosition(), 30.0f );
 			
-			damageData.SetHitAnimationPlayType( EAHA_ForceNo );			
-			damageData.processedDmg.vitalityDamage -= reducedDamage;
+			damageData.SetHitAnimationPlayType( EAHA_ForceNo );
+			if (drainAllStamina && !isBleeding)
+				damageData.processedDmg.vitalityDamage -= reducibleDamage;
+			else
+				damageData.processedDmg.vitalityDamage -= reducedDamage;
 			damageData.SetCanPlayHitParticle(false);
 						
 			
@@ -976,8 +991,12 @@ state QuenChanneled in W3QuenEntity extends Channeling
 			casterActor.DrainStamina( ESAT_FixedValue, casterActor.GetStat(BCS_Stamina), 2 );
 		}
 		
-		
-		caster.GetActor().Heal(reducedDamage * HEALING_FACTOR);
+		if (drainAllStamina && !isBleeding)
+		{
+			caster.GetActor().Heal(reducedDamage * HEALING_FACTOR - (reducibleDamage - reducedDamage));
+		}
+		else
+			caster.GetActor().Heal(reducedDamage * HEALING_FACTOR);
 		
 		
 		if( casterActor.GetStat( BCS_Stamina ) <= 0 && !casterActor.HasBuff( EET_Mutation11Buff ) )

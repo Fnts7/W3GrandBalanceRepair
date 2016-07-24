@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Copies needed mod files, cooks, packs and creates metadata
+# Usage: first argument is the path to the mod in form: /[driveLetter]/[restOfThePath]
+#
+
+# SCRIPT FILES BEGIN
+scriptFile[0]="/game/actor.ws"
+scriptFile[1]="/game/player/playerWitcher.ws"
+scriptFile[2]="/game/npc/npc.ws"
+scriptFile[3]="/game/gameplay/items/spells/axiiEntity.ws"
+scriptFile[4]="/game/gameplay/items/spells/quenEntity.ws"
+scriptFile[5]="/game/gameplay/items/spells/signEntity.ws"
+scriptFile[6]="/game/gameplay/items/spells/yrdenEntity.ws"
+scriptFile[7]="/game/gameplay/effects/effects/other/slowdownFrost.ws"
+scriptFile[8]="/game/gameplay/effects/effects/skill/axiiGuardMe.ws"
+scriptFile[9]="/game/gameplay/damage/damageManagerProcessor.ws"
+# SCRIPT FILES END
+
+# ASSET FILES BEGIN
+assetFile[0]="/gameplay/abilities/geralt_skills.xml"
+assetFile[1]="/gameplay/abilities_plus/geralt_skills.xml"
+assetFile[2]="/gameplay/abilities/monster_base_abl_new.xml"
+assetFile[3]="/gameplay/abilities_plus/monster_base_abl_new.xml"
+assetFile[4]="/gameplay/abilities/opp_base_abl.xml"
+assetFile[5]="/gameplay/abilities_plus/opp_base_abl.xml"
+# ASSET FILES END
+
+if [ -z $1 ]
+then
+    echo "Wrong path to the mod!"
+	exit
+fi
+
+modContentPath=$1"/Packed/modGrandBalanceRepairSigns/content"
+
+inXMLPath="Uncooked"
+inScriptPath="Script/scripts"
+
+outScriptPath=$modContentPath"/scripts"
+
+outXmlPath1=$1"/Uncooked"
+outXmlPath2=$1"/Cooked"
+
+for i in "${scriptFile[@]}"
+do
+	cp $inScriptPath$i $outScriptPath$i
+done
+
+for i in "${assetFile[@]}"
+do
+	cp $inXMLPath$i $outXmlPath1$i
+	cp $inXMLPath$i $outXmlPath2$i
+done
+
+echo "Files copied OK."
+
+wcc_lite cook -platform=pc -mod=$outXmlPath1 -basedir=$outXmlPath1 -outdir=$outXmlPath2
+wcc_lite pack -dir=$outXmlPath2 -outdir=$modContentPath
+wcc_lite metadatastore -path=$modContentPath

@@ -11,6 +11,7 @@ class W3Effect_SlowdownFrost extends CBaseGameplayEffect
 	default isNeutral = false;
 	default isNegative = true;
 	default effectType = EET_SlowdownFrost;
+	default resistStat = CDS_FrostRes;
 	default attributeName = 'slowdownFrost';
 		
 	event OnEffectAdded(optional customParams : W3BuffCustomParams)

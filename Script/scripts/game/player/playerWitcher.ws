@@ -7844,7 +7844,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	public function QuenImpulse( isAlternate : bool, signEntity : W3QuenEntity, source : string, optional forceSkillLevel : int )
 	{
-		var level, i, j : int;
+		var level, i, j, wLevel : int;
 		var atts, damages : array<name>;
 		var ents : array<CGameplayEntity>;
 		var action : W3DamageAction;
@@ -7911,6 +7911,15 @@ statemachine class W3PlayerWitcher extends CR4Player
 				{
 					dm.GetAbilityAttributeValue(skillAbilityName, damages[j], min, max);
 					dmg = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
+
+					wLevel = GetLevel() - 3;
+					if (wLevel < 0)
+						wLevel = 0;
+					if (damages[j] == theGame.params.DAMAGE_NAME_SILVER)
+						dmg += 5.0f * wLevel;
+					else
+						dmg += 3.5f * wLevel;
+
 					if( IsSetBonusActive( EISB_Bear_2 ) )
 					{
 						dm.GetAbilityAttributeValue( GetSetBonusAbility( EISB_Bear_2 ), 'quen_dmg_boost', min, max );
