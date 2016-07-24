@@ -14,7 +14,7 @@
 				<piercing_resistance_perc		type="base"	min="0.06"				/>
 				<rending_resistance_perc		type="base"	min="0.07"				/>
 				<elemental_resistance_perc		type="base"	min="0.07"				/>
-				<attack_power					type="mult" min="0.17"				/>
+				<critical_hit_chance			type="add"	min="0.09"	max="0.09"	/>
 				<staminaRegen_armor_mod			type="mult"	min="0.02"				/>
 			</ability>
 
@@ -168,7 +168,7 @@
 				<piercing_resistance_perc		type="base"	min="0.05"				/>
 				<rending_resistance_perc		type="base"	min="0.05"				/>
 				<elemental_resistance_perc		type="base"	min="0.06"				/>
-				<attack_power					type="mult" min="0.12"				/>
+				<critical_hit_chance			type="add"	min="0.06"	max="0.06"	/>
 				<staminaRegen_armor_mod			type="mult"	min="0.02"				/>
 			</ability>
 
