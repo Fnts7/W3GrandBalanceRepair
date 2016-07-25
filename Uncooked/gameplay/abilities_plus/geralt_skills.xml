@@ -125,9 +125,9 @@
       <!-- Whirl (ult) -->
       <ability name="sword_s1">
         <tags>sword_s1,attack_light</tags>
-        <stamina_cost_per_sec type="add" min="50" />
+        <stamina_cost_per_sec type="add" min="60" />
 		<focus_cost_per_sec_initial type="add" min="1" />
-		<cost_reduction type="mult" min="0.1" />
+		<cost_reduction type="mult" min="0.08" />
         <stamina_delay type="add" min="2" />
       </ability>
 	  
@@ -137,7 +137,7 @@
 		<armor_reduction min="1000" max="1000"/>
 		<critical_hit_chance type="add" min="0.1" />
 		<adrenaline_final_damage_bonus type="mult" min="0.334" />
-		<stamina_max_dmg_bonus type="mult" min="0.5" />
+		<stamina_max_dmg_bonus type="mult" min="0.75" />
 		
 		<stamina_cost type="add" min="0" />
         <stamina_cost_per_sec type="add" min="50" />
