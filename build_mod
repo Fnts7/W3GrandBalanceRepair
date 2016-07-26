@@ -2,6 +2,14 @@
 
 # Copies needed mod files, cooks, packs and creates metadata
 # Usage: first argument is the path to the mod in form: /[driveLetter]/[restOfThePath]
+# no '/' at the end
+#
+# Requirements:
+# 1) wcc_lite in PATH
+# 2) Mod directory structure:
+#      [modWorkDir]/Cooked (cooked files)
+#	   [modWorkDir]/Uncooked (uncooked files)
+#	   [modWorkDir]/Packed/[modReadyFolder] (mod package)
 #
 
 # SCRIPT FILES BEGIN
