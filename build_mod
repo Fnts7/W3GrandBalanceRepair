@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Copies needed mod files, cooks, packs and creates metadata
+# Usage: first argument is the path to the mod in form: /[driveLetter]/[restOfThePath]
+# no '/' at the end
+#
+# Requirements:
+# 1) wcc_lite in PATH
+# 2) Mod directory structure:
+#      [modWorkDir]/Cooked (cooked files)
+#	   [modWorkDir]/Uncooked (uncooked files)
+#	   [modWorkDir]/Packed/[modReadyFolder] (mod package)
+#
+
+# SCRIPT FILES BEGIN
+scriptFile[0]=""
+# SCRIPT FILES END
+
+# ASSET FILES BEGIN
+assetFile[0]=""
+# ASSET FILES END
+
+if [ -z $1 ]
+then
+    echo "Wrong path to the mod!"
+	exit
+fi
+
+modContentPath=$1"/Packed/[modReadyFolder]/content"
+
+inXMLPath="Uncooked"
+inScriptPath="Script/scripts"
+
+outScriptPath=$modContentPath"/scripts"
+
+outXmlPath1=$1"/Uncooked"
+outXmlPath2=$1"/Cooked"
+
+for i in "${scriptFile[@]}"
+do
+	cp $inScriptPath$i $outScriptPath$i
+done
+
+for i in "${assetFile[@]}"
+do
+	cp $inXMLPath$i $outXmlPath1$i
+	cp $inXMLPath$i $outXmlPath2$i
+done
+
+echo "Files copied OK."
+
+wcc_lite cook -platform=pc -mod=$outXmlPath1 -basedir=$outXmlPath1 -outdir=$outXmlPath2
+wcc_lite pack -dir=$outXmlPath2 -outdir=$modContentPath
+wcc_lite metadatastore -path=$modContentPath
