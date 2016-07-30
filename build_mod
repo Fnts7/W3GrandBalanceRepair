@@ -26,20 +26,23 @@ scriptFile[8]="/game/gameplay/items/spells/quenEntity.ws"
 scriptFile[9]="/game/gameplay/items/spells/signEntity.ws"
 scriptFile[10]="/game/gameplay/items/spells/yrdenEntity.ws"
 
-scriptFile[11]="/game/gui/menus/characterMenu.ws"
-scriptFile[12]="/game/gui/popups/CharacterStatsPopup.ws"
-scriptFile[13]="/game/npc/npc.ws"
-scriptFile[14]="/game/player/playerWitcher.ws"
-scriptFile[15]="/game/projectile/arrowProjectile.ws"
-scriptFile[16]="/game/projectile/explosiveBolt.ws"
-scriptFile[17]="/game/projectile/playerBoltProjectile.ws"
+scriptFile[11]="/game/gui/menus/enchantingMenu.ws"
+scriptFile[12]="/game/gui/menus/characterMenu.ws"
+scriptFile[13]="/game/gui/popups/CharacterStatsPopup.ws"
+scriptFile[14]="/game/gui/_old/components/guiTooltipComponent.ws"
 
-scriptFile[18]="/mod/crossbowDamageBoostData.ws"
-scriptFile[19]="/mod/crossbowDamageBoostProcessor.ws"
+scriptFile[15]="/game/npc/npc.ws"
+scriptFile[16]="/game/player/playerWitcher.ws"
+scriptFile[17]="/game/projectile/arrowProjectile.ws"
+scriptFile[18]="/game/projectile/explosiveBolt.ws"
+scriptFile[19]="/game/projectile/playerBoltProjectile.ws"
 
-scriptFile[20]="/game/gameplay/effects/effectManager.ws"
-scriptFile[21]="/game/gameplay/projectile/signs/signProjectiles.ws"
-scriptFile[22]="/game/components/inventoryComponent.ws"
+scriptFile[20]="/mod/crossbowDamageBoostData.ws"
+scriptFile[21]="/mod/crossbowDamageBoostProcessor.ws"
+
+scriptFile[22]="/game/gameplay/effects/effectManager.ws"
+scriptFile[23]="/game/gameplay/projectile/signs/signProjectiles.ws"
+scriptFile[24]="/game/components/inventoryComponent.ws"
 
 # SCRIPT FILES END
 
@@ -86,6 +89,8 @@ assetFile[34]="/dlc/bob/data/gameplay/items/def_loot_shops.xml"
 assetFile[35]="/dlc/bob/data/gameplay/items_plus/def_loot_shops.xml"
 
 # ASSET FILES END
+
+set -e
 
 if [ -z $1 ]
 then

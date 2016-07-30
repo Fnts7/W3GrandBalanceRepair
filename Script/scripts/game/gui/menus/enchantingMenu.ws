@@ -251,8 +251,12 @@ class CR4EnchantingMenu extends CR4MenuBase
 				enchantmentData.SetMemberFlashArray("ingredientsList", ingredientsList);
 			}
 			
-			m_playerInventory.GetParamsForRunewordTooltip(schematic.schemName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);
-			schematicLocDescription = GetLocStringByKeyExtWithParams(schematic.localizedDescriptionName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);
+			if (schematic.schemName == 'Runeword 1')
+				schematicLocDescription = "When a sign is cast, fills the sword with that sign's power for one strike. Costs 0.3 adrenaline points.";
+			else {
+				m_playerInventory.GetParamsForRunewordTooltip(schematic.schemName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);
+				schematicLocDescription = GetLocStringByKeyExtWithParams(schematic.localizedDescriptionName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);
+			}
 			
 			schematicLocName = GetLocStringByKeyExt(schematic.localizedName);
 			
