@@ -737,8 +737,11 @@ class W3DamageManagerProcessor extends CObject
 					LogDMHits("********************", action);				
 				}
 				
-				arrStr.PushBack(action.attacker.GetDisplayName());
-				theGame.witcherLog.AddCombatMessage(theGame.witcherLog.COLOR_GOLD_BEGIN + GetLocStringByKeyExtWithParams("hud_combat_log_critical_hit",,,arrStr) + theGame.witcherLog.COLOR_GOLD_END, action.attacker, NULL);
+				if (!((W3IgniProjectile)action.causer))
+				{
+					arrStr.PushBack(action.attacker.GetDisplayName());
+					theGame.witcherLog.AddCombatMessage(theGame.witcherLog.COLOR_GOLD_BEGIN + GetLocStringByKeyExtWithParams("hud_combat_log_critical_hit",,,arrStr) + theGame.witcherLog.COLOR_GOLD_END, action.attacker, NULL);
+				}
 			}
 			else if ( canLog )
 			{
@@ -1011,6 +1014,9 @@ class W3DamageManagerProcessor extends CObject
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation1', 'dmg_bonus_factor', min, max);				
 			
 			damageVal.valueBase *= CalculateAttributeValue(min);
+			
+			if ((W3YrdenEntity)action.causer)
+				damageVal.valueBase /= 2.5f;
 			
 			if( action.IsDoTDamage() )
 			{
@@ -1384,8 +1390,8 @@ class W3DamageManagerProcessor extends CObject
 			{
 				sp = action.GetPowerStatValue();
 				
-				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_damage_factor', min, max);				
-				criticalDamageBonus.valueAdditive = sp.valueMultiplicative * min.valueMultiplicative;
+				//theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_damage_factor', min, max);				
+				criticalDamageBonus.valueAdditive = (sp.valueMultiplicative - 1) / 1.5f; // * min.valueMultiplicative;
 			}
 			else 
 			{

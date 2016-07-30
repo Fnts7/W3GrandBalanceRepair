@@ -1489,6 +1489,8 @@ class W3EffectManager
 		}
 		else if(signType == ST_Igni)
 		{
+			chance = sp / 2.5f - res;
+
 			if(witcher)
 			{
 				if(witcher.CanUseSkill(S_Magic_s09))
