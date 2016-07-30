@@ -25,10 +25,10 @@
       <ability name="GryphonSetBonusYrdenEffect">
         <tags>setBonusAbilityGryphon_2</tags>
         <duration type="add" min="-1" />
-        <staminaRegen type="mult" min="0.05" />
-        <spell_power type="mult" min="1.0" />
+        <staminaRegen type="mult" min="0.04" />
+        <spell_power type="mult" min="0.7" />
         <gryphon_set_bns_dmg_reduction type="add" min="0.20" />
-        <trigger_scale type="add" min="1.4" />
+        <trigger_scale type="add" min="1.35" />
       </ability>
 
       <ability name="LynxSetBonusEffect">

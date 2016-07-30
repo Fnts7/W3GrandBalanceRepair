@@ -794,8 +794,13 @@ class W3TooltipComponent
 			enchantmentName = itemInvComponent.GetEnchantment(itemId);
 			m_enchantmentManager.GetSchematic(enchantmentName, schematic);
 			
-			itemInvComponent.GetParamsForRunewordTooltip(schematic.schemName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);
-			description = GetLocStringByKeyExtWithParams(schematic.localizedDescriptionName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);
+			if (schematic.schemName == 'Runeword 1')
+				description = "When a sign is cast, fills the sword with that sign's power for one strike. Costs 0.3 adrenaline points.";
+			else
+			{
+				itemInvComponent.GetParamsForRunewordTooltip(schematic.schemName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);
+				description = GetLocStringByKeyExtWithParams(schematic.localizedDescriptionName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);
+			}
 			
 			flashDataObj.SetMemberFlashString("appliedEnchantmentInfo", "<font face=\"$BoldFont\">" + GetLocStringByKeyExt(schematic.localizedName) + ":</font> " + description);
 		}
