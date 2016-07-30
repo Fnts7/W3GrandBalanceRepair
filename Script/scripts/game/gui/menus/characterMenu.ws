@@ -1827,7 +1827,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_4:
 				ability = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_4);
-				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false)) * ability.valueMultiplicative;
+				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false)) + 1.25f * GetWitcherPlayer().GetLevel()) * ability.valueMultiplicative;
 				arg /= RoundMath(thePlayer.GetStat(BCS_Vitality, true)); 
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
@@ -2032,7 +2032,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				argsInt.PushBack(RoundMath(ability.valueBase));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 			case S_Magic_s06:
-				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) * skillLevel;
+				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) + GetWitcherPlayer().GetLevel()) * skillLevel;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;	
