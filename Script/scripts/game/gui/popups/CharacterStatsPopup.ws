@@ -454,6 +454,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		if ( GetWitcherPlayer().CanUseSkill(S_Magic_s06) )
 		{
 			valueAbility = GetWitcherPlayer().GetSkillLevel(S_Magic_s06) * CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) );
+			valueAbility += GetWitcherPlayer().GetLevel() * GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 			valueAbility += mutDmgMod.valueBase;
 			valueAbility *= sp.valueMultiplicative;
 			valueStr = (string)RoundMath( valueAbility );
@@ -465,6 +466,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	{  
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
 		valueAbility = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) );
+		valueAbility += 10.0f * GetWitcherPlayer().GetLevel();
 		valueAbility += mutDmgMod.valueBase;
 		valueAbility *= 1 + (sp.valueMultiplicative-1) * theGame.params.IGNI_SPELL_POWER_MILT;		
 		valueStr = (string)RoundMath( valueAbility );
@@ -472,7 +474,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	else if ( varKey == 'igni_burnchance' ) 	
 	{  
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
-		valueAbility = sp.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED - 4 * theGame.params.NPC_RESIST_PER_LEVEL;
+		valueAbility = sp.valueMultiplicative / 2.5f - 4 * theGame.params.NPC_RESIST_PER_LEVEL;
 		if (GetWitcherPlayer().CanUseSkill(S_Magic_s09))
 		{
 			sp = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, false);
@@ -484,7 +486,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	{
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_4);
 		valueAbility = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false));
-		valueAbility += mutDmgMod.valueBase;
+		valueAbility += 1.25f * GetWitcherPlayer().GetLevel();
 		valueAbility *= sp.valueMultiplicative;
 		valueStr = (string)RoundMath( valueAbility );
 	}
@@ -493,7 +495,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_3);
 		min = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_3, 'min_slowdown', false, true));
 		max = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_3, 'max_slowdown', false, true));
-		valueAbility = sp.valueMultiplicative / 4;
+		valueAbility = sp.valueMultiplicative / 5;
 		valueAbility =  min + (max - min) * valueAbility;
 		valueAbility = ClampF( valueAbility, min, max );
 		valueAbility *= 1 - ClampF(4 * theGame.params.NPC_RESIST_PER_LEVEL, 0, 1) ;
@@ -505,7 +507,8 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		{
 			sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_s03);
 			valueAbility = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_s03, theGame.params.DAMAGE_NAME_SHOCK, false, true ) );
-			valueAbility += mutDmgMod.valueBase;
+			valueAbility += CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s03, 'damage_bonus_flat_after_1', false, true)) * GetWitcherPlayer().GetLevel() * (0.75f + GetWitcherPlayer().GetSkillLevel(S_Magic_s03) * 0.25f);
+			valueAbility += mutDmgMod.valueBase / 2.5f;
 			valueAbility *= sp.valueMultiplicative;			
 			valueStr = (string)RoundMath( valueAbility );
 		}

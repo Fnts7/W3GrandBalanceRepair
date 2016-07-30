@@ -86,7 +86,7 @@ statemachine class W3QuenEntity extends W3SignEntity
 		
 		if (owner.GetPlayer())
 		{
-			shieldHealth += owner.GetPlayer().GetLevel();
+			shieldHealth += 1.25f * owner.GetPlayer().GetLevel();
 		}
 		
 		initialShieldHealth = shieldHealth;
@@ -660,7 +660,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 {
 	private const var HEALING_FACTOR : float;		
 	
-		default HEALING_FACTOR = 0.4f;
+		default HEALING_FACTOR = 0.45f;
 
 	event OnEnterState( prevStateName : name )
 	{
