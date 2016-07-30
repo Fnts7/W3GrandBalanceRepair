@@ -26,6 +26,7 @@ scriptFile[9]="/game/gameplay/damage/damageManagerProcessor.ws"
 
 scriptFile[10]="/game/gameplay/effects/effectManager.ws"
 scriptFile[11]="/game/gameplay/projectile/signs/signProjectiles.ws"
+scriptFile[12]="/game/components/inventoryComponent.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

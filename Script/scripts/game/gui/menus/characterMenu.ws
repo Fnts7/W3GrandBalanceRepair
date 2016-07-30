@@ -2017,11 +2017,27 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s05:
-				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, PowerStatEnumToName(CPS_AttackPower), false, false) * skillLevel;
+				// Improved Axii changes
+				/*ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, PowerStatEnumToName(CPS_AttackPower), false, false) * skillLevel;
 				argsInt.PushBack(RoundMath(ability.valueMultiplicative*100));
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, 'duration', false, false);
 				argsInt.PushBack(RoundMath(ability.valueBase));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");*/
+				
+				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, 'duration', false, false);
+				arg = ability.valueBase + (skillLevel - 1) * 2.0f;
+				baseString = "Puppets an enemy to fight on Geralt's side.<br>";
+				baseString += "Axii puppet lasts " + RoundMath(arg) + " seconds for humanoids, " + RoundMath(arg*2.0f) + " for animals and " + RoundMath(arg*1.25f) + " for monsters accordingly.<br>";
+				
+				if (skillLevel == 1)
+					baseString += "Hitting puppet by Geralt breaks puppet.<br>";
+				else if (skillLevel == 2)
+					baseString += "When Geralt hits the puppet, it has 65% chance to break.<br>";
+				else
+					baseString += "When Geralt hits the puppet, it has only 30% chance to break.<br>";
+				
+				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");				
+				break;
 			case S_Magic_s06:
 				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) + GetWitcherPlayer().GetLevel()) * skillLevel;
 				argsInt.PushBack(RoundMath(arg));

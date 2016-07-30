@@ -2500,9 +2500,9 @@ import class CInventoryComponent extends CComponent
 				break;
 			case 'Glyphword 14' :
 			case 'Glyphword 18' :
-				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Glyphword 18 _Stats', 'increas_duration', min, max);
-				val = CalculateAttributeValue(min);
-				s.PushBack( NoTrailZeros(val) );
+				/*theGame.GetDefinitionsManager().GetAbilityAttributeValue('Glyphword 18 _Stats', 'increas_duration', min, max);
+				val = CalculateAttributeValue(min);*/
+				s.PushBack( NoTrailZeros(1.0f) );
 				break;
 				
 			case 'Runeword 2' :
