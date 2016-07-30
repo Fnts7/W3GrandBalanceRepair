@@ -2048,7 +2048,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");				
 				break;
 			case S_Magic_s06:
-				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) + GetWitcherPlayer().GetLevel()) * skillLevel;
+				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) + 2.0f * GetWitcherPlayer().GetLevel()) * skillLevel;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;	
@@ -2086,9 +2086,12 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s11:
-				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s11, 'direct_damage_per_sec', false, false)) * skillLevel;
+				//arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s11, 'direct_damage_per_sec', false, false)) * skillLevel;
+				arg = skillLevel * GetWitcherPlayer().GetLevel() / 2.5f;
 				argsInt.PushBack(RoundMath(arg));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>";
+				baseString += "Scales with Yrden spellpower.<br>";
+				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;	
 			case S_Magic_s12:
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s12, PowerStatEnumToName(CPS_SpellPower), false, false);
@@ -2103,6 +2106,8 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_s14:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s14, 'discharge_percent', false, false)) * skillLevel;
+				if (GetWitcherPlayer().GetLevel() > 25)
+					arg *= 1.0f + (GetWitcherPlayer().GetLevel() - 25) / 37.5f;
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;

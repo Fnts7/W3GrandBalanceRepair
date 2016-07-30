@@ -3709,8 +3709,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 				arrStr.PushBack( NoTrailZeros( RoundMath( 100 * ( min.valueAdditive + sp.valueMultiplicative * min.valueMultiplicative ) ) ) );
 				
 				
-				//dm.GetAbilityAttributeValue( 'Mutation2', 'crit_damage_factor', min, max );
-				critBonusDamage = (sp.valueMultiplicative - 1) / 1.5f;
+				dm.GetAbilityAttributeValue( 'Mutation2', 'crit_damage_factor', min, max );
+				critBonusDamage = sp.valueMultiplicative * min.valueMultiplicative;
 				
 				arrStr.PushBack( NoTrailZeros( RoundMath( 100 * critBonusDamage ) ) );
 				break;
@@ -3771,7 +3771,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 				
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
 				sp = GetTotalSignSpellPower( S_Magic_1 );
-				val = sp.valueAdditive + sp.valueMultiplicative * ( sp.valueBase + min.valueAdditive + 5.0f * GetLevel());
+				val = sp.valueAdditive + sp.valueMultiplicative * ( sp.valueBase + min.valueAdditive + 8.0f * GetLevel());
 				arrStr.PushBack( NoTrailZeros( RoundMath( val ) ) );	
 			
 				break;

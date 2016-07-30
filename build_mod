@@ -43,6 +43,7 @@ scriptFile[21]="/mod/crossbowDamageBoostProcessor.ws"
 scriptFile[22]="/game/gameplay/effects/effectManager.ws"
 scriptFile[23]="/game/gameplay/projectile/signs/signProjectiles.ws"
 scriptFile[24]="/game/components/inventoryComponent.ws"
+scriptFile[25]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
 
 # SCRIPT FILES END
 

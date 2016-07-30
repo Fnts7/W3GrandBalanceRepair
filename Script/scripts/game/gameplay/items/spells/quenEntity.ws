@@ -77,6 +77,7 @@ statemachine class W3QuenEntity extends W3SignEntity
 		
 	protected function GetSignStats()
 	{
+		var wLevel : int;
 		var min, max : SAbilityAttributeValue;
 		
 		super.GetSignStats();
@@ -86,17 +87,21 @@ statemachine class W3QuenEntity extends W3SignEntity
 		
 		if (owner.GetPlayer())
 		{
-			shieldHealth += 1.25f * owner.GetPlayer().GetLevel();
+			wLevel = owner.GetPlayer().GetLevel();
+			shieldHealth += 1.25f * wLevel;
 		}
 		
 		initialShieldHealth = shieldHealth;
 		
 		if ( owner.CanUseSkill(S_Magic_s14))
 		{			
+			if (wLevel < 25)
+				wLevel = 25;
 			dischargePercent = CalculateAttributeValue(owner.GetSkillAttributeValue(S_Magic_s14, 'discharge_percent', false, true)) * owner.GetSkillLevel(S_Magic_s14);
+			dischargePercent *= 1.0f + (wLevel - 25) / 37.5f;
 			if( owner.GetPlayer().IsSetBonusActive( EISB_Bear_2 ) )
 			{
-				theGame.GetDefinitionsManager().GetAbilityAttributeValue( GetSetBonusAbility( EISB_Bear_2 ), 'quen_dmg_boost', min, max );
+				theGame.GetDefinitionsManager().GetAbilityAttributeValue( GetSetBonusAbility( EISB_Bear_2 ), 'quen_dmg_boost_discharge', min, max );
 				dischargePercent *= 1 + min.valueMultiplicative;
 			}
 		}
@@ -964,7 +969,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 				action = new W3DamageAction in theGame.damageMgr;
 				action.Initialize( casterActor, damageData.attacker, parent, 'quen', EHRT_Light, CPS_SpellPower, false, false, true, false, 'hit_shock' );
 				parent.InitSignDataForDamageAction( action );		
-				action.AddDamage( theGame.params.DAMAGE_NAME_SHOCK, parent.dischargePercent * reducibleDamage );
+				action.AddDamage( theGame.params.DAMAGE_NAME_SHOCK, parent.dischargePercent * reducibleDamage / 1.5f);
 				action.SetCanPlayHitParticle(true);
 				action.SetHitEffect('hit_electric_quen');
 				action.SetHitEffect('hit_electric_quen', true);

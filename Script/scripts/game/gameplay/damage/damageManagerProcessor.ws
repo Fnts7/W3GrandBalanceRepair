@@ -1047,7 +1047,7 @@ class W3DamageManagerProcessor extends CObject
 			damageVal.valueBase *= CalculateAttributeValue(min);
 			
 			if ((W3YrdenEntity)action.causer)
-				damageVal.valueBase /= 2.5f;
+				damageVal.valueBase /= 2.0f;
 			
 			if( action.IsDoTDamage() )
 			{
@@ -1421,8 +1421,8 @@ class W3DamageManagerProcessor extends CObject
 			{
 				sp = action.GetPowerStatValue();
 				
-				//theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_damage_factor', min, max);				
-				criticalDamageBonus.valueAdditive = (sp.valueMultiplicative - 1) / 1.5f; // * min.valueMultiplicative;
+				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_damage_factor', min, max);
+				criticalDamageBonus.valueAdditive = sp.valueMultiplicative * min.valueMultiplicative;
 			}
 			else 
 			{
