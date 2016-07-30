@@ -53,7 +53,8 @@ class W3AardProjectile extends W3SignProjectile
 			else if ( owner.CanUseSkill(S_Magic_s06) )		
 			{			
 				
-				dmgVal = GetWitcherPlayer().GetSkillLevel(S_Magic_s06) * CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) );
+				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + GetWitcherPlayer().GetLevel();
+				dmgVal *= GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			}
 		}
@@ -143,12 +144,13 @@ class W3AardProjectile extends W3SignProjectile
 		{			
 			if ( owner.CanUseSkill(S_Magic_s06) )
 			{
-				dmgVal = GetWitcherPlayer().GetSkillLevel(S_Magic_s06) * CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) );
+				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + GetWitcherPlayer().GetLevel();
+				dmgVal *= GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			}
 			
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
-			dmgVal = CalculateAttributeValue( min );
+			dmgVal = CalculateAttributeValue( min ) + 5.0f * GetWitcherPlayer().GetLevel();
 			action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			
 			action.ClearEffects();
@@ -336,7 +338,10 @@ class W3IgniProjectile extends W3SignProjectile
 				
 				
 				channelDmg = owner.GetSkillAttributeValue(signSkill, 'channeling_damage', false, true);
-				dmg = channelDmg.valueAdditive + channelDmg.valueMultiplicative * actorVictim.GetMaxHealth();
+				if (!owner.IsPlayer())
+					dmg = channelDmg.valueAdditive + channelDmg.valueMultiplicative * actorVictim.GetMaxHealth();
+				else
+					dmg = channelDmg.valueAdditive + 5.0f * owner.GetPlayer().GetLevel();
 				dmg *= dt;
 				action.AddDamage(theGame.params.DAMAGE_NAME_FIRE, dmg);
 				action.SetIsDoTDamage(dt);
@@ -353,6 +358,10 @@ class W3IgniProjectile extends W3SignProjectile
 			{
 				action.ClearEffects();
 			}
+		}
+		else if (owner.IsPlayer())
+		{
+			action.AddDamage(theGame.params.DAMAGE_NAME_FIRE, 10.0f * owner.GetPlayer().GetLevel());
 		}
 		
 		

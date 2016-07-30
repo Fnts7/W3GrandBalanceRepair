@@ -2442,7 +2442,10 @@ import abstract class CActor extends CGameplayEntity
 			}
 			else if(action.IsCriticalHit())
 			{
-				hudModuleDamageType = EFVT_Critical;
+				if ((W3IgniProjectile)action.causer)
+					hudModuleDamageType = EFVT_None;
+				else
+					hudModuleDamageType = EFVT_Critical;
 			}
 			else if(action.IsDoTDamage())
 			{

@@ -282,7 +282,7 @@
         <stamina_cost type="add" always_random="false" min="100" max="100" />		
         <stamina_delay type="base" min="0.5" />
         <stamina_delay type="mult" min="1" />
-        <FireDamage type="add" always_random="false" min="100" max="100" />
+        <FireDamage type="add" always_random="false" min="60" max="60" />
         <burn_threshold type="add" always_random="false" min="2.2" max="2.2" />
 		<BurningEffect is_ability="true" />
       </ability>
@@ -346,7 +346,7 @@
         <stamina_delay type="base" min="0.5" />
         <stamina_delay type="mult" min="2" />
         <FireDamage type="add" always_random="false" min="30" max="30" />
-		<channeling_damage type="add" min="60" max="70" />
+		<channeling_damage type="add" min="35" max="35" />
         <BurningEffect_FireStream is_ability="true" />
       </ability>
 	  
@@ -360,8 +360,8 @@
         <charge_count type="mult" min="1" />
         <trap_duration type="base" min="18" />
         <trap_duration type="mult" min="1" />
-        <ShockDamage type="add" min="50" />
-		<damage_bonus_flat_after_1 type="add" min="5" /> 
+        <ShockDamage type="add" min="60" />
+		<damage_bonus_flat_after_1 type="add" min="4" /> 
 		<!-- range is set by using different trigger component in sign entity -->
       </ability>
 	  
@@ -390,7 +390,7 @@
       <!-- Static Discharge -->
       <ability name="magic_s6">
         <tags>magic_s6, magic_1, magic_s1</tags>
-        <ForceDamage type="add" min="40" />
+        <ForceDamage type="add" min="20" />
       </ability>
 	  
       <!-- Igni Power -->

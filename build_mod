@@ -36,6 +36,9 @@ scriptFile[17]="/game/projectile/playerBoltProjectile.ws"
 
 scriptFile[18]="/mod/crossbowDamageBoostData.ws"
 scriptFile[19]="/mod/crossbowDamageBoostProcessor.ws"
+
+scriptFile[20]="/game/gameplay/effects/effectManager.ws"
+scriptFile[21]="/game/gameplay/projectile/signs/signProjectiles.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
