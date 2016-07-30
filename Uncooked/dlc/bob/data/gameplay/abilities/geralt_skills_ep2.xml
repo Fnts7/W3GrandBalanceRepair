@@ -40,6 +40,7 @@
           <ability name="setBonusAbilityBear_2">
             <tags>setBonusAbilityBear_2</tags>
             <quen_dmg_boost type="mult" min="2.0"/>
+			<quen_dmg_boost_discharge type="mult" min="1.0"/>
           </ability>
 
           <ability name="setBonusAbilityLynx_2">

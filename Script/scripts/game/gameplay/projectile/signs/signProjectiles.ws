@@ -53,7 +53,7 @@ class W3AardProjectile extends W3SignProjectile
 			else if ( owner.CanUseSkill(S_Magic_s06) )		
 			{			
 				
-				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + GetWitcherPlayer().GetLevel();
+				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + 2.0f * GetWitcherPlayer().GetLevel();
 				dmgVal *= GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			}
@@ -144,13 +144,13 @@ class W3AardProjectile extends W3SignProjectile
 		{			
 			if ( owner.CanUseSkill(S_Magic_s06) )
 			{
-				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + GetWitcherPlayer().GetLevel();
+				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + 2.0f * GetWitcherPlayer().GetLevel();
 				dmgVal *= GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			}
 			
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
-			dmgVal = CalculateAttributeValue( min ) + 5.0f * GetWitcherPlayer().GetLevel();
+			dmgVal = CalculateAttributeValue( min ) + 8.0f * GetWitcherPlayer().GetLevel();
 			action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			
 			action.ClearEffects();
