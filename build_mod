@@ -20,6 +20,8 @@ scriptFile[0]=""
 assetFile[0]=""
 # ASSET FILES END
 
+set -e
+
 if [ -z $1 ]
 then
     echo "Wrong path to the mod!"
