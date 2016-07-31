@@ -1411,8 +1411,8 @@ class W3DamageManagerProcessor extends CObject
 			powerMod.valueMultiplicative = 1 + (powerMod.valueMultiplicative - 1) * theGame.params.IGNI_SPELL_POWER_MILT;
 		
 		
-		if ( playerAttacker && (W3AardProjectile)action.causer )
-			powerMod.valueMultiplicative = 1;
+		/*if ( playerAttacker && (W3AardProjectile)action.causer )
+			powerMod.valueMultiplicative = 1;*/
 
 		if(action.IsCriticalHit())
 		{

@@ -3771,7 +3771,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 				
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
 				sp = GetTotalSignSpellPower( S_Magic_1 );
-				val = sp.valueAdditive + sp.valueMultiplicative * ( sp.valueBase + min.valueAdditive + 8.0f * GetLevel());
+				val = sp.valueAdditive + sp.valueMultiplicative * ( sp.valueBase + min.valueAdditive + 5.0f * GetLevel());
 				arrStr.PushBack( NoTrailZeros( RoundMath( val ) ) );	
 			
 				break;
@@ -9667,7 +9667,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 		case EISB_Gryphon_1:
 			dm.GetAbilityAttributeValue( 'GryphonSetBonusEffect', 'duration', min, max );
 			arrString.PushBack( FloatToString( min.valueAdditive ) );
-			finalString = GetLocStringByKeyExtWithParams( tempString,,,arrString ); 
+			finalString = GetLocStringByKeyExtWithParams( tempString,,,arrString );
+			finalString += "<br>Signs Overhaul override: the extra sign costs half of stamina or 0.5 adrenaline points.";
 			break;		
 		case EISB_Gryphon_2:
 			dm.GetAbilityAttributeValue( 'GryphonSetBonusYrdenEffect', 'trigger_scale', min, max );

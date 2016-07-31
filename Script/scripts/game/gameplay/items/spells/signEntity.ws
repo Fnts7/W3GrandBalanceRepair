@@ -554,7 +554,21 @@ statemachine abstract class W3SignEntity extends CGameplayEntity
 			{
 				l_player.DrainStamina( ESAT_Ability, 0, 0, SkillEnumToName( skillEnum ) );
 			}
-		}		
+		}
+		else
+		{
+			l_cost = l_player.GetStaminaActionCost(ESAT_Ability, SkillEnumToName( skillEnum ), 0) / 2.0f;
+				
+			if( l_cost > l_player.GetStat(BCS_Stamina, true) )
+			{
+				l_player.DrainFocus(0.5f);
+				SetUsedFocus( true );
+			}
+			else
+			{
+				l_player.DrainStamina(ESAT_FixedValue, l_cost, 0);
+			}
+		}
 	}
 	
 	public function ManageGryphonSetBonusBuff()

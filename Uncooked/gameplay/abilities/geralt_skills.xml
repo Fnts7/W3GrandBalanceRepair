@@ -390,7 +390,7 @@
       <!-- Static Discharge -->
       <ability name="magic_s6">
         <tags>magic_s6, magic_1, magic_s1</tags>
-        <ForceDamage type="add" min="40" />
+        <ForceDamage type="add" min="30" />
       </ability>
 	
       <!-- Igni Power -->

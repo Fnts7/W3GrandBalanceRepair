@@ -19,7 +19,7 @@
 
       <ability name="GryphonSetBonusEffect">
         <tags>setBonusAbilityGryphon_1</tags>
-        <duration type="add" min="3" />
+        <duration type="add" min="4" />
       </ability>
 
       <ability name="GryphonSetBonusYrdenEffect">

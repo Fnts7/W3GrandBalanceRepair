@@ -26,7 +26,7 @@
 		
 		<ability name="Mutation6" >
     		<full_freeze_chance type="mult" min="0.25" />
-			<ForceDamage type="add" min="1000" />
+			<ForceDamage type="add" min="700" />
     	</ability>
 
 		<ability name="Mutation7Buff">
