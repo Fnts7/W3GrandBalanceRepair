@@ -50,13 +50,15 @@ assetFile[11]="/dlc/bob/data/gameplay/abilities_plus/geralt_skills_ep2.xml"
 
 # ASSET FILES END
 
+set -e
+
 if [ -z $1 ]
 then
     echo "Wrong path to the mod!"
 	exit
 fi
 
-modContentPath=$1"/Packed/modGrandBalanceRepairSigns/content"
+modContentPath=$1"/Packed/modSignsOverhaul/content"
 
 inXMLPath="Uncooked"
 inScriptPath="Script/scripts"
