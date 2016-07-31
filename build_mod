@@ -44,6 +44,7 @@ scriptFile[22]="/game/gameplay/effects/effectManager.ws"
 scriptFile[23]="/game/gameplay/projectile/signs/signProjectiles.ws"
 scriptFile[24]="/game/components/inventoryComponent.ws"
 scriptFile[25]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
+scriptFile[26]="/game/gameplay/items/spells/igniEntity.ws"
 
 # SCRIPT FILES END
 

@@ -2064,9 +2064,12 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;	
 			case S_Magic_s09:
-				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, false) * skillLevel ;
+				/*ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, false) * skillLevel ;
 				argsInt.PushBack(RoundMath(ability.valueAdditive*100));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");*/
+				arg = 10 * skillLevel;
+				baseString = "Increases burning duration by " + RoundMath(arg) + "% and burning damage per second by " + RoundMath(arg/2.0) +"%.<br>";
+				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s10:				
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s10, 'trap_duration', false, false)) * skillLevel;
