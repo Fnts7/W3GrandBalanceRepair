@@ -1493,11 +1493,11 @@ class W3EffectManager
 
 			if(witcher)
 			{
-				if(witcher.CanUseSkill(S_Magic_s09))
+				/*if(witcher.CanUseSkill(S_Magic_s09))
 				{
 					chanceBonus = witcher.GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, true);
 					chance += chance * chanceBonus.valueMultiplicative * witcher.GetSkillLevel(S_Magic_s09) + chanceBonus.valueAdditive * witcher.GetSkillLevel(S_Magic_s09);
-				}			
+				}*/
 				if(witcher.CanUseSkill(S_Perk_03))
 					chance += CalculateAttributeValue(witcher.GetSkillAttributeValue(S_Perk_03, 'burning_chance', false, true));
 			}

@@ -475,11 +475,11 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	{  
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
 		valueAbility = sp.valueMultiplicative / 2.5f - 4 * theGame.params.NPC_RESIST_PER_LEVEL;
-		if (GetWitcherPlayer().CanUseSkill(S_Magic_s09))
+		/*if (GetWitcherPlayer().CanUseSkill(S_Magic_s09))
 		{
 			sp = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, false);
 			valueAbility += valueAbility * sp.valueMultiplicative * GetWitcherPlayer().GetSkillLevel(S_Magic_s09) + sp.valueAdditive * GetWitcherPlayer().GetSkillLevel(S_Magic_s09);
-		}
+		}*/
 		valueStr = (string)Min(100, RoundMath(valueAbility * 100)) + " %";
 	}
 	else if ( varKey == 'quen_damageabs' )

@@ -113,9 +113,58 @@ statemachine class W3IgniEntity extends W3SignEntity
 		if(fireMode != 2)
 			super.FillActionBuffsFromSkill(act);
 	}
-	
-	
-	
+
+	protected function CacheActionBuffsFromSkill()
+	{
+		var buff : SEffectInfo;
+
+		if (!owner.CanUseSkill(S_Magic_s09))
+		{
+			super.CacheActionBuffsFromSkill();
+			return;
+		}
+
+		actionBuffs.Clear();
+
+		switch (owner.GetSkillLevel(S_Magic_s09))
+		{
+		case 5:
+			if (skillEnum == S_Magic_2)
+				buff.effectAbilityName = 'BurningEffect_Pyro5';
+			else
+				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro5';
+			break;
+		case 4:
+			if (skillEnum == S_Magic_2)
+				buff.effectAbilityName = 'BurningEffect_Pyro4';
+			else
+				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro4';
+			break;
+		case 3:
+			if (skillEnum == S_Magic_2)
+				buff.effectAbilityName = 'BurningEffect_Pyro3';
+			else
+				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro3';
+			break;
+		case 2:
+			if (skillEnum == S_Magic_2)
+				buff.effectAbilityName = 'BurningEffect_Pyro2';
+			else
+				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro2';
+			break;
+		case 1:
+		default:
+			if (skillEnum == S_Magic_2)
+				buff.effectAbilityName = 'BurningEffect_Pyro1';
+			else
+				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro1';
+			break;
+		}
+
+		buff.effectType = EET_Burning;
+		actionBuffs.PushBack(buff);
+	}
+
 	public function UpdateBurningChance(actor : CActor, dt : float) : bool
 	{
 		var i, j : int;

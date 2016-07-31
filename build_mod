@@ -30,6 +30,7 @@ scriptFile[12]="/game/components/inventoryComponent.ws"
 scriptFile[13]="/game/gui/menus/characterMenu.ws"
 scriptFile[14]="/game/gui/popups/CharacterStatsPopup.ws"
 scriptFile[15]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
+scriptFile[16]="/game/gameplay/items/spells/igniEntity.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
