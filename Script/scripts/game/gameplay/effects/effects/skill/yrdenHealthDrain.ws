@@ -38,7 +38,7 @@ class W3Effect_YrdenHealthDrain extends W3DamageOverTimeEffect
 		if (witcher)
 		{
 			sp = witcher.GetTotalSignSpellPower(S_Magic_3);
-			effectValue.valueAdditive = witcher.GetSkillLevel(S_Magic_s11) * witcher.GetLevel() * sp.valueMultiplicative / 2.5f;
+			effectValue.valueAdditive = witcher.GetSkillLevel(S_Magic_s11) * witcher.GetLevel() * sp.valueMultiplicative / 2.0f;
 		}
 	}
 	

@@ -1809,7 +1809,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_2:
 				ability = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
-				arg = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) );
+				arg = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) ) + 10.0f * GetWitcherPlayer().GetLevel();
 				arg *= ability.valueMultiplicative;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
@@ -2039,7 +2039,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");				
 				break;
 			case S_Magic_s06:
-				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) + 2.0f * GetWitcherPlayer().GetLevel()) * skillLevel;
+				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) + GetWitcherPlayer().GetLevel()) * skillLevel;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;	
@@ -2081,7 +2081,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_s11:
 				//arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s11, 'direct_damage_per_sec', false, false)) * skillLevel;
-				arg = skillLevel * GetWitcherPlayer().GetLevel() / 2.5f;
+				arg = skillLevel * GetWitcherPlayer().GetLevel() / 2.0f;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>";
 				baseString += "Scales with Yrden spellpower.<br>";
