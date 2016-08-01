@@ -330,9 +330,10 @@
       <!-- Wave (ult) -->
       <ability name="magic_s1">
         <tags>magic_s1</tags>
-        <spell_power type="mult" always_random="false" min="-0.3" max="-0.3" />
-		<spell_power_penalty_reduction type="add" min="0.15" />
-        <stamina_cost type="add" always_random="false" min="60" max="60" />
+        <!--<spell_power type="mult" always_random="false" min="-0.3" max="-0.3" />-->
+		<spell_power_factor type="base" min="0.5" />
+		<spell_power_factor type="mult" min="0.1" />
+        <stamina_cost type="add" always_random="false" min="65" max="65" />
         <stamina_delay type="base" min="0.3" />
         <stamina_delay type="mult" min="1" />
         <KnockdownTypeApplicator is_ability="true" />

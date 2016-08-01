@@ -8155,24 +8155,16 @@ statemachine class W3PlayerWitcher extends CR4Player
 	public function GetTotalSignSpellPower(signSkill : ESkill) : SAbilityAttributeValue
 	{
 		var sp : SAbilityAttributeValue;
-		var penalty : SAbilityAttributeValue;
-		var penaltyReduction : float;
-		var penaltyReductionLevel : int; 
+		var spFactor : SAbilityAttributeValue;
 		
 		
 		sp = GetSkillAttributeValue(signSkill, PowerStatEnumToName(CPS_SpellPower), true, true);
 		
 		
 		if ( signSkill == S_Magic_s01 )
-		{
-			
-			penaltyReductionLevel = GetSkillLevel(S_Magic_s01) + 1;
-			if(penaltyReductionLevel > 0)
-			{
-				penaltyReduction = 1 - penaltyReductionLevel * CalculateAttributeValue(GetSkillAttributeValue(S_Magic_s01, 'spell_power_penalty_reduction', true, true));
-				penalty = GetSkillAttributeValue(S_Magic_s01, PowerStatEnumToName(CPS_SpellPower), false, false);
-				sp += penalty * penaltyReduction;	
-			}
+		{			
+			spFactor = GetSkillAttributeValue(S_Magic_s01, 'spell_power_factor', false, false);
+			sp.valueMultiplicative *= spFactor.valueBase + GetSkillLevel(S_Magic_s01) * spFactor.valueMultiplicative;
 		}
 		
 		
