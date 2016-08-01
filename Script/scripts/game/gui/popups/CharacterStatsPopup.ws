@@ -454,7 +454,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		if ( GetWitcherPlayer().CanUseSkill(S_Magic_s06) )
 		{
 			valueAbility = GetWitcherPlayer().GetSkillLevel(S_Magic_s06) * CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) );
-			valueAbility += GetWitcherPlayer().GetLevel() * GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
+			valueAbility += 1.2f * GetWitcherPlayer().GetLevel() * GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 			valueAbility += mutDmgMod.valueBase;
 			valueAbility *= sp.valueMultiplicative;
 			valueStr = (string)RoundMath( valueAbility );
