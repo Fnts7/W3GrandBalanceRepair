@@ -9,7 +9,6 @@
          <experience type="base" always_random="false" min="2" max="2" />
          <attack_power type="base" always_random="false" min="42" max="42" /> 
 		 <force_resistance_perc type="add" always_random="false" min="0.008" max="0.008" />
-		 <frost_resistance_perc type="add" always_random="false" min="0.004" max="0.004" />
 		 <burning_resistance_perc type="add" always_random="false" min="0.008" max="0.008" />
 		 <will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		 <shock_resistance_perc type="add" always_random="false" min="0.006" max="0.006" />
@@ -22,7 +21,6 @@
          <experience type="base" always_random="false" min="2" max="2" />
          <attack_power type="base" always_random="false" min="5" max="5" /> 
 		 <force_resistance_perc type="add" always_random="false" min="0.006" max="0.006" />
-		 <frost_resistance_perc type="add" always_random="false" min="0.004" max="0.004" />
 		 <burning_resistance_perc type="add" always_random="false" min="0.007" max="0.007" />
 		 <will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		 <shock_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />
@@ -36,7 +34,6 @@
          <experience type="base" always_random="false" min="2" max="2" />
          <attack_power type="base" always_random="false" min="5" max="5" /> 
 		 <force_resistance_perc type="add" always_random="false" min="0.004" max="0.004" />
-		 <frost_resistance_perc type="add" always_random="false" min="0.004" max="0.004" />
 		 <burning_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />
 		 <will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		 <shock_resistance_perc type="add" always_random="false" min="0.003" max="0.003" />
@@ -50,7 +47,6 @@
         <essence type="base" always_random="false" min="270" max="270" />
         <experience type="base" always_random="false" min="4" max="4" />
 		<force_resistance_perc type="add" always_random="false" min="0.006" max="0.006" />
-		<frost_resistance_perc type="add" always_random="false" min="0.004" max="0.004" />
 		<burning_resistance_perc type="add" always_random="false" min="0.006" max="0.006" />
 		<will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		<shock_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />

@@ -8157,16 +8157,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		var sp : SAbilityAttributeValue;
 		var spFactor : SAbilityAttributeValue;
 		
-		
 		sp = GetSkillAttributeValue(signSkill, PowerStatEnumToName(CPS_SpellPower), true, true);
-		
-		
-		if ( signSkill == S_Magic_s01 )
-		{			
-			spFactor = GetSkillAttributeValue(S_Magic_s01, 'spell_power_factor', false, false);
-			sp.valueMultiplicative *= spFactor.valueBase + GetSkillLevel(S_Magic_s01) * spFactor.valueMultiplicative;
-		}
-		
 		
 		if(signSkill == S_Magic_1 || signSkill == S_Magic_s01)
 		{
@@ -8191,7 +8182,13 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		
 		ApplyMutation10StatBoost( sp );
-	
+
+		if ( signSkill == S_Magic_s01 )
+		{
+			spFactor = GetSkillAttributeValue(S_Magic_s01, 'spell_power_factor', false, false);
+			sp.valueMultiplicative *= spFactor.valueBase + GetSkillLevel(S_Magic_s01) * spFactor.valueMultiplicative;
+		}
+
 		return sp;
 	}
 	

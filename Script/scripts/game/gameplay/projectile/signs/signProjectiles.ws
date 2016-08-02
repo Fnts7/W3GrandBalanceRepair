@@ -134,13 +134,13 @@ class W3AardProjectile extends W3SignProjectile
 			}
 		}
 		
-		if( applySlowdown && !hasKnockdown )
+		if( applySlowdown && !hasKnockdown && RandF() < 0.7f)
 		{
 			victimNPC.AddEffectDefault( EET_SlowdownFrost, this, "Mutation 6", true );
 		}
 		
 		
-		if( !instaKill && !victimNPC.HasBuff( EET_Frozen ) )
+		if( !instaKill && (owner.CanUseSkill(S_Magic_s06) || !victimNPC.HasBuff( EET_Frozen )))
 		{			
 			if ( owner.CanUseSkill(S_Magic_s06) )
 			{
@@ -149,15 +149,18 @@ class W3AardProjectile extends W3SignProjectile
 				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			}
 			
-			theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
-			dmgVal = CalculateAttributeValue( min ) + 5.0f * GetWitcherPlayer().GetLevel();
-			action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
+			if (!victimNPC.HasBuff( EET_Frozen ))
+			{
+				theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
+				dmgVal = CalculateAttributeValue( min ) + 5.0f * GetWitcherPlayer().GetLevel();
+				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
+				action.SetBuffSourceName( "Mutation 6" );
+			}
 			
 			action.ClearEffects();
 			action.SetProcessBuffsIfNoDamage( false );
 			action.SetForceExplosionDismemberment();
 			action.SetIgnoreInstantKillCooldown();
-			action.SetBuffSourceName( "Mutation 6" );
 			theGame.damageMgr.ProcessAction( action );
 		}
 	}
