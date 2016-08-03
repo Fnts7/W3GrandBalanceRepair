@@ -24,7 +24,7 @@ statemachine import class CNewNPC extends CActor
 {
 	
 	
-	
+	var testmod : bool; default testmod = true;
 	editable var isImmortal 		: bool;				
 	editable var isInvulnerable 	: bool;				
 	editable var willBeUnconscious 	: bool;				
@@ -48,8 +48,6 @@ statemachine import class CNewNPC extends CActor
 	
 	editable var useSoundValue		: bool;						default useSoundValue = false;
 	editable var soundValue			: int;	
-	
-	
 	editable var clearInvOnDeath			: bool;	
 	default clearInvOnDeath = false;
 	
@@ -69,7 +67,20 @@ statemachine import class CNewNPC extends CActor
 	hint useSoundValue = "If true it will add the SoundValue to the threat Rating used for combat music control";
 	hint soundValue = "This value will be added or subtracted from sound system to achieve final threat Rating";
 	
-	
+	private var inGameConfigWrapper_ES : CInGameConfigWrapper; 								//Enemy Scale ES_0
+	private var defaultLevelES		: int;						default defaultLevelES = 0; // Cont
+	private var firstcheck			: bool;						default firstcheck = false;	// Cont
+	private var secondcheck			: bool;						default secondcheck = false;// Cont
+	private var thirdcheck			: bool;						default thirdcheck = false;	// Cont
+	private var ESLevel				: int;						default ESLevel = 0;		// Cont
+	private var ESMobLvl			: int;						default ESMobLvl = 0;		// Cont
+	private var TrueDamage			: float;					default TrueDamage = 0.0;	// Cont
+	private var ModDamage			: float;					default ModDamage = 1.0;	// Cont
+	private var ModHealth	   	 	: float;					default ModHealth = 1.0;	// Cont
+	private var displayonce			: bool;						default displayonce = false;// CONT
+	private var displayFakeLevel	: bool;						default displayFakeLevel = false; // cont
+	private var forceFistfightdamage : bool;					default forceFistfightdamage = false; // cont
+	var disableES			: bool;								default disableES = false;  // Cont
 	
 	import private saved var npcGroupType 		: ENPCGroupType;	default npcGroupType = ENGT_Enemy;
 	
@@ -598,7 +609,8 @@ statemachine import class CNewNPC extends CActor
 					}
 				}
 			}	
-		}		
+		}
+		//AddTimer('AddLevelBonuses', RandRangeF(0.05,0.2), true, false, , true);			//Enemy Scale ES_1
 	}
 	
 	protected function SetAbilityManager()
@@ -1103,9 +1115,11 @@ statemachine import class CNewNPC extends CActor
 	
 	
 	var fistFightForcedFromQuest : bool; 
-	
+	//Enemy Scale
+	//The below function is heavily modified, comments have been added to point out some/all changes
 	timer function AddLevelBonuses (dt : float, id : int)
 	{
+		var nameES				: string;
 		var ciriEntity  		: W3ReplacerCiri;
 		var ignoreLowLevelCheck : bool;
 		var lvlDiff 			: int;
@@ -1115,6 +1129,15 @@ statemachine import class CNewNPC extends CActor
 		var playerLevel			: int;
 		var stats				: CCharacterStats;
 		var npcGroupType		: ENPCGroupType;
+		//Enemy Scale ES_2
+		var selection			: int;
+		var correction			: int;
+		var XMLLvL				: int;
+		var ESmod				: bool;
+	
+		ESmod = ESCheck();
+		selection = 0;
+		//Enemy Scale
 		
 		RemoveTimer( 'AddLevelBonuses' );
 		
@@ -1131,7 +1154,38 @@ statemachine import class CNewNPC extends CActor
 		levelBonusesComputedAtPlayerLevel = playerLevel;
 		
 		ciriEntity = (W3ReplacerCiri)thePlayer;
-		npcLevel = currentLevel;
+		//Enemy Scale ES_3
+		if(ESmod)
+		{
+			XMLLvL = (int)xmlLevel.valueAdditive;
+			if(defaultLevelES==0 && !firstcheck){defaultLevelES = currentLevel; firstcheck = true;}
+			if(!thirdcheck)
+			{
+				scaleMobES();
+				correction = currentLevel - XMLLvL;
+				thirdcheck = true;
+				if(correction<=0)
+				{	
+					correction=1; 
+				}
+				ESMobLvl = correction;
+				npcLevel = correction;
+			}
+			else
+			{
+				npcLevel = ESMobLvl;
+			}
+		}
+		else
+		{
+			defaultLevelES = currentLevel;
+			npcLevel = currentLevel;
+		}
+		if(isRealBoss())
+		{
+			ESEBadd(0);
+		}
+		//Enemy Scale
 		npcGroupType = GetNPCType();
 		ignoreLowLevelCheck = thePlayer.GetEnemyUpscaling() && ( npcGroupType == ENGT_Enemy || npcGroupType == ENGT_Quest );
 		
@@ -1148,30 +1202,55 @@ statemachine import class CNewNPC extends CActor
 				return ;
 			}
 		}
-		
-		if ( stats.HasAbility( 'NPCDoNotGainBoost' ) ) return;
-		
-		
-		
+		//Enemy Scale ES_4
+		if(ESmod)
+		{
+			if ( stats.HasAbility( 'NPCDoNotGainBoost' ) && isRealBoss()) return;
+		}
+		else
+		{
+			if ( stats.HasAbility( 'NPCDoNotGainBoost' )) return;
+		}
 		
 		if ( !ciriEntity && thePlayer.GetEnemyUpscaling() && npcLevel + levelFakeAddon < playerLevel && !fistFightForcedFromQuest )
 		{
 			
-			npcLevelToUpscaledLevelDifference = playerLevel - npcLevel;
-			if ( xmlLevel.valueAdditive != npcLevel )
+			if(ESmod)
 			{
-				npcLevel = playerLevel - (int)xmlLevel.valueAdditive + 1 - levelFakeAddon;
+				npcLevelToUpscaledLevelDifference = npcLevel;
 			}
 			else
 			{
-				npcLevel = playerLevel - levelFakeAddon;
+				npcLevelToUpscaledLevelDifference = playerLevel - npcLevel;
+			}
+			if ( xmlLevel.valueAdditive != npcLevel )
+			{
+				if(!ESmod)
+				{
+					npcLevel = playerLevel - (int)xmlLevel.valueAdditive + 1 - levelFakeAddon;
+				}
+			}
+			else
+			{
+				if(!ESmod)
+				{
+					npcLevel = playerLevel - levelFakeAddon;
+				}
 			}
 		}
 		else
 		{
-			npcLevelToUpscaledLevelDifference = 0;
+			if(ESmod)
+			{
+				npcLevelToUpscaledLevelDifference = currentLevel - playerLevel;
+			}
+			else
+			{
+					npcLevelToUpscaledLevelDifference = 0;
+			}
+			
 		}
-		
+		//Enemy Scale
 		if ( stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_DEADLY); else
 		if ( stats.HasAbility(theGame.params.ENEMY_BONUS_HIGH) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_HIGH); else
 		if ( stats.HasAbility(theGame.params.ENEMY_BONUS_LOW) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_LOW); else
@@ -1183,14 +1262,16 @@ statemachine import class CNewNPC extends CActor
 		stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP);
 		stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED );
 		stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL);
-		
+		//Enemy Scale ES_5
+		if(!ESmod){npcLevel = npcLevel-1;} //This is to reduce comments from Enemy Scale changes. Removed -1 from all npcLevel as it is already calculated
+		//Enemy Scale
 		if ( IsHuman() && GetStat( BCS_Essence, true ) < 0 )
 		{
 			if ( npcGroupType != ENGT_Guard )
 			{
 				if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL) )
 				{
-					stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, npcLevel-1);
+					stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, npcLevel);
 				}
 		    }
 			else
@@ -1212,7 +1293,17 @@ statemachine import class CNewNPC extends CActor
 		    
 			if ( !ciriEntity ) 
 			{
-				lvlDiff = (int)CalculateAttributeValue( GetAttributeValue( 'level',,true ) ) - playerLevel;
+				//Enemy Scale ES_6
+				if(ESmod)
+				{
+						lvlDiff = currentLevel - playerLevel;
+				}
+				else
+				{
+						lvlDiff = (int)CalculateAttributeValue(GetAttributeValue('level',,true)) - playerLevel;
+				}
+				selection = 1;
+				//Enemy Scale
 				if ( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY ) { if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) )
 				{
 					stats.AddAbility(theGame.params.ENEMY_BONUS_DEADLY, true); AddBuffImmunity(EET_Blindness, 'DeadlyEnemy', true);
@@ -1243,13 +1334,23 @@ statemachine import class CNewNPC extends CActor
 			{
 				if ( !ciriEntity ) 
 				{
-					lvlDiff = (int)CalculateAttributeValue( GetAttributeValue( 'level',,true ) ) - playerLevel;
+					//Enemy Scale ES_7
+					if(ESmod)
+					{
+						lvlDiff = currentLevel - playerLevel;
+					}
+					else
+					{
+						lvlDiff = (int)CalculateAttributeValue(GetAttributeValue('level',,true)) - playerLevel;
+					}
+					selection = 1;
+					//Enemy Scale
 					if 		( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY ) { if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) ) { stats.AddAbility(theGame.params.ENEMY_BONUS_DEADLY, true); AddBuffImmunity(EET_Blindness, 'DeadlyEnemy', true); AddBuffImmunity(EET_WraithBlindness, 'DeadlyEnemy', true); } }	
 					else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )  { if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_HIGH) ) stats.AddAbility(theGame.params.ENEMY_BONUS_HIGH, true);}
 					else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )  { }
 					else 					  { if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_LOW) ) stats.AddAbility(theGame.params.ENEMY_BONUS_LOW, true); }
 					
-					if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL) ) stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, npcLevel-1);
+					if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL) ) stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, npcLevel);
 				}
 			}
 			else
@@ -1265,22 +1366,22 @@ statemachine import class CNewNPC extends CActor
 					{
 						if ( GetIsMonsterTypeGroup() )
 						{
-							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED, npcLevel-1);
+							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED, npcLevel);
 						}
 						else
 						{
-							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED, npcLevel-1);
+							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED, npcLevel);
 						}
 					}
 					else
 					{
 						if ( GetIsMonsterTypeGroup() )
 						{
-							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP, npcLevel-1);
+							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP, npcLevel);
 						}
 						else
 						{
-							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL, npcLevel-1);
+							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL, npcLevel);
 						}
 					}
 				}
@@ -1289,7 +1390,17 @@ statemachine import class CNewNPC extends CActor
 					
 				if ( !ciriEntity ) 
 				{
-					lvlDiff = (int)CalculateAttributeValue(GetAttributeValue('level',,true)) - playerLevel;
+					//Enemy Scale ES_8
+					if(ESmod)
+					{
+						lvlDiff = currentLevel - playerLevel;
+					}
+					else
+					{
+						lvlDiff = (int)CalculateAttributeValue(GetAttributeValue('level',,true)) - playerLevel;
+					}
+					//Enemy Scale
+					selection = 2;
 					if 		( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY ) { if ( !stats.HasAbility(theGame.params.MONSTER_BONUS_DEADLY) ) { stats.AddAbility(theGame.params.MONSTER_BONUS_DEADLY, true); AddBuffImmunity(EET_Blindness, 'DeadlyEnemy', true); AddBuffImmunity(EET_WraithBlindness, 'DeadlyEnemy', true); } }	
 					else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )  { if ( !stats.HasAbility(theGame.params.MONSTER_BONUS_HIGH) ) stats.AddAbility(theGame.params.MONSTER_BONUS_HIGH, true); }
 					else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )  { }
@@ -1298,7 +1409,13 @@ statemachine import class CNewNPC extends CActor
 			}	 
 			
 		}
-		
+		ESEBadd(selection);
+		//Enemy Scale ES_9
+		//This is debugging purposes and future mod features
+		//MSActivate();
+		//nameES = GetSfxTag();
+		//theGame.GetGuiManager().ShowNotification(nameES + " // " +FloatToString(GetStat(BCS_Vitality, true))+"  |  "+FloatToString(GetStat(BCS_Essence, true))+ " XMLLvL=" + IntToString((int)xmlLevel.valueAdditive ) + " level=" +IntToString(level)+ " correction=" +IntToString(correction)+ " CL=" +IntToString(currentLevel)+ " LVLDIF=" +IntToString(lvlDiff) + "AP: " +FloatToString(CalculateAttributeValue(GetPowerStatValue(CPS_AttackPower, , true))) + " selection=" + IntToString(selection) + " REDUCEDPOWER: " + IntToString(GetAbilityCount('ESCustomReducePWR')) + " NPCLEVELBONUS: " + IntToString(GetAbilityCount('NPCLevelBonus')) + " MonsterLevelBonusArmored: " + IntToString(GetAbilityCount('MonsterLevelBonusArmored'))+ " MonsterLevelBonusGroupArmored: " + IntToString(GetAbilityCount('MonsterLevelBonusGroupArmored'))+ " MonsterLevelBonusGroup: " + IntToString(GetAbilityCount('MonsterLevelBonusGroup'))+ " MonsterLevelBonus: " + IntToString(GetAbilityCount('MonsterLevelBonus')));
+		//Enemy Scale
 	}
 	
 	public function SetParentEncounter( encounter : CEncounter )
@@ -1390,7 +1507,7 @@ statemachine import class CNewNPC extends CActor
 	event OnStartFistfightMinigame()
 	{
 		super.OnStartFistfightMinigame();
-		
+		forceFistfightdamage = true; //Enemy Scale
 		thePlayer.ProcessLockTarget( this );
 		SignalGameplayEventParamInt('ChangePreferedCombatStyle',(int)EBG_Combat_Fists );
 		SetTemporaryAttitudeGroup( 'fistfight_opponent', AGP_Fistfight );
@@ -1405,6 +1522,7 @@ statemachine import class CNewNPC extends CActor
 	
 	event OnEndFistfightMinigame()
 	{	
+		forceFistfightdamage = false; //Enemy Scale
 		SignalGameplayEvent('ResetPreferedCombatStyle');
 		ResetTemporaryAttitudeGroup( AGP_Fistfight );
 		RestoreImmortalityMode();
@@ -1424,6 +1542,8 @@ statemachine import class CNewNPC extends CActor
 		
 	private function FistFightHealthSetup()
 	{
+		var stats				: CCharacterStats;
+		stats = GetCharacterStats();
 		
 		if ( HasAbility( 'fistfight_minigame' ) )
 		{
@@ -1943,12 +2063,16 @@ statemachine import class CNewNPC extends CActor
 	{
 		return currentLevel;
 	}
-	
+	//Enemy Scale
+	//The below function is modified greatly
 	function GetExperienceDifferenceLevelName( out strLevel : string ) : string
 	{
+		var customlvl : int;
 		var lvlDiff : int;
 		var currentLevel : int;
 		var ciriEntity  : W3ReplacerCiri;
+		var SSmod : bool;
+		SSmod = SmoothCheck();
 		
 		currentLevel = GetLevel() + levelFakeAddon;
 		
@@ -1956,9 +2080,9 @@ statemachine import class CNewNPC extends CActor
 		{
 			currentLevel += theGame.params.GetNewGamePlusLevel();
 		}
-		
+
 		lvlDiff = currentLevel - thePlayer.GetLevel();
-			
+		if(secondcheck && !displayonce){CheckifScaled(lvlDiff);}
 		if( GetAttitude( thePlayer ) != AIA_Hostile )
 		{
 			if( ( GetAttitudeGroup() != 'npc_charmed' ) )
@@ -1974,31 +2098,91 @@ statemachine import class CNewNPC extends CActor
 			strLevel = "<font color=\"#66FF66\">" + currentLevel + "</font>"; 
 			return "normalLevel";
 		}
-
-		
-		 if ( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY )
+		if(displayFakeLevel)
 		{
-			strLevel = "";
-			return "deadlyLevel";
-		}	
-		else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )
-		{
-			strLevel = "<font color=\"#FF1919\">" + currentLevel + "</font>"; 
-			return "highLevel";
-		}
-		else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )
-		{
-			strLevel = "<font color=\"#66FF66\">" + currentLevel + "</font>"; 
-			return "normalLevel";
+			customlvl = thePlayer.GetLevel() + ESLevel;
+			lvlDiff = ESLevel;
+			if(customlvl < 1)
+			{
+				customlvl = 1;
+			}
 		}
 		else
 		{
-			strLevel = "<font color=\"#E6E6E6\">" + currentLevel + "</font>"; 
-			return "lowLevel";
+			customlvl = currentLevel;
 		}
-		return "none";
+		if(!SSmod)
+		{
+			if ( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY )
+			{
+				strLevel = "";
+				return "deadlyLevel";
+			}	
+			else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )
+			{
+				strLevel = "<font color=\"#FF1919\">" + customlvl + "</font>"; 
+				return "highLevel";
+			}
+			else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )
+			{
+				strLevel = "<font color=\"#66FF66\">" + customlvl + "</font>"; 
+				return "normalLevel";
+			}
+			else
+			{
+				strLevel = "<font color=\"#E6E6E6\">" + customlvl + "</font>"; 
+				return "lowLevel";
+			}
+			return "none";
+		}
+		else
+		{
+			if ( lvlDiff >= 10 )
+			{
+				//strLevel = "";
+				strLevel = "<font color=\"#e60000\">" + customlvl + "</font>"; 
+				return "normalLevel";
+			}	
+			else if ( lvlDiff >= 7 )
+			{
+				strLevel = "<font color=\"#e65c00\">" + customlvl + "</font>"; 
+				return "normalLevel";
+			}
+			else if ( lvlDiff >= 4 )
+			{
+				strLevel = "<font color=\"#e67300\">" + customlvl + "</font>"; 
+				return "normalLevel";
+			}			
+			else if ( lvlDiff >= 1 )
+			{
+				strLevel = "<font color=\"#e6b800\">" + customlvl + "</font>"; 
+				return "normalLevel";
+			}
+			else if ( lvlDiff == 0 )
+			{
+				strLevel = "<font color=\"#e6e600\">" + customlvl + "</font>"; 
+				return "normalLevel";
+			}
+			else if ( lvlDiff >= -2 )
+			{
+				strLevel = "<font color=\"#ace600\">" + customlvl + "</font>"; 
+				return "normalLevel";
+			}
+			else if ( lvlDiff >= -4 )
+			{
+				strLevel = "<font color=\"#39e600\">" + customlvl + "</font>"; 
+				return "normalLevel";
+			}
+			else
+			{
+				//strLevel = "<font color=\"#E6E6E6\">" + currentLevel + "</font>"; 
+				strLevel = "<font color=\"#E6E6E6\">" + customlvl + "</font>"; 
+				return "lowLevel";
+			}
+			return "none";
+		}
 	}
-	
+	//Enemy Scale
 	
 	private function ShouldGiveExp(attacker : CGameplayEntity) : bool
 	{
@@ -2157,7 +2341,24 @@ statemachine import class CNewNPC extends CActor
 		var lvlDiff : int;
 		var modDamage, modArmor, modVitality, modOther : float;
 		var stats : CCharacterStats;
-		
+		var ESexpLevel : int; //Enemy Scale
+		//Enemy Scale
+		if(XPScalingFix() == 0)
+		{
+			ESexpLevel = defaultLevelES;
+		}
+		else
+		{
+			if(displayFakeLevel)
+			{
+				ESexpLevel = currentLevel + ESLevel;
+				if(ESexpLevel < 1)
+					ESexpLevel = currentLevel;
+			}
+			else
+				ESexpLevel = currentLevel;
+		}
+		//Enemy Scale
 		if ( grantNoExperienceAfterKill || HasAbility('Zero_XP' ) || GetNPCType() == ENGT_Guard ) return 0;
 		
 		modDamage = CalculateAttributeValue(GetAttributeValue('RendingDamage',,true));
@@ -2222,15 +2423,15 @@ statemachine import class CNewNPC extends CActor
 		
 		exp = ( modDamage + modArmor + modVitality + modOther ) / 99;
 		
-		if( thePlayer.GetEnemyUpscaling() && npcLevelToUpscaledLevelDifference > 0 ) currentLevel -= npcLevelToUpscaledLevelDifference;
-		if( FactsQuerySum("NewGamePlus") > 0 ) currentLevel -= theGame.params.GetNewGamePlusLevel();
+		if( thePlayer.GetEnemyUpscaling() && npcLevelToUpscaledLevelDifference > 0 ) ESexpLevel -= npcLevelToUpscaledLevelDifference;
+		if( FactsQuerySum("NewGamePlus") > 0 ) ESexpLevel -= theGame.params.GetNewGamePlusLevel();
 		
 		if  ( IsHuman() ) 
 		{
-			if ( exp > 1 + ( currentLevel * 2 ) ) { exp = 1 + ( currentLevel * 2 ); }
+			if ( exp > 1 + ( ESexpLevel * 2 ) ) { exp = 1 + ( ESexpLevel * 2 ); }
 		} else
 		{
-			if ( exp > 5 + ( currentLevel * 4 ) ) { exp = 5 + ( currentLevel * 4 ); } 
+			if ( exp > 5 + ( ESexpLevel * 4 ) ) { exp = 5 + ( ESexpLevel * 4 ); } 
 		}
 				
 		
@@ -2245,9 +2446,9 @@ statemachine import class CNewNPC extends CActor
 		
 		
 		if( ( FactsQuerySum("NewGamePlus") > 0 ) )
-			lvlDiff = currentLevel - thePlayer.GetLevel() + theGame.params.GetNewGamePlusLevel();
+			lvlDiff = ESexpLevel - thePlayer.GetLevel() + theGame.params.GetNewGamePlusLevel();
 		else
-			lvlDiff = currentLevel - thePlayer.GetLevel();
+			lvlDiff = ESexpLevel - thePlayer.GetLevel();
 		if 		( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY ) { exp = 25 + exp * 1.5; }	
 		else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )  { exp = exp * 1.05; }
 		else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )  { }
@@ -2298,11 +2499,11 @@ statemachine import class CNewNPC extends CActor
 	event OnDeath( damageAction : W3DamageAction  )
 	{		
 		var inWater, fists, tmpBool, addAbility, isFinisher : bool;		
-		var expPoints, npcLevel, lvlDiff, i, j 				: int;
+		var expPoints, npcLevel, lvlDiff, i, j				: int; 
 		var abilityName, tmpName 							: name;
 		var abilityCount, maxStack, minDist					: float;
 		var itemExpBonus, radius							: float;
-		
+		var playerLevelxp									: float; //Enemy Scale 
 		var allItems 										: array<SItemUniqueId>;
 		var damages 										: array<SRawDamage>;
 		var atts 											: array<name>;
@@ -2462,8 +2663,19 @@ statemachine import class CNewNPC extends CActor
 			npcLevel = (int)CalculateAttributeValue(GetAttributeValue('level',,true));
 			lvlDiff = npcLevel - witcher.GetLevel();
 			expPoints = CalculateExperiencePoints();
-			
-			
+			//Enemy Scale XP
+			if(XPScalingFix() == 1 && expPoints !=0)
+			{
+				playerLevelxp = thePlayer.GetLevel();
+				if(playerLevelxp < 30)
+					playerLevelxp = 30;
+				expPoints = RoundF(expPoints * ((playerLevelxp/(playerLevelxp+100.0)*2.0)));
+				if (expPoints > 50)
+					expPoints = 50;
+				if (expPoints < 3)
+					expPoints = 3;
+			}
+			//Enemy Scale XP
 			if(expPoints > 0)
 			{				
 				theGame.GetMonsterParamsForActor(this, monsterCategory, tmpName, tmpBool, tmpBool, tmpBool);
@@ -2474,9 +2686,9 @@ statemachine import class CNewNPC extends CActor
 				else
 				{
 					bonusExp = thePlayer.GetAttributeValue('human_exp_bonus_when_fatal');
-				}				
+				}
 				
-				expPoints = RoundMath( expPoints * (1 + CalculateAttributeValue(bonusExp)) );
+				expPoints = RoundMath(expPoints * (1 + CalculateAttributeValue(bonusExp) ));	
 				
 				witcher.AddPoints(EExperiencePoint, RoundF( expPoints * theGame.expGlobalMod_kills ), false );
 			}			
@@ -4725,6 +4937,588 @@ statemachine import class CNewNPC extends CActor
 	{
 		PlayEffectSingle( 'appear' );
 	}
+	// Enemy Scale Functions
+	// Enemy Scale ES_11
+	// These functions control level scaling
+	private function setLevelESNPC(pLevel : int, mLevel : int) 
+	{
+		var scaleNormal : bool;
+		var scaleMBoss : bool;
+		var scaleWeakOnly: bool;
+		var scaleRange : bool;
+		var scaleRangeMB : bool;
+		var randomalways : bool;
+		var ignoreHumans : bool;			//Temp fix request from user
+		var ignoreAnimals : bool;			// ========================
+		var levelBonus : int;
+		var minLevelBonus : int;
+		var levelBonusMBoss : int;
+		var minLevelBonusMBoss : int;
+		var	rangeNum : int;
+		var stats	: CCharacterStats;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		stats = GetCharacterStats();
+		ignoreHumans = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESLHumans'); //Temp
+		ignoreAnimals = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESLHumans'); //Temp
+		//Check to continue
+		if(!secondcheck)
+		{
+			secondcheck = true;
+		}
+		if((!ESCheck()) || disableES)
+		{
+			ESLevel = -100;
+			return;
+		}
+		if(isRealBoss())
+		{
+			ESLevel = -100;
+			return;
+		}
+		if(( GetSfxTag() == 'sfx_rat' )) //Hah get recked rats 
+		{
+			ESLevel = -100;
+			currentLevel = 1;
+			return;
+		}
+		if(( GetSfxTag() == 'None' ) && ( GetStat( BCS_Vitality, true ) > 0 ) && currentLevel <=2 && !IsHuman() && !HasAbility('mon_panther_base') && !HasAbility('mon_boar_base') && !HasAbility('mon_boar_ep2_base')) //Any animal under level 3 is not scaled
+		{
+			ESLevel = -100;
+			return;
+		}
+		if(IsHuman() && ignoreHumans)
+		{
+			ESLevel = -100;
+			return;
+		}
+		if(!IsHuman() && ( GetStat( BCS_Vitality, true ) > 0 && ignoreAnimals))
+		{
+			ESLevel = -100;
+			return;
+		}
+		if((GetSfxTag() == 'sfx_wild_dog'))
+		{
+			ESLevel = -100;
+			return;
+		}
+		// Set Levels
+		mLevel = currentLevel;
+		rangeNum = mLevel - pLevel;
+		scaleWeakOnly = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESWEnemy');
+		randomalways = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESRangeAlways');
+		if((scaleWeakOnly) && mLevel >= pLevel)
+		{
+			if(randomalways)
+			{
+				ESLevel = -100;
+				currentLevel = mLevel + RandRange(1,-1); //Level Variant
+			}
+		}
+		else
+		{
+			scaleMBoss = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESMBoss');
+			if (isMiniBossLevel && scaleMBoss)
+			{	
+				scaleRangeMB = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESMBRange');
+				levelBonusMBoss = StringToInt (inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESMBMax'));
+				if(scaleRangeMB)
+				{
+					minLevelBonusMBoss = StringToInt (inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESMBMin'));
+					if(rangeNum < minLevelBonusMBoss || rangeNum > levelBonusMBoss || randomalways)
+					{
+						if(minLevelBonusMBoss <= levelBonusMBoss)
+						{
+							ESLevel = RandRange(levelBonusMBoss, minLevelBonusMBoss);
+							currentLevel = (pLevel + ESLevel);
+							levelBonusesComputedAtPlayerLevel = -1;
+						}
+						else if(minLevelBonusMBoss > levelBonusMBoss)
+						{
+							ESLevel = minLevelBonusMBoss;
+							currentLevel = (pLevel + ESLevel);
+							levelBonusesComputedAtPlayerLevel = -1;
+						} 
+						else
+						{
+							ESLevel = 0;
+							currentLevel = pLevel; //just in case
+							levelBonusesComputedAtPlayerLevel = -1;
+						}
+						if(currentLevel <= 0)
+						{
+							ESLevel = RandRange(levelBonusMBoss, minLevelBonusMBoss);
+							currentLevel = 1;
+							levelBonusesComputedAtPlayerLevel = -1;
+						}
+					}
+	
+				} 
+				else
+				{
+					if(rangeNum != levelBonusMBoss)
+					{
+						ESLevel = levelBonusMBoss;
+						currentLevel = (pLevel + ESLevel);
+						levelBonusesComputedAtPlayerLevel = -1;
+					}
+					if(currentLevel <= 0)
+					{
+						ESLevel = levelBonusMBoss;
+						currentLevel = 1;
+						levelBonusesComputedAtPlayerLevel = -1;
+					}
+				}						
+			}
+			else
+			{
+				scaleNormal = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESNormal');
+				if(scaleNormal)
+				{
+					scaleRange = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESRange');
+					levelBonus = StringToInt (inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESEMax'));
+					if(scaleRange)
+					{
+						minLevelBonus = StringToInt (inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESEMin'));
+						if(rangeNum < minLevelBonus || rangeNum > levelBonus || randomalways)
+						{
+							if(minLevelBonus <= levelBonus)
+							{
+								ESLevel = RandRange(levelBonus, minLevelBonus);
+								currentLevel = (pLevel + ESLevel);
+								levelBonusesComputedAtPlayerLevel = -1;
+							}
+							else if(minLevelBonus > levelBonus)
+							{
+								ESLevel = minLevelBonus;
+								currentLevel = (pLevel + ESLevel);
+								levelBonusesComputedAtPlayerLevel = -1;
+							} 
+							else
+							{
+								ESLevel = 0;
+								currentLevel = pLevel; //just in case
+								levelBonusesComputedAtPlayerLevel = -1;
+							}
+							if(currentLevel <= 0)
+							{
+								ESLevel = RandRange(levelBonus, minLevelBonus);
+								currentLevel = 1;
+								levelBonusesComputedAtPlayerLevel = -1;
+							}
+						}
+	
+					} 
+					else
+					{
+						if(rangeNum != levelBonus)
+						{
+							ESLevel = levelBonus;
+							currentLevel = (pLevel + ESLevel);
+							levelBonusesComputedAtPlayerLevel = -1;
+						}
+						if(currentLevel <= 0)
+						{
+							ESLevel = levelBonus;
+							currentLevel = 1;
+							levelBonusesComputedAtPlayerLevel = -1;
+						}
+					}							
+				}
+			}
+		}
+		if(currentLevel <= 0)
+		{
+			currentLevel = 1;
+			levelBonusesComputedAtPlayerLevel = -1;
+		}
+	}		
+	public function scaleMobES()
+	{
+		setLevelESNPC(thePlayer.GetLevel(), level);
+	}
+	private function ESEBadd(selection : int)
+	{
+		var SSHealthRPL, SSDamageRPL, SSHealthGPL, SSDamageGPL : int;
+		var bonushp				: int;
+		var bonusap				: int;
+		var lvlDiff				: int;
+		var playerLevel 		: int;
+		var attackStrength		: float;
+		var optcheck			: bool;
+		var SSmod				: bool;
+		var stats				: CCharacterStats;
+
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+
+		playerLevel = thePlayer.GetLevel();
+		SSmod = SmoothCheck();
+		optcheck = false;
+		bonushp = 0; bonusap = 0;
+		stats = GetCharacterStats();
+		
+		resetESchanges();
+		if(isRealBoss())
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusBoss', 'EBBoss');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusBoss', 'EBBOSShp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusBoss', 'EBBOSSap'));
+				bonushp = bonushp + (bonushp/3); //+33%
+			}
+		}
+		else if(isMiniBossLevel)
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusMiniboss', 'EBMiniboss');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusMiniboss', 'EBMINIBOSShp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusMiniboss', 'EBMINIBOSSap'));
+				bonushp = bonushp + (bonushp/5); //+20%
+			}
+		}
+		else if( GetStat( BCS_Vitality, true ) > 0 && !IsHuman())
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusBeast', 'EBBeast');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusBeast', 'EBBeasthp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusBeast', 'EBBeastap'));
+				bonushp = bonushp + (bonushp/5); //+20%
+			}
+		}
+		else if( GetStat( BCS_Vitality, true ) > 0 && IsHuman())
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusHumans', 'EBHumans');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusHumans', 'EBHumanshp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusHumans', 'EBHumansap'));
+				bonushp = bonushp + (bonushp/5); //+20%
+			}
+		}
+		else
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusNormalEnemies', 'EBNormal');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusNormalEnemies', 'EBNORMALhp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusNormalEnemies', 'EBNORMALap'));
+				bonushp = bonushp + (bonushp/5); //+20%
+			}
+		}
+		if(bonusap < 0)
+		{
+			ModDamage -= (bonusap*.01);
+			if (ModDamage < .01)
+			{
+				ModDamage = .01;
+			}
+		}
+		else
+		{
+			ModDamage += bonusap*.005;
+			TrueDamage = bonusap*.005;
+		}
+		if(SSmod && !(isRealBoss()))
+		{
+			SSHealthRPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSHealthRPL'));
+			SSDamageRPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSDamageRPL'));
+			SSHealthGPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSHealthGPL'));
+			SSDamageGPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSDamageGPL'));
+			if(selection == 1)
+			{
+				if ( stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_DEADLY); else
+				if ( stats.HasAbility(theGame.params.ENEMY_BONUS_HIGH) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_HIGH);
+				lvlDiff = currentLevel - playerLevel;
+				if(lvlDiff >= 10)
+				{
+					bonushp = bonushp + (SSHealthRPL * 10);
+					bonusap = bonusap + (SSDamageRPL * 10);
+					TrueDamage += .05;
+					ModDamage += .1;
+				}
+				else if(lvlDiff >= 1)
+				{
+					bonushp = bonushp + (SSHealthRPL * lvlDiff);
+					bonusap = bonusap + (SSDamageRPL * lvlDiff);
+					TrueDamage += lvlDiff*.005;
+					ModDamage += lvlDiff*.01;
+				}
+			}
+			else if(selection == 2)
+			{
+				if ( stats.HasAbility(theGame.params.MONSTER_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.MONSTER_BONUS_DEADLY); else
+				if ( stats.HasAbility(theGame.params.MONSTER_BONUS_HIGH) ) stats.RemoveAbility(theGame.params.MONSTER_BONUS_HIGH);
+				lvlDiff = currentLevel - playerLevel;
+				if(lvlDiff >= 10)
+				{
+					bonushp = bonushp + (SSHealthGPL * 10);
+					bonusap = bonusap + (SSDamageGPL * 10);
+					TrueDamage += .05;
+					ModDamage += .1;
+				}
+				else if(lvlDiff >= 1)
+				{
+					bonushp = bonushp + (SSHealthGPL * lvlDiff);
+					bonusap = bonusap + (SSDamageGPL * lvlDiff);
+					TrueDamage += lvlDiff*.005;
+					ModDamage += lvlDiff*.01;
+				}
+			}
+		}
+		
+		if(bonushp > 0)
+		{
+			if ( !stats.HasAbility('ESBuffHealth') ) stats.AddAbilityMultiple('ESBuffHealth', (bonushp));
+		}
+		else if (bonushp < 0)
+		{
+			if ( !stats.HasAbility('ESWeakenHealth') ) stats.AddAbilityMultiple('ESWeakenHealth', (bonushp*-1));
+		}
+		if(bonusap > 0)
+		{
+			if ( !stats.HasAbility('ESBuffDamage') ) stats.AddAbilityMultiple('ESBuffDamage', (bonusap));
+		}
+		else if (bonusap < 0)
+		{
+			if ( !stats.HasAbility('ESWeakenDamage') ) stats.AddAbilityMultiple('ESWeakenDamage', (bonusap*-1));
+		}
+	}
+	private function CheckifScaled(nameplateLevel : int)
+	{
+		var actualLevel : int;
+		if(isRealBoss())
+			return;
+		if(ESLevel != nameplateLevel && ESLevel != -100)
+		{
+			actualLevel = ESLevel;
+			if(actualLevel < 1){actualLevel=1;}
+			ModHealth = 1 - ((actualLevel)*.025);
+			ModDamage *= (1-((actualLevel)*.0175));
+			if(ModHealth < .5)
+			{
+				ModHealth = .5;
+			}
+			else if(ModHealth > 2)
+			{
+				ModHealth = 2;
+			}
+			if(ModDamage < .5)
+			{
+				ModDamage = .5;
+			}
+			displayFakeLevel = true;
+			//theGame.GetGuiManager().ShowNotification("NPC could not be scaled, expected: " + IntToString(ESLevel) + ", got:" + IntToString(nameplateLevel) + "|ModDamage Now:" + FloatToString(ModDamage) + " |ModHealth Now: " + FloatToString(ModHealth));
+		}
+		else
+			//theGame.GetGuiManager().ShowNotification("Check |DEFAULT: " + FloatToString(ModHealth) + " | " +FloatToString(ModDamage) + "   " + GetSfxTag());
+		displayonce = true;
+	}
+	private function CustomScale()
+	{
+		var scaleMax : float;
+		var pLevel : float;
+		pLevel = thePlayer.GetLevel();
+		scaleMax = (pLevel/(pLevel+100.0))*2.0;
+		if(scaleMax > 1)
+			scaleMax = 1;
+		if(GetSfxTag() == 'sfx_endriaga')
+		{
+			ModDamage += 2.5 + (2.5 * scaleMax);
+		}
+		else if(GetSfxTag() == 'sfx_ghoul')
+		{
+			ModDamage += 2 + (2 * scaleMax);
+		}
+		else if(GetSfxTag() == 'sfx_drowner')
+		{
+			ModDamage += 2 + (2 * scaleMax);
+		}
+		else if ( HasAbility('mon_rotfiend') || HasAbility('mon_rotfiend_large'))
+		{
+			ModDamage += 1.5 + (2.5 * scaleMax);
+		}
+		else if (GetSfxTag() == 'sfx_wildhunt_minion')
+		{
+			ModDamage += 1.5 + (2.25 * scaleMax);
+		}
+		else if (GetSfxTag() == 'sfx_wraith')
+		{
+			ModDamage += 1.5 + (3.25 * scaleMax);
+		}
+	}
+	private function resetESchanges()
+	{
+		var stats				: CCharacterStats;
+		stats = GetCharacterStats();
+		ModDamage = 1;
+		ModHealth = 1;
+		if ( stats.HasAbility('ESBuffHealth') ) stats.RemoveAbility('ESBuffHealth');
+		if ( stats.HasAbility('ESBuffDamage') ) stats.RemoveAbility('ESBuffDamage');
+		if ( stats.HasAbility('ESWeakenHealth') ) stats.RemoveAbility('ESWeakenHealth');
+		if ( stats.HasAbility('ESWeakenDamage') ) stats.RemoveAbility('ESWeakenDamage');
+	}
+	private function resetLSchanges()
+	{
+		if(firstcheck)
+		{
+			currentLevel = defaultLevelES;
+			levelBonusesComputedAtPlayerLevel = -1;
+			disableES = true;
+			AddTimer('AddLevelBonuses', RandRangeF(0.05,0.2), true, false, , true);
+		}
+	}
+	private function resetModeffects()
+	{
+		displayFakeLevel = false;
+	}
+	timer function AoEForceScaleRemoval( td : float , id : int)
+	{
+		var enemies : array<CActor>;
+		var enemiesSize : Int32;
+		var count : int;
+		var npc : CNewNPC;
+		//Very laggy if area is set large
+		enemies = GetActorsInRange(thePlayer, 13,/*nothing*/,/*nothing*/,/*nothing*/);
+		enemiesSize=enemies.Size();
+		RemoveTimer( 'AoEForceScaleRemoval' );
+		for(count=0; count<enemiesSize;count+=1)
+			{
+				npc = (CNewNPC)enemies[count];
+				npc.resetLSchanges();
+				npc.resetESchanges();
+				npc.resetModeffects();
+			}
+	}
+	//These functions check mod options/enemy types
+	public function isRealBoss() : bool
+	{
+		var stats				: CCharacterStats;
+		stats = GetCharacterStats();
+		if ( stats.HasAbilityWithTag('Boss'))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public function ESCheck() : bool
+	{
+		var	ESenabled : bool;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		ESenabled = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESEnabled');
+		if(ESenabled)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public function SmoothCheck() : bool
+	{
+		var	SSenabled : bool;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		SSenabled = inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSEnabled');
+		if(SSenabled)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	private function XPScalingFix() : int
+	{
+		var	EXPmod : int;
+		EXPmod = 0;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		EXPmod = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESToggleEXPmod'));
+		return EXPmod;
+	}
+	//These functions deal with enemy damage/health
+	//Returns the amount of damage they will break through Geralt's bonus damage resistance
+	public function PercentTrueDamage() : float
+	{
+		if(TrueDamage < 0)
+			TrueDamage = 0;
+		switch ( theGame.GetSpawnDifficultyMode() )
+		{
+		case EDM_Easy:
+			return TrueDamage + .250;
+			break;
+		case EDM_Medium:
+			return TrueDamage + .175;
+			break;
+		case EDM_Hard:
+			return TrueDamage + .125;
+			break;
+		case EDM_Hardcore:
+			break;
+		}
+		return TrueDamage;
+	}
+	//This function shreds Geralt's bonus damage resistance as a fight continues
+	public function punishDamage()
+	{
+		if(TrueDamage < 0)
+			TrueDamage = 0;
+		switch ( theGame.GetSpawnDifficultyMode() )
+		{
+		case EDM_Easy:
+			TrueDamage += .0050;
+			break;
+		case EDM_Medium:
+			TrueDamage += .0060;
+			break;
+		case EDM_Hard:
+			TrueDamage += .0075;
+			break;
+		case EDM_Hardcore:
+			TrueDamage += .0090;
+			break;
+		}
+	}
+	//Next two functions return to damage manager for calculations
+	public function NPCModDamage() : float
+	{
+		return ModDamage;
+	}
+	public function NPCModHealth() : float
+	{
+		return ModHealth;
+	}
+	//This function grants enemies a bonus to their stats to help them scale correctly (Will only work on enemies level 3 or higher)
+	public function isforcedFistfightdamage() : bool
+	{
+		return forceFistfightdamage;
+	}
+	public function fistfightBaseDamage() : float
+	{
+		ModDamage = 1 + (ESLevel * .0375);
+		switch ( theGame.GetSpawnDifficultyMode() )
+		{
+		case EDM_Easy:
+			return 250.0;
+			break;
+		case EDM_Medium:
+			return 300.0;
+			break;
+		case EDM_Hard:
+			return 400.0;
+			break;
+		case EDM_Hardcore:
+			return 500.0;
+			break;
+		}
+		
+	}
+//Enemy Scale
 }
 
 exec function IsFireSource( tag : name )
@@ -4735,4 +5529,3 @@ exec function IsFireSource( tag : name )
 	
 	LogChannel('SD', "" + npc.IsAtWorkDependentOnFireSource() );
 }	
-

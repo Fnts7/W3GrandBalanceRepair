@@ -22,7 +22,7 @@ class W3DamageManagerProcessor extends CObject
 	private var attackerMonsterCategory		: EMonsterCategory;
 	private var victimMonsterCategory		: EMonsterCategory;
 	private var victimCanBeHitByFists		: bool;
-	
+	private var inGameConfigWrapper_ES 		: CInGameConfigWrapper; 	//Enemy Scale
 	
 	public function ProcessAction(act : W3DamageAction)
 	{
@@ -289,10 +289,15 @@ class W3DamageManagerProcessor extends CObject
 		var witcher : W3PlayerWitcher;
 		var canLog : bool;
 		var immortalityChannels : array<EActorImmortalityChanel>;
-		
+		var NPC	: CNewNPC;   			// Enemy Scale
+		var moddmg : float;  			// cont
+		var ESarmorReduction : float ; 	// cont
+		var isDMGenabled : bool;		// cont
+		var ESenabled : bool;			// cont
 		canLog = theGame.CanLog();
-		
-		
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();						// Enemy Scale
+		isDMGenabled = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESDamNormal'); // Enemy Scale
+		ESenabled = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESEnabled'); 		// Enemy Scale
 		action.SetAllProcessedDamageAs(0);
 		size = action.GetDTs( dmgInfos );
 		action.SetDealtFireDamage(false);		
@@ -357,7 +362,6 @@ class W3DamageManagerProcessor extends CObject
 				continue;
 			}
 			
-			
 			if(dmgInfos[i].dmgType == theGame.params.DAMAGE_NAME_POISON && witcher == actorVictim && witcher.HasBuff(EET_GoldenOriole) && witcher.GetPotionBuffLevel(EET_GoldenOriole) == 3)
 			{
 				
@@ -390,14 +394,86 @@ class W3DamageManagerProcessor extends CObject
 				
 			
 			dmgValue = MaxF(0, CalculateDamage(dmgInfos[i], powerMod));
-		
-			
+			//Enemy Scale
+			//DoT damage buff/nerf
+			if(action.IsDoTDamage() && playerVictim)
+			{
+				if(dmgValue > 6 || dmgValue < 1)
+					dmgValue = playerVictim.GetStatMax(BCS_Vitality)*0.0005;
+			}
+			//NPC Bonus damage modifier
+			if(playerAttacker)
+			{
+				NPC = (CNewNPC) actorVictim;
+				dmgValue *= NPC.NPCModHealth();
+			}
+			if(playerVictim && !isDMGenabled && ESenabled)
+			{
+				NPC = (CNewNPC) actorAttacker;
+				dmgValue *= NPC.NPCModDamage();
+			}
+			//Enemy Scale
 			if( DamageHitsEssence(  dmgInfos[i].dmgType ) )		action.processedDmg.essenceDamage  += dmgValue;
 			if( DamageHitsVitality( dmgInfos[i].dmgType ) )		action.processedDmg.vitalityDamage += dmgValue;
 			if( DamageHitsMorale(   dmgInfos[i].dmgType ) )		action.processedDmg.moraleDamage   += dmgValue;
 			if( DamageHitsStamina(  dmgInfos[i].dmgType ) )		action.processedDmg.staminaDamage  += dmgValue;
 		}
-		
+		// Enemy Scale
+		//FistFights
+		NPC = (CNewNPC) actorAttacker;
+		if(isDMGenabled)
+		{
+			if((playerVictim && witcher.IsInFistFight() && !action.IsDoTDamage()) || NPC.isforcedFistfightdamage())
+			{
+				if((playerVictim.GetStatMax(BCS_Vitality)/11) < action.processedDmg.vitalityDamage)
+					{
+						moddmg = (1-(NPC.PercentTrueDamage()));
+						if(moddmg < 0) {moddmg = 0;}
+						moddmg *= 40;
+						action.processedDmg.vitalityDamage = (playerVictim.GetStatMax(BCS_Vitality)/11) + (action.processedDmg.vitalityDamage / (20+moddmg));
+						if(action.processedDmg.vitalityDamage < NPC.fistfightBaseDamage())
+						{
+							action.processedDmg.vitalityDamage = NPC.fistfightBaseDamage();
+						}
+						//theGame.GetGuiManager().ShowNotification(FloatToString(moddmg+20.0) + "  |||  " + FloatToString(NPC.PercentTrueDamage()) + " ||| " + FloatToString(NPC.NPCModDamage()) + " ||| " + FloatToString(NPC.NPCModHealth()));
+						action.processedDmg.vitalityDamage += (action.processedDmg.vitalityDamage * RandRange(0,30) / 100);
+						action.processedDmg.vitalityDamage *= NPC.NPCModDamage();
+						NPC.punishDamage();
+						NPC.punishDamage();
+					}
+			
+			}
+			if(playerAttacker && witcher.IsInFistFight() && !action.IsDoTDamage()) //Buffs Geralt so that his attacks against enemies with much higher health have impact.
+			{
+				if(action.processedDmg.vitalityDamage < (actorVictim.GetStatMax(BCS_Vitality)/10.0f))
+				{
+					action.processedDmg.vitalityDamage += (actorVictim.GetStatMax(BCS_Vitality)/20.0f);
+					if(playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
+						action.processedDmg.vitalityDamage *= 1.833;
+					if(action.IsCriticalHit())
+						action.processedDmg.vitalityDamage *= 2;
+				}
+			}
+			//Damage Reduction
+			//Reduce Damage base on max health. Higher health = less damage reduction bonus. Negates instant death hits. Min of 1% of max health damage
+			if(playerVictim && !witcher.IsInFistFight() && !action.IsDoTDamage())
+			{
+				//Calculations
+				action.processedDmg.vitalityDamage *= NPC.NPCModDamage();
+				moddmg = (action.processedDmg.vitalityDamage/(action.processedDmg.vitalityDamage+((float)playerVictim.GetStatMax(BCS_Vitality)*1.1)));
+				moddmg *= (1 - NPC.PercentTrueDamage());
+				ESarmorReduction = CalculateAttributeValue(playerVictim.GetTotalArmor()) * 2.3 * moddmg;
+				moddmg = 1-moddmg;
+				//theGame.GetGuiManager().ShowNotification(FloatToString(moddmg) + "% DamgReduc|||TrueDamagePerc:" + FloatToString(NPC.PercentTrueDamage()) + " |||ARMOR:" + FloatToString(ESarmorReduction) + " |||MODDAMAGE:" + FloatToString(NPC.NPCModDamage()));
+				if(moddmg < 0) {moddmg = 1;}
+				//Apply Damage
+				action.processedDmg.vitalityDamage = (action.processedDmg.vitalityDamage*moddmg) - ESarmorReduction;
+				if(action.processedDmg.vitalityDamage < (playerVictim.GetStatMax(BCS_Vitality)/100))
+					action.processedDmg.vitalityDamage +=(playerVictim.GetStatMax(BCS_Vitality)/100);
+				NPC.punishDamage();
+			}
+		}
+		// Enemy Scale
 		if(size == 0 && canLog)
 		{
 			LogDMHits("*** There is no incoming damage set (probably only buffs).", action);
@@ -438,8 +514,13 @@ class W3DamageManagerProcessor extends CObject
 				action.processedDmg.essenceDamage  += MinF(dmgInfos[directDmgIndex].dmgVal, actorVictim.GetStat(BCS_Essence)-1 );
 			}
 		}
-		
-		
+	
+		/*if(playerVictim) //If this is active Geralt can not die
+		{
+			if(playerVictim.GetStat(BCS_Vitality) < action.processedDmg.vitalityDamage)
+				action.processedDmg.vitalityDamage = 0;
+		}*/
+
 		if( actorVictim.HasAbility( 'OneShotImmune' ) )
 		{
 			if( action.processedDmg.vitalityDamage >= actorVictim.GetStatMax( BCS_Vitality ) )
