@@ -7,7 +7,7 @@
 				<!--Preset-->
 				<!--TOGGLES-->
 				<Entry varId="ESEnabled"					value="True"	/>
-				<Entry varId="ESDamNormal"					value="True"	/>
+				<Entry varId="ESDamNormal"					value="false"	/>
 				<Entry varId="ESToggleEXPmod"				value="1"		/>
 				<Entry varId="ESNormal"						value="True"	/>
 				<Entry varId="ESMBoss"						value="True"	/>

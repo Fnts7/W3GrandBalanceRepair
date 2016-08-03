@@ -289,6 +289,7 @@ class W3DamageManagerProcessor extends CObject
 		var witcher : W3PlayerWitcher;
 		var canLog : bool;
 		var immortalityChannels : array<EActorImmortalityChanel>;
+		var boltCauser : W3BoltProjectile;
 		var NPC	: CNewNPC;   			// Enemy Scale
 		var isDMGenabled : bool;		// cont
 		var ESenabled : bool;			// cont

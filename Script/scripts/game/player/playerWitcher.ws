@@ -67,8 +67,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 		default explorationInputContext = 'Exploration';
 		default combatInputContext = 'Combat';
 		default combatFistsInputContext = 'Combat';
-		
-	
+
+	public var axiiMods : AxiiMods;
+
 	private saved var companionNPCTag		: name;
 	private saved var companionNPCTag2		: name;
 	
@@ -218,6 +219,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 			CheckHairItem();
 		}
 		
+		axiiMods = new AxiiModsEnemyScale in this;
 		
 		AddStartingSchematics();
 
