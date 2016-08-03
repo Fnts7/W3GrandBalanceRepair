@@ -13,11 +13,13 @@
 #
 
 # SCRIPT FILES BEGIN
-scriptFile[0]=""
+scriptFile[0]="/game/actor.ws"
+scriptFile[1]="/game/npc/npc.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
-assetFile[0]=""
+assetFile[0]="/gameplay/abilities/monster_base_abl_new.xml"
+assetFile[1]="/gameplay/abilities_plus/monster_base_abl_new.xml"
 # ASSET FILES END
 
 set -e
@@ -28,7 +30,7 @@ then
 	exit
 fi
 
-modContentPath=$1"/Packed/[modReadyFolder]/content"
+modContentPath=$1"/Packed/modGBREnemyScaling/content"
 
 inXMLPath="Uncooked"
 inScriptPath="Script/scripts"

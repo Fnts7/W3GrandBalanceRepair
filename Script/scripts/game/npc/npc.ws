@@ -24,7 +24,7 @@ statemachine import class CNewNPC extends CActor
 {
 	
 	
-	
+	var testmod : bool; default testmod = true;
 	editable var isImmortal 		: bool;				
 	editable var isInvulnerable 	: bool;				
 	editable var willBeUnconscious 	: bool;				
@@ -48,8 +48,10 @@ statemachine import class CNewNPC extends CActor
 	
 	editable var useSoundValue		: bool;						default useSoundValue = false;
 	editable var soundValue			: int;	
-	
-	
+	private var inGameConfigWrapper_ES : CInGameConfigWrapper; 								//Enemy Scaling ES_0
+	private var defaultLevelES		: int;						default defaultLevelES = 0; // Cont
+	private var firstcheck			: bool;						default firstcheck = false; // Cont
+	var disableES			: bool;								default disableES = false;  // Cont
 	editable var clearInvOnDeath			: bool;	
 	default clearInvOnDeath = false;
 	
@@ -598,7 +600,8 @@ statemachine import class CNewNPC extends CActor
 					}
 				}
 			}	
-		}		
+		}
+		//AddTimer('AddLevelBonuses', RandRangeF(0.05,0.2), true, false, , true);			//Enemy Scaling ES_1
 	}
 	
 	protected function SetAbilityManager()
@@ -1106,6 +1109,7 @@ statemachine import class CNewNPC extends CActor
 	
 	timer function AddLevelBonuses (dt : float, id : int)
 	{
+		var nameES				: string;
 		var ciriEntity  		: W3ReplacerCiri;
 		var ignoreLowLevelCheck : bool;
 		var lvlDiff 			: int;
@@ -1115,6 +1119,15 @@ statemachine import class CNewNPC extends CActor
 		var playerLevel			: int;
 		var stats				: CCharacterStats;
 		var npcGroupType		: ENPCGroupType;
+		//Enemy Scaling ES_2
+		var selection			: int;
+		var correction			: int;
+		var XMLLvL				: int;
+		var ESmod				: bool;
+	
+		ESmod = ESCheck();
+		selection = 0;
+		//Enemy Scaling
 		
 		RemoveTimer( 'AddLevelBonuses' );
 		
@@ -1131,7 +1144,29 @@ statemachine import class CNewNPC extends CActor
 		levelBonusesComputedAtPlayerLevel = playerLevel;
 		
 		ciriEntity = (W3ReplacerCiri)thePlayer;
-		npcLevel = currentLevel;
+		//Enemy Scaling ES_3
+		if(ESmod)
+		{
+			XMLLvL = (int)xmlLevel.valueAdditive;
+			if(defaultLevelES==0 && !firstcheck){defaultLevelES = currentLevel; firstcheck = true;}
+			scaleMobES();
+			correction = currentLevel - XMLLvL;
+			if(correction<=0)
+				{	
+					correction=1; 
+				}
+			npcLevel = correction;
+		}
+		else
+		{
+			defaultLevelES = currentLevel;
+			npcLevel = currentLevel;
+		}
+		//Enemy Scaling
+		if(isRealBoss())
+		{
+			ESEBadd(0);
+		}
 		npcGroupType = GetNPCType();
 		ignoreLowLevelCheck = thePlayer.GetEnemyUpscaling() && ( npcGroupType == ENGT_Enemy || npcGroupType == ENGT_Quest );
 		
@@ -1148,30 +1183,55 @@ statemachine import class CNewNPC extends CActor
 				return ;
 			}
 		}
-		
-		if ( stats.HasAbility( 'NPCDoNotGainBoost' ) ) return;
-		
-		
-		
+		//Enemy Scaling ES_4
+		if(ESmod)
+		{
+			if ( stats.HasAbility( 'NPCDoNotGainBoost' ) && isRealBoss()) return;
+		}
+		else
+		{
+			if ( stats.HasAbility( 'NPCDoNotGainBoost' )) return;
+		}
 		
 		if ( !ciriEntity && thePlayer.GetEnemyUpscaling() && npcLevel + levelFakeAddon < playerLevel && !fistFightForcedFromQuest )
 		{
 			
-			npcLevelToUpscaledLevelDifference = playerLevel - npcLevel;
-			if ( xmlLevel.valueAdditive != npcLevel )
+			if(ESmod)
 			{
-				npcLevel = playerLevel - (int)xmlLevel.valueAdditive + 1 - levelFakeAddon;
+				npcLevelToUpscaledLevelDifference = npcLevel;
 			}
 			else
 			{
-				npcLevel = playerLevel - levelFakeAddon;
+				npcLevelToUpscaledLevelDifference = playerLevel - npcLevel;
+			}
+			if ( xmlLevel.valueAdditive != npcLevel )
+			{
+				if(!ESmod)
+				{
+					npcLevel = playerLevel - (int)xmlLevel.valueAdditive + 1 - levelFakeAddon;
+				}
+			}
+			else
+			{
+				if(!ESmod)
+				{
+					npcLevel = playerLevel - levelFakeAddon;
+				}
 			}
 		}
 		else
 		{
-			npcLevelToUpscaledLevelDifference = 0;
+			if(ESmod)
+			{
+				npcLevelToUpscaledLevelDifference = currentLevel - playerLevel;
+			}
+			else
+			{
+					npcLevelToUpscaledLevelDifference = 0;
+			}
+			
 		}
-		
+		//Enemy Scaling
 		if ( stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_DEADLY); else
 		if ( stats.HasAbility(theGame.params.ENEMY_BONUS_HIGH) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_HIGH); else
 		if ( stats.HasAbility(theGame.params.ENEMY_BONUS_LOW) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_LOW); else
@@ -1183,14 +1243,16 @@ statemachine import class CNewNPC extends CActor
 		stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP);
 		stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED );
 		stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL);
-		
+		//Enemy Scaling ES_5
+		if(!ESmod){npcLevel = npcLevel-1;} //This is to reduce comments from Enemy Scaling changes. Removed -1 from all npcLevel as it is already calculated
+		//Enemy Scaling
 		if ( IsHuman() && GetStat( BCS_Essence, true ) < 0 )
 		{
 			if ( npcGroupType != ENGT_Guard )
 			{
 				if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL) )
 				{
-					stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, npcLevel-1);
+					stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, npcLevel);
 				}
 		    }
 			else
@@ -1212,7 +1274,17 @@ statemachine import class CNewNPC extends CActor
 		    
 			if ( !ciriEntity ) 
 			{
-				lvlDiff = (int)CalculateAttributeValue( GetAttributeValue( 'level',,true ) ) - playerLevel;
+				//Enemy Scaling ES_6
+				if(ESmod)
+				{
+						lvlDiff = currentLevel - playerLevel;
+				}
+				else
+				{
+						lvlDiff = (int)CalculateAttributeValue(GetAttributeValue('level',,true)) - playerLevel;
+				}
+				selection = 1;
+				//Enemy Scaling
 				if ( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY ) { if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) )
 				{
 					stats.AddAbility(theGame.params.ENEMY_BONUS_DEADLY, true); AddBuffImmunity(EET_Blindness, 'DeadlyEnemy', true);
@@ -1243,13 +1315,23 @@ statemachine import class CNewNPC extends CActor
 			{
 				if ( !ciriEntity ) 
 				{
-					lvlDiff = (int)CalculateAttributeValue( GetAttributeValue( 'level',,true ) ) - playerLevel;
+					//Enemy Scaling ES_7
+					if(ESmod)
+					{
+						lvlDiff = currentLevel - playerLevel;
+					}
+					else
+					{
+						lvlDiff = (int)CalculateAttributeValue(GetAttributeValue('level',,true)) - playerLevel;
+					}
+					selection = 1;
+					//Enemy Scaling
 					if 		( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY ) { if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) ) { stats.AddAbility(theGame.params.ENEMY_BONUS_DEADLY, true); AddBuffImmunity(EET_Blindness, 'DeadlyEnemy', true); AddBuffImmunity(EET_WraithBlindness, 'DeadlyEnemy', true); } }	
 					else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )  { if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_HIGH) ) stats.AddAbility(theGame.params.ENEMY_BONUS_HIGH, true);}
 					else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )  { }
 					else 					  { if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_LOW) ) stats.AddAbility(theGame.params.ENEMY_BONUS_LOW, true); }
 					
-					if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL) ) stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, npcLevel-1);
+					if ( !stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL) ) stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, npcLevel);
 				}
 			}
 			else
@@ -1265,22 +1347,22 @@ statemachine import class CNewNPC extends CActor
 					{
 						if ( GetIsMonsterTypeGroup() )
 						{
-							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED, npcLevel-1);
+							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED, npcLevel);
 						}
 						else
 						{
-							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED, npcLevel-1);
+							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED, npcLevel);
 						}
 					}
 					else
 					{
 						if ( GetIsMonsterTypeGroup() )
 						{
-							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP, npcLevel-1);
+							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP, npcLevel);
 						}
 						else
 						{
-							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL, npcLevel-1);
+							stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL, npcLevel);
 						}
 					}
 				}
@@ -1289,7 +1371,17 @@ statemachine import class CNewNPC extends CActor
 					
 				if ( !ciriEntity ) 
 				{
-					lvlDiff = (int)CalculateAttributeValue(GetAttributeValue('level',,true)) - playerLevel;
+					//Enemy Scaling ES_8
+					if(ESmod)
+					{
+						lvlDiff = currentLevel - playerLevel;
+					}
+					else
+					{
+						lvlDiff = (int)CalculateAttributeValue(GetAttributeValue('level',,true)) - playerLevel;
+					}
+					//Enemy Scaling
+					selection = 2;
 					if 		( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY ) { if ( !stats.HasAbility(theGame.params.MONSTER_BONUS_DEADLY) ) { stats.AddAbility(theGame.params.MONSTER_BONUS_DEADLY, true); AddBuffImmunity(EET_Blindness, 'DeadlyEnemy', true); AddBuffImmunity(EET_WraithBlindness, 'DeadlyEnemy', true); } }	
 					else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )  { if ( !stats.HasAbility(theGame.params.MONSTER_BONUS_HIGH) ) stats.AddAbility(theGame.params.MONSTER_BONUS_HIGH, true); }
 					else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )  { }
@@ -1298,7 +1390,13 @@ statemachine import class CNewNPC extends CActor
 			}	 
 			
 		}
-		
+		ESEBadd(selection);
+		//Enemy Scaling ES_9
+		//This is debugging purposes and future mod features
+		//MSActivate();
+		//nameES = GetSfxTag();
+		//theGame.GetGuiManager().ShowNotification(nameES + " // " +FloatToString(GetStat(BCS_Vitality, true))+"  |  "+FloatToString(GetStat(BCS_Essence, true))+ " XMLLvL=" + IntToString((int)xmlLevel.valueAdditive ) + " level=" +IntToString(level)+ " correction=" +IntToString(correction)+ " CL=" +IntToString(currentLevel)+ " LVLDIF=" +IntToString(lvlDiff) + "AP: " +FloatToString(CalculateAttributeValue(GetPowerStatValue(CPS_AttackPower, , true))) + " selection=" + IntToString(selection) + " REDUCEDPOWER: " + IntToString(GetAbilityCount('ESCustomReducePWR')) + " NPCLEVELBONUS: " + IntToString(GetAbilityCount('NPCLevelBonus')) + " MonsterLevelBonusArmored: " + IntToString(GetAbilityCount('MonsterLevelBonusArmored'))+ " MonsterLevelBonusGroupArmored: " + IntToString(GetAbilityCount('MonsterLevelBonusGroupArmored'))+ " MonsterLevelBonusGroup: " + IntToString(GetAbilityCount('MonsterLevelBonusGroup'))+ " MonsterLevelBonus: " + IntToString(GetAbilityCount('MonsterLevelBonus')));
+		//Enemy Scaling
 	}
 	
 	public function SetParentEncounter( encounter : CEncounter )
@@ -1390,7 +1488,7 @@ statemachine import class CNewNPC extends CActor
 	event OnStartFistfightMinigame()
 	{
 		super.OnStartFistfightMinigame();
-		
+		AddTimer('AoEForceScaleRemoval', RandRangeF(.1,.2), true, false, , true); //Enemy Scale
 		thePlayer.ProcessLockTarget( this );
 		SignalGameplayEventParamInt('ChangePreferedCombatStyle',(int)EBG_Combat_Fists );
 		SetTemporaryAttitudeGroup( 'fistfight_opponent', AGP_Fistfight );
@@ -1424,6 +1522,8 @@ statemachine import class CNewNPC extends CActor
 		
 	private function FistFightHealthSetup()
 	{
+		var stats				: CCharacterStats;
+		stats = GetCharacterStats();
 		
 		if ( HasAbility( 'fistfight_minigame' ) )
 		{
@@ -1949,6 +2049,8 @@ statemachine import class CNewNPC extends CActor
 		var lvlDiff : int;
 		var currentLevel : int;
 		var ciriEntity  : W3ReplacerCiri;
+		var SSmod : bool;
+		SSmod = SmoothCheck();
 		
 		currentLevel = GetLevel() + levelFakeAddon;
 		
@@ -1974,29 +2076,76 @@ statemachine import class CNewNPC extends CActor
 			strLevel = "<font color=\"#66FF66\">" + currentLevel + "</font>"; 
 			return "normalLevel";
 		}
-
-		
-		 if ( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY )
+		if(!SSmod)
 		{
-			strLevel = "";
-			return "deadlyLevel";
-		}	
-		else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )
-		{
-			strLevel = "<font color=\"#FF1919\">" + currentLevel + "</font>"; 
-			return "highLevel";
-		}
-		else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )
-		{
-			strLevel = "<font color=\"#66FF66\">" + currentLevel + "</font>"; 
-			return "normalLevel";
+			if ( lvlDiff >= theGame.params.LEVEL_DIFF_DEADLY )
+			{
+				strLevel = "";
+				return "deadlyLevel";
+			}	
+			else if ( lvlDiff >= theGame.params.LEVEL_DIFF_HIGH )
+			{
+				strLevel = "<font color=\"#FF1919\">" + currentLevel + "</font>"; 
+				return "highLevel";
+			}
+			else if ( lvlDiff > -theGame.params.LEVEL_DIFF_HIGH )
+			{
+				strLevel = "<font color=\"#66FF66\">" + currentLevel + "</font>"; 
+				return "normalLevel";
+			}
+			else
+			{
+				strLevel = "<font color=\"#E6E6E6\">" + currentLevel + "</font>"; 
+				return "lowLevel";
+			}
+			return "none";
 		}
 		else
 		{
-			strLevel = "<font color=\"#E6E6E6\">" + currentLevel + "</font>"; 
-			return "lowLevel";
+			if ( lvlDiff >= 10 )
+			{
+				//strLevel = "";
+				strLevel = "<font color=\"#e60000\">" + currentLevel + "</font>"; 
+				return "normalLevel";
+			}	
+			else if ( lvlDiff >= 7 )
+			{
+				strLevel = "<font color=\"#e65c00\">" + currentLevel + "</font>"; 
+				return "normalLevel";
+			}
+			else if ( lvlDiff >= 4 )
+			{
+				strLevel = "<font color=\"#e67300\">" + currentLevel + "</font>"; 
+				return "normalLevel";
+			}			
+			else if ( lvlDiff >= 1 )
+			{
+				strLevel = "<font color=\"#e6b800\">" + currentLevel + "</font>"; 
+				return "normalLevel";
+			}
+			else if ( lvlDiff == 0 )
+			{
+				strLevel = "<font color=\"#e6e600\">" + currentLevel + "</font>"; 
+				return "normalLevel";
+			}
+			else if ( lvlDiff >= -2 )
+			{
+				strLevel = "<font color=\"#ace600\">" + currentLevel + "</font>"; 
+				return "normalLevel";
+			}
+			else if ( lvlDiff >= -4 )
+			{
+				strLevel = "<font color=\"#39e600\">" + currentLevel + "</font>"; 
+				return "normalLevel";
+			}
+			else
+			{
+				//strLevel = "<font color=\"#E6E6E6\">" + currentLevel + "</font>"; 
+				strLevel = "<font color=\"#E6E6E6\">" + currentLevel + "</font>"; 
+				return "lowLevel";
+			}
+			return "none";
 		}
-		return "none";
 	}
 	
 	
@@ -2474,9 +2623,19 @@ statemachine import class CNewNPC extends CActor
 				else
 				{
 					bonusExp = thePlayer.GetAttributeValue('human_exp_bonus_when_fatal');
-				}				
-				
-				expPoints = RoundMath( expPoints * (1 + CalculateAttributeValue(bonusExp)) );
+				}		
+				// Enemy Scaling ES_10
+				// ExpFix from modESGO by Reaperrz				
+				if (XPScalingFix()) 
+				{
+				expPoints = RoundMath( expPoints * (1 + CalculateAttributeValue(bonusExp) ) * XPScalingModifier());
+				}
+				else
+				{
+				expPoints = RoundMath(expPoints * (1 + CalculateAttributeValue(bonusExp) ));	
+				}
+			    // ExpFix from modESGO by Reaperrz
+				// Enemy Scaling
 				
 				witcher.AddPoints(EExperiencePoint, RoundF( expPoints * theGame.expGlobalMod_kills ), false );
 			}			
@@ -4725,6 +4884,855 @@ statemachine import class CNewNPC extends CActor
 	{
 		PlayEffectSingle( 'appear' );
 	}
+	// Enemy Scaling ES_11
+    // ExpFix from modESGO by Reaperrz
+	public function XPScalingFix() : bool
+	{
+		return true; // true or false to on/off low exp from killing monsters
+	}
+	
+	public function XPScalingModifier() : float
+	{
+		var currlvl : int;
+		var mod, scalingvalue, scalingmod : float;
+		currlvl = thePlayer.GetLevel();
+		
+		scalingvalue = 0.018;
+		scalingmod = 0.7; // 70% now! try chenge value from 0.0(0)1 to 1.0 макс for EXp from killing Monsters!
+		
+		mod = 1.0 - (currlvl * scalingvalue);
+		mod = mod*scalingmod;
+		
+		return mod;
+	}
+    // ExpFix from modESGO by Reaperrz
+	// Enemy Scaling Functions
+	private function setLevelESNPC(pLevel : int, mLevel : int) 
+	{
+		var scaleNormal : bool;
+		var scaleMBoss : bool;
+		var scaleWeakOnly: bool;
+		var scaleRange : bool;
+		var scaleRangeMB : bool;
+		var randomalways : bool;
+		var ignoreHumans : bool;			//Temp fix request from user
+		var ignoreAnimals : bool;			// ========================
+		var levelBonus : int;
+		var minLevelBonus : int;
+		var levelBonusMBoss : int;
+		var minLevelBonusMBoss : int;
+		var	rangeNum : int;
+		var stats	: CCharacterStats;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		stats = GetCharacterStats();
+		ignoreHumans = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESLHumans'); //Temp
+		ignoreAnimals = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESLHumans'); //Temp
+		//Check to continue
+		if((!ESCheck()) || disableES)
+		{
+			return;
+		}
+		if(isRealBoss())
+		{
+			return;
+		}
+		if(( GetSfxTag() == 'sfx_rat' )) //Hah get recked rats 
+		{
+			currentLevel = 1;
+			return;
+		}
+		if(( GetSfxTag() == 'None' ) && ( GetStat( BCS_Vitality, true ) > 0 ) && currentLevel <=2 && !IsHuman()) //Any animal under level 3 is not scaled
+		{
+			return;
+		}
+		if(IsHuman() && ignoreHumans)
+		{
+			return;
+		}
+		if(!IsHuman() && ( GetStat( BCS_Vitality, true ) > 0 && ignoreAnimals))
+		{
+			return;
+		}
+		if((GetSfxTag() == 'sfx_wild_dog'))
+		{
+			return;
+		}
+		// Set Levels
+		mLevel = currentLevel;
+		rangeNum = mLevel - pLevel;
+		scaleWeakOnly = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESWEnemy');
+		randomalways = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESRangeAlways');
+		if((scaleWeakOnly) && mLevel >= pLevel)
+		{
+			if(randomalways)
+			{
+				currentLevel = mLevel + RandRange(1,-1); //Level Variant
+			}
+		}
+		else
+		{
+			scaleMBoss = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESMBoss');
+			if (isMiniBossLevel && scaleMBoss)
+			{	
+				scaleRangeMB = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESMBRange');
+				levelBonusMBoss = StringToInt (inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESMBMax'));
+				if(scaleRangeMB)
+				{
+					minLevelBonusMBoss = StringToInt (inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESMBMin'));
+					if(rangeNum < minLevelBonusMBoss || rangeNum > levelBonusMBoss || randomalways)
+					{
+						if(minLevelBonusMBoss <= levelBonusMBoss)
+						{
+							currentLevel = (pLevel + RandRange(levelBonusMBoss, minLevelBonusMBoss));
+							levelBonusesComputedAtPlayerLevel = -1;
+						}
+						else if(minLevelBonusMBoss > levelBonusMBoss)
+						{
+							currentLevel = (pLevel + minLevelBonusMBoss);
+							levelBonusesComputedAtPlayerLevel = -1;
+						} 
+						else
+						{
+							currentLevel = pLevel; //just in case
+							levelBonusesComputedAtPlayerLevel = -1;
+						}
+					}
+	
+				} 
+				else
+				{
+					if(rangeNum != levelBonusMBoss)
+					{
+						currentLevel = (pLevel + levelBonusMBoss);
+						levelBonusesComputedAtPlayerLevel = -1;
+					}
+				}						
+			}
+			else
+			{
+				scaleNormal = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESNormal');
+				if(scaleNormal)
+				{
+					scaleRange = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESRange');
+					levelBonus = StringToInt (inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESEMax'));
+					if(scaleRange)
+					{
+						minLevelBonus = StringToInt (inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESEMin'));
+						if(rangeNum < minLevelBonus || rangeNum > levelBonus || randomalways)
+						{
+							if(minLevelBonus <= levelBonus)
+							{
+								currentLevel = (pLevel + RandRange(levelBonus, minLevelBonus));
+								levelBonusesComputedAtPlayerLevel = -1;
+							}
+							else if(minLevelBonus > levelBonus)
+							{
+								currentLevel = (pLevel + minLevelBonus);
+								levelBonusesComputedAtPlayerLevel = -1;
+							} 
+							else
+							{
+								currentLevel = pLevel; //just in case
+								levelBonusesComputedAtPlayerLevel = -1;
+							}
+						}
+	
+					} 
+					else
+					{
+						if(rangeNum != levelBonus)
+						{
+							currentLevel = (pLevel + levelBonus);
+							levelBonusesComputedAtPlayerLevel = -1;
+						}
+					}							
+				}
+			}
+			if(currentLevel <= 0)
+			{
+				currentLevel = 1;
+				levelBonusesComputedAtPlayerLevel = -1;
+			}
+		}
+	}		
+	public function scaleMobES()
+	{
+		setLevelESNPC(thePlayer.GetLevel(), level);
+	}
+	public final function isRealBoss() : bool
+	{
+		var stats				: CCharacterStats;
+		stats = GetCharacterStats();
+		if ( stats.HasAbilityWithTag('Boss'))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public function ESCheck() : bool
+	{
+		var	ESenabled : bool;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		ESenabled = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESEnabled');
+		if(ESenabled)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public function SmoothCheck() : bool
+	{
+		var	SSenabled : bool;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		SSenabled = inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSEnabled');
+		if(SSenabled)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	/*public function MSCheck() : bool
+	{
+		var	MSEnabled : bool;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		MSEnabled = inGameConfigWrapper_ES.GetVarValue('MonsterScaleOptions', 'MSEnabled');
+		if(MSEnabled)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}*/
+	private function ESEBadd(selection : int)
+	{
+		var SSHealthRPL, SSDamageRPL, SSHealthGPL, SSDamageGPL : int;
+		var bonushp				: int;
+		var bonusap				: int;
+		var lvlDiff				: int;
+		var playerLevel 		: int;
+		var attackStrength		: float;
+		var optcheck			: bool;
+		var SSmod				: bool;
+		var stats				: CCharacterStats;
+
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+
+		playerLevel = thePlayer.GetLevel();
+		SSmod = SmoothCheck();
+		optcheck = false;
+		bonushp = 0; bonusap = 0;
+		stats = GetCharacterStats();
+		
+		resetESchanges();
+		if(isRealBoss())
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusBoss', 'EBBoss');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusBoss', 'EBBOSShp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusBoss', 'EBBOSSap'));
+				bonushp = bonushp + (bonushp/3); //+33%
+			}
+		}
+		else if(isMiniBossLevel)
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusMiniboss', 'EBMiniboss');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusMiniboss', 'EBMINIBOSShp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusMiniboss', 'EBMINIBOSSap'));
+				bonushp = bonushp + (bonushp/5); //+20%
+			}
+		}
+		else if( GetStat( BCS_Vitality, true ) > 0 && !IsHuman())
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusBeast', 'EBBeast');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusBeast', 'EBBeasthp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusBeast', 'EBBeastap'));
+				bonushp = bonushp + (bonushp/5); //+20%
+			}
+		}
+		else if( GetStat( BCS_Vitality, true ) > 0 && IsHuman())
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusHumans', 'EBHumans');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusHumans', 'EBHumanshp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusHumans', 'EBHumansap'));
+				bonushp = bonushp + (bonushp/5); //+20%
+			}
+		}
+		else
+		{
+			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusNormalEnemies', 'EBNormal');
+			if(optcheck)
+			{
+				bonushp = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusNormalEnemies', 'EBNORMALhp'));
+				bonusap = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyBonusNormalEnemies', 'EBNORMALap'));
+				bonushp = bonushp + (bonushp/5); //+20%
+			}
+		}
+		bonusap = bonusap + (bonusap/4); //+25%
+		if(SSmod && !(isRealBoss()))
+		{
+			SSHealthRPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSHealthRPL'));
+			SSDamageRPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSDamageRPL'));
+			SSHealthGPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSHealthGPL'));
+			SSDamageGPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSDamageGPL'));
+			if(selection == 1)
+			{
+				if ( stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_DEADLY); else
+				if ( stats.HasAbility(theGame.params.ENEMY_BONUS_HIGH) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_HIGH);
+				lvlDiff = currentLevel - playerLevel;
+				if(lvlDiff >= 10)
+				{
+					bonushp = bonushp + (SSHealthRPL * 10);
+					bonusap = bonusap + (SSDamageRPL * 10);
+				}
+				else if(lvlDiff >= 1)
+				{
+					bonushp = bonushp + (SSHealthRPL * lvlDiff);
+					bonusap = bonusap + (SSDamageRPL * lvlDiff);
+				}
+			}
+			else if(selection == 2)
+			{
+				if ( stats.HasAbility(theGame.params.MONSTER_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.MONSTER_BONUS_DEADLY); else
+				if ( stats.HasAbility(theGame.params.MONSTER_BONUS_HIGH) ) stats.RemoveAbility(theGame.params.MONSTER_BONUS_HIGH);
+				lvlDiff = currentLevel - playerLevel;
+				if(lvlDiff >= 10)
+				{
+					bonushp = bonushp + (SSHealthGPL * 10);
+					bonusap = bonusap + (SSDamageGPL * 10);
+				}
+				else if(lvlDiff >= 1)
+				{
+					bonushp = bonushp + (SSHealthGPL * lvlDiff);
+					bonusap = bonusap + (SSDamageGPL * lvlDiff);
+				}
+			}
+		}
+		
+		if(bonushp > 0)
+		{
+			if ( !stats.HasAbility('ESBuffHealth') ) stats.AddAbilityMultiple('ESBuffHealth', (bonushp));
+		}
+		else if (bonushp < 0)
+		{
+			if ( !stats.HasAbility('ESWeakenHealth') ) stats.AddAbilityMultiple('ESWeakenHealth', (bonushp*-1));
+		}
+		if(bonusap > 0)
+		{
+			if ( !stats.HasAbility('ESBuffDamage') ) stats.AddAbilityMultiple('ESBuffDamage', (bonusap));
+		}
+		else if (bonusap < 0)
+		{
+			if ( !stats.HasAbility('ESWeakenDamage') ) stats.AddAbilityMultiple('ESWeakenDamage', (bonusap*-1));
+		}
+	}
+	private function resetESchanges()
+	{
+		var stats				: CCharacterStats;
+		stats = GetCharacterStats();
+		if ( stats.HasAbility('ESBuffHealth') ) stats.RemoveAbility('ESBuffHealth');
+		if ( stats.HasAbility('ESBuffDamage') ) stats.RemoveAbility('ESBuffDamage');
+		if ( stats.HasAbility('ESWeakenHealth') ) stats.RemoveAbility('ESWeakenHealth');
+		if ( stats.HasAbility('ESWeakenDamage') ) stats.RemoveAbility('ESWeakenDamage');
+	}
+	private function resetLSchanges()
+	{
+		if(firstcheck)
+		{
+			currentLevel = defaultLevelES;
+			levelBonusesComputedAtPlayerLevel = -1;
+			disableES = true;
+			AddTimer('AddLevelBonuses', RandRangeF(0.05,0.2), true, false, , true);
+		}
+	}
+	timer function AoEForceScaleRemoval( td : float , id : int)
+	{
+		var enemies : array<CActor>;
+		var enemiesSize : Int32;
+		var count : int;
+		var npc : CNewNPC;
+		//Very laggy if area is set large
+		enemies = GetActorsInRange(thePlayer, 13,/*nothing*/,/*nothing*/,/*nothing*/);
+		enemiesSize=enemies.Size();
+		RemoveTimer( 'AoEForceScaleRemoval' );
+		for(count=0; count<enemiesSize;count+=1)
+			{
+				npc = (CNewNPC)enemies[count];
+				npc.resetLSchanges();
+				npc.resetESchanges();
+			}
+	}
+	//These functions are for the major update and are not working properly. Concept-wise they do lower in health but there are some logic errors I need to address as damage remains the same. (also witcher 3 doesn't like me doing this :P)
+	/*
+	private function MSActivate()
+	{
+		var stats				: CCharacterStats;
+		var templevelHP			: int;
+		var templevelAP			: int;
+		var diflevel			: int;
+		var difleveltwo			: int;
+		var HPChange			: int;
+		var APChange			: int;
+		var tempMath			: float;
+		var APneg				: bool;
+		var HPneg				: bool;
+		var MSmod				: bool;
+		
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		stats = GetCharacterStats();
+		MSmod = MSCheck();
+		if(!MSmod)
+		{
+			return;
+		}
+		
+		MSmod = inGameConfigWrapper_ES.GetVarValue('MonsterScaleOptions', 'MSNecrophage');
+		if(MSmod)
+		{
+			if(GetSfxTag() == 'sfx_alghoul')
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'AlghoulHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'AlghoulAP'));
+			}
+			else if(GetSfxTag() == 'sfx_ghoul')
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'GhoulHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'GhoulAP'));
+			}
+			else if(GetSfxTag() == 'sfx_drowner')
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'DrownerHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'DrownerAP'));
+			}
+			else if(GetSfxTag() == 'sfx_gravehag')
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'GravehagHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'GravehagAP'));
+			}
+			else if(GetSfxTag() == 'sfx_waterhag')
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'WaterhagHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'WaterhagAP'));
+			}
+			else if(GetSfxTag() == 'sfx_foglet')
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'FogletHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'FogletAP'));
+			}
+			else if(HasAbility('mon_rotfiend') || HasAbility('mon_rotfiend_large'))
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'RotfiendHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'RotfiendAP'));
+			}
+			else if(HasAbility('mon_wight'))
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'WightHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'WightAP'));
+			}
+			else if(HasAbility('mon_gravier'))
+			{
+				HPChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'GraveirHP'));
+				APChange = StringToInt(inGameConfigWrapper_ES.GetVarValue('MonsterScaleNecrophages', 'GraveirAP'));
+			}
+		}
+		//Prep
+		if(HPChange < 0)
+		{
+			HPChange = HPChange * -1;
+			tempMath = ((float)HPChange) / 100.0;
+			templevelHP = currentLevel - ((int)(((float)currentLevel)*tempMath));
+			HPneg = true;
+		}
+		else
+		{
+			tempMath = ((float)HPChange) / 100.0;
+			templevelHP = currentLevel + ((int)(((float)currentLevel)*tempMath));
+			HPneg = false;
+		}
+		if(APChange < 0)
+		{
+			APChange = APChange * -1;
+			tempMath = ((float)APChange) / 100.0;
+			templevelAP = currentLevel - ((int)(((float)currentLevel)*tempMath));
+			HPneg = true;
+		}
+		else
+		{
+			tempMath = ((float)APChange) / 100.0;
+			templevelAP = currentLevel + ((int)(((float)currentLevel)*tempMath));
+			HPneg = false;
+		}
+		//Scale
+		removeMSscale();
+		if(templevelAP == templevelHP)
+		{
+			if(templevelAP == currentLevel)
+			{
+				return;
+			}
+			if(HPneg)
+			{
+				diflevel = currentLevel - templevelHP;
+				if (stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL))
+				{
+					stats.RemoveAbilityAll(theGame.params.ENEMY_BONUS_PER_LEVEL);
+					stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, templevelHP);
+					stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+					stats.AddAbilityMultiple('ESNPCBase', (diflevel));
+					return;
+				}
+				else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED))
+				{
+					stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED);
+					stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED, templevelHP); 
+				}
+				else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED))
+				{
+					stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED);
+					stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED, templevelHP); 
+				}
+				else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP))
+				{
+					stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP);
+					stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP, templevelHP); 
+				}
+				else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL))
+				{
+					stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL);
+					stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL, templevelHP); 
+					stats.AddAbilityMultiple('ESMonsterLevelBonusCore', (diflevel));
+					stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+					return;
+				}
+				stats.AddAbilityMultiple('ESMonsterLevelBonusOthersCore', (diflevel));
+				stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+			}
+			else
+			{
+				diflevel = templevelHP - currentLevel;
+				if(diflevel == 0)
+				{
+					return;
+				}
+				if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL))
+				{
+					stats.AddAbilityMultiple('ESMonsterLevelBonusHealth', (diflevel));
+					stats.AddAbilityMultiple('ESMonsterLevelBonusAttack', (diflevel));
+				}
+				else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED))
+				{
+					stats.AddAbilityMultiple('ESMonsterLevelBonusGroupArmoredHealth', (diflevel));
+					stats.AddAbilityMultiple('ESMonsterLevelBonusGroupArmoredAttack', (diflevel));
+				}
+				else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP))
+				{
+					stats.AddAbilityMultiple('ESMonsterLevelBonusGroupHealth', (diflevel));
+					stats.AddAbilityMultiple('ESMonsterLevelBonusGroupAttack', (diflevel));
+				}
+				else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED))
+				{
+					stats.AddAbilityMultiple('ESMonsterLevelBonusArmoredHealth', (diflevel));
+					stats.AddAbilityMultiple('ESMonsterLevelBonusArmoredAttack', (diflevel));
+				}
+				else if(stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL))
+				{
+					stats.AddAbilityMultiple('ESNPCDamage', (diflevel));
+					stats.AddAbilityMultiple('ESNPCHealth', (diflevel));
+				}
+			}
+		}
+		else
+		{
+			if(templevelHP < templevelAP)
+			{
+				if(templevelHP > currentLevel)
+				{
+					diflevel = templevelHP - currentLevel;
+					difleveltwo = templevelAP - currentLevel;
+					if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL))
+					{
+						stats.AddAbilityMultiple('ESMonsterLevelBonusHealth', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED))
+					{
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupArmoredHealth', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupArmoredAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP))
+					{
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupHealth', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED))
+					{
+						stats.AddAbilityMultiple('ESMonsterLevelBonusArmoredHealth', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusArmoredAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL))
+					{
+						stats.AddAbilityMultiple('ESNPCDamage', (diflevel));
+						stats.AddAbilityMultiple('ESNPCHealth', (difleveltwo));
+					}
+				}
+				else //templevelHP < currentLevel 
+				{
+					diflevel = currentLevel - templevelHP;
+					difleveltwo = templevelAP - templevelHP;
+					if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL))
+					{
+						stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL);
+						stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL, templevelHP); 
+						stats.AddAbilityMultiple('ESMonsterLevelBonusCore', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusAttack', (difleveltwo));
+						
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED))
+					{
+						stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED);
+						stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED, templevelHP); 
+						stats.AddAbilityMultiple('ESMonsterLevelBonusOthersCore', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupArmoredAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP))
+					{
+						stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP);
+						stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP, templevelHP); 
+						stats.AddAbilityMultiple('ESMonsterLevelBonusOthersCore', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED))
+					{
+						stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED);
+						stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED, templevelHP); 
+						stats.AddAbilityMultiple('ESMonsterLevelBonusOthersCore', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusArmoredAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL))
+					{
+						stats.RemoveAbilityAll(theGame.params.ENEMY_BONUS_PER_LEVEL);
+						stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, templevelHP); 
+						stats.AddAbilityMultiple('ESNPCBase', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESNPCDamage', (difleveltwo));
+					}
+				}
+			}
+			else
+			{
+				if(templevelAP > currentLevel)
+				{
+					diflevel = templevelHP - currentLevel;
+					difleveltwo = templevelAP - currentLevel;
+					if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL))
+					{
+						stats.AddAbilityMultiple('ESMonsterLevelBonusHealth', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED))
+					{
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupArmoredHealth', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupArmoredAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP))
+					{
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupHealth', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED))
+					{
+						stats.AddAbilityMultiple('ESMonsterLevelBonusArmoredHealth', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusArmoredAttack', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL))
+					{
+						stats.AddAbilityMultiple('ESNPCDamage', (diflevel));
+						stats.AddAbilityMultiple('ESNPCHealth', (difleveltwo));
+					}
+				}
+				else //templevelAP < currentLevel
+				{
+					diflevel = currentLevel - templevelAP;
+					difleveltwo = templevelHP - templevelAP;
+					if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL))
+					{
+						stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL);
+						stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL, templevelAP); 
+						stats.AddAbilityMultiple('ESMonsterLevelBonusCore', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusHealth', (difleveltwo));
+						
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED))
+					{
+						stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED);
+						stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP_ARMORED, templevelAP); 
+						stats.AddAbilityMultiple('ESMonsterLevelBonusOthersCore', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupArmoredHealth', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP))
+					{
+						stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP);
+						stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_GROUP, templevelAP); 
+						stats.AddAbilityMultiple('ESMonsterLevelBonusOthersCore', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusGroupHealth', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED))
+					{
+						stats.RemoveAbilityAll(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED);
+						stats.AddAbilityMultiple(theGame.params.MONSTER_BONUS_PER_LEVEL_ARMORED, templevelAP); 
+						stats.AddAbilityMultiple('ESMonsterLevelBonusOthersCore', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESMonsterLevelBonusArmoredHealth', (difleveltwo));
+					}
+					else if(stats.HasAbility(theGame.params.ENEMY_BONUS_PER_LEVEL))
+					{
+						stats.RemoveAbilityAll(theGame.params.ENEMY_BONUS_PER_LEVEL);
+						stats.AddAbilityMultiple(theGame.params.ENEMY_BONUS_PER_LEVEL, templevelAP); 
+						stats.AddAbilityMultiple('ESNPCBase', (diflevel));
+						stats.AddAbilityMultiple('ESFakeLevel', (diflevel));
+						stats.AddAbilityMultiple('ESNPCHealth', (difleveltwo));
+					}
+				}
+			}
+		}
+		//cont
+			
+
+
+	/*attackStrength = CalculateAttributeValue(GetPowerStatValue(CPS_AttackPower, , true));
+		if ( stats.HasAbility('ESCustomReducePWR') ) stats.RemoveAbility('ESCustomReducePWR');
+		if ( stats.HasAbility('ESCustomReducePWR_zero') ) stats.RemoveAbility('ESCustomReducePWR_zero');
+		if ( stats.HasAbility('ESCustomReducePWR_one') ) stats.RemoveAbility('ESCustomReducePWR_one');
+		if ( stats.HasAbility('ESCustomReducePWR_two') ) stats.RemoveAbility('ESCustomReducePWR_two');
+		if ( stats.HasAbility('ESCustomReducePWR_three') ) stats.RemoveAbility('ESCustomReducePWR_three');
+		if ( stats.HasAbility('ESCustomReducePWR_four') ) stats.RemoveAbility('ESCustomReducePWR_four');
+		if ( stats.HasAbility('ESCustomReducePWR_five') ) stats.RemoveAbility('ESCustomReducePWR_five');
+		if ( stats.HasAbility('ESCustomReducePWR_six') ) stats.RemoveAbility('ESCustomReducePWR_six');
+		if ( stats.HasAbility('ESCustomReducePWR_seven') ) stats.RemoveAbility('ESCustomReducePWR_seven');
+		if ( stats.HasAbility('ESCustomReducePWR_eight') ) stats.RemoveAbility('ESCustomReducePWR_eight');
+		if ( stats.HasAbility('ESCustomReducePWR_nine') ) stats.RemoveAbility('ESCustomReducePWR_nine');
+		if ( stats.HasAbility('ESCustomReducePWR_ten') ) stats.RemoveAbility('ESCustomReducePWR_ten');
+		totalnerf = 0;
+
+		if(((int)attackStrength) >= 850)
+		{
+			totalnerf = (((int)(attackStrength)) - 850)/(10+((int)(attackStrength)-850)/190);
+			if ((HasAbility('mon_bruxa')) || (GetSfxTag() == 'sfx_wyvern'&& !HasAbility('mon_draco_base')) || GetSfxTag() == 'sfx_gravehag' || HasAbility('mon_sprigan') || GetSfxTag() == 'sfx_lessog' || HasAbility('mon_garkain') || HasAbility('mon_sharley_base') || HasAbility('mon_barghest_base') || HasAbility('mon_fleder') || HasAbility('mon_alp') || HasAbility('mon_knight_giant'))
+			{
+				totalnerf = totalnerf - (totalnerf/9);
+			}
+			else if(GetSfxTag() == 'sfx_cockatrice' || GetSfxTag() == 'sfx_wraith' || GetSfxTag() == 'sfx_gravehag')
+			{
+				totalnerf = totalnerf - (totalnerf/5);
+			}
+			else if((GetSfxTag() == 'sfx_alghoul') || (GetSfxTag() == 'sfx_drowner') || (GetSfxTag() == 'sfx_nekker') || (GetSfxTag() == 'sfx_ghoul') || (GetSfxTag() == 'sfx_harpy') || HasAbility('mon_rotfiend'))
+			{
+				totalnerf = totalnerf + (totalnerf/7);
+			}
+			else if(GetSfxTag() == 'sfx_golem')
+			{
+				totalnerf = totalnerf + (totalnerf/6);
+			}
+			
+			if(totalnerf > 0)
+			{
+				if ( !stats.HasAbility('ESCustomReducePWR') ) stats.AddAbilityMultiple('ESCustomReducePWR', (totalnerf));
+			}
+			
+		}
+		else if ( GetStat( BCS_Vitality, true ) > 0 )
+		{
+			if(IsHuman())
+			{
+				if (stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY))
+				{
+					if ( !stats.HasAbility('ESCustomReducePWR_ten') ) stats.AddAbility('ESCustomReducePWR_ten');
+				}
+				else if(SSmod)
+				{
+					if ( !stats.HasAbility('ESCustomReducePWR_seven') ) stats.AddAbility('ESCustomReducePWR_seven');
+				}
+				else
+				{
+					if ( !stats.HasAbility('ESCustomReducePWR_six') ) stats.AddAbility('ESCustomReducePWR_six');
+				}
+			}
+			else
+			{
+				if (stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY))
+				{
+					totalnerf = ((currentLevel*currentLevel)/95);
+				}
+				else if (SSmod)
+				{
+					if(HasAbility('mon_panther_base'))
+					{
+						if ( !stats.HasAbility('ESCustomReducePWR_four') ) stats.AddAbility('ESCustomReducePWR_four');
+					}
+					if ( !stats.HasAbility('ESCustomReducePWR_six') ) stats.AddAbility('ESCustomReducePWR_six');
+				}
+				else
+				{
+					if(HasAbility('mon_panther_base'))
+					{
+						return;
+					}
+					if ( !stats.HasAbility('ESCustomReducePWR_three') ) stats.AddAbility('ESCustomReducePWR_three');
+				}
+			}
+			if ( !stats.HasAbility('ESCustomReducePWR') ) stats.AddAbilityMultiple('ESCustomReducePWR', (totalnerf));
+			attackStrength = CalculateAttributeValue(GetPowerStatValue(CPS_AttackPower, , true));
+			if(attackStrength < 0)
+			{
+				if ( stats.HasAbility('ESCustomReducePWR') ) stats.RemoveAbility('ESCustomReducePWR');
+			}
+		}*/
+	/*
+	}
+	private function removeMSscale()
+	{
+		var stats				: CCharacterStats;
+		stats = GetCharacterStats();
+		if ( stats.HasAbility('ESMonsterLevelBonusOthersCore') ) stats.RemoveAbility('ESMonsterLevelBonusOthersCore');
+		if ( stats.HasAbility('ESMonsterLevelBonusCore') ) stats.RemoveAbility('ESMonsterLevelBonusCore');
+		if ( stats.HasAbility('ESMonsterLevelBonusArmoredHealth') ) stats.RemoveAbility('ESMonsterLevelBonusArmoredHealth');
+		if ( stats.HasAbility('ESMonsterLevelBonusGroupArmoredHealth') ) stats.RemoveAbility('ESMonsterLevelBonusGroupArmoredHealth');
+		if ( stats.HasAbility('ESMonsterLevelBonusGroupHealth') ) stats.RemoveAbility('ESMonsterLevelBonusGroupHealth');
+		if ( stats.HasAbility('ESMonsterLevelBonusHealth') ) stats.RemoveAbility('ESMonsterLevelBonusHealth');
+		if ( stats.HasAbility('ESMonsterLevelBonusArmoredAttack') ) stats.RemoveAbility('ESMonsterLevelBonusArmoredAttack');
+		if ( stats.HasAbility('ESMonsterLevelBonusGroupArmoredAttack') ) stats.RemoveAbility('ESMonsterLevelBonusGroupArmoredAttack');
+		if ( stats.HasAbility('ESMonsterLevelBonusGroupAttack') ) stats.RemoveAbility('ESMonsterLevelBonusGroupAttack');
+		if ( stats.HasAbility('ESMonsterLevelBonusAttack') ) stats.RemoveAbility('ESMonsterLevelBonusAttack');
+		if ( stats.HasAbility('ESNPCBase') ) stats.RemoveAbility('ESNPCBase');
+		if ( stats.HasAbility('ESNPCDamage') ) stats.RemoveAbility('ESNPCDamage');
+		if ( stats.HasAbility('ESNPCHealth') ) stats.RemoveAbility('ESNPCHealth');
+		if ( stats.HasAbility('ESFakeLevel') ) stats.RemoveAbility('ESFakeLevel');
+	}*/
+	// Enemy Scaling
 }
 
 exec function IsFireSource( tag : name )
@@ -4735,4 +5743,3 @@ exec function IsFireSource( tag : name )
 	
 	LogChannel('SD', "" + npc.IsAtWorkDependentOnFireSource() );
 }	
-
