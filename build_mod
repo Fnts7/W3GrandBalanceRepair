@@ -17,6 +17,8 @@ scriptFile[0]="/game/actor.ws"
 scriptFile[1]="/game/npc/npc.ws"
 scriptFile[2]="/game/player/playerWitcher.ws"
 scriptFile[3]="/game/gameplay/damage/damageManagerProcessor.ws"
+
+scriptFile[4]="/mod/axiiModsEnemyScale.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
@@ -32,7 +34,7 @@ then
 	exit
 fi
 
-modReadyFolder=$1"/Packed/[modReadyFolder]"
+modReadyFolder=$1"/Packed/modGBREnemyScaling"
 modContentPath=$modReadyFolder"/content"
 
 inXMLPath="Uncooked"
@@ -70,6 +72,7 @@ fi
 
 cp -r ModRes/strings/* $modContentPath
 cp -r ModRes/bin $modReadyFolder
+cp ModRes/readme.txt $modReadyFolder
 
 echo "Files copied OK."
 
