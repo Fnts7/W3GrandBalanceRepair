@@ -364,7 +364,7 @@ class W3IgniProjectile extends W3SignProjectile
 		}
 		else if (owner.IsPlayer())
 		{
-			action.AddDamage(theGame.params.DAMAGE_NAME_FIRE, 10.0f * owner.GetPlayer().GetLevel());
+			action.AddDamage(theGame.params.DAMAGE_NAME_FIRE, 9.0f * owner.GetPlayer().GetLevel());
 		}
 		
 		

@@ -969,7 +969,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 				action = new W3DamageAction in theGame.damageMgr;
 				action.Initialize( casterActor, damageData.attacker, parent, 'quen', EHRT_Light, CPS_SpellPower, false, false, true, false, 'hit_shock' );
 				parent.InitSignDataForDamageAction( action );		
-				action.AddDamage( theGame.params.DAMAGE_NAME_SHOCK, parent.dischargePercent * reducibleDamage / 1.5f);
+				action.AddDamage( theGame.params.DAMAGE_NAME_SHOCK, parent.dischargePercent * reducibleDamage / 2.0f);
 				action.SetCanPlayHitParticle(true);
 				action.SetHitEffect('hit_electric_quen');
 				action.SetHitEffect('hit_electric_quen', true);

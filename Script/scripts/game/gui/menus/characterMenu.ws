@@ -1809,7 +1809,11 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_2:
 				ability = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
-				arg = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) ) + 10.0f * GetWitcherPlayer().GetLevel();
+				if (ability.valueMultiplicative > 2.5f)
+				{
+					ability.valueMultiplicative = 2.5f + (ability.valueMultiplicative - 2.5f) * 0.6667f;
+				}
+				arg = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) ) + 9.0f * GetWitcherPlayer().GetLevel();
 				arg *= ability.valueMultiplicative;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
