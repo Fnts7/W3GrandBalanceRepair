@@ -90,6 +90,7 @@ assetFile[32]="/dlc/bob/data/gameplay/items/def_item_weapons_crossbows.xml"
 assetFile[33]="/dlc/bob/data/gameplay/items_plus/def_item_weapons_crossbows.xml"
 assetFile[34]="/dlc/bob/data/gameplay/items/def_loot_shops.xml"
 assetFile[35]="/dlc/bob/data/gameplay/items_plus/def_loot_shops.xml"
+assetFile[36]="/gameplay/gui_new/swf/character/panel_character.redswf"
 
 # ASSET FILES END
 
