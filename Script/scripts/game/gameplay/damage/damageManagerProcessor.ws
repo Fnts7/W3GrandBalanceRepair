@@ -1407,12 +1407,12 @@ class W3DamageManagerProcessor extends CObject
 			powerMod.valueMultiplicative -= 0.833;
 		
 		
-		if ( playerAttacker && (W3IgniProjectile)action.causer )
-			powerMod.valueMultiplicative = 1 + (powerMod.valueMultiplicative - 1) * theGame.params.IGNI_SPELL_POWER_MILT;
-		
-		
-		/*if ( playerAttacker && (W3AardProjectile)action.causer )
-			powerMod.valueMultiplicative = 1;*/
+		if ( playerAttacker && (W3IgniProjectile)action.causer
+			&& ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2
+			&& powerMod.valueMultiplicative > 2.5f  )
+		{
+			powerMod.valueMultiplicative = 2.5f + (powerMod.valueMultiplicative - 2.5f) * 0.6667f;
+		}
 
 		if(action.IsCriticalHit())
 		{
