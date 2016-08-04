@@ -122,6 +122,47 @@ class W3PlayerAbilityManager extends W3AbilityManager
 				Alchemy19OptimizationRetro();
 				alchemy19OptimizationDone = true;
 			}
+
+			// Signs Overhaul hack to make lowered 3rd and 4th row sign skill point requirements work
+			// on saved games
+			for (i=0; i < skills.Size(); i+=1)
+			{
+				switch (skills[i].skillType)
+				{
+				case S_Magic_s12:
+					skills[i].requiredPointsSpent = 15;
+					break;
+				case S_Magic_s06:
+					skills[i].requiredPointsSpent = 25;
+					break;
+				case S_Magic_s07:
+					skills[i].requiredPointsSpent = 15;
+					break;
+				case S_Magic_s09:
+					skills[i].requiredPointsSpent = 25;
+					break;
+				case S_Magic_s16:
+					skills[i].requiredPointsSpent = 15;
+					break;
+				case S_Magic_s11:
+					skills[i].requiredPointsSpent = 25;
+					break;
+				case S_Magic_s15:
+					skills[i].requiredPointsSpent = 15;
+					break;
+				case S_Magic_s14:
+					skills[i].requiredPointsSpent = 25;
+					break;
+				case S_Magic_s18:
+					skills[i].requiredPointsSpent = 15;
+					break;
+				case S_Magic_s19:
+					skills[i].requiredPointsSpent = 25;
+					break;
+				default:
+					break;
+				}
+			}
 		}
 		
 		
