@@ -1698,16 +1698,12 @@ class W3DamageManagerProcessor extends CObject
 			}
 		
 			
-			if (playerVictim == GetWitcherPlayer() && playerVictim.HasBuff(EET_Mutagen02))
+			if (playerVictim == GetWitcherPlayer())
 			{
-				/*encumbranceBonus = 1 - (GetWitcherPlayer().GetEncumbrance() / GetWitcherPlayer().GetMaxRunEncumbrance(temp));
-				if (encumbranceBonus < 0)
-					encumbranceBonus = 0;
-				mutagen = playerVictim.GetBuff(EET_Mutagen02);
-				dm.GetAbilityAttributeValue(mutagen.GetAbilityName(), 'resistGainRate', min, max);
-				encumbranceBonus *= CalculateAttributeValue(GetAttributeRandomizedValue(min, max));*/
-				
-				resistPercents += (1.0f - resistPercents) * 0.25f;
+				 if (playerVictim.HasBuff(EET_Mutagen02))
+					resistPercents += (1.0f - resistPercents) * 0.25f;
+				 if (playerVictim.HasBuff(EET_Mutagen27))
+					resistPercents += (1.0f - resistPercents) * GetWitcherPlayer().GetMutagen27Resist();
 			}
 			
 			// Reduce resist with quen active on Witcher for all damage that quen reduces

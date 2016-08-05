@@ -67,7 +67,12 @@ abstract class W3Mutagen_Effect extends CBaseGameplayEffect
 		{
 			target.RemoveBuff( EET_Mutation10 );
 		}
-		
+
+		if (effectType == EET_Mutagen27)
+		{
+			witcher.ClearMutagen27Resist();
+		}
+
 		super.OnEffectRemoved();
 	}
 	

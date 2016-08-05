@@ -501,7 +501,7 @@
       <!-- Refreshment -->
       <ability name="alchemy_s2">
         <tags>alchemy_s2</tags>
-        <vitality_gain_perc type="add" min="0.05" />
+        <vitality_gain_perc type="add" min="0.06" />
       </ability>
 	  
 	  <!-- Delayed Recovery -->
@@ -847,9 +847,9 @@
     <!-- ALCHEMY -->
 		<!-- POTIONS -->
 		<!-- Resistances -->
-        <skill skill_name="alchemy_s1" requiredPointsSpent="0"  maxLevel="5" priority="20" guiPositionID="22" localisationName="skill_name_alchemy_s1" localisationDescription="skill_desc_alchemy_s1" localisationDescriptionLevel2="skill_desc_alchemy_s1" localisationDescriptionLevel3="skill_desc_alchemy_s1" cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Potions" iconPath="icons\Skills\Alchemy\alchemy_s1.png" linkVertical="green" linkLeft="green" linkRight="green" />
+        <skill skill_name="alchemy_s1" requiredPointsSpent="8"  maxLevel="5" priority="20" guiPositionID="12" localisationName="skill_name_alchemy_s1" localisationDescription="skill_desc_alchemy_s1" localisationDescriptionLevel2="skill_desc_alchemy_s1" localisationDescriptionLevel3="skill_desc_alchemy_s1" cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Potions" iconPath="icons\Skills\Alchemy\alchemy_s1.png" linkVertical="green" linkLeft="green" linkRight="green" />
 		<!-- Refreshment -->
-        <skill skill_name="alchemy_s2" requiredPointsSpent="8" maxLevel="5" priority="20" guiPositionID="12" localisationName="skill_name_alchemy_s2" localisationDescription="skill_desc_alchemy_s2" localisationDescriptionLevel2="skill_desc_alchemy_s2" localisationDescriptionLevel3="skill_desc_alchemy_s2" cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Potions" iconPath="icons\Skills\Alchemy\alchemy_s2.png" linkVertical="green" linkLeft="green" linkRight="green" />
+        <skill skill_name="alchemy_s2" requiredPointsSpent="0" maxLevel="5" priority="20" guiPositionID="22" localisationName="skill_name_alchemy_s2" localisationDescription="skill_desc_alchemy_s2" localisationDescriptionLevel2="skill_desc_alchemy_s2" localisationDescriptionLevel3="skill_desc_alchemy_s2" cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Potions" iconPath="icons\Skills\Alchemy\alchemy_s2.png" linkVertical="green" linkLeft="green" linkRight="green" />
 		<!-- Delayed Recovery -->
         <skill skill_name="alchemy_s3" requiredPointsSpent="20" maxLevel="3" priority="20" guiPositionID="37" localisationName="skill_name_alchemy_s3" localisationDescription="skill_desc_alchemy_s3" localisationDescriptionLevel2="skill_desc_alchemy_s3" localisationDescriptionLevel3="skill_desc_alchemy_s3" cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Potions" iconPath="icons\Skills\Alchemy\alchemy_s3.png" linkVertical="green" linkLeft="green" linkRight="green" />
 		<!-- Side Effect -->

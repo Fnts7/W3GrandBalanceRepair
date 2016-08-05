@@ -105,6 +105,23 @@ class W3PlayerAbilityManager extends W3AbilityManager
 			tempSkills.Clear();
 			temporaryTutorialSkills.Clear();
 			
+			for (i=0; i < skills.Size(); i+=1)
+			{
+				switch (skills[i].skillType)
+				{
+				case S_Alchemy_s01:
+					skills[i].requiredPointsSpent = 8;
+					skills[i].positionID = 12;
+					break;
+				case S_Alchemy_s02:
+					skills[i].requiredPointsSpent = 0;
+					skills[i].positionID = 22;
+					break;
+				default:
+					break;
+				}
+			}
+			
 			if ( !ep1SkillsInitialized && theGame.GetDLCManager().IsEP1Available() )
 			{				
 				ep1SkillsInitialized = FixMissingSkills();

@@ -111,13 +111,13 @@
 			</ability>
 			
 			<ability name="Mutagen27Effect">
-				<slashing_resistance_perc type="add" min="0.02" />
-				<piercing_resistance_perc type="add" min="0.02" />
-				<bludgeoning_resistance_perc type="add" min="0.02" />
-				<rending_resistance_perc type="add" min="0.02" />
-				<elemental_resistance_perc type="add" min="0.02" />
+				<slashing_resistance_perc type="add" min="0.03" />
+				<piercing_resistance_perc type="add" min="0.03" />
+				<bludgeoning_resistance_perc type="add" min="0.03" />
+				<rending_resistance_perc type="add" min="0.03" />
+				<elemental_resistance_perc type="add" min="0.03" />
 				
-				<mutagen27_max_stack type="add" min="10" />
+				<mutagen27_max_stack type="add" min="12" />
 			</ability>
 			
 			<ability name="Mutagen28Effect">
