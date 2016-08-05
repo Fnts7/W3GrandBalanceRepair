@@ -2150,6 +2150,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				argsString.PushBack( RoundMath( toxThreshold + arg * 100 ) );
 				
 				baseString = GetLocStringByKeyExtWithParams(locKey, , , argsString);
+				baseString += "<br>Reduces toxicity offset of decoctions by " + RoundMath(arg * 100) + "%.";
 				break;
 			case S_Alchemy_s02:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s02, 'vitality_gain_perc', false, false)) * skillLevel;
@@ -2167,8 +2168,8 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
 				break;
 			case S_Alchemy_s05:
-				arg = 5 * skillLevel;
-				argsInt.PushBack(RoundMath(arg));
+				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s05, 'defence_bonus', false, false)) * skillLevel;
+				argsInt.PushBack(RoundMath(arg * 100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
 				break;
 			case S_Alchemy_s06:
@@ -2226,6 +2227,10 @@ class CR4CharacterMenu extends CR4MenuBase
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s17, 'critical_hit_chance', false, false)) * skillLevel;
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
+				break;
+			case S_Alchemy_s18:
+				arg = skillLevel * 36;
+				baseString = "Increases maximum toxicity by " + RoundMath(arg);
 				break;
 			case S_Alchemy_s19:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s19, 'synergy_bonus', false, false)) * skillLevel;

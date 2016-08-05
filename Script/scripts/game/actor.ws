@@ -2376,7 +2376,7 @@ import abstract class CActor extends CGameplayEntity
 		var i : int;
 		var mutagen : CBaseGameplayEffect;
 		var min, max : SAbilityAttributeValue;
-		var lifeLeech, health, stamina : float;
+		var lifeLeech, health, stamina, lifeLeechBase : float;
 		var wasAlive : bool;
 		var hudModuleDamageType : EFloatingValueType;
 		
@@ -2398,6 +2398,28 @@ import abstract class CActor extends CGameplayEntity
 				}
 				break;
 			}
+		}
+
+		if(playerAttacker)
+		{
+			if (thePlayer.HasBuff(EET_Mutagen07))
+			{
+				lifeLeech = GetWitcherPlayer().GetMutagen07LifeLeech();
+				if (UsesVitality())
+				{
+					lifeLeechBase = MinF(action.processedDmg.vitalityDamage, GetStat(BCS_Vitality));
+					lifeLeech = lifeLeech * lifeLeechBase;
+				}
+				else if (UsesEssence())
+				{
+					lifeLeechBase = MinF(action.processedDmg.essenceDamage, GetStat(BCS_Essence));
+					lifeLeech = lifeLeech * lifeLeechBase * 0.8f;
+				}
+				else
+					lifeLeech = 0;
+
+				thePlayer.GainStat(BCS_Vitality, lifeLeech);
+			}			
 		}
 	
 		if(action.processedDmg.vitalityDamage > 0 && UsesVitality())
@@ -2448,25 +2470,6 @@ import abstract class CActor extends CGameplayEntity
 			theGame.witcherLog.AddCombatDamageMessage(action.DealtDamage());
 		}
 			
-		
-		if(playerAttacker)
-		{
-			if (thePlayer.HasBuff(EET_Mutagen07))
-			{
-				mutagen = thePlayer.GetBuff(EET_Mutagen07);
-				theGame.GetDefinitionsManager().GetAbilityAttributeValue(mutagen.GetAbilityName(), 'lifeLeech', min, max);
-				lifeLeech = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
-				if (UsesVitality())
-					lifeLeech = lifeLeech * action.processedDmg.vitalityDamage;
-				else if (UsesEssence())
-					lifeLeech = lifeLeech * action.processedDmg.essenceDamage;
-				else
-					lifeLeech = 0;
-				
-				thePlayer.GainStat(BCS_Vitality, lifeLeech);
-			}			
-		}
-		
 		
 		if(playerAttacker && action.IsActionMelee())
 		{

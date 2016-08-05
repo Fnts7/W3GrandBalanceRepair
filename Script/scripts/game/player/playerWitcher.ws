@@ -45,7 +45,11 @@ statemachine class W3PlayerWitcher extends CR4Player
 	default				equippedSign	= ST_Aard;
 	default				m_quenReappliedCount = 1;
 	
-	
+	// Griffon mutagen state
+	private				var mutagen27Resist				: float;
+	private				var mutagen27Count				: int;
+	default				mutagen27Resist = 0.0f;
+	default 			mutagen27Count = 0;
 	
 	private 			var bDispalyHeavyAttackIndicator 		: bool; 
 	private 			var bDisplayHeavyAttackFirstLevelTimer 	: bool; 
@@ -1945,9 +1949,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 		if(action.DealsAnyDamage() && !action.IsDoTDamage() && HasBuff(EET_Mutagen27))
 		{
 			abilityName = GetBuff(EET_Mutagen27).GetAbilityName();
-			abilityCount = GetAbilityCount(abilityName);
+			//abilityCount = GetAbilityCount(abilityName);
 			
-			if(abilityCount == 0)
+			if(mutagen27Count == 0)
 			{
 				addAbility = true;
 			}
@@ -1958,7 +1962,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 				
 				if(maxStack >= 0)
 				{
-					addAbility = (abilityCount < maxStack);
+					addAbility = (mutagen27Count < maxStack);
 				}
 				else
 				{
@@ -1968,7 +1972,10 @@ statemachine class W3PlayerWitcher extends CR4Player
 			
 			if(addAbility)
 			{
-				AddAbility(abilityName, true);
+				//AddAbility(abilityName, true);
+				theGame.GetDefinitionsManager().GetAbilityAttributeValue(abilityName, 'slashing_resistance_perc', min, max);
+				mutagen27Resist += CalculateAttributeValue(min);
+				mutagen27Count += 1;
 			}
 		}
 		
@@ -2361,6 +2368,33 @@ statemachine class W3PlayerWitcher extends CR4Player
 		}
 	}
 	
+	public function GetMutagen27Resist() : float
+	{
+		return mutagen27Resist;
+	}
+	
+	public function ClearMutagen27Resist()
+	{
+		mutagen27Resist = 0;
+		mutagen27Count = 0;
+	}
+	
+	public function GetMutagen07LifeLeech() : float
+	{
+		var level : int;
+
+		level = GetLevel();
+		if (level < 1)
+			level = 1;
+		if (level > 100)
+			level = 100;
+
+		if (level <= 30)
+			return 0.25f - level * 0.15f / 30.0f;
+
+		return 0.1f / ( 1.0f + (level - 30) * 2.0f / 70.0f );
+	}
+	
 	public final function FailFundamentalsFirstAchievementCondition()
 	{
 		SetFailedFundamentalsFirstAchievementCondition(true);
@@ -2609,7 +2643,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(HasBuff(EET_Mutagen27))
 		{
-			RemoveAbilityAll( GetBuff(EET_Mutagen27).GetAbilityName() );
+			//RemoveAbilityAll( GetBuff(EET_Mutagen27).GetAbilityName() );
+			ClearMutagen27Resist();
 		}
 		
 		

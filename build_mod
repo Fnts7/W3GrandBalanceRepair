@@ -13,9 +13,16 @@
 #
 
 # SCRIPT FILES BEGIN
-scriptFile[0]="/game/gameplay/ability/PlayerAbilityManager.ws"
+scriptFile[0]="/game/actor.ws"
 scriptFile[1]="/game/player/playerWitcher.ws"
-scriptFile[2]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[2]="/game/gameplay/ability/PlayerAbilityManager.ws"
+scriptFile[3]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[4]="/game/gameplay/effects/effects/mutagens/mutagenEffect.ws"
+
+scriptFile[5]="/game/components/inventoryComponent.ws"
+scriptFile[6]="/game/gui/menus/characterMenu.ws"
+scriptFile[7]="/game/gui/_old/components/guiTooltipComponent.ws"
+
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
@@ -28,6 +35,8 @@ assetFile[5]="/dlc/bob/data/gameplay/abilities_plus/effects_ep2.xml"
 assetFile[6]="/dlc/bob/data/gameplay/abilities/geralt_skills_ep2.xml"
 assetFile[7]="/dlc/bob/data/gameplay/abilities_plus/geralt_skills_ep2.xml"
 # ASSET FILES END
+
+set -e
 
 if [ -z $1 ]
 then

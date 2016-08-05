@@ -2689,7 +2689,8 @@ import class CInventoryComponent extends CComponent
 				{
 					
 					attrs.Erase(1);
-					newAttr.value = val.valueBase;
+					//newAttr.value = val.valueBase;
+					newAttr.value = GetWitcherPlayer().GetMutagen07LifeLeech();
 					newAttr.percentageValue = true;
 				}
 				else

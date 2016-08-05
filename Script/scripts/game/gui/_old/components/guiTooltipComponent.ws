@@ -426,7 +426,12 @@ class W3TooltipComponent
 		uniqueDescription = "";
 		if (!isArmorOrWeapon)
 		{
-			uniqueDescription = GetLocStringByKeyExt( itemInvComponent.GetItemLocalizedDescriptionByUniqueID(item) );
+			if (itemName == 'Mutagen 2')
+				uniqueDescription = "Absorbs 25% of all damage.";
+			else if (itemName == 'Mutagen 27')
+				uniqueDescription = "Absorbs damage. When Geralt gets hit damage absorption by this decoction raises by 3% and maximum is 36%.";
+			else
+				uniqueDescription = GetLocStringByKeyExt( itemInvComponent.GetItemLocalizedDescriptionByUniqueID(item) );
 		}
 		if ( theGame.GetGuiManager().GetShowItemNames() )
 		{
