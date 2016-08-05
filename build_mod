@@ -32,6 +32,7 @@ scriptFile[14]="/game/gui/popups/CharacterStatsPopup.ws"
 scriptFile[15]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
 scriptFile[16]="/game/gameplay/items/spells/igniEntity.ws"
 scriptFile[17]="/game/player/r4Player.ws"
+scriptFile[18]="/game/gameplay/ability/PlayerAbilityManager.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
