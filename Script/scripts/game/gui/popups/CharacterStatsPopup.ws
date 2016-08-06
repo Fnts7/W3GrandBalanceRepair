@@ -465,10 +465,14 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	else if ( varKey == 'igni_damage' ) 	
 	{  
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
+		if (sp.valueMultiplicative > 2.5f  )
+		{
+			sp.valueMultiplicative = 2.5f + (sp.valueMultiplicative - 2.5f) * 0.6667f;
+		}
 		valueAbility = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) );
-		valueAbility += 10.0f * GetWitcherPlayer().GetLevel();
+		valueAbility += 9.0f * GetWitcherPlayer().GetLevel();
 		valueAbility += mutDmgMod.valueBase;
-		valueAbility *= 1 + (sp.valueMultiplicative-1) * theGame.params.IGNI_SPELL_POWER_MILT;		
+		valueAbility *= sp.valueMultiplicative;
 		valueStr = (string)RoundMath( valueAbility );
 	}
 	else if ( varKey == 'igni_burnchance' ) 	
