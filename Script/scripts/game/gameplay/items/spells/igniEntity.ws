@@ -117,48 +117,52 @@ statemachine class W3IgniEntity extends W3SignEntity
 	protected function CacheActionBuffsFromSkill()
 	{
 		var buff : SEffectInfo;
+		
+		actionBuffs.Clear();
 
 		if (!owner.CanUseSkill(S_Magic_s09))
 		{
-			super.CacheActionBuffsFromSkill();
-			return;
+			if (skillEnum == S_Magic_2)
+				buff.effectAbilityName = 'BurningEffect_Igni';
+			else
+				buff.effectAbilityName = 'BurningEffect_FireStream';
 		}
-
-		actionBuffs.Clear();
-
-		switch (owner.GetSkillLevel(S_Magic_s09))
+		else
 		{
-		case 5:
-			if (skillEnum == S_Magic_2)
-				buff.effectAbilityName = 'BurningEffect_Pyro5';
-			else
-				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro5';
-			break;
-		case 4:
-			if (skillEnum == S_Magic_2)
-				buff.effectAbilityName = 'BurningEffect_Pyro4';
-			else
-				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro4';
-			break;
-		case 3:
-			if (skillEnum == S_Magic_2)
-				buff.effectAbilityName = 'BurningEffect_Pyro3';
-			else
-				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro3';
-			break;
-		case 2:
-			if (skillEnum == S_Magic_2)
-				buff.effectAbilityName = 'BurningEffect_Pyro2';
-			else
-				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro2';
-			break;
-		case 1:
-		default:
-			if (skillEnum == S_Magic_2)
-				buff.effectAbilityName = 'BurningEffect_Pyro1';
-			else
-				buff.effectAbilityName = 'BurningEffect_FireStream_Pyro1';
-			break;
+			switch (owner.GetSkillLevel(S_Magic_s09))
+			{
+			case 5:
+				if (skillEnum == S_Magic_2)
+					buff.effectAbilityName = 'BurningEffect_Igni_Pyro5';
+				else
+					buff.effectAbilityName = 'BurningEffect_FireStream_Pyro5';
+				break;
+			case 4:
+				if (skillEnum == S_Magic_2)
+					buff.effectAbilityName = 'BurningEffect_Igni_Pyro4';
+				else
+					buff.effectAbilityName = 'BurningEffect_FireStream_Pyro4';
+				break;
+			case 3:
+				if (skillEnum == S_Magic_2)
+					buff.effectAbilityName = 'BurningEffect_Igni_Pyro3';
+				else
+					buff.effectAbilityName = 'BurningEffect_FireStream_Pyro3';
+				break;
+			case 2:
+				if (skillEnum == S_Magic_2)
+					buff.effectAbilityName = 'BurningEffect_Igni_Pyro2';
+				else
+					buff.effectAbilityName = 'BurningEffect_FireStream_Pyro2';
+				break;
+			case 1:
+			default:
+				if (skillEnum == S_Magic_2)
+					buff.effectAbilityName = 'BurningEffect_Igni_Pyro1';
+				else
+					buff.effectAbilityName = 'BurningEffect_FireStream_Pyro1';
+				break;
+			}
 		}
 
 		buff.effectType = EET_Burning;
