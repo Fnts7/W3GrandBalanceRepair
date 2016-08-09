@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="UTF-16"?>
+<UserConfig>
+	<!--Level Scaling-->
+	<Group id="EnemyScale" displayName="Mods.ES_MenuName.ES_LvLScale">
+		<PresetsArray>
+			<Preset id="0" displayName="ES_defaultset" tags="customNames;customDisplayName">
+				<!--Preset-->
+				<!--TOGGLES-->
+				<Entry varId="ESEnabled"					value="True"	/>
+				<Entry varId="ESDamNormal"					value="True"	/>
+				<Entry varId="ESToggleEXPmod"				value="1"		/>
+				<Entry varId="ESNormal"						value="True"	/>
+				<Entry varId="ESMBoss"						value="True"	/>
+				<Entry varId="ESWEnemy"						value="True"	/>
+				<!--TOGGLES RANGE-->
+				<Entry varId="ESRange"						value="True"	/>
+				<Entry varId="ESMBRange"					value="false"	/>
+				<Entry varId="ESRangeAlways"				value="true"	/>
+				<!--SLIDERS-->
+				<Entry varId="ESEMax"						value="4"	/>
+				<Entry varId="ESEMin"						value="-4"	/>
+				<Entry varId="ESMBMax"						value="5"	/>
+				<Entry varId="ESMBMin"						value="0"	/>
+				<!--CUSTOM OPTIONS-->
+				<Entry varId="ESLHumans"					value="false"	/>
+				<Entry varId="ESLAnimals"					value="false"	/>
+			</Preset>
+		</PresetsArray>
+        <VisibleVars>
+			<!--TOGGLES-->
+			<Var id="ESEnabled" displayName="ES_Enabled" displayType="TOGGLE" />
+			<Var id="ESDamNormal" displayName="ES_DamNormal" displayType="TOGGLE" />
+			<Var id="ESToggleEXPmod" displayName="ES_ToggleEXPmod" displayType="OPTIONS" >
+				<OptionsArray>
+					<Option id="0" displayName="ES_EXPmodOff">
+                        <Entry varId="ESToggleEXPmod" value="0"/>
+                    </Option>
+                    <Option id="1" displayName="ES_EXPmodHybrid">
+                        <Entry varId="ESToggleEXPmod" value="1"/>
+                    </Option>
+					<Option id="2" displayName="ES_EXPmodOn">
+                        <Entry varId="ESToggleEXPmod" value="2"/>
+                    </Option>
+                </OptionsArray>
+			</Var>
+			<Var id="ESNormal" displayName="ES_SNE" displayType="TOGGLE" />
+			<Var id="ESMBoss" displayName="ES_SMB" displayType="TOGGLE" />
+			<Var id="ESWEnemy" displayName="ES_SWE" displayType="TOGGLE" />
+			
+			<!--Randomize Range TOGGLES-->
+			<Var id="ESRange" displayName="ES_RandomNormal" displayType="TOGGLE" />
+			<Var id="ESMBRange" displayName="ES_RandomMiniB" displayType="TOGGLE" />
+			<Var id="ESRangeAlways" displayName="ES_RandomAlways" displayType="TOGGLE" />
+			
+			<!--SLIDERS-->
+			<Var id="ESEMax" displayName="ES_LVLMAXNormal" displayType="SLIDER;-15;15;30" />
+			<Var id="ESEMin" displayName="ES_LVLMINNormal" displayType="SLIDER;-15;15;30" />
+			<Var id="ESMBMax" displayName="ES_LVLMAXMBOSS" displayType="SLIDER;-15;15;30" />
+			<Var id="ESMBMin" displayName="ES_LVLMINMBOSS" displayType="SLIDER;-15;15;30" />
+			<!--CUSTOM OPTIONS-->
+			<Var id="ESLHumans" displayName="ES_LHum" displayType="TOGGLE" />
+			<Var id="ESLAnimals" displayName="ES_LAni" displayType="TOGGLE" />
+        </VisibleVars>		
+    </Group>
+	
+	<!--Smooth Scaling-->
+	<Group id="SmoothScale" displayName="Mods.ES_MenuName.ES_SmoothScale">
+			<PresetsArray>
+			<Preset id="0" displayName="SS_defaultset" tags="customNames;customDisplayName">
+				<!--Preset-->
+				<!--TOGGLES-->
+				<Entry varId="SSEnabled"					value="True"	/>
+				<!--SLIDERS-->
+				<Entry varId="SSHealthRPL"						value="8"	/>
+				<Entry varId="SSDamageRPL"						value="5"	/>
+				<Entry varId="SSHealthGPL"						value="9"	/>
+				<Entry varId="SSDamageGPL"						value="6"	/>
+			</Preset>
+			</PresetsArray>
+			<VisibleVars>
+				<Var id="SSEnabled" displayName="ES_SSEnabled" displayType="TOGGLE" />
+				<Var id="SSHealthRPL" displayName="ES_SSHealthRPL" displayType="SLIDER; 0;20;20" />
+				<Var id="SSDamageRPL" displayName="ES_SSDamageRPL" displayType="SLIDER; 0;20;20" />
+				<Var id="SSHealthGPL" displayName="ES_SSHealthGPL" displayType="SLIDER; 0;20;20" />
+				<Var id="SSDamageGPL" displayName="ES_SSDamageGPL" displayType="SLIDER; 0;20;20" />
+			</VisibleVars>
+	</Group>
+	
+	<!--Enemy Bonuses-->
+	<Group id="EnemyBonusHumans" displayName="Mods.ES_MenuName.ES_BonusScale.ES_HUMANS">
+			<VisibleVars>
+				<Var id="EBHumans" displayName="ES_EBHumans" displayType="TOGGLE" />
+				<Var id="EBHumanshp" displayName="ES_EBHumanshp" displayType="SLIDER;-99;500;599" />
+				<Var id="EBHumansap" displayName="ES_EBHumansap" displayType="SLIDER;-99;500;599" />
+			</VisibleVars>
+	</Group>
+	<Group id="EnemyBonusBeast" displayName="Mods.ES_MenuName.ES_BonusScale.ES_BEAST">
+			<VisibleVars>
+				<Var id="EBBeast" displayName="ES_EBBeast" displayType="TOGGLE" />
+				<Var id="EBBeasthp" displayName="ES_EBBeasthp" displayType="SLIDER;-99;500;599" />
+				<Var id="EBBeastap" displayName="ES_EBBeastap" displayType="SLIDER;-99;500;599" />
+			</VisibleVars>
+	</Group>
+	<Group id="EnemyBonusNormalEnemies" displayName="Mods.ES_MenuName.ES_BonusScale.ES_NormalEnemy">
+			<VisibleVars>
+				<Var id="EBNormal" displayName="ES_EBNormal" displayType="TOGGLE" />
+				<Var id="EBNORMALhp" displayName="ES_EBNORMALhp" displayType="SLIDER;-99;100;199" />
+				<Var id="EBNORMALap" displayName="ES_EBNORMALap" displayType="SLIDER;-99;100;199" />
+			</VisibleVars>
+	</Group>
+	<Group id="EnemyBonusMiniboss" displayName="Mods.ES_MenuName.ES_BonusScale.ES_MiniBoss">
+			<VisibleVars>
+				<Var id="EBMiniboss" displayName="ES_EBMiniboss" displayType="TOGGLE" />
+				<Var id="EBMINIBOSShp" displayName="ES_EBMINIBOSShp" displayType="SLIDER;-99;100;199" />
+				<Var id="EBMINIBOSSap" displayName="ES_EBMINIBOSSap" displayType="SLIDER;-99;100;199" />
+			</VisibleVars>
+	</Group>
+	<Group id="EnemyBonusBoss" displayName="Mods.ES_MenuName.ES_BonusScale.ES_Boss">
+			<VisibleVars>
+				<Var id="EBBoss" displayName="ES_EBBoss" displayType="TOGGLE" />
+				<Var id="EBBOSShp" displayName="ES_EBBOSShp" displayType="SLIDER;-99;100;199" />
+				<Var id="EBBOSSap" displayName="ES_EBBOSSap" displayType="SLIDER;-99;100;199" />
+			</VisibleVars>
+	</Group>
+</UserConfig>
