@@ -15,6 +15,7 @@
 # SCRIPT FILES BEGIN
 scriptFile[0]="/game/actor.ws"
 scriptFile[1]="/game/npc/npc.ws"
+scriptFile[2]="/game/gameplay/damage/damageManagerProcessor.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
@@ -30,7 +31,8 @@ then
 	exit
 fi
 
-modContentPath=$1"/Packed/modGBREnemyScaling/content"
+modReadyFolder=$1"/Packed/modGBREnemyScaling"
+modContentPath=$modReadyFolder"/content"
 
 inXMLPath="Uncooked"
 inScriptPath="Script/scripts"
@@ -50,6 +52,9 @@ do
 	cp $inXMLPath$i $outXmlPath1$i
 	cp $inXMLPath$i $outXmlPath2$i
 done
+
+cp -r ModRes/strings/* $modContentPath
+cp -r ModRes/bin $modReadyFolder
 
 echo "Files copied OK."
 
