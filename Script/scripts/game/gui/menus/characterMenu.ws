@@ -1883,7 +1883,10 @@ class CR4CharacterMenu extends CR4MenuBase
 			case S_Sword_s04:
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s04, PowerStatEnumToName(CPS_AttackPower), false, false) * skillLevel;
 				argsInt.PushBack(RoundMath(ability.valueMultiplicative*100));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>";
+				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s04, 'speed_gain', false, false)) * skillLevel;
+				baseString += "Increases strong attack speed by " + RoundMath(arg*100) + "%.<br>";
+				baseString += GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
 				break;
 			case S_Sword_s05:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s05, 'dmg_per_sec', false, false)) * skillLevel;
@@ -1912,7 +1915,10 @@ class CR4CharacterMenu extends CR4MenuBase
 			case S_Sword_s09:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s09, 'damage_reduction', false, false)) * skillLevel;
 				argsInt.PushBack(RoundMath(arg*100));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>";
+				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s09, 'speed_gain', false, false)) * skillLevel;
+				baseString += "Increases dodging and rolling speed by " + RoundMath(arg*100) + "%.<br>";
+				baseString += GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
 				break;
 			case S_Sword_s10:
 				if (skillLevel == 2) 		baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel2Key) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
@@ -1974,7 +1980,10 @@ class CR4CharacterMenu extends CR4MenuBase
 			case S_Sword_s21:
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s21, PowerStatEnumToName(CPS_AttackPower), false, false) * skillLevel;
 				argsInt.PushBack(RoundMath(ability.valueMultiplicative*100));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>";
+				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s21, 'speed_gain', false, false)) * skillLevel;
+				baseString += "Increases fast attack speed by " + RoundMath(arg*100) + "%.<br>";
+				baseString += GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
 				break;
 			default:
 				if (skillLevel == 2) 		baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel2Key);

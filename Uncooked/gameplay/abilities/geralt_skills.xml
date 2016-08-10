@@ -154,6 +154,7 @@
       <ability name="sword_s4">
         <tags>sword_s4,attack_heavy</tags>
 		<attack_power type="mult" min="0.05" />
+		<speed_gain type="add" min="0.02" />
       </ability>
 	
       <!-- Crippling Strikes -->
@@ -186,6 +187,7 @@
 	  <ability name="sword_s9">
         <tags>sword_s9</tags>
 		<damage_reduction type="add" min="0.20" />
+		<speed_gain type="add" min="0.02" />
       </ability>
 	
 	  <!-- Arrow Deflection-->
@@ -257,6 +259,7 @@
       <ability name="sword_s21">
         <tags>sword_s21,attack_light</tags>
 		<attack_power type="mult" min="0.05" />
+		<speed_gain type="add" min="0.02" />
       </ability>
 	
       <!--#################################### Signs Path #####################################-->

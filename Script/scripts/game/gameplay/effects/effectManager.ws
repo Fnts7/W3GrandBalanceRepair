@@ -524,9 +524,7 @@ class W3EffectManager
 		
 		owner.SetEffectsUpdateTicking(true);
 		isReady = true;
-		GetWitcherPlayer().LFAUpdate(); //modLoreFriendlyArmor
 	}
-	
 	
 	public final function IsReady() : bool {return isReady;}		
 	public final function GetCurrentlyAnimatedCS() : CBaseGameplayEffect			{return currentlyAnimatedCS;}

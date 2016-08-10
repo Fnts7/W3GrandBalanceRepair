@@ -343,8 +343,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 				NewGamePlusAdjustDLC14SkelligeSet(horseManager.GetInventoryComponent());
 			}
 		}
-		
-		
+
+		AddTimer('LFADelayedUpdate', 3.0f);
+
 		ResumeStaminaRegen('WhirlSkill');
 		
 		if(HasAbility('Runeword 4 _Stats', true))
@@ -2268,7 +2269,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	 event OnProcessActionPost(action : W3DamageAction)
 	{
 		var attackAction : W3Action_Attack;
-		var rendLoad : float;
+		var rendLoad, rendMinCost : float;
 		var value : SAbilityAttributeValue;
 		var actorVictim : CActor;
 		var weaponId : SItemUniqueId;
@@ -2293,7 +2294,13 @@ statemachine class W3PlayerWitcher extends CR4Player
 				{
 					rendLoad = GetSpecialAttackTimeRatio();
 					
-					
+					rendMinCost = 0.1f - strongAtk / 1.2f;
+					rendMinCost = ClampF(rendMinCost, 0, 0.33f);
+					if (rendLoad < rendMinCost)
+					{
+						DrainStamina(ESAT_FixedValue, (rendMinCost - rendLoad) * 100.0f);
+					}
+
 					rendLoad = MinF(rendLoad * GetStatMax(BCS_Focus), GetStat(BCS_Focus));
 					
 					
@@ -5599,6 +5606,13 @@ statemachine class W3PlayerWitcher extends CR4Player
 	}
 	
 	//modLoreFriendlyArmor
+	
+	timer function LFADelayedUpdate( dt : float, id : int )
+	{
+		LFASetDefaultOnFirstStart();
+		LFAUpdate();
+	}
+	
 	public function LFAUpdate()
 	{
 		LFASetSpeed();
@@ -5613,6 +5627,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		var witcher : W3PlayerWitcher;
 		var i : int;
 		var values : array<float>;
+		var skillGain : SAbilityAttributeValue;
 		
 		values.Resize(4);
 		
@@ -5633,6 +5648,26 @@ statemachine class W3PlayerWitcher extends CR4Player
 		dodgeLfa = 0;
 		rollLfa = 0;
 		
+		if (CanUseSkill(S_Sword_s04))
+		{
+			skillGain = GetSkillAttributeValue(S_Sword_s04, 'speed_gain', false, false);
+			strongAtk += skillGain.valueAdditive * GetSkillLevel(S_Sword_s04);
+		}
+		
+		if (CanUseSkill(S_Sword_s21))
+		{
+			skillGain = GetSkillAttributeValue(S_Sword_s21, 'speed_gain', false, false);
+			fastAtk += skillGain.valueAdditive * GetSkillLevel(S_Sword_s21);
+			whirlAtk = fastAtk;
+		}
+		
+		if (CanUseSkill(S_Sword_s09))
+		{
+			skillGain = GetSkillAttributeValue(S_Sword_s09, 'speed_gain', false, false);
+			dodgeLfa += skillGain.valueAdditive * GetSkillLevel(S_Sword_s09);
+			rollLfa = dodgeLfa;
+		}
+
 		armors.Resize(4);
 		armorTypes.Resize(4);
 			

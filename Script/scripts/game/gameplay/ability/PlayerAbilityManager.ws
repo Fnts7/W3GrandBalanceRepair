@@ -2524,6 +2524,9 @@ class W3PlayerAbilityManager extends W3AbilityManager
 			}
 		}
 		
+		if (skill == S_Sword_s04 || skill == S_Sword_s21 || skill == S_Sword_s09)
+			witcher.LFAUpdate();
+		
 		if(GetSkillPathType(skill) == ESP_Alchemy)
 			witcher.RecalcPotionsDurations();
 		
@@ -2707,6 +2710,9 @@ class W3PlayerAbilityManager extends W3AbilityManager
 				}
 			}
 		}
+		
+		if (skill == S_Sword_s04 || skill == S_Sword_s21 || skill == S_Sword_s09)
+			GetWitcherPlayer().LFAUpdate();
 		
 		if(GetSkillPathType(skill) == ESP_Alchemy)
 			GetWitcherPlayer().RecalcPotionsDurations();
@@ -2919,6 +2925,8 @@ class W3PlayerAbilityManager extends W3AbilityManager
 				thePlayer.ChangeAlchemyItemsAbilities(false);
 		}
 		
+		if (skill == S_Sword_s04 || skill == S_Sword_s21 || skill == S_Sword_s09)
+			GetWitcherPlayer().LFAUpdate();
 		
 		if(GetSkillPathType(skill) == ESP_Sword)
 		{

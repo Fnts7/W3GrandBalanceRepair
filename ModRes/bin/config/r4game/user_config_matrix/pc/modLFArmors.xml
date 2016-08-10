@@ -4,10 +4,10 @@
 		<PresetsArray>
 			<Preset id="0" displayName="Default" tags="customNames;customDisplayName">
 				<Entry varId="HAFastAttack"								value="-20"	/>
-				<Entry varId="HAStrongAttack"							value="-15"	/>
+				<Entry varId="HAStrongAttack"							value="-20"	/>
 				<Entry varId="HAWhirl"									value="-25"	/>
 				<Entry varId="HADodge"									value="-15"	/>
-				<Entry varId="HARoll"									value="-12"	/>
+				<Entry varId="HARoll"									value="-15"	/>
 			</Preset>
 			<Preset id="1" displayName="Game_Default" tags="customNames;customDisplayName">
 				<Entry varId="HAFastAttack"								value="0"	/>
@@ -60,8 +60,8 @@
 				<Entry varId="LAFastAttack"								value="10"	/>
 				<Entry varId="LAStrongAttack"							value="10"	/>
 				<Entry varId="LAWhirl"									value="15"	/>
-				<Entry varId="LADodge"									value="20"	/>
-				<Entry varId="LARoll"									value="25"	/>
+				<Entry varId="LADodge"									value="12"	/>
+				<Entry varId="LARoll"									value="15"	/>
 			</Preset>
 			<Preset id="1" displayName="Game_Default" tags="customNames;customDisplayName">
 				<Entry varId="LAFastAttack"								value="0"	/>
@@ -87,7 +87,7 @@
 			<Preset id="0" displayName="Default" tags="customNames;customDisplayName">
 				<Entry varId="ResistHeavy"								value="25"	/>
 				<Entry varId="ResistMedium"								value="0"	/>
-				<Entry varId="ResistLight"								value="-30"	/>
+				<Entry varId="ResistLight"								value="-25"	/>
 			</Preset>
 			<Preset id="1" displayName="Game_Default" tags="customNames;customDisplayName">
 				<Entry varId="ResistHeavy"								value="0"	/>
