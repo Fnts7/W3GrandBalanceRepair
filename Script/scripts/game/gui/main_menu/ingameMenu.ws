@@ -188,7 +188,10 @@ class CR4IngameMenu extends CR4MenuBase
 		commonIngameMenu = (CR4CommonIngameMenu)(GetParent());
 		commonMainMenuBase = (CR4CommonMainMenuBase)(GetParent());
 		deathScreenMenu = (CR4DeathScreenMenu)(GetParent());
-		
+		//modLoreFriendlyArmor
+		if (commonIngameMenu || commonMainMenuBase || deathScreenMenu)
+			SetArmorPartsInfo(); 
+		//modLoreFriendlyArmor
 		if (commonIngameMenu)
 		{
 			isMainMenu = false;
@@ -395,7 +398,70 @@ class CR4IngameMenu extends CR4MenuBase
 		}
 		setArabicAligmentMode();
 	}
-	
+	//modLoreFriendlyArmor
+	function SetArmorPartsInfo()
+	{
+		var chestPart, PantsPart, BootsPart, GlovesPart : int;
+		
+		chestPart = StringToInt(mInGameConfigWrapper.GetVarValue('LFArmorPartsMultipliers', 'ChestPart'));
+		PantsPart = StringToInt(mInGameConfigWrapper.GetVarValue('LFArmorPartsMultipliers', 'PantsPart'));
+		BootsPart = StringToInt(mInGameConfigWrapper.GetVarValue('LFArmorPartsMultipliers', 'BootsPart'));
+		GlovesPart = StringToInt(mInGameConfigWrapper.GetVarValue('LFArmorPartsMultipliers', 'GlovesPart'));
+		
+		if (chestPart == 50)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('ChestPartIs50');
+			mInGameConfigWrapper.DeactivateScriptTag('ChestPartIs55');
+			mInGameConfigWrapper.DeactivateScriptTag('ChestPartIs25');
+		}	
+		else if (chestPart == 55)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('ChestPartIs55');
+			mInGameConfigWrapper.DeactivateScriptTag('ChestPartIs50');
+			mInGameConfigWrapper.DeactivateScriptTag('ChestPartIs25');
+		}
+		else if (chestPart == 25)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('ChestPartIs25');
+			mInGameConfigWrapper.DeactivateScriptTag('ChestPartIs55');
+			mInGameConfigWrapper.DeactivateScriptTag('ChestPartIs50');
+		}
+			
+		if (PantsPart == 30)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('PantsPartIs30');
+			mInGameConfigWrapper.DeactivateScriptTag('PantsPartIs25');
+		}
+		else if (PantsPart == 25)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('PantsPartIs25');
+			mInGameConfigWrapper.DeactivateScriptTag('PantsPartIs30');
+		}
+			
+		if (BootsPart == 10)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('BootsPartIs10');
+			mInGameConfigWrapper.DeactivateScriptTag('BootsPartIs25');
+		}
+		else if (BootsPart == 25)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('BootsPartIs25');
+			mInGameConfigWrapper.DeactivateScriptTag('BootsPartIs10');
+		}
+			
+		if (GlovesPart == 10)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('GlovesPartIs10');
+			mInGameConfigWrapper.DeactivateScriptTag('GlovesPartIs25');
+		}
+		else if (GlovesPart == 25)
+		{
+			mInGameConfigWrapper.ActivateScriptTag('GlovesPartIs25');
+			mInGameConfigWrapper.DeactivateScriptTag('GlovesPartIs10');
+		}
+		theGame.ReloadGameplayConfig();
+	}
+	//modLoreFriendlyArmor
 	function OnRequestSubMenu( menuName: name, optional initData : IScriptable )
 	{
 		RequestSubMenu(menuName, initData);
@@ -839,6 +905,12 @@ class CR4IngameMenu extends CR4MenuBase
 		{
 			m_fxForceBackgroundVis.InvokeSelfOneArg(FlashArgBool(true));
 		}
+		//modLoreFriendlyArmor
+		if (groupId == 'LFArmorPartsMultipliers')
+		{
+			ReopenMenu();
+		}
+		//modLoreFriendlyArmor
 	}
 	
 	public function UpdateOptions(groupId:name)

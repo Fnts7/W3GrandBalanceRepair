@@ -9,6 +9,16 @@
 
 statemachine class W3PlayerWitcher extends CR4Player
 {	
+    // modLoreFriendlyArmor
+	var fastAtk 								: float;
+	var strongAtk 								: float;
+	var whirlAtk 								: float;
+	var rollLfa	 								: float;
+	var dodgeLfa 								: float;
+	var resistanceLFALight						: float;
+	var resistanceLFAMedium						: float;
+	var resistanceLFAHeavy						: float;
+	// modLoreFriendlyArmor
 	
 	private saved var craftingSchematics				: array<name>; 					
 	
@@ -18,7 +28,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	private saved var booksRead 						: array<name>; 					
 	
-	
+	public 				var fstAtk	: float;
 	private 			var fastAttackCounter, heavyAttackCounter	: int;		
 	private				var isInFrenzy : bool;
 	private				var hasRecentlyCountered : bool;
@@ -1691,6 +1701,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 		var useQuenForBleeding : bool;
 		var min, max : SAbilityAttributeValue;
 		var skillLevel : int;
+		var dodgeNerf : float;
+		var maxAngle : int;
+		
 		
 		super.ReduceDamage(damageData);
 		
@@ -1710,8 +1723,12 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(actorAttacker && IsCurrentlyDodging() && damageData.CanBeDodged())
 		{
+			if (dodgeLfa < 0)
+				dodgeNerf = 1.0f + dodgeLfa * 1.5f;
+			else
+				dodgeNerf = 1.0f;
 			
-			
+			maxAngle = RoundF(150.0f * dodgeNerf);
 			actionHeading = evadeHeading;
 			attackerHeading = actorAttacker.GetHeading();
 			dist = AngleDistance(actionHeading, attackerHeading);
@@ -1719,8 +1736,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 			attackName = actorAttacker.GetLastAttackRangeName();
 			attackRange = theGame.GetAttackRangeForEntity( actorAttacker, attackName );
 			attackerMovementAdjustor = actorAttacker.GetMovingAgentComponent().GetMovementAdjustor();
-			if( ( AbsF(dist) < 150 && attackName != 'stomp' && attackName != 'anchor_special_far' && attackName != 'anchor_far' ) 
-				|| ( ( attackName == 'stomp' || attackName == 'anchor_special_far' || attackName == 'anchor_far' ) && distToAttacker > attackRange.rangeMax * 0.75 ) )
+			if( ( RandF() < dodgeNerf && AbsF(dist) < maxAngle && attackName != 'stomp' && attackName != 'anchor_special_far' && attackName != 'anchor_far' ) 
+				|| ( ( attackName == 'stomp' || attackName == 'anchor_special_far' || attackName == 'anchor_far' ) && distToAttacker > attackRange.rangeMax * 0.75 * (1.0f - dodgeLfa)) )
 			{
 				if ( theGame.CanLog() )
 				{
@@ -1733,14 +1750,14 @@ statemachine class W3PlayerWitcher extends CR4Player
 			else if( !damageData.IsActionEnvironment() && !damageData.IsDoTDamage() && CanUseSkill( S_Sword_s09 ) )
 			{
 				skillLevel = GetSkillLevel( S_Sword_s09 );
-				if( skillLevel == GetSkillMaxLevel( S_Sword_s09 ) )
+				if( skillLevel == GetSkillMaxLevel( S_Sword_s09 ) && dodgeNerf >= 1.0f)
 				{
 					damageData.SetAllProcessedDamageAs(0);
 					damageData.SetWasDodged();
 				}
 				else
 				{
-					damageData.processedDmg.vitalityDamage *= 1 - CalculateAttributeValue(GetSkillAttributeValue(S_Sword_s09, 'damage_reduction', false, true)) * skillLevel;
+					damageData.processedDmg.vitalityDamage *= 1 - CalculateAttributeValue(GetSkillAttributeValue(S_Sword_s09, 'damage_reduction', false, true)) * skillLevel * dodgeNerf;
 				}
 				
 				if ( theGame.CanLog() )
@@ -2002,7 +2019,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	
 	
-	
+	//modLoreFriendlyArmor
 	event OnStartFistfightMinigame()
 	{
 		var i : int;
@@ -2027,14 +2044,21 @@ statemachine class W3PlayerWitcher extends CR4Player
 			RemoveEffect( buffs[i] );
 		}
 		
+		fastAtk = 0.0f;
+		strongAtk = 0.0f;
+		whirlAtk = 0.0f;
+		rollLfa = 0.0f;
+		dodgeLfa = 0.0f;
+		
 		super.OnStartFistfightMinigame();
 	}
 	
 	event OnEndFistfightMinigame()
 	{
+		LFAUpdate();
 		super.OnEndFistfightMinigame();
 	}
-	
+	//modLoreFriendlyArmor
 	
 	public function GetCriticalHitChance( isLightAttack : bool, isHeavyAttack : bool, target : CActor, victimMonsterCategory : EMonsterCategory, isBolt : bool ) : float
 	{
@@ -5259,29 +5283,31 @@ statemachine class W3PlayerWitcher extends CR4Player
 			}
 		}		
 		
-		
+		//modLoreFriendlyArmor
 		if(inv.IsItemAnyArmor(item))
 		{
 			armorType = inv.GetArmorType(item);
 			pam = (W3PlayerAbilityManager)abilityManager;
 			
+			LFAUpdate();
+			
 			if(armorType == EAT_Light)
-			{
+			{ 
 				if(CanUseSkill(S_Perk_05))
 					pam.SetPerkArmorBonus(S_Perk_05);
 			}
 			else if(armorType == EAT_Medium)
-			{
+			{	
 				if(CanUseSkill(S_Perk_06))
 					pam.SetPerkArmorBonus(S_Perk_06);
 			}
 			else if(armorType == EAT_Heavy)
-			{
+			{				
 				if(CanUseSkill(S_Perk_07))
 					pam.SetPerkArmorBonus(S_Perk_07);
 			}
 		}
-		
+		//modLoreFriendlyArmor
 		
 		UpdateItemSetBonuses( item, true );
 				
@@ -5328,7 +5354,223 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		return true;
 	}
-
+	
+	//modLoreFriendlyArmor
+	public function LFAUpdate()
+	{
+		LFASetSpeed();
+		LFAOverrideArmorType();
+	}
+	public function LFASetSpeed()
+	{
+		var item : SItemUniqueId;
+		var armors : array<SItemUniqueId>;
+		var armorTypes : array<EArmorType>;
+		var inventory : CInventoryComponent;
+		var witcher : W3PlayerWitcher;
+		var i : int;
+		var values : array<float>;
+		
+		values.Resize(4);
+		
+		values[0] = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('LFArmorPartsMultipliers', 'ChestPart')) / 100;
+		values[1] = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('LFArmorPartsMultipliers', 'BootsPart')) / 100;
+		values[2] = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('LFArmorPartsMultipliers', 'PantsPart')) / 100;
+		values[3] = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('LFArmorPartsMultipliers', 'GlovesPart')) / 100;
+		
+		witcher = GetWitcherPlayer();
+		
+		resistanceLFALight = 0;
+		resistanceLFAMedium = 0;
+		resistanceLFAHeavy = 0;
+		
+		fastAtk = 0;
+		strongAtk = 0;
+		whirlAtk = 0;
+		dodgeLfa = 0;
+		rollLfa = 0;
+		
+		armors.Resize(4);
+		armorTypes.Resize(4);
+			
+		if(witcher.GetItemEquippedOnSlot(EES_Armor, item))
+			armors[0] = item;
+				
+		if(witcher.GetItemEquippedOnSlot(EES_Boots, item))
+			armors[1] = item;
+				
+		if(witcher.GetItemEquippedOnSlot(EES_Pants, item))
+			armors[2] = item;
+				
+		if(witcher.GetItemEquippedOnSlot(EES_Gloves, item))
+			armors[3] = item;
+			
+		inventory = witcher.GetInventory();
+		
+		for (i = 0; i < 4; i+=1)
+			armorTypes[i] = inventory.GetArmorType(armors[i]);
+		
+		
+		if(armorTypes[0] == EAT_Light)
+		{
+			fastAtk += values[0] * (LFAGetConfigValue('LFArmorsLight', 'LAFastAttack'));
+			strongAtk += values[0] * (LFAGetConfigValue('LFArmorsLight', 'LAStrongAttack'));
+			whirlAtk += values[0] * (LFAGetConfigValue('LFArmorsLight', 'LAWhirl'));
+			dodgeLfa += values[0] * (LFAGetConfigValue('LFArmorsLight', 'LADodge'));
+			rollLfa += values[0] * (LFAGetConfigValue('LFArmorsLight', 'LARoll'));
+			resistanceLFALight += values[0];
+		}	
+		else if(armorTypes[0] == EAT_Medium)
+		{			
+			fastAtk += values[0] * (LFAGetConfigValue('LFArmorsMedium', 'MAFastAttack'));
+			strongAtk += values[0] * (LFAGetConfigValue('LFArmorsMedium', 'MAStrongAttack'));
+			whirlAtk += values[0] * (LFAGetConfigValue('LFArmorsMedium', 'MAWhirl'));
+			dodgeLfa += values[0] * (LFAGetConfigValue('LFArmorsMedium', 'MADodge'));
+			rollLfa += values[0] * (LFAGetConfigValue('LFArmorsMedium', 'MARoll'));
+			resistanceLFAMedium += values[0];
+		}
+		else if(armorTypes[0] == EAT_Heavy)
+		{
+			fastAtk += values[0] * (LFAGetConfigValue('LFArmorsHeavy', 'HAFastAttack'));
+			strongAtk += values[0] * (LFAGetConfigValue('LFArmorsHeavy', 'HAStrongAttack'));
+			whirlAtk += values[0] * (LFAGetConfigValue('LFArmorsHeavy', 'HAWhirl'));
+			dodgeLfa += values[0] * (LFAGetConfigValue('LFArmorsHeavy', 'HADodge'));
+			rollLfa += values[0] * (LFAGetConfigValue('LFArmorsHeavy', 'HARoll'));
+			resistanceLFAHeavy += values[0];
+		}
+		
+		
+		if(armorTypes[1] == EAT_Light)
+		{
+			fastAtk += values[1] * (LFAGetConfigValue('LFArmorsLight', 'LAFastAttack'));
+			strongAtk += values[1] * (LFAGetConfigValue('LFArmorsLight', 'LAStrongAttack'));
+			whirlAtk += values[1] * (LFAGetConfigValue('LFArmorsLight', 'LAWhirl'));
+			dodgeLfa += values[1] * (LFAGetConfigValue('LFArmorsLight', 'LADodge'));
+			rollLfa += values[1] * (LFAGetConfigValue('LFArmorsLight', 'LARoll'));
+			resistanceLFALight += values[1]; 
+		}
+		else if(armorTypes[1] == EAT_Medium)
+		{
+			fastAtk += values[1] * (LFAGetConfigValue('LFArmorsMedium', 'MAFastAttack'));
+			strongAtk += values[1] * (LFAGetConfigValue('LFArmorsMedium', 'MAStrongAttack'));
+			whirlAtk += values[1] * (LFAGetConfigValue('LFArmorsMedium', 'MAWhirl'));
+			dodgeLfa += values[1] * (LFAGetConfigValue('LFArmorsMedium', 'MADodge'));
+			rollLfa += values[1] * (LFAGetConfigValue('LFArmorsMedium', 'MARoll'));
+			resistanceLFAMedium += values[1];
+		}
+		else if(armorTypes[1] == EAT_Heavy)
+		{
+			fastAtk += values[1] * (LFAGetConfigValue('LFArmorsHeavy', 'HAFastAttack'));
+			strongAtk += values[1] * (LFAGetConfigValue('LFArmorsHeavy', 'HAStrongAttack'));
+			whirlAtk += values[1] * (LFAGetConfigValue('LFArmorsHeavy', 'HAWhirl'));
+			dodgeLfa += values[1] * (LFAGetConfigValue('LFArmorsHeavy', 'HADodge'));
+			rollLfa += values[1] * (LFAGetConfigValue('LFArmorsHeavy', 'HARoll'));
+			resistanceLFAHeavy += values[1];
+		}
+		
+		
+		if(armorTypes[2] == EAT_Light)
+		{
+			fastAtk += values[2] * (LFAGetConfigValue('LFArmorsLight', 'LAFastAttack'));
+			strongAtk += values[2] * (LFAGetConfigValue('LFArmorsLight', 'LAStrongAttack'));
+			whirlAtk += values[2] * (LFAGetConfigValue('LFArmorsLight', 'LAWhirl'));
+			dodgeLfa += values[2] * (LFAGetConfigValue('LFArmorsLight', 'LADodge'));
+			rollLfa += values[2] * (LFAGetConfigValue('LFArmorsLight', 'LARoll'));
+			resistanceLFALight += values[2];
+		}
+		else if(armorTypes[2] == EAT_Medium)
+		{
+			fastAtk += values[2] * (LFAGetConfigValue('LFArmorsMedium', 'MAFastAttack'));
+			strongAtk += values[2] * (LFAGetConfigValue('LFArmorsMedium', 'MAStrongAttack'));
+			whirlAtk += values[2] * (LFAGetConfigValue('LFArmorsMedium', 'MAWhirl'));
+			dodgeLfa += values[2] * (LFAGetConfigValue('LFArmorsMedium', 'MADodge'));
+			rollLfa += values[2] * (LFAGetConfigValue('LFArmorsMedium', 'MARoll'));
+			resistanceLFAMedium += values[2];
+		}
+		else if(armorTypes[2] == EAT_Heavy)
+		{
+			fastAtk += values[2] * (LFAGetConfigValue('LFArmorsHeavy', 'HAFastAttack'));
+			strongAtk += values[2] * (LFAGetConfigValue('LFArmorsHeavy', 'HAStrongAttack'));
+			whirlAtk += values[2] * (LFAGetConfigValue('LFArmorsHeavy', 'HAWhirl'));
+			dodgeLfa += values[2] * (LFAGetConfigValue('LFArmorsHeavy', 'HADodge'));
+			rollLfa += values[2] * (LFAGetConfigValue('LFArmorsHeavy', 'HARoll'));
+			resistanceLFAHeavy += values[2];
+		}
+				
+		if(armorTypes[3] == EAT_Light)
+		{
+			fastAtk += values[3] * (LFAGetConfigValue('LFArmorsLight', 'LAFastAttack'));
+			strongAtk += values[3] * (LFAGetConfigValue('LFArmorsLight', 'LAStrongAttack'));
+			whirlAtk += values[3] * (LFAGetConfigValue('LFArmorsLight', 'LAWhirl'));
+			dodgeLfa += values[3] * (LFAGetConfigValue('LFArmorsLight', 'LADodge'));
+			rollLfa += values[3] * (LFAGetConfigValue('LFArmorsLight', 'LARoll'));
+			resistanceLFALight += values[3]; 
+		}
+		else if(armorTypes[3] == EAT_Medium)
+		{
+			fastAtk += values[3] * (LFAGetConfigValue('LFArmorsMedium', 'MAFastAttack'));
+			strongAtk += values[3] * (LFAGetConfigValue('LFArmorsMedium', 'MAStrongAttack'));
+			whirlAtk += values[3] * (LFAGetConfigValue('LFArmorsMedium', 'MAWhirl'));
+			dodgeLfa += values[3] * (LFAGetConfigValue('LFArmorsMedium', 'MADodge'));
+			rollLfa += values[3] * (LFAGetConfigValue('LFArmorsMedium', 'MARoll'));
+			resistanceLFAMedium += values[3];
+		}
+		else if(armorTypes[3] == EAT_Heavy)
+		{
+			fastAtk += values[3] * (LFAGetConfigValue('LFArmorsHeavy', 'HAFastAttack'));
+			strongAtk += values[3] * (LFAGetConfigValue('LFArmorsHeavy', 'HAStrongAttack'));
+			whirlAtk += values[3] * (LFAGetConfigValue('LFArmorsHeavy', 'HAWhirl'));
+			dodgeLfa += values[3] * (LFAGetConfigValue('LFArmorsHeavy', 'HADodge'));
+			rollLfa += values[3] * (LFAGetConfigValue('LFArmorsHeavy', 'HARoll'));
+			resistanceLFAHeavy += values[3];
+		}
+	}
+	public function LFAOverrideArmorType() : string
+	{
+		var enabled : bool;
+		var overrideType : string;
+		
+		enabled = theGame.GetInGameConfigWrapper().GetVarValue('LFAOverrideArmorType', 'overrideEnabled');
+		overrideType = theGame.GetInGameConfigWrapper().GetVarValue('LFAOverrideArmorType', 'overrideType');
+		
+		if (!enabled)
+			return "";
+		else if (overrideType == "0")
+			return "Light";
+		else if (overrideType == "1")
+			return "Medium";
+		else if (overrideType == "2")
+			return "Heavy";
+		else
+			return "";
+	}
+	public function LFAGetConfigValue(group : name, value : name) : float
+	{
+		return StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue(group, value)) / 100;
+	}
+	public function LFAGetMultiplier(atkType : name) : float
+	{	
+		switch(atkType)
+		{
+			case 'Fast':
+				return fastAtk;
+				break;
+			case 'Strong':
+				return strongAtk;
+				break;
+			case 'Whirl':
+				return whirlAtk;
+				break;
+			case 'Dodge':
+				return dodgeLfa;
+				break;
+			case 'Roll':
+				return rollLfa;
+				break;
+		}
+	}
+	//modLoreFriendlyArmor
+	
 	private function CheckHairItem()
 	{
 		var ids : array<SItemUniqueId>;
@@ -5594,6 +5836,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(inv.IsItemAnyArmor(item))
 		{
+			LFAUpdate(); //modLoreFriendlyArmor
 			armorType = inv.GetArmorType(item);
 			pam = (W3PlayerAbilityManager)abilityManager;
 			
@@ -7333,7 +7576,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		var staminaRegenVal : float;
 		var armorRegenVal : SAbilityAttributeValue;
 		
-		if( HasAbility( 'Glyphword 2 _Stats', true ) )
+		if( HasAbility( 'Glyphword 2 _Stats', true ) || LFAOverrideArmorType() == "Light") //modLoreFriendlyArmor
 		{
 			armorEq = inv.GetItemEquippedOnSlot( EES_Armor, tempItem );
 			glovesEq = inv.GetItemEquippedOnSlot( EES_Gloves, tempItem );
@@ -7350,11 +7593,11 @@ statemachine class W3PlayerWitcher extends CR4Player
 				staminaRegenVal += 0.03;
 			
 		}
-		else if( HasAbility( 'Glyphword 3 _Stats', true ) )
+		else if( HasAbility( 'Glyphword 3 _Stats', true ) || LFAOverrideArmorType() == "Medium") //modLoreFriendlyArmor
 		{
 			staminaRegenVal = 0;
 		}
-		else if( HasAbility( 'Glyphword 4 _Stats', true ) )
+		else if( HasAbility( 'Glyphword 4 _Stats', true ) || LFAOverrideArmorType() == "Heavy") //modLoreFriendlyArmor
 		{
 			armorEq = inv.GetItemEquippedOnSlot( EES_Armor, tempItem );
 			glovesEq = inv.GetItemEquippedOnSlot( EES_Gloves, tempItem );

@@ -1032,10 +1032,17 @@ state CombatSword in W3PlayerWitcher extends Combat
 			{
 				if(enableAttack)
 				{
+					// modLoreFriendlyArmor - from modWitcherReflex++
+						thePlayer.SetWhirlAtkSpd();
+					// modLoreFriendlyArmor - from modWitcherReflex--
 					parent.SetSlideTarget( NULL );
 				}
 				else
 				{
+					// modLoreFriendlyArmor - from modWitcherReflex++
+						if (thePlayer.WhirlAtkActive)
+							thePlayer.AddTimer( 'WaitForWhirlAtkSpdMult', 0.1 );
+					// modLoreFriendlyArmor - from modWitcherReflex--
 					
 					parent.RemoveTimer( 'IsSpecialLightAttackInputHeld' );
 					parent.RemoveTimer( 'IsSpecialHeavyAttackInputHeld' );

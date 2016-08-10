@@ -505,7 +505,6 @@ class W3EffectManager
 	public final function OnLoad(own : CActor)
 	{
 		var i : int;
-		
 		owner = own;
 		hasCriticalStateSaveLock = false;
 		ownerIsWitcher = (W3PlayerWitcher)owner;
@@ -525,7 +524,9 @@ class W3EffectManager
 		
 		owner.SetEffectsUpdateTicking(true);
 		isReady = true;
+		GetWitcherPlayer().LFAUpdate(); //modLoreFriendlyArmor
 	}
+	
 	
 	public final function IsReady() : bool {return isReady;}		
 	public final function GetCurrentlyAnimatedCS() : CBaseGameplayEffect			{return currentlyAnimatedCS;}

@@ -1202,9 +1202,14 @@ import abstract class CActor extends CGameplayEntity
 		var finalMul : float;
 		var i,size : int;
 
+		// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
+		size = animationMultiplierCausers.Size();
+		// modLoreFriendlyArmor - from modWitcherReflex--
 		if( overrideExistingId != -1 )
 		{
+			// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
 			size = animationMultiplierCausers.Size();
+			// modLoreFriendlyArmor - from modWitcherReflex--
 
 			for( i = 0; i < size; i += 1 )
 			{
@@ -1221,7 +1226,9 @@ import abstract class CActor extends CGameplayEntity
 		causer.mul = mul;
 		causer.id = nextFreeAnimMultCauserId;
 		
+		// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
 		nextFreeAnimMultCauserId += 1;
+		// modLoreFriendlyArmor--
 		
 		animationMultiplierCausers.PushBack( causer );
 				
@@ -1234,8 +1241,29 @@ import abstract class CActor extends CGameplayEntity
 	
 	private function CalculateFinalAnimationSpeedMultiplier() : float
 	{
-		if(animationMultiplierCausers.Size() > 0)
-			return animationMultiplierCausers[animationMultiplierCausers.Size()-1].mul;
+		// modWitcherReflex++ (J_Slash): Animation Speeds
+		var i,size : int;
+		var FinalMult : float = 1.f;
+		// modWitcherReflex--
+		
+		// modWitcherReflex++ (cvax): Allow toggling max speed cap on/off
+			
+		size = animationMultiplierCausers.Size();
+			
+		if(size > 0)
+		{
+			for( i = 0; i < size; i += 1 )
+			{
+				FinalMult *= animationMultiplierCausers[i].mul;
+			}
+			return FinalMult;
+		}
+		else
+		{
+			if(animationMultiplierCausers.Size() > 0)
+				return animationMultiplierCausers[animationMultiplierCausers.Size()-1].mul;
+		}
+		// modWitcherReflex--
 		
 		return 1;
 	}
@@ -1489,6 +1517,8 @@ import abstract class CActor extends CGameplayEntity
 		
 		if(effectManager)
 			ResumeStaminaRegen( 'SignCast' );
+			
+		LFASetDefaultOnFirstStart(); // modLoreFriendlyArmor
 	}
 	
 	protected function SetEffectManager()
@@ -1560,7 +1590,7 @@ import abstract class CActor extends CGameplayEntity
 	{		
 		AddTimer('DelaySoundInfoUpdate', 1);
 	}
-		
+	
 	public timer function RestoreOriginalInteractionPriorityTimer( optional deltaTime : float , id : int)
 	{
 		RestoreOriginalInteractionPriority();

@@ -5,7 +5,13 @@
 /***********************************************************************/
 statemachine abstract import class CR4Player extends CPlayer
 { 
-	
+	// modLoreFriendlyArmor - from modWitcherReflex
+	var fastAtkSpdMultiplier : float;
+	var strongAtkSpdMultiplier : float;
+	var dodgeSpdMultiplier : float;
+	var rollSpdMultiplier : float;
+	// modLoreFriendlyArmor
+		
 	protected 		var pcGamePlayInitialized			: bool;					
 
 	
@@ -8690,6 +8696,12 @@ statemachine abstract import class CR4Player extends CPlayer
 	{
 		super.SetIsCurrentlyDodging(enable, isRolling);
 		
+		if (!enable)
+		{
+			RemoveTimer('RemEvadeSpdMultID');
+			ResetAnimationSpeedMultiplier(EvadeSpdMultID);
+		}
+		
 		if ( isRolling )
 		{
 			SetCanPlayHitAnim( false );
@@ -9384,6 +9396,13 @@ statemachine abstract import class CR4Player extends CPlayer
 	}
 	
 
+	// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
+	private var EvadeSpdMultID				: int;		default EvadeSpdMultID = -1;
+	private var FastAtkSpdMultID			: int;		default FastAtkSpdMultID = -1;
+	private var StrongAtkSpdMultID			: int;		default StrongAtkSpdMultID = -1;
+	private var WhirlAtkSpdMultID			: int;		default WhirlAtkSpdMultID = -1;
+	public	var WhirlAtkActive				: bool;		default WhirlAtkActive = false;
+	// modLoreFriendlyArmor - from modWitcherReflex--
 	
 	public function ProcessCombatActionBuffer() : bool
 	{
@@ -9393,6 +9412,15 @@ statemachine abstract import class CR4Player extends CPlayer
 		var s					: SNotWorkingOutFunctionParametersHackStruct1;
 		var allSteps 			: bool						= this.BufferAllSteps;
 
+		// modLoreFriendlyArmor - from modWitcherReflex++ (cvax):
+
+		fastAtkSpdMultiplier	= GetWitcherPlayer().LFAGetMultiplier('Fast');
+		strongAtkSpdMultiplier  = GetWitcherPlayer().LFAGetMultiplier('Strong');
+		dodgeSpdMultiplier		= GetWitcherPlayer().LFAGetMultiplier('Dodge');
+		rollSpdMultiplier		= GetWitcherPlayer().LFAGetMultiplier('Roll');
+		
+		// modLoreFriendlyArmor - from modWitcherReflex--
+		
 		if ( IsInCombatActionFriendly() )
 		{
 			RaiseEvent('CombatActionFriendlyEnd');
@@ -9454,10 +9482,12 @@ statemachine abstract import class CR4Player extends CPlayer
 				{
 					case BS_Pressed :
 					{
-						
-						
-						
-						
+						//modLoreFriendlyArmor - from modWitcherReflexx++ modLFArmors (J_Slash): Animation Speeds
+						//FastAtkSpdMultID = SetAnimationSpeedMultiplier(1 + fastAtkSpdMultiplier, FastAtkSpdMultID);
+						RemoveTimer( 'RemFastAtkSpdMultID');
+						//AddTimer( 'RemFastAtkSpdMultID', 0.3 );
+						AddTimer( 'WaitForFastAtkSpdMult', 0.1 );						
+						// modLoreFriendlyArmor - from modWitcherReflex--
 							
 							
 							DrainStamina(ESAT_LightAttack);
@@ -9484,13 +9514,15 @@ statemachine abstract import class CR4Player extends CPlayer
 				{
 					case BS_Released :
 					{
-						
-						
-						
-							
-							
+					// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
+								//StrongAtkSpdMultID = SetAnimationSpeedMultiplier(1 + strongAtkSpdMultiplier, StrongAtkSpdMultID);
+								RemoveTimer( 'RemStrongAtkSpdMultID' );
+								//AddTimer( 'RemStrongAtkSpdMultID', 0.6 );
+								AddTimer( 'WaitForStrongAtkSpdMult', 0.1 );
+					// modLoreFriendlyArmor - from modWitcherReflex--
+
 							DrainStamina(ESAT_HeavyAttack);
-							
+
 							
 							
 							thePlayer.BreakPheromoneEffect();		
@@ -9595,6 +9627,14 @@ statemachine abstract import class CR4Player extends CPlayer
 				{
 					case BS_Released :
 					{
+						// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
+						//EvadeSpdMultID = SetAnimationSpeedMultiplier(1 + dodgeSpdMultiplier, EvadeSpdMultID);
+						RemoveTimer('RemEvadeSpdMultID');
+						AddTimer( 'WaitForEvadeSpdMult', 0.1 );
+						//AddTimer( 'RemEvadeSpdMultID', 1.0 );
+						// modLoreFriendlyArmor - from modWitcherReflex--					
+
+						
 						theGame.GetBehTreeReactionManager().CreateReactionEvent( this, 'PlayerEvade', 1.0f, 10.0f, -1.0f, -1 );
 						thePlayer.BreakPheromoneEffect();
 						actionResult = this.OnPerformEvade( PET_Dodge );
@@ -9618,6 +9658,12 @@ statemachine abstract import class CR4Player extends CPlayer
 				{
 					case BS_Released :
 					{
+						// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
+						//EvadeSpdMultID = SetAnimationSpeedMultiplier(1 + rollSpdMultiplier, EvadeSpdMultID);
+						RemoveTimer('RemEvadeSpdMultID');
+						AddTimer( 'WaitForRollSpdMult', 0.1 );
+						//AddTimer( 'RemEvadeSpdMultID', 2.0 );
+						// modLoreFriendlyArmor - from modWitcherReflex--
 						theGame.GetBehTreeReactionManager().CreateReactionEvent( this, 'PlayerEvade', 1.0f, 10.0f, -1.0f, -1 );
 						thePlayer.BreakPheromoneEffect();
 						actionResult = this.OnPerformEvade( PET_Roll );
@@ -9625,6 +9671,13 @@ statemachine abstract import class CR4Player extends CPlayer
 					
 					case BS_Pressed :
 					{
+						// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
+						//EvadeSpdMultID = SetAnimationSpeedMultiplier(1 + rollSpdMultiplier, EvadeSpdMultID);
+						RemoveTimer('RemEvadeSpdMultID');
+						//AddTimer( 'RemEvadeSpdMultID', 2.0 );
+						AddTimer( 'WaitForRollSpdMult', 0.1 );
+						// modLoreFriendlyArmor - from modWitcherReflex--
+						
 						if ( this.GetBehaviorVariable( 'combatActionType' ) == 2.f )
 						{
 							if ( GetCurrentStateName() == 'CombatSteel' || GetCurrentStateName() == 'CombatSilver' )
@@ -9759,8 +9812,66 @@ statemachine abstract import class CR4Player extends CPlayer
 				GetWitcherPlayer().SkillFrenzyFinish(0);
 		}
 		
-		return true;		
+		return true;	
+		
 	}
+	// modLoreFriendlyArmor
+	timer function WaitForEvadeSpdMult( time : float , id : int)
+	{
+		EvadeSpdMultID = SetAnimationSpeedMultiplier(1 + dodgeSpdMultiplier, EvadeSpdMultID);
+		AddTimer('RemEvadeSpdMultID', 1.0);
+	}	
+	timer function WaitForRollSpdMult( time : float , id : int)
+	{
+		EvadeSpdMultID = SetAnimationSpeedMultiplier(1 + rollSpdMultiplier, EvadeSpdMultID);
+		AddTimer('RemEvadeSpdMultID', 2.0);
+	}
+	timer function WaitForStrongAtkSpdMult( time : float , id : int)
+	{
+		StrongAtkSpdMultID = SetAnimationSpeedMultiplier(1 + strongAtkSpdMultiplier, StrongAtkSpdMultID);
+		AddTimer('RemStrongAtkSpdMultID', 0.6);
+	}	
+	timer function WaitForFastAtkSpdMult( time : float , id : int)
+	{
+		FastAtkSpdMultID = SetAnimationSpeedMultiplier(1 + fastAtkSpdMultiplier, FastAtkSpdMultID);
+		AddTimer('RemFastAtkSpdMultID', 0.3);
+	}	
+	timer function WaitForWhirlAtkSpdMult( time : float , id : int)
+	{
+		AddTimer('RemWhirlAtkSpdMultID', 0.2);
+	}	
+	// modLoreFriendlyArmor - from modWitcherReflex++
+	public function SetWhirlAtkSpd()
+	{
+		var whirlAtkSpdMultiplier	: float;
+		
+		whirlAtkSpdMultiplier	= GetWitcherPlayer().LFAGetMultiplier('Whirl');
+		WhirlAtkSpdMultID = SetAnimationSpeedMultiplier(1 + whirlAtkSpdMultiplier, WhirlAtkSpdMultID);	
+		WhirlAtkActive = true;
+	}
+	
+	
+	// modLoreFriendlyArmor - from modWitcherReflex++ (J_Slash): Animation Speeds
+	timer function RemFastAtkSpdMultID( time : float , id : int)
+	{
+		if (!WhirlAtkActive)
+			ResetAnimationSpeedMultiplier(FastAtkSpdMultID);
+	}
+	timer function RemEvadeSpdMultID( time : float , id : int)
+	{
+		ResetAnimationSpeedMultiplier(EvadeSpdMultID);
+	}
+	timer function RemStrongAtkSpdMultID( time : float , id : int)
+	{
+		ResetAnimationSpeedMultiplier(StrongAtkSpdMultID);
+	}
+	timer function RemWhirlAtkSpdMultID( time : float , id : int)
+	{
+		WhirlAtkActive = false;
+		ResetAnimationSpeedMultiplier(WhirlAtkSpdMultID);
+		ResetAnimationSpeedMultiplier(FastAtkSpdMultID);
+	}
+	// modLoreFriendlyArmor - from modWitcherReflex--
 	
 	public function CleanCombatActionBuffer()
 	{

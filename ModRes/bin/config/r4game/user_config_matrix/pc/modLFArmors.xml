@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="UTF-16"?>
+<UserConfig>
+	<Group id="LFArmorsHeavy" displayName="Mods.LFArmors.Settings.Heavy_settings"> 
+		<PresetsArray>
+			<Preset id="0" displayName="Default" tags="customNames;customDisplayName">
+				<Entry varId="HAFastAttack"								value="-20"	/>
+				<Entry varId="HAStrongAttack"							value="-15"	/>
+				<Entry varId="HAWhirl"									value="-25"	/>
+				<Entry varId="HADodge"									value="-15"	/>
+				<Entry varId="HARoll"									value="-12"	/>
+			</Preset>
+			<Preset id="1" displayName="Game_Default" tags="customNames;customDisplayName">
+				<Entry varId="HAFastAttack"								value="0"	/>
+				<Entry varId="HAStrongAttack"							value="0"	/>
+				<Entry varId="HAWhirl"									value="0"	/>
+				<Entry varId="HADodge"									value="0"	/>
+				<Entry varId="HARoll"									value="0"	/>
+			</Preset>
+		</PresetsArray>
+		<VisibleVars>			
+		<!-- Heavy Armor Speed Multipliers --->
+			<Var overrideGroup="LFArmors" 		id="HAFastAttack" 		displayName="FastAttack" 		displayType="SLIDER;-40;100;140" 	tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 		id="HAStrongAttack" 	displayName="StrongAttack" 		displayType="SLIDER;-40;100;140" 	tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 		id="HAWhirl" 			displayName="Whirl" 			displayType="SLIDER;-25;50;75" 		tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 		id="HADodge" 			displayName="Dodge" 			displayType="SLIDER;-25;25;50" 		tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 		id="HARoll" 			displayName="Roll" 				displayType="SLIDER;-25;25;50" 		tags="customNames;customDisplayName"/>
+		<!------------------------------------>
+		</VisibleVars>
+	</Group>
+	<Group id="LFArmorsMedium" displayName="Mods.LFArmors.Settings.Medium_settings"> 
+		<PresetsArray>
+			<Preset id="0" displayName="Default" tags="customNames;customDisplayName">
+				<Entry varId="MAFastAttack"								value="0"	/>
+				<Entry varId="MAStrongAttack"							value="0"	/>
+				<Entry varId="MAWhirl"									value="0"	/>
+				<Entry varId="MADodge"									value="0"	/>
+				<Entry varId="MARoll"									value="0"	/>
+			</Preset>
+			<Preset id="1" displayName="Game_Default" tags="customNames;customDisplayName">
+				<Entry varId="MAFastAttack"								value="0"	/>
+				<Entry varId="MAStrongAttack"							value="0"	/>
+				<Entry varId="MAWhirl"									value="0"	/>
+				<Entry varId="MADodge"									value="0"	/>
+				<Entry varId="MARoll"									value="0"	/>
+			</Preset>
+		</PresetsArray>
+		<VisibleVars>
+		<!-- Medium Armor Speed Multipliers -->
+			<Var overrideGroup="LFArmors" 		id="MAFastAttack" 		displayName="FastAttack" 		displayType="SLIDER;-40;100;140" 	tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 		id="MAStrongAttack" 	displayName="StrongAttack" 		displayType="SLIDER;-40;100;140" 	tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors"		id="MAWhirl" 			displayName="Whirl" 			displayType="SLIDER;-25;50;75" 		tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 	  	id="MADodge" 			displayName="Dodge" 			displayType="SLIDER;-25;25;50"		tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 	  	id="MARoll" 			displayName="Roll" 				displayType="SLIDER;-25;25;50" 		tags="customNames;customDisplayName" />
+		<!------------------------------------>
+		</VisibleVars>
+	</Group>
+	<Group id="LFArmorsLight" displayName="Mods.LFArmors.Settings.Light_settings">
+		<PresetsArray>
+			<Preset id="0" displayName="Default" tags="customNames;customDisplayName">
+				<Entry varId="LAFastAttack"								value="10"	/>
+				<Entry varId="LAStrongAttack"							value="10"	/>
+				<Entry varId="LAWhirl"									value="15"	/>
+				<Entry varId="LADodge"									value="20"	/>
+				<Entry varId="LARoll"									value="25"	/>
+			</Preset>
+			<Preset id="1" displayName="Game_Default" tags="customNames;customDisplayName">
+				<Entry varId="LAFastAttack"								value="0"	/>
+				<Entry varId="LAStrongAttack"							value="0"	/>
+				<Entry varId="LAWhirl"									value="0"	/>
+				<Entry varId="LADodge"									value="0"	/>
+				<Entry varId="LARoll"									value="0"	/>
+			</Preset>
+		</PresetsArray>
+		<VisibleVars>
+		<!-- Light Armor Speed Multipliers --->
+			<Var overrideGroup="LFArmors" 		id="LAFastAttack" 		displayName="FastAttack" 		displayType="SLIDER;-40;100;140" 	tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 		id="LAStrongAttack"		displayName="StrongAttack" 		displayType="SLIDER;-40;100;140" 	tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors"		id="LAWhirl" 			displayName="Whirl" 			displayType="SLIDER;-25;50;75" 		tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 	  	id="LADodge" 			displayName="Dodge" 			displayType="SLIDER;-25;25;50" 		tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 	  	id="LARoll" 			displayName="Roll" 				displayType="SLIDER;-25;25;50" 		tags="customNames;customDisplayName" />
+		<!------------------------------------>	
+		</VisibleVars>
+	</Group>
+	<!-- Armor Resistance -------------------->
+	<Group id="LFArmorResistance" displayName="Mods.LFArmors.Settings.Resist_settings">
+		<PresetsArray>
+			<Preset id="0" displayName="Default" tags="customNames;customDisplayName">
+				<Entry varId="ResistHeavy"								value="25"	/>
+				<Entry varId="ResistMedium"								value="0"	/>
+				<Entry varId="ResistLight"								value="-30"	/>
+			</Preset>
+			<Preset id="1" displayName="Game_Default" tags="customNames;customDisplayName">
+				<Entry varId="ResistHeavy"								value="0"	/>
+				<Entry varId="ResistMedium"								value="0"	/>
+				<Entry varId="ResistLight"								value="0"	/>
+			</Preset>
+		</PresetsArray>
+		<VisibleVars>
+			<Var overrideGroup="LFArmors" 		id="ResistHeavy" 	displayName="ResistHeavy" 			displayType="SLIDER;-90;90;180" 	tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 		id="ResistMedium"	displayName="ResistMedium" 			displayType="SLIDER;-90;90;180" 	tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors"		id="ResistLight" 	displayName="ResistLight" 			displayType="SLIDER;-90;90;180" 	tags="customNames;customDisplayName"/>
+		</VisibleVars>
+	</Group>
+	<!------------------------------------>	
+	<!-- Armor Type Override Options ----->
+	<Group id="LFAOverrideArmorType" displayName="Mods.LFArmors.Settings.OverrideArmorType">
+		<VisibleVars>
+			<Var overrideGroup="LFArmors"		id="overrideEnabled" 	displayName="overrideEnabled" 		displayType="TOGGLE" 			tags="customNames;customDisplayName"/>
+			<Var overrideGroup="LFArmors" 		id="overrideType" 		displayName="overrideType" 			displayType="OPTIONS" 			tags="customNames;customDisplayName">
+				<OptionsArray>
+					<Option id="0" displayName="overrideTypeLight">
+						<Entry varId="overrideType" value="0"/>
+					</Option>
+					<Option id="1" displayName="overrideTypeMedium">
+						<Entry varId="overrideType" value="1"/>
+					</Option>
+					<Option id="2" displayName="overrideTypeHeavy">
+						<Entry varId="overrideType" value="2"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+		</VisibleVars>
+	</Group>
+	<!------------------------------------->
+	<!-- Armor Parts Multipliers Presets -->
+	<Group id="LFArmorPartsMultipliers" displayName="Mods.LFArmors.Settings.ArmorPartsMultipliers">
+	<PresetsArray>
+			<Preset id="0" displayName="50301010" tags="customNames;customDisplayName">
+				<Entry varId="ChestPart"								value="50"	/>
+				<Entry varId="PantsPart"								value="30"	/>
+				<Entry varId="BootsPart"								value="10"	/>
+				<Entry varId="GlovesPart"								value="10"	/>
+			</Preset>
+			<Preset id="1" displayName="55251010" tags="customNames;customDisplayName">
+				<Entry varId="ChestPart"								value="55"	/>
+				<Entry varId="PantsPart"								value="25"	/>
+				<Entry varId="BootsPart"								value="10"	/>
+				<Entry varId="GlovesPart"								value="10"	/>
+			</Preset>
+			<Preset id="2" displayName="25252525" tags="customNames;customDisplayName">
+				<Entry varId="ChestPart"								value="25"	/>
+				<Entry varId="PantsPart"								value="25"	/>
+				<Entry varId="BootsPart"								value="25"	/>
+				<Entry varId="GlovesPart"								value="25"	/>
+			</Preset>
+		</PresetsArray>
+		<VisibleVars>
+			<Var overrideGroup="LFArmors"		id="ChestPart" 			displayName="ChestPart" 			displayType="SLIDER;0;100;100" 	tags="customNames;customDisplayName"
+			visibilityCondition="hideAlways"/>
+			<Var overrideGroup="LFArmors"		id="PantsPart" 			displayName="PantsPart" 			displayType="SLIDER;0;100;100" 	tags="customNames;customDisplayName"
+			visibilityCondition="hideAlways"/>
+			<Var overrideGroup="LFArmors"		id="BootsPart" 			displayName="BootsPart" 			displayType="SLIDER;0;100;100" 	tags="customNames;customDisplayName"
+			visibilityCondition="hideAlways"/>
+			<Var overrideGroup="LFArmors"		id="GlovesPart" 		displayName="GlovesPart" 			displayType="SLIDER;0;100;100" 	tags="customNames;customDisplayName"
+			visibilityCondition="hideAlways"/>
+			<!---------- Just info for user ----------->
+			<Var overrideGroup="LFArmors" 		id="ChestPart50" 		displayName="ChestPart1" 			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="ChestPartIs50">
+				<OptionsArray>
+					<Option id="0" displayName="ChestPart50">
+						<Entry varId="ChestPart50" value="0"/>
+					</Option>
+					<Option id="1" displayName="ChestPart50">
+						<Entry varId="ChestPart50" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<Var overrideGroup="LFArmors" 		id="ChestPart55" 		displayName="ChestPart2" 			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="ChestPartIs55">
+				<OptionsArray>
+					<Option id="0" displayName="ChestPart55">
+						<Entry varId="ChestPart55" value="0"/>
+					</Option>
+					<Option id="1" displayName="ChestPart55">
+						<Entry varId="ChestPart55" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<Var overrideGroup="LFArmors" 		id="ChestPart25" 		displayName="ChestPart3" 			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="ChestPartIs25">
+				<OptionsArray>
+					<Option id="0" displayName="ChestPart25">
+						<Entry varId="ChestPart25" value="0"/>
+					</Option>
+					<Option id="1" displayName="ChestPart25">
+						<Entry varId="ChestPart25" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<Var overrideGroup="LFArmors" 		id="PantsPart30" 		displayName="PantsPart1" 			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="PantsPartIs30">
+				<OptionsArray>
+					<Option id="0" displayName="PantsPart30">
+						<Entry varId="PantsPart30" value="0"/>
+					</Option>
+					<Option id="1" displayName="PantsPart30">
+						<Entry varId="PantsPart30" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<Var overrideGroup="LFArmors" 		id="PantsPart25" 		displayName="PantsPart2" 			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="PantsPartIs25">
+				<OptionsArray>
+					<Option id="0" displayName="PantsPart25">
+						<Entry varId="PantsPart25" value="0"/>
+					</Option>
+					<Option id="1" displayName="PantsPart25">
+						<Entry varId="PantsPart25" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<Var overrideGroup="LFArmors" 		id="BootsPart10" 		displayName="BootsPart1" 			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="BootsPartIs10">
+				<OptionsArray>
+					<Option id="0" displayName="BootsPart10">
+						<Entry varId="BootsPart10" value="0"/>
+					</Option>
+					<Option id="1" displayName="BootsPart10">
+						<Entry varId="BootsPart10" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<Var overrideGroup="LFArmors" 		id="BootsPart25" 		displayName="BootsPart2" 			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="BootsPartIs25">
+				<OptionsArray>
+					<Option id="0" displayName="BootsPart25">
+						<Entry varId="BootsPart25" value="0"/>
+					</Option>
+					<Option id="1" displayName="BootsPart25">
+						<Entry varId="BootsPart25" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<Var overrideGroup="LFArmors" 		id="GlovesPart10" 		displayName="GlovesPart1" 			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="GlovesPartIs10">
+				<OptionsArray>
+					<Option id="0" displayName="GlovesPart10">
+						<Entry varId="GlovesPart10" value="0"/>
+					</Option>
+					<Option id="1" displayName="GlovesPart10">
+						<Entry varId="GlovesPart10" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<Var overrideGroup="LFArmors" 		id="GlovesPart25" 		displayName="GlovesPart2"			displayType="OPTIONS" 			tags="customNames;customDisplayName"
+			visibilityCondition="GlovesPartIs25">
+				<OptionsArray>
+					<Option id="0" displayName="GlovesPart25">
+						<Entry varId="GlovesPart25" value="0"/>
+					</Option>
+					<Option id="1" displayName="GlovesPart25">
+						<Entry varId="GlovesPart25" value="1"/>
+					</Option>
+				</OptionsArray>
+			</Var>
+			<!----------------------------------------->
+		</VisibleVars>
+	</Group>
+	<!------------------------------------------------------->
+	<!------For setting default values on first start-------->
+	<Group id="LFAFirstStart" displayName="Mods.LFArmors.Settings.LFAFirstStart">
+		<VisibleVars>
+			<Var overrideGroup="LFArmors"		id="DefaultSet" 	displayName="DefaultSet" 		displayType="TOGGLE" 			tags="customNames;customDisplayName" 
+			visibilityCondition= "hideAlways"/>
+		</VisibleVars>
+	</Group>
+	<!---------------------------------->	
+</UserConfig>

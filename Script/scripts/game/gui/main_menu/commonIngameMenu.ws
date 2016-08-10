@@ -65,6 +65,7 @@ class CR4CommonIngameMenu extends CR4MenuBase
 			theInput.RestoreContext( 'EMPTY_CONTEXT', false );
 			
 			OnPlaySoundEvent( "gui_global_panel_close" );
+			GetWitcherPlayer().LFAUpdate(); //modLoreFriendlyArmor
 		}
 	}
 

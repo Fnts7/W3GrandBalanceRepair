@@ -1431,7 +1431,8 @@ class W3DamageManagerProcessor extends CObject
 		var appliedOilName, vsMonsterResistReduction : name;
 		var oils : array< W3Effect_Oil >;
 		var i : int;
-		
+		var resisLFALightOption, resisLFAMediumOption, resisLFAHeavyOption : float;
+		var resistLFALightPart, resistLFAMediumPart, resistLFAHeavyPart : float;
 		
 		if(attackAction && attackAction.IsActionMelee() && actorAttacker.GetInventory().IsItemFists(weaponId) && !actorVictim.UsesEssence())
 			return;
@@ -1520,8 +1521,31 @@ class W3DamageManagerProcessor extends CObject
 		resistPerc -= CalculateAttributeValue(armorReductionPerc);		
 		
 		
-		
 		resistPerc = MaxF(0, resistPerc);
+		
+		// modLoreFriendlyArmor armor resistance
+		if (playerVictim == GetWitcherPlayer())
+		{
+			resisLFALightOption = GetWitcherPlayer().LFAGetConfigValue('LFArmorResistance', 'ResistLight');
+			resisLFAMediumOption = GetWitcherPlayer().LFAGetConfigValue('LFArmorResistance', 'ResistMedium');
+			resisLFAHeavyOption = GetWitcherPlayer().LFAGetConfigValue('LFArmorResistance', 'ResistHeavy');
+			
+			resistLFALightPart = GetWitcherPlayer().resistanceLFALight;
+			resistLFAMediumPart = GetWitcherPlayer().resistanceLFAMedium;
+			resistLFAHeavyPart = GetWitcherPlayer().resistanceLFAHeavy;
+			
+			resistPerc = 1.0f - resistPerc;
+			resistPerc = MaxF(0, resistPerc);
+		
+
+			resistPerc = resistPerc * (1 - ((resisLFALightOption * resistLFALightPart) + (resisLFAMediumOption * resistLFAMediumPart) + (resisLFAHeavyOption * resistLFAHeavyPart)));
+				
+			resistPerc = MinF(1.0f, resistPerc);
+			resistPerc = 1.0f - resistPerc;		
+		}
+		// modLoreFriendlyArmor armor resistance
+		
+
 	}
 		
 	

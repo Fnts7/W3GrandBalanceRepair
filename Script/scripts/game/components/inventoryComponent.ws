@@ -3845,14 +3845,26 @@ import class CInventoryComponent extends CComponent
 		
 		isItemEquipped = GetWitcherPlayer().IsItemEquipped(item);
 		
+		//modLoreFriendlyArmor
+		if( (thePlayer.HasAbility('Glyphword 2 _Stats', true) || GetWitcherPlayer().LFAOverrideArmorType() == "Light") 
+		&& isItemEquipped )
+		{
+			return EAT_Light;
+		}
 		
-		if( thePlayer.HasAbility('Glyphword 2 _Stats', true) && isItemEquipped )
-		{return EAT_Light;}
-		if( thePlayer.HasAbility('Glyphword 3 _Stats', true) && isItemEquipped )
-		{return EAT_Medium;}
-		if( thePlayer.HasAbility('Glyphword 4 _Stats', true) && isItemEquipped )
-		{return EAT_Heavy;}
-	
+		if(( thePlayer.HasAbility('Glyphword 3 _Stats', true) || GetWitcherPlayer().LFAOverrideArmorType() == "Medium") 
+		&& isItemEquipped )
+		{
+		return EAT_Medium;
+		}
+		
+		if(( thePlayer.HasAbility('Glyphword 4 _Stats', true) || GetWitcherPlayer().LFAOverrideArmorType() == "Heavy") 
+		&& isItemEquipped )
+		{
+			return EAT_Heavy;
+		}
+		//modLoreFriendlyArmor
+		
 		if(ItemHasTag(item, 'LightArmor'))
 			return EAT_Light;
 		else if(ItemHasTag(item, 'MediumArmor'))

@@ -13,11 +13,22 @@
 #
 
 # SCRIPT FILES BEGIN
-scriptFile[0]=""
+scriptFile[0]="/game/actor.ws"
+
+scriptFile[1]="/game/components/inventoryComponent.ws"
+
+scriptFile[2]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[3]="/game/gameplay/effects/effectManager.ws"
+scriptFile[4]="/game/gui/main_menu/commonIngameMenu.ws"
+scriptFile[5]="/game/gui/main_menu/ingameMenu.ws"
+scriptFile[6]="/game/player/playerWitcher.ws"
+scriptFile[7]="/game/player/r4Player.ws"
+scriptFile[8]="/game/player/states/combatSword.ws"
+scriptFile[9]="/game/LFAFirstStart.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
-assetFile[0]=""
+#assetFile[0]=""
 # ASSET FILES END
 
 set -e
@@ -28,7 +39,7 @@ then
 	exit
 fi
 
-modReadyFolder=$1"/Packed/[modReadyFolder]"
+modReadyFolder=$1"/Packed/modLFArmors"
 modContentPath=$modReadyFolder"/content"
 
 inXMLPath="Uncooked"
