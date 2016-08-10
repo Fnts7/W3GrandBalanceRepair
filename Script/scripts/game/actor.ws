@@ -1517,8 +1517,6 @@ import abstract class CActor extends CGameplayEntity
 		
 		if(effectManager)
 			ResumeStaminaRegen( 'SignCast' );
-			
-		LFASetDefaultOnFirstStart(); // modLoreFriendlyArmor
 	}
 	
 	protected function SetEffectManager()
