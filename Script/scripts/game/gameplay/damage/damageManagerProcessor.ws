@@ -1558,7 +1558,14 @@ class W3DamageManagerProcessor extends CObject
 			damageMult *= attackerH / victimH;
 
 		if (action.IsActionRanged())
-			damageMult *= 3.0f;
+			damageMult *= 2.0f;
+
+		if (theGame.GetDifficultyMode() == EDM_Easy)
+			damageMult *= 2.5f;
+		else if (theGame.GetDifficultyMode() == EDM_Medium)
+			damageMult *= 1.5f;
+		else if (theGame.GetDifficultyMode() == EDM_Hardcore)
+			damageMult *= 0.70f;
 
 		if (actorVictim.UsesEssence())
 			action.processedDmg.essenceDamage *= damageMult;
@@ -1589,9 +1596,9 @@ class W3DamageManagerProcessor extends CObject
 		if (level < 1)
 			return 1.0f;
 		else if (level < 100)
-			return 1.0f + 4.0f * level / 100.0f;
+			return 1.0f + 3.5f * level / 100.0f;
 		else
-			return 5.0f;
+			return 4.5f;
 	}
 	// Improved Axii end
 
