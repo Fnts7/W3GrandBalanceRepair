@@ -335,13 +335,13 @@ statemachine class W3AxiiEntity extends W3SignEntity
 			
 			params.creator = casterActor;
 			params.sourceName = "axii_" + skillEnum;			
-			params.customPowerStatValue = casterActor.GetTotalSignSpellPower(skillEnum);
 			params.isSignEffect = true;
 			
 			for(i=0; i<targets.Size(); i+=1)
 			{
 				npcTarget = (CNewNPC)targets[i];
 				
+				params.customPowerStatValue = casterActor.GetTotalSignSpellPower(skillEnum);
 				
 				if( targets[i].IsAnimal() || npcTarget.IsHorse() )
 				{
@@ -387,8 +387,12 @@ statemachine class W3AxiiEntity extends W3SignEntity
 				{
 					params.effectType = actionBuffs[0].effectType;
 				}
-			
 				
+				if (params.effectType == EET_Confusion && params.customPowerStatValue.valueMultiplicative > 2.5f)
+				{
+					params.customPowerStatValue.valueMultiplicative = 2.5f + (params.customPowerStatValue.valueMultiplicative - 2.5f) / 2.0f;
+				}
+
 				RemoveMagic17Effect(targets[i]);
 			
 				if (!durationZeroed)
