@@ -1932,7 +1932,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 				RemoveAbilityAll( GetBuff(EET_Mutagen10).GetAbilityName() );
 			
 			if(HasBuff(EET_Mutagen15))
-				RemoveAbilityAll( GetBuff(EET_Mutagen15).GetAbilityName() );
+				Mutagen15Drop(false, GetBuff(EET_Mutagen15).GetAbilityName());
 		}
 				
 		
@@ -2396,11 +2396,44 @@ statemachine class W3PlayerWitcher extends CR4Player
 			level = 100;
 
 		if (level <= 30)
-			return 0.25f - level * 0.15f / 30.0f;
+			return 0.3f - level * 0.2f / 30.0f;
 
 		return 0.1f / ( 1.0f + (level - 30) * 2.0f / 70.0f );
 	}
+
+	public function Mutagen15Init(ability : name)
+	{
+		Mutagen15Drop(true, ability);		
+		AddAbilityMultiple(ability, 3);
+		AddTimer('Mutagen15Timer', 20.0f);
+	}
 	
+	public function Mutagen15Drop(all : bool, ability : name)
+	{
+		var count : int;
+		count = GetAbilityCount(ability);
+
+		if (count < 1)
+			return;
+	
+		RemoveTimer('Mutagen15Timer');
+
+		if (all || count == 1)
+		{
+			RemoveAbilityAll(ability);
+			return;
+		}
+
+		RemoveAbilityMultiple(ability, 1);
+		AddTimer('Mutagen15Timer', 20.0f);		
+	}
+
+	timer function Mutagen15Timer(dt : float, id : int )
+	{
+		if (HasBuff(EET_Mutagen15))
+			Mutagen15Drop(false, GetBuff(EET_Mutagen15).GetAbilityName());
+	}
+
 	public final function FailFundamentalsFirstAchievementCondition()
 	{
 		SetFailedFundamentalsFirstAchievementCondition(true);
@@ -2442,7 +2475,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(HasBuff(EET_Mutagen15))
 		{
-			AddAbility(GetBuff(EET_Mutagen15).GetAbilityName(), false);
+			Mutagen15Init(GetBuff(EET_Mutagen15).GetAbilityName());
 		}
 		
 		
@@ -2624,7 +2657,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(HasBuff(EET_Mutagen15))
 		{
-			RemoveAbilityAll( GetBuff(EET_Mutagen15).GetAbilityName() );
+			Mutagen15Drop(true, GetBuff(EET_Mutagen15).GetAbilityName());
 		}
 		
 		
