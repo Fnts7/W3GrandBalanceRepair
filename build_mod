@@ -18,11 +18,11 @@ scriptFile[1]="/game/player/playerWitcher.ws"
 scriptFile[2]="/game/gameplay/ability/PlayerAbilityManager.ws"
 scriptFile[3]="/game/gameplay/damage/damageManagerProcessor.ws"
 scriptFile[4]="/game/gameplay/effects/effects/mutagens/mutagenEffect.ws"
+scriptFile[5]="/game/gameplay/effects/effects/mutagens/mutagen15.ws"
 
-scriptFile[5]="/game/components/inventoryComponent.ws"
-scriptFile[6]="/game/gui/menus/characterMenu.ws"
-scriptFile[7]="/game/gui/_old/components/guiTooltipComponent.ws"
-
+scriptFile[6]="/game/components/inventoryComponent.ws"
+scriptFile[7]="/game/gui/menus/characterMenu.ws"
+scriptFile[8]="/game/gui/_old/components/guiTooltipComponent.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

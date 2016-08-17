@@ -2714,6 +2714,10 @@ import class CInventoryComponent extends CComponent
 				else if(buffType == EET_Mutagen01 || buffType == EET_Mutagen15 || buffType == EET_Mutagen28 || buffType == EET_Mutagen27)
 				{
 					newAttr.value = val.valueAdditive;
+					
+					if (buffType == EET_Mutagen15)
+						newAttr.value *= 3.0f;
+
 					newAttr.percentageValue = true;
 				}
 				else
