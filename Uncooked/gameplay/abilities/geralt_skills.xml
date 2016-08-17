@@ -263,7 +263,7 @@
 	
       <ability name="magic_staminaregen">
         <tags></tags>
-        <staminaRegen type="mult" always_random="false" min="0.008" max="0.008" />
+        <staminaRegen type="mult" always_random="false" min="0.007" max="0.007" />
       </ability>
 	
       <!-- Base Skills -->
@@ -660,7 +660,7 @@
 		</ability>
 		<ability name="perk_11">
 			<tags>perk_11</tags>
-			<spell_power type="mult" min="0.1" />
+			<spell_power type="mult" min="0.15" />
 		</ability>
 		<ability name="perk_12">
 			<tags>perk_12, GlobalPassiveBonus</tags>
