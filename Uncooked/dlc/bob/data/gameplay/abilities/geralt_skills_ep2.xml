@@ -18,11 +18,11 @@
           <!-- DEFENSE -->
           <ability name="perk_21">
               <tags>perk_21</tags>
-              <parry type="add" min="0.1" />
-              <counter type="add" min="0.4" />
+              <parry type="add" min="0.2" />
+              <counter type="add" min="0.3" />
               <dodge type="add" min="0.3" />
               <roll type="add" min="0.2" />
-              <perk21Time type="add" min="5" />
+              <perk21Time type="add" min="4" />
           </ability>
 
           <!-- ######################### ITEM SET BONUS ABILITIES ######################## -->
