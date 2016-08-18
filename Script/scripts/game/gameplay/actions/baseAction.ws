@@ -707,7 +707,7 @@ class W3DamageAction extends CDamageData
 		var burning : W3Effect_Burning;
 		
 		
-		isOk = ( attacker == thePlayer && IsActionWitcherSign() && IsCriticalHit() && GetWitcherPlayer().IsMutationActive(EPMT_Mutation2) );
+		isOk = ( attacker == thePlayer && IsActionWitcherSign() && IsCriticalHit() && theGame.GetDLCManager().IsEP2Available() );
 		
 		
 		if( !isOk )

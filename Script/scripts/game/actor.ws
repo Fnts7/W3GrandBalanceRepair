@@ -3017,7 +3017,7 @@ import abstract class CActor extends CGameplayEntity
 			PlayEffect(effectName);
 			
 		
-		if( damageAction.IsCriticalHit() && damageAction.IsActionWitcherSign() && actorAttacker && IsAlive() && actorAttacker == thePlayer && GetWitcherPlayer().IsMutationActive( EPMT_Mutation2 ) )
+		if( damageAction.IsCriticalHit() && damageAction.IsActionWitcherSign() && actorAttacker && IsAlive() && actorAttacker == thePlayer && theGame.GetDLCManager().IsEP2Available() )
 		{
 			fxEntity = CreateFXEntityAtPelvis( 'mutation2_critical', true );
 			if( fxEntity )

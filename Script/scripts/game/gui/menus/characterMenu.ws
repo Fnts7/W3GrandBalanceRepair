@@ -2411,6 +2411,11 @@ class CR4CharacterMenu extends CR4MenuBase
 				else 						baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionKey);
 		}
 		
+		if (targetSkill.skillType == S_Perk_11 && theGame.GetDLCManager().IsEP2Available())
+		{
+			baseString += "<br>Increases (or introduces) sign damage critical chance by 8%.";
+		}
+		
 		return baseString;
 	}
 		

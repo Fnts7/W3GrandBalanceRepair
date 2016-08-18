@@ -8,8 +8,8 @@
         </ability> 
 	
 		<ability name="Mutation2">
-            <crit_chance_factor type="add" min="0.20"/>
-			<crit_chance_factor type="mult" min="0.06"/>
+            <crit_chance_factor type="add" min="0.15"/>
+			<crit_chance_factor type="mult" min="0.05"/>
 			<crit_damage_factor type="mult" min="0.5"/>
         </ability> 
 		

@@ -440,6 +440,11 @@ class W3TooltipComponent
 			uniqueDescription = "<font color=\"#FFDB00\">Item name: '" + itemName + "'</font><br>" + uniqueDescription;
 		}
 		
+		if (itemName == 'Mutagen 1' && theGame.GetDLCManager().IsEP2Available())
+		{
+			uniqueDescription += "<br>Increases (or introduces) also sign damage critical chance by 8%.";
+		}
+		
 		if (itemInvComponent.ItemHasTag(item, 'OlgierdSabre'))
 		{
 			uniqueDescription = GetLocStringByKeyExt( "attribute_name_double_strike" );
