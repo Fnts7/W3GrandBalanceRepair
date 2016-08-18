@@ -1066,9 +1066,6 @@ class W3DamageManagerProcessor extends CObject
 			
 			if ((W3YrdenEntity)action.causer)
 				damageVal.valueBase /= 1.4f;
-			else if ((W3IgniProjectile)action.causer) {
-				damageVal.valueBase *= 1.3333f;
-			}
 			else if ((W3QuenEntity)action.causer && action.GetHitReactionType() == EHRT_Light && GetWitcherPlayer().IsQuenActive(true))
 				damageVal.valueBase /= 2.0f;
 
@@ -1430,13 +1427,6 @@ class W3DamageManagerProcessor extends CObject
 		if(playerAttacker && attackAction && playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
 			powerMod.valueMultiplicative -= 0.833;
 		
-		
-		if ( playerAttacker && (W3IgniProjectile)action.causer
-			&& ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2
-			&& powerMod.valueMultiplicative > 2.5f  )
-		{
-			powerMod.valueMultiplicative = 2.5f + (powerMod.valueMultiplicative - 2.5f) * 0.6667f;
-		}
 
 		if(action.IsCriticalHit())
 		{
@@ -1447,10 +1437,6 @@ class W3DamageManagerProcessor extends CObject
 				
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_damage_factor', min, max);
 				criticalDamageBonus.valueAdditive = sp.valueMultiplicative * min.valueMultiplicative;
-
-				if ((W3IgniProjectile)action.causer) {
-					criticalDamageBonus.valueAdditive *= 1.3333f;
-				}
 			}
 			else 
 			{
