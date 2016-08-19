@@ -622,7 +622,7 @@ class W3DamageManagerProcessor extends CObject
 	private function ProcessCriticalHitCheck()
 	{
 		var critChance, critDamageBonus : float;
-		var	canLog, meleeOrRanged, redWolfSet, isLightAttack, isHeavyAttack, mutation2 : bool;
+		var	canLog, meleeOrRanged, redWolfSet, isLightAttack, isHeavyAttack, signCritical : bool;
 		var arrStr : array<string>;
 		var samum : CBaseGameplayEffect;
 		var signPower, min, max : SAbilityAttributeValue;
@@ -630,14 +630,17 @@ class W3DamageManagerProcessor extends CObject
 		
 		meleeOrRanged = playerAttacker && attackAction && ( attackAction.IsActionMelee() || attackAction.IsActionRanged() );
 		redWolfSet = ( W3Petard )action.causer && ( W3PlayerWitcher )actorAttacker && GetWitcherPlayer().IsSetBonusActive( EISB_RedWolf_1 );
-		mutation2 = ( W3PlayerWitcher )actorAttacker && GetWitcherPlayer().IsMutationActive(EPMT_Mutation2) && action.IsActionWitcherSign();
+		signCritical = theGame.GetDLCManager().IsEP2Available() && ( W3PlayerWitcher )actorAttacker
+			&& (GetWitcherPlayer().IsMutationActive(EPMT_Mutation2) || GetWitcherPlayer().CanUseSkill(S_Perk_11) || GetWitcherPlayer().HasBuff(EET_Mutagen01))
+			&& action.IsActionWitcherSign();
+			
 		
-		if( meleeOrRanged || redWolfSet || mutation2 )
+		if( meleeOrRanged || redWolfSet || signCritical )
 		{
 			canLog = theGame.CanLog();
 		
 			
-			if( mutation2 )
+			if( signCritical )
 			{
 				if( FactsQuerySum('debug_fact_critical_boy') > 0 )
 				{
@@ -645,9 +648,24 @@ class W3DamageManagerProcessor extends CObject
 				}
 				else
 				{
-					signPower = action.GetPowerStatValue();
-					theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_chance_factor', min, max);
-					critChance = min.valueAdditive + signPower.valueMultiplicative * min.valueMultiplicative;
+					critChance = 0;
+					
+					if (GetWitcherPlayer().IsMutationActive(EPMT_Mutation2))
+					{
+						signPower = action.GetPowerStatValue();
+						theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_chance_factor', min, max);
+						critChance += min.valueAdditive + signPower.valueMultiplicative * min.valueMultiplicative;
+					}
+					
+					if (GetWitcherPlayer().CanUseSkill(S_Perk_11))
+					{
+						critChance += 0.08f;
+					}
+					
+					if (GetWitcherPlayer().HasBuff(EET_Mutagen01))
+					{
+						critChance += 0.08f;
+					}
 				}
 			} 			
 			else
@@ -1016,7 +1034,10 @@ class W3DamageManagerProcessor extends CObject
 			damageVal.valueBase *= CalculateAttributeValue(min);
 			
 			if ((W3YrdenEntity)action.causer)
+				damageVal.valueBase /= 1.4f;
+			else if ((W3QuenEntity)action.causer && action.GetHitReactionType() == EHRT_Light && GetWitcherPlayer().IsQuenActive(true))
 				damageVal.valueBase /= 2.0f;
+
 			
 			if( action.IsDoTDamage() )
 			{
@@ -1374,17 +1395,11 @@ class W3DamageManagerProcessor extends CObject
 		if(playerAttacker && attackAction && playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
 			powerMod.valueMultiplicative -= 0.833;
 		
-		if ( playerAttacker && (W3IgniProjectile)action.causer
-			&& ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2
-			&& powerMod.valueMultiplicative > 2.5f  )
-		{
-			powerMod.valueMultiplicative = 2.5f + (powerMod.valueMultiplicative - 2.5f) * 0.6667f;
-		}
 
 		if(action.IsCriticalHit())
 		{
 			
-			if( playerAttacker && action.IsActionWitcherSign() && GetWitcherPlayer().IsMutationActive(EPMT_Mutation2) )
+			if( playerAttacker && action.IsActionWitcherSign() && theGame.GetDLCManager().IsEP2Available() )
 			{
 				sp = action.GetPowerStatValue();
 				
@@ -1628,9 +1643,9 @@ class W3DamageManagerProcessor extends CObject
 			burning = (W3Effect_Burning)action.causer;
 			if( burning && burning.IsSignEffect() )
 			{
-				if ( powerMod.valueMultiplicative > 2.5f )
+				if ( powerMod.valueMultiplicative > 2.0f )
 				{
-					powerMod.valueMultiplicative = 2.5f + LogF( (powerMod.valueMultiplicative - 2.5f) + 1 );
+					powerMod.valueMultiplicative = 2.0f + LogF( (powerMod.valueMultiplicative - 2.0f) + 1 );
 				}
 			}
 			
@@ -2392,10 +2407,10 @@ class W3DamageManagerProcessor extends CObject
 		ApplyQuenBuffChanges();
 	
 		
-		if( actorAttacker == thePlayer && action.IsActionWitcherSign() && action.IsCriticalHit() && GetWitcherPlayer().IsMutationActive( EPMT_Mutation2 ) && action.HasBuff( EET_Burning ) )
+		/*if( actorAttacker == thePlayer && action.IsActionWitcherSign() && action.IsCriticalHit() && theGame.GetDLCManager().IsEP2Available() && action.HasBuff( EET_Burning ) )
 		{
 			action.SetBuffSourceName( 'Mutation2ExplosionValid' );
-		}
+		}*/
 	
 		
 		if(actorVictim && action.GetEffectsCount() > 0)

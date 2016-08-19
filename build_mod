@@ -29,10 +29,12 @@ scriptFile[11]="/game/gameplay/projectile/signs/signProjectiles.ws"
 scriptFile[12]="/game/components/inventoryComponent.ws"
 scriptFile[13]="/game/gui/menus/characterMenu.ws"
 scriptFile[14]="/game/gui/popups/CharacterStatsPopup.ws"
-scriptFile[15]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
-scriptFile[16]="/game/gameplay/items/spells/igniEntity.ws"
-scriptFile[17]="/game/player/r4Player.ws"
-scriptFile[18]="/game/gameplay/ability/PlayerAbilityManager.ws"
+scriptFile[15]="/game/gui/_old/components/guiTooltipComponent.ws"
+scriptFile[16]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
+scriptFile[17]="/game/gameplay/items/spells/igniEntity.ws"
+scriptFile[18]="/game/player/r4Player.ws"
+scriptFile[19]="/game/gameplay/ability/PlayerAbilityManager.ws"
+scriptFile[20]="/game/gameplay/actions/baseAction.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

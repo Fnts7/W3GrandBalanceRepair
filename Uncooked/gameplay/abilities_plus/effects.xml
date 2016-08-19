@@ -115,17 +115,17 @@
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
-	
-      <ability name="BurningEffect_Igni">
-        <FireDamage type="mult" min="0.018" max="0.018" />
-        <duration type="add" min="1.8" max="1.8" />
+
+     <ability name="BurningEffect_Igni">
+        <FireDamage type="mult" min="0.02" max="0.02" />
+        <duration type="add" min="2" max="2" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
 
       <ability name="BurningEffect_Igni_Pyro1">
-        <FireDamage type="mult" min="0.0189" max="0.0189" />
-        <duration type="add" min="1.926" max="1.926" />
+        <FireDamage type="mult" min="0.021" max="0.021" />
+        <duration type="add" min="2.14" max="2.14" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
@@ -138,8 +138,8 @@
       </ability>
 	  
       <ability name="BurningEffect_Igni_Pyro2">
-        <FireDamage type="mult" min="0.0198" max="0.0198" />
-        <duration type="add" min="2.052" max="2.052" />
+        <FireDamage type="mult" min="0.022" max="0.022" />
+        <duration type="add" min="2.28" max="2.28" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
@@ -152,8 +152,8 @@
       </ability>
 	  
       <ability name="BurningEffect_Igni_Pyro3">
-        <FireDamage type="mult" min="0.0207" max="0.0207" />
-        <duration type="add" min="2.178" max="2.178" />
+        <FireDamage type="mult" min="0.023" max="0.023" />
+        <duration type="add" min="2.42" max="2.42" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
@@ -166,8 +166,8 @@
       </ability>
 	  
       <ability name="BurningEffect_Igni_Pyro4">
-        <FireDamage type="mult" min="0.0216" max="0.0216" />
-        <duration type="add" min="2.304" max="2.304" />
+        <FireDamage type="mult" min="0.024" max="0.024" />
+        <duration type="add" min="2.56" max="2.56" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
@@ -180,12 +180,12 @@
       </ability>
 	  
       <ability name="BurningEffect_Igni_Pyro5">
-        <FireDamage type="mult" min="0.0225" max="0.0225" />
-        <duration type="add" min="2.43" max="2.43" />
+        <FireDamage type="mult" min="0.025" max="0.025" />
+        <duration type="add" min="2.7" max="2.7" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
-	  
+
 	  <ability name="BurningEffect_FireStream_Pyro5">
         <FireDamage type="mult" min="0.015" max="0.015" />
         <duration type="add" min="1.62" max="1.62" />
