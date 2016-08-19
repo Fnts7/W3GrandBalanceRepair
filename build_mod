@@ -49,6 +49,10 @@ scriptFile[27]="/game/player/r4Player.ws"
 scriptFile[28]="/game/gameplay/effects/effects/mutagens/mutagenEffect.ws"
 scriptFile[29]="/game/gameplay/effects/effects/mutagens/mutagen15.ws"
 scriptFile[30]="/game/gameplay/actions/baseAction.ws"
+
+scriptFile[31]="/game/gameplay/effects/effects/baseEffect.ws"
+scriptFile[32]="/game/gameplay/items/throwables/petards/petard.ws"
+scriptFile[21]="/mod/petardScaling.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

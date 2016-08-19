@@ -1,6 +1,6 @@
-ï»¿/***********************************************************************/
-/** 	Â© 2015 CD PROJEKT S.A. All rights reserved.
-/** 	THE WITCHERÂ® is a trademark of CD PROJEKT S. A.
+/***********************************************************************/
+/** 	© 2015 CD PROJEKT S.A. All rights reserved.
+/** 	THE WITCHER® is a trademark of CD PROJEKT S. A.
 /** 	The Witcher game is based on the prose of Andrzej Sapkowski.
 /***********************************************************************/
 
@@ -9,7 +9,11 @@
 
 class W3Petard extends CThrowable
 {
-	
+	//Grand Balance Repair Petards
+	var bonusDmgAim : float; default bonusDmgAim = 0; 
+	var fromAim : bool; default fromAim  = false;
+	var petardLevel : int; default petardLevel = 3;
+	//Grand Balance Repair Petards
 	protected editable var cameraShakeStrMin 				: float;
 	protected editable var cameraShakeStrMax 				: float;
 	protected editable var cameraShakeRange 				: float;
@@ -155,6 +159,10 @@ class W3Petard extends CThrowable
 		var inv : CInventoryComponent;
 		var abilityDisableDuration : float;
 		var min, max : SAbilityAttributeValue;
+		//Grand Balance Repair Petards
+		var bonusDmg : float;
+		bonusDmg = 0;
+		//Grand Balance Repair Petards
 		
 		inv = GetOwner().GetInventory();
 		
@@ -213,17 +221,32 @@ class W3Petard extends CThrowable
 						impactParams.disabledAbilities.PushBack(disabledAbility);
 				}
 			}
-			
+			petardLevel = RoundF(CalculateAttributeValue(inv.GetItemAttributeValue(itemId, 'level'))) - 1; //Grand Balance Repair Petards
+			LogChannel('PetardScaling', "Used petard level" + IntToString(petardLevel + 1));
 			dm.GetAbilityAttributes(abs[i], atts);
 			jSize = atts.Size();
 			for( j = 0; j < jSize; j += 1 )
 			{
 				
 				if(IsDamageTypeNameValid(atts[j]))
-				{				
+				{		
 					dmgRaw.dmgVal = CalculateAttributeValue(inv.GetItemAttributeValue(itemId, atts[j]));
 					if(dmgRaw.dmgVal == 0)
 						continue;
+					//Grand Balance Repair Petards
+					bonusDmg = dmgRaw.dmgVal * PetardBonus("dmg", petardLevel);
+					if(fromAim)
+					{
+						bonusDmgAim = dmgRaw.dmgVal * PetardBonus("aim", petardLevel);
+						LogChannel('PetardScaling', "Manual aim");
+					}
+					LogChannel('PetardScaling', "Basic petard dmg" + FloatToString(dmgRaw.dmgVal));
+					dmgRaw.dmgVal += (bonusDmg + bonusDmgAim);
+					LogChannel('PetardScaling', "Bonus dmg" + FloatToString(bonusDmg));
+					LogChannel('PetardScaling', "Aim bonus dmg" + FloatToString(bonusDmgAim));
+					LogChannel('PetardScaling', "Final petard dmg" + FloatToString(dmgRaw.dmgVal));
+
+					//Grand Balance Repair Petards
 					
 					dmgRaw.dmgType = atts[j];
 					
@@ -234,7 +257,9 @@ class W3Petard extends CThrowable
 				}
 			}
 			
-			
+			//Grand Balance Repair Petards
+			FactsSet("ThrownPetardLevel", petardLevel);
+			//Grand Balance Repair Petards
 			if(isLoopAbility && loopParams.damages.Size() > 0)
 			{
 				loopParams.ignoresArmor = atts.Contains('ignoreArmor');
@@ -266,7 +291,11 @@ class W3Petard extends CThrowable
 			snapCollisionGroupNames.PushBack('Static');
 		}
 		
-		
+		//Grand Balance Repair Petards
+		if(thePlayer.playerAiming.GetCurrentStateName() == 'Aiming') 
+			fromAim = true;
+		//Grand Balance Repair Petards
+
 		LoadDataFromItemXMLStats();		
 	
 		targetPos = targetPosIn;
@@ -1061,7 +1090,12 @@ class W3Petard extends CThrowable
 						
 						if(index != -1)
 						{
-							params.damages[index].dmgVal += CalculateAttributeValue(thePlayer.GetSkillAttributeValue(S_Alchemy_s10, atts[j], false, true)) * thePlayer.GetSkillLevel(S_Alchemy_s10);
+							// Grand Balance Repair Petards
+							LogChannel('PetardScaling', "Basic petard dmg " + FloatToString(params.damages[index].dmgVal));
+							params.damages[index].dmgVal += PetardBonus("dmg", petardLevel) * (CalculateAttributeValue(thePlayer.GetSkillAttributeValue(S_Alchemy_s10, atts[j], false, true)) * thePlayer.GetSkillLevel(S_Alchemy_s10));
+							LogChannel('PetardScaling', "Pyrotechnics bonus dmg " + FloatToString(PetardBonus("dmg", petardLevel) * (CalculateAttributeValue(thePlayer.GetSkillAttributeValue(S_Alchemy_s10, atts[j], false, true)) * thePlayer.GetSkillLevel(S_Alchemy_s10))));
+							LogChannel('PetardScaling', "Basic petard dmg with pyrotechnics bonus " + FloatToString(params.damages[index].dmgVal));
+							// Grand Balance Repair Petards
 						}
 						else
 						{
