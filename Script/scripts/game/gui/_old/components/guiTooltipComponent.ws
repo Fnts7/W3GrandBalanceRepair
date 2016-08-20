@@ -431,7 +431,7 @@ class W3TooltipComponent
 			else if (itemName == 'Mutagen 27')
 				uniqueDescription = "Absorbs damage. When Geralt gets hit damage absorption by this decoction raises by 3% and maximum is 36%.";
 			else if (itemName == 'Mutagen 15')
-				uniqueDescription = "Increases adrenaline gain on combat start. Starts with 3 charges, each increasing adrenaline gain by 33%. After getting damage or 20 seconds have passed, one charge is removed. So after 3 hits or a minute at latest the bonus drops to 0.";
+				uniqueDescription = "Increases adrenaline gain on combat start. Starts with 3 charges, each increasing adrenaline gain by 25%. After getting damage or 20 seconds have passed, one charge is removed. So after 3 hits or a minute at latest the bonus drops to 0.";
 			else
 				uniqueDescription = GetLocStringByKeyExt( itemInvComponent.GetItemLocalizedDescriptionByUniqueID(item) );
 		}
