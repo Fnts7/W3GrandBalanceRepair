@@ -47,7 +47,7 @@
         <essence type="base" always_random="false" min="270" max="270" />
         <experience type="base" always_random="false" min="4" max="4" />
 		<force_resistance_perc type="add" always_random="false" min="0.006" max="0.006" />
-		<burning_resistance_perc type="add" always_random="false" min="0.006" max="0.006" />
+		<burning_resistance_perc type="add" always_random="false" min="0.0075" max="0.0075" />
 		<will_resistance_perc type="add" always_random="false" min="0.0" max="0.0" />
 		<shock_resistance_perc type="add" always_random="false" min="0.005" max="0.005" />
         <attack_power type="base" always_random="false" min="40" max="40" />
