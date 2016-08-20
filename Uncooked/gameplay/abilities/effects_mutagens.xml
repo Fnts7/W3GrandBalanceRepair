@@ -59,7 +59,7 @@
 			</ability>
 			
 			<ability name="Mutagen15Effect">
-				<focus_gain type="add" min="0.3333" />
+				<focus_gain type="add" min="0.25" />
 			</ability>
 			
 			<ability name="Mutagen16Effect">
