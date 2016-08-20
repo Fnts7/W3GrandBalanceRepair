@@ -388,9 +388,9 @@ statemachine class W3AxiiEntity extends W3SignEntity
 					params.effectType = actionBuffs[0].effectType;
 				}
 				
-				if (params.effectType == EET_Confusion && params.customPowerStatValue.valueMultiplicative > 2.5f)
+				if (params.effectType == EET_Confusion && params.customPowerStatValue.valueMultiplicative > 2.2f)
 				{
-					params.customPowerStatValue.valueMultiplicative = 2.5f + (params.customPowerStatValue.valueMultiplicative - 2.5f) / 2.0f;
+					params.customPowerStatValue.valueMultiplicative = 2.2f + LogF( (params.customPowerStatValue.valueMultiplicative - 2.2f) + 1 );
 				}
 
 				RemoveMagic17Effect(targets[i]);
