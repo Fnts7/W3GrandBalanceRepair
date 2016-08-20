@@ -1554,7 +1554,7 @@ class W3DamageManagerProcessor extends CObject
 			damageMult *= attackerH / victimH;
 
 		if (action.IsActionRanged())
-			damageMult *= 2.0f;
+			damageMult *= 2.5f;
 
 		if (theGame.GetDifficultyMode() == EDM_Easy)
 			damageMult *= 2.5f;
