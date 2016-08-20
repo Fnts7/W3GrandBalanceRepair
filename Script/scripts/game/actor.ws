@@ -2150,17 +2150,16 @@ import abstract class CActor extends CGameplayEntity
 				axiiPower = GetBuff(EET_AxiiGuardMe).GetCreatorPowerStat();
 				axiiPower.valueMultiplicative -= 1.0f;
 				if (axiiPower.valueMultiplicative > 0.0f)
-				{
-					if (axiiPower.valueMultiplicative > 3.0f)
-						axiiPower.valueMultiplicative = 3.0f + (axiiPower.valueMultiplicative - 3.0f) / 1.333f;
-
-					if (axiiPower.valueMultiplicative > 1.0f)
-						axiiPower.valueMultiplicative = 1.0f + (axiiPower.valueMultiplicative - 1.0f) / 1.5f;
+				{				
+					if ( axiiPower.valueMultiplicative > 2.2f )
+					{
+						axiiPower.valueMultiplicative = 2.2f + LogF( (axiiPower.valueMultiplicative - 2.2f) + 1 );
+					}
 
 					if (UsesEssence())
 						result.valueMultiplicative += axiiPower.valueMultiplicative / 2.0f;
 					else
-						result.valueMultiplicative += axiiPower.valueMultiplicative / 2.5f;
+						result.valueMultiplicative += axiiPower.valueMultiplicative / 3.0f;
 				}
 			}
 		}
