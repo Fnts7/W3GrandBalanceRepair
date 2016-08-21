@@ -447,7 +447,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	{ 
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_1);
 		//valueAbility = sp.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED - 4 * theGame.params.NPC_RESIST_PER_LEVEL;  
-		valueAbility = sp.valueMultiplicative * (1.0f - GetWitcherPlayer().GetLevel() * 0.005f);
+		valueAbility = sp.valueMultiplicative * (1.0f - GetWitcherPlayer().GetLevel() * 0.0035f);
 		if (valueAbility > 2.0f)
 			valueAbility = 2.0f + LogF ( (valueAbility - 2.0f) + 1);
 			

@@ -134,7 +134,7 @@ class W3Effect_KnockdownTypeApplicator extends W3ApplicatorEffect
 		{
 			if ( npc.IsShielded(GetCreator()) )
 			{
-				if (applyStrongest || power >= 1.35f )
+				if (applyStrongest || applySecondStrong || power >= 1.35f )
 					return EET_LongStagger;
 				else
 					return EET_Stagger;
@@ -151,14 +151,14 @@ class W3Effect_KnockdownTypeApplicator extends W3ApplicatorEffect
 		}
 		else if ( target.HasAbility( 'mon_type_huge' ) )
 		{
-			if (applyStrongest || power >= 1.35f )
+			if (applyStrongest || applySecondStrong || power >= 1.35f )
 				return EET_LongStagger;
 			else
 				return EET_Stagger;
 		}
 		else if ( target.HasAbility( 'WeakToAard' ) )
 		{
-			if (applyStrongest || power >= 1.35f)
+			if (applyStrongest || applySecondStrong || power >= 1.35f)
 				return EET_HeavyKnockdown;
 			else
 				return EET_Knockdown;
