@@ -1470,7 +1470,7 @@ class W3EffectManager
 	private final function GetSignApplyBuffTest(signType : ESignType, effectType : EEffectType, powerStatValue : SAbilityAttributeValue, isAlternate : bool, caster : CActor, sourceName : string ) : bool
 	{
 		var sp, res, chance, tempF : float;
-		var chanceBonus : SAbilityAttributeValue;
+		//var chanceBonus : SAbilityAttributeValue;
 		var witcher : W3PlayerWitcher;
 
 		
@@ -1507,15 +1507,14 @@ class W3EffectManager
 			witcher = (W3PlayerWitcher)caster;
 			if(witcher)
 			{
-				chanceBonus = witcher.GetSkillAttributeValue(S_Magic_s13, 'chance_multiplier', false, true);
-				chance *= CalculateAttributeValue(chanceBonus);
+				chance = CalculateAttributeValue(witcher.GetSkillAttributeValue(S_Magic_s13, 'chance_multiplier', false, true));
 			}
 			if( owner.HasAbility('WeakToAard') )
 			{
 				chance = 1;
 			}
 		}
-		else if( signType == ST_Aard && owner.HasAbility('WeakToAard') )
+		else if( signType == ST_Aard /*&& owner.HasAbility('WeakToAard') */)
 		{
 			chance = 1;
 		}

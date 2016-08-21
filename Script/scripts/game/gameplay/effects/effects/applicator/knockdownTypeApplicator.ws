@@ -40,55 +40,61 @@ class W3Effect_KnockdownTypeApplicator extends W3ApplicatorEffect
 		else
 			aardPower = creatorPowerStat.valueMultiplicative * ( 1 - resistance ) / (1 + creatorPowerStat.valueAdditive/100);
 		
-		
 		npc = (CNewNPC)target;
-		if(npc && npc.HasShieldedAbility() )
+		
+		if (IsSignEffect() && npc)
 		{
-			if ( npc.IsShielded(GetCreator()) )
-			{
-				if ( aardPower >= 1.2 )
-					appliedType = EET_LongStagger;
-				else
-					appliedType = EET_Stagger;
-			}
-			else
-			{
-				if ( aardPower >= 1.2 )
-					appliedType = EET_Knockdown;
-				if ( aardPower >= 1.0 )
-					appliedType = EET_LongStagger;
-				else
-					appliedType = EET_Stagger;
-			}
-		}
-		else if ( target.HasAbility( 'mon_type_huge' ) )
-		{
-			if ( aardPower >= 1.2 )
-				appliedType = EET_LongStagger;
-			else
-				appliedType = EET_Stagger;
-		}
-		else if ( target.HasAbility( 'WeakToAard' ) )
-		{
-			appliedType = EET_Knockdown;
-		}
-		else if( aardPower >= 1.2 )
-		{
-			appliedType = EET_HeavyKnockdown;
-		}
-		else if( aardPower >= 0.95 )
-		{
-			appliedType = EET_Knockdown;
-		}
-		else if( aardPower >= 0.75 )
-		{
-			appliedType = EET_LongStagger;
+			appliedType = WitcherSignApplicatorLogic(aardPower, npc);
 		}
 		else
 		{
-			appliedType = EET_Stagger;
+			if(npc && npc.HasShieldedAbility() )
+			{
+				if ( npc.IsShielded(GetCreator()) )
+				{
+					if ( aardPower >= 1.2 )
+						appliedType = EET_LongStagger;
+					else
+						appliedType = EET_Stagger;
+				}
+				else
+				{
+					if ( aardPower >= 1.2 )
+						appliedType = EET_Knockdown;
+					if ( aardPower >= 1.0 )
+						appliedType = EET_LongStagger;
+					else
+						appliedType = EET_Stagger;
+				}
+			}
+			else if ( target.HasAbility( 'mon_type_huge' ) )
+			{
+				if ( aardPower >= 1.2 )
+					appliedType = EET_LongStagger;
+				else
+					appliedType = EET_Stagger;
+			}
+			else if ( target.HasAbility( 'WeakToAard' ) )
+			{
+				appliedType = EET_Knockdown;
+			}
+			else if( aardPower >= 1.2 )
+			{
+				appliedType = EET_HeavyKnockdown;
+			}
+			else if( aardPower >= 0.95 )
+			{
+				appliedType = EET_Knockdown;
+			}
+			else if( aardPower >= 0.75 )
+			{
+				appliedType = EET_LongStagger;
+			}
+			else
+			{
+				appliedType = EET_Stagger;
+			}
 		}
-		
 		
 		appliedType = ModifyHitSeverityBuff(target, appliedType);
 		
@@ -108,6 +114,71 @@ class W3Effect_KnockdownTypeApplicator extends W3ApplicatorEffect
 		
 		isActive = true;
 		duration = 0;
+	}
+	
+	protected function WitcherSignApplicatorLogic(power : float, npc : CNewNPC) : EEffectType
+	{
+		var applyStrongest, applySecondStrong : bool;
+
+		applyStrongest = RandF() < 0.2f;
+		applySecondStrong = RandF() < 0.1f;
+
+		if (power > 2.0f)
+		{
+			power = 2.0f + LogF ((power - 2.0f) + 1);
+		}
+
+		power *= RandF();
+
+		if(npc && npc.HasShieldedAbility() )
+		{
+			if ( npc.IsShielded(GetCreator()) )
+			{
+				if (applyStrongest || power >= 1.35f )
+					return EET_LongStagger;
+				else
+					return EET_Stagger;
+			}
+			else
+			{
+				if (applyStrongest || power >= 1.35f )
+					return EET_Knockdown;
+				if (applySecondStrong || power >= 0.85f )
+					return EET_LongStagger;
+				else
+					return EET_Stagger;
+			}
+		}
+		else if ( target.HasAbility( 'mon_type_huge' ) )
+		{
+			if (applyStrongest || power >= 1.35f )
+				return EET_LongStagger;
+			else
+				return EET_Stagger;
+		}
+		else if ( target.HasAbility( 'WeakToAard' ) )
+		{
+			if (applyStrongest || power >= 1.35f)
+				return EET_HeavyKnockdown;
+			else
+				return EET_Knockdown;
+		}
+		else if(applyStrongest || power >= 1.6f )
+		{
+			return EET_HeavyKnockdown;
+		}
+		else if(applySecondStrong || power >= 1.1f )
+		{
+			return EET_Knockdown;
+		}
+		else if( power >= 0.6f )
+		{
+			return EET_LongStagger;
+		}
+		else
+		{
+			return EET_Stagger;
+		}
 	}
 			
 	public function Init(params : SEffectInitInfo)
