@@ -446,8 +446,20 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	if ( varKey == 'aard_knockdownchance' )	
 	{ 
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_1);
-		valueAbility = sp.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED - 4 * theGame.params.NPC_RESIST_PER_LEVEL;  
+		//valueAbility = sp.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED - 4 * theGame.params.NPC_RESIST_PER_LEVEL;  
+		valueAbility = sp.valueMultiplicative * (1.0f - GetWitcherPlayer().GetLevel() * 0.005f);
+		if (valueAbility > 2.0f)
+			valueAbility = 2.0f + LogF ( (valueAbility - 2.0f) + 1);
+			
+		valueAbility = (1.1f / valueAbility);
+		if (valueAbility > 1.0f)
+			valueAbility = 1.0f;
+
+		valueAbility = valueAbility * 0.8f * 0.9f; // approximate chance of non-knockdown on typical, non-large, non-shielded enemies
+		valueAbility = 1.0f - valueAbility; // so knockdown chance
+
 		valueStr = (string)RoundMath( valueAbility * 100 ) + " %";
+		final_name = "Approximate knockdown chance on typical, non-large, non-shielded enemies.";
 	}
 	else if ( varKey == 'aard_damage' ) 	
 	{  
@@ -538,8 +550,9 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		valueAbility =  CalculateAttributeValue( GetWitcherPlayer().GetAttributeValue( varKey ) );
 		valueStr = IntToString( RoundF(  valueAbility ) );
 	}
-	
-	final_name = GetLocStringByKeyExt(locKey); if ( final_name == "#" ) { final_name = ""; }
+
+	if (varKey != 'aard_knockdownchance')
+		final_name = GetLocStringByKeyExt(locKey); if ( final_name == "#" ) { final_name = ""; }
 	statObject.SetMemberFlashString("name", final_name);
 	statObject.SetMemberFlashString("value", valueStr);
 	statObject.SetMemberFlashString("tag", tag);
