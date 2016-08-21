@@ -36,6 +36,8 @@ scriptFile[18]="/game/player/r4Player.ws"
 scriptFile[19]="/game/gameplay/ability/PlayerAbilityManager.ws"
 scriptFile[20]="/game/gameplay/actions/baseAction.ws"
 scriptFile[21]="/game/gameplay/effects/effects/applicator/knockdownTypeApplicator.ws"
+
+scriptFile[22]="/mod/axiiMods.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
