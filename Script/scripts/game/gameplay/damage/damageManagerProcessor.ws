@@ -1530,12 +1530,15 @@ class W3DamageManagerProcessor extends CObject
 	// Improved Axii begin
 	private function AdjustDamageAxiiPuppet()
 	{
-		var victimNPC : CNewNPC;
+		var victimNPC, attackerNPC : CNewNPC;
 		var victimH, attackerH, damageMult : float;
+		var witcher : W3PlayerWitcher;
 
+		witcher = GetWitcherPlayer();
 		victimNPC = (CNewNPC)actorVictim;
+		attackerNPC = (CNewNPC)actorAttacker;
 
-		if (!victimNPC)
+		if (!victimNPC || !attackerNPC)
 			return;
 			
 		if (actorVictim.UsesEssence())
@@ -1548,10 +1551,19 @@ class W3DamageManagerProcessor extends CObject
 		else
 			attackerH = actorAttacker.GetStatMax(BCS_Vitality);
 
+		if (witcher)
+		{
+			victimH /= witcher.axiiMods.GetHealthMod(victimNPC);
+			attackerH /= witcher.axiiMods.GetHealthMod(attackerNPC);
+		}
+
 		damageMult = victimH / GetAxiiPuppetReductorDivider(victimNPC.GetLevelFromLocalVar());
 		if (victimH > attackerH
 			&& ( (actorVictim.UsesEssence() && actorAttacker.UsesEssence()) || (!actorVictim.UsesEssence() && !actorAttacker.UsesEssence()) ) )
 			damageMult *= attackerH / victimH;
+			
+		if (witcher)
+			damageMult *= witcher.axiiMods.GetDamageMod(attackerNPC);
 
 		if (action.IsActionRanged())
 			damageMult *= 2.5f;

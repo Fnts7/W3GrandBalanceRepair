@@ -15,13 +15,15 @@
 # SCRIPT FILES BEGIN
 scriptFile[0]="/game/actor.ws"
 scriptFile[1]="/game/npc/npc.ws"
-scriptFile[2]="/game/gameplay/items/spells/axiiEntity.ws"
-scriptFile[3]="/game/gameplay/items/spells/signEntity.ws"
-scriptFile[4]="/game/gameplay/effects/effects/skill/axiiGuardMe.ws"
-scriptFile[5]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[2]="/game/player/playerWitcher.ws"
+scriptFile[3]="/game/gameplay/items/spells/axiiEntity.ws"
+scriptFile[4]="/game/gameplay/items/spells/signEntity.ws"
+scriptFile[5]="/game/gameplay/effects/effects/skill/axiiGuardMe.ws"
+scriptFile[6]="/game/gameplay/damage/damageManagerProcessor.ws"
 
-scriptFile[6]="/game/components/inventoryComponent.ws"
-scriptFile[7]="/game/gui/menus/characterMenu.ws"
+scriptFile[7]="/game/components/inventoryComponent.ws"
+scriptFile[8]="/game/gui/menus/characterMenu.ws"
+scriptFile[9]="/mod/axiiMods.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
