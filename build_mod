@@ -39,17 +39,18 @@ scriptFile[19]="/game/projectile/playerBoltProjectile.ws"
 
 scriptFile[20]="/mod/crossbowDamageBoostData.ws"
 scriptFile[21]="/mod/crossbowDamageBoostProcessor.ws"
+scriptFile[22]="/mod/axiiMods.ws"
 
-scriptFile[22]="/game/gameplay/effects/effectManager.ws"
-scriptFile[23]="/game/gameplay/projectile/signs/signProjectiles.ws"
-scriptFile[24]="/game/components/inventoryComponent.ws"
-scriptFile[25]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
-scriptFile[26]="/game/gameplay/items/spells/igniEntity.ws"
-scriptFile[27]="/game/player/r4Player.ws"
-scriptFile[28]="/game/gameplay/effects/effects/mutagens/mutagenEffect.ws"
-scriptFile[29]="/game/gameplay/effects/effects/mutagens/mutagen15.ws"
-scriptFile[30]="/game/gameplay/actions/baseAction.ws"
-scriptFile[31]="/game/gameplay/effects/effects/applicator/knockdownTypeApplicator.ws"
+scriptFile[23]="/game/gameplay/effects/effectManager.ws"
+scriptFile[24]="/game/gameplay/projectile/signs/signProjectiles.ws"
+scriptFile[25]="/game/components/inventoryComponent.ws"
+scriptFile[26]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
+scriptFile[27]="/game/gameplay/items/spells/igniEntity.ws"
+scriptFile[28]="/game/player/r4Player.ws"
+scriptFile[29]="/game/gameplay/effects/effects/mutagens/mutagenEffect.ws"
+scriptFile[30]="/game/gameplay/effects/effects/mutagens/mutagen15.ws"
+scriptFile[31]="/game/gameplay/actions/baseAction.ws"
+scriptFile[32]="/game/gameplay/effects/effects/applicator/knockdownTypeApplicator.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

@@ -64,8 +64,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 		default explorationInputContext = 'Exploration';
 		default combatInputContext = 'Combat';
 		default combatFistsInputContext = 'Combat';
-		
-	
+
+	public var axiiMods : AxiiMods;
+
 	private saved var companionNPCTag		: name;
 	private saved var companionNPCTag2		: name;
 	
@@ -179,6 +180,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		signOwner = new W3SignOwnerPlayer in this;
 		signOwner.Init( this );
+		
+		axiiMods = new AxiiMods in this;
 		
 		itemSlots.Resize( EnumGetMax('EEquipmentSlots')+1 );
 
