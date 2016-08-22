@@ -104,6 +104,8 @@ class W3Effect_KnockdownTypeApplicator extends W3ApplicatorEffect
 		params.sourceName = sourceName;
 		params.isSignEffect = isSignEffect;
 		params.customPowerStatValue = creatorPowerStat;
+		if (IsSignEffect() && npc && params.customPowerStatValue.valueMultiplicative > 2.0f)
+			params.customPowerStatValue.valueMultiplicative = 2.0f + LogF( (params.customPowerStatValue.valueMultiplicative - 2.0f) + 1);			
 		params.customAbilityName = customAbilityName;
 		params.duration = customDuration;
 		params.effectValue = customEffectValue;	

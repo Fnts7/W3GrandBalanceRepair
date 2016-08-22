@@ -307,7 +307,7 @@
       </ability>
 	  
       <ability name="HeavyKnockdownEffect">
-        <duration type="add" min="3" max="5" />
+        <duration type="add" min="2.5" max="4" />
       </ability>
 	  <ability name="HeavyKnockdownEffect_BluntBolt">
         <duration type="add" min="1" max="4" />
