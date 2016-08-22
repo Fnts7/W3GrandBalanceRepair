@@ -254,6 +254,7 @@ class W3Action_Attack extends W3DamageAction
 		var mutagenBuff : W3Mutagen28_Effect;
 		var playerAttacker : CPlayer;
 		var mutagen25 : W3Mutagen25_Effect;
+		var burning : W3Effect_Burning;
 		
 
 		result = super.GetPowerStatValue();
@@ -377,6 +378,9 @@ class W3Action_Attack extends W3DamageAction
 			}
 		}
 		
+		burning = (W3Effect_Burning)causer;
+		if (burning && burning.GetAbilityName() == 'BurningEffect_ExplosiveBolt' && result.valueMultiplicative > 2.0f)
+			result.valueMultiplicative = 2.0f + LogF( (result.valueMultiplicative - 2.0f) + 1);
 		
 		if(result.valueMultiplicative < 0)
 			result.valueMultiplicative = 0.001;

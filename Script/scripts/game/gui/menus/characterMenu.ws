@@ -1895,7 +1895,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>"
 				// CrossbowDamageBoost
-				+ "Increases manually aimed shot critical chance by " + (4 * skillLevel) + "%.<br>"
+				+ "Increases manually aimed shot critical chance by " + (5 * skillLevel) + "%.<br>"
 				+ "Increases critical hit damage by " + (20 * skillLevel) + "%.<br>"
 				// CrossbowDamageBoost end
 				+ GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
