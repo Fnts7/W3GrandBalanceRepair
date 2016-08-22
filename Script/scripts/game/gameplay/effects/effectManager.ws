@@ -1489,7 +1489,10 @@ class W3EffectManager
 		}
 		else if(signType == ST_Igni)
 		{
-			chance = sp / 2.5f - res;
+			if (owner.HasAbility( 'mon_type_huge' ))
+				chance = sp / 3.0f - res;
+			else
+				chance = sp / 2.5f - res;
 
 			if(witcher)
 			{
