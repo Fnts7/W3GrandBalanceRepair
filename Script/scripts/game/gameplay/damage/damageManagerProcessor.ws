@@ -683,16 +683,16 @@ class W3DamageManagerProcessor extends CObject
 					{
 						if (boltCauser.GetWasAimedBolt())
 						{
-							// Doubling crit chance for aimed bolt for precision skill and cat eyes mutation
+							// Increased crit chance for aimed bolt for precision skill and cat eyes mutation
 							if (playerAttacker.CanUseSkill(S_Sword_s07))
 							{
-								critChance += CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Sword_s07, theGame.params.CRITICAL_HIT_CHANCE, false, true)) * playerAttacker.GetSkillLevel(S_Sword_s07);
+								critChance += 1.5f * CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Sword_s07, theGame.params.CRITICAL_HIT_CHANCE, false, true)) * playerAttacker.GetSkillLevel(S_Sword_s07);
 							}
 
 							if ( ((W3PlayerWitcher)actorAttacker).IsMutationActive( EPMT_Mutation9 ) )
 							{
 								theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation9', 'critical_hit_chance', min, max);
-								critChance += 0.75 * min.valueMultiplicative;;
+								critChance += min.valueMultiplicative;;
 							}
 						}
 

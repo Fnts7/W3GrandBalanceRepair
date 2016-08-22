@@ -3884,7 +3884,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		result = GetLocStringByKeyExtWithParams( locKey, , , arrStr );
 		if (mutationType == EPMT_Mutation9)
 		{
-			result += "<br>Increases manually aimed shot critical chance by additional 15%. Increases critical hit damage by 50%.";
+			result += "<br>Increases manually aimed shot critical chance by additional 18%. Increases critical hit damage by 50%.";
 		}
 		
 		return result;
