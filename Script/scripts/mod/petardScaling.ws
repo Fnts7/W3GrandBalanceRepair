@@ -25,11 +25,6 @@ function PetardBonus(type : string, petardLevel : int) : float
 	percentFactorDragonBurning.PushBack(0.75);  // petard on 2 level
 	percentFactorDragonBurning.PushBack(1.0);  // petard on 3 level
 	
-	// % pyrotechnics dmg multiplied by player level
-	percentFactorDmgPyro.PushBack(1.0);  // petard on 1 level
-	percentFactorDmgPyro.PushBack(1.5);  // petard on 2 level
-	percentFactorDmgPyro.PushBack(2.0);  // petard on 3 level
-	
 	//% duration time bonus multiplied by player level
 	percentFactorDuration.PushBack(1.0);  // petard on 1 level
 	percentFactorDuration.PushBack(1.5);  // petard on 2 level
@@ -53,8 +48,4 @@ function PetardBonus(type : string, petardLevel : int) : float
 		case "aim":
 			return percentFactorAim[petardLevel] / 100;
 	}
-}
-function DragonBasicDMG() : int
-{
-	return 50;
 }
