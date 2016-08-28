@@ -52,7 +52,8 @@ scriptFile[30]="/game/gameplay/actions/baseAction.ws"
 
 scriptFile[31]="/game/gameplay/effects/effects/baseEffect.ws"
 scriptFile[32]="/game/gameplay/items/throwables/petards/petard.ws"
-scriptFile[21]="/mod/petardScaling.ws"
+scriptFile[33]="/mod/petardScaling.ws"
+scriptFile[34]="/game/gameplay/items/throwables/petards/dragonsDream.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
@@ -97,6 +98,9 @@ assetFile[33]="/dlc/bob/data/gameplay/items_plus/def_item_weapons_crossbows.xml"
 assetFile[34]="/dlc/bob/data/gameplay/items/def_loot_shops.xml"
 assetFile[35]="/dlc/bob/data/gameplay/items_plus/def_loot_shops.xml"
 assetFile[36]="/gameplay/gui_new/swf/character/panel_character.redswf"
+
+assetFile[37]="dlc\bob\data\gameplay\abilities\geralt_skills_ep2.xml"
+assetFile[38]="dlc\bob\data\gameplay\abilities_plus\geralt_skills_ep2.xml"
 
 # ASSET FILES END
 
