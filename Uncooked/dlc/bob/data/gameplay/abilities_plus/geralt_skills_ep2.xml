@@ -11,8 +11,8 @@
                        <!-- Pyromaniac -->
           <ability name="perk_20">
             <tags>perk_20</tags>
-            <stack_multiplier type="mult" min="0.5"/>
-            <dmg_multiplier type="mult" min="2" />
+            <stack_multiplier type="mult" min="0.25"/>
+            <dmg_multiplier type="mult" min="1" />
           </ability>
 
           <!-- DEFENSE -->

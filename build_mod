@@ -13,11 +13,15 @@
 #
 
 # SCRIPT FILES BEGIN
-scriptFile[0]=""
+scriptFile[0]="/game/gameplay/effects/effects/baseEffect.ws"
+scriptFile[1]="/game/gameplay/items/throwables/petards/petard.ws"
+scriptFile[2]="/game/gameplay/items/throwables/petards/dragonsDream.ws"
+scriptFile[3]="/mod/petardScaling.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
-assetFile[0]=""
+assetFile[0]="/dlc/bob/data/gameplay/abilities/geralt_skills_ep2.xml"
+assetFile[1]="/dlc/bob/data/gameplay/abilities_plus/geralt_skills_ep2.xml"
 # ASSET FILES END
 
 set -e
@@ -28,7 +32,7 @@ then
 	exit
 fi
 
-modReadyFolder=$1"/Packed/[modReadyFolder]"
+modReadyFolder=$1"/Packed/modGrandBalanceRepairPetards"
 modContentPath=$modReadyFolder"/content"
 
 inXMLPath="Uncooked"
