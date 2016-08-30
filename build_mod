@@ -51,6 +51,10 @@ scriptFile[29]="/game/gameplay/effects/effects/mutagens/mutagenEffect.ws"
 scriptFile[30]="/game/gameplay/effects/effects/mutagens/mutagen15.ws"
 scriptFile[31]="/game/gameplay/actions/baseAction.ws"
 scriptFile[32]="/game/gameplay/effects/effects/applicator/knockdownTypeApplicator.ws"
+scriptFile[33]="/game/gameplay/effects/effects/baseEffect.ws"
+scriptFile[34]="/game/gameplay/items/throwables/petards/petard.ws"
+scriptFile[35]="/game/gameplay/items/throwables/petards/dragonsDream.ws"
+scriptFile[36]="/mod/petardScaling.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
