@@ -4996,11 +4996,6 @@ statemachine import class CNewNPC extends CActor
 			ESLevel = -100;
 			return;
 		}
-		if((GetSfxTag() == 'sfx_wild_dog'))
-		{
-			ESLevel = -100;
-			return;
-		}
 		// Set Levels
 		mLevel = currentLevel;
 		rangeNum = mLevel - pLevel;
@@ -5288,14 +5283,38 @@ statemachine import class CNewNPC extends CActor
 	private function CheckifScaled(nameplateLevel : int)
 	{
 		var actualLevel : int;
+		var stats		: CCharacterStats;
+		var SSmod		: bool;
+		var scaleWeakOnly : bool;
+		//var modh : float;
+		//var modd : float;
+		displayonce = true;
+		if(!ESCheck())
+			return;
 		if(isRealBoss())
 			return;
+		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
+		scaleWeakOnly = inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESWEnemy');
+		SSmod = SmoothCheck();
+		stats = GetCharacterStats();
 		if(ESLevel != nameplateLevel && ESLevel != -100)
 		{
-			actualLevel = ESLevel;
-			if(actualLevel < 1){actualLevel=1;}
-			ModHealth = 1 - ((actualLevel)*.025);
-			ModDamage *= (1-((actualLevel)*.0175));
+			if (scaleWeakOnly && nameplateLevel >=1)
+			{
+				return;
+			}
+			if ( stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_DEADLY); else
+			if ( stats.HasAbility(theGame.params.ENEMY_BONUS_HIGH) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_HIGH); else
+			if ( stats.HasAbility(theGame.params.MONSTER_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.MONSTER_BONUS_DEADLY); else
+			if ( stats.HasAbility(theGame.params.MONSTER_BONUS_HIGH) ) stats.RemoveAbility(theGame.params.MONSTER_BONUS_HIGH);
+			
+			actualLevel = ESLevel - nameplateLevel;
+			
+			//modh = ModHealth; //Debug Purposes
+			//modd = ModDamage;
+			ModHealth = 1 - ((actualLevel)*.03);  
+			ModDamage *= (1+((actualLevel)*.02));
+			
 			if(ModHealth < .5)
 			{
 				ModHealth = .5;
@@ -5309,11 +5328,9 @@ statemachine import class CNewNPC extends CActor
 				ModDamage = .5;
 			}
 			displayFakeLevel = true;
-			//theGame.GetGuiManager().ShowNotification("NPC could not be scaled, expected: " + IntToString(ESLevel) + ", got:" + IntToString(nameplateLevel) + "|ModDamage Now:" + FloatToString(ModDamage) + " |ModHealth Now: " + FloatToString(ModHealth));
+			//theGame.GetGuiManager().ShowNotification("NPC could not be scaled, expected: " + IntToString(ESLevel) + ", got:" + IntToString(nameplateLevel) + "|ModDamage Now:" + FloatToString(ModDamage) + " |ModHealth Now: " + FloatToString(ModHealth) + "DEBUG VALUE: Health:" + FloatToString(modh) + " Damage: " + FloatToString(modd));
 		}
-		else
 			//theGame.GetGuiManager().ShowNotification("Check |DEFAULT: " + FloatToString(ModHealth) + " | " +FloatToString(ModDamage) + "   " + GetSfxTag());
-		displayonce = true;
 	}
 	private function CustomScale()
 	{
@@ -5325,7 +5342,7 @@ statemachine import class CNewNPC extends CActor
 			scaleMax = 1;
 		if(GetSfxTag() == 'sfx_endriaga')
 		{
-			ModDamage += 2.5 + (2.5 * scaleMax);
+			ModDamage += 2.5 + (4 * scaleMax);
 		}
 		else if(GetSfxTag() == 'sfx_ghoul')
 		{
@@ -5346,6 +5363,11 @@ statemachine import class CNewNPC extends CActor
 		else if (GetSfxTag() == 'sfx_wraith')
 		{
 			ModDamage += 1.5 + (3.25 * scaleMax);
+		}
+		else if (GetSfxTag() == 'sfx_wild_dog')
+		{
+			ModDamage = .8 - (.385 * scaleMax);
+			ModHealth += .2 + (.5 * scaleMax);
 		}
 	}
 	private function resetESchanges()
@@ -5439,7 +5461,11 @@ statemachine import class CNewNPC extends CActor
 		EXPmod = 0;
 		inGameConfigWrapper_ES = theGame.GetInGameConfigWrapper();
 		EXPmod = StringToInt(inGameConfigWrapper_ES.GetVarValue('EnemyScale', 'ESToggleEXPmod'));
-		return EXPmod;
+		if(ESCheck())
+		{
+			return EXPmod;
+		}
+		return 0;
 	}
 	//These functions deal with enemy damage/health
 	//Returns the amount of damage they will break through Geralt's bonus damage resistance
@@ -5451,13 +5477,10 @@ statemachine import class CNewNPC extends CActor
 		{
 		case EDM_Easy:
 			return TrueDamage + .250;
-			break;
 		case EDM_Medium:
 			return TrueDamage + .175;
-			break;
 		case EDM_Hard:
 			return TrueDamage + .125;
-			break;
 		case EDM_Hardcore:
 			break;
 		}
@@ -5501,20 +5524,24 @@ statemachine import class CNewNPC extends CActor
 	public function fistfightBaseDamage() : float
 	{
 		ModDamage = 1 + (ESLevel * .0375);
+		if(ModDamage < .2)
+		{
+			ModDamage = .2;
+		}
+		if(ModDamage > 2.5)
+		{
+			ModDamage = 2.5;
+		}
 		switch ( theGame.GetSpawnDifficultyMode() )
 		{
 		case EDM_Easy:
 			return 250.0;
-			break;
 		case EDM_Medium:
 			return 300.0;
-			break;
 		case EDM_Hard:
 			return 400.0;
-			break;
 		case EDM_Hardcore:
 			return 500.0;
-			break;
 		}
 		
 	}

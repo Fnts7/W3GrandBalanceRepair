@@ -15,7 +15,8 @@
 # SCRIPT FILES BEGIN
 scriptFile[0]="/game/actor.ws"
 scriptFile[1]="/game/npc/npc.ws"
-scriptFile[2]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[2]="/game/player/playerWitcher.ws"
+scriptFile[3]="/game/gameplay/damage/damageManagerProcessor.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

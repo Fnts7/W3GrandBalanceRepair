@@ -7379,6 +7379,86 @@ statemachine class W3PlayerWitcher extends CR4Player
 		return staminaRegenVal;
 	}
 	
+	//EnemyScale
+	public function EnemyScaleGetArmorStrength () : float
+	{
+		var armorEq, glovesEq, pantsEq, bootsEq : bool;
+		var armorES, glovesES, pantsES, bootsES : SItemUniqueId;
+		var DamageReduction : float;
+		var armorType : EArmorType;
+		DamageReduction = -1.0;
+		armorEq = inv.GetItemEquippedOnSlot( EES_Armor, armorES );
+		glovesEq = inv.GetItemEquippedOnSlot( EES_Gloves, glovesES );
+		pantsEq = inv.GetItemEquippedOnSlot( EES_Pants, pantsES );
+		bootsEq = inv.GetItemEquippedOnSlot( EES_Boots, bootsES );
+		if ( armorEq )
+		{
+			armorType = inv.GetArmorType(armorES);
+			if(armorType == EAT_Light)
+			{
+				DamageReduction += 0.25;
+			}
+			else if(armorType == EAT_Medium)
+			{
+				DamageReduction += 0.35;
+			}
+			else if(armorType == EAT_Heavy)
+			{
+				DamageReduction += 0.425;
+			}
+		}
+		if ( glovesEq )
+		{
+			armorType = inv.GetArmorType(glovesES);
+			if(armorType == EAT_Light)
+			{
+				DamageReduction += 0.075;
+			}
+			else if(armorType == EAT_Medium)
+			{
+				DamageReduction += 0.125;
+			}
+			else if(armorType == EAT_Heavy)
+			{
+				DamageReduction += 0.2;
+			}
+		}
+		if ( pantsEq )
+		{
+			armorType = inv.GetArmorType(pantsES);
+			if(armorType == EAT_Light)
+			{
+				DamageReduction += 0.25;
+			}
+			else if(armorType == EAT_Medium)
+			{
+				DamageReduction += 0.35;
+			}
+			else if(armorType == EAT_Heavy)
+			{
+				DamageReduction += 0.425;
+			}
+		}
+		if ( bootsEq )
+		{
+			armorType = inv.GetArmorType(bootsES);
+			if(armorType == EAT_Light)
+			{
+				DamageReduction += 0.125;
+			}
+			else if(armorType == EAT_Medium)
+			{
+				DamageReduction += 0.175;
+			}
+			else if(armorType == EAT_Heavy)
+			{
+				DamageReduction += 0.25;
+			}
+		}
+		return DamageReduction;
+	}
+	//EnemyScale
+	
 	public function GetOffenseStatsList( optional hackMode : int ) : SPlayerOffenseStats
 	{
 		var playerOffenseStats:SPlayerOffenseStats;

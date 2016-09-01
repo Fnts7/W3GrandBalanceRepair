@@ -104,22 +104,22 @@
 	<Group id="EnemyBonusNormalEnemies" displayName="Mods.ES_MenuName.ES_BonusScale.ES_NormalEnemy">
 			<VisibleVars>
 				<Var id="EBNormal" displayName="ES_EBNormal" displayType="TOGGLE" />
-				<Var id="EBNORMALhp" displayName="ES_EBNORMALhp" displayType="SLIDER;-99;100;199" />
-				<Var id="EBNORMALap" displayName="ES_EBNORMALap" displayType="SLIDER;-99;100;199" />
+				<Var id="EBNORMALhp" displayName="ES_EBNORMALhp" displayType="SLIDER;-99;500;599" />
+				<Var id="EBNORMALap" displayName="ES_EBNORMALap" displayType="SLIDER;-99;500;599" />
 			</VisibleVars>
 	</Group>
 	<Group id="EnemyBonusMiniboss" displayName="Mods.ES_MenuName.ES_BonusScale.ES_MiniBoss">
 			<VisibleVars>
 				<Var id="EBMiniboss" displayName="ES_EBMiniboss" displayType="TOGGLE" />
-				<Var id="EBMINIBOSShp" displayName="ES_EBMINIBOSShp" displayType="SLIDER;-99;100;199" />
-				<Var id="EBMINIBOSSap" displayName="ES_EBMINIBOSSap" displayType="SLIDER;-99;100;199" />
+				<Var id="EBMINIBOSShp" displayName="ES_EBMINIBOSShp" displayType="SLIDER;-99;500;599" />
+				<Var id="EBMINIBOSSap" displayName="ES_EBMINIBOSSap" displayType="SLIDER;-99;500;599" />
 			</VisibleVars>
 	</Group>
 	<Group id="EnemyBonusBoss" displayName="Mods.ES_MenuName.ES_BonusScale.ES_Boss">
 			<VisibleVars>
 				<Var id="EBBoss" displayName="ES_EBBoss" displayType="TOGGLE" />
-				<Var id="EBBOSShp" displayName="ES_EBBOSShp" displayType="SLIDER;-99;100;199" />
-				<Var id="EBBOSSap" displayName="ES_EBBOSSap" displayType="SLIDER;-99;100;199" />
+				<Var id="EBBOSShp" displayName="ES_EBBOSShp" displayType="SLIDER;-99;500;599" />
+				<Var id="EBBOSSap" displayName="ES_EBBOSSap" displayType="SLIDER;-99;500;599" />
 			</VisibleVars>
 	</Group>
 </UserConfig>
