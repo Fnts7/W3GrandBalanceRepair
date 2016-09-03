@@ -124,7 +124,7 @@ class W3DamageManagerProcessor extends CObject
 		}
 		
 		
-		if(actorAttacker)
+		if( actorAttacker && wasAlive )
 			actorAttacker.OnProcessActionPost(action);
 
 		

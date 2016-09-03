@@ -13,10 +13,6 @@
 				<burning_DoT_damage_resistance_perc type="add" min="-1.0" max="-1.0" />
 				<burning_resistance_perc type="base" min="-1.0" max="-1.0" />
 			</ability>
-			<ability name="HitWindowOpened">
-				<tags> "HitWindowOpened" </tags>
-				<fire_resistance_perc type="add" min="-0.5" max="-0.5" />
-			</ability>
 			<ability name="EtherealActivating">
 				<tags> "EtherealActivating" </tags>
 			</ability>

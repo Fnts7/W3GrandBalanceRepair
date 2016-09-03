@@ -17,11 +17,20 @@ class W3Mutation7BaseEffect extends CBaseGameplayEffect
 	
 	event OnEffectAdded( customParams : W3BuffCustomParams )
 	{
+		var i : int;
+		
 		super.OnEffectAdded();
 		
-		actors = GetWitcherPlayer().GetEnemies();
+		actors = GetActorsInRange( target, 30, 50, '', true );
 		
-
+		for(i = actors.Size() - 1; i >= 0; i -= 1)
+		{
+			if( GetAttitudeBetween( target, actors[i] ) != AIA_Hostile )
+			{
+				actors.Erase( i );
+			}
+		}
+		
 		actorsCount = actors.Size();
 		sonarEntity = target.CreateFXEntityAtPelvis( 'mutation7_sonar', false );		
 	}

@@ -425,6 +425,7 @@ import class W3GameParams extends CObject
 	public const var MAX_XP_MOD : float;												
 	public const var DEVIL_HORSE_AURA_MIN_DELAY, DEVIL_HORSE_AURA_MAX_DELAY : int;		
 	public const var TOTAL_AMOUNT_OF_BOOKS	: int;										
+	public const var MAX_PLAYER_LEVEL	: int;											
 	
 		default DEBUG_CHEATS_ENABLED = true;
 		default SKILL_GLOBAL_PASSIVE_TAG = 'GlobalPassiveBonus';
@@ -453,6 +454,7 @@ import class W3GameParams extends CObject
 		default DEVIL_HORSE_AURA_MIN_DELAY = 2;
 		default DEVIL_HORSE_AURA_MAX_DELAY = 6;
 		default TOTAL_AMOUNT_OF_BOOKS = 130;
+		default MAX_PLAYER_LEVEL = 100;
 		
 	
 	public function Init()
@@ -906,7 +908,7 @@ import class W3GameParams extends CObject
 		}		
 	}	
 	    
-  	public function GetItemLevel(itemCategory : name, itemAttributes : array<SAbilityAttributeValue>, optional itemName : name) : int
+  	public function GetItemLevel(itemCategory : name, itemAttributes : array<SAbilityAttributeValue>, optional itemName : name, optional out baseItemLevel : int) : int
 	{
 		var stat : SAbilityAttributeValue;
 		var stat_f : float;
@@ -1001,7 +1003,9 @@ import class W3GameParams extends CObject
 			if ( stat.valueMultiplicative > 1.9 ) level = 32;
 		} 
 		level = level - 1;
-		if ( level < 1 ) level = 1;	if ( level > GetWitcherPlayer().GetMaxLevel() ) level = GetWitcherPlayer().GetMaxLevel();
+		if ( level < 1 ) level = 1;	
+		baseItemLevel = level;
+		if ( level > GetWitcherPlayer().GetMaxLevel() ) level = GetWitcherPlayer().GetMaxLevel();
 		
 		return level;
 	}
@@ -1027,5 +1031,9 @@ import class W3GameParams extends CObject
 	public final function NewGamePlusLevelDifference() : int
 	{
 		return ( theGame.params.GetNewGamePlusLevel() - theGame.params.NEW_GAME_PLUS_MIN_LEVEL );
+	}
+	public final function GetPlayerMaxLevel() : int
+	{
+		return MAX_PLAYER_LEVEL;
 	}
 }

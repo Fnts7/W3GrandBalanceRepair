@@ -236,6 +236,10 @@ class W3TooltipComponent
 					if ( theGame.params.NewGamePlusLevelDifference() > 0 )
 					{
 						craftedItemLevel += theGame.params.NewGamePlusLevelDifference();
+						if ( craftedItemLevel > GetWitcherPlayer().GetMaxLevel() ) 
+						{
+							craftedItemLevel = GetWitcherPlayer().GetMaxLevel();
+						}
 					}
 				}
 				additionalDescription += "<br/>";
@@ -334,11 +338,11 @@ class W3TooltipComponent
 				{
 					ammoBonus = CalculateAttributeValue( thePlayer.GetSkillAttributeValue( S_Alchemy_s06, 'ammo_bonus', false, false ) );
 					ammoBonus = ammo * (1 + ammoBonus * thePlayer.GetSkillLevel( S_Alchemy_s06 ) ) - ammo;
-					tooltipData.SetMemberFlashString( "charges", NoTrailZeros( ammo ) + " ( +" + NoTrailZeros( ammoBonus ) + " )" + GetLocStringByKeyExt( "inventory_tooltip_charges" ) );
+					tooltipData.SetMemberFlashString( "charges", RoundF( ammo ) + " ( +" + RoundF( ammoBonus ) + " ) " + GetLocStringByKeyExt( "inventory_tooltip_charges" ) );
 				}
 				else
 				{
-					tooltipData.SetMemberFlashString( "charges", NoTrailZeros( ammo ) + " " + GetLocStringByKeyExt( "inventory_tooltip_charges" ) );
+					tooltipData.SetMemberFlashString( "charges", RoundF( ammo ) + " " + GetLocStringByKeyExt( "inventory_tooltip_charges" ) );
 				}
 			}
 			else
