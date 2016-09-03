@@ -176,10 +176,19 @@ class CR4ListBaseMenu extends CR4MenuBase
 	}
 	
 	function GetItemQuantity(id : int ) : int
-	{
-		var itemName : name = itemsNames[id];
+	{	
+		var dm : CDefinitionsManagerAccessor = theGame.GetDefinitionsManager();
 		var playerInv : CInventoryComponent = thePlayer.GetInventory();
-		return playerInv.GetItemQuantityByName(itemName);
+		var itemName : name = itemsNames[id];		
+		
+		if (dm.ItemHasTag( itemName, 'MutagenIngredient' ))
+		{
+			return thePlayer.inv.GetUnusedMutagensCount(itemName);
+		}
+		else
+		{
+			return playerInv.GetItemQuantityByName(itemName);
+		}
 	}
 	
 	event OnGetItemData(item : int, compareItemType : int) 

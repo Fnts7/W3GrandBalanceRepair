@@ -3725,10 +3725,10 @@ import abstract class CActor extends CGameplayEntity
 			effectManager.RemoveEffect(effect, csForcedRemove );
 	}
 	
-	public function RemoveAllNonAutoBuffs( optional removeOils : bool )
+	public function RemoveAllNonAutoBuffs( optional removeOils : bool, optional skipPerk14 : bool )
 	{
 		if( effectManager && effectManager.IsReady() )
-			effectManager.RemoveAllNonAutoEffects( removeOils );
+			effectManager.RemoveAllNonAutoEffects( removeOils, skipPerk14 );
 	}
 	
 	public function RemoveAllBuffsOfType(effectType : EEffectType)

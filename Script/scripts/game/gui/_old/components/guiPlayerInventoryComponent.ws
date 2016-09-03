@@ -415,6 +415,10 @@ class W3GuiPlayerInventoryComponent extends W3GuiBaseInventoryComponent
 				if ( theGame.params.NewGamePlusLevelDifference() > 0 )
 				{
 					itemLevel += theGame.params.NewGamePlusLevelDifference();
+					if ( itemLevel > GetWitcherPlayer().GetMaxLevel() ) 
+					{
+						itemLevel = GetWitcherPlayer().GetMaxLevel();
+					}
 				}
 			}
 			requiredLevel = _inv.GetItemLevelColor( itemLevel ) + GetLocStringByKeyExt( 'panel_inventory_item_requires_level' ) + " " + itemLevel + "</font>";
