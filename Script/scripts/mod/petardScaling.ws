@@ -16,9 +16,9 @@ function PetardBonus(type : string, petardLevel : int) : float
 	percentFactorDmg.PushBack(2.0);  // petard on 3 level
 	
 	// % pyrotechnics dmg multiplied by player level
-	percentFactorDmgPyro.PushBack(1.0);  // petard on 1 level
-	percentFactorDmgPyro.PushBack(1.5);  // petard on 2 level
-	percentFactorDmgPyro.PushBack(2.0);  // petard on 3 level
+	percentFactorDmgPyro.PushBack(2.0f);  // petard on 1 level
+	percentFactorDmgPyro.PushBack(3.0f);  // petard on 2 level
+	percentFactorDmgPyro.PushBack(4.0f);  // petard on 3 level
 	
 	// % Dragons Dream burning chance bonus multiplied by player level
 	percentFactorDragonBurning.PushBack(0.5);  // petard on 1 level
@@ -40,7 +40,7 @@ function PetardBonus(type : string, petardLevel : int) : float
 		case "dmg":
 			return (thePlayer.GetLevel() * (percentFactorDmg[petardLevel] / 100));
 		case "dmgPyro":
-			return (thePlayer.GetLevel() * (percentFactorDmgPyro[petardLevel] / 100));
+			return 1.0f + (thePlayer.GetLevel() * (percentFactorDmgPyro[petardLevel] / 100));
 		case "dragonBurningChance":
 			return (thePlayer.GetLevel() * (percentFactorDragonBurning[petardLevel] / 100));
 		case "duration":
