@@ -1,0 +1,160 @@
+#!/bin/bash
+
+# Copies needed mod files, cooks, packs and creates metadata
+# Usage: first argument is the path to the mod in form: /[driveLetter]/[restOfThePath]
+# no '/' at the end
+#
+# Requirements:
+# 1) wcc_lite in PATH
+# 2) Mod directory structure:
+#      [modWorkDir]/Cooked (cooked files)
+#	   [modWorkDir]/Uncooked (uncooked files)
+#	   [modWorkDir]/Packed/[modReadyFolder] (mod package)
+#
+
+# SCRIPT FILES BEGIN
+scriptFile[0]="/game/actor.ws"
+scriptFile[1]="/game/gameParams.ws"
+
+scriptFile[2]="/game/components/inventoryComponent.ws"
+
+scriptFile[3]="/game/gameplay/ability/PlayerAbilityManager.ws"
+scriptFile[4]="/game/gameplay/actions/baseAction.ws"
+scriptFile[5]="/game/gameplay/actions/attackAction.ws"
+scriptFile[6]="/game/gameplay/damage/damageManagerProcessor.ws"
+
+scriptFile[7]="/game/gameplay/effects/effectManager.ws"
+scriptFile[8]="/game/gameplay/effects/effects/baseEffect.ws"
+scriptFile[9]="/game/gameplay/effects/effects/applicator/knockdownTypeApplicator.ws"
+scriptFile[10]="/game/gameplay/effects/effects/other/slowdownFrost.ws"
+scriptFile[11]="/game/gameplay/effects/effects/skill/axiiGuardMe.ws"
+scriptFile[12]="/game/gameplay/effects/effects/skill/yrdenHealthDrain.ws"
+scriptFile[13]="/game/gameplay/effects/effects/mutagens/mutagenEffect.ws"
+scriptFile[14]="/game/gameplay/effects/effects/mutagens/mutagen15.ws"
+
+scriptFile[15]="/game/gameplay/items/spells/axiiEntity.ws"
+scriptFile[16]="/game/gameplay/items/spells/igniEntity.ws"
+scriptFile[17]="/game/gameplay/items/spells/quenEntity.ws"
+scriptFile[18]="/game/gameplay/items/spells/signEntity.ws"
+scriptFile[19]="/game/gameplay/items/spells/yrdenEntity.ws"
+
+scriptFile[20]="/game/gameplay/items/throwables/petards/petard.ws"
+scriptFile[21]="/game/gameplay/items/throwables/petards/dragonsDream.ws"
+
+scriptFile[22]="/game/gameplay/projectile/signs/signProjectiles.ws"
+
+scriptFile[23]="/game/gui/menus/enchantingMenu.ws"
+scriptFile[24]="/game/gui/menus/characterMenu.ws"
+scriptFile[25]="/game/gui/popups/CharacterStatsPopup.ws"
+scriptFile[26]="/game/gui/_old/components/guiTooltipComponent.ws"
+
+scriptFile[27]="/game/npc/npc.ws"
+scriptFile[28]="/game/player/playerWitcher.ws"
+scriptFile[29]="/game/player/r4Player.ws"
+scriptFile[30]="/game/projectile/arrowProjectile.ws"
+scriptFile[31]="/game/projectile/explosiveBolt.ws"
+scriptFile[32]="/game/projectile/playerBoltProjectile.ws"
+
+scriptFile[33]="/mod/crossbowDamageBoostData.ws"
+scriptFile[34]="/mod/crossbowDamageBoostProcessor.ws"
+scriptFile[35]="/mod/axiiMods.ws"
+scriptFile[36]="/mod/petardScaling.ws"
+# SCRIPT FILES END
+
+# ASSET FILES BEGIN
+assetFile[0]="/gameplay/abilities/effects.xml"
+assetFile[1]="/gameplay/abilities_plus/effects.xml"
+assetFile[2]="/gameplay/abilities/effects_mutagens.xml"
+assetFile[3]="/gameplay/abilities_plus/effects_mutagens.xml"
+assetFile[4]="/gameplay/abilities/geralt_skills.xml"
+assetFile[5]="/gameplay/abilities_plus/geralt_skills.xml"
+assetFile[6]="/gameplay/abilities/monster_base_abl_new.xml"
+assetFile[7]="/gameplay/abilities_plus/monster_base_abl_new.xml"
+assetFile[8]="/gameplay/abilities/opp_base_abl.xml"
+assetFile[9]="/gameplay/abilities_plus/opp_base_abl.xml"
+
+assetFile[10]="/gameplay/items/def_item_bolts.xml"
+assetFile[11]="/gameplay/items_plus/def_item_bolts.xml"
+assetFile[12]="/gameplay/items/def_item_crafting_gloves.xml"
+assetFile[13]="/gameplay/items_plus/def_item_crafting_gloves.xml"
+assetFile[14]="/gameplay/items/def_item_crafting_recipes_bolts.xml"
+assetFile[15]="/gameplay/items_plus/def_item_crafting_recipes_bolts.xml"
+assetFile[16]="/gameplay/items/def_item_upgrades.xml"
+assetFile[17]="/gameplay/items_plus/def_item_upgrades.xml"
+assetFile[18]="/gameplay/items/def_loot_shops.xml"
+assetFile[19]="/gameplay/items_plus/def_loot_shops.xml"
+
+assetFile[20]="/dlc/ep1/data/gameplay/items/def_item_ep1_runewords.xml"
+assetFile[21]="/dlc/ep1/data/gameplay/items_plus/def_item_ep1_runewords.xml"
+
+assetFile[22]="/dlc/bob/data/gameplay/abilities/effects_ep2.xml"
+assetFile[23]="/dlc/bob/data/gameplay/abilities_plus/effects_ep2.xml"
+assetFile[24]="/dlc/bob/data/gameplay/abilities/geralt_mutations.xml"
+assetFile[25]="/dlc/bob/data/gameplay/abilities_plus/geralt_mutations.xml"
+assetFile[26]="/dlc/bob/data/gameplay/abilities/geralt_skills_ep2.xml"
+assetFile[27]="/dlc/bob/data/gameplay/abilities_plus/geralt_skills_ep2.xml"
+
+assetFile[28]="/dlc/bob/data/gameplay/items/def_item_bolts.xml"
+assetFile[29]="/dlc/bob/data/gameplay/items_plus/def_item_bolts.xml"
+assetFile[30]="/dlc/bob/data/gameplay/items/def_item_crafting_gloves.xml"
+assetFile[31]="/dlc/bob/data/gameplay/items_plus/def_item_crafting_gloves.xml"
+assetFile[32]="/dlc/bob/data/gameplay/items/def_item_weapons_crossbows.xml"
+assetFile[33]="/dlc/bob/data/gameplay/items_plus/def_item_weapons_crossbows.xml"
+assetFile[34]="/dlc/bob/data/gameplay/items/def_loot_shops.xml"
+assetFile[35]="/dlc/bob/data/gameplay/items_plus/def_loot_shops.xml"
+assetFile[36]="/gameplay/gui_new/swf/character/panel_character.redswf"
+
+# ASSET FILES END
+
+set -e
+
+if [ -z $1 ]
+then
+    echo "Wrong path to the mod!"
+	exit
+fi
+
+modReadyFolder=$1"/Packed/modGrandBalanceRepair"
+modContentPath=$modReadyFolder"/content"
+
+inXMLPath="Uncooked"
+inScriptPath="Script/scripts"
+
+outScriptPath=$modContentPath"/scripts"
+
+outXmlPath1=$1"/Uncooked"
+outXmlPath2=$1"/Cooked"
+
+if [ ${#scriptFile[@]} != 0 ];
+then
+	for i in "${scriptFile[@]}"
+	do
+		cp $inScriptPath$i $outScriptPath$i
+	done
+fi
+
+if [ ${#assetFile[@]} != 0 ];
+then
+	for i in "${assetFile[@]}"
+	do
+		cp $inXMLPath$i $outXmlPath1$i
+		cp $inXMLPath$i $outXmlPath2$i
+	done
+fi
+
+if [ -d "ModRes/strings" ]; then
+	cp -r ModRes/strings/* $modContentPath
+fi
+
+if [ -d "ModRes/bin" ]; then
+	cp -r ModRes/bin $modReadyFolder
+fi
+
+echo "Files copied OK."
+
+if [ ${#assetFile[@]} != 0 ];
+then
+	wcc_lite cook -platform=pc -mod=$outXmlPath1 -basedir=$outXmlPath1 -outdir=$outXmlPath2
+	wcc_lite pack -dir=$outXmlPath2 -outdir=$modContentPath
+	wcc_lite metadatastore -path=$modContentPath
+fi
