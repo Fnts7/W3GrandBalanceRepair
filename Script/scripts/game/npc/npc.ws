@@ -1035,7 +1035,8 @@ statemachine import class CNewNPC extends CActor
 		actorVictim = (CActor)action.victim;
 		if(HasBuff(EET_AxiiGuardMe) && (thePlayer.HasAbility('Glyphword 14 _Stats', true) || thePlayer.HasAbility('Glyphword 18 _Stats', true)) && action.DealtDamage())
 		{
-			time = CalculateAttributeValue(thePlayer.GetAttributeValue('increas_duration'));
+			// time = CalculateAttributeValue(thePlayer.GetAttributeValue('increas_duration'));
+			time = 1.0f;
 			gameplayEffect = GetBuff(EET_AxiiGuardMe);
 			gameplayEffect.SetTimeLeft( gameplayEffect.GetTimeLeft() + time );
 			
@@ -1883,8 +1884,16 @@ statemachine import class CNewNPC extends CActor
 		witcher = GetWitcherPlayer();
 		if ( damageAction.attacker == witcher && HasBuff( EET_AxiiGuardMe ) )
 		{
-			
-			if(!witcher.CanUseSkill(S_Magic_s05) || witcher.GetSkillLevel(S_Magic_s05) < 3)
+			if( !witcher.CanUseSkill(S_Magic_s05) || witcher.GetSkillLevel(S_Magic_s05) < 2)
+			{
+				RemoveBuff(EET_AxiiGuardMe, true);
+			}
+			else if (witcher.GetSkillLevel(S_Magic_s05) < 3)
+			{
+				if (RandF() < 0.65)
+					RemoveBuff(EET_AxiiGuardMe, true);
+			}
+			else if (RandF() < 0.30)
 				RemoveBuff(EET_AxiiGuardMe, true);
 		}
 		
@@ -2439,15 +2448,20 @@ statemachine import class CNewNPC extends CActor
 			if ( targetEntity )
 			{
 				if ( HasBuff(EET_AxiiGuardMe) )
+				{
 					gameplayEffect = GetBuff(EET_AxiiGuardMe);
+					params.duration = gameplayEffect.GetDurationLeft();
+				}
 				else if ( HasBuff(EET_Confusion) )
+				{
 					gameplayEffect = GetBuff(EET_Confusion);
+					params.duration = gameplayEffect.GetDurationLeft();
+					if ( params.duration < 3.0f ) params.duration = 3.0f;
+				}
 				
 				params.effectType 				= gameplayEffect.GetEffectType();
 				params.creator 					= gameplayEffect.GetCreator();
 				params.sourceName 				= gameplayEffect.GetSourceName();
-				params.duration 				= gameplayEffect.GetDurationLeft();
-				if ( params.duration < 5.0f ) 	params.duration = 5.0f;
 				params.effectValue 				= gameplayEffect.GetEffectValue();
 				params.customAbilityName 		= gameplayEffect.GetAbilityName();
 				params.customFXName 			= gameplayEffect.GetTargetEffectName();

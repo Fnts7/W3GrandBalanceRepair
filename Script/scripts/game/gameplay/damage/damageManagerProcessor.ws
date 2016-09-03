@@ -417,6 +417,9 @@ class W3DamageManagerProcessor extends CObject
 			LogDMHits("Processing block, parry, immortality, signs and other GLOBAL damage reductions...", action);		
 		}
 		
+		if (actorVictim && actorAttacker && actorAttacker != GetWitcherPlayer() && actorVictim != GetWitcherPlayer()
+			&& (actorVictim.HasBuff(EET_AxiiGuardMe) || actorAttacker.HasBuff(EET_AxiiGuardMe)))
+			AdjustDamageAxiiPuppet();
 		
 		if(actorVictim)
 			actorVictim.ReduceDamage(action);
@@ -627,7 +630,7 @@ class W3DamageManagerProcessor extends CObject
 	private function ProcessCriticalHitCheck()
 	{
 		var critChance, critDamageBonus : float;
-		var	canLog, meleeOrRanged, redWolfSet, isLightAttack, isHeavyAttack, mutation2 : bool;
+		var	canLog, meleeOrRanged, redWolfSet, isLightAttack, isHeavyAttack, signCritical : bool;
 		var arrStr : array<string>;
 		var samum : CBaseGameplayEffect;
 		var signPower, min, max : SAbilityAttributeValue;
@@ -636,14 +639,17 @@ class W3DamageManagerProcessor extends CObject
 		
 		meleeOrRanged = playerAttacker && attackAction && ( attackAction.IsActionMelee() || attackAction.IsActionRanged() );
 		redWolfSet = ( W3Petard )action.causer && ( W3PlayerWitcher )actorAttacker && GetWitcherPlayer().IsSetBonusActive( EISB_RedWolf_1 );
-		mutation2 = ( W3PlayerWitcher )actorAttacker && GetWitcherPlayer().IsMutationActive(EPMT_Mutation2) && action.IsActionWitcherSign();
+		signCritical = theGame.GetDLCManager().IsEP2Available() && ( W3PlayerWitcher )actorAttacker
+			&& (GetWitcherPlayer().IsMutationActive(EPMT_Mutation2) || GetWitcherPlayer().CanUseSkill(S_Perk_11) || GetWitcherPlayer().HasBuff(EET_Mutagen01))
+			&& action.IsActionWitcherSign();
+			
 		
-		if( meleeOrRanged || redWolfSet || mutation2 )
+		if( meleeOrRanged || redWolfSet || signCritical )
 		{
 			canLog = theGame.CanLog();
 		
 			
-			if( mutation2 )
+			if( signCritical )
 			{
 				if( FactsQuerySum('debug_fact_critical_boy') > 0 )
 				{
@@ -651,9 +657,24 @@ class W3DamageManagerProcessor extends CObject
 				}
 				else
 				{
-					signPower = action.GetPowerStatValue();
-					theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_chance_factor', min, max);
-					critChance = min.valueAdditive + signPower.valueMultiplicative * min.valueMultiplicative;
+					critChance = 0;
+					
+					if (GetWitcherPlayer().IsMutationActive(EPMT_Mutation2))
+					{
+						signPower = action.GetPowerStatValue();
+						theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_chance_factor', min, max);
+						critChance += min.valueAdditive + signPower.valueMultiplicative * min.valueMultiplicative;
+					}
+					
+					if (GetWitcherPlayer().CanUseSkill(S_Perk_11))
+					{
+						critChance += 0.08f;
+					}
+					
+					if (GetWitcherPlayer().HasBuff(EET_Mutagen01))
+					{
+						critChance += 0.08f;
+					}
 				}
 			} 			
 			else
@@ -765,8 +786,11 @@ class W3DamageManagerProcessor extends CObject
 					LogDMHits("********************", action);				
 				}
 				
-				arrStr.PushBack(action.attacker.GetDisplayName());
-				theGame.witcherLog.AddCombatMessage(theGame.witcherLog.COLOR_GOLD_BEGIN + GetLocStringByKeyExtWithParams("hud_combat_log_critical_hit",,,arrStr) + theGame.witcherLog.COLOR_GOLD_END, action.attacker, NULL);
+				if (!((W3IgniProjectile)action.causer))
+				{
+					arrStr.PushBack(action.attacker.GetDisplayName());
+					theGame.witcherLog.AddCombatMessage(theGame.witcherLog.COLOR_GOLD_BEGIN + GetLocStringByKeyExtWithParams("hud_combat_log_critical_hit",,,arrStr) + theGame.witcherLog.COLOR_GOLD_END, action.attacker, NULL);
+				}
 			}
 			else if ( canLog )
 			{
@@ -1039,6 +1063,12 @@ class W3DamageManagerProcessor extends CObject
 			theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation1', 'dmg_bonus_factor', min, max);				
 			
 			damageVal.valueBase *= CalculateAttributeValue(min);
+			
+			if ((W3YrdenEntity)action.causer)
+				damageVal.valueBase *= 0.6667f;
+			else if ((W3QuenEntity)action.causer && action.GetHitReactionType() == EHRT_Light && GetWitcherPlayer().IsQuenActive(true))
+				damageVal.valueBase *= 0.5f;
+
 			
 			if( action.IsDoTDamage() )
 			{
@@ -1397,22 +1427,21 @@ class W3DamageManagerProcessor extends CObject
 		if(playerAttacker && attackAction && playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
 			powerMod.valueMultiplicative -= 0.833;
 		
-		
-		if ( playerAttacker && (W3IgniProjectile)action.causer )
-			powerMod.valueMultiplicative = 1 + (powerMod.valueMultiplicative - 1) * theGame.params.IGNI_SPELL_POWER_MILT;
-		
-		
-		if ( playerAttacker && (W3AardProjectile)action.causer )
-			powerMod.valueMultiplicative = 1;
+		if ( playerAttacker && (W3IgniProjectile)action.causer
+			&& ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2
+			&& powerMod.valueMultiplicative > 2.5f  )
+		{
+			powerMod.valueMultiplicative = 2.5f + LogF ((powerMod.valueMultiplicative - 2.5f) + 1);
+		}
 
 		if(action.IsCriticalHit())
 		{
 			
-			if( playerAttacker && action.IsActionWitcherSign() && GetWitcherPlayer().IsMutationActive(EPMT_Mutation2) )
+			if( playerAttacker && action.IsActionWitcherSign() && theGame.GetDLCManager().IsEP2Available() )
 			{
 				sp = action.GetPowerStatValue();
 				
-				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_damage_factor', min, max);				
+				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_damage_factor', min, max);
 				criticalDamageBonus.valueAdditive = sp.valueMultiplicative * min.valueMultiplicative;
 			}
 			else 
@@ -1572,8 +1601,90 @@ class W3DamageManagerProcessor extends CObject
 		
 		resistPerc = MaxF(0, resistPerc);
 	}
-		
 	
+	// Improved Axii begin
+	private function AdjustDamageAxiiPuppet()
+	{
+		var victimNPC, attackerNPC : CNewNPC;
+		var victimH, attackerH, damageMult : float;
+		var witcher : W3PlayerWitcher;
+
+		witcher = GetWitcherPlayer();
+		victimNPC = (CNewNPC)actorVictim;
+		attackerNPC = (CNewNPC)actorAttacker;
+
+		if (!victimNPC || !attackerNPC)
+			return;
+			
+		if (actorVictim.UsesEssence())
+			victimH = actorVictim.GetStatMax(BCS_Essence);
+		else
+			victimH = actorVictim.GetStatMax(BCS_Vitality);
+			
+		if (actorAttacker.UsesEssence())
+			attackerH = actorAttacker.GetStatMax(BCS_Essence);
+		else
+			attackerH = actorAttacker.GetStatMax(BCS_Vitality);
+
+		if (witcher)
+		{
+			victimH /= witcher.axiiMods.GetHealthMod(victimNPC);
+			attackerH /= witcher.axiiMods.GetHealthMod(attackerNPC);
+		}
+
+		damageMult = victimH / GetAxiiPuppetReductorDivider(victimNPC.GetLevelFromLocalVar());
+		if (victimH > attackerH
+			&& ( (actorVictim.UsesEssence() && actorAttacker.UsesEssence()) || (!actorVictim.UsesEssence() && !actorAttacker.UsesEssence()) ) )
+			damageMult *= attackerH / victimH;
+			
+		if (witcher)
+			damageMult *= witcher.axiiMods.GetDamageMod(attackerNPC);
+
+		if (action.IsActionRanged())
+			damageMult *= 2.5f;
+
+		if (theGame.GetDifficultyMode() == EDM_Easy)
+			damageMult *= 2.5f;
+		else if (theGame.GetDifficultyMode() == EDM_Medium)
+			damageMult *= 1.5f;
+		else if (theGame.GetDifficultyMode() == EDM_Hardcore)
+			damageMult *= 0.70f;
+
+		if (actorVictim.UsesEssence())
+			action.processedDmg.essenceDamage *= damageMult;
+		else
+			action.processedDmg.vitalityDamage *= damageMult;
+	}
+	
+	private function GetAxiiPuppetReductorDivider(level : int) : float
+	{
+		var witcherBaseH : float;
+
+		if (level <= 1)
+			witcherBaseH = 3500.0f;
+		else if (level <= 10)
+			witcherBaseH = 3500.0f + 800.0f * (level - 1) / 9.0f;
+		else if (level <= 29)
+			witcherBaseH = 4300.0f + 1050.0f * (level - 10) / 19.0f;
+		else if (level <= 50)
+			witcherBaseH = 5350.0f + 575.0f * (level - 29) / 21.0f;
+		else
+			witcherBaseH = 5925.0f;
+
+		return witcherBaseH * GetAxiiPuppetLevelMult(level);
+	}
+	
+	private function GetAxiiPuppetLevelMult(level : int) : float
+	{
+		if (level < 1)
+			return 1.0f;
+		else if (level < 100)
+			return 1.0f + 3.5f * level / 100.0f;
+		else
+			return 4.5f;
+	}
+	// Improved Axii end
+
 	private function CalculateDamage(dmgInfo : SRawDamage, powerMod : SAbilityAttributeValue) : float
 	{
 		var finalDamage, finalIncomingDamage : float;
@@ -1588,7 +1699,7 @@ class W3DamageManagerProcessor extends CObject
 	
 		
 		GetDamageResists(dmgInfo.dmgType, resistPoints, resistPercents);
-	
+		
 		
 		if( thePlayer.IsFistFightMinigameEnabled() && actorAttacker == thePlayer )
 		{
@@ -1600,9 +1711,9 @@ class W3DamageManagerProcessor extends CObject
 			burning = (W3Effect_Burning)action.causer;
 			if( burning && burning.IsSignEffect() )
 			{
-				if ( powerMod.valueMultiplicative > 2.5f )
+				if ( powerMod.valueMultiplicative > 2.0f )
 				{
-					powerMod.valueMultiplicative = 2.5f + LogF( (powerMod.valueMultiplicative - 2.5f) + 1 );
+					powerMod.valueMultiplicative = 2.0f + LogF( (powerMod.valueMultiplicative - 2.0f) + 1 );
 				}
 			}
 			
@@ -1636,6 +1747,15 @@ class W3DamageManagerProcessor extends CObject
 				encumbranceBonus *= CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
 				resistPercents += encumbranceBonus;
 			}
+
+			// Reduce resist with quen active on Witcher for all damage that quen reduces
+			if (playerVictim == GetWitcherPlayer() && resistPercents > 0.3f && GetWitcherPlayer().IsAnyQuenActive()
+				&& dmgInfo.dmgType != theGame.params.DAMAGE_NAME_DIRECT && dmgInfo.dmgType != theGame.params.DAMAGE_NAME_STAMINA
+				&& DamageHitsVitality(dmgInfo.dmgType) && !((W3Effect_Bleeding)action.causer) )
+			{
+				resistPercents = 0.3f + (resistPercents - 0.3f) / 2.0f;
+			}
+
 			finalDamage *= 1 - resistPercents;
 		}		
 		
@@ -2365,10 +2485,10 @@ class W3DamageManagerProcessor extends CObject
 		ApplyQuenBuffChanges();
 	
 		
-		if( actorAttacker == thePlayer && action.IsActionWitcherSign() && action.IsCriticalHit() && GetWitcherPlayer().IsMutationActive( EPMT_Mutation2 ) && action.HasBuff( EET_Burning ) )
+		/*if( actorAttacker == thePlayer && action.IsActionWitcherSign() && action.IsCriticalHit() && theGame.GetDLCManager().IsEP2Available() && action.HasBuff( EET_Burning ) )
 		{
 			action.SetBuffSourceName( 'Mutation2ExplosionValid' );
-		}
+		}*/
 	
 		
 		if(actorVictim && action.GetEffectsCount() > 0)

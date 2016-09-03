@@ -1820,7 +1820,11 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_2:
 				ability = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
-				arg = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) );
+				if (ability.valueMultiplicative > 2.5f)
+				{
+					ability.valueMultiplicative = 2.5f + (ability.valueMultiplicative - 2.5f) * 0.6667f;
+				}
+				arg = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) ) + 9.0f * GetWitcherPlayer().GetLevel();
 				arg *= ability.valueMultiplicative;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
@@ -1838,7 +1842,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_4:
 				ability = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_4);
-				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false)) * ability.valueMultiplicative;
+				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false)) + 1.25f * GetWitcherPlayer().GetLevel()) * ability.valueMultiplicative;
 				arg /= RoundMath(thePlayer.GetStat(BCS_Vitality, true)); 
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
@@ -2014,12 +2018,16 @@ class CR4CharacterMenu extends CR4MenuBase
 		switch (targetSkill.skillType)
 		{
 			case S_Magic_s01:
-				penaltyReduction = 1 - (skillLevel + 1) * CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s01, 'spell_power_penalty_reduction', true, true));
+				/*penaltyReduction = 1 - (skillLevel + 1) * CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s01, 'spell_power_penalty_reduction', true, true));
 				penalty = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s01, PowerStatEnumToName(CPS_SpellPower), false, false);
 				arg = -penalty.valueMultiplicative * penaltyReduction;
-			
 				argsInt.PushBack(RoundMath(arg*100));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second"); */
+				
+				penalty = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s01, 'spell_power_factor', false, false);
+				arg = 1 - (penalty.valueBase + skillLevel * penalty.valueMultiplicative);
+				baseString = "Aard affects all enemies around. Spellpower is then reduced by " + RoundMath(arg*100) + "%.<br>";
+				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s02:
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s02, 'stamina_cost_reduction_after_1', false, false) * (skillLevel-1);
@@ -2037,13 +2045,29 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s05:
-				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, PowerStatEnumToName(CPS_AttackPower), false, false) * skillLevel;
+				// Improved Axii changes
+				/*ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, PowerStatEnumToName(CPS_AttackPower), false, false) * skillLevel;
 				argsInt.PushBack(RoundMath(ability.valueMultiplicative*100));
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, 'duration', false, false);
 				argsInt.PushBack(RoundMath(ability.valueBase));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");*/
+				
+				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s05, 'duration', false, false);
+				arg = ability.valueBase + (skillLevel - 1) * 2.0f;
+				baseString = "Puppets an enemy to fight on Geralt's side.<br>";
+				baseString += "Axii puppet lasts " + RoundMath(arg) + " seconds for humanoids, " + RoundMath(arg*2.0f) + " for animals and " + RoundMath(arg*1.25f) + " for monsters accordingly.<br>";
+				
+				if (skillLevel == 1)
+					baseString += "Hitting puppet by Geralt breaks puppet.<br>";
+				else if (skillLevel == 2)
+					baseString += "When Geralt hits the puppet, it has 65% chance to break.<br>";
+				else
+					baseString += "When Geralt hits the puppet, it has only 30% chance to break.<br>";
+				
+				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");				
+				break;
 			case S_Magic_s06:
-				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) * skillLevel;
+				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, false)) + 1.2f * GetWitcherPlayer().GetLevel()) * skillLevel;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;	
@@ -2059,9 +2083,12 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;	
 			case S_Magic_s09:
-				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, false) * skillLevel ;
+				/*ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, false) * skillLevel ;
 				argsInt.PushBack(RoundMath(ability.valueAdditive*100));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");*/
+				arg = 5 * skillLevel;
+				baseString = "Increases burning duration by " + RoundMath(arg * 1.4f) + "% and burning damage per second by " + RoundMath(arg) +"%.<br>";
+				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s10:				
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s10, 'trap_duration', false, false)) * skillLevel;
@@ -2081,9 +2108,12 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s11:
-				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s11, 'direct_damage_per_sec', false, false)) * skillLevel;
+				//arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s11, 'direct_damage_per_sec', false, false)) * skillLevel;
+				arg = skillLevel * GetWitcherPlayer().GetLevel() / 2.0f;
 				argsInt.PushBack(RoundMath(arg));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>";
+				baseString += "Scales with Yrden spellpower.<br>";
+				baseString += GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;	
 			case S_Magic_s12:
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s12, PowerStatEnumToName(CPS_SpellPower), false, false);
@@ -2098,6 +2128,8 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_s14:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s14, 'discharge_percent', false, false)) * skillLevel;
+				if (GetWitcherPlayer().GetLevel() > 25)
+					arg *= 1.0f + (GetWitcherPlayer().GetLevel() - 25) / 37.5f;
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
@@ -2383,6 +2415,11 @@ class CR4CharacterMenu extends CR4MenuBase
 				if (skillLevel == 2) 		baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel2Key);
 				else if (skillLevel >= 3) 	baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionLevel3Key);
 				else 						baseString = GetLocStringByKeyExt(targetSkill.localisationDescriptionKey);
+		}
+		
+		if (targetSkill.skillType == S_Perk_11 && theGame.GetDLCManager().IsEP2Available())
+		{
+			baseString += "<br>Increases (or introduces) sign damage critical chance by 8%.";
 		}
 		
 		return baseString;

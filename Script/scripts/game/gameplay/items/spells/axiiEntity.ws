@@ -260,16 +260,17 @@ statemachine class W3AxiiEntity extends W3SignEntity
 		var i : int;
 		var duration, durationAnimal : SAbilityAttributeValue;
 		var casterActor : CActor;
-		var dur, durAnimals : float;
+		var dur, durAnimals, durTimeDiff, durTimeFactor, minCastTime, maxCastTime : float;
 		var params, staggerParams : SCustomEffectParams;
 		var npcTarget : CNewNPC;
 		var jobTreeType : EJobTreeType;
-		
+		var durationZeroed : bool;
+
 		casterActor = owner.GetActor();		
 		ProcessThrow();
 		StopEffect(effects[fireMode].throwEffect);
-		
-		
+
+		durationZeroed = false;
 		for(i=0; i<targets.Size(); i+=1)
 		{
 			RemoveMagic17Effect(targets[i]);
@@ -306,23 +307,68 @@ statemachine class W3AxiiEntity extends W3SignEntity
 			dur = CalculateAttributeValue(duration);
 			durAnimals = CalculateAttributeValue(durationAnimal);
 			
+			if(IsAlternateCast())
+			{
+				if (owner.CanUseSkill(S_Magic_s17) && owner.GetSkillLevel(S_Magic_s17) >= 2)
+				{
+					minCastTime = 1.1f;
+					maxCastTime = 2.3f;
+				}
+				else
+				{
+					minCastTime = 1.4f;
+					maxCastTime = 2.4f;
+				}
+				
+				durTimeDiff = cachedTime - minCastTime;
+
+				if (durTimeDiff <= 0.0f)
+				{
+					durationZeroed = true;
+				}
+				else if (owner.CanUseSkill(S_Magic_s05) && owner.GetSkillLevel(S_Magic_s05) >= 2)
+				{
+					durAnimals += 4.0f * (owner.GetSkillLevel(S_Magic_s05) - 1);
+					dur += 2.0f * (owner.GetSkillLevel(S_Magic_s05) - 1);
+				}
+			}
 			
 			params.creator = casterActor;
 			params.sourceName = "axii_" + skillEnum;			
-			params.customPowerStatValue = casterActor.GetTotalSignSpellPower(skillEnum);
 			params.isSignEffect = true;
 			
 			for(i=0; i<targets.Size(); i+=1)
 			{
 				npcTarget = (CNewNPC)targets[i];
 				
+				params.customPowerStatValue = casterActor.GetTotalSignSpellPower(skillEnum);
 				
 				if( targets[i].IsAnimal() || npcTarget.IsHorse() )
 				{
+					if (!durationZeroed && IsAlternateCast())
+					{
+						// x^2 + x polynomial on (0,1] interval (so ~x^(1.5)) to make the duration progression slower on
+						// lower cast time, because for animals the full time is doubled anyway
+						durTimeFactor = durTimeDiff * (durTimeDiff + 1.0f) / ((maxCastTime - minCastTime) * (maxCastTime - minCastTime + 1.0f));
+						if (durTimeFactor > 1.0f) { durTimeFactor = 1.0f; }
+					
+						durAnimals *= durTimeFactor;
+					}
+
 					params.duration = durAnimals;
 				}
 				else
 				{
+					if (!durationZeroed && IsAlternateCast())
+					{
+						durTimeFactor = durTimeDiff / (maxCastTime - minCastTime);
+						if (durTimeFactor > 1.0f) { durTimeFactor = 1.0f; }
+					
+						dur *= durTimeFactor;
+						if (targets[i].UsesEssence())
+							dur *= 1.25f;
+					}
+
 					params.duration = dur;
 				}
 				
@@ -341,12 +387,20 @@ statemachine class W3AxiiEntity extends W3SignEntity
 				{
 					params.effectType = actionBuffs[0].effectType;
 				}
-			
 				
+				if (params.effectType == EET_Confusion && params.customPowerStatValue.valueMultiplicative > 2.2f)
+				{
+					params.customPowerStatValue.valueMultiplicative = 2.2f + LogF( (params.customPowerStatValue.valueMultiplicative - 2.2f) + 1 );
+				}
+
 				RemoveMagic17Effect(targets[i]);
 			
-				buff = targets[i].AddEffectCustom(params);
-				if( buff == EI_Pass || buff == EI_Override || buff == EI_Cumulate )
+				if (!durationZeroed)
+				{
+					buff = targets[i].AddEffectCustom(params);
+				}
+				
+				if( !durationZeroed && (buff == EI_Pass || buff == EI_Override || buff == EI_Cumulate) )
 				{
 					targets[i].OnAxiied( casterActor );
 									
@@ -366,7 +420,7 @@ statemachine class W3AxiiEntity extends W3SignEntity
 						params.duration = 0;	
 						targets[i].AddEffectCustom(staggerParams);					
 					}
-					else
+					else if (!durationZeroed)
 					{
 						
 						owner.GetActor().SetBehaviorVariable( 'axiiResisted', 1.f );

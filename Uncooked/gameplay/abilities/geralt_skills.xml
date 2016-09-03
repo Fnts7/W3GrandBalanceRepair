@@ -263,7 +263,7 @@
 	
       <ability name="magic_staminaregen">
         <tags></tags>
-        <staminaRegen type="mult" always_random="false" min="0.005" max="0.005" />
+        <staminaRegen type="mult" always_random="false" min="0.007" max="0.007" />
       </ability>
 	
       <!-- Base Skills -->
@@ -282,7 +282,7 @@
         <stamina_cost type="add" always_random="false" min="100" max="100" />
         <stamina_delay type="base" min="0.5" />
         <stamina_delay type="mult" min="1" />
-        <FireDamage type="add" always_random="false" min="100" max="100" />
+        <FireDamage type="add" always_random="false" min="60" max="60" />
         <burn_threshold type="add" always_random="false" min="2.2" max="2.2" />
 		<BurningEffect is_ability="true" />
       </ability>
@@ -297,7 +297,7 @@
         <trap_duration type="mult" min="1" />
 		<SlowdownEffect is_ability="true" />
 		<min_slowdown type="add" min="0.20" />
-		<max_slowdown type="add" min="0.45" />
+		<max_slowdown type="add" min="0.60" />
 		<range type="add" min="2.7" />
       </ability>
 	
@@ -321,8 +321,8 @@
         <stamina_delay type="base" min="0.5" />
         <stamina_delay type="mult" min="1" />
         <!-- duration modified by other skills, no mult as spell power covers that -->
-        <duration type="base" min="5" />
-		<duration_animals type="base" min="30" />
+        <duration type="base" min="4" />
+		<duration_animals type="base" min="12" />
 		<ConfusionEffect is_ability="true" />
       </ability>
 	
@@ -330,9 +330,10 @@
       <!-- Wave (ult) -->
       <ability name="magic_s1">
         <tags>magic_s1</tags>
-        <spell_power type="mult" always_random="false" min="-0.3" max="-0.3" />
-		<spell_power_penalty_reduction type="add" min="0.15" />
-        <stamina_cost type="add" always_random="false" min="60" max="60" />
+        <!--<spell_power type="mult" always_random="false" min="-0.3" max="-0.3" />-->
+		<spell_power_factor type="base" min="0.45" />
+		<spell_power_factor type="mult" min="0.1" />
+        <stamina_cost type="add" always_random="false" min="65" max="65" />
         <stamina_delay type="base" min="0.3" />
         <stamina_delay type="mult" min="1" />
         <KnockdownTypeApplicator is_ability="true" />
@@ -346,7 +347,7 @@
         <stamina_delay type="base" min="0.5" />
         <stamina_delay type="mult" min="2" />
         <FireDamage type="add" always_random="false" min="30" max="30" />
-		<channeling_damage type="add" min="60" max="70" />
+		<channeling_damage type="add" min="40" max="40" />
         <BurningEffect_FireStream is_ability="true" />
       </ability>
 	
@@ -360,8 +361,8 @@
         <charge_count type="mult" min="1" />
         <trap_duration type="base" min="18" />
         <trap_duration type="mult" min="1" />
-        <ShockDamage type="add" min="120" />
-		<damage_bonus_flat_after_1 type="add" min="5" />
+        <ShockDamage type="add" min="50" />
+		<damage_bonus_flat_after_1 type="add" min="4" />
 		<!-- range is set by using different trigger component in sign entity -->
       </ability>
 	
@@ -377,26 +378,26 @@
       <ability name="magic_s5">
         <tags>magic_s5</tags>
         <stamina_cost type="add" always_random="false" min="0" max="0" />
-        <stamina_cost_per_sec type="add" always_random="false" min="22.2" max="22.2" />
+        <stamina_cost_per_sec type="add" always_random="false" min="30" max="30" />
         <!-- duration modified by other skills, no mult as spell power covers that -->
-        <duration type="base" min="3" />
-		<duration_animals type="base" min="18" />
+        <duration type="base" min="12" />
+		<duration_animals type="base" min="24" />
 		<AxiiGuardMeEffect is_ability="true" />
 		
 		<!-- attack power bonus -->
-		<attack_power type="mult" min="0.2" />
+		<attack_power type="mult" min="0.0" />
       </ability>
 	
       <!-- Static Discharge -->
       <ability name="magic_s6">
         <tags>magic_s6, magic_1, magic_s1</tags>
-        <ForceDamage type="add" min="40" />
+        <ForceDamage type="add" min="30" />
       </ability>
 	
       <!-- Igni Power -->
       <ability name="magic_s7">
         <tags>magic_s7,Igni</tags>
-        <spell_power type="mult" min="0.05" />
+        <spell_power type="mult" min="0.08" />
       </ability>
 	
       <!-- Melt Armor -->
@@ -429,7 +430,7 @@
       <!-- aard passive spell power bonus -->
       <ability name="magic_s12">
         <tags>magic_s12,Aard</tags>
-        <spell_power min="0.05" type="mult" />
+        <spell_power min="0.08" type="mult" />
       </ability>
 	
 	  <!-- quen impulse -->
@@ -439,7 +440,7 @@
 		<SilverDamage type="add" min="3" max="12"/>
 		
 		<!-- chance multiplier for knockdown -->
-		<chance_multiplier type="add" min="0.15" />
+		<chance_multiplier type="add" min="0.35" />
       </ability>
 	
       <!-- Discharge -->
@@ -452,13 +453,13 @@
       <ability name="magic_s15">
         <tags>magic_s15,Quen</tags>
         <!-- take a look at how it's used in scripts before modifying it -->
-        <spell_power type="mult" min="0.05" />
+        <spell_power type="mult" min="0.08" />
       </ability>
 	
       <!-- Yrden Power -->
       <ability name="magic_s16">
         <tags>magic_s16,Yrden</tags>
-        <spell_power type="mult" min="0.05" />
+        <spell_power type="mult" min="0.08" />
       </ability>
 	
       <ability name="magic_s17">
@@ -470,13 +471,13 @@
 	   <!-- Axii Powe -->
       <ability name="magic_s18">
         <tags>magic_s16,Axii</tags>
-        <spell_power type="mult" min="0.05" />
+        <spell_power type="mult" min="0.10" />
       </ability>
 	
 	  <!-- Axii Dominate -->
       <ability name="magic_s19">
         <tags>magic_s19</tags>
-        <duration type="mult" min="0.15" />
+        <duration type="mult" min="0.20" />
       </ability>
 	
 	  <!-- Aard Dispersion -->
@@ -645,8 +646,8 @@
 		</ability>
 		<ability name="perk_6">
 			<tags>perk_6</tags>
-			<spell_power type="mult" min="0.05" />
-			<staminaRegen type="mult" min="0.05" />
+			<spell_power type="mult" min="0.07" />
+			<staminaRegen type="mult" min="0.03" />
 		</ability>
 		<ability name="perk_7">
 			<tags>perk_7</tags>
@@ -659,7 +660,7 @@
 		</ability>
 		<ability name="perk_11">
 			<tags>perk_11</tags>
-			<spell_power type="mult" min="0.1" />
+			<spell_power type="mult" min="0.15" />
 		</ability>
 		<ability name="perk_12">
 			<tags>perk_12, GlobalPassiveBonus</tags>
@@ -791,9 +792,9 @@
 			</modifier_tags>
 		</skill>
 		<!-- Spell Power -->
-        <skill skill_name="magic_s12" requiredPointsSpent="18" maxLevel="5" priority="20" guiPositionID="26" localisationName="skill_name_magic_s12" localisationDescriptionNotAcquired="skill_desc_prev_magic_s12" localisationDescription="skill_desc_magic_s12" localisationDescriptionLevel2="skill_desc_magic_s12" localisationDescriptionLevel3="skill_desc_magic_s12" cost="1" pathType_name="Signs" subpathType_name="Signs_Aard" iconPath="icons\Skills\Signs\magic_s6.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s12" requiredPointsSpent="15" maxLevel="5" priority="20" guiPositionID="26" localisationName="skill_name_magic_s12" localisationDescriptionNotAcquired="skill_desc_prev_magic_s12" localisationDescription="skill_desc_magic_s12" localisationDescriptionLevel2="skill_desc_magic_s12" localisationDescriptionLevel3="skill_desc_magic_s12" cost="1" pathType_name="Signs" subpathType_name="Signs_Aard" iconPath="icons\Skills\Signs\magic_s6.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		<!-- Static Discharge -->
-        <skill skill_name="magic_s6"  requiredPointsSpent="28" maxLevel="5" priority="20" guiPositionID="16"  localisationName="skill_name_magic_s6"  localisationDescriptionNotAcquired="skill_desc_prev_magic_s6"  localisationDescription="skill_desc_magic_s6"  localisationDescriptionLevel2="skill_desc_magic_s6_2"  localisationDescriptionLevel3="skill_desc_magic_s6_2"  cost="1" pathType_name="Signs" subpathType_name="Signs_Aard" iconPath="icons\Skills\Signs\magic_s12.png"  linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s6"  requiredPointsSpent="25" maxLevel="5" priority="20" guiPositionID="16"  localisationName="skill_name_magic_s6"  localisationDescriptionNotAcquired="skill_desc_prev_magic_s6"  localisationDescription="skill_desc_magic_s6"  localisationDescriptionLevel2="skill_desc_magic_s6_2"  localisationDescriptionLevel3="skill_desc_magic_s6_2"  cost="1" pathType_name="Signs" subpathType_name="Signs_Aard" iconPath="icons\Skills\Signs\magic_s12.png"  linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		
 		<!-- IGNI -->
 		<!-- Melt Armor -->
@@ -805,9 +806,9 @@
 			</modifier_tags>
 		</skill>
 		<!-- Spell Power (Concentration) -->
-        <skill skill_name="magic_s7" requiredPointsSpent="18" maxLevel="5" priority="20" guiPositionID="37" localisationName="skill_name_magic_s7" localisationDescriptionNotAcquired="skill_desc_prev_magic_s7" localisationDescription="skill_desc_magic_s7" localisationDescriptionLevel2="skill_desc_magic_s7" localisationDescriptionLevel3="skill_desc_magic_s7" cost="1" pathType_name="Signs" subpathType_name="Signs_Igni" iconPath="icons\Skills\Signs\magic_s7.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s7" requiredPointsSpent="15" maxLevel="5" priority="20" guiPositionID="37" localisationName="skill_name_magic_s7" localisationDescriptionNotAcquired="skill_desc_prev_magic_s7" localisationDescription="skill_desc_magic_s7" localisationDescriptionLevel2="skill_desc_magic_s7" localisationDescriptionLevel3="skill_desc_magic_s7" cost="1" pathType_name="Signs" subpathType_name="Signs_Igni" iconPath="icons\Skills\Signs\magic_s7.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		<!-- Combustible -->
-        <skill skill_name="magic_s9" requiredPointsSpent="28" maxLevel="5" priority="20" guiPositionID="11" localisationName="skill_name_magic_s9" localisationDescriptionNotAcquired="skill_desc_prev_magic_s9" localisationDescription="skill_desc_magic_s9" localisationDescriptionLevel2="skill_desc_magic_s9" localisationDescriptionLevel3="skill_desc_magic_s9" cost="1" pathType_name="Signs" subpathType_name="Signs_Igni" iconPath="icons\Skills\Signs\magic_s9.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s9" requiredPointsSpent="25" maxLevel="5" priority="20" guiPositionID="11" localisationName="skill_name_magic_s9" localisationDescriptionNotAcquired="skill_desc_prev_magic_s9" localisationDescription="skill_desc_magic_s9" localisationDescriptionLevel2="skill_desc_magic_s9" localisationDescriptionLevel3="skill_desc_magic_s9" cost="1" pathType_name="Signs" subpathType_name="Signs_Igni" iconPath="icons\Skills\Signs\magic_s9.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		
 		<!-- YRDEN -->
         <!-- Glyph Sustenance -->
@@ -819,9 +820,9 @@
 			</modifier_tags>
 		</skill>
 		<!-- Spell Power (Pain) -->
-        <skill skill_name="magic_s16" requiredPointsSpent="18" maxLevel="5" priority="20" guiPositionID="32" localisationName="skill_name_magic_s16" localisationDescriptionNotAcquired="skill_desc_prev_magic_s16" localisationDescription="skill_desc_magic_s16" localisationDescriptionLevel2="skill_desc_magic_s16" localisationDescriptionLevel3="skill_desc_magic_s16" cost="1" pathType_name="Signs" subpathType_name="Signs_Yrden" iconPath="icons\Skills\Signs\magic_s11.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s16" requiredPointsSpent="15" maxLevel="5" priority="20" guiPositionID="32" localisationName="skill_name_magic_s16" localisationDescriptionNotAcquired="skill_desc_prev_magic_s16" localisationDescription="skill_desc_magic_s16" localisationDescriptionLevel2="skill_desc_magic_s16" localisationDescriptionLevel3="skill_desc_magic_s16" cost="1" pathType_name="Signs" subpathType_name="Signs_Yrden" iconPath="icons\Skills\Signs\magic_s11.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		<!-- Supercharge -->
-        <skill skill_name="magic_s11" requiredPointsSpent="28" maxLevel="5" priority="20" guiPositionID="28" localisationName="skill_name_magic_s11" localisationDescriptionNotAcquired="skill_desc_prev_magic_s11" localisationDescription="skill_desc_magic_s11" localisationDescriptionLevel2="skill_desc_magic_s11" localisationDescriptionLevel3="skill_desc_magic_s11" cost="1" pathType_name="Signs" subpathType_name="Signs_Yrden" iconPath="icons\Skills\Signs\magic_s16.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s11" requiredPointsSpent="25" maxLevel="5" priority="20" guiPositionID="28" localisationName="skill_name_magic_s11" localisationDescriptionNotAcquired="skill_desc_prev_magic_s11" localisationDescription="skill_desc_magic_s11" localisationDescriptionLevel2="skill_desc_magic_s11" localisationDescriptionLevel3="skill_desc_magic_s11" cost="1" pathType_name="Signs" subpathType_name="Signs_Yrden" iconPath="icons\Skills\Signs\magic_s16.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 
 		<!-- QUEN -->
 		<!-- Impulse -->
@@ -829,9 +830,9 @@
 		<!-- Channeling -->
         <skill skill_name="magic_s4"  requiredPointsSpent="6" maxLevel="3" priority="20" guiPositionID="5" localisationName="skill_name_magic_s4"  localisationDescriptionNotAcquired="skill_desc_prev_magic_s4"  localisationDescription="skill_desc_magic_s4"  localisationDescriptionLevel2="skill_desc_magic_s4_2"  localisationDescriptionLevel3="skill_desc_magic_s4_3"  cost="1" pathType_name="Signs" subpathType_name="Signs_Quen" iconPath="icons\Skills\Signs\magic_s4.png"  linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		<!-- Spell Power (Resilience) -->
-        <skill skill_name="magic_s15" requiredPointsSpent="18" maxLevel="5" priority="20" guiPositionID="15" localisationName="skill_name_magic_s15" localisationDescriptionNotAcquired="skill_desc_prev_magic_s15" localisationDescription="skill_desc_magic_s15" localisationDescriptionLevel2="skill_desc_magic_s15" localisationDescriptionLevel3="skill_desc_magic_s15" cost="1" pathType_name="Signs" subpathType_name="Signs_Quen" iconPath="icons\Skills\Signs\magic_s13.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s15" requiredPointsSpent="15" maxLevel="5" priority="20" guiPositionID="15" localisationName="skill_name_magic_s15" localisationDescriptionNotAcquired="skill_desc_prev_magic_s15" localisationDescription="skill_desc_magic_s15" localisationDescriptionLevel2="skill_desc_magic_s15" localisationDescriptionLevel3="skill_desc_magic_s15" cost="1" pathType_name="Signs" subpathType_name="Signs_Quen" iconPath="icons\Skills\Signs\magic_s13.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		<!-- Discharge -->
-        <skill skill_name="magic_s14" requiredPointsSpent="28" maxLevel="5" priority="20" guiPositionID="20"  localisationName="skill_name_magic_s14" localisationDescriptionNotAcquired="skill_desc_prev_magic_s14" localisationDescription="skill_desc_magic_s14" localisationDescriptionLevel2="skill_desc_magic_s14" localisationDescriptionLevel3="skill_desc_magic_s14" cost="1" pathType_name="Signs" subpathType_name="Signs_Quen" iconPath="icons\Skills\Signs\magic_s15.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s14" requiredPointsSpent="25" maxLevel="5" priority="20" guiPositionID="20"  localisationName="skill_name_magic_s14" localisationDescriptionNotAcquired="skill_desc_prev_magic_s14" localisationDescription="skill_desc_magic_s14" localisationDescriptionLevel2="skill_desc_magic_s14" localisationDescriptionLevel3="skill_desc_magic_s14" cost="1" pathType_name="Signs" subpathType_name="Signs_Quen" iconPath="icons\Skills\Signs\magic_s15.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		
 		<!-- AXI -->
 		<!-- Expression -->
@@ -839,9 +840,9 @@
 		<!-- Guard Me -->
         <skill skill_name="magic_s5"  requiredPointsSpent="6" maxLevel="3" priority="20" guiPositionID="23" localisationName="skill_name_magic_s5"  localisationDescriptionNotAcquired="skill_desc_prev_magic_s5"  localisationDescription="skill_desc_magic_s5"  localisationDescriptionLevel2="skill_desc_magic_s5"  localisationDescriptionLevel3="skill_desc_magic_s5"  cost="1" pathType_name="Signs" subpathType_name="Signs_Axi" iconPath="icons\Skills\Signs\magic_s5.png"  linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		<!-- Spell Power (Demotivate) -->
-        <skill skill_name="magic_s18" requiredPointsSpent="18" maxLevel="5" priority="20" guiPositionID="36" localisationName="skill_name_magic_s18" localisationDescriptionNotAcquired="skill_desc_prev_magic_s18" localisationDescription="skill_desc_magic_s18" localisationDescriptionLevel2="skill_desc_magic_s18" localisationDescriptionLevel3="skill_desc_magic_s18" cost="1" pathType_name="Signs" subpathType_name="Signs_Axi" iconPath="icons\Skills\Signs\magic_s18.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s18" requiredPointsSpent="15" maxLevel="5" priority="20" guiPositionID="36" localisationName="skill_name_magic_s18" localisationDescriptionNotAcquired="skill_desc_prev_magic_s18" localisationDescription="skill_desc_magic_s18" localisationDescriptionLevel2="skill_desc_magic_s18" localisationDescriptionLevel3="skill_desc_magic_s18" cost="1" pathType_name="Signs" subpathType_name="Signs_Axi" iconPath="icons\Skills\Signs\magic_s18.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 		<!-- Dominate -->
-        <skill skill_name="magic_s19" requiredPointsSpent="28" maxLevel="3" priority="20" guiPositionID="18" localisationName="skill_name_magic_s19" localisationDescriptionNotAcquired="skill_desc_prev_magic_s19" localisationDescription="skill_desc_magic_s19" localisationDescriptionLevel2="skill_desc_magic_s19_2" localisationDescriptionLevel3="skill_desc_magic_s19_3" cost="1" pathType_name="Signs" subpathType_name="Signs_Axi" iconPath="icons\Skills\Signs\magic_s19.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
+        <skill skill_name="magic_s19" requiredPointsSpent="25" maxLevel="3" priority="20" guiPositionID="18" localisationName="skill_name_magic_s19" localisationDescriptionNotAcquired="skill_desc_prev_magic_s19" localisationDescription="skill_desc_magic_s19" localisationDescriptionLevel2="skill_desc_magic_s19_2" localisationDescriptionLevel3="skill_desc_magic_s19_3" cost="1" pathType_name="Signs" subpathType_name="Signs_Axi" iconPath="icons\Skills\Signs\magic_s19.png" linkVertical="blue" linkLeft="blue" linkRight="blue" />
 
     <!-- ALCHEMY -->
 		<!-- POTIONS -->

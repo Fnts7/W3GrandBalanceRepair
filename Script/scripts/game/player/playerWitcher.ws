@@ -67,8 +67,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 		default explorationInputContext = 'Exploration';
 		default combatInputContext = 'Combat';
 		default combatFistsInputContext = 'Combat';
-		
-	
+
+	public var axiiMods : AxiiMods;
+
 	private saved var companionNPCTag		: name;
 	private saved var companionNPCTag2		: name;
 	
@@ -185,6 +186,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		signOwner = new W3SignOwnerPlayer in this;
 		signOwner.Init( this );
+		
+		axiiMods = new AxiiMods in this;
 		
 		itemSlots.Resize( EnumGetMax('EEquipmentSlots')+1 );
 
@@ -3933,7 +3936,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 				
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
 				sp = GetTotalSignSpellPower( S_Magic_1 );
-				val = sp.valueAdditive + sp.valueMultiplicative * ( sp.valueBase + min.valueAdditive );
+				val = sp.valueAdditive + sp.valueMultiplicative * ( sp.valueBase + min.valueAdditive + 5.0f * GetLevel());
 				arrStr.PushBack( NoTrailZeros( RoundMath( val ) ) );	
 			
 				break;
@@ -8181,7 +8184,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	public function QuenImpulse( isAlternate : bool, signEntity : W3QuenEntity, source : string, optional forceSkillLevel : int )
 	{
-		var level, i, j : int;
+		var level, i, j, wLevel : int;
 		var atts, damages : array<name>;
 		var ents : array<CGameplayEntity>;
 		var action : W3DamageAction;
@@ -8248,6 +8251,15 @@ statemachine class W3PlayerWitcher extends CR4Player
 				{
 					dm.GetAbilityAttributeValue(skillAbilityName, damages[j], min, max);
 					dmg = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
+
+					wLevel = GetLevel() - 3;
+					if (wLevel < 0)
+						wLevel = 0;
+					if (damages[j] == theGame.params.DAMAGE_NAME_SILVER)
+						dmg += 5.0f * wLevel;
+					else
+						dmg += 3.5f * wLevel;
+
 					if( IsSetBonusActive( EISB_Bear_2 ) )
 					{
 						dm.GetAbilityAttributeValue( GetSetBonusAbility( EISB_Bear_2 ), 'quen_dmg_boost', min, max );
@@ -8392,26 +8404,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 	public function GetTotalSignSpellPower(signSkill : ESkill) : SAbilityAttributeValue
 	{
 		var sp : SAbilityAttributeValue;
-		var penalty : SAbilityAttributeValue;
-		var penaltyReduction : float;
-		var penaltyReductionLevel : int; 
-		
+		var spFactor : SAbilityAttributeValue;
 		
 		sp = GetSkillAttributeValue(signSkill, PowerStatEnumToName(CPS_SpellPower), true, true);
-		
-		
-		if ( signSkill == S_Magic_s01 )
-		{
-			
-			penaltyReductionLevel = GetSkillLevel(S_Magic_s01) + 1;
-			if(penaltyReductionLevel > 0)
-			{
-				penaltyReduction = 1 - penaltyReductionLevel * CalculateAttributeValue(GetSkillAttributeValue(S_Magic_s01, 'spell_power_penalty_reduction', true, true));
-				penalty = GetSkillAttributeValue(S_Magic_s01, PowerStatEnumToName(CPS_SpellPower), false, false);
-				sp += penalty * penaltyReduction;	
-			}
-		}
-		
 		
 		if(signSkill == S_Magic_1 || signSkill == S_Magic_s01)
 		{
@@ -8436,7 +8431,13 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		
 		ApplyMutation10StatBoost( sp );
-	
+
+		if ( signSkill == S_Magic_s01 )
+		{
+			spFactor = GetSkillAttributeValue(S_Magic_s01, 'spell_power_factor', false, false);
+			sp.valueMultiplicative *= spFactor.valueBase + GetSkillLevel(S_Magic_s01) * spFactor.valueMultiplicative;
+		}
+
 		return sp;
 	}
 	
@@ -9904,7 +9905,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 		case EISB_Gryphon_1:
 			dm.GetAbilityAttributeValue( 'GryphonSetBonusEffect', 'duration', min, max );
 			arrString.PushBack( FloatToString( min.valueAdditive ) );
-			finalString = GetLocStringByKeyExtWithParams( tempString,,,arrString ); 
+			finalString = GetLocStringByKeyExtWithParams( tempString,,,arrString );
+			finalString += "<br>Signs Overhaul override: the extra sign costs half of stamina or 0.5 adrenaline points.";
 			break;		
 		case EISB_Gryphon_2:
 			dm.GetAbilityAttributeValue( 'GryphonSetBonusYrdenEffect', 'trigger_scale', min, max );

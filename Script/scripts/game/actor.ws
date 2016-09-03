@@ -2139,12 +2139,32 @@ import abstract class CActor extends CGameplayEntity
 	
 	public function GetPowerStatValue(stat : ECharacterPowerStats, optional abilityName : name, optional ignoreDeath : bool) : SAbilityAttributeValue
 	{
-		var null : SAbilityAttributeValue;
+		var result, axiiPower : SAbilityAttributeValue;
 		
-		if(abilityManager && abilityManager.IsInitialized() && (ignoreDeath || IsAlive()) )
-			return abilityManager.GetPowerStatValue(stat, abilityName);
-		
-		return null;
+		if(abilityManager && abilityManager.IsInitialized() && (ignoreDeath || IsAlive()) ) 
+		{
+			result = abilityManager.GetPowerStatValue(stat, abilityName);
+			
+			if (stat == CPS_AttackPower && HasBuff(EET_AxiiGuardMe))
+			{
+				axiiPower = GetBuff(EET_AxiiGuardMe).GetCreatorPowerStat();
+				axiiPower.valueMultiplicative -= 1.0f;
+				if (axiiPower.valueMultiplicative > 0.0f)
+				{				
+					if ( axiiPower.valueMultiplicative > 2.2f )
+					{
+						axiiPower.valueMultiplicative = 2.2f + LogF( (axiiPower.valueMultiplicative - 2.2f) + 1 );
+					}
+
+					if (UsesEssence())
+						result.valueMultiplicative += axiiPower.valueMultiplicative / 2.0f;
+					else
+						result.valueMultiplicative += axiiPower.valueMultiplicative / 3.0f;
+				}
+			}
+		}
+
+		return result;
 	}
 	
 	
@@ -2427,7 +2447,10 @@ import abstract class CActor extends CGameplayEntity
 			}
 			else if(action.IsCriticalHit())
 			{
-				hudModuleDamageType = EFVT_Critical;
+				if ((W3IgniProjectile)action.causer)
+					hudModuleDamageType = EFVT_None;
+				else
+					hudModuleDamageType = EFVT_Critical;
 			}
 			else if(action.IsDoTDamage())
 			{
@@ -2990,7 +3013,7 @@ import abstract class CActor extends CGameplayEntity
 			PlayEffect(effectName);
 			
 		
-		if( damageAction.IsCriticalHit() && damageAction.IsActionWitcherSign() && actorAttacker && IsAlive() && actorAttacker == thePlayer && GetWitcherPlayer().IsMutationActive( EPMT_Mutation2 ) )
+		if( damageAction.IsCriticalHit() && damageAction.IsActionWitcherSign() && actorAttacker && IsAlive() && actorAttacker == thePlayer && theGame.GetDLCManager().IsEP2Available() )
 		{
 			fxEntity = CreateFXEntityAtPelvis( 'mutation2_critical', true );
 			if( fxEntity )

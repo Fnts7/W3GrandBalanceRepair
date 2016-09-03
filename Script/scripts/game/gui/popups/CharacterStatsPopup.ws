@@ -446,14 +446,27 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	if ( varKey == 'aard_knockdownchance' )	
 	{ 
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_1);
-		valueAbility = sp.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED - 4 * theGame.params.NPC_RESIST_PER_LEVEL;  
+		//valueAbility = sp.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED - 4 * theGame.params.NPC_RESIST_PER_LEVEL;  
+		valueAbility = sp.valueMultiplicative * (1.0f - GetWitcherPlayer().GetLevel() * 0.0035f);
+		if (valueAbility > 2.0f)
+			valueAbility = 2.0f + LogF ( (valueAbility - 2.0f) + 1);
+			
+		valueAbility = (1.1f / valueAbility);
+		if (valueAbility > 1.0f)
+			valueAbility = 1.0f;
+
+		valueAbility = valueAbility * 0.8f * 0.9f; // approximate chance of non-knockdown on typical, non-large, non-shielded enemies
+		valueAbility = 1.0f - valueAbility; // so knockdown chance
+
 		valueStr = (string)RoundMath( valueAbility * 100 ) + " %";
+		final_name = "Approximate knockdown chance on typical, non-large, non-shielded enemies.";
 	}
 	else if ( varKey == 'aard_damage' ) 	
 	{  
 		if ( GetWitcherPlayer().CanUseSkill(S_Magic_s06) )
 		{
 			valueAbility = GetWitcherPlayer().GetSkillLevel(S_Magic_s06) * CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) );
+			valueAbility += 1.2f * GetWitcherPlayer().GetLevel() * GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 			valueAbility += mutDmgMod.valueBase;
 			valueAbility *= sp.valueMultiplicative;
 			valueStr = (string)RoundMath( valueAbility );
@@ -464,27 +477,32 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	else if ( varKey == 'igni_damage' ) 	
 	{  
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
+		if (sp.valueMultiplicative > 2.5f  )
+		{
+			sp.valueMultiplicative = 2.5f + LogF( (sp.valueMultiplicative - 2.5f) + 1);
+		}
 		valueAbility = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) );
+		valueAbility += 9.0f * GetWitcherPlayer().GetLevel();
 		valueAbility += mutDmgMod.valueBase;
-		valueAbility *= 1 + (sp.valueMultiplicative-1) * theGame.params.IGNI_SPELL_POWER_MILT;		
+		valueAbility *= sp.valueMultiplicative;
 		valueStr = (string)RoundMath( valueAbility );
 	}
 	else if ( varKey == 'igni_burnchance' ) 	
 	{  
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
-		valueAbility = sp.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED - 4 * theGame.params.NPC_RESIST_PER_LEVEL;
-		if (GetWitcherPlayer().CanUseSkill(S_Magic_s09))
+		valueAbility = sp.valueMultiplicative / 2.5f - 4 * theGame.params.NPC_RESIST_PER_LEVEL;
+		/*if (GetWitcherPlayer().CanUseSkill(S_Magic_s09))
 		{
 			sp = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, false);
 			valueAbility += valueAbility * sp.valueMultiplicative * GetWitcherPlayer().GetSkillLevel(S_Magic_s09) + sp.valueAdditive * GetWitcherPlayer().GetSkillLevel(S_Magic_s09);
-		}
+		}*/
 		valueStr = (string)Min(100, RoundMath(valueAbility * 100)) + " %";
 	}
 	else if ( varKey == 'quen_damageabs' )
 	{
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_4);
 		valueAbility = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false));
-		valueAbility += mutDmgMod.valueBase;
+		valueAbility += 1.25f * GetWitcherPlayer().GetLevel();
 		valueAbility *= sp.valueMultiplicative;
 		valueStr = (string)RoundMath( valueAbility );
 	}
@@ -493,7 +511,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_3);
 		min = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_3, 'min_slowdown', false, true));
 		max = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_3, 'max_slowdown', false, true));
-		valueAbility = sp.valueMultiplicative / 4;
+		valueAbility = sp.valueMultiplicative / 5;
 		valueAbility =  min + (max - min) * valueAbility;
 		valueAbility = ClampF( valueAbility, min, max );
 		valueAbility *= 1 - ClampF(4 * theGame.params.NPC_RESIST_PER_LEVEL, 0, 1) ;
@@ -505,7 +523,8 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		{
 			sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_s03);
 			valueAbility = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_s03, theGame.params.DAMAGE_NAME_SHOCK, false, true ) );
-			valueAbility += mutDmgMod.valueBase;
+			valueAbility += CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s03, 'damage_bonus_flat_after_1', false, true)) * GetWitcherPlayer().GetLevel() * (0.75f + GetWitcherPlayer().GetSkillLevel(S_Magic_s03) * 0.25f);
+			valueAbility += mutDmgMod.valueBase * 0.6667f;
 			valueAbility *= sp.valueMultiplicative;			
 			valueStr = (string)RoundMath( valueAbility );
 		}
@@ -531,8 +550,9 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		valueAbility =  CalculateAttributeValue( GetWitcherPlayer().GetAttributeValue( varKey ) );
 		valueStr = IntToString( RoundF(  valueAbility ) );
 	}
-	
-	final_name = GetLocStringByKeyExt(locKey); if ( final_name == "#" ) { final_name = ""; }
+
+	if (varKey != 'aard_knockdownchance')
+		final_name = GetLocStringByKeyExt(locKey); if ( final_name == "#" ) { final_name = ""; }
 	statObject.SetMemberFlashString("name", final_name);
 	statObject.SetMemberFlashString("value", valueStr);
 	statObject.SetMemberFlashString("tag", tag);

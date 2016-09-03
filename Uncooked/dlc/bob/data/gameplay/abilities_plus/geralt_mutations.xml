@@ -8,9 +8,9 @@
         </ability> 
 	
 		<ability name="Mutation2">
-            <crit_chance_factor type="add" min="0.20"/>
-			<crit_chance_factor type="mult" min="0.10"/>
-            <crit_damage_factor type="mult" min="1.00"/>
+            <crit_chance_factor type="add" min="0.15"/>
+			<crit_chance_factor type="mult" min="0.05"/>
+			<crit_damage_factor type="mult" min="0.5"/>
         </ability> 
 		
 		<ability name="Mutation3">
@@ -26,7 +26,7 @@
 		
 		<ability name="Mutation6" >
     		<full_freeze_chance type="mult" min="0.25" />
-			<ForceDamage type="add" min="1500" />
+			<ForceDamage type="add" min="700" />
     	</ability>
 
 		<ability name="Mutation7Buff">
