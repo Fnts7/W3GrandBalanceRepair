@@ -154,8 +154,6 @@ import class CR4GuiManager extends CGuiManager
 	saved var CraftingEntries : array<SGlossaryEntry>;
 	saved var SkillsEntries : array<ESkill>;
 	saved var MappinEntries : array<SMappinEntry>;
-	saved var CraftingFilters : SCraftingFilters;
-	saved var AlchemyFiltters : SCraftingFilters;
 	saved var EnchantmentFilters : SEnchantmentFilters;
 	saved var PinnedCraftingRecipe : name;
 	saved var InventorySortingMode : int;
@@ -286,47 +284,6 @@ import class CR4GuiManager extends CGuiManager
 		}
 		
 		return inGameConfigBufferedWrapper;
-	}
-	
-	public function SetCraftingFilters(showHasIngre : bool, showMissingIngre : bool, showAlreadyCrafted : bool )
-	{
-		CraftingFilters.showCraftable = showHasIngre;
-		CraftingFilters.showMissingIngre = showMissingIngre;
-		CraftingFilters.showAlreadyCrafted = showAlreadyCrafted;
-	}
-	
-	public function GetCraftingFilters() : SCraftingFilters
-	{
-		
-		if (CraftingFilters.showCraftable == false && CraftingFilters.showMissingIngre == false && CraftingFilters.showAlreadyCrafted == false)
-		{
-			CraftingFilters.showCraftable = true;
-			CraftingFilters.showMissingIngre = true;
-			CraftingFilters.showAlreadyCrafted = false;
-		}
-		
-		return CraftingFilters;
-	}
-	
-	public function SetAlchemyFiltters(showHasIngre : bool, showMissingIngre : bool, showAlreadyCrafted : bool )
-	{
-		AlchemyFiltters.showCraftable = showHasIngre;
-		AlchemyFiltters.showMissingIngre = showMissingIngre;
-		AlchemyFiltters.showAlreadyCrafted = showAlreadyCrafted;
-	}
-	
-	public function GetAlchemyFiltters() : SCraftingFilters
-	{
-		
-		if (AlchemyFiltters.showCraftable == false && AlchemyFiltters.showMissingIngre == false && AlchemyFiltters.showAlreadyCrafted == false)
-		{
-			AlchemyFiltters.showCraftable = true;
-			AlchemyFiltters.showMissingIngre = true;
-			AlchemyFiltters.showAlreadyCrafted = false;
-		}
-		
-		
-		return AlchemyFiltters;
 	}
 	
 	public function SetEnchantmentFilters(showHasIngredients : bool, showMissingIngredients : bool, showLevel1 : bool, showLevel2 : bool, showLevel3 : bool) : void
@@ -1330,11 +1287,23 @@ import class CR4GuiManager extends CGuiManager
 		}
 	}
 	
+	var _ignoreNewItemNotifications : bool;
+	
+	public function IgnoreNewItemNotifications( ignore : bool )
+	{
+		_ignoreNewItemNotifications = ignore;
+	}
+	
 	public function RegisterNewItem( item : SItemUniqueId )
 	{
 		var _inv : CInventoryComponent;
 		var tags : array<name>;
 		
+		if ( _ignoreNewItemNotifications )
+		{
+			return;
+		}
+
 		if(GetWitcherPlayer())
 		{
 			_inv = GetWitcherPlayer().GetInventory();

@@ -235,7 +235,7 @@ import class CDefinitionsManagerAccessor extends CObject
 		var min, max : SAbilityAttributeValue;
 		var isWitcherGear : bool;
 		var isRelicGear : bool;
-		var level : int;
+		var level, baseLevel : int;
 		
 		isWitcherGear = false;
 		isRelicGear = false;
@@ -300,11 +300,27 @@ import class CDefinitionsManagerAccessor extends CObject
 		
 		level = theGame.params.GetItemLevel(itemCategory, itemAttributes, itemName);
 		
+		if ( FactsQuerySum("NewGamePlus") > 0 )
+		{
+			if ( baseLevel > GetWitcherPlayer().GetMaxLevel() ) 
+			{
+				level = baseLevel;
+			}
+		}
+		
 		if ( isWitcherGear ) level = level - 2;
 		if ( isRelicGear ) level = level - 1;
 		if ( level < 1 ) level = 1;
 		if ( ItemHasTag(itemName, 'OlgierdSabre') ) level = level - 3;
 		if ( (isRelicGear || isWitcherGear) && ItemHasTag(itemName, 'EP1') ) level = level - 1;
+		
+		if ( FactsQuerySum("NewGamePlus") > 0 )
+		{
+			if ( level > GetWitcherPlayer().GetMaxLevel() ) 
+			{
+				level = GetWitcherPlayer().GetMaxLevel();
+			}
+		}
 		
 		return level;
 	}

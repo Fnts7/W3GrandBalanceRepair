@@ -1199,7 +1199,7 @@ function GetPadFileName(type : string) : string
 {
 	var platformPrefix:string;
 	
-	if(theInput.UsesPlaystationPadScript())
+	if( theInput.GetLastUsedGamepadType() == IDT_PS4 )
 	{
 		
 		switch(type)

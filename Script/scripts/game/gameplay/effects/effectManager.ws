@@ -1175,7 +1175,7 @@ class W3EffectManager
 	}
 	
 	
-	public final function RemoveAllNonAutoEffects( optional removeOils : bool )
+	public final function RemoveAllNonAutoEffects( optional removeOils : bool, optional skipPerk14 : bool )
 	{
 		var autoEffects : array<name>;
 		var i : int;
@@ -1209,6 +1209,12 @@ class W3EffectManager
 			{
 				if( removeOils || ! ( (W3Effect_Oil)effects[i] ) )
 				{
+					
+					if( skipPerk14 && (W3PlayerWitcher)owner && GetWitcherPlayer().CanUseSkill( S_Perk_14 ) && (W3Effect_Shrine) effects[i] )
+					{
+						continue;
+					}
+					
 					RemoveEffectOnIndex( i, true );
 				}
 			}

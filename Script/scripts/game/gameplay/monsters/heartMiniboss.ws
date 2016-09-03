@@ -41,14 +41,10 @@ statemachine class CHeartMiniboss extends CNewNPC
 	}
 	
 	event OnTakeDamage( action : W3DamageAction )
-	{	
+	{
 		
-		if( !valuesInitialised )
-		{
-			essenceChunkValue = this.GetStat( BCS_Essence ) / essenceChunks;
-			valuesInitialised = true;
-		}
 		
+			
 		if( action.attacker != thePlayer || !action.DealsAnyDamage() ) 
 		{
 			return false;
@@ -83,21 +79,23 @@ statemachine class CHeartMiniboss extends CNewNPC
 		{
 			canHit = false;
 			PlayEffect( 'heart_hit' );
+			essenceChunkValue = this.GetStat( BCS_Essence ) / essenceChunks;
 			GotoState( 'HeartHitOnce' );
 		}
 		else if( GetCurrentStateName() == 'HeartHitOnce' && canHit )
 		{
 			canHit = false;
 			PlayEffect( 'heart_hit' );
+			essenceChunkValue = this.GetStat( BCS_Essence ) / essenceChunks;
 			DrainEssence( essenceChunkValue );
 			essenceChunks -= 1;
 			
-			if( currentPhase == phasesCount )
+			if( currentPhase == phasesCount || !this.IsAlive() || this.GetStat( BCS_Essence ) <= essenceChunkValue )
 			{
 				GotoState( 'Dead' );
 				OnDeath( action );
 			}
-			else
+			else 
 			{
 				currentPhase += 1;
 				SetBehaviorVariable( 'stage', 4.0 );
