@@ -131,6 +131,7 @@
 	<reward name="mq6001_completed" 									level="32"	experience="100" 		gold="0" 	achievement="0" 	script="" comment="" />
 	
 	<!-- MQ6002 -->	
+	<reward name="mq6002_fooled" 										level="32"	experience="50" 		gold="200" 	achievement="0" 	script="" comment="" />
 	<reward name="mq6002_completed" 									level="32"	experience="100" 		gold="200" 	achievement="0" 	script="" comment="" />
 	
 	<!-- MQ6003 -->

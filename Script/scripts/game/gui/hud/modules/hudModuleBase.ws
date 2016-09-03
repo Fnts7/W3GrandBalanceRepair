@@ -193,6 +193,16 @@ class CR4HudModuleBase extends CR4HudModule
 	
 	event OnPlaySoundEvent( soundName : string )
 	{
+		if ( theGame.IsBlackscreen() )
+		{
+			if ( soundName == "gui_global_highlight" )
+			{
+				
+				
+				LogChannel( 'IgnoredSounds', "HUD: " + soundName );
+				return false;
+			}
+		}
 		theSound.SoundEvent( soundName );
 	}
 }
