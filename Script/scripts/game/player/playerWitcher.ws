@@ -52,7 +52,11 @@ statemachine class W3PlayerWitcher extends CR4Player
 	default				equippedSign	= ST_Aard;
 	default				m_quenReappliedCount = 1;
 	
-	
+	// Griffon mutagen state
+	private				var mutagen27Resist				: float;
+	private				var mutagen27Count				: int;
+	default				mutagen27Resist = 0.0f;
+	default 			mutagen27Count = 0;
 	
 	private 			var bDispalyHeavyAttackIndicator 		: bool; 
 	private 			var bDisplayHeavyAttackFirstLevelTimer 	: bool; 
@@ -2052,7 +2056,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 				RemoveAbilityAll( GetBuff(EET_Mutagen10).GetAbilityName() );
 			
 			if(HasBuff(EET_Mutagen15))
-				RemoveAbilityAll( GetBuff(EET_Mutagen15).GetAbilityName() );
+				Mutagen15Drop(false, GetBuff(EET_Mutagen15).GetAbilityName());
 		}
 				
 		
@@ -2075,9 +2079,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 		if(action.DealsAnyDamage() && !action.IsDoTDamage() && HasBuff(EET_Mutagen27))
 		{
 			abilityName = GetBuff(EET_Mutagen27).GetAbilityName();
-			abilityCount = GetAbilityCount(abilityName);
+			//abilityCount = GetAbilityCount(abilityName);
 			
-			if(abilityCount == 0)
+			if(mutagen27Count == 0)
 			{
 				addAbility = true;
 			}
@@ -2088,7 +2092,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 				
 				if(maxStack >= 0)
 				{
-					addAbility = (abilityCount < maxStack);
+					addAbility = (mutagen27Count < maxStack);
 				}
 				else
 				{
@@ -2098,7 +2102,10 @@ statemachine class W3PlayerWitcher extends CR4Player
 			
 			if(addAbility)
 			{
-				AddAbility(abilityName, true);
+				//AddAbility(abilityName, true);
+				theGame.GetDefinitionsManager().GetAbilityAttributeValue(abilityName, 'slashing_resistance_perc', min, max);
+				mutagen27Resist += CalculateAttributeValue(min);
+				mutagen27Count += 1;
 			}
 		}
 		
@@ -2486,6 +2493,66 @@ statemachine class W3PlayerWitcher extends CR4Player
 		}
 	}
 	
+	public function GetMutagen27Resist() : float
+	{
+		return mutagen27Resist;
+	}
+	
+	public function ClearMutagen27Resist()
+	{
+		mutagen27Resist = 0;
+		mutagen27Count = 0;
+	}
+	
+	public function GetMutagen07LifeLeech() : float
+	{
+		var level : int;
+
+		level = GetLevel();
+		if (level < 1)
+			level = 1;
+		if (level > 100)
+			level = 100;
+
+		if (level <= 30)
+			return 0.3f - level * 0.2f / 30.0f;
+
+		return 0.1f / ( 1.0f + (level - 30) * 2.0f / 70.0f );
+	}
+
+	public function Mutagen15Init(ability : name)
+	{
+		Mutagen15Drop(true, ability);		
+		AddAbilityMultiple(ability, 3);
+		AddTimer('Mutagen15Timer', 20.0f);
+	}
+	
+	public function Mutagen15Drop(all : bool, ability : name)
+	{
+		var count : int;
+		count = GetAbilityCount(ability);
+
+		if (count < 1)
+			return;
+	
+		RemoveTimer('Mutagen15Timer');
+
+		if (all || count == 1)
+		{
+			RemoveAbilityAll(ability);
+			return;
+		}
+
+		RemoveAbilityMultiple(ability, 1);
+		AddTimer('Mutagen15Timer', 20.0f);		
+	}
+
+	timer function Mutagen15Timer(dt : float, id : int )
+	{
+		if (HasBuff(EET_Mutagen15))
+			Mutagen15Drop(false, GetBuff(EET_Mutagen15).GetAbilityName());
+	}
+
 	public final function FailFundamentalsFirstAchievementCondition()
 	{
 		SetFailedFundamentalsFirstAchievementCondition(true);
@@ -2527,7 +2594,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(HasBuff(EET_Mutagen15))
 		{
-			AddAbility(GetBuff(EET_Mutagen15).GetAbilityName(), false);
+			Mutagen15Init(GetBuff(EET_Mutagen15).GetAbilityName());
 		}
 		
 		
@@ -2714,7 +2781,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(HasBuff(EET_Mutagen15))
 		{
-			RemoveAbilityAll( GetBuff(EET_Mutagen15).GetAbilityName() );
+			Mutagen15Drop(true, GetBuff(EET_Mutagen15).GetAbilityName());
 		}
 		
 		
@@ -2739,7 +2806,8 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(HasBuff(EET_Mutagen27))
 		{
-			RemoveAbilityAll( GetBuff(EET_Mutagen27).GetAbilityName() );
+			//RemoveAbilityAll( GetBuff(EET_Mutagen27).GetAbilityName() );
+			ClearMutagen27Resist();
 		}
 		
 		
@@ -4188,12 +4256,12 @@ statemachine class W3PlayerWitcher extends CR4Player
 		m_alchemyManager.GetRecipe(nam, recipe);
 			
 		
-		if(CanUseSkill(S_Alchemy_s18))
+		/*if(CanUseSkill(S_Alchemy_s18))
 		{
 			if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.cookedItemType != EACIT_Dye) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
 				AddAbility(SkillEnumToName(S_Alchemy_s18), true);
 			
-		}
+		}*/
 		
 		
 		if(recipe.cookedItemType == EACIT_Bomb)
@@ -6512,8 +6580,15 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		inv.GetPotionItemBuffData(item, effectType, customAbilityName);
 		maxTox = abilityManager.GetStatMax(BCS_Toxicity);
+
 		potionToxicity = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity'));
 		toxicityOffset = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity_offset'));
+		
+		if(CanUseSkill(S_Alchemy_s01) && toxicityOffset > 33.0)
+		{
+			toxicityOffset = (1.0 - CalculateAttributeValue(GetSkillAttributeValue(S_Alchemy_s01, 'threshold', false, true)) * GetSkillLevel(S_Alchemy_s01)) * toxicityOffset;
+			toxicityOffset = MaxF(toxicityOffset, 33.0);
+		}
 		
 		if(effectType != EET_WhiteHoney)
 		{
@@ -6543,6 +6618,11 @@ statemachine class W3PlayerWitcher extends CR4Player
 		finalPotionToxicity = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity'));
 		toxicityOffset = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity_offset'));
 		
+		if(CanUseSkill(S_Alchemy_s01) && toxicityOffset > 33.0)
+		{
+			toxicityOffset = (1.0 - CalculateAttributeValue(GetSkillAttributeValue(S_Alchemy_s01, 'threshold', false, true)) * GetSkillLevel(S_Alchemy_s01)) * toxicityOffset;
+			toxicityOffset = MaxF(toxicityOffset, 33.0);
+		}
 		
 		if(CanUseSkill(S_Perk_13))
 		{
@@ -6592,7 +6672,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 			
 		
 		inv.GetPotionItemBuffData(item, effectType, customAbilityName);
-			
+		
 		
 		if( !HasFreeToxicityToDrinkPotion( item, effectType, finalPotionToxicity ) )
 		{
@@ -6625,6 +6705,12 @@ statemachine class W3PlayerWitcher extends CR4Player
 			mutagenParams = new W3MutagenBuffCustomParams in theGame;
 			mutagenParams.toxicityOffset = CalculateAttributeValue(inv.GetItemAttributeValue(item, 'toxicity_offset'));
 			mutagenParams.potionItemName = inv.GetItemName(item);
+			
+			if(CanUseSkill(S_Alchemy_s01) && mutagenParams.toxicityOffset > 33.0)
+			{
+				mutagenParams.toxicityOffset = (1.0 - CalculateAttributeValue(GetSkillAttributeValue(S_Alchemy_s01, 'threshold', false, true)) * GetSkillLevel(S_Alchemy_s01)) * mutagenParams.toxicityOffset;
+				mutagenParams.toxicityOffset = MaxF(mutagenParams.toxicityOffset, 33.0);
+			}
 			
 			potionParams.buffSpecificParams = mutagenParams;
 			

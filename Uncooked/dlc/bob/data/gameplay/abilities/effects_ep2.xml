@@ -59,7 +59,7 @@
 
       <ability name="Mutation10Effect">
         <duration type="add" min="-1"/>
-        <mutation10_stat_boost type="mult" min="0.0075"/>
+        <mutation10_stat_boost type="mult" min="0.005"/>
       </ability>
 
       <ability name="Mutation11BuffEffect">

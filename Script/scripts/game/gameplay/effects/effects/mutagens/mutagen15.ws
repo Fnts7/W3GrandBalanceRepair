@@ -13,17 +13,26 @@ class W3Mutagen15_Effect extends W3Mutagen_Effect
 	
 	event OnEffectAdded(optional customParams : W3BuffCustomParams)
 	{
+		var witcher : W3PlayerWitcher;
+	
 		super.OnEffectAdded(customParams);
 		
 		if(target.IsInCombat() && !target.HasAbility(abilityName))
-			target.AddAbility(abilityName, false);
+		{
+			witcher = (W3PlayerWitcher)target;
+			if (witcher)
+				witcher.Mutagen15Init(abilityName);
+		}
 	}
 	
 	event OnEffectRemoved()
 	{
+		var witcher : W3PlayerWitcher;
+	
 		super.OnEffectRemoved();
 		
-		if(target.HasAbility(abilityName))
-			target.RemoveAbility(abilityName);
+		witcher = (W3PlayerWitcher)target;
+		if (witcher)
+			witcher.Mutagen15Drop(true, abilityName);
 	}
 }
