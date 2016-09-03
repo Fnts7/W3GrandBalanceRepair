@@ -8394,38 +8394,50 @@ statemachine class W3PlayerWitcher extends CR4Player
 		var weaponEnt : CEntity;
 		var fxName : name;
 		var pos : Vector;
+		var cost : float;
 		
 		super.OnSignCastPerformed(signType, isAlternate);
-		
-		if(HasAbility('Runeword 1 _Stats', true) && GetStat(BCS_Focus) >= 1.0f)
+
+		if(HasAbility('Runeword 1 _Stats', true))
 		{
-			DrainFocus(1.0f);
-			runewordInfusionType = signType;
-			items = inv.GetHeldWeapons();
-			weaponEnt = inv.GetItemEntityUnsafe(items[0]);
-			
-			
-			weaponEnt.StopEffect('runeword_aard');
-			weaponEnt.StopEffect('runeword_axii');
-			weaponEnt.StopEffect('runeword_igni');
-			weaponEnt.StopEffect('runeword_quen');
-			weaponEnt.StopEffect('runeword_yrden');
+			if (signType == ST_Axii) 
+				cost = 0.4f;
+			else if (signType == ST_Igni || signType == ST_Aard)
+				cost = 0.35f;
+			else if (signType == ST_Yrden)
+				cost = 0.25f;
+			else
+				cost = 0.3f;
+
+			if (GetStat(BCS_Focus) >= cost)
+			{
+				items = inv.GetHeldWeapons();
+				weaponEnt = inv.GetItemEntityUnsafe(items[0]);
+
+			   if (!weaponEnt.IsEffectActive('runeword_aard')
+					&& !weaponEnt.IsEffectActive('runeword_axii')
+					&& !weaponEnt.IsEffectActive('runeword_igni')
+					&& !weaponEnt.IsEffectActive('runeword_quen')
+					&& !weaponEnt.IsEffectActive('runeword_yrden'))
+				{
+					DrainFocus(cost);
+					runewordInfusionType = signType;
+
+					if(signType == ST_Aard)
+						fxName = 'runeword_aard';
+					else if(signType == ST_Axii)
+						fxName = 'runeword_axii';
+					else if(signType == ST_Igni)
+						fxName = 'runeword_igni';
+					else if(signType == ST_Quen)
+						fxName = 'runeword_quen';
+					else if(signType == ST_Yrden)
+						fxName = 'runeword_yrden';
 					
-			
-			if(signType == ST_Aard)
-				fxName = 'runeword_aard';
-			else if(signType == ST_Axii)
-				fxName = 'runeword_axii';
-			else if(signType == ST_Igni)
-				fxName = 'runeword_igni';
-			else if(signType == ST_Quen)
-				fxName = 'runeword_quen';
-			else if(signType == ST_Yrden)
-				fxName = 'runeword_yrden';
-				
-			weaponEnt.PlayEffect(fxName);
+					weaponEnt.PlayEffect(fxName);
+				}
+			}
 		}
-		
 		
 		if( IsMutationActive( EPMT_Mutation6 ) && signType == ST_Aard && !isAlternate )
 		{
