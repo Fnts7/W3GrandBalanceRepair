@@ -123,6 +123,8 @@ statemachine import class W3HorseComponent extends CVehicleComponent
 		var horseActor : CActor;
 		var horseNPC : CNewNPC;
 		var items : array< SItemUniqueId >;
+		var itemName : name;
+		var inv : CInventoryComponent;
 		
 		super.OnInit();
 		
@@ -174,12 +176,23 @@ statemachine import class W3HorseComponent extends CVehicleComponent
 		mountTestCollisionGroups.PushBack( 'Destructible' );
 		if ( horseActor.HasTag( 'playerHorse' ) )
 		{
-			items = horseActor.GetInventory().GetItemsByCategory( 'horse_hair' );
+			inv = horseActor.GetInventory();
+			items = inv.GetItemsByCategory( 'horse_hair' );
 			if ( items.Size() == 0 )
 			{
-				items = horseActor.GetInventory().AddAnItem( 'Horse Hair 0' );
-				horseActor.GetInventory().MountItem( items[0] );
-			}		
+				items = inv.AddAnItem( 'Horse Hair 0' );
+				inv.MountItem( items[0] );
+			}
+			items = inv.GetItemsByTag( 'HorseTail' );
+			if ( items.Size() == 0 )
+			{
+				itemName = inv.GetCategoryDefaultItem( 'horse_tail' );
+				if ( itemName )				
+				{
+					items = inv.AddAnItem( itemName );
+					inv.MountItem( items[0] );				
+				}				
+			}
 		}
 		
 		

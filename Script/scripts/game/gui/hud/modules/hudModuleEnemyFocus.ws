@@ -21,16 +21,16 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 	
 	
 	private	var m_fxSetEnemyName				: CScriptedFlashFunction;
+	private	var m_fxSetEnemyLevel				: CScriptedFlashFunction;
+	private	var m_fxSetAttitude					: CScriptedFlashFunction;
 	private	var m_fxSetEnemyHealth				: CScriptedFlashFunction;
 	private	var m_fxSetEnemyStamina				: CScriptedFlashFunction;
-	private	var m_fxSetEssenceDamage			: CScriptedFlashFunction;
+	private	var m_fxSetEssenceBarVisibility		: CScriptedFlashFunction;
+	private	var m_fxSetStaminaVisibility		: CScriptedFlashFunction;
+	private var m_fxSetNPCQuestIcon				: CScriptedFlashFunction;
 	private	var m_fxSetDodgeFeedback			: CScriptedFlashFunction;
-	private	var m_fxSetAttitude					: CScriptedFlashFunction;
-	private	var m_fxIsHuman						: CScriptedFlashFunction;
 	private	var m_fxSetBossOrDead				: CScriptedFlashFunction;
 	private	var m_fxSetShowHardLock				: CScriptedFlashFunction;
-	private	var m_fxSetEnemyLevel				: CScriptedFlashFunction;
-	private var m_fxSetNPCQuestIcon				: CScriptedFlashFunction;
 	private var m_fxSetDamageText				: CScriptedFlashFunction;
 	private var m_fxHideDamageText				: CScriptedFlashFunction;
 	private var m_fxSetGeneralVisibility		: CScriptedFlashFunction;
@@ -62,18 +62,18 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 		flashModule 			= GetModuleFlash();
 		
 		m_fxSetEnemyName				= flashModule.GetMemberFlashFunction( "setEnemyName" );
+		m_fxSetEnemyLevel				= flashModule.GetMemberFlashFunction( "setEnemyLevel" );
+		m_fxSetAttitude					= flashModule.GetMemberFlashFunction( "setAttitude" );
 		m_fxSetEnemyHealth				= flashModule.GetMemberFlashFunction( "setEnemyHealth" );
 		m_fxSetEnemyStamina				= flashModule.GetMemberFlashFunction( "setEnemyStamina" );
-		m_fxSetEssenceDamage			= flashModule.GetMemberFlashFunction( "setEssenceDamage" );
+		m_fxSetEssenceBarVisibility		= flashModule.GetMemberFlashFunction( "setEssenceBarVisibility" );
+		m_fxSetStaminaVisibility		= flashModule.GetMemberFlashFunction( "setStaminaVisibility" );		
+		m_fxSetNPCQuestIcon				= flashModule.GetMemberFlashFunction( "setNPCQuestIcon" );
 		m_fxSetDodgeFeedback			= flashModule.GetMemberFlashFunction( "setDodgeFeedback" );
 		m_fxSetDamageText				= flashModule.GetMemberFlashFunction( "setDamageText" );
 		m_fxHideDamageText				= flashModule.GetMemberFlashFunction( "hideDamageText" );
-		m_fxSetAttitude					= flashModule.GetMemberFlashFunction( "setAttitude" );
-		m_fxIsHuman						= flashModule.GetMemberFlashFunction( "setStaminaVisibility" );		
 		m_fxSetBossOrDead				= flashModule.GetMemberFlashFunction( "SetBossOrDead" );		
 		m_fxSetShowHardLock				= flashModule.GetMemberFlashFunction( "setShowHardLock" );
-		m_fxSetEnemyLevel				= flashModule.GetMemberFlashFunction( "setEnemyLevel" );
-		m_fxSetNPCQuestIcon				= flashModule.GetMemberFlashFunction( "setNPCQuestIcon" );
 		m_fxSetGeneralVisibility		= flashModule.GetMemberFlashFunction( "SetGeneralVisibility" );
 		m_fxSetMutationEightVisibility 	= flashModule.GetMemberFlashFunction( "displayMutationEight" );
 		m_mcNPCFocus 					= flashModule.GetChildFlashSprite( "mcNPCFocus" );
@@ -255,21 +255,18 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 				else
 					l_isBoss = true;				
 			}
-		}
-		else
-		{
-			l_isBoss = false;
+			else
+			{
+				
+				if ( (CHeartMiniboss)l_target )
+				{
+					l_target = NULL;
+				}
+			}
 		}
  
 		if ( l_target )
 		{
-			
-			if ( (CHeartMiniboss)l_target )
-			{
-				ShowElement( false );  
-				return false;
-			}
-
 			
 			l_isHuman = l_target.IsHuman();
 			l_isDifferentTarget = ( l_target != m_lastTarget );
@@ -292,8 +289,8 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 				HideDamageText();
 				
 				
-				m_fxIsHuman.InvokeSelfOneArg( FlashArgBool( l_isHuman ) ); 
-				m_fxSetEssenceDamage.InvokeSelfOneArg( FlashArgBool( l_target.UsesEssence()) );
+				m_fxSetStaminaVisibility.InvokeSelfOneArg( FlashArgBool( l_isHuman ) ); 
+				m_fxSetEssenceBarVisibility.InvokeSelfOneArg( FlashArgBool( l_target.UsesEssence()) );
 				UpdateQuestIcon( l_target );
 				SetDodgeFeedback( NULL );
 				
@@ -314,8 +311,9 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 				}
 			}
 				
-			if ( l_isDifferentTarget || l_currentTargetAttitude != m_lastTargetAttitude || l_wasAxiied != m_wasAxiied )
+			if ( l_isDifferentTarget || m_lastTargetAttitude != l_currentTargetAttitude || m_wasAxiied != l_wasAxiied )
 			{
+				m_lastTargetAttitude = l_currentTargetAttitude;
 				m_wasAxiied = l_wasAxiied;
 				if( m_wasAxiied )
 				{
@@ -325,7 +323,6 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 				{
 					m_fxSetAttitude.InvokeSelfOneArg( FlashArgInt( l_currentTargetAttitude ) );
 				}
-				m_lastTargetAttitude = l_currentTargetAttitude;
 			}
 
 			
@@ -359,39 +356,36 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 			l_currentHealthPercentage = CeilF( 100 * l_target.GetHealthPercents() );	
 			if ( m_lastHealthPercentage != l_currentHealthPercentage )
 			{
-				m_fxSetEnemyHealth.InvokeSelfOneArg( FlashArgInt( l_currentHealthPercentage ) );
 				m_lastHealthPercentage = l_currentHealthPercentage;	
+				m_fxSetEnemyHealth.InvokeSelfOneArg( FlashArgInt( l_currentHealthPercentage ) );
 				
 			}			
 			
 			
-			
-			
-				l_currentStaminaPercentage = CeilF( 100 * l_target.GetStaminaPercents() );
-				if ( m_lastStaminaPercentage != l_currentStaminaPercentage )
-				{
-					m_fxSetEnemyStamina.InvokeSelfOneArg( FlashArgInt( l_currentStaminaPercentage ) );
-					m_lastStaminaPercentage = l_currentStaminaPercentage;
-				}			
-			
+			l_currentStaminaPercentage = CeilF( 100 * l_target.GetStaminaPercents() );
+			if ( m_lastStaminaPercentage != l_currentStaminaPercentage )
+			{
+				m_lastStaminaPercentage = l_currentStaminaPercentage;
+				m_fxSetEnemyStamina.InvokeSelfOneArg( FlashArgInt( l_currentStaminaPercentage ) );
+			}			
 			
 			
 			l_currentEnemyDifferenceLevel = l_target.GetExperienceDifferenceLevelName( l_currentEnemyLevelString );
 			if ( l_isDifferentTarget || 
-				m_lastEnemyDifferenceLevel != l_currentEnemyDifferenceLevel ||
+				 m_lastEnemyDifferenceLevel != l_currentEnemyDifferenceLevel ||
 				 m_lastEnemyLevelString     != l_currentEnemyLevelString )
 			{
-				m_fxSetEnemyLevel.InvokeSelfTwoArgs( FlashArgString( l_currentEnemyDifferenceLevel ), FlashArgString( l_currentEnemyLevelString ) );
 				m_lastEnemyDifferenceLevel = l_currentEnemyDifferenceLevel;
 				m_lastEnemyLevelString     = l_currentEnemyLevelString;
+				m_fxSetEnemyLevel.InvokeSelfTwoArgs( FlashArgString( l_currentEnemyDifferenceLevel ), FlashArgString( l_currentEnemyLevelString ) );
 			}
 			
 			
 			useMutation8Icon = GetWitcherPlayer().IsMutationActive( EPMT_Mutation8 ) && !l_target.IsImmuneToMutation8Finisher();
 			if ( m_lastUseMutation8Icon != useMutation8Icon )
 			{
-				DisplayMutationEight( useMutation8Icon );
 				m_lastUseMutation8Icon = useMutation8Icon;
+				DisplayMutationEight( useMutation8Icon );
 			}
 			
 			
@@ -437,8 +431,8 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 			if ( l_isDifferentTarget )
 			{
 				
-				m_fxIsHuman.InvokeSelfOneArg( FlashArgBool( false ) );
-				m_fxSetEssenceDamage.InvokeSelfOneArg( FlashArgBool( false ) );
+				m_fxSetStaminaVisibility.InvokeSelfOneArg( FlashArgBool( false ) );
+				m_fxSetEssenceBarVisibility.InvokeSelfOneArg( FlashArgBool( false ) );
 				UpdateQuestIcon( (CNewNPC)l_targetNonActor );
 				SetDodgeFeedback( NULL );
 				
@@ -582,6 +576,7 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 		var targetTags : array< name >;
 		var i : int;
 		var questIcon : string;
+		var mapPinType : name;
 		
 		questIcon = "none";
 
@@ -593,40 +588,30 @@ class CR4HudModuleEnemyFocus extends CR4HudModuleBase
 			{
 				commonMapManager = theGame.GetCommonMapManager();
 
-				
-				mapPinInstances = commonMapManager.GetMapPinInstances( theGame.GetWorld().GetDepotPath() );
-			
-				for( i = 0; i < mapPinInstances.Size(); i += 1 )
+				mapPinType = commonMapManager.GetMapPinTypeByTag( targetTags[0] );
+				switch ( mapPinType )
 				{
-					currentPin = mapPinInstances[i];
-
-					if (currentPin.tag == targetTags[0])
-					{
-						switch (currentPin.type)
-						{
-							case 'QuestReturn':
-								questIcon = "QuestReturn";
-								break;
-							case 'QuestGiverStory':
-								questIcon = "QuestGiverStory";
-								break;
-							case 'QuestGiverChapter':
-								questIcon = "QuestGiverChapter";
-								break;
-							case 'QuestGiverSide':
-							case 'QuestAvailable':
-							case 'QuestAvailableHoS':
-							case 'QuestAvailableBaW':
-								questIcon = "QuestGiverSide";
-								break;
-							case 'MonsterQuest':
-								questIcon = "MonsterQuest";
-								break;
-							case 'TreasureQuest':
-								questIcon = "TreasureQuest";
-								break;
-						}
-					}
+					case 'QuestReturn':
+						questIcon = "QuestReturn";
+						break;
+					case 'QuestGiverStory':
+						questIcon = "QuestGiverStory";
+						break;
+					case 'QuestGiverChapter':
+						questIcon = "QuestGiverChapter";
+						break;
+					case 'QuestGiverSide':
+					case 'QuestAvailable':
+					case 'QuestAvailableHoS':
+					case 'QuestAvailableBaW':
+						questIcon = "QuestGiverSide";
+						break;
+					case 'MonsterQuest':
+						questIcon = "MonsterQuest";
+						break;
+					case 'TreasureQuest':
+						questIcon = "TreasureQuest";
+						break;
 				}
 			}
 		}

@@ -1381,7 +1381,7 @@
 		craftsmanType_name				="Smith"
 		price							="1275"
 	>
-		<ingredients>					<ingredient	quantity="1"	item_name="Gryphon School silver sword 3"	/>
+		<ingredients>					<ingredient	quantity="1"	item_name="Gryphon School steel sword 3"	/>
 										<ingredient	quantity="2"	item_name="Leather squares"					/>
 										<ingredient	quantity="2"	item_name="Dwimeryte enriched ingot"		/>
 										<ingredient	quantity="1"	item_name="Sapphire"						/>
@@ -1511,7 +1511,7 @@
 	</schematic>
 
 	<schematic
-		name_name						="Knights steel sword 3 schematic"
+		name_name						="Knights Geralt steel sword 3 schematic"
 		craftedItem_name				="Knights steel sword 3"
 		craftsmanLevel_name				="Grand Master"
 		craftsmanType_name				="Smith"

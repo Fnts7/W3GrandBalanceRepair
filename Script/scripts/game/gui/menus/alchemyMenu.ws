@@ -59,7 +59,7 @@ class CR4AlchemyMenu extends CR4ListBaseMenu
 		m_fxSetFilters = m_flashModule.GetMemberFlashFunction("SetFiltersValue");
 		m_fxSetPinnedRecipe = m_flashModule.GetMemberFlashFunction("setPinnedRecipe");
 		
-		l_craftingFilters = theGame.GetGuiManager().GetAlchemyFiltters();
+		l_craftingFilters = GetWitcherPlayer().GetAlchemyFilters();
 		m_fxSetFilters.InvokeSelfSixArgs(FlashArgString(GetLocStringByKeyExt("gui_panel_filter_has_ingredients")), FlashArgBool(l_craftingFilters.showCraftable), 
 										 FlashArgString(GetLocStringByKeyExt("gui_panel_filter_elements_missing")), FlashArgBool(l_craftingFilters.showMissingIngre), 
 										 FlashArgString(GetLocStringByKeyExt("gui_panel_filter_already_crafted")), FlashArgBool(l_craftingFilters.showAlreadyCrafted));
@@ -123,7 +123,7 @@ class CR4AlchemyMenu extends CR4ListBaseMenu
 	
 	event  OnCraftingFiltersChanged( showHasIngre : bool, showMissingIngre : bool, showAlreadyCrafted : bool )
 	{
-		theGame.GetGuiManager().SetAlchemyFiltters(showHasIngre, showMissingIngre, showAlreadyCrafted);
+		GetWitcherPlayer().SetAlchemyFilters(showHasIngre, showMissingIngre, showAlreadyCrafted);
 	}
 	
 	event  OnEmptyCheckListCloseFailed()
@@ -173,6 +173,28 @@ class CR4AlchemyMenu extends CR4ListBaseMenu
 	
 	event  OnShowCraftedItemTooltip( tag : name )
 	{
+	}
+	
+	event OnCategoryOpened( categoryName : name, opened : bool )
+	{
+		var player : W3PlayerWitcher;
+
+		player = GetWitcherPlayer();
+		if ( !player )
+		{
+			return false;
+		}
+		if ( opened )
+		{
+			player.AddExpandedAlchemyCategory( categoryName );
+		}
+		else
+		{
+			player.RemoveExpandedAlchemyCategory( categoryName );
+		}
+
+		
+		super.OnCategoryOpened( categoryName, opened );
 	}
 	
 	protected function ShowSelectedItemInfo( tag : name ):void
@@ -236,6 +258,7 @@ class CR4AlchemyMenu extends CR4ListBaseMenu
 					
 					m_recipeList = m_alchemyManager.GetRecipes(false);
 				}
+				
 				PopulateData();
 				UpdateItemsById(recipeIndex);
 				cookedItemName = GetLocStringByKeyExt(m_definitionsManager.GetItemLocalisationKeyName( recipe.cookedItemName ));
@@ -278,6 +301,10 @@ class CR4AlchemyMenu extends CR4ListBaseMenu
 		var exists					: bool;
 		var j, cookableCount		: int;
 		var minQuality, maxQuality  : int;
+		
+		var expandedAlchemyCategories : array< name >;
+		
+		expandedAlchemyCategories = GetWitcherPlayer().GetExpandedAlchemyCategories();
 
 		l_DataFlashArray = m_flashValueStorage.CreateTempFlashArray();
 		length = m_recipeList.Size();
@@ -352,7 +379,7 @@ class CR4AlchemyMenu extends CR4ListBaseMenu
 			l_DataFlashObject.SetMemberFlashUInt(  "tag", NameToFlashUInt(l_Tag) );
 			l_DataFlashObject.SetMemberFlashString(  "dropDownLabel", l_GroupTitle );
 			l_DataFlashObject.SetMemberFlashUInt(  "dropDownTag",  NameToFlashUInt(l_GroupTag) );
-			l_DataFlashObject.SetMemberFlashBool(  "dropDownOpened", true ); 
+			l_DataFlashObject.SetMemberFlashBool(  "dropDownOpened", expandedAlchemyCategories.Contains( l_GroupTag ) );
 			l_DataFlashObject.SetMemberFlashString(  "dropDownIcon", "icons/monsters/ICO_MonsterDefault.png" );
 			
 			l_DataFlashObject.SetMemberFlashBool( "isNew", l_IsNew );
@@ -452,11 +479,6 @@ class CR4AlchemyMenu extends CR4ListBaseMenu
 			}
 		}
 		return -1;
-	}
-	
-	function GetItemQuantity( id : int ) : int
-	{
-		return _inv.GetItemQuantityByName(itemsNames[id]);
 	}
 	
 	function UpdateItems( tag : name )

@@ -539,27 +539,8 @@ import class W3Container extends W3LockableEntity
 			{
 				itemName = inv.GetItemName( allItems[i] );
 			
-				
-				for( j = 0; j < m_recipeList.Size(); j+= 1 )
-				{	
-					if ( itemName == m_recipeList[j] )
-					{
-						inv.RemoveItem( allItems[i], inv.GetItemQuantity(  allItems[i] ) );
-						inv.NotifyItemLooted( allItems[i] );
-						
-					}
-				}
-				
-				for( j = 0; j < m_schematicList.Size(); j+= 1 )
-				{	
-					if ( itemName == m_schematicList[j] )
-					{
-						inv.RemoveItem( allItems[i], inv.GetItemQuantity(  allItems[i] ) );
-						inv.NotifyItemLooted( allItems[i] );
-						
-					}	
-				}
-				
+
+
 				if ( GetWitcherPlayer().GetLevel() - 1 > 1 && inv.GetItemLevel( allItems[i] ) == 1 && inv.ItemHasTag(allItems[i], 'Autogen') )
 				{ 
 					inv.RemoveItemCraftedAbility(allItems[i], 'autogen_steel_base');

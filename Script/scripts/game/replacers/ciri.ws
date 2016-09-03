@@ -76,6 +76,8 @@ statemachine class W3ReplacerCiri extends W3Replacer
 			this.AddAbility( 'Ciri_CombatRegen' );
 		}
 		
+		
+		theGame.GameplayFactsRemove( "PlayerIsGeralt" );
 	}
 	
 	public function IsInitialized() : bool

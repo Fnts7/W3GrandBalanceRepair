@@ -369,7 +369,13 @@ class CR4HudModuleQuests extends CR4HudModuleBase
 					questLevel  = NameToInt( questLevels.GetValueAtAsName(1,j) );
 					
 					if(FactsQuerySum("NewGamePlus") > 0)
+					{
 						questLevel += theGame.params.GetNewGamePlusLevel();					
+						if ( questLevel > GetWitcherPlayer().GetMaxLevel() ) 
+						{
+							questLevel = GetWitcherPlayer().GetMaxLevel();
+						}
+					}
 				}
 			}
 		}

@@ -920,7 +920,7 @@
 		localisation_key_description	="item_desc_quest_item"
 		icon_path						="icons/inventory/quests/q604_olgierd_with_iris_painting_64x64.png"
 	>
-		<tags>							Quest, mod_junk, Painting, QuestEP1							
+		<tags>							Quest, mod_junk, Painting, QuestEP1, mq7024_picture							
 		</tags>
 		<recycling_parts>				<parts count="1">Ashes</parts>
 		</recycling_parts>
