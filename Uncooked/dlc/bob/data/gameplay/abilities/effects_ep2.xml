@@ -63,7 +63,7 @@
       </ability>
 
       <ability name="Mutation11BuffEffect">
-        <duration type="add" min="-1"/>
+        <duration type="add" min="6"/>
 		<!-- match regen to duration of animation, should gain 100% max hp during the entire animation -->
         <vitalityRegen type="mult" min="0.167"/>
 		<vitalityCombatRegen type="mult" min="0.167"/>

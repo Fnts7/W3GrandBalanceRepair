@@ -11378,16 +11378,6 @@ statemachine abstract import class CR4Player extends CPlayer
 		
 		super.ReactToReflectedAttack(target);
 		
-		if ( !((CNewNPC)target).IsShielded(this) )
-		{
-			action = new W3DamageAction in this;
-			action.Initialize(target,this,NULL,'',EHRT_Reflect,CPS_AttackPower,true,false,false,false);
-			action.AddEffectInfo(EET_Stagger);
-			action.SetProcessBuffsIfNoDamage(true);
-			
-			theGame.damageMgr.ProcessAction( action );		
-			delete action;
-		}
 		
 		theGame.VibrateControllerLight();
 	}

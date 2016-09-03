@@ -100,7 +100,7 @@ class CR4CraftingMenu extends CR4ListBaseMenu
 		
 		m_fxSetCraftingEnabled.InvokeSelfOneArg(FlashArgBool(bCouldCraft));
 		
-		l_craftingFilters = theGame.GetGuiManager().GetCraftingFilters();
+		l_craftingFilters = GetWitcherPlayer().GetCraftingFilters();
 		m_fxSetFilters.InvokeSelfSixArgs(FlashArgString(GetLocStringByKeyExt("gui_panel_filter_has_ingredients")), FlashArgBool(l_craftingFilters.showCraftable), 
 										 FlashArgString(GetLocStringByKeyExt("gui_panel_filter_elements_missing")), FlashArgBool(l_craftingFilters.showMissingIngre), 
 										 FlashArgString(GetLocStringByKeyExt("panel_crafting_exception_wrong_craftsman_type") + " / " + GetLocStringByKeyExt("panel_crafting_exception_too_low_craftsman_level")), FlashArgBool(l_craftingFilters.showAlreadyCrafted));
@@ -167,7 +167,7 @@ class CR4CraftingMenu extends CR4ListBaseMenu
 	
 	event  OnCraftingFiltersChanged( showHasIngre : bool, showMissingIngre : bool, showAlreadyCrafted : bool )
 	{
-		theGame.GetGuiManager().SetCraftingFilters(showHasIngre, showMissingIngre, showAlreadyCrafted);
+		GetWitcherPlayer().SetCraftingFilters(showHasIngre, showMissingIngre, showAlreadyCrafted);
 	}
 	
 	event  OnEmptyCheckListCloseFailed()
@@ -250,6 +250,28 @@ class CR4CraftingMenu extends CR4ListBaseMenu
 				OnPlaySoundEvent( "gui_inventory_buy" );
 			}
 		}
+	}
+	
+	event OnCategoryOpened( categoryName : name, opened : bool )
+	{
+		var player : W3PlayerWitcher;
+
+		player = GetWitcherPlayer();
+		if ( !player )
+		{
+			return false;
+		}
+		if ( opened )
+		{
+			player.AddExpandedCraftingCategory( categoryName );
+		}
+		else
+		{
+			player.RemoveExpandedCraftingCategory( categoryName );
+		}
+
+		
+		super.OnCategoryOpened( categoryName, opened );
 	}
 	
 	public function BuyIngredient( itemId : SItemUniqueId, quantity : int, isLastItem : bool ) : void
@@ -446,6 +468,11 @@ class CR4CraftingMenu extends CR4ListBaseMenu
 		var lvlDiff 				: int;
 		var reqLevelColor			:string;
 		var playerLevel 			: int;
+		
+		var expandedCraftingCategories : array< name >;
+		
+		expandedCraftingCategories = GetWitcherPlayer().GetExpandedCraftingCategories();
+		
 		l_DataFlashArray = m_flashValueStorage.CreateTempFlashArray();
 		length = m_schematicList.Size();
 		
@@ -519,15 +546,27 @@ class CR4CraftingMenu extends CR4ListBaseMenu
 				
 				if( m_definitionsManager.IsItemAnyArmor( schematic.craftedItemName ) || m_definitionsManager.IsItemWeapon( schematic.craftedItemName ) )
 				{
-						itemLevel = m_definitionsManager.GetItemLevelFromName( schematic.craftedItemName );
-						playerLevel = thePlayer.GetLevel();
-						lvlDiff = itemLevel - thePlayer.GetLevel();
-						if 		( lvlDiff > 0 ) { reqLevelColor = "<font color='#d61010'>";  }
-						else if ( lvlDiff >= -5 )  { reqLevelColor = "<font color='#ffffff'>";  }
-						else	{ reqLevelColor = "<font color='#969696'>"; }	
-				
-						itemLevelString = reqLevelColor + itemLevel + "</font>";
+					itemLevel = m_definitionsManager.GetItemLevelFromName( schematic.craftedItemName );
 					
+					if ( FactsQuerySum("NewGamePlus") > 0 )
+					{
+						if ( theGame.params.NewGamePlusLevelDifference() > 0 )
+						{
+							itemLevel += theGame.params.NewGamePlusLevelDifference();
+							if ( itemLevel > GetWitcherPlayer().GetMaxLevel() ) 
+							{
+								itemLevel = GetWitcherPlayer().GetMaxLevel();
+							}
+						}
+					}
+					
+					playerLevel = thePlayer.GetLevel();
+					lvlDiff = itemLevel - thePlayer.GetLevel();
+					if 		( lvlDiff > 0 ) { reqLevelColor = "<font color='#d61010'>";  }
+					else if ( lvlDiff >= -5 )  { reqLevelColor = "<font color='#ffffff'>";  }
+					else	{ reqLevelColor = "<font color='#969696'>"; }	
+					
+					itemLevelString = reqLevelColor + itemLevel + "</font>";
 				}
 				else
 				{
@@ -537,7 +576,7 @@ class CR4CraftingMenu extends CR4ListBaseMenu
 				l_DataFlashObject.SetMemberFlashUInt(  "tag", NameToFlashUInt(l_Tag) );
 				l_DataFlashObject.SetMemberFlashString(  "dropDownLabel", l_GroupTitle );
 				l_DataFlashObject.SetMemberFlashUInt(  "dropDownTag",  NameToFlashUInt(l_GroupTag) );
-				l_DataFlashObject.SetMemberFlashBool(  "dropDownOpened", true ); 
+				l_DataFlashObject.SetMemberFlashBool(  "dropDownOpened",  expandedCraftingCategories.Contains( l_GroupTag ) );
 				l_DataFlashObject.SetMemberFlashString(  "dropDownIcon", "icons/monsters/ICO_MonsterDefault.png" );
 				
 				l_DataFlashObject.SetMemberFlashBool( "isNew", l_IsNew );

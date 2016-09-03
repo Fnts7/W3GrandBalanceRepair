@@ -89,6 +89,28 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		}
 	}
 	
+	event OnCategoryOpened( categoryName : name, opened : bool )
+	{
+		var player : W3PlayerWitcher;
+
+		player = GetWitcherPlayer();
+		if ( !player )
+		{
+			return false;
+		}
+		if ( opened )
+		{
+			player.AddExpandedBestiaryCategory( categoryName );
+		}
+		else
+		{
+			player.RemoveExpandedBestiaryCategory( categoryName );
+		}
+
+		
+		super.OnCategoryOpened( categoryName, opened );
+	}
+	
 	function UpdateImage( entryName : name )
 	{
 		var creature : CJournalCreature;
@@ -135,6 +157,10 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 		var l_GroupTitle			: string;
 		var l_IsNew					: bool;
 		
+		var expandedBestiaryCategories : array< name >;
+		
+		expandedBestiaryCategories = GetWitcherPlayer().GetExpandedBestiaryCategories();
+		
 		l_DataFlashArray = m_flashValueStorage.CreateTempFlashArray();
 		length = allCreatures.Size();
 		
@@ -156,7 +182,7 @@ class CR4GlossaryBestiaryMenu extends CR4ListBaseMenu
 			l_DataFlashObject.SetMemberFlashUInt(  "tag", NameToFlashUInt(l_Tag) );
 			l_DataFlashObject.SetMemberFlashString(  "dropDownLabel", l_GroupTitle );
 			l_DataFlashObject.SetMemberFlashUInt(  "dropDownTag",  NameToFlashUInt(l_CategoryTag) );
-			l_DataFlashObject.SetMemberFlashBool(  "dropDownOpened", IsCategoryOpened( l_CategoryTag ) );
+			l_DataFlashObject.SetMemberFlashBool(  "dropDownOpened", expandedBestiaryCategories.Contains( l_CategoryTag ) );
 			l_DataFlashObject.SetMemberFlashString(  "dropDownIcon", "icons/monsters/ICO_MonsterDefault.png" );
 			
 			l_DataFlashObject.SetMemberFlashBool( "isNew", l_IsNew );

@@ -148,6 +148,10 @@
       <ability name="GroundSlam" on_added="" on_ended="">
         <tags> "GroundSlam", MonsterSkill </tags>
       </ability>
+	  <ability name="HitWindowOpened">
+		<tags> "HitWindowOpened" </tags>
+		<fire_resistance_perc type="add" min="-0.5" max="-0.5" />
+	  </ability>
       <ability name="HeartPhysicalRes" on_added="" on_ended="">
         <tags> "HeartPhysicalRes" </tags>
         <physical_resistance_perc type="base" min="1.0" max="1.0" />

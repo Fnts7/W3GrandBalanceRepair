@@ -71,9 +71,6 @@ class CR4CharacterMenu extends CR4MenuBase
 	private var m_fxConfirmMutResearch	 : CScriptedFlashFunction;
 	private var m_fxResetInput	 		 : CScriptedFlashFunction;
 	
-	private var resRedMutagenList		: array<SItemUniqueId>;
-	private var resBlueMutagenList		: array<SItemUniqueId>;
-	private var resGreenMutagenList		: array<SItemUniqueId>;
 	
 	private var m_mutationBonusMode		 : bool;
 	default m_mutationBonusMode = false;
@@ -251,14 +248,9 @@ class CR4CharacterMenu extends CR4MenuBase
 		OnPlaySoundEvent( "gui_global_panel_close" );
 	}
 	
-	private function ResearchMutagen( mutationId : int, count : int, itemsList : array< SItemUniqueId > )
+	private function ResearchMutagen( mutationId : int, count : int, itemName : name )
 	{
-		var i : int;
-		
-		for( i = 0; i < count; i+=1 )
-		{
-			GetWitcherPlayer().MutationResearchWithItem( mutationId, itemsList.PopBack() );
-		}
+		GetWitcherPlayer().MutationResearchWithItem( mutationId, thePlayer.inv.GetFirstUnusedMutagenByName( itemName ), count );
 	}
 	
 	private function UpdateMasterMutation():void
@@ -302,19 +294,19 @@ class CR4CharacterMenu extends CR4MenuBase
 		
 		if( red > 0 )
 		{
-			ResearchMutagen( mutationId, red, resRedMutagenList );
+			ResearchMutagen( mutationId, red, 'Greater mutagen red'  ); 
 			isChanged = true;
 		}
 		
 		if( green > 0 )
 		{
-			ResearchMutagen( mutationId, green, resGreenMutagenList );
+			ResearchMutagen( mutationId, green, 'Greater mutagen green' ); 
 			isChanged = true;
 		}
 		
 		if( blue > 0 )
 		{
-			ResearchMutagen( mutationId, blue, resBlueMutagenList );
+			ResearchMutagen( mutationId, blue, 'Greater mutagen blue' ); 
 			isChanged = true;
 		}
 		
@@ -445,12 +437,6 @@ class CR4CharacterMenu extends CR4MenuBase
 		var mutationData       : CScriptedFlashObject;
 		var count              : int;
 		var curMutationId      : int;
-		
-		resRedMutagenList = thePlayer.inv.GetItemsByName( 'Greater mutagen red' );		
-		resRedMutagenList = filterMutagens( resRedMutagenList );
-		
-		resBlueMutagenList = filterMutagens(thePlayer.inv.GetItemsByName( 'Greater mutagen blue' ));
-		resGreenMutagenList = filterMutagens(thePlayer.inv.GetItemsByName( 'Greater mutagen green' ));
 		
 		mutationsList = m_flashValueStorage.CreateTempFlashArray();
 		
@@ -719,8 +705,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			mutationResourceData.SetMemberFlashInt( "used", curProgress.greenUsed );
 			mutationResourceData.SetMemberFlashInt( "required", curProgress.greenRequired );
 			
-			avaliableGreen = resGreenMutagenList.Size();
-			
+			avaliableGreen = thePlayer.inv.GetUnusedMutagensCount('Greater mutagen green');
 			AddItemResearchData( mutationResourceData, 'Greater mutagen green', SC_Green );
 			mutationResourceData.SetMemberFlashInt( "avaliableResources", avaliableGreen );
 			
@@ -733,7 +718,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			mutationResourceData.SetMemberFlashInt( "used", curProgress.redUsed );
 			mutationResourceData.SetMemberFlashInt( "required", curProgress.redRequired );
 			
-			avaliableRed = resRedMutagenList.Size();
+			avaliableRed = thePlayer.inv.GetUnusedMutagensCount('Greater mutagen red');
 			AddItemResearchData( mutationResourceData, 'Greater mutagen red', SC_Red );
 			mutationResourceData.SetMemberFlashInt( "avaliableResources", avaliableRed );
 			
@@ -746,7 +731,7 @@ class CR4CharacterMenu extends CR4MenuBase
 			mutationResourceData.SetMemberFlashInt( "used", curProgress.blueUsed );
 			mutationResourceData.SetMemberFlashInt( "required", curProgress.blueRequired );
 			
-			avaliableBlue = resBlueMutagenList.Size();
+			avaliableBlue = thePlayer.inv.GetUnusedMutagensCount('Greater mutagen blue');
 			AddItemResearchData( mutationResourceData, 'Greater mutagen blue', SC_Blue );
 			mutationResourceData.SetMemberFlashInt( "avaliableResources", avaliableBlue );
 			mutationResourceList.PushBackFlashObject( mutationResourceData );
@@ -768,6 +753,8 @@ class CR4CharacterMenu extends CR4MenuBase
 		
 		return mutationData;
 	}
+	
+	
 	
 	private function AddItemResearchData( out flashDataObj : CScriptedFlashObject, itemName : name, optional resourceColor : ESkillColor )
 	{
@@ -1092,6 +1079,29 @@ class CR4CharacterMenu extends CR4MenuBase
 		}
 	}
 	
+	event  OnMoveMutagenToEmptySlot(itemID:SItemUniqueId, slotFrom:EEquipmentSlots, slotTo:EEquipmentSlots)
+	{
+		if (thePlayer.IsInCombat())
+		{
+			showNotification(GetLocStringByKeyExt("menu_cannot_perform_action_combat"));
+			OnPlaySoundEvent("gui_global_denied");
+		}
+		else
+		{
+			OnPlaySoundEvent("gui_character_place_mutagen");
+			
+			GetWitcherPlayer().MoveMutagenToSlot(itemID, slotFrom, slotTo);
+			
+			UpdateMutagens();
+			UpdateGroupsData();
+			PopulateTabData(CharacterMenuTab_Mutagens);
+			UpdatePlayerStatisticsData();
+			UpdateMasterMutation();
+			
+			m_fxPaperdollChanged.InvokeSelf();
+		}
+	}
+	
 	event  OnEquipMutagen(itemID:SItemUniqueId, slotId:EEquipmentSlots)
 	{
 		if (thePlayer.IsInCombat())
@@ -1118,6 +1128,7 @@ class CR4CharacterMenu extends CR4MenuBase
 	event  OnUnequipMutagen(slotID : int)
 	{
 		var mutagen : SItemUniqueId;
+		
 		if (thePlayer.IsInCombat())
 		{
 			showNotification(GetLocStringByKeyExt("menu_cannot_perform_action_combat"));
