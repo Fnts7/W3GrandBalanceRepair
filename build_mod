@@ -33,7 +33,8 @@ then
 	exit
 fi
 
-modContentPath=$1"/Packed/modGrandBalanceRepairCombat/content"
+modReadyFolder=$1"/Packed/modGrandBalanceRepairCombat"
+modContentPath=$modReadyFolder"/content"
 
 inXMLPath="Uncooked"
 inScriptPath="Script/scripts"
@@ -43,19 +44,36 @@ outScriptPath=$modContentPath"/scripts"
 outXmlPath1=$1"/Uncooked"
 outXmlPath2=$1"/Cooked"
 
-for i in "${scriptFile[@]}"
-do
-	cp $inScriptPath$i $outScriptPath$i
-done
+if [ ${#scriptFile[@]} != 0 ];
+then
+	for i in "${scriptFile[@]}"
+	do
+		cp $inScriptPath$i $outScriptPath$i
+	done
+fi
 
-for i in "${assetFile[@]}"
-do
-	cp $inXMLPath$i $outXmlPath1$i
-	cp $inXMLPath$i $outXmlPath2$i
-done
+if [ ${#assetFile[@]} != 0 ];
+then
+	for i in "${assetFile[@]}"
+	do
+		cp $inXMLPath$i $outXmlPath1$i
+		cp $inXMLPath$i $outXmlPath2$i
+	done
+fi
+
+if [ -d "ModRes/strings" ]; then
+	cp -r ModRes/strings/* $modContentPath
+fi
+
+if [ -d "ModRes/bin" ]; then
+	cp -r ModRes/bin $modReadyFolder
+fi
 
 echo "Files copied OK."
 
-wcc_lite cook -platform=pc -mod=$outXmlPath1 -basedir=$outXmlPath1 -outdir=$outXmlPath2
-wcc_lite pack -dir=$outXmlPath2 -outdir=$modContentPath
-wcc_lite metadatastore -path=$modContentPath
+if [ ${#assetFile[@]} != 0 ];
+then
+	wcc_lite cook -platform=pc -mod=$outXmlPath1 -basedir=$outXmlPath1 -outdir=$outXmlPath2
+	wcc_lite pack -dir=$outXmlPath2 -outdir=$modContentPath
+	wcc_lite metadatastore -path=$modContentPath
+fi

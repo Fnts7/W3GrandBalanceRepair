@@ -11,9 +11,16 @@ statemachine class W3PlayerWitcher extends CR4Player
 {	
 	
 	private saved var craftingSchematics				: array<name>; 					
+	private saved var expandedCraftingCategories		: array<name>;
+	private saved var craftingFilters : SCraftingFilters;
 	
 	
 	private saved var alchemyRecipes 					: array<name>; 					
+	private saved var expandedAlchemyCategories			: array<name>;
+	private saved var alchemyFilters : SCraftingFilters;
+	
+	
+	private saved var expandedBestiaryCategories		: array<name>;
 	
 	
 	private saved var booksRead 						: array<name>; 					
@@ -307,6 +314,11 @@ statemachine class W3PlayerWitcher extends CR4Player
 			FactsAdd( "new_game_started_in_1_20" );
 		}
 		
+		if ( spawnData.restored )
+		{
+			FixEquippedMutagens();
+		}
+		
 		if ( FactsQuerySum("NewGamePlus") > 0 )
 		{
 			NewGamePlusAdjustDLC1TemerianSet(inv);
@@ -349,7 +361,11 @@ statemachine class W3PlayerWitcher extends CR4Player
 			
 			
 			RemoveBuff( EET_Mutation11Immortal );
+			RemoveBuff( EET_Mutation11Buff );
 		}
+		
+		
+		theGame.GameplayFactsAdd( "PlayerIsGeralt" );
 		
 		isInitialized = true;
 	}
@@ -494,7 +510,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	private final function ApplyPatchFixes()
 	{
-		var cnt, transmutationCount, mutagenCount, i : int;
+		var cnt, transmutationCount, mutagenCount, i, slot : int;
 		var transmutationAbility, itemName : name;
 		var pam : W3PlayerAbilityManager;
 		var slotId : int;
@@ -678,8 +694,110 @@ statemachine class W3PlayerWitcher extends CR4Player
 			
 			FactsAdd( "Patch_Decoction_Buff_Icons" );
 		}
+		
+		
+		if( FactsQuerySum( "154997" ) < 1 )
+		{
+			if( IsSkillEquipped( S_Alchemy_s18 ) )
+			{
+				slot = GetSkillSlotID( S_Alchemy_s18 );
+				UnequipSkill( slot );
+				EquipSkill( S_Alchemy_s18, slot );
+			}
+			FactsAdd( "154997" );
+		}
+		if( FactsQuerySum( "Patch_Mutagen_Ing_Stacking" ) < 1 )
+		{
+			Patch_MutagenStacking();		
+			FactsAdd( "Patch_Mutagen_Ing_Stacking" );
+		}
 	}
 	
+	private final function Patch_MutagenStacking()
+	{
+		var i, j, quantity : int;
+		var muts : array< SItemUniqueId >;
+		var item : SItemUniqueId;
+		var mutName : name;
+		var wasInArray : bool;
+		var mutsToAdd : array< SItemParts >;
+		var mutToAdd : SItemParts;
+		
+		muts = inv.GetItemsByTag( 'MutagenIngredient' );
+		if( GetItemEquippedOnSlot( EES_SkillMutagen1, item ) )
+		{
+			muts.Remove( item );
+			inv.SetItemStackable( item, false );
+		}
+		if( GetItemEquippedOnSlot( EES_SkillMutagen2, item ) )
+		{
+			muts.Remove( item );
+			inv.SetItemStackable( item, false );
+		}
+		if( GetItemEquippedOnSlot( EES_SkillMutagen3, item ) )
+		{
+			muts.Remove( item );
+			inv.SetItemStackable( item, false );
+		}
+		if( GetItemEquippedOnSlot( EES_SkillMutagen4, item ) )
+		{
+			muts.Remove( item );
+			inv.SetItemStackable( item, false );
+		}
+		
+		for( i=0; i<muts.Size(); i+=1 )
+		{
+			mutName = inv.GetItemName( muts[i] );
+			quantity = inv.GetItemQuantity( muts[i] );
+			
+			wasInArray = false;
+			for( j=0; j<mutsToAdd.Size(); j+=1 )
+			{
+				if( mutsToAdd[j].itemName == mutName )
+				{
+					mutsToAdd[j].quantity += quantity;
+					wasInArray = true;
+					break;
+				}
+			}
+			
+			if( !wasInArray )
+			{
+				mutToAdd.itemName = mutName;
+				mutToAdd.quantity = quantity;
+				mutsToAdd.PushBack( mutToAdd );
+			}
+			
+			inv.RemoveItem( muts[i], quantity );
+		}
+		
+		for( i=0; i<mutsToAdd.Size(); i+=1 )
+		{
+			inv.AddAnItem( mutsToAdd[i].itemName, mutsToAdd[i].quantity, true, true );
+		}
+	}
+	
+	private function FixEquippedMutagens()
+	{
+		var item : SItemUniqueId;
+		if( GetItemEquippedOnSlot( EES_SkillMutagen1, item ) )
+		{
+			inv.SetItemStackable( item, false );
+		}
+		if( GetItemEquippedOnSlot( EES_SkillMutagen2, item ) )
+		{
+			inv.SetItemStackable( item, false );
+		}
+		if( GetItemEquippedOnSlot( EES_SkillMutagen3, item ) )
+		{
+			inv.SetItemStackable( item, false );
+		}
+		if( GetItemEquippedOnSlot( EES_SkillMutagen4, item ) )
+		{
+			inv.SetItemStackable( item, false );
+		}
+	}
+
 	public final function RestoreQuen( quenHealth : float, quenDuration : float, optional alternate : bool ) : bool
 	{
 		var restoredQuen 	: W3QuenEntity;
@@ -2142,11 +2260,6 @@ statemachine class W3PlayerWitcher extends CR4Player
 		attackAction = (W3Action_Attack)action;
 		actorVictim = (CActor)action.victim;
 		
-		if( !actorVictim.IsAlive() )
-		{
-			return false;
-		}
-		
 		if(attackAction)
 		{
 			if(attackAction.IsActionMelee())
@@ -2486,6 +2599,11 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		else if( IsMutationActive( EPMT_Mutation10 ) )
 		{
+			if( !HasBuff( EET_Mutation10 ) && GetStat( BCS_Toxicity ) > 0.f )
+			{
+				AddEffectDefault( EET_Mutation10, this, "Mutation 10" );
+			}
+			
 			
 			PlayEffect( 'mutation_10' );
 			
@@ -3256,6 +3374,47 @@ statemachine class W3PlayerWitcher extends CR4Player
 		}
 	}
 	
+	public function GetExpandedCraftingCategories() : array< name >
+	{
+		return expandedCraftingCategories;
+	}
+	
+	public function AddExpandedCraftingCategory( category : name )
+	{
+		if ( IsNameValid( category ) )
+		{
+			ArrayOfNamesPushBackUnique( expandedCraftingCategories, category );
+		}
+	}
+
+	public function RemoveExpandedCraftingCategory( category : name )
+	{
+		if ( IsNameValid( category ) )
+		{
+			expandedCraftingCategories.Remove( category );
+		}
+	}
+	
+	public function SetCraftingFilters(showHasIngre : bool, showMissingIngre : bool, showAlreadyCrafted : bool )
+	{
+		craftingFilters.showCraftable = showHasIngre;
+		craftingFilters.showMissingIngre = showMissingIngre;
+		craftingFilters.showAlreadyCrafted = showAlreadyCrafted;
+	}
+	
+	public function GetCraftingFilters() : SCraftingFilters
+	{
+		
+		if ( craftingFilters.showCraftable == false && craftingFilters.showMissingIngre == false && craftingFilters.showAlreadyCrafted == false )
+		{
+			craftingFilters.showCraftable = true;
+			craftingFilters.showMissingIngre = true;
+			craftingFilters.showAlreadyCrafted = false;
+		}
+		
+		return craftingFilters;
+	}
+
 	
 	
 	
@@ -3655,9 +3814,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 		return ( ( W3PlayerAbilityManager ) abilityManager ).MutationResearchWithSkillPoints( mutation, skillPoints );
 	}
 	
-	public final function MutationResearchWithItem(mutation : EPlayerMutationType, item : SItemUniqueId) : bool
+	public final function MutationResearchWithItem(mutation : EPlayerMutationType, item : SItemUniqueId, optional count: int) : bool
 	{
-		return ( ( W3PlayerAbilityManager ) abilityManager ).MutationResearchWithItem( mutation, item );
+		return ( ( W3PlayerAbilityManager ) abilityManager ).MutationResearchWithItem( mutation, item, count );
 	}
 	
 	public final function GetMutationLocalizedName( mutationType : EPlayerMutationType ) : string
@@ -4010,7 +4169,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(CanUseSkill(S_Alchemy_s18))
 		{
-			if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
+			if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.cookedItemType != EACIT_Dye) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
 				AddAbility(SkillEnumToName(S_Alchemy_s18), true);
 			
 		}
@@ -4058,6 +4217,74 @@ statemachine class W3PlayerWitcher extends CR4Player
 		theGame.GetGlobalEventsManager().OnScriptedEvent( SEC_AlchemyRecipe );
 				
 		return true;
+	}
+	
+	public function GetExpandedAlchemyCategories() : array< name >
+	{
+		return expandedAlchemyCategories;
+	}
+	
+	public function AddExpandedAlchemyCategory( category : name )
+	{
+		if ( IsNameValid( category ) )
+		{
+			ArrayOfNamesPushBackUnique( expandedAlchemyCategories, category );
+		}
+	}
+
+	public function RemoveExpandedAlchemyCategory( category : name )
+	{
+		if ( IsNameValid( category ) )
+		{
+			expandedAlchemyCategories.Remove( category );
+		}
+	}
+	
+	public function SetAlchemyFilters(showHasIngre : bool, showMissingIngre : bool, showAlreadyCrafted : bool )
+	{
+		alchemyFilters.showCraftable = showHasIngre;
+		alchemyFilters.showMissingIngre = showMissingIngre;
+		alchemyFilters.showAlreadyCrafted = showAlreadyCrafted;
+	}
+	
+	public function GetAlchemyFilters() : SCraftingFilters
+	{
+		
+		if ( alchemyFilters.showCraftable == false && alchemyFilters.showMissingIngre == false && alchemyFilters.showAlreadyCrafted == false )
+		{
+			alchemyFilters.showCraftable = true;
+			alchemyFilters.showMissingIngre = true;
+			alchemyFilters.showAlreadyCrafted = false;
+		}
+
+		return alchemyFilters;
+	}
+	
+	
+	
+	
+	
+	
+
+	public function GetExpandedBestiaryCategories() : array< name >
+	{
+		return expandedBestiaryCategories;
+	}
+	
+	public function AddExpandedBestiaryCategory( category : name )
+	{
+		if ( IsNameValid( category ) )
+		{
+			ArrayOfNamesPushBackUnique( expandedBestiaryCategories, category );
+		}
+	}
+
+	public function RemoveExpandedBestiaryCategory( category : name )
+	{
+		if ( IsNameValid( category ) )
+		{
+			expandedBestiaryCategories.Remove( category );
+		}
 	}
 	
 	
@@ -4589,9 +4816,14 @@ statemachine class W3PlayerWitcher extends CR4Player
 		previouslyUsedBolt = GetInvalidUniqueId();
 	}
 	
+	public function ShouldUseInfiniteWaterBolts() : bool
+	{
+		return GetCurrentStateName() == 'Swimming' || IsSwimming() || IsDiving();
+	}
+	
 	public function GetCurrentInfiniteBoltName( optional forceBodkin : bool, optional forceHarpoon : bool ) : name
 	{
-		if(!forceBodkin && (forceHarpoon || GetCurrentStateName() == 'Swimming' || IsSwimming() || IsDiving()) )
+		if(!forceBodkin && (forceHarpoon || ShouldUseInfiniteWaterBolts()) )
 		{
 			return 'Harpoon Bolt';
 		}
@@ -5070,7 +5302,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	public function EquipItemInGivenSlot(item : SItemUniqueId, slot : EEquipmentSlots, ignoreMounting : bool, optional toHand : bool) : bool
 	{			
-		var i, groupID : int;
+		var i, groupID, quantity : int;
 		var fistsID : array<SItemUniqueId>;
 		var pam : W3PlayerAbilityManager;
 		var isSkillMutagen : bool;		
@@ -5227,11 +5459,22 @@ statemachine class W3PlayerWitcher extends CR4Player
 		}		
 		
 		else if(isSkillMutagen)
-		{			
+		{
+			theGame.GetGuiManager().IgnoreNewItemNotifications( true );
+			
+			
+			quantity = inv.GetItemQuantity( item );
+			if( quantity > 1 )
+			{
+				inv.SplitItem( item, quantity - 1 );
+			}
+			
 			pam.OnSkillMutagenEquipped(item, slot, prevSkillColor);
 			LogSkillColors("Mutagen <<" + inv.GetItemName(item) + ">> equipped to slot <<" + slot + ">>");
 			LogSkillColors("Group bonus color is now <<" + pam.GetSkillGroupColor(groupID) + ">>");
 			LogSkillColors("");
+			
+			theGame.GetGuiManager().IgnoreNewItemNotifications( false );
 		}
 		else if(slot == EES_Gloves && HasWeaponDrawn(false))
 		{
@@ -5423,6 +5666,28 @@ statemachine class W3PlayerWitcher extends CR4Player
 			items.PushBack(item);
 
 		return items;			
+	}
+	
+	public function MoveMutagenToSlot( item : SItemUniqueId, slotFrom : EEquipmentSlots, slotTo : EEquipmentSlots )
+	{
+		var pam : W3PlayerAbilityManager;
+		var prevSkillColor : ESkillColor;
+		var groupID : int;
+		
+		if( IsSlotSkillMutagen( slotTo ) )
+		{	
+			itemSlots[slotFrom] = GetInvalidUniqueId();
+			
+			
+			groupID = pam.GetSkillGroupIdOfMutagenSlot(slotFrom);
+			prevSkillColor = pam.GetSkillGroupColor(groupID);
+			pam = (W3PlayerAbilityManager)abilityManager;
+			pam.OnSkillMutagenUnequipped(item, slotFrom, prevSkillColor, true);
+			
+			
+			
+			EquipItemInGivenSlot( item, slotTo, false );
+		}
 	}
 	
 	
@@ -9280,7 +9545,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 				tutorialStateSets.OnSetBonusCompleted();
 			}
 		}
-		else
+		else if( amountOfSetPiecesEquipped[ setType ] > 0 )
 		{
 			amountOfSetPiecesEquipped[ setType ] -= 1;
 		}

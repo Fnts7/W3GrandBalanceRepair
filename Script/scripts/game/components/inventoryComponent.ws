@@ -245,6 +245,19 @@ import class CInventoryComponent extends CComponent
 	
 	
 	
+	import final function SplitItem( itemID : SItemUniqueId, quantity : int ) : SItemUniqueId;
+	
+	
+	
+	import final function SetItemStackable( itemID : SItemUniqueId, flag : bool );
+	
+	
+	import final function GetCategoryDefaultItem( category : name ) : name;
+	
+	
+	
+	
+	
 	
 	import final function GetItemLocalizedNameByName( itemName : CName ) : string;
 	
@@ -294,7 +307,7 @@ import class CInventoryComponent extends CComponent
 		var itemName : name;
 		var isWitcherGear : bool;
 		var isRelicGear : bool;
-		var level : int;
+		var level, baseLevel : int;
 		
 		itemCategory = GetItemCategory(item);
 		itemName = GetItemName(item);
@@ -340,13 +353,29 @@ import class CInventoryComponent extends CComponent
 				break;
 		}
 		
-		level = theGame.params.GetItemLevel(itemCategory, itemAttributes, itemName);
+		level = theGame.params.GetItemLevel(itemCategory, itemAttributes, itemName, baseLevel);
+		
+		if ( FactsQuerySum("NewGamePlus") > 0 )
+		{
+			if ( baseLevel > GetWitcherPlayer().GetMaxLevel() ) 
+			{
+				level = baseLevel;
+			}
+		}
 		
 		if ( isWitcherGear ) level = level - 2;
 		if ( isRelicGear ) level = level - 1;
 		if ( level < 1 ) level = 1;
 		if ( ItemHasTag(item, 'OlgierdSabre') ) level = level - 3;
 		if ( (isRelicGear || isWitcherGear) && ItemHasTag(item, 'EP1') ) level = level - 1;
+		
+		if ( FactsQuerySum("NewGamePlus") > 0 )
+		{
+			if ( level > GetWitcherPlayer().GetMaxLevel() ) 
+			{
+				level = GetWitcherPlayer().GetMaxLevel();
+			}
+		}
 		
 		return level;
     }
@@ -4117,6 +4146,17 @@ import class CInventoryComponent extends CComponent
 		return items;		
 	}	
 	
+
+	event OnItemAboutToGive( itemId : SItemUniqueId, quantity : int )
+	{
+		if(GetEntity() == GetWitcherPlayer())
+		{
+			if( IsItemSteelSwordUsableByPlayer( itemId ) || IsItemSilverSwordUsableByPlayer( itemId ) )
+			{
+				RemoveAllOilsFromItem( itemId );
+			}
+		}
+	}
 	
 	
 	event OnItemRemoved( itemId : SItemUniqueId, quantity : int )
@@ -4164,6 +4204,10 @@ import class CInventoryComponent extends CComponent
 				{
 					witcher.HideUsableItem(true);
 				}
+			}
+			if( IsItemSteelSwordUsableByPlayer( itemId ) || IsItemSilverSwordUsableByPlayer( itemId ) )
+			{
+				RemoveAllOilsFromItem( itemId );
 			}
 			
 			
@@ -5411,6 +5455,95 @@ import class CInventoryComponent extends CComponent
 		
 		return almanacContents;
 	}
+	
+	public function GetUnusedMutagensCount(itemName:name):int
+	{
+		var items  : array<SItemUniqueId>;
+		var equippedOnSlot : EEquipmentSlots;
+		var availableCount : int;
+		var res, i : int = 0;
+		
+		items = thePlayer.inv.GetItemsByName(itemName);
+		
+		for(i=0; i<items.Size(); i+=1)
+		{
+			equippedOnSlot = GetWitcherPlayer().GetItemSlot( items[i] );			
+			
+			if(equippedOnSlot == EES_InvalidSlot)
+			{
+				availableCount = thePlayer.inv.GetItemQuantity( items[i] );
+				res = res + availableCount;
+			}
+		}
+		
+		return res;
+	}
+	
+	public function GetFirstUnusedMutagenByName( itemName : name ):SItemUniqueId
+	{
+		var items  : array<SItemUniqueId>;
+		var equippedOnSlot : EEquipmentSlots;
+		var availableCount : int;
+		var res, i : int = 0;
+		
+		items = thePlayer.inv.GetItemsByName(itemName);
+		
+		for(i=0; i<items.Size(); i+=1)
+		{
+			equippedOnSlot = GetWitcherPlayer().GetItemSlot( items[i] );			
+			
+			if( equippedOnSlot == EES_InvalidSlot )
+			{
+				return items[i];
+			}
+		}
+		
+		return GetInvalidUniqueId();
+	}
+	
+	public function RemoveUnusedMutagensCountById( itemId:SItemUniqueId, count:int ):void
+	{
+		RemoveUnusedMutagensCount( thePlayer.inv.GetItemName( itemId ), count );
+	}
+	
+	public function RemoveUnusedMutagensCount( itemName:name, count:int ):void
+	{
+		var items  			: array<SItemUniqueId>;
+		var curItem 		: SItemUniqueId;
+		var equippedOnSlot  : EEquipmentSlots;
+		
+		var i			 	   : int;
+		var itemRemoved 	   : int;
+		var availableToRemoved : int;
+		var removedRes		   : bool;
+		
+		itemRemoved = 0;
+		items = thePlayer.inv.GetItemsByName( itemName );
+		
+		for( i=0; i < items.Size(); i+=1 )
+		{
+			curItem = items[ i ];
+			equippedOnSlot = GetWitcherPlayer().GetItemSlot( curItem );
+			
+			if( equippedOnSlot == EES_InvalidSlot )
+			{
+				availableToRemoved = Min( thePlayer.inv.GetItemQuantity( curItem ), ( count - itemRemoved ) );
+				removedRes = thePlayer.inv.RemoveItem(items[i], availableToRemoved);
+				
+				if (removedRes)
+				{
+					itemRemoved = itemRemoved + availableToRemoved;
+					
+					if (itemRemoved >= count)
+					{
+						return;
+					}
+				}
+				
+			}
+		}		
+	}
+	
 }
 
 exec function findMissingCards( optional card : name )

@@ -2375,7 +2375,7 @@
 	  
 	    <ability name="mon_EP2_Troll">
 	    <essence type="mult" always_random="false" min="1.0" max="1.0" />
-		<attack_power type="mult" always_random="false" min="0.4" max="0.4" />
+		<attack_power type="mult" always_random="false" min="-0.5" max="-0.5" />
 		<burning_DoT_damage_resistance_perc type="add" min="0.6" max="0.6" />
       </ability>
 	  

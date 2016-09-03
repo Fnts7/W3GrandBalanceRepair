@@ -1080,3 +1080,19 @@ class BTTaskIsPlayerReachableDef extends IBehTreeTaskDefinition
 {
 	default instanceClass = 'BTTaskIsPlayerReachable';
 }
+
+
+
+
+class BTCondIsInvulnerable extends IBehTreeTask
+{
+	function IsAvailable() : bool
+	{
+		return GetNPC().IsInvulnerable();
+	}
+}
+
+class BTCondIsInvulnerableDef extends IBehTreeTaskDefinition
+{
+	default instanceClass = 'BTCondIsInvulnerable';
+}
