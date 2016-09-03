@@ -100,7 +100,7 @@ class W3LevelManager
 		if( bFromLoad && usedPoints < expForCurrentLevel )
 		{
 			
-			if( theGame.IsNewGameInStandaloneDLCMode() && FactsQuerySum( "standalone_ep1" ) > 0 )
+			if( FactsQuerySum( "standalone_ep1" ) > 0 )
 			{
 				points[EExperiencePoint].used = expForCurrentLevel;
 				expDiff = expForCurrentLevel - usedPoints;

@@ -149,6 +149,7 @@ class W3AlchemyManager
 		var items  : array<SItemUniqueId>;
 		var itemType : string;
 		var itemName : name;
+		var dm : CDefinitionsManagerAccessor;
 		
 		if(!GetRecipe(recipeName, recipe))
 			return EAE_NoRecipe;
@@ -181,14 +182,28 @@ class W3AlchemyManager
 						return EAE_CannotCookMore;
 				}
 			}
-		}		
+		}
+		
+		dm = theGame.GetDefinitionsManager();
 		
 		
 		for(i=0; i<recipe.requiredIngredients.Size(); i+=1)
 		{
-			cnt = thePlayer.inv.GetItemQuantityByName(recipe.requiredIngredients[i].itemName);
+			itemName = recipe.requiredIngredients[i].itemName;
+			
+			if (dm.ItemHasTag( itemName, 'MutagenIngredient' ))
+			{
+				cnt = thePlayer.inv.GetUnusedMutagensCount(itemName);
+			}
+			else
+			{
+				cnt = thePlayer.inv.GetItemQuantityByName(itemName);
+			}
+			
 			if(cnt < recipe.requiredIngredients[i].quantity)
+			{
 				return EAE_NotEnoughIngredients;
+			}			
 		}
 		return EAE_NoException;
 	}
@@ -208,6 +223,7 @@ class W3AlchemyManager
 		var isPotion, isSingletonItem : bool;
 		var witcher : W3PlayerWitcher;
 		var equippedOnSlot : EEquipmentSlots;
+		var itemName:name;
 		
 		GetRecipe(recipeName, recipe);
 		
@@ -219,7 +235,7 @@ class W3AlchemyManager
 		
 		if(recipe.cookedItemType == EACIT_Bomb && GetWitcherPlayer().CanUseSkill(S_Alchemy_s08))
 			quantity += GetWitcherPlayer().GetSkillLevel(S_Alchemy_s08);
-				
+		
 		
 		isSingletonItem = dm.IsItemSingletonItem(recipe.cookedItemName);
 		if(isSingletonItem && thePlayer.inv.GetItemQuantityByName(recipe.cookedItemName) > 0 )
@@ -245,21 +261,31 @@ class W3AlchemyManager
 		
 		for(i=0; i<recipe.requiredIngredients.Size(); i+=1)
 		{
+			itemName = recipe.requiredIngredients[i].itemName;
 			
-			if(dm.IsItemAlchemyItem(recipe.requiredIngredients[i].itemName))
+			
+			
+			if( dm.ItemHasTag( itemName, 'MutagenIngredient' ) )
+			{
+				thePlayer.inv.RemoveUnusedMutagensCount( itemName, recipe.requiredIngredients[i].quantity);
+			}
+			else if( dm.IsItemAlchemyItem( itemName ))
 			{
 				removedIngQuantity = 0;
-				alchIngs = thePlayer.inv.GetItemsByName(recipe.requiredIngredients[i].itemName);
-				witcher = GetWitcherPlayer();				
+				alchIngs = thePlayer.inv.GetItemsByName(itemName);
+				witcher = GetWitcherPlayer();
 				
 				for(j=0; j<alchIngs.Size(); j+=1)
 				{
 					equippedOnSlot = witcher.GetItemSlot(alchIngs[j]);
+					
 					if(equippedOnSlot != EES_InvalidSlot)
+					{
 						witcher.UnequipItem(alchIngs[j]);
-						
+					}
+					
 					removedIngQuantity += 1;
-					witcher.inv.RemoveItem(alchIngs[j]);
+					witcher.inv.RemoveItem(alchIngs[j], 1);
 					
 					if(removedIngQuantity >= recipe.requiredIngredients[i].quantity)
 						break;
@@ -268,7 +294,7 @@ class W3AlchemyManager
 			else
 			{
 				
-				thePlayer.inv.RemoveItemByName(recipe.requiredIngredients[i].itemName, recipe.requiredIngredients[i].quantity);
+				thePlayer.inv.RemoveItemByName(itemName, recipe.requiredIngredients[i].quantity);
 			}
 		}
 		

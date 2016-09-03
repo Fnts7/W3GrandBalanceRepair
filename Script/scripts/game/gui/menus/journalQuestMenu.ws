@@ -403,7 +403,13 @@ class CR4JournalQuestMenu extends CR4ListBaseMenu
 					questLevel = NameToInt( questLevels.GetValueAtAsName(1,j) );
 					
 					if(FactsQuerySum("NewGamePlus") > 0 && questLevel > 1)
+					{
 						questLevel += theGame.params.GetNewGamePlusLevel();
+						if ( questLevel > GetWitcherPlayer().GetMaxLevel() ) 
+						{
+							questLevel = GetWitcherPlayer().GetMaxLevel();
+						}
+					}
 				}
 			}
 		}
@@ -662,6 +668,7 @@ class CR4JournalQuestMenu extends CR4ListBaseMenu
 						l_questObjectiveDataFlashObject.SetMemberFlashString(  "label", l_objectiveTitle + l_objectiveProgress );
 						l_questObjectiveDataFlashObject.SetMemberFlashInt( "phaseIndex", 1 );
 						l_questObjectiveDataFlashObject.SetMemberFlashInt( "objectiveIndex", l_objectiveOrder );
+						l_questObjectiveDataFlashObject.SetMemberFlashBool( "isMutuallyExclusive", l_objective.IsMutuallyExclusive() );
 						
 						l_questObjectivesFlashArray.PushBackFlashObject(l_questObjectiveDataFlashObject);
 					}

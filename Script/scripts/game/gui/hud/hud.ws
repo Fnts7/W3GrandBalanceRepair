@@ -39,6 +39,7 @@ class CR4ScriptedHud extends CR4Hud
 	protected var m_fxSetGamepadType       	: CScriptedFlashFunction;
 	protected var m_fxLockControlScheme     : CScriptedFlashFunction;
 	private var m_fxSetGameLanguage			: CScriptedFlashFunction;
+	private var m_fxOnCutscene				: CScriptedFlashFunction;
 	
 	private var hudModules					: array<CR4HudModuleBase>;
 	public	var hudModulesNames				: array<name>;
@@ -348,6 +349,7 @@ class CR4ScriptedHud extends CR4Hud
 		m_fxSetGamepadType		= m_HudFlashSFS.GetMemberFlashFunction( "setGamepadType" );
 		m_fxLockControlScheme	= m_HudFlashSFS.GetMemberFlashFunction( "lockControlScheme" );
 		m_fxSetGameLanguage 	= m_HudFlashSFS.GetMemberFlashFunction( "setGameLanguage" );
+		m_fxOnCutscene			= m_HudFlashSFS.GetMemberFlashFunction( "onCutsceneStartedOrEnded" );
 		
 		CreateHudModule("AnchorsModule");			
 		hudModulesNames.PushBack('ControlsFeedbackModule');
@@ -1546,11 +1548,15 @@ class CR4ScriptedHud extends CR4Hud
 	public function OnCutsceneStarted()
 	{
 		ForceShow( true, HVS_Scene );
+		
+		m_fxOnCutscene.InvokeSelfOneArg( FlashArgBool( true ) );
 	}
 	
 	public function OnCutsceneEnded()
 	{
 		ForceShow( false, HVS_Scene );
+		
+		m_fxOnCutscene.InvokeSelfOneArg( FlashArgBool( false ) );
 	}
 	
 	public function ToogleMinimalBuffView( value : bool )
