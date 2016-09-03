@@ -203,13 +203,13 @@ class W3ArrowProjectile extends W3AdvancedProjectile
 					bounce = true;
 				}
 			}
-			else if(thePlayer.CanParryAttack() && thePlayer.CanUseSkill(S_Sword_s10))
+			else if(thePlayer.CanParryAttack())
 			{			
 				
 				parryInfo = thePlayer.ProcessParryInfo(((CActor)caster),((CActor)victim),AST_Jab,ASD_NotSet,'attack_light',((CActor)caster).GetInventory().GetItemFromSlot('l_weapon'), true);
 				if ( thePlayer.PerformParryCheck(parryInfo) )
 				{
-					if ( thePlayer.CheckCounterSpamming( (CActor)caster ) && thePlayer.GetSkillLevel(S_Sword_s10) > 1 )
+					if ( thePlayer.CheckCounterSpamming( (CActor)caster ) && thePlayer.CanUseSkill(S_Sword_s10) && thePlayer.GetSkillLevel(S_Sword_s10) > 1 )
 					{
 						casterPos = caster.GetWorldPosition();
 						casterPos.Z += 1.5;
@@ -223,7 +223,7 @@ class W3ArrowProjectile extends W3AdvancedProjectile
 						isBouncedArrow = true;
 						return true;
 					}
-					else
+					else if ( thePlayer.CanUseSkill(S_Sword_s10) || RandF() < 0.7f )
 					{
 						bounce = true;
 					}
