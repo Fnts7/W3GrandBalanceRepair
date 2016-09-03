@@ -165,3 +165,22 @@ class CBTTaskLockViewToDettlaffDef extends IBehTreeTaskDefinition
 	
 	default lock = true; 
 }
+class ManageProjectilesDettlaff extends IBehTreeTask
+{
+	function OnAnimEvent( animEventName : name, animEventType : EAnimationEventType, animInfo : SAnimationEventAnimInfo ) : bool
+	{
+		if( animEventName == 'RepulseProjectiles' && animEventType == AET_DurationStart )
+		{
+			GetNPC().RemoveAbility('RepulseProjectiles');
+		}
+		else if( animEventName == 'RepulseProjectiles' && animEventType == AET_DurationEnd )
+		{
+			GetNPC().AddAbility('RepulseProjectiles');
+		}
+		return true;
+	}
+}
+class ManageProjectilesDettlaffDef extends IBehTreeTaskDefinition
+{
+	default instanceClass = 'ManageProjectilesDettlaff';
+}

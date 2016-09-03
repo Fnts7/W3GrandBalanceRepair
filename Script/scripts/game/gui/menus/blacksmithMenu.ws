@@ -364,19 +364,31 @@ class CR4BlacksmithMenu extends CR4MenuBase
 	}
 	
 	event  OnRequestConfirmation( itemId : SItemUniqueId, price : int )
-	{		
-		var additionalDesc		: string = "";
+	{
+		var itemName		: name;
 		
-		if( m_menuState == 'Disassemble' && m_standaloneMode )
+		if( m_menuState == 'Disassemble' && m_standaloneMode && _inv.GetItemQuantity(itemId) == 1 )
 		{
-			if( !m_ingrForMissingDecoctions.Contains( _inv.GetItemName( itemId ) ) )
+			itemName = _inv.GetItemName( itemId );
+			
+			if( m_ingrForMissingDecoctions.Contains( itemName ) )
 			{
-				
-				m_lastConfirmedDisassembleQuantity = 1;
-				HandleActionConfirmation( true );
-				return false;
+				ShowConfirmationPopup( itemId, price, 1 );
+			}
+			else
+			{
+				ProcessRequestConfirmation(itemId, price);
 			}
 		}
+		else
+		{
+			ProcessRequestConfirmation(itemId, price);
+		}
+	}
+	
+	public function ProcessRequestConfirmation( itemId : SItemUniqueId, price : int )
+	{
+		var additionalDesc	: string = "";
 		
 		if( m_menuState == 'Disassemble' && _inv.GetItemQuantity(itemId) > 1 )
 		{
@@ -399,7 +411,15 @@ class CR4BlacksmithMenu extends CR4MenuBase
 		}
 		else
 		{
-			ShowConfirmationPopup( itemId, price, 1 );
+			if (!m_standaloneMode)
+			{
+				ShowConfirmationPopup( itemId, price, 1 );
+			}
+			else
+			{
+				m_lastConfirmedDisassembleQuantity = 1;
+				HandleActionConfirmation( true );
+			}
 		}
 	}
 	
@@ -458,6 +478,8 @@ class CR4BlacksmithMenu extends CR4MenuBase
 				InitDataConfirmation = new PriceConfirmationPopupData in this;
 				InitDataConfirmation.menuRef = this;
 				InitDataConfirmation.BlurBackground = true;
+				InitDataConfirmation.isStandaloneDismantle = m_standaloneMode;
+				InitDataConfirmation.itemId = itemId;
 				
 				if ( confirmationText != "" )
 				{
@@ -514,7 +536,7 @@ class CR4BlacksmithMenu extends CR4MenuBase
 		
 		quantityPopupData = new QuantityPopupData in this;
 		
-		quantityPopupData.showPrice = true;
+		quantityPopupData.showPrice = !m_standaloneMode;
 		quantityPopupData.itemCost = price;
 		quantityPopupData.itemId = itemId;
 		quantityPopupData.minValue = 1;
@@ -567,6 +589,7 @@ class CR4BlacksmithMenu extends CR4MenuBase
 		var i, x				: int;		
 		var itemsCount	  		: int;
 		var entryFound			: bool;
+		var updateAfter			: bool;
 		var craftComp			: W3CraftsmanComponent;
 		
 		var itemsAdded			: array <SItemUniqueId>;
@@ -587,13 +610,27 @@ class CR4BlacksmithMenu extends CR4MenuBase
 			
 			
 			
-			RemoveItem( item );
-			_standaloneDismantleInv.DoDismantling( item, itemsAdded );
+			if( _inv.GetItemQuantity( item ) == m_lastConfirmedDisassembleQuantity)
+			{
+				RemoveItem( item );
+				updateAfter = false;
+			}
+			else
+			{
+				updateAfter = true;
+			}
+			
+			_standaloneDismantleInv.DoDismantling( item, m_lastConfirmedDisassembleQuantity, itemsAdded );
+			
+			if( updateAfter )
+			{
+				UpdateItem( item );
+			}
 			
 			if( itemsAdded.Size() )
 			{
 				itemsListText += "<br/>" + "<font color =\"#404040\">" + GetLocStringByKeyExt( "panel_blacksmith_items_added" ) + ": </font>";
-				itemsListText += "<br/>" + GetLocStringByKeyExt( _inv.GetItemLocalizedNameByName( _inv.GetItemName( itemsAdded[0] ) ) ) + " x1";
+				itemsListText += "<br/>" + GetLocStringByKeyExt( _inv.GetItemLocalizedNameByName( _inv.GetItemName( itemsAdded[0] ) ) ) + " x" + m_lastConfirmedDisassembleQuantity;
 				showNotification( itemsListText );
 			}
 		}
@@ -1077,6 +1114,9 @@ class CR4BlacksmithMenu extends CR4MenuBase
 class PriceConfirmationPopupData extends ConfirmationPopupData
 {
 	private var m_Price : float;
+	
+	public var itemId : SItemUniqueId;
+	public var isStandaloneDismantle : bool;
 	public var menuRef : CR4BlacksmithMenu; 
 
 	public  function GetGFxData(parentFlashValueStorage : CScriptedFlashValueStorage) : CScriptedFlashObject
@@ -1103,7 +1143,15 @@ class PriceConfirmationPopupData extends ConfirmationPopupData
 	
 	protected function OnUserAccept() : void
 	{
-		menuRef.HandleActionConfirmation(true);
+		if (isStandaloneDismantle)
+		{
+			menuRef.ProcessRequestConfirmation(itemId, 0);
+		}
+		else
+		{
+			menuRef.HandleActionConfirmation(true);
+		}
+		
 		ClosePopup();
 	}
 	

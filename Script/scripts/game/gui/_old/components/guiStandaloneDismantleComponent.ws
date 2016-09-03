@@ -23,7 +23,9 @@ class W3StandaloneDismantleComponent extends W3GuiPlayerInventoryComponent
 		showItem = !itemTags.Contains( theGame.params.TAG_DONT_SHOW )
 				&& !itemTags.Contains( theGame.params.TAG_DONT_SHOW_ONLY_IN_PLAYERS )
 				&& itemTags.Contains( 'mod_alchemy_table' )
-				&& !_inv.IsItemQuest( item );
+				&& !_inv.IsItemQuest( item )
+				&& !GetWitcherPlayer().IsItemEquipped( item );
+				
 		
 		return showItem;
 	}
@@ -36,7 +38,7 @@ class W3StandaloneDismantleComponent extends W3GuiPlayerInventoryComponent
 		flashObject.SetMemberFlashInt( "sectionId", -1 );
 	}
 	
-	public function DoDismantling( item : SItemUniqueId, out addedItems : array <SItemUniqueId> ) : void
+	public function DoDismantling( item : SItemUniqueId, dismantleCount : int, out addedItems : array <SItemUniqueId>) : void
 	{
 		var i, count	  : int;
 		var curItemPart   : SItemParts;
@@ -49,7 +51,7 @@ class W3StandaloneDismantleComponent extends W3GuiPlayerInventoryComponent
 		for( i = 0; i < count; i += 1 )
 		{
 			curItemPart = dismantleList[i];
-			newItems = _inv.AddAnItem( curItemPart.itemName, curItemPart.quantity );
+			newItems = _inv.AddAnItem( curItemPart.itemName, dismantleCount );
 			
 			if( newItems.Size() > 0 )
 			{
@@ -57,7 +59,7 @@ class W3StandaloneDismantleComponent extends W3GuiPlayerInventoryComponent
 			}
 		}
 		
-		_inv.RemoveItem( item );
+		_inv.RemoveItem( item, dismantleCount );
 	}
 	
 	private function addRecyclingPartsList( item : SItemUniqueId, out flashObject : CScriptedFlashObject ) : void
@@ -104,7 +106,7 @@ class W3StandaloneDismantleComponent extends W3GuiPlayerInventoryComponent
 		
 		for( i = 0; i < count; i+=1 )
 		{
-			curPart.quantity = 1;
+			curPart.quantity = _inv.GetItemQuantity( item );
 			
 			switch ( abilitiesList[ i ] )
 			{

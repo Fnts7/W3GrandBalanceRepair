@@ -1544,11 +1544,15 @@ class CR4IngameMenu extends CR4MenuBase
 			{
 				
 				theGame.InitStandaloneDLCLoading('bob_000_000', currentNewGameConfig.difficulty);
+				theGame.EnableUberMovement( true );
+				((CInGameConfigWrapper)theGame.GetInGameConfigWrapper()).SetVarValue( 'Gameplay', 'EnableUberMovement', 1 );
 			}
 			else if ((optionsArray & IGMC_EP1_Save) == IGMC_EP1_Save)
 			{
 				
 				theGame.InitStandaloneDLCLoading('ep1', currentNewGameConfig.difficulty);
+				theGame.EnableUberMovement( true );
+				((CInGameConfigWrapper)theGame.GetInGameConfigWrapper()).SetVarValue( 'Gameplay', 'EnableUberMovement', 1 );
 			}
 			else
 			{
