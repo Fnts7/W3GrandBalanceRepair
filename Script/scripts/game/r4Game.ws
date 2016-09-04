@@ -688,6 +688,11 @@ import class CR4Game extends CCommonGame
 			}
 		}
 		
+		if ( FactsQuerySum( "q704_long_night_starts" ) == 0 )
+		{
+			GetWorld().HideLayerGroup( "quests\main_quests\q704_the_truth\q704_vampires\custom_land_borders" );
+		}
+		
 		if ( focusModeController )
 		{
 			focusModeController.OnGameStarted();
@@ -1673,7 +1678,7 @@ import class CR4Game extends CCommonGame
 		var witcher : W3PlayerWitcher;
 		
 		
-		thePlayer.RemoveAllNonAutoBuffs();
+		thePlayer.RemoveAllNonAutoBuffs( , true );
 		
 		
 		buffs = thePlayer.GetBuffs();

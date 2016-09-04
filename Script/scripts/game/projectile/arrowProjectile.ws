@@ -522,6 +522,7 @@ class W3ArrowProjectile extends W3AdvancedProjectile
 		var meshComponent		: CMeshComponent;
 		var arrowSize			: Vector;
 		var boundingBox			: Box;
+		var rotMat				: Matrix;
 		
 		shouldPierceVictim = ShouldPierceVictim( victim );
 		if( !shouldPierceVictim )
@@ -550,11 +551,16 @@ class W3ArrowProjectile extends W3AdvancedProjectile
 				boundingBox = meshComponent.GetBoundingBox();
 				arrowSize = boundingBox.Max - boundingBox.Min;
 				
+				rotMat = MatrixBuiltRotation( this.GetWorldRotation() );
+				rotMat = MatrixGetInverted( rotMat );
+				arrowSize = VecTransformDir( rotMat, arrowSize );
 				
-				if( StrFindFirst( this.GetName(), "arrow" ) != -1 )
-					arrowHitPos += RotForward(  this.GetWorldRotation() ) * arrowSize.X * 0.1f; 
-				else
-					arrowHitPos -= RotForward(  this.GetWorldRotation() ) * arrowSize.X * 0.7f; 
+				
+				
+				if( arrowSize.Y > 0 )	
+					arrowHitPos += RotForward(  this.GetWorldRotation() ) * arrowSize.Y * 0.1f; 
+				else	
+					arrowHitPos -= RotForward(  this.GetWorldRotation() ) * arrowSize.Y * 0.9f; 
 			}
 			
 			if ( boneName )

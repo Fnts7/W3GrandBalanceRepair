@@ -118,7 +118,14 @@ class CR4HudModuleRadialMenu extends CR4HudModuleBase
 		{
 			_currentSelection = "";
 		}
-		theSound.SoundEvent( "gui_ingame_wheel_highlight" );
+		if ( !theGame.IsBlackscreen() )
+		{
+			theSound.SoundEvent( "gui_ingame_wheel_highlight" );
+		}
+		else
+		{
+			LogChannel( 'IgnoredSounds', "HUD: gui_ingame_wheel_highlight" );
+		}
 	}
 
 	event OnRadialMenuItemChoose( choosenSymbol : string )
@@ -598,13 +605,16 @@ class CR4HudModuleRadialMenu extends CR4HudModuleBase
 				itemDataObject.SetMemberFlashString( "name", itemName );
 				itemDataObject.SetMemberFlashString( "description", itemDescription );
 				itemDataObject.SetMemberFlashString( "itemIconPath", itemIconPath );
-				itemDataObject.SetMemberFlashBool( "isEquipped", false ); 
+				itemDataObject.SetMemberFlashBool( "isEquipped", true );
 				itemDataObject.SetMemberFlashInt( "charges", -1 );
 				itemDataObject.SetMemberFlashInt( "id", 0 );
 
 				itemsList.PushBackFlashObject( itemDataObject );
 			}
 
+			if ( !GetWitcherPlayer().ShouldUseInfiniteWaterBolts() )
+			{
+			
 			for ( i = 0; i < count; i += 1 )
 			{
 				currentBolt = boltsList[ i ];
@@ -641,6 +651,8 @@ class CR4HudModuleRadialMenu extends CR4HudModuleBase
 					
 					itemsList.PushBackFlashObject( itemDataObject );
 				}
+			}
+			
 			}
 			
 			containerObject.SetMemberFlashArray( "itemsList", itemsList );
