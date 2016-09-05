@@ -46,6 +46,8 @@ import statemachine class W3ToxicCloud extends CGameplayEntity
 	protected var wasPerk16Active : bool;	
 	private var canMultiplyDamageFromPerk20 : bool;							
 	private var friendlyFire : bool;
+	protected var petardLevel : int;
+	default petardLevel = 0;
 		
 		default isFromBomb = false;
 		
@@ -81,6 +83,13 @@ import statemachine class W3ToxicCloud extends CGameplayEntity
 	public function SetBurningChance(c : float)
 	{
 		burningChance = c;
+	}
+	
+	public function SetPetardLevel(_petardLevel : int)
+	{
+		petardLevel = _petardLevel;
+		if (petardLevel > 3)
+			petardLevel = 3;
 	}
 	
 	public function SetIsFromClusterBomb(b : bool)
@@ -490,6 +499,7 @@ state Armed in W3ToxicCloud
 		var damage : W3DamageAction;
 		var actor : CActor;
 		var dmgVal  : float;
+		var dragonDreamDurationMod : SAbilityAttributeValue;
 	
 		isExploding = true;
 	
@@ -535,7 +545,18 @@ state Armed in W3ToxicCloud
 				damage.SetSuppressHitSounds(true);
 				
 				if(RandF() < parent.burningChance)
-					damage.AddEffectInfo(EET_Burning);
+				{
+					if (parent.petardLevel > 0)
+					{
+						dragonDreamDurationMod.valueBase = 0;
+						dragonDreamDurationMod.valueAdditive = PetardBonus("dmgDragon", parent.petardLevel);
+						dragonDreamDurationMod.valueMultiplicative = PetardBonus("duration", parent.petardLevel);
+					
+						damage.AddEffectInfo(EET_Burning, , dragonDreamDurationMod, 'BurningEffect_DragonsDream');
+					}
+					else
+						damage.AddEffectInfo(EET_Burning);
+				}
 				
 				theGame.damageMgr.ProcessAction( damage );
 				
