@@ -41,11 +41,15 @@ function PetardBonus(type : string, petardLevel : int) : float
 			return (thePlayer.GetLevel() * (percentFactorDmg[petardLevel] / 100));
 		case "dmgPyro":
 			return 1.0f + (thePlayer.GetLevel() * (percentFactorDmgPyro[petardLevel] / 100));
+		case "dmgDragon":
+			return (thePlayer.GetLevel() * (percentFactorDmg[petardLevel] / 200));
 		case "dragonBurningChance":
 			return (thePlayer.GetLevel() * (percentFactorDragonBurning[petardLevel] / 100));
 		case "duration":
 			return (thePlayer.GetLevel() * (percentFactorDuration[petardLevel] / 100));
 		case "aim":
 			return percentFactorAim[petardLevel] / 100;
+		default:
+			return 0;
 	}
 }

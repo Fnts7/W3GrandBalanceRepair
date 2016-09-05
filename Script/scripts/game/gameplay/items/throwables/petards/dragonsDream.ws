@@ -28,6 +28,7 @@ class W3DragonsDream extends W3Petard
 			if (bonusBurningChance > 1.0f) 
 				bonusBurningChance = 1.0f;
 			gasEntity.SetBurningChance(bonusBurningChance);
+			gasEntity.SetPetardLevel(petardLevel);
 			LogChannel('PetardScaling', "Bonus Dragons Dream burning chance " + FloatToString(bonusBurningChance));
 			// Grand Balance Repair Petards
 			gasEntity.SetExplodingTargetDamages(GetExplodingTargetDamages());
