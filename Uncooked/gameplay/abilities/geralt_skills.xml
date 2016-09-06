@@ -236,8 +236,8 @@
 	  <!-- Undying -->
 	  <ability name="sword_s18">
         <tags>sword_s18</tags>
-		<healing_factor type="add" min="0.05" /> <!-- precentage of max health healed by FP -->
-		<healing_bonus type="add" min="0.25" />  <!-- healing bonus per ability level -->
+		<healing_factor type="add" min="0.15" /> <!-- precentage of max health healed by FP -->
+		<healing_bonus type="add" min="0.333" />  <!-- healing bonus per ability level -->
 		<trigger_delay type="add" min="30" /> <!-- activation delay in seconds -->
       </ability>
 	
