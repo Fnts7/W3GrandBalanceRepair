@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-16"?>
+<UserConfig>
+	<Group id="GBRBurningEffect" displayName="Mods.GrandBalaceRepair_Tweaks.Burning Effect Tweaks">
+		<PresetsArray>
+			<Preset id="0" displayName="Default" tags="customNames;customDisplayName">
+				<Entry varId="GBRBurningDifficulty"						value="true" />
+				<Entry varId="GBRBurningMode"							value="true" />
+				<Entry varId="BurningDuration"							value="-30"	/>
+			</Preset>
+			<Preset id="1" displayName="Vanilla_Default" tags="customNames;customDisplayName">
+				<Entry varId="GBRBurningDifficulty"						value="false" />
+				<Entry varId="GBRBurningMode"							value="false" />
+				<Entry varId="BurningDuration"							value="0"	/>
+			</Preset>
+		</PresetsArray>
+		<VisibleVars>
+			<Var overrideGroup="GrandBalaceRepair_Tweaks" id="GBRBurningDifficulty"  displayName="Game difficulty affects burning damage" 	displayType="TOGGLE" 				tags="customNames;customDisplayName"/>
+			<Var overrideGroup="GrandBalaceRepair_Tweaks" id="GBRBurningMode"  	   displayName="Hits don't break burning"					displayType="TOGGLE" 				tags="customNames;customDisplayName"/>
+			<Var overrideGroup="GrandBalaceRepair_Tweaks" id="BurningDuration" 	   displayName="Burning duration (%)" 						displayType="SLIDER;-100;100;200" 	tags="customNames;customDisplayName"/>
+		</VisibleVars>
+	</Group>
+</UserConfig>

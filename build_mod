@@ -13,11 +13,11 @@
 #
 
 # SCRIPT FILES BEGIN
-scriptFile[0]=""
+scriptFile[0]="/game/actor.ws"
+scriptFile[1]="/game/gameplay/effects/effects/damageOverTime/burningEffect.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
-assetFile[0]=""
 # ASSET FILES END
 
 set -e
@@ -28,7 +28,7 @@ then
 	exit
 fi
 
-modReadyFolder=$1"/Packed/[modReadyFolder]"
+modReadyFolder=$1"/Packed/modGBRTweaks"
 modContentPath=$modReadyFolder"/content"
 
 inXMLPath="Uncooked"

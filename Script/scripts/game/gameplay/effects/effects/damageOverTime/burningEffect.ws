@@ -106,7 +106,35 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 		
 		cachedMPAC = ((CMovingPhysicalAgentComponent)target.GetMovingAgentComponent());
 	}
-	
+
+	protected function SetEffectValue()
+	{
+		var modMult : float;
+
+		super.SetEffectValue();
+
+		if (theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'GBRBurningDifficulty'))
+		{
+			if (theGame.GetDifficultyMode() == EDM_Easy)
+				modMult = 1.5f;
+			else if (theGame.GetDifficultyMode() == EDM_Medium)
+				modMult = 1.25f;
+			else if (theGame.GetDifficultyMode() == EDM_Hardcore)
+				modMult = 0.75f;
+
+			effectValue.valueMultiplicative *= modMult;
+			effectValue.valueAdditive *= modMult;
+		}
+	}
+
+	public function ResetEffectValueOnHit()
+	{
+		SetEffectValue();
+
+		effectValue.valueMultiplicative *= 1.25f;
+		effectValue.valueAdditive *= 1.25f;
+	}
+
 	event OnUpdate(deltaTime : float)
 	{
 		var player : CR4Player = thePlayer;	
@@ -187,6 +215,18 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 		super.OnEffectRemoved();		
 	}
 	
+	protected function CalculateDuration(optional setInitialDuration : bool)
+	{
+		var configMod : float;
+
+		if (setInitialDuration)
+		{
+			configMod = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'BurningDuration')) / 100;
+			duration *= (1.0f + configMod);
+		}
+
+		super.CalculateDuration(setInitialDuration);
+	}
 	
 	public function OnTargetDeath()
 	{
