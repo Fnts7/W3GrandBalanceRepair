@@ -1961,7 +1961,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	
 	event OnTakeDamage( action : W3DamageAction)
 	{
-		var currVitality, rgnVitality, hpTriggerTreshold : float;
+		var currVitality, vitalityAfterHit, maxVitality, hpTriggerTreshold : float;
 		var healingFactor : float;
 		var abilityName : name;
 		var abilityCount, maxStack, itemDurability : float;
@@ -1986,15 +1986,23 @@ statemachine class W3PlayerWitcher extends CR4Player
 				
 				if(!cannotUseUndyingSkill && FloorF(GetStat(BCS_Focus)) >= 1 && CanUseSkill(S_Sword_s18) && HasBuff(EET_BattleTrance) )
 				{
+					maxVitality = GetStatMax(BCS_Vitality);
+					vitalityAfterHit = currVitality - action.processedDmg.vitalityDamage;
 					healingFactor = CalculateAttributeValue( GetSkillAttributeValue(S_Sword_s18, 'healing_factor', false, true) );
-					healingFactor *= GetStatMax(BCS_Vitality);
 					healingFactor *= GetStat(BCS_Focus);
 					healingFactor *= 1 + CalculateAttributeValue( GetSkillAttributeValue(S_Sword_s18, 'healing_bonus', false, true) ) * (GetSkillLevel(S_Sword_s18) - 1);
-					ForceSetStat(BCS_Vitality, GetStatMax(BCS_Vitality));
+					healingFactor *= maxVitality;
+					vitalityAfterHit += healingFactor;
+					if (vitalityAfterHit < 0.1f * maxVitality)
+						vitalityAfterHit = 0.1f * maxVitality;
+					else if (vitalityAfterHit > maxVitality)
+						vitalityAfterHit = maxVitality;
+					ForceSetStat(BCS_Vitality, vitalityAfterHit);
 					DrainFocus(GetStat(BCS_Focus));
 					RemoveBuff(EET_BattleTrance);
 					cannotUseUndyingSkill = true;
 					AddTimer('UndyingSkillCooldown', CalculateAttributeValue( GetSkillAttributeValue(S_Sword_s18, 'trigger_delay', false, true) ), false, , , true);
+					action.processedDmg.vitalityDamage = 0;
 				}
 				
 				else if( IsMutationActive( EPMT_Mutation11 ) && !HasBuff( EET_Mutation11Debuff ) && !IsInAir() )

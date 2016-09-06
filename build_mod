@@ -13,8 +13,9 @@
 #
 
 # SCRIPT FILES BEGIN
-scriptFile[0]="/game/projectile/arrowProjectile.ws"
-scriptFile[1]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[0]="/game/player/playerWitcher.ws"
+scriptFile[1]="/game/projectile/arrowProjectile.ws"
+scriptFile[2]="/game/gameplay/damage/damageManagerProcessor.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
