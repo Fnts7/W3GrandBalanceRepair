@@ -3547,10 +3547,11 @@ import abstract class CActor extends CGameplayEntity
 
 			LogCritical("Stopping CS animation for <<" + csType + ">>");
 
-			if (buff.GetEffectType() == EET_Burning && theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'GBRBurningMode'))
+			if (buff.GetEffectType() == EET_Burning && !((CPlayer)this) && theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'GBRBurningMode'))
 			{
 				forceRemoveBuff = false;
-				((W3Effect_Burning)buff).ResetEffectValueOnHit();
+				if ((W3Effect_Burning)buff)
+					((W3Effect_Burning)buff).ResetEffectValueOnHit();
 			}
 
 			if(forceRemoveBuff || buff.GetDurationLeft() < 0 || !buff.IsActive() || CriticalBuffIsDestroyedOnInterrupt(buff))

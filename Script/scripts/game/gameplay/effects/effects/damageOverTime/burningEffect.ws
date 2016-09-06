@@ -113,7 +113,7 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 
 		super.SetEffectValue();
 
-		if (theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'GBRBurningDifficulty'))
+		if (!isOnPlayer && theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'GBRBurningDifficulty'))
 		{
 			if (theGame.GetDifficultyMode() == EDM_Easy)
 				modMult = 1.5f;
@@ -219,7 +219,7 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 	{
 		var configMod : float;
 
-		if (setInitialDuration)
+		if (!isOnPlayer && setInitialDuration)
 		{
 			configMod = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'BurningDuration')) / 100;
 			duration *= (1.0f + configMod);
