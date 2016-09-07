@@ -50,10 +50,7 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 		if (abilityName == 'BurningEffect_DragonsDream' && params.customEffectValue != null)
 		{
 			SetEffectValue(); // Override from baseEffect Init
-			effectValue += effectValue * params.customEffectValue.valueAdditive; // dragon's dream damage bonus
-			duration = 3.0f * (1.0f + params.customEffectValue.valueMultiplicative); // base duration times dragon's dream duration bonus
-			CalculateDuration(true);
-			timeLeft = duration;
+			effectValue += effectValue * params.customEffectValue.valueMultiplicative; // dragon's dream damage bonus
 		}
 	}
 

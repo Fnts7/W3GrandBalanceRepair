@@ -364,22 +364,22 @@
       </ability>
 	  
       <ability name="PoisonEffect_DevilsPuffball_1">
-        <duration type="add" min="0.3"/>
-        <PoisonDamage type="add" min="30" max="30" />
+        <duration type="add" min="1"/>
+        <PoisonDamage type="add" min="45" max="45" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
 	  
       <ability name="PoisonEffect_DevilsPuffball_2">
-        <duration type="add" min="0.3"/>
-        <PoisonDamage type="add" min="60" max="60" />
+        <duration type="add" min="2"/>
+        <PoisonDamage type="add" min="90" max="90" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
 	  
       <ability name="PoisonEffect_DevilsPuffball_3">
         <duration type="add" min="3" />
-        <PoisonDamage type="add" min="90" max="90" />
+        <PoisonDamage type="add" min="150" max="150" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>

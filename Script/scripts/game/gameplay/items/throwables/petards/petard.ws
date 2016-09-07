@@ -1093,7 +1093,7 @@ class W3Petard extends CThrowable
 							// Grand Balance Repair Petards
 							LogChannel('PetardScaling', "Basic petard dmg " + FloatToString(params.damages[index].dmgVal));
 							params.damages[index].dmgVal += PetardBonus("dmgPyro", petardLevel) * (CalculateAttributeValue(thePlayer.GetSkillAttributeValue(S_Alchemy_s10, atts[j], false, true)) * thePlayer.GetSkillLevel(S_Alchemy_s10));
-							LogChannel('PetardScaling', "Pyrotechnics bonus dmg " + FloatToString(PetardBonus("dmg", petardLevel) * (CalculateAttributeValue(thePlayer.GetSkillAttributeValue(S_Alchemy_s10, atts[j], false, true)) * thePlayer.GetSkillLevel(S_Alchemy_s10))));
+							LogChannel('PetardScaling', "Pyrotechnics bonus dmg " + FloatToString(PetardBonus("dmgPyro", petardLevel) * (CalculateAttributeValue(thePlayer.GetSkillAttributeValue(S_Alchemy_s10, atts[j], false, true)) * thePlayer.GetSkillLevel(S_Alchemy_s10))));
 							LogChannel('PetardScaling', "Basic petard dmg with pyrotechnics bonus " + FloatToString(params.damages[index].dmgVal));
 							// Grand Balance Repair Petards
 						}

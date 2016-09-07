@@ -106,6 +106,9 @@ assetFile[34]="/dlc/bob/data/gameplay/items/def_loot_shops.xml"
 assetFile[35]="/dlc/bob/data/gameplay/items_plus/def_loot_shops.xml"
 assetFile[36]="/gameplay/gui_new/swf/character/panel_character.redswf"
 
+assetFile[37]="/gameplay/items/def_item_alchemy_petards.xml"
+assetFile[38]="/gameplay/items_plus/def_item_alchemy_petards.xml"
+
 # ASSET FILES END
 
 set -e
