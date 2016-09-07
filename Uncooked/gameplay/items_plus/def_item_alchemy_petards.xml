@@ -38,7 +38,7 @@
 	  
       <ability name="DancingStar_2_impact">
         <tags>PetardImpactParams</tags>
-        <FireDamage type="add" min="200" max="200" />
+        <FireDamage type="add" min="150" max="150" />
         <ammo type="add" min="3" />
         <DancingStar_3_impact is_ability="true" />
         <level type="add" min="2" />
@@ -52,7 +52,7 @@
 	  
       <ability name="DancingStar_3_impact">
         <tags>PetardImpactParams</tags>
-        <FireDamage type="add" min="300" max="300" />
+        <FireDamage type="add" min="200" max="200" />
         <ammo type="add" min="4" />
         <DancingStar_2_impact is_ability="true" />
         <level type="add" min="3" />
@@ -80,7 +80,7 @@
 	  
       <ability name="DevilsPuffball_2_impact">
         <tags>PetardImpactParams</tags>
-        <PoisonDamage type="add" min="200" max="200" />
+        <PoisonDamage type="add" min="130" max="130" />
         <ammo type="add" min="3" />
         <DevilsPuffball_3_impact is_ability="true" />
         <level type="add" min="2" />
@@ -89,12 +89,12 @@
       <ability name="DevilsPuffball_2_loop">
         <tags>PetardLoopParams</tags>
         <PoisonEffect_DevilsPuffball_2 is_ability="true" />
-        <duration type="add" min="30" max="30" />
+        <duration type="add" min="20" max="20" />
       </ability>
 	  
       <ability name="DevilsPuffball_3_impact">
         <tags>PetardImpactParams</tags>
-        <PoisonDamage type="add" min="300" max="300" />
+        <PoisonDamage type="add" min="160" max="160" />
         <ammo type="add" min="4" />
         <DevilsPuffball_2_impact is_ability="true" />
         <level type="add" min="3" />
@@ -110,26 +110,27 @@
       <ability name="DragonsDream_1">
         <tags>PetardLoopParams</tags>
         <FireDamage type="add" min="300" max="300" />
-        <duration type="add" min="15" max="15" />
+        <duration type="add" min="20" max="20" />
         <ammo type="add" min="2" />
 		<quality type="add" min="2" max="2"/>
 		<level type="add" min="1" />
+		<burning_chance min="0.2" type="add" />
       </ability>
 	  
       <ability name="DragonsDream_2">
         <tags>PetardLoopParams</tags>
-        <FireDamage type="add" min="450" max="450" />
+        <FireDamage type="add" min="400" max="400" />
         <duration type="add" min="30" max="30" />
         <ammo type="add" min="3" />
         <DragonsDream_3 is_ability="true" />
         <level type="add" min="2" />
-		<burning_chance min="0.5" type="add" />
+		<burning_chance min="0.4" type="add" />
 		<quality type="add" min="3" max="3"/>
       </ability>
 	  
       <ability name="DragonsDream_3">
         <tags>PetardLoopParams</tags>
-        <FireDamage type="add" min="600" max="600" />
+        <FireDamage type="add" min="500" max="500" />
         <duration type="add" min="30" max="30" />
         <ammo type="add" min="4" />
         <DragonsDream_2 is_ability="true" />
@@ -239,8 +240,8 @@
       <!-- GRAPESHOT -->
       <ability name="Grapeshot_1">
         <tags>PetardImpactParams</tags>
-        <PhysicalDamage type="add" min="350" max="350" />
-        <SilverDamage type="add" min="350" max="350" />
+        <PhysicalDamage type="add" min="300" max="300" />
+        <SilverDamage type="add" min="400" max="400" />
         <FireDamage type="add" min="5" />
         <StaggerEffect is_ability="true" />
         <ammo type="add" min="2" />
@@ -250,24 +251,24 @@
 	  
       <ability name="Grapeshot_2">
         <tags>PetardImpactParams</tags>
-        <PhysicalDamage type="add" min="700" max="700" />
-        <SilverDamage type="add" min="700" max="700" />
+        <PhysicalDamage type="add" min="500" max="500" />
+        <SilverDamage type="add" min="650" max="650" />
         <FireDamage type="add" min="10" />
         <StaggerEffect is_ability="true" />
         <ammo type="add" min="3" />
-        <Grapeshot_3 is_ability="true" />
+        <Grapeshot_2 is_ability="true" />
         <level type="add" min="2" />
 		<quality type="add" min="3" max="3"/>
       </ability>
 	  
       <ability name="Grapeshot_3">
         <tags>PetardImpactParams</tags>
-        <PhysicalDamage type="add" min="900" max="900" />
-        <SilverDamage type="add" min="900" max="900" />
+        <PhysicalDamage type="add" min="600" max="600" />
+        <SilverDamage type="add" min="800" max="800" />
         <FireDamage type="add" min="10" />
-        <StaggerEffect is_ability="true" />
+        <LongStaggerEffect is_ability="true" />
         <ammo type="add" min="4" />
-        <Grapeshot_2 is_ability="true" />
+        <Grapeshot_3 is_ability="true" />
         <level type="add" min="3" />
 		<quality type="add" min="4" max="4"/>
 		<ignoreArmor />

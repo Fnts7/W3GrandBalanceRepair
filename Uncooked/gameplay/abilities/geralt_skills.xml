@@ -546,8 +546,8 @@
       <!-- Fragmentation Casing -->
       <ability name="alchemy_s10">
         <tags>alchemy_s10</tags>
-        <PhysicalDamage type="add" min="30" />
-        <SilverDamage type="add" min="30" />
+        <PhysicalDamage type="add" min="40" />
+        <SilverDamage type="add" min="55" />
       </ability>
 	
       <!-- Cluster Bomb -->

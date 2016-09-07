@@ -11,9 +11,9 @@ function PetardBonus(type : string, petardLevel : int) : float
 	var percentFactorDragonBurning : array<float>;
 	
 	// % dmg bonus multiplied by player level
-	percentFactorDmg.PushBack(1.0);  // petard on 1 level
-	percentFactorDmg.PushBack(1.5);  // petard on 2 level
-	percentFactorDmg.PushBack(2.0);  // petard on 3 level
+	percentFactorDmg.PushBack(1.5f);  // petard on 1 level
+	percentFactorDmg.PushBack(2.25f);  // petard on 2 level
+	percentFactorDmg.PushBack(3.0f);  // petard on 3 level
 	
 	// % pyrotechnics dmg multiplied by player level
 	percentFactorDmgPyro.PushBack(2.0f);  // petard on 1 level

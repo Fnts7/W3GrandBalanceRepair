@@ -549,8 +549,8 @@ state Armed in W3ToxicCloud
 					if (parent.petardLevel > 0)
 					{
 						dragonDreamDurationMod.valueBase = 0;
-						dragonDreamDurationMod.valueAdditive = PetardBonus("dmgDragon", parent.petardLevel);
-						dragonDreamDurationMod.valueMultiplicative = PetardBonus("duration", parent.petardLevel);
+						dragonDreamDurationMod.valueAdditive = 0;
+						dragonDreamDurationMod.valueMultiplicative = PetardBonus("dmgDragon", parent.petardLevel);
 					
 						damage.AddEffectInfo(EET_Burning, , dragonDreamDurationMod, 'BurningEffect_DragonsDream');
 					}
