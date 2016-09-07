@@ -256,7 +256,7 @@
         <FireDamage type="add" min="10" />
         <StaggerEffect is_ability="true" />
         <ammo type="add" min="3" />
-        <Grapeshot_2 is_ability="true" />
+        <Grapeshot_3 is_ability="true" />
         <level type="add" min="2" />
 		<quality type="add" min="3" max="3"/>
       </ability>
@@ -268,7 +268,7 @@
         <FireDamage type="add" min="10" />
         <LongStaggerEffect is_ability="true" />
         <ammo type="add" min="4" />
-        <Grapeshot_3 is_ability="true" />
+        <Grapeshot_2 is_ability="true" />
         <level type="add" min="3" />
 		<quality type="add" min="4" max="4"/>
 		<ignoreArmor />
