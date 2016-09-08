@@ -252,7 +252,7 @@
       <ability name="Grapeshot_2">
         <tags>PetardImpactParams</tags>
         <PhysicalDamage type="add" min="500" max="500" />
-        <SilverDamage type="add" min="650" max="650" />
+        <SilverDamage type="add" min="660" max="660" />
         <FireDamage type="add" min="10" />
         <StaggerEffect is_ability="true" />
         <ammo type="add" min="3" />
@@ -263,8 +263,8 @@
 	  
       <ability name="Grapeshot_3">
         <tags>PetardImpactParams</tags>
-        <PhysicalDamage type="add" min="600" max="600" />
-        <SilverDamage type="add" min="800" max="800" />
+        <PhysicalDamage type="add" min="700" max="700" />
+        <SilverDamage type="add" min="920" max="920" />
         <FireDamage type="add" min="10" />
         <LongStaggerEffect is_ability="true" />
         <ammo type="add" min="4" />
@@ -352,7 +352,7 @@
       </ability>
       <ability name="WhiteFrost_1_loop">
         <tags>PetardLoopParams</tags>
-        <duration type="add" min="4" max="4" />
+        <duration type="add" min="2" max="2" />
       </ability>
       <ability name="WhiteFrost_2_impact">
         <tags>PetardImpactParams</tags>
@@ -370,7 +370,7 @@
       </ability>
       <ability name="WhiteFrost_2_loop">
         <tags>PetardLoopParams</tags>
-        <duration type="add" min="4" max="4" />
+        <duration type="add" min="3" max="3" />
       </ability>
       <ability name="WhiteFrost_3_impact">
         <tags>PetardImpactParams</tags>

@@ -109,7 +109,19 @@
         <duration type="add" min="3.0" max="3.0" />
 		<staminaRegen type="mult" min="0.33" max="0.33" />
       </ability>
-      <ability name="BurningEffect_DragonsDream">
+      <ability name="BurningEffect_DragonsDream1">
+        <FireDamage type="mult" min="0.02" max="0.02" />
+        <duration type="add" min="2" max="2" />
+        <hp_regen_reduction_strength type="add" min="200" />
+        <hp_regen_reduction_duration type="add" min="5" />
+      </ability>
+      <ability name="BurningEffect_DragonsDream2">
+        <FireDamage type="mult" min="0.025" max="0.025" />
+        <duration type="add" min="2.5" max="2.5" />
+        <hp_regen_reduction_strength type="add" min="200" />
+        <hp_regen_reduction_duration type="add" min="5" />
+      </ability>
+      <ability name="BurningEffect_DragonsDream3">
         <FireDamage type="mult" min="0.03" max="0.03" />
         <duration type="add" min="3" max="3" />
         <hp_regen_reduction_strength type="add" min="200" />
@@ -300,15 +312,15 @@
         <hpPercDamageBonusPerHit type="add" min="0.0" />
       </ability>
 	  <ability name="FrozenEffect_WhiteFrost1">
-        <duration type="add" min="4"/>
+        <duration type="add" min="3"/>
         <hpPercDamageBonusPerHit type="add" min="0.05" />
       </ability>
 	  <ability name="FrozenEffect_WhiteFrost2">
-        <duration type="add" min="5"/>
+        <duration type="add" min="4"/>
         <hpPercDamageBonusPerHit type="add" min="0.07" />
       </ability>
 	  <ability name="FrozenEffect_WhiteFrost3">
-        <duration type="add" min="6"/>
+        <duration type="add" min="5"/>
         <hpPercDamageBonusPerHit type="add" min="0.1" />
       </ability>
 	  
@@ -365,21 +377,21 @@
 	  
       <ability name="PoisonEffect_DevilsPuffball_1">
         <duration type="add" min="1"/>
-        <PoisonDamage type="add" min="45" max="45" />
+        <PoisonDamage type="add" min="25" max="25" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
 	  
       <ability name="PoisonEffect_DevilsPuffball_2">
         <duration type="add" min="2"/>
-        <PoisonDamage type="add" min="90" max="90" />
+        <PoisonDamage type="add" min="50" max="50" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
 	  
       <ability name="PoisonEffect_DevilsPuffball_3">
         <duration type="add" min="3" />
-        <PoisonDamage type="add" min="150" max="150" />
+        <PoisonDamage type="add" min="80" max="80" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>

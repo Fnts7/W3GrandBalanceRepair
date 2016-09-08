@@ -59,7 +59,7 @@ scriptFile[33]="/mod/crossbowDamageBoostData.ws"
 scriptFile[34]="/mod/crossbowDamageBoostProcessor.ws"
 scriptFile[35]="/mod/axiiMods.ws"
 scriptFile[36]="/mod/petardScaling.ws"
-scriptFile[37]="/game/gameplay/effects/effects/damageOverTime/burningEffect.ws"
+scriptFile[37]="/game/gameplay/effects/effects/criticalDOTEffect.ws"
 scriptFile[38]="/game/gameplay/interactive/toxicCloudEntity.ws"
 # SCRIPT FILES END
 

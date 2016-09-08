@@ -31,24 +31,26 @@ function PetardBonus(type : string, petardLevel : int) : float
 	percentFactorDuration.PushBack(2.0);  // petard on 3 level
 	
 	//% dmg bonus applied with manual aiming
-	percentFactorAim.PushBack(10.0);  // petard on 1 level
-	percentFactorAim.PushBack(15.0); // petard on 2 level
-	percentFactorAim.PushBack(20.0); // petard on 3 level
+	percentFactorAim.PushBack(5.0f);  // petard on 1 level
+	percentFactorAim.PushBack(7.5f); // petard on 2 level
+	percentFactorAim.PushBack(10.0f); // petard on 3 level
 	
 	switch(type)
 	{
 		case "dmg":
-			return (thePlayer.GetLevel() * (percentFactorDmg[petardLevel] / 100));
+			return (thePlayer.GetLevel() * (percentFactorDmg[petardLevel - 1] / 100));
 		case "dmgPyro":
-			return 1.0f + (thePlayer.GetLevel() * (percentFactorDmgPyro[petardLevel] / 100));
-		case "dmgDragon":
-			return (thePlayer.GetLevel() * (percentFactorDmg[petardLevel] / 200));
+			return 1.0f + (thePlayer.GetLevel() * (percentFactorDmgPyro[petardLevel - 1] / 100));
+		case "dmgHalved":
+			return (thePlayer.GetLevel() * (percentFactorDmg[petardLevel - 1] / 200));
 		case "dragonBurningChance":
-			return (thePlayer.GetLevel() * (percentFactorDragonBurning[petardLevel] / 100));
+			return (thePlayer.GetLevel() * (percentFactorDragonBurning[petardLevel - 1] / 100));
 		case "duration":
-			return (thePlayer.GetLevel() * (percentFactorDuration[petardLevel] / 100));
+			return (thePlayer.GetLevel() * (percentFactorDuration[petardLevel - 1] / 100));
+		case "durationHalved":
+			return (thePlayer.GetLevel() * (percentFactorDuration[petardLevel - 1] / 200));
 		case "aim":
-			return percentFactorAim[petardLevel] / 100;
+			return percentFactorAim[petardLevel - 1] / 100;
 		default:
 			return 0;
 	}
