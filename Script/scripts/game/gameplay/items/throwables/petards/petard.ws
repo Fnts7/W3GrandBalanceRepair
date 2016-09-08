@@ -12,7 +12,7 @@ class W3Petard extends CThrowable
 	//Grand Balance Repair Petards
 	var bonusDmgAim : float; default bonusDmgAim = 0; 
 	var fromAim : bool; default fromAim  = false;
-	var petardLevel : int; default petardLevel = 3;
+	var petardLevel : int; default petardLevel = 0;
 	//Grand Balance Repair Petards
 	protected editable var cameraShakeStrMin 				: float;
 	protected editable var cameraShakeStrMax 				: float;
@@ -221,8 +221,8 @@ class W3Petard extends CThrowable
 						impactParams.disabledAbilities.PushBack(disabledAbility);
 				}
 			}
-			petardLevel = RoundF(CalculateAttributeValue(inv.GetItemAttributeValue(itemId, 'level'))) - 1; //Grand Balance Repair Petards
-			LogChannel('PetardScaling', "Used petard level" + IntToString(petardLevel + 1));
+			petardLevel = RoundF(CalculateAttributeValue(inv.GetItemAttributeValue(itemId, 'level'))); //Grand Balance Repair Petards
+			LogChannel('PetardScaling', "Used petard level" + IntToString(petardLevel));
 			dm.GetAbilityAttributes(abs[i], atts);
 			jSize = atts.Size();
 			for( j = 0; j < jSize; j += 1 )
@@ -233,19 +233,22 @@ class W3Petard extends CThrowable
 					dmgRaw.dmgVal = CalculateAttributeValue(inv.GetItemAttributeValue(itemId, atts[j]));
 					if(dmgRaw.dmgVal == 0)
 						continue;
-					//Grand Balance Repair Petards
-					bonusDmg = dmgRaw.dmgVal * PetardBonus("dmg", petardLevel);
-					if(fromAim)
-					{
-						bonusDmgAim = dmgRaw.dmgVal * PetardBonus("aim", petardLevel);
-						LogChannel('PetardScaling', "Manual aim");
-					}
-					LogChannel('PetardScaling', "Basic petard dmg" + FloatToString(dmgRaw.dmgVal));
-					dmgRaw.dmgVal += (bonusDmg + bonusDmgAim);
-					LogChannel('PetardScaling', "Bonus dmg" + FloatToString(bonusDmg));
-					LogChannel('PetardScaling', "Aim bonus dmg" + FloatToString(bonusDmgAim));
-					LogChannel('PetardScaling', "Final petard dmg" + FloatToString(dmgRaw.dmgVal));
 
+					//Grand Balance Repair Petards
+					if (GetOwner() == thePlayer )
+					{
+						bonusDmg = dmgRaw.dmgVal * PetardBonus("dmg", petardLevel);
+						if(fromAim)
+						{
+							bonusDmgAim = dmgRaw.dmgVal * PetardBonus("aim", petardLevel);
+							LogChannel('PetardScaling', "Manual aim");
+						}
+						LogChannel('PetardScaling', "Basic petard dmg" + FloatToString(dmgRaw.dmgVal));
+						dmgRaw.dmgVal += (bonusDmg + bonusDmgAim);
+						LogChannel('PetardScaling', "Bonus dmg" + FloatToString(bonusDmg));
+						LogChannel('PetardScaling', "Aim bonus dmg" + FloatToString(bonusDmgAim));
+						LogChannel('PetardScaling', "Final petard dmg" + FloatToString(dmgRaw.dmgVal));
+					}
 					//Grand Balance Repair Petards
 					
 					dmgRaw.dmgType = atts[j];
@@ -257,9 +260,6 @@ class W3Petard extends CThrowable
 				}
 			}
 			
-			//Grand Balance Repair Petards
-			FactsSet("ThrownPetardLevel", petardLevel);
-			//Grand Balance Repair Petards
 			if(isLoopAbility && loopParams.damages.Size() > 0)
 			{
 				loopParams.ignoresArmor = atts.Contains('ignoreArmor');
@@ -292,7 +292,7 @@ class W3Petard extends CThrowable
 		}
 		
 		//Grand Balance Repair Petards
-		if(thePlayer.playerAiming.GetCurrentStateName() == 'Aiming') 
+		if (GetOwner() == thePlayer && thePlayer.playerAiming.GetCurrentStateName() == 'Aiming') 
 			fromAim = true;
 		//Grand Balance Repair Petards
 

@@ -11,7 +11,6 @@
 
 class CBaseGameplayEffect extends CObject
 {
-	var whiteFrost : bool; default whiteFrost = false; //Grand Balance Repair Petards
 	protected var timeActive : float;							
 	protected saved var initialDuration : float;				
 	protected var duration : float;								
@@ -107,6 +106,7 @@ class CBaseGameplayEffect extends CObject
 		var min, max, null : SAbilityAttributeValue;
 		var durationSet : bool;
 		var points : float;
+		var petardEffectBonus : float;
 		var dm : CDefinitionsManagerAccessor;
 	
 		EntityHandleSet(creatorHandle, params.owner);
@@ -125,13 +125,6 @@ class CBaseGameplayEffect extends CObject
 		if(IsNameValid(params.customAbilityName))
 		{
 			abilityName = params.customAbilityName;
-			//Grand Balance Repair Petards
-			if (abilityName == 'FrozenEffect_WhiteFrost1' || abilityName == 'FrozenEffect_WhiteFrost2' || abilityName == 'FrozenEffect_WhiteFrost3')
-			{
-				whiteFrost = true;
-				LogChannel('PetardScaling', "White frost used");
-			}
-			//Grand Balance Repair Petards
 			dm = theGame.GetDefinitionsManager();
 			dm.GetAbilityAttributeValue(abilityName, 'duration', min, max);
 			duration = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
@@ -154,8 +147,51 @@ class CBaseGameplayEffect extends CObject
 		if(!IsNameValid(params.customAbilityName) && (params.customEffectValue != null))
 			effectValue = params.customEffectValue;		
 		else
-			SetEffectValue();	
-		
+			SetEffectValue();
+
+		//Grand Balance Repair Petards
+		if (sourceName == "petard" && (IsAddedByPlayer()
+			|| abilityName == 'BurningEffect_DragonsDream1' || abilityName == 'BurningEffect_DragonsDream2' || abilityName == 'BurningEffect_DragonsDream3'))
+		{
+			switch (abilityName)
+			{
+			case 'BurningEffect_DancingStar_1':
+				petardEffectBonus = PetardBonus("dmgHalved", 1);
+				break;
+			case 'BurningEffect_DancingStar_2':
+				petardEffectBonus = PetardBonus("dmgHalved", 2);
+				break;
+			case 'BurningEffect_DancingStar_3':
+				petardEffectBonus = PetardBonus("dmgHalved", 3);
+				break;
+			case 'BurningEffect_DragonsDream1':
+				petardEffectBonus = PetardBonus("dmgHalved", 1);
+				break;
+			case 'BurningEffect_DragonsDream2':
+				petardEffectBonus = PetardBonus("dmgHalved", 2);
+				break;
+			case 'BurningEffect_DragonsDream3':
+				petardEffectBonus = PetardBonus("dmgHalved", 3);
+				break;
+			case 'PoisonEffect_DevilsPuffball_1':
+				petardEffectBonus = PetardBonus("dmgHalved", 1);
+				break;
+			case 'PoisonEffect_DevilsPuffball_2':
+				petardEffectBonus = PetardBonus("dmgHalved", 2);
+				break;
+			case 'PoisonEffect_DevilsPuffball_3':
+				petardEffectBonus = PetardBonus("dmgHalved", 3);
+				break;
+			default:
+				petardEffectBonus = 0;
+				break;
+			}
+
+			effectValue.valueMultiplicative += petardEffectBonus * effectValue.valueMultiplicative;
+			effectValue.valueAdditive += petardEffectBonus * effectValue.valueAdditive;
+		}
+		//Grand Balance Repair Petards
+
 		if(IsNameValid(params.customFXName))
 			targetEffectName = params.customFXName;
 	}
@@ -314,7 +350,6 @@ class CBaseGameplayEffect extends CObject
 		var min, max : SAbilityAttributeValue;
 		//Grand Balance Repair Petards
 		var bonus : float;
-		var isPetardEffect : bool = false;
 		//Grand Balance Repair Petards
 		
 		if(duration == 0)
@@ -339,33 +374,52 @@ class CBaseGameplayEffect extends CObject
 				durationResistance = resistance;
 				
 			duration = MaxF(0, initialDuration * MaxF(0, creatorPowerStat.valueMultiplicative) * (1 - durationResistance) );
+			
 			//Grand Balance Repair Petards
-			if (FactsQuerySum("ThrownPetardLevel") < 4)
-			{
-				LogChannel('PetardScaling', "ThrownPetardLevel " + IntToString(FactsQuerySum("ThrownPetardLevel")));
-				bonus = PetardBonus("duration", FactsQuerySum("ThrownPetardLevel") - 1);
-				FactsSet("ThrownPetardLevel", 4);
-			}
-			if (sourceName == "petard")
-			{
-				isPetardEffect = true;
-				LogChannel('PetardScaling', "Petard effect");
-			}
-			if (whiteFrost)
-			{
-				LogChannel('PetardScaling', "White frost vanilla duration " + FloatToString(duration));
-				duration -= 2;
-				whiteFrost = false;
-				LogChannel('PetardScaling', "White frost nerfed duration " + FloatToString(duration));
-			}
-			if (isPetardEffect)
-			{
+			if (sourceName == "petard" && (IsAddedByPlayer()
+				|| abilityName == 'BurningEffect_DragonsDream1' || abilityName == 'BurningEffect_DragonsDream2' || abilityName == 'BurningEffect_DragonsDream3'))
+			{	
+				switch (abilityName)
+				{
+				case 'BurningEffect_DancingStar_1':
+					bonus = PetardBonus("durationHalved", 1);
+					break;
+				case 'BurningEffect_DancingStar_2':
+					bonus = PetardBonus("durationHalved", 2);
+					break;
+				case 'BurningEffect_DancingStar_3':
+					bonus = PetardBonus("durationHalved", 3);
+					break;
+				case 'BurningEffect_DragonsDream1':
+					bonus = PetardBonus("duration", 1);
+					break;
+				case 'BurningEffect_DragonsDream2':
+					bonus = PetardBonus("duration", 2);
+					break;
+				case 'BurningEffect_DragonsDream3':
+					bonus = PetardBonus("duration", 3);
+					break;
+				case 'PoisonEffect_DevilsPuffball_1':
+					bonus = PetardBonus("duration", 1);
+					break;
+				case 'PoisonEffect_DevilsPuffball_2':
+					bonus = PetardBonus("duration", 2);
+					break;
+				case 'PoisonEffect_DevilsPuffball_3':
+					bonus = PetardBonus("duration", 3);
+					break;
+				default:
+					bonus = 0;
+					break;
+				}
+
 				LogChannel('PetardScaling', "Petard effect basic duration " + FloatToString(duration));
 				LogChannel('PetardScaling', "Petard effect duration bonus" + FloatToString(duration * bonus));
 				duration += duration * bonus;
 				LogChannel('PetardScaling', "Petard effect duration with bonus" + FloatToString(duration));
 			}
 			//Grand Balance Repair Petards
+			
 			LogEffects("BaseEffect.CalculateDuration: " + effectType + " duration with target resistance (" + NoTrailZeros(resistance) + ") and attacker power mul of (" + NoTrailZeros(creatorPowerStat.valueMultiplicative) + ") is " + NoTrailZeros(duration) + ", base was " + NoTrailZeros(initialDuration));
 		}		
 	}

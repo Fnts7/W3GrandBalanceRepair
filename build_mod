@@ -17,7 +17,7 @@ scriptFile[0]="/game/gameplay/effects/effects/baseEffect.ws"
 scriptFile[1]="/game/gameplay/items/throwables/petards/petard.ws"
 scriptFile[2]="/game/gameplay/items/throwables/petards/dragonsDream.ws"
 scriptFile[3]="/mod/petardScaling.ws"
-scriptFile[4]="/game/gameplay/effects/effects/damageOverTime/burningEffect.ws"
+scriptFile[4]="/game/gameplay/effects/effects/criticalDOTEffect.ws"
 scriptFile[5]="/game/gameplay/interactive/toxicCloudEntity.ws"
 # SCRIPT FILES END
 

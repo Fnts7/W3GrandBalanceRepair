@@ -11,7 +11,6 @@ class W3DragonsDream extends W3Petard
 	editable var gasEntityTemplate : CEntityTemplate;	
 	private var gasEntity : W3ToxicCloud;
 	private var burningChance : float; // Grand Balance Repair Petards
-	private var basicBurningChance, bonusBurningChance : float;
 	
 	protected function ProcessMechanicalEffect(targets : array<CGameplayEntity>, isImpact : bool, optional dt : float)
 	{
@@ -22,14 +21,17 @@ class W3DragonsDream extends W3Petard
 			gasEntity = (W3ToxicCloud)theGame.CreateEntity(gasEntityTemplate, GetWorldPosition());
 			gasEntity.explosionDamage.valueAdditive = loopParams.damages[0].dmgVal;
 			// Grand Balance Repair Petards
-			basicBurningChance = CalculateAttributeValue(GetOwner().GetInventory().GetItemAttributeValue(itemId, 'burning_chance'));
-			LogChannel('PetardScaling', "Basic Dragons Dream burning chance " + FloatToString(basicBurningChance));
-			bonusBurningChance = basicBurningChance + PetardBonus("dragonBurningChance", petardLevel);
-			if (bonusBurningChance > 1.0f) 
-				bonusBurningChance = 1.0f;
-			gasEntity.SetBurningChance(bonusBurningChance);
-			gasEntity.SetPetardLevel(petardLevel);
-			LogChannel('PetardScaling', "Bonus Dragons Dream burning chance " + FloatToString(bonusBurningChance));
+			burningChance = CalculateAttributeValue(GetOwner().GetInventory().GetItemAttributeValue(itemId, 'burning_chance'));
+			LogChannel('PetardScaling', "Basic Dragons Dream burning chance " + FloatToString(burningChance));
+			if (GetOwner() == thePlayer)
+			{
+				burningChance += PetardBonus("dragonBurningChance", petardLevel);
+				if (burningChance > 1.0f) 
+					burningChance = 1.0f;
+				gasEntity.SetPetardLevel(petardLevel);
+			}
+			gasEntity.SetBurningChance(burningChance);
+			LogChannel('PetardScaling', "Bonus Dragons Dream burning chance " + FloatToString(burningChance));
 			// Grand Balance Repair Petards
 			gasEntity.SetExplodingTargetDamages(GetExplodingTargetDamages());
 			gasEntity.SetFromBomb(GetOwner());

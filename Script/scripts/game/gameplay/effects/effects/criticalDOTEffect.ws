@@ -143,6 +143,7 @@ abstract class W3CriticalDOTEffect extends W3DamageOverTimeEffect
 		{
 			perk20Bonus = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'dmg_multiplier', false, false);
 			effectValue.valueAdditive *= ( 1 + perk20Bonus.valueMultiplicative );
+			effectValue.valueMultiplicative *= ( 1 + perk20Bonus.valueMultiplicative );
 		}
 			
 		

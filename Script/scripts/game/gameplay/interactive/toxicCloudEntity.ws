@@ -270,7 +270,7 @@ import statemachine class W3ToxicCloud extends CGameplayEntity
 					if( canMultiplyDamageFromPerk20 )
 					{
 						perk20Bonus = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'dmg_multiplier', false, false);
-						buffParams.effectValue.valueAdditive *= ( 1 + perk20Bonus.valueMultiplicative );
+						buffParams.effectValue.valueAdditive *= ( 1 + 2 * perk20Bonus.valueMultiplicative );
 					}
 					if(!buffSpecParams)
 					{
@@ -538,7 +538,7 @@ state Armed in W3ToxicCloud
 			if(actor)
 			{
 				damage = new W3DamageAction in parent;
-				damage.Initialize( parent, entitiesInRange[i], parent, parent, EHRT_None, CPS_Undefined, false, false, false, true );
+				damage.Initialize(parent, entitiesInRange[i], parent, 'petard', EHRT_None, CPS_Undefined, false, false, false, true );
 				dmgVal = parent.explosionDamage.valueAdditive + parent.explosionDamage.valueMultiplicative * actor.GetMaxHealth();
 				damage.AddDamage( theGame.params.DAMAGE_NAME_FIRE, dmgVal);
 				damage.AddEffectInfo(EET_KnockdownTypeApplicator);
@@ -546,15 +546,13 @@ state Armed in W3ToxicCloud
 				
 				if(RandF() < parent.burningChance)
 				{
-					if (parent.petardLevel > 0)
-					{
-						dragonDreamDurationMod.valueBase = 0;
-						dragonDreamDurationMod.valueAdditive = 0;
-						dragonDreamDurationMod.valueMultiplicative = PetardBonus("dmgDragon", parent.petardLevel);
-					
-						damage.AddEffectInfo(EET_Burning, , dragonDreamDurationMod, 'BurningEffect_DragonsDream');
-					}
-					else
+					if (parent.petardLevel == 3)
+						damage.AddEffectInfo(EET_Burning, , , 'BurningEffect_DragonsDream3');
+					else if (parent.petardLevel == 2)
+						damage.AddEffectInfo(EET_Burning, , , 'BurningEffect_DragonsDream2');
+					else if (parent.petardLevel == 1)
+						damage.AddEffectInfo(EET_Burning, , , 'BurningEffect_DragonsDream1');
+					else // default
 						damage.AddEffectInfo(EET_Burning);
 				}
 				
