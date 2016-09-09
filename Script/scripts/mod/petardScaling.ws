@@ -50,7 +50,12 @@ function PetardBonus(type : string, petardLevel : int) : float
 		case "durationHalved":
 			return (thePlayer.GetLevel() * (percentFactorDuration[petardLevel - 1] / 200));
 		case "aim":
-			return percentFactorAim[petardLevel - 1] / 100;
+			if (thePlayer.CanUseSkill(S_Alchemy_s09))
+			{
+				return (1.0f + thePlayer.GetSkillLevel(S_Alchemy_s09) * 0.5f) * percentFactorAim[petardLevel - 1] / 100;
+			}
+			else
+				return percentFactorAim[petardLevel - 1] / 100;
 		default:
 			return 0;
 	}
