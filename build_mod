@@ -16,6 +16,7 @@
 scriptFile[0]="/game/player/playerWitcher.ws"
 scriptFile[1]="/game/projectile/arrowProjectile.ws"
 scriptFile[2]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[3]="/game/gui/menus/characterMenu.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
