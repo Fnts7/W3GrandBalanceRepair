@@ -47,7 +47,7 @@
       <ability name="DancingStar_2_loop">
         <tags>PetardLoopParams</tags>
         <BurningEffect_DancingStar_2 is_ability="true" />
-        <duration type="add" min="7" max="7" />
+        <duration type="add" min="6" max="6" />
       </ability>
 	  
       <ability name="DancingStar_3_impact">
@@ -61,7 +61,7 @@
       <ability name="DancingStar_3_loop">
         <tags>PetardLoopParams</tags>
         <BurningEffect_DancingStar_3 is_ability="true" />
-        <duration type="add" min="10" max="10" />
+        <duration type="add" min="8" max="8" />
       </ability>
 	  
       <!-- DEVILS PUFFBALL -->
@@ -352,6 +352,7 @@
       </ability>
       <ability name="WhiteFrost_1_loop">
         <tags>PetardLoopParams</tags>
+		<FrozenEffect_WhiteFrost1 is_ability="true" />
         <duration type="add" min="2" max="2" />
       </ability>
       <ability name="WhiteFrost_2_impact">
@@ -370,7 +371,8 @@
       </ability>
       <ability name="WhiteFrost_2_loop">
         <tags>PetardLoopParams</tags>
-        <duration type="add" min="3" max="3" />
+		<FrozenEffect_WhiteFrost2 is_ability="true" />
+        <duration type="add" min="2.5" max="2.5" />
       </ability>
       <ability name="WhiteFrost_3_impact">
         <tags>PetardImpactParams</tags>
@@ -388,7 +390,8 @@
       </ability>
       <ability name="WhiteFrost_3_loop">
         <tags>PetardLoopParams</tags>
-        <duration type="add" min="4" max="4" />
+		<FrozenEffect_WhiteFrost3 is_ability="true" />
+        <duration type="add" min="3" max="3" />
       </ability>
 	  
 	  
