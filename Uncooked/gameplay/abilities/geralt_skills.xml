@@ -137,7 +137,8 @@
 		<armor_reduction min="1000" max="1000"/>
 		<critical_hit_chance type="add" min="0.1" />
 		<adrenaline_final_damage_bonus type="mult" min="0.334" />
-		<stamina_max_dmg_bonus type="mult" min="0.75" />
+		<stamina_max_dmg_bonus type="add" min="0.4" />
+		<stamina_max_dmg_bonus type="mult" min="0.1" /> <!--per skill level -->
 		
 		<stamina_cost type="add" min="0" />
         <stamina_cost_per_sec type="add" min="50" />

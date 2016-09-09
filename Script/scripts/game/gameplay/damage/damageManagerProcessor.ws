@@ -957,7 +957,7 @@ class W3DamageManagerProcessor extends CObject
 			
 			for(i=0; i<dmgInfos.Size(); i+=1)
 			{
-				dmgInfos[i].dmgVal *= (1 + rendRatio * staminaRendBonus.valueMultiplicative);
+				dmgInfos[i].dmgVal *= (1 + rendRatio * (staminaRendBonus.valueAdditive + witcherAttacker.GetSkillLevel(S_Sword_s02) * staminaRendBonus.valueMultiplicative));
 			}
 		}	
  
@@ -2032,6 +2032,8 @@ class W3DamageManagerProcessor extends CObject
 					bleedCustomEffect.sourceName = SkillEnumToName(S_Sword_s05);
 					bleedCustomEffect.duration = CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Sword_s05, 'duration', false, true));
 					bleedCustomEffect.effectValue.valueAdditive = CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Sword_s05, 'dmg_per_sec', false, true)) * playerAttacker.GetSkillLevel(S_Sword_s05);
+					if (playerAttacker.GetLevel() > 30)
+						bleedCustomEffect.effectValue.valueAdditive *= 1.0f + 2.5f * (playerAttacker.GetLevel() - 30) / 70.0f;
 					actorVictim.AddEffectCustom(bleedCustomEffect);
 				}
 			}

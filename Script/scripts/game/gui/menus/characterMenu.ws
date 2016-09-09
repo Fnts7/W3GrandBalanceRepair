@@ -1876,7 +1876,12 @@ class CR4CharacterMenu extends CR4MenuBase
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s02, 'adrenaline_final_damage_bonus', false, false);
 				argsInt.PushBack(RoundMath(ability.valueMultiplicative*100));
 				
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
+				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s02, 'stamina_max_dmg_bonus', false, false);
+				arg = ability.valueAdditive + skillLevel * ability.valueMultiplicative;
+				
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>";
+				baseString += "Stamina max load damage bonus: " + RoundF(arg * 100) + "%.<br>";
+				baseString += GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
 				break;
 			case S_Sword_s03:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s03, 'instant_kill_chance', false, false)) * skillLevel;
@@ -1891,6 +1896,8 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Sword_s05:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s05, 'dmg_per_sec', false, false)) * skillLevel;
+				if (GetWitcherPlayer().GetLevel() > 30)
+					arg *= 1.0f + 2.5f * (GetWitcherPlayer().GetLevel() - 30) / 70.0f;
 				argsInt.PushBack(RoundMath(arg));
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s05, 'duration', false, false));
 				argsInt.PushBack(RoundMath(arg));
