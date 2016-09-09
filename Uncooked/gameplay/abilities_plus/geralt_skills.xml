@@ -500,7 +500,7 @@
       <!-- Refreshment -->
       <ability name="alchemy_s2">
         <tags>alchemy_s2</tags>
-        <vitality_gain_perc type="add" min="0.06" />
+        <vitality_gain_perc type="add" min="0.05" />
       </ability>
 	  
 	  <!-- Delayed Recovery -->
