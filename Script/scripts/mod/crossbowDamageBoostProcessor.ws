@@ -100,7 +100,7 @@ class CrossbowDamageBoostProcessor
 
 	public function ProcessBoltDamage(out dmgInfos : array< SRawDamage >, action : W3Action_Attack, bolt : W3BoltProjectile, actorVictim : CActor)
 	{
-		var extraBoltDamage : float;
+		var extraBoltDamage, aimedBonus : float;
 		var victimAsNPC : CNewNPC ;
 		var i : int;
 		var isAimedBolt, flyingTarget, splitBoltReduction : bool;
@@ -142,7 +142,7 @@ class CrossbowDamageBoostProcessor
 
 				if (!isAimedBolt && flyingTarget)
 				{
-					dmgInfos[i].dmgVal /= 2.0;
+					dmgInfos[i].dmgVal /= 2.0f;
 				}					
 			}
 			else
@@ -156,14 +156,18 @@ class CrossbowDamageBoostProcessor
 				
 			if (isAimedBolt)
 			{
+				aimedBonus = 1.1f;
 				if (witcher.CanUseSkill(S_Perk_02))
-					dmgInfos[i].dmgVal *= 1.2;
-				else
-					dmgInfos[i].dmgVal *= 1.1;
+					aimedBonus += 0.1f;
+					
+				if (witcher.CanUseSkill(S_Sword_s13))
+					aimedBonus += 0.03f * witcher.GetSkillLevel(S_Sword_s13);
+				
+				dmgInfos[i].dmgVal *= aimedBonus;
 			}
 			else
 			{
-				dmgInfos[i].dmgVal = RandRangeF( dmgInfos[i].dmgVal * 1.1, dmgInfos[i].dmgVal * 0.9 );
+				dmgInfos[i].dmgVal = RandRangeF( dmgInfos[i].dmgVal * 1.1f, dmgInfos[i].dmgVal * 0.9f );
 			}
 		}
 	}
@@ -220,16 +224,16 @@ class CrossbowDamageBoostProcessor
 		level = Max(20, level);
 		level = Min(80, level);
 		
-		totalReduction = baseSplitReduction + ((level - 20) / 60.0 ) * extraSplitReduction;
+		totalReduction = baseSplitReduction + ((level - 20) / 60.0f ) * extraSplitReduction;
 		if (isAimed)
 		{
 			if (flyingTarget)
-				totalReduction /= 2.0;
+				totalReduction /= 2.0f;
 			else
-				totalReduction /= 1.5;
+				totalReduction /= 1.5f;
 		}
 		
-		return initialDmg * (1.0 - totalReduction);
+		return initialDmg * (1.0f - totalReduction);
 	}
 	
 	private function CheckWasHitBySplitBolt(victim : CActor) : bool

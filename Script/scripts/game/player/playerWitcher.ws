@@ -134,9 +134,6 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 	// CrossbowDamageBoost
 	var crossbowDmgProcessor : CrossbowDamageBoostProcessor;
-	/*(testing purposes)
-	public var lastCrossbowSilver : float;
-	public var lastCrossbowSteel : float;*/
 
 	
 	
@@ -7935,10 +7932,6 @@ statemachine class W3PlayerWitcher extends CR4Player
 				* attackPower.valueMultiplicative + attackPower.valueAdditive;
 			playerOffenseStats.crossbowSilverDmg = (playerOffenseStats.crossbowSilverDmg * crossbowDmgProcessor.crossbowDamageBoostData.SilverBoltFactor + attackPower.valueBase + extraBoltDamage * crossbowDmgProcessor.crossbowDamageBoostData.SilverWitcherFactor * boltDamageFactor)
 				* attackPower.valueMultiplicative + attackPower.valueAdditive;
-
-			/* testing purposes
-			playerOffenseStats.crossbowSteelDmg = lastCrossbowSteel;
-			playerOffenseStats.crossbowSilverDmg = lastCrossbowSilver;*/
 		}
 		else
 		{
