@@ -10,7 +10,7 @@
 				<attack_power					type="mult"	min="2.4"	max="2.4"	/>
 				<armor_reduction				type="base"	min="10"	max="10"	/>
 				<critical_hit_chance			type="add"	min="0.03"	max="0.03"	/>
-				<focus_gain						type="add"	min="0.04"	max="0.04"	/>
+				<focus_gain						type="add"	min="0.05"	max="0.05"	/>
 				<ammo							type="add"	min="3"					/>
 			</ability>
 
@@ -20,7 +20,7 @@
 				<attack_power					type="mult"	min="2.6"	max="2.6"	/>
 				<armor_reduction				type="base"	min="20"	max="20"	/>
 				<critical_hit_chance			type="add"	min="0.04"	max="0.04"	/>
-				<focus_gain						type="add"	min="0.05"	max="0.05"	/>
+				<focus_gain						type="add"	min="0.1"	max="0.1"	/>
 				<ammo							type="add"	min="3"					/>
 			</ability>
 

@@ -1948,7 +1948,10 @@ class CR4CharacterMenu extends CR4MenuBase
 			case S_Sword_s13:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s13, 'slowdown_mod', false, false)) * skillLevel;
 				argsInt.PushBack(RoundMath(arg*100));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>" + GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt) + "<br>";
+				// CrossbowDamageBoost
+				baseString += "Manually aimed shot base damage is raised by " + RoundF(3.0f * skillLevel) + "%.<br>";
+				baseString += GetLocStringByKeyExt("focus_gain") + ": +" + RoundF((arg_focus * 100) * skillLevel) + "%";
 				break;
 			case S_Sword_s15:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Sword_s15, 'focus_gain', false, false)) * skillLevel;
@@ -2344,7 +2347,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				argsInt.PushBack(RoundMath(ability.valueMultiplicative*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
 				// CrossbowDamageBoost
-				baseString += "<br>Manually aimed shot base damage grows from +10% to +20%.";
+				baseString += "<br>Manually aimed shot base damage is raised by 10%.";
 				break;
 			case S_Perk_04:
 				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Perk_04, 'vitality', false, true);
