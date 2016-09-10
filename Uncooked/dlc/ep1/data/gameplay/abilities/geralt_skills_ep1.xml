@@ -8,7 +8,7 @@
 		</ability>
 		<ability name="perk_18">
 			<tags>perk_18</tags>
-			<focus_gain type="add" min="0.1" />
+			<focus_gain type="add" min="0.2" />
 		</ability>
 		<ability name="perk_19">
 			<tags>perk_19</tags>
