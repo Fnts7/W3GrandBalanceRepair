@@ -1476,7 +1476,7 @@ class W3EffectManager
 	private final function GetSignApplyBuffTest(signType : ESignType, effectType : EEffectType, powerStatValue : SAbilityAttributeValue, isAlternate : bool, caster : CActor, sourceName : string ) : bool
 	{
 		var sp, res, chance, tempF : float;
-		//var chanceBonus : SAbilityAttributeValue;
+		var chanceBonus : SAbilityAttributeValue;
 		var witcher : W3PlayerWitcher;
 
 		
@@ -1496,17 +1496,17 @@ class W3EffectManager
 		else if(signType == ST_Igni)
 		{
 			if (owner.HasAbility( 'mon_type_huge' ))
-				chance = sp / 3.0f - res;
+				chance = sp / 2.75f - res;
 			else
 				chance = sp / 2.5f - res;
 
 			if(witcher)
 			{
-				/*if(witcher.CanUseSkill(S_Magic_s09))
+				if(witcher.CanUseSkill(S_Magic_s09))
 				{
 					chanceBonus = witcher.GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, true);
-					chance += chance * chanceBonus.valueMultiplicative * witcher.GetSkillLevel(S_Magic_s09) + chanceBonus.valueAdditive * witcher.GetSkillLevel(S_Magic_s09);
-				}*/
+					chance += chanceBonus.valueAdditive * witcher.GetSkillLevel(S_Magic_s09);
+				}
 				if(witcher.CanUseSkill(S_Perk_03))
 					chance += CalculateAttributeValue(witcher.GetSkillAttributeValue(S_Perk_03, 'burning_chance', false, true));
 			}

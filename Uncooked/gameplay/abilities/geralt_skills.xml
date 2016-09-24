@@ -411,7 +411,7 @@
 	   <!-- Combustible -->
       <ability name="magic_s9">
         <tags>magic_s9</tags>
-        <chance_bonus type="add" min="0.20004" />
+        <chance_bonus type="add" min="0.05" />
       </ability>
 	
       <!-- Glyph Sustenance -->
