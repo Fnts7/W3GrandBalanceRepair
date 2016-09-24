@@ -379,8 +379,8 @@ class W3Action_Attack extends W3DamageAction
 		}
 		
 		burning = (W3Effect_Burning)causer;
-		if (burning && burning.GetAbilityName() == 'BurningEffect_ExplosiveBolt' && result.valueMultiplicative > 2.0f)
-			result.valueMultiplicative = 2.0f + LogF( (result.valueMultiplicative - 2.0f) + 1);
+		if (burning && burning.GetAbilityName() == 'BurningEffect_ExplosiveBolt' && result.valueMultiplicative > 2.5f)
+			result.valueMultiplicative = 2.5f + LogF( (result.valueMultiplicative - 2.5f) + 1);
 		
 		if(result.valueMultiplicative < 0)
 			result.valueMultiplicative = 0.001;
