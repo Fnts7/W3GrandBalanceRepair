@@ -55,15 +55,15 @@
 			<!-- GOLDEN ORIOLE -->
 			<ability name="GoldenOrioleEffect_Level1">
 				<tags>passive</tags>
-				<poison_resistance_perc type="base" min="1"/>
+				<poison_resistance_perc type="base" min="0.5"/>
 			</ability>
 			<ability name="GoldenOrioleEffect_Level2">
 				<tags>passive</tags>
-				<poison_resistance_perc type="base" min="1"/>
+				<poison_resistance_perc type="base" min="0.6"/>
 			</ability>
 			<ability name="GoldenOrioleEffect_Level3">
 				<tags>passive</tags>
-				<!-- no poison res as it grants absorb -->
+				<poison_resistance_perc type="base" min="1.0"/>
 			</ability>
 			
 			<!-- KILLER WHALE -->
@@ -158,11 +158,11 @@
 			</ability>
 			<ability name="ThunderboltEffect_Level2">
 				<tags>passive</tags>
-				<attack_power type="mult" min="0.3"/>
+				<attack_power type="mult" min="0.4"/>
 			</ability>
 			<ability name="ThunderboltEffect_Level3">
 				<tags>passive</tags>
-				<attack_power type="mult" min="0.35"/>
+				<attack_power type="mult" min="0.5"/>
 			</ability>
 			
 			<!-- WHITE HONEY -->

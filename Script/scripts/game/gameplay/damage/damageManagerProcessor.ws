@@ -369,7 +369,7 @@ class W3DamageManagerProcessor extends CObject
 			if(dmgInfos[i].dmgType == theGame.params.DAMAGE_NAME_POISON && witcher == actorVictim && witcher.HasBuff(EET_GoldenOriole) && witcher.GetPotionBuffLevel(EET_GoldenOriole) == 3)
 			{
 				
-				witcher.GainStat(BCS_Vitality, dmgInfos[i].dmgVal);
+				//witcher.GainStat(BCS_Vitality, dmgInfos[i].dmgVal);
 				
 				
 				if ( canLog )

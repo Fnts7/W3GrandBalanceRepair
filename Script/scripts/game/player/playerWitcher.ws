@@ -2193,9 +2193,12 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		
 		thunder = ( W3Potion_Thunderbolt )GetBuff( EET_Thunderbolt );
-		if( thunder && thunder.GetBuffLevel() == 3 && GetCurWeather() == EWE_Storm )
+		if( thunder && GetCurWeather() == EWE_Storm )
 		{
-			ret += 1.0f;
+			if (thunder.GetBuffLevel() == 3)
+				ret += 0.3f;
+			else if (thunder.GetBuffLevel() == 2)
+				ret += 0.15f;
 		}
 		
 		

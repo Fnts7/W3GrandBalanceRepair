@@ -61,6 +61,8 @@ scriptFile[35]="/mod/axiiMods.ws"
 scriptFile[36]="/mod/petardScaling.ws"
 scriptFile[37]="/game/gameplay/effects/effects/criticalDOTEffect.ws"
 scriptFile[38]="/game/gameplay/interactive/toxicCloudEntity.ws"
+scriptFile[39]="/game/gui/_old/components/guiPlayerInventoryComponent.ws"
+scriptFile[40]="/game/gameplay/effects/effects/potion/GoldenOriole.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
@@ -111,6 +113,13 @@ assetFile[38]="/gameplay/items_plus/def_item_alchemy_petards.xml"
 
 assetFile[39]="/dlc/ep1/data/gameplay/abilities/geralt_skills_ep1.xml"
 assetFile[40]="/dlc/ep1/data/gameplay/abilities_plus/geralt_skills_ep1.xml"
+
+assetFile[41]="/gameplay/abilities/effects_potions.xml"
+assetFile[42]="/gameplay/abilities_plus/effects_potions.xml"
+assetFile[43]="/gameplay/abilities/geralt_stats.xml"
+assetFile[44]="/gameplay/abilities_plus/geralt_stats.xml"
+assetFile[45]="/gameplay/items/def_item_alchemy_potion.xml"
+assetFile[46]="/gameplay/items_plus/def_item_alchemy_potion.xml"
 
 # ASSET FILES END
 
