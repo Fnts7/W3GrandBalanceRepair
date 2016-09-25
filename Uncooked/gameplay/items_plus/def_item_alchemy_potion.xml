@@ -45,7 +45,7 @@
       <!-- Slo-Mo-->
       <ability name="Blizzard_1">
         <toxicity min="25" max="25" type="add" />
-        <duration min="15" type="add" />
+        <duration min="20" type="add" />
         <ammo type="add" min="2" />
         <BlizzardEffect_Level1 is_ability="true" />	
 		<quality type="add" min="2" max="2"/>
@@ -53,7 +53,7 @@
       </ability>
       <ability name="Blizzard_2">
         <toxicity min="25" max="25" type="add" />
-        <duration min="20" type="add" />
+        <duration min="30" type="add" />
         <ammo type="add" min="3" />
         <BlizzardEffect_Level2 is_ability="true" />
         <Blizzard_3 is_ability="true" />
@@ -62,7 +62,7 @@
       </ability>
       <ability name="Blizzard_3">
         <toxicity min="25" max="25" type="add" />
-        <duration min="30" type="add" />
+        <duration min="40" type="add" />
         <ammo type="add" min="4" />
         <BlizzardEffect_Level3 is_ability="true" />
         <Blizzard_2 is_ability="true" />
@@ -129,7 +129,7 @@
       <!-- Non-physical Resistances Bonus-->
       <ability name="GoldenOriole_1">
         <toxicity min="20" max="20" type="add" />
-        <duration min="60" max="60" type="add" />
+        <duration min="100" max="100" type="add" />
         <ammo type="add" min="3" />
         <GoldenOrioleEffect_Level1 is_ability="true" />
 		<quality type="add" min="2" max="2"/>
@@ -137,7 +137,7 @@
       </ability>
       <ability name="GoldenOriole_2">
         <toxicity min="20" max="20" type="add" />
-        <duration min="120" max="120" type="add" />
+        <duration min="150" max="150" type="add" />
         <ammo type="add" min="4" />
         <GoldenOrioleEffect_Level2 is_ability="true" />
         <GoldenOriole_3 is_ability="true" />

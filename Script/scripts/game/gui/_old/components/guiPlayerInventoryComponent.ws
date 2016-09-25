@@ -316,10 +316,27 @@ class W3GuiPlayerInventoryComponent extends W3GuiBaseInventoryComponent
 		
 		tmpStr = FloatToStringPrec( weightValue, 2 );
 		weight = GetLocStringByKeyExt("attribute_name_weight") + "  " + tmpStr;
-		
+
 		itemName = GetLocStringByKeyExt(_inv.GetItemLocalizedNameByName(craftedItemName));
 		itemDesc = GetLocStringByKeyExt(_inv.GetItemLocalizedDescriptionByName(craftedItemName));
-		
+
+		if (craftedItemName == 'Mutagen 2')
+			itemDesc = "Absorbs 25% of all damage.";
+		else if (craftedItemName == 'Mutagen 27')
+			itemDesc = "Absorbs damage. When Geralt gets hit damage absorption by this decoction raises by 3% and maximum is 36%.";
+		else if (craftedItemName == 'Mutagen 15')
+			itemDesc = "Increases adrenaline gain on combat start. Starts with 3 charges, each increasing adrenaline gain by 25%. After getting damage or 20 seconds have passed, one charge is removed. So after 3 hits or a minute at latest the bonus drops to 0.";
+		else if (craftedItemName == 'Thunderbolt 3')		
+			itemDesc = "Increases attack power. Longer duration. Gives 30% critical hit chance bonus during storm.";
+		else if (craftedItemName == 'Golden Oriole 1')
+			itemDesc = "Gives 70% poison resistance.";
+		else if (craftedItemName == 'Golden Oriole 2')
+			itemDesc = "Gives 80% poison resistance. Longer duration.";
+		else if (craftedItemName == 'Golden Oriole 3')
+			itemDesc = "Gives poison immunity. Longer duration.";
+		else if (craftedItemName == 'Thunderbolt 2')
+			itemDesc += "<br>Gives 15% critical hit chance bonus during storm.";
+
 		rarityId = minQuality;
 		rarity = GetItemRarityDescriptionFromInt(minQuality);
 		type = GetLocStringByKeyExt("item_category_" + dm.GetItemCategory(craftedItemName));

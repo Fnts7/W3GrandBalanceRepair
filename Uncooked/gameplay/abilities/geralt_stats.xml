@@ -109,7 +109,7 @@
         <frost_resistance_perc type="base" min="0" max="0" />
         <force_resistance_perc type="base" min="0" max="0" />
         <shock_resistance_perc type="base" min="0" max="0" />
-        <poison_resistance_perc type="base" min="0.25" max="0.25" />
+        <poison_resistance_perc type="base" min="0.20" max="0.20" />
         <bleeding_resistance_perc type="base" min="0.25" max="0.25" />
         <will_resistance_perc type="base" min="0" max="0" />
         <burning_resistance_perc type="base" min="0" max="0" />

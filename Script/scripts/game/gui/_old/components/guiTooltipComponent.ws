@@ -436,8 +436,19 @@ class W3TooltipComponent
 				uniqueDescription = "Absorbs damage. When Geralt gets hit damage absorption by this decoction raises by 3% and maximum is 36%.";
 			else if (itemName == 'Mutagen 15')
 				uniqueDescription = "Increases adrenaline gain on combat start. Starts with 3 charges, each increasing adrenaline gain by 25%. After getting damage or 20 seconds have passed, one charge is removed. So after 3 hits or a minute at latest the bonus drops to 0.";
-			else
+			else if (itemName == 'Thunderbolt 3')
+				uniqueDescription = "Increases attack power. Longer duration. Gives 30% critical hit chance bonus during storm.";
+			else if (itemName == 'Golden Oriole 1')
+				uniqueDescription = "Gives 70% poison resistance.";
+			else if (itemName == 'Golden Oriole 2')
+				uniqueDescription = "Gives 80% poison resistance. Longer duration.";
+			else if (itemName == 'Golden Oriole 3')
+				uniqueDescription = "Gives poison immunity. Longer duration.";
+			else			
 				uniqueDescription = GetLocStringByKeyExt( itemInvComponent.GetItemLocalizedDescriptionByUniqueID(item) );
+
+			if (itemName == 'Thunderbolt 2')
+				uniqueDescription += "<br>Gives 15% critical hit chance bonus during storm.";
 		}
 		if ( theGame.GetGuiManager().GetShowItemNames() )
 		{

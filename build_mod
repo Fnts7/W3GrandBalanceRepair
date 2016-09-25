@@ -23,6 +23,8 @@ scriptFile[5]="/game/gameplay/effects/effects/mutagens/mutagen15.ws"
 scriptFile[6]="/game/components/inventoryComponent.ws"
 scriptFile[7]="/game/gui/menus/characterMenu.ws"
 scriptFile[8]="/game/gui/_old/components/guiTooltipComponent.ws"
+scriptFile[9]="/game/gui/_old/components/guiPlayerInventoryComponent.ws"
+scriptFile[10]="/game/gameplay/effects/effects/potion/GoldenOriole.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
@@ -34,6 +36,13 @@ assetFile[4]="/dlc/bob/data/gameplay/abilities/effects_ep2.xml"
 assetFile[5]="/dlc/bob/data/gameplay/abilities_plus/effects_ep2.xml"
 assetFile[6]="/dlc/bob/data/gameplay/abilities/geralt_skills_ep2.xml"
 assetFile[7]="/dlc/bob/data/gameplay/abilities_plus/geralt_skills_ep2.xml"
+
+assetFile[8]="/gameplay/abilities/effects_potions.xml"
+assetFile[9]="/gameplay/abilities_plus/effects_potions.xml"
+assetFile[10]="/gameplay/abilities/geralt_stats.xml"
+assetFile[11]="/gameplay/abilities_plus/geralt_stats.xml"
+assetFile[12]="/gameplay/items/def_item_alchemy_potion.xml"
+assetFile[13]="/gameplay/items_plus/def_item_alchemy_potion.xml"
 # ASSET FILES END
 
 set -e
