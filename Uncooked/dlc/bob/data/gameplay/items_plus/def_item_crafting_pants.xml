@@ -457,7 +457,7 @@
 				price							="283"
 				initial_durability				="100"
 				max_durability					="100"
-				enhancement_slots				="2"
+				enhancement_slots				="3"
 				stackable						="1"
 				grid_size						="2"
 				ability_mode					="OnMount"

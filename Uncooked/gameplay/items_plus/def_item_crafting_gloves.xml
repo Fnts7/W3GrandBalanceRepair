@@ -674,7 +674,7 @@
 		price							="133"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -683,7 +683,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_gloves_lvl1_64x128.png"
 	>
-		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Gloves 1 _Stats</a>
@@ -710,7 +710,7 @@
 		price							="133"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -719,7 +719,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_gloves_lvl1_64x128.png"
 	>
-		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Gloves 2 _Stats</a>
@@ -755,7 +755,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_gloves_lvl2_64x128.png"
 	>
-		<tags>							Armor,LightArmor,LynxSet, mod_armor, mod_legendary
+		<tags>							Armor,LightArmor,LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Gloves 3 _Stats</a>
@@ -791,7 +791,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_gloves_lvl2_64x128.png"
 	>
-		<tags>							Armor,LightArmor,LynxSet, mod_armor, mod_legendary
+		<tags>							Armor,LightArmor,LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Gloves 4 _Stats</a>
@@ -818,7 +818,7 @@
 		price							="134"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -827,7 +827,7 @@
 		localisation_key_name			="item_name_newgame_gryphon_gloves_1"
 		localisation_key_description	="item_category_medium_armor_description"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Gloves 1 _Stats</a>
@@ -854,7 +854,7 @@
 		price							="134"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -863,7 +863,7 @@
 		localisation_key_name			="item_name_newgame_gryphon_gloves_2"
 		localisation_key_description	="item_category_medium_armor_description"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Gloves 2 _Stats</a>
@@ -899,7 +899,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_gloves_lvl2_64x128.png"
 	>
-		<tags>							Armor,MediumArmor,GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor,MediumArmor,GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Gloves 3 _Stats</a>
@@ -935,7 +935,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_gloves_lvl2_64x128.png"
 	>
-		<tags>							Armor,MediumArmor,GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor,MediumArmor,GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Gloves 4 _Stats</a>
@@ -962,7 +962,7 @@
 		price							="136"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -971,7 +971,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_gloves_lvl1_64x128.png"
 	>
-		<tags>							Armor, HeavyArmor, BearSet, mod_armor, mod_legendary
+		<tags>							Armor, HeavyArmor, BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Gloves 1 _Stats</a>
@@ -998,7 +998,7 @@
 		price							="136"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -1007,7 +1007,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_gloves_lvl1_64x128.png"
 	>
-		<tags>							Armor, HeavyArmor, BearSet, mod_armor, mod_legendary
+		<tags>							Armor, HeavyArmor, BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Gloves 2 _Stats</a>
@@ -1043,7 +1043,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_gloves_lvl2_64x128.png"
 	>
-		<tags>							Armor,HeavyArmor, BearSet, mod_armor, mod_legendary
+		<tags>							Armor,HeavyArmor, BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Gloves 3 _Stats</a>
@@ -1078,7 +1078,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_gloves_lvl2_64x128.png"
 	>
-		<tags>							Armor,HeavyArmor, BearSet, mod_armor, mod_legendary
+		<tags>							Armor,HeavyArmor, BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Gloves 4 _Stats</a>

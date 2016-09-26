@@ -822,7 +822,7 @@ class W3TooltipComponent
 			m_enchantmentManager.GetSchematic(enchantmentName, schematic);
 			
 			if (schematic.schemName == 'Runeword 1')
-				description = "When a sign is cast, fills the sword with that sign's power for one strike. Costs 0.3 adrenaline points.";
+				description = "When a sign is cast, fills the sword with that sign's power for one strike. Costs 0.25 - 0.4 adrenaline points depending on the sign type.";
 			else
 			{
 				itemInvComponent.GetParamsForRunewordTooltip(schematic.schemName, enchantmentParamsInt, enchantmentParamsFloat, enchantmentParamsStr);

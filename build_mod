@@ -121,6 +121,14 @@ assetFile[44]="/gameplay/abilities_plus/geralt_stats.xml"
 assetFile[45]="/gameplay/items/def_item_alchemy_potion.xml"
 assetFile[46]="/gameplay/items_plus/def_item_alchemy_potion.xml"
 
+assetFile[47]="/gameplay/items_plus/def_item_crafting_armor.xml"
+assetFile[48]="/gameplay/items_plus/def_item_crafting_boots.xml"
+assetFile[49]="/gameplay/items_plus/def_item_crafting_pants.xml"
+assetFile[50]="/gameplay/items_plus/def_item_crafting_weapons.xml"
+assetFile[51]="/dlc/bob/data/gameplay/items_plus/def_item_crafting_pants.xml"
+assetFile[52]="/dlc/dlc10/data/gameplay/items_plus/dlc10_wolf_armor.xml"
+assetFile[53]="/dlc/dlc10/data/gameplay/items_plus/dlc10_wolf_swords.xml"
+
 # ASSET FILES END
 
 set -e
