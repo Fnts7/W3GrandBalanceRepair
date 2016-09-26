@@ -1106,7 +1106,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_armor_64x128.png"
 	>
-		<tags>							Armor,LightArmor,LynxSet, mod_armor, mod_legendary, Sleevless
+		<tags>							Armor,LightArmor,LynxSet, mod_armor, mod_legendary, Sleevless, SetBonusPiece
 		</tags>
 		<recycling_parts>				<parts count="1">Geralt Shirt</parts>
 										<parts count="2">Hardened leather</parts>
@@ -1137,7 +1137,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_armor_1_64x128.png"
 	>
-		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Armor 1 _Stats</a>
@@ -1167,7 +1167,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_armor_2_64x128.png"
 	>
-		<tags>							Armor, LightArmor,LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor,LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Armor 2 _Stats</a>
@@ -1197,7 +1197,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_armor_3_64x128.png"
 	>
-		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Armor 3 _Stats</a>
@@ -1227,7 +1227,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_armor_64x128.png"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Armor _Stats</a>
@@ -1258,7 +1258,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_armor_1_64x128.png"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Armor 1 _Stats</a>
@@ -1288,7 +1288,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_armor_2_64x128.png"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Armor 2 _Stats</a>
@@ -1318,7 +1318,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_armor_3_64x128.png"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>
 										<a>Default armor _Stats</a>
@@ -1349,7 +1349,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_armor_64x128.png"
 	>
-		<tags>							Armor,HeavyArmor,BearSet, mod_armor, mod_legendary
+		<tags>							Armor,HeavyArmor,BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Armor _Stats</a>
@@ -1380,7 +1380,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_armor_1_64x128.png"
 	>
-		<tags>							Armor,HeavyArmor,BearSet, mod_armor, mod_legendary
+		<tags>							Armor,HeavyArmor,BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Armor 1 _Stats</a>
@@ -1410,7 +1410,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_armor_2_64x128.png"
 	>
-		<tags>							Armor,HeavyArmor,BearSet, mod_armor, mod_legendary
+		<tags>							Armor,HeavyArmor,BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>		
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Armor 2 _Stats</a>
@@ -1440,7 +1440,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_armor_3_64x128.png"
 	>
-		<tags>							Armor,HeavyArmor,BearSet, mod_armor, mod_legendary
+		<tags>							Armor,HeavyArmor,BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Armor 3 _Stats</a>

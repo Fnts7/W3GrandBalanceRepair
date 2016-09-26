@@ -762,7 +762,7 @@
 		price							="149"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -771,7 +771,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_boots_lvl1_64x128.png"
 	>
-		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Boots 1 _Stats</a>
@@ -790,7 +790,7 @@
 		price							="149"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -799,7 +799,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_boots_lvl1_64x128.png"
 	>
-		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Boots 2 _Stats</a>
@@ -827,7 +827,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_boots_lvl2_64x128.png"
 	>
-		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Boots 3 _Stats</a>
@@ -855,7 +855,7 @@
 		localisation_key_description	="item_category_light_armor_description"
 		icon_path						="icons/inventory/armors/lynx_boots_lvl2_64x128.png"
 	>
-		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary
+		<tags>							Armor, LightArmor, LynxSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Lynx Boots 4 _Stats</a>
@@ -874,7 +874,7 @@
 		price							="129"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -883,7 +883,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_boots_lvl1_64x128.png"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Boots 1 _Stats</a>
@@ -902,7 +902,7 @@
 		price							="129"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -911,7 +911,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_boots_lvl1_64x128.png"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Boots 2 _Stats</a>
@@ -939,7 +939,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_boots_lvl2_64x128.png"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Boots 3 _Stats</a>
@@ -968,7 +968,7 @@
 		localisation_key_description	="item_category_medium_armor_description"
 		icon_path						="icons/inventory/armors/gryphon_boots_lvl2_64x128.png"
 	>
-		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary
+		<tags>							Armor, MediumArmor, GryphonSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Gryphon Boots 4 _Stats</a>
@@ -988,7 +988,7 @@
 		price							="150"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -997,7 +997,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_boots_lvl1_64x128.png"
 	>
-		<tags>							Armor, HeavyArmor,BearSet, mod_armor, mod_legendary
+		<tags>							Armor, HeavyArmor,BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Boots 1 _Stats</a>
@@ -1016,7 +1016,7 @@
 		price							="150"
 		initial_durability				="100"
 		max_durability					="100"
-		enhancement_slots				="1"
+		enhancement_slots				="2"
 		stackable						="1"
 		grid_size						="2"
 		ability_mode					="OnMount"
@@ -1025,7 +1025,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_boots_lvl1_64x128.png"
 	>
-		<tags>							Armor, HeavyArmor,BearSet, mod_armor, mod_legendary
+		<tags>							Armor, HeavyArmor,BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Boots 2 _Stats</a>
@@ -1053,7 +1053,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_boots_lvl2_64x128.png"
 	>
-		<tags>							Armor, HeavyArmor,BearSet, mod_armor, mod_legendary
+		<tags>							Armor, HeavyArmor,BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Boots 3 _Stats</a>
@@ -1081,7 +1081,7 @@
 		localisation_key_description	="item_category_heavy_armor_description"
 		icon_path						="icons/inventory/armors/bear_boots_lvl2_64x128.png"
 	>
-		<tags>							Armor, HeavyArmor,BearSet, mod_armor, mod_legendary
+		<tags>							Armor, HeavyArmor,BearSet, mod_armor, mod_legendary, SetBonusPiece
 		</tags>
 		<base_abilities>				<a>Default armor _Stats</a>
 										<a>Bear Boots 4 _Stats</a>

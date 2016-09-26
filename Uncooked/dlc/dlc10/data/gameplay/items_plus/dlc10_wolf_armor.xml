@@ -895,7 +895,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_armor_lvl1_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Armor _Stats</a>
@@ -925,7 +925,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_armor_lvl2_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Armor 1 _Stats</a>
@@ -954,7 +954,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_armor_lvl3_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Armor 2 _Stats</a>
@@ -984,7 +984,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_armor_lvl4_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Armor 3 _Stats</a>
@@ -1004,7 +1004,7 @@
 				price							="201"
 				initial_durability				="100"
 				max_durability					="100"
-				enhancement_slots				="1"
+				enhancement_slots				="2"
 				stackable						="1"
 				grid_size						="2"
 				ability_mode					="OnMount"
@@ -1013,7 +1013,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_boots_lvl1_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Boots 1 _Stats</a>
@@ -1032,7 +1032,7 @@
 				price							="201"
 				initial_durability				="100"
 				max_durability					="100"
-				enhancement_slots				="1"
+				enhancement_slots				="2"
 				stackable						="1"
 				grid_size						="2"
 				ability_mode					="OnMount"
@@ -1041,7 +1041,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_boots_lvl1_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Boots 2 _Stats</a>
@@ -1069,7 +1069,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_boots_lvl2_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Boots 3 _Stats</a>
@@ -1097,7 +1097,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_boots_lvl2_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Boots 4 _Stats</a>
@@ -1116,7 +1116,7 @@
 				price							="186"
 				initial_durability				="100"
 				max_durability					="100"
-				enhancement_slots				="1"
+				enhancement_slots				="2"
 				stackable						="1"
 				grid_size						="2"
 				ability_mode					="OnMount"
@@ -1125,7 +1125,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_gloves_lvl1_64x128.png"
 			>
-				<tags>							Armor,MediumArmor,WolfSet, mod_armor, mod_legendary
+				<tags>							Armor,MediumArmor,WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Gloves 1 _Stats</a>
@@ -1150,7 +1150,7 @@
 				price							="186"
 				initial_durability				="100"
 				max_durability					="100"
-				enhancement_slots				="1"
+				enhancement_slots				="2"
 				stackable						="1"
 				grid_size						="2"
 				ability_mode					="OnMount"
@@ -1159,7 +1159,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_gloves_lvl1_64x128.png"
 			>
-				<tags>							Armor,MediumArmor,WolfSet, mod_armor, mod_legendary
+				<tags>							Armor,MediumArmor,WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Gloves 2 _Stats</a>
@@ -1193,7 +1193,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_gloves_lvl2_64x128.png"
 			>
-				<tags>							Armor,MediumArmor,WolfSet, mod_armor, mod_legendary
+				<tags>							Armor,MediumArmor,WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Gloves 3 _Stats</a>
@@ -1227,7 +1227,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_gloves_lvl2_64x128.png"
 			>
-				<tags>							Armor,MediumArmor,WolfSet, mod_armor, mod_legendary
+				<tags>							Armor,MediumArmor,WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Gloves 4 _Stats</a>
@@ -1261,7 +1261,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_legs_lvl1_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Pants 1 _Stats</a>
@@ -1297,7 +1297,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_legs_lvl1_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Pants 2 _Stats</a>
@@ -1333,7 +1333,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_legs_lvl2_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Pants 3 _Stats</a>
@@ -1361,7 +1361,7 @@
 				price							="283"
 				initial_durability				="100"
 				max_durability					="100"
-				enhancement_slots				="4"
+				enhancement_slots				="3"
 				stackable						="1"
 				grid_size						="2"
 				ability_mode					="OnMount"
@@ -1370,7 +1370,7 @@
 				localisation_key_description	="item_category_medium_armor_description"
 				icon_path						="icons/inventory/armors/wolf_legs_lvl2_64x128.png"
 			>
-				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary
+				<tags>							Armor, MediumArmor, WolfSet, mod_armor, mod_legendary, SetBonusPiece
 				</tags>
 				<base_abilities>				<a>Default armor _Stats</a>
 												<a>NGP Wolf Pants 4 _Stats</a>

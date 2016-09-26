@@ -28,6 +28,14 @@ assetFile[4]="/dlc/bob/data/gameplay/items/def_item_crafting_gloves.xml"
 assetFile[5]="/dlc/bob/data/gameplay/items_plus/def_item_crafting_gloves.xml"
 assetFile[6]="/dlc/ep1/data/gameplay/items/def_item_ep1_runewords.xml"
 assetFile[7]="/dlc/ep1/data/gameplay/items_plus/def_item_ep1_runewords.xml"
+
+assetFile[8]="/gameplay/items_plus/def_item_crafting_armor.xml"
+assetFile[9]="/gameplay/items_plus/def_item_crafting_boots.xml"
+assetFile[10]="/gameplay/items_plus/def_item_crafting_pants.xml"
+assetFile[11]="/gameplay/items_plus/def_item_crafting_weapons.xml"
+assetFile[12]="/dlc/bob/data/gameplay/items_plus/def_item_crafting_pants.xml"
+assetFile[13]="/dlc/dlc10/data/gameplay/items_plus/dlc10_wolf_armor.xml"
+assetFile[14]="/dlc/dlc10/data/gameplay/items_plus/dlc10_wolf_swords.xml"
 # ASSET FILES END
 
 set -e
