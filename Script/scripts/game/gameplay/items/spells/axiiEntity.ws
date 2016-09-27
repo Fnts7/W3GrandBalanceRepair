@@ -258,9 +258,9 @@ statemachine class W3AxiiEntity extends W3SignEntity
 		var buff : EEffectInteract;
 		var conf : W3ConfuseEffect;
 		var i : int;
-		var duration, durationAnimal : SAbilityAttributeValue;
+		var duration, durationAnimal, dominatePower : SAbilityAttributeValue;
 		var casterActor : CActor;
-		var dur, durAnimals, durTimeDiff, durTimeFactor, minCastTime, maxCastTime : float;
+		var dur, durAnimals, durTimeDiff, durTimeFactor, minCastTime, maxCastTime, dominateFactor : float;
 		var params, staggerParams : SCustomEffectParams;
 		var npcTarget : CNewNPC;
 		var jobTreeType : EJobTreeType;
@@ -297,11 +297,11 @@ statemachine class W3AxiiEntity extends W3SignEntity
 			
 			
 			
-			if(owner.CanUseSkill(S_Magic_s19))
+			/*if(owner.CanUseSkill(S_Magic_s19))
 			{
 				duration -= owner.GetSkillAttributeValue(S_Magic_s19, 'duration', false, true) * (3 - owner.GetSkillLevel(S_Magic_s19));
 				durationAnimal -= owner.GetSkillAttributeValue(S_Magic_s19, 'duration', false, true) * (3 - owner.GetSkillLevel(S_Magic_s19));
-			}
+			}*/
 			
 			
 			dur = CalculateAttributeValue(duration);
@@ -342,6 +342,12 @@ statemachine class W3AxiiEntity extends W3SignEntity
 				npcTarget = (CNewNPC)targets[i];
 				
 				params.customPowerStatValue = casterActor.GetTotalSignSpellPower(skillEnum);
+				if (i > 0 && owner.CanUseSkill(S_Magic_s19))
+				{
+					dominatePower = owner.GetSkillAttributeValue(S_Magic_s19, 'power_factor', false, true);
+					dominateFactor = dominatePower.valueAdditive + owner.GetSkillLevel(S_Magic_s19) * dominatePower.valueMultiplicative;
+					params.customPowerStatValue.valueMultiplicative *= dominateFactor;
+				}
 				
 				if( targets[i].IsAnimal() || npcTarget.IsHorse() )
 				{
@@ -370,6 +376,11 @@ statemachine class W3AxiiEntity extends W3SignEntity
 					}
 
 					params.duration = dur;
+				}
+				
+				if (i > 0 && owner.CanUseSkill(S_Magic_s19))
+				{
+					params.duration *= dominateFactor;
 				}
 				
 				jobTreeType = npcTarget.GetCurrentJTType();	
