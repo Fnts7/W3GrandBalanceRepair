@@ -60,3 +60,23 @@ function PetardBonus(type : string, petardLevel : int) : float
 			return 0;
 	}
 }
+
+function GetPetardClusterDamageBonus(_skillLevel : int) : float
+{
+	var skillLevel : int;
+	if (_skillLevel > 0)
+		skillLevel = _skillLevel;
+	else if (thePlayer.CanUseSkill(S_Alchemy_s11))
+		skillLevel = thePlayer.GetSkillLevel(S_Alchemy_s11);
+	else
+		skillLevel = 0;
+
+	if (skillLevel >= 5)
+		return 0.36f;
+	else if (skillLevel >= 3)
+		return 0.24f;
+	else if (skillLevel >= 2)
+		return 0.12f;
+	else
+		return 0;
+}

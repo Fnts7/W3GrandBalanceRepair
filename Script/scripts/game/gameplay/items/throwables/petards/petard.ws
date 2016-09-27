@@ -590,7 +590,6 @@ class W3Petard extends CThrowable
 		if(!isCluster && !ignoreBombSkills && (W3PlayerWitcher)GetOwner() && GetWitcherPlayer().CanUseSkill(S_Alchemy_s11) && !HasTag('Snowball'))
 		{
 			ProcessClusterBombs();
-			return;
 		}
 		
 		if ( explosionPosition == Vector( 0, 0, 0 ) )
@@ -1116,7 +1115,7 @@ class W3Petard extends CThrowable
 		else
 			hitType = EHRT_None;
 		
-		if( (W3PlayerWitcher)GetOwner() && GetWitcherPlayer().CanUseSkill( S_Perk_20 ) )
+		if( (W3PlayerWitcher)GetOwner() && (GetWitcherPlayer().CanUseSkill( S_Perk_20 ) || GetWitcherPlayer().CanUseSkill(S_Alchemy_s11)))
 		{
 			DoTBuff = new W3BuffDoTParams in this;
 			DoTBuff.isPerk20Active = true;
@@ -1268,7 +1267,6 @@ class W3Petard extends CThrowable
 		stopCollisions = false;
 	}
 	
-	
 	private function ProcessClusterBombs()
 	{
 		var target : CActor = thePlayer.GetTarget();
@@ -1287,7 +1285,7 @@ class W3Petard extends CThrowable
 		clusterInitPos = GetWorldPosition();
 		clusterInitPos.Z += radius + 0.15;
 		
-		clusterNbr = thePlayer.GetSkillLevel(S_Alchemy_s11) + 1;
+		clusterNbr = (thePlayer.GetSkillLevel(S_Alchemy_s11) + 2) / 3;
 		
 		for(i=0; i<clusterNbr; i+=1)
 		{			

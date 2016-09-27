@@ -20,6 +20,8 @@ scriptFile[3]="/mod/petardScaling.ws"
 scriptFile[4]="/game/gameplay/effects/effects/criticalDOTEffect.ws"
 scriptFile[5]="/game/gameplay/interactive/toxicCloudEntity.ws"
 scriptFile[6]="/game/gui/menus/characterMenu.ws"
+scriptFile[7]="/game/gameplay/effects/effects/dotEffect.ws"
+scriptFile[8]="/game/gameplay/damage/damageManagerProcessor.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
