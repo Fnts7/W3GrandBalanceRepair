@@ -324,6 +324,11 @@ class W3GuiPlayerInventoryComponent extends W3GuiBaseInventoryComponent
 		rarity = GetItemRarityDescriptionFromInt(minQuality);
 		type = GetLocStringByKeyExt("item_category_" + dm.GetItemCategory(craftedItemName));
 		
+		if (craftedItemName == 'Mutagen 1' && theGame.GetDLCManager().IsEP2Available())
+		{
+			itemDesc += "<br>Increases (or introduces) also sign damage critical chance by 8%.";
+		}
+		
 		setBonusText = "";
 		setBonusText2 = "";
 		
