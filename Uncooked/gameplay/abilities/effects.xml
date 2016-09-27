@@ -367,7 +367,14 @@
       <ability name="ParalyzedEffect">
         <duration type="add" min="3" max="3" />
       </ability>
-          
+
+      <ability name="PoisonEffect_Oil">
+        <duration type="add" min="5" max="5" />
+        <PoisonDamage type="mult" min="0.01" max="0.01" />
+        <hp_regen_reduction_strength type="add" min="200" />
+        <hp_regen_reduction_duration type="add" min="5" />
+      </ability>
+
       <ability name="PoisonEffect">
         <duration type="add" min="5" max="5" />
         <PoisonDamage type="mult" min="0.016" max="0.016" />

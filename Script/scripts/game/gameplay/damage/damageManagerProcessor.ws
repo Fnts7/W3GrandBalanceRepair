@@ -596,7 +596,7 @@ class W3DamageManagerProcessor extends CObject
 		var buffs : array<name>;
 	
 		
-		if( playerAttacker && actorVictim && attackAction && attackAction.IsActionMelee() && playerAttacker.CanUseSkill(S_Alchemy_s12) && playerAttacker.inv.ItemHasActiveOilApplied( weaponId, victimMonsterCategory ) )
+		if( playerAttacker && actorVictim && attackAction && attackAction.IsActionMelee() && (playerAttacker.CanUseSkill(S_Alchemy_s12) || playerAttacker.CanUseSkill(S_Alchemy_s06))&& playerAttacker.inv.ItemHasActiveOilApplied( weaponId, victimMonsterCategory ) )
 		{
 			
 			monsterBonusType = MonsterCategoryToAttackPowerBonus(victimMonsterCategory);
@@ -605,21 +605,45 @@ class W3DamageManagerProcessor extends CObject
 			if(monsterBonusVal != null)
 			{
 				
-				oilLevel = (int)CalculateAttributeValue(playerAttacker.inv.GetItemAttributeValue(weaponId, 'level')) - 1;				
-				skillLevel = playerAttacker.GetSkillLevel(S_Alchemy_s12);
-				baseChance = CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Alchemy_s12, 'skill_chance', false, true));
-				perOilLevelChance = CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Alchemy_s12, 'oil_level_chance', false, true));						
-				chance = baseChance * skillLevel + perOilLevelChance * oilLevel;
+				oilLevel = (int)CalculateAttributeValue(playerAttacker.inv.GetItemAttributeValue(weaponId, 'level')) - 1;
 				
-				
-				if(RandF() < chance)
+				if (playerAttacker.CanUseSkill(S_Alchemy_s12))
 				{
+					skillLevel = playerAttacker.GetSkillLevel(S_Alchemy_s12);
+					baseChance = CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Alchemy_s12, 'skill_chance', false, true));
+					perOilLevelChance = CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Alchemy_s12, 'oil_level_chance', false, true));						
+					chance = baseChance * skillLevel + perOilLevelChance * oilLevel;
 					
-					dm.GetContainedAbilities(playerAttacker.GetSkillAbilityName(S_Alchemy_s12), buffs);
-					for(i=0; i<buffs.Size(); i+=1)
+					
+					if(RandF() < chance)
 					{
-						EffectNameToType(buffs[i], effectType, effectAbilityName);
-						action.AddEffectInfo(effectType, , , effectAbilityName);
+						
+						dm.GetContainedAbilities(playerAttacker.GetSkillAbilityName(S_Alchemy_s12), buffs);
+						for(i=0; i<buffs.Size(); i+=1)
+						{
+							EffectNameToType(buffs[i], effectType, effectAbilityName);
+							action.AddEffectInfo(effectType, , , effectAbilityName);
+						}
+					}
+				}
+				
+				if (playerAttacker.CanUseSkill(S_Alchemy_s06))
+				{
+					skillLevel = playerAttacker.GetSkillLevel(S_Alchemy_s06);
+					baseChance = CalculateAttributeValue(playerAttacker.GetSkillAttributeValue(S_Alchemy_s06, 'random_buff_chance', false, true));
+					
+					chance = baseChance * skillLevel * (0.7f + 0.15f * oilLevel);
+					if(RandF() < chance)
+					{
+						chance = RandF();
+						if (chance < 0.25f)
+							action.AddEffectInfo(EET_Burning, , , 'BurningEffect');
+						else if (chance < 0.5f)
+							action.AddEffectInfo(EET_Blindness, , , 'BlindnessEffect');
+						else if (chance < 0.75f)
+							action.AddEffectInfo(EET_Bleeding, , , 'BleedingEffect');
+						else
+							action.AddEffectInfo(EET_Poison, , , 'PoisonEffect');				
 					}
 				}
 			}
