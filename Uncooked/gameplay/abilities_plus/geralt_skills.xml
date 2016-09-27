@@ -524,6 +524,7 @@
 	  <ability name="alchemy_s6">
         <tags>alchemy_s6</tags>
         <ammo_bonus type="add" min="0.334" />
+		<random_buff_chance type="add" min="0.12" />
       </ability>
 	  
       <!-- Application -->
@@ -561,9 +562,9 @@
       <!-- Flexibility -->
       <ability name="alchemy_s12">
         <tags>alchemy_s12</tags>
-        <PoisonEffect is_ability="true" />
-		<skill_chance type="add" min="0.03" />
-		<oil_level_chance type="add" min="0.1" />
+        <PoisonEffect_Oil is_ability="true" />
+		<skill_chance type="add" min="0.06" />
+		<oil_level_chance type="add" min="0.05" />
       </ability>
 	  
       <!-- Transmutation -->

@@ -43,6 +43,9 @@ assetFile[10]="/gameplay/abilities/geralt_stats.xml"
 assetFile[11]="/gameplay/abilities_plus/geralt_stats.xml"
 assetFile[12]="/gameplay/items/def_item_alchemy_potion.xml"
 assetFile[13]="/gameplay/items_plus/def_item_alchemy_potion.xml"
+
+assetFile[14]="/gameplay/abilities/effects.xml"
+assetFile[15]="/gameplay/abilities_plus/effects.xml"
 # ASSET FILES END
 
 set -e
