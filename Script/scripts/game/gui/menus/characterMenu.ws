@@ -2132,9 +2132,13 @@ class CR4CharacterMenu extends CR4MenuBase
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s19:
-				argsInt.PushBack(10 + 2*(skillLevel-1));
+				/*argsInt.PushBack(10 + 2*(skillLevel-1));
 				argsInt.PushBack(25 * (skillLevel-1));
-				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
+				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");*/
+				ability = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s19, 'power_factor', false, false);
+				arg = 1.0f - (ability.valueAdditive + skillLevel * ability.valueMultiplicative);
+				baseString = "Axii works on two targets. The spell effect (duration) and spellpower on the second target is weaker by " + RoundMath(100*arg) + "%.";
+				baseString += "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				break;
 			case S_Magic_s20:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s20, 'range', false, false)) * skillLevel;

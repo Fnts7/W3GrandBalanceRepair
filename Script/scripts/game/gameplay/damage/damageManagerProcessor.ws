@@ -1551,7 +1551,7 @@ class W3DamageManagerProcessor extends CObject
 		else
 			attackerH = actorAttacker.GetStatMax(BCS_Vitality);
 
-		if (witcher)
+		if (witcher && witcher.axiiMods)
 		{
 			victimH /= witcher.axiiMods.GetHealthMod(victimNPC);
 			attackerH /= witcher.axiiMods.GetHealthMod(attackerNPC);
@@ -1562,7 +1562,7 @@ class W3DamageManagerProcessor extends CObject
 			&& ( (actorVictim.UsesEssence() && actorAttacker.UsesEssence()) || (!actorVictim.UsesEssence() && !actorAttacker.UsesEssence()) ) )
 			damageMult *= attackerH / victimH;
 			
-		if (witcher)
+		if (witcher && witcher.axiiMods)
 			damageMult *= witcher.axiiMods.GetDamageMod(attackerNPC);
 
 		if (action.IsActionRanged())

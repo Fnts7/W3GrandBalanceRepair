@@ -476,7 +476,8 @@
 	  <!-- Axii Dominate -->
       <ability name="magic_s19">
         <tags>magic_s19</tags>
-        <duration type="mult" min="0.20" />
+		<power_factor type="add" min="0.5" />
+		<power_factor type="mult" min="0.1" />
       </ability>
 	
 	  <!-- Aard Dispersion -->
