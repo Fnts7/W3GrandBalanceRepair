@@ -141,7 +141,14 @@ abstract class W3CriticalDOTEffect extends W3DamageOverTimeEffect
 		
 		if( params && params.isPerk20Active )
 		{
-			perk20Bonus = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'dmg_multiplier', false, false);
+			if (GetWitcherPlayer().CanUseSkill(S_Perk_20))
+				perk20Bonus = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'dmg_multiplier', false, false);
+			else
+				perk20Bonus.valueMultiplicative = 0;
+			
+			if (GetWitcherPlayer().CanUseSkill(S_Alchemy_s11))
+				perk20Bonus.valueMultiplicative += GetPetardClusterDamageBonus(0);
+				
 			effectValue.valueAdditive *= ( 1 + perk20Bonus.valueMultiplicative );
 			effectValue.valueMultiplicative *= ( 1 + perk20Bonus.valueMultiplicative );
 		}

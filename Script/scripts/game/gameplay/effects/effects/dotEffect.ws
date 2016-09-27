@@ -82,7 +82,14 @@ abstract class W3DamageOverTimeEffect extends CBaseGameplayEffect
 		
 		if( params.isPerk20Active )
 		{
-			perk20Bonus = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'dmg_multiplier', false, false);
+			if (GetWitcherPlayer().CanUseSkill(S_Perk_20))
+				perk20Bonus = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'dmg_multiplier', false, false);
+			else
+				perk20Bonus.valueMultiplicative = 0;
+
+			if (GetWitcherPlayer().CanUseSkill(S_Alchemy_s11))
+				perk20Bonus.valueMultiplicative += GetPetardClusterDamageBonus(0);
+
 			effectValue = effectValue * ( 1 + perk20Bonus.valueMultiplicative );
 		}
 			

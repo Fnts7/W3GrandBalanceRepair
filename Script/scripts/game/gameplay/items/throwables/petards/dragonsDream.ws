@@ -45,7 +45,7 @@ class W3DragonsDream extends W3Petard
 			}
 			
 			
-			if( (W3PlayerWitcher)GetOwner() && GetWitcherPlayer().CanUseSkill(S_Perk_20) )
+			if( (W3PlayerWitcher)GetOwner() && (GetWitcherPlayer().CanUseSkill(S_Perk_20) || GetWitcherPlayer().CanUseSkill(S_Alchemy_s11)))
 			{
 				gasEntity.SetPerk20DamageMultiplierOn();
 			}

@@ -1034,9 +1034,16 @@ class W3DamageManagerProcessor extends CObject
 		}
 
 		
-		if ( playerAttacker && action.IsActionRanged() && ((W3Petard)action.causer) && GetWitcherPlayer().CanUseSkill(S_Perk_20) )
+		if ( playerAttacker && action.IsActionRanged() && ((W3Petard)action.causer) && (GetWitcherPlayer().CanUseSkill(S_Perk_20) || GetWitcherPlayer().CanUseSkill(S_Alchemy_s11)))
 		{
-			perk20Bonus = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'dmg_multiplier', false, false);
+			if (GetWitcherPlayer().CanUseSkill(S_Perk_20))
+				perk20Bonus = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'dmg_multiplier', false, false);
+			else
+				perk20Bonus.valueMultiplicative = 0;
+			
+			if (GetWitcherPlayer().CanUseSkill(S_Alchemy_s11))
+				perk20Bonus.valueMultiplicative += GetPetardClusterDamageBonus(0);
+			
 			for( i = 0 ; i < dmgInfos.Size() ; i+=1)
 			{
 				dmgInfos[i].dmgVal *= ( 1 + perk20Bonus.valueMultiplicative );

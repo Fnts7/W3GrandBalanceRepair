@@ -2267,9 +2267,13 @@ class CR4CharacterMenu extends CR4MenuBase
 					+ ", Lvl2: " + RoundF(arg * PetardBonus("dmgPyro", 2)) + ", Lvl3: " + RoundF(arg * PetardBonus("dmgPyro", 3)) + ".";
 				break;
 			case S_Alchemy_s11:
-				arg = 1 + skillLevel;
+				arg = (2 + skillLevel) / 3;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
+				if (skillLevel >= 2)
+				{
+					baseString += "<br>All petards damage get " + RoundF(100 * GetPetardClusterDamageBonus(skillLevel)) + "% bonus.";
+				}
 				break;
 			case S_Alchemy_s12:			
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s12, 'skill_chance', false, false)) * skillLevel;
@@ -2411,7 +2415,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				ability.valueMultiplicative *= 100;
 				argsString.PushBack( FloatToString( ability.valueMultiplicative ) );
 				ability = GetWitcherPlayer().GetSkillAttributeValue( S_Perk_20, 'stack_multiplier', false, false );
-				ability.valueMultiplicative *= 100;
+				ability.valueMultiplicative = (1.0f - ability.valueMultiplicative) * 100;
 				argsString.PushBack( FloatToString( ability.valueMultiplicative ) );
 				baseString = GetLocStringByKeyExtWithParams( locKey, , , argsString );
 				break;

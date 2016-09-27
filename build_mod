@@ -63,6 +63,7 @@ scriptFile[37]="/game/gameplay/effects/effects/criticalDOTEffect.ws"
 scriptFile[38]="/game/gameplay/interactive/toxicCloudEntity.ws"
 scriptFile[39]="/game/gui/_old/components/guiPlayerInventoryComponent.ws"
 scriptFile[40]="/game/gameplay/effects/effects/potion/GoldenOriole.ws"
+scriptFile[41]="/game/gameplay/effects/effects/dotEffect.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
