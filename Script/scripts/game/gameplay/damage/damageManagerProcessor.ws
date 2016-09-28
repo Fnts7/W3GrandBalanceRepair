@@ -1458,11 +1458,16 @@ class W3DamageManagerProcessor extends CObject
 		if(playerAttacker && attackAction && playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
 			powerMod.valueMultiplicative -= 0.833;
 		
-		if ( playerAttacker && (W3IgniProjectile)action.causer
-			&& ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2
-			&& powerMod.valueMultiplicative > 2.5f  )
+		if ( playerAttacker && (W3IgniProjectile)action.causer )
 		{
-			powerMod.valueMultiplicative = 2.5f + LogF ((powerMod.valueMultiplicative - 2.5f) + 1);
+			if (((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2 && powerMod.valueMultiplicative > 2.0f )
+			{
+				powerMod.valueMultiplicative = 2.0f + LogF ((powerMod.valueMultiplicative - 2.0f) + 1);
+			}
+			else if (((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_s02 && powerMod.valueMultiplicative > 3.0f )
+			{
+				powerMod.valueMultiplicative = 3.0f + LogF ((powerMod.valueMultiplicative - 3.0f) + 1);
+			}
 		}
 
 		if(action.IsCriticalHit())
