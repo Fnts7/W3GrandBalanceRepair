@@ -1442,7 +1442,7 @@ class W3DamageManagerProcessor extends CObject
 		{
 			if (theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
 			{
-				if (!playerAttacker || (playerAttacker && (W3IgniProjectile)action.causer && ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_s02))
+				if ((actorAttacker && !playerAttacker) || (playerAttacker && (W3IgniProjectile)action.causer && ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_s02))
 					baseResistOnly = false;
 				else
 					baseResistOnly = true;
