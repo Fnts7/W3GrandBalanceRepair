@@ -134,6 +134,9 @@ class CBaseGameplayEffect extends CObject
 		if(params.duration != 0 && (!durationSet || (durationSet && duration == 0)) )	
 			duration = params.duration;
 			
+		if (sourceName == "petard" && IsAddedByPlayer() && (W3BlindnessEffect)this)
+			resistStat = CDS_None;
+
 		isOnPlayer = (CPlayer)target;
 		target.GetResistValue(resistStat, points, resistance);
 		
@@ -186,6 +189,10 @@ class CBaseGameplayEffect extends CObject
 				petardEffectBonus = 0;
 				break;
 			}
+			
+			if (theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode') && 
+				abilityName != 'PoisonEffect_DevilsPuffball_1' && abilityName != 'PoisonEffect_DevilsPuffball_2' && abilityName != 'PoisonEffect_DevilsPuffball_3')
+				petardEffectBonus = 0;
 
 			effectValue.valueMultiplicative += petardEffectBonus * effectValue.valueMultiplicative;
 			effectValue.valueAdditive += petardEffectBonus * effectValue.valueAdditive;
