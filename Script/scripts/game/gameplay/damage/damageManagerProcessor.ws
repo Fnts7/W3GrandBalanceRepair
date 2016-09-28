@@ -1427,6 +1427,7 @@ class W3DamageManagerProcessor extends CObject
 	{
 		var armorReduction, armorReductionPerc, skillArmorReduction : SAbilityAttributeValue;
 		var bonusReduct, bonusResist : float;
+		var baseResistOnly : bool;
 		var mutagenBuff : W3Mutagen28_Effect;
 		var appliedOilName, vsMonsterResistReduction : name;
 		var oils : array< W3Effect_Oil >;
@@ -1439,8 +1440,17 @@ class W3DamageManagerProcessor extends CObject
 		
 		if(actorVictim)
 		{
-			
-			actorVictim.GetResistValue( GetResistForDamage(dmgType, action.IsDoTDamage()), resistPts, resistPerc );
+			if (theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
+			{
+				if (!playerAttacker || (playerAttacker && (W3IgniProjectile)action.causer && ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_s02))
+					baseResistOnly = false;
+				else
+					baseResistOnly = true;
+			}
+			else
+				baseResistOnly = false;
+
+			actorVictim.GetResistValue( GetResistForDamage(dmgType, action.IsDoTDamage()), resistPts, resistPerc, baseResistOnly );
 			
 			
 			if(playerVictim && actorAttacker && playerVictim.CanUseSkill(S_Alchemy_s05))
@@ -1547,6 +1557,17 @@ class W3DamageManagerProcessor extends CObject
 		}
 		else
 		{
+			if (theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
+			{
+				burning = (W3Effect_Burning)action.causer;
+				if( burning && burning.IsSignEffect() )
+				{
+					if ( powerMod.valueMultiplicative > 1.0f )
+					{
+						powerMod.valueMultiplicative = 1.0f + LogF( (powerMod.valueMultiplicative - 1.0f) + 1 ) / 1.6f;
+					}
+				}			
+			} else {
 			
 			burning = (W3Effect_Burning)action.causer;
 			if( burning && burning.IsSignEffect() )
@@ -1557,6 +1578,7 @@ class W3DamageManagerProcessor extends CObject
 				}
 			}
 			
+			}
 			finalDamage = MaxF(0, (dmgInfo.dmgVal + powerMod.valueBase) * powerMod.valueMultiplicative + powerMod.valueAdditive);
 		}
 			

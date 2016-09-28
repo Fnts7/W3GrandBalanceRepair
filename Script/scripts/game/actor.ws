@@ -2148,13 +2148,20 @@ import abstract class CActor extends CGameplayEntity
 	}
 	
 	
-	public function GetResistValue(stat : ECharacterDefenseStats, out points : float, out percents : float)
+	public function GetResistValue(stat : ECharacterDefenseStats, out points : float, out percents : float, optional baseResistOnly : bool)
 	{
 		points = 0;
 		percents = 0;
-	
+
 		if(abilityManager && abilityManager.IsInitialized() && IsAlive())
+		{
 			abilityManager.GetResistValue(stat, points, percents);
+			
+			if (((CNewNPC)this) && (stat == CDS_BurningRes || stat == CDS_DoTBurningDamageRes))
+			{
+				GBRGetFireResist((CNewNPC)this, baseResistOnly, percents);
+			}
+		}
 	}
 	
 	public function ResumeEffects(type : EEffectType, sourceName : name)
@@ -3547,11 +3554,10 @@ import abstract class CActor extends CGameplayEntity
 
 			LogCritical("Stopping CS animation for <<" + csType + ">>");
 
-			if (buff.GetEffectType() == EET_Burning && !((CPlayer)this) && theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'GBRBurningMode'))
+			if (buff.GetEffectType() == EET_Burning && !((CPlayer)this) && theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
 			{
+				RemoveTimer('StopBurningAnimation');
 				forceRemoveBuff = false;
-				if ((W3Effect_Burning)buff)
-					((W3Effect_Burning)buff).ResetEffectValueOnHit();
 			}
 
 			if(forceRemoveBuff || buff.GetDurationLeft() < 0 || !buff.IsActive() || CriticalBuffIsDestroyedOnInterrupt(buff))
@@ -3574,7 +3580,16 @@ import abstract class CActor extends CGameplayEntity
 		
 	}
 	
-	
+	public timer function StopBurningAnimation( dt : float , id : int)
+	{
+		var buff : CBaseGameplayEffect;
+
+		if(effectManager)
+			buff = effectManager.GetCurrentlyAnimatedCS();
+
+		if (buff && buff.GetEffectType() == EET_Burning)
+			RequestCriticalAnimStop();
+	}
 	
 	
 	public function ChooseNextCriticalBuffForAnim() : CBaseGameplayEffect

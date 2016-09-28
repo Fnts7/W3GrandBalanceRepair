@@ -91,8 +91,27 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 		{
 			isWithGlyphword12 = false;
 		}
+
+		HandleAnimStopTime();
 	}
 	
+	public function CumulateWith(effect: CBaseGameplayEffect)
+	{
+		super.CumulateWith(effect);
+		HandleAnimStopTime();
+	}
+
+	private function HandleAnimStopTime()
+	{
+		if (!isOnPlayer && GetCreator() == thePlayer && theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
+		{
+			target.RemoveTimer('StopBurningAnimation');
+
+			if (duration > 2.0f)
+				target.AddTimer('StopBurningAnimation', 2.0f + (duration - 2.0f) * 0.4f);
+		}
+	}
+
 	event OnEffectAddedPost()
 	{
 		super.OnEffectAddedPost();
@@ -113,7 +132,7 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 
 		super.SetEffectValue();
 
-		if (!isOnPlayer && theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'GBRBurningDifficulty'))
+		if (!isOnPlayer && theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningDifficulty'))
 		{
 			if (theGame.GetDifficultyMode() == EDM_Easy)
 				modMult = 1.5f;
@@ -125,14 +144,6 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 			effectValue.valueMultiplicative *= modMult;
 			effectValue.valueAdditive *= modMult;
 		}
-	}
-
-	public function ResetEffectValueOnHit()
-	{
-		SetEffectValue();
-
-		effectValue.valueMultiplicative *= 1.25f;
-		effectValue.valueAdditive *= 1.25f;
 	}
 
 	event OnUpdate(deltaTime : float)
@@ -212,7 +223,12 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 			glyphword12Fx.DestroyAfter(5.f);
 		}
 		
-		super.OnEffectRemoved();		
+		super.OnEffectRemoved();
+
+		if (!isOnPlayer && GetCreator() == thePlayer && theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
+		{
+			target.RemoveTimer('StopBurningAnimation');
+		}		
 	}
 	
 	protected function CalculateDuration(optional setInitialDuration : bool)
@@ -221,7 +237,7 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 
 		if (!isOnPlayer && setInitialDuration)
 		{
-			configMod = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('GBRBurningEffect', 'BurningDuration')) / 100;
+			configMod = StringToFloat(theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'BurningDuration')) / 100;
 			duration *= (1.0f + configMod);
 		}
 

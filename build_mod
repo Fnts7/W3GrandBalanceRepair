@@ -14,7 +14,9 @@
 
 # SCRIPT FILES BEGIN
 scriptFile[0]="/game/actor.ws"
-scriptFile[1]="/game/gameplay/effects/effects/damageOverTime/burningEffect.ws"
+scriptFile[1]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[2]="/game/gameplay/effects/effects/damageOverTime/burningEffect.ws"
+scriptFile[3]="/mod/realisticBurning.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
@@ -28,7 +30,7 @@ then
 	exit
 fi
 
-modReadyFolder=$1"/Packed/modGBRTweaks"
+modReadyFolder=$1"/Packed/modGBRRealisticBurning"
 modContentPath=$modReadyFolder"/content"
 
 inXMLPath="Uncooked"

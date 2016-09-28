@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-16"?>
+<UserConfig>
+	<Group id="GBRRealisticBurning" displayName="Mods.Realistic Burning">
+		<PresetsArray>
+			<Preset id="0" displayName="Default" tags="customNames;customDisplayName">
+				<Entry varId="GBRBurningDifficulty"						value="true" />
+				<Entry varId="GBRBurningMode"							value="true" />
+				<Entry varId="BurningDuration"							value="0"	/>
+				<Entry varId="FixedBurnResist"							value="0"	/>
+				<Entry varId="HumanBurnResist"							value="55"	/>
+				<Entry varId="GroupMonsterBurnResist"					value="55"	/>
+				<Entry varId="MonsterBurnResist"						value="70"	/>
+				<Entry varId="GroupArmoredMonsterBurnResist"			value="65"	/>
+				<Entry varId="ArmoredMonsterBurnResist"					value="75"	/>
+			</Preset>
+			<Preset id="1" displayName="Vanilla_Like" tags="customNames;customDisplayName">
+				<Entry varId="GBRBurningDifficulty"						value="false" />
+				<Entry varId="GBRBurningMode"							value="false" />
+				<Entry varId="BurningDuration"							value="0"	/>
+				<Entry varId="FixedBurnResist"							value="0"	/>
+				<Entry varId="HumanBurnResist"							value="75"	/>
+				<Entry varId="GroupMonsterBurnResist"					value="75"	/>
+				<Entry varId="MonsterBurnResist"						value="75"	/>
+				<Entry varId="GroupArmoredMonsterBurnResist"			value="75"	/>
+				<Entry varId="ArmoredMonsterBurnResist"					value="75"	/>
+			</Preset>
+			<Preset id="2" displayName="StrongBurnResist" tags="customNames;customDisplayName">
+				<Entry varId="GBRBurningDifficulty"						value="true" />
+				<Entry varId="GBRBurningMode"							value="true" />
+				<Entry varId="BurningDuration"							value="0"	/>
+				<Entry varId="FixedBurnResist"							value="15"	/>
+				<Entry varId="HumanBurnResist"							value="65"	/>
+				<Entry varId="GroupMonsterBurnResist"					value="65"	/>
+				<Entry varId="MonsterBurnResist"						value="75"	/>
+				<Entry varId="GroupArmoredMonsterBurnResist"			value="70"	/>
+				<Entry varId="ArmoredMonsterBurnResist"					value="80"	/>
+			</Preset>
+			<Preset id="3" displayName="LowBurnResist" tags="customNames;customDisplayName">
+				<Entry varId="GBRBurningDifficulty"						value="true" />
+				<Entry varId="GBRBurningMode"							value="true" />
+				<Entry varId="BurningDuration"							value="15"	/>
+				<Entry varId="FixedBurnResist"							value="0"	/>
+				<Entry varId="HumanBurnResist"							value="45"	/>
+				<Entry varId="GroupMonsterBurnResist"					value="45"	/>
+				<Entry varId="MonsterBurnResist"						value="60"	/>
+				<Entry varId="GroupArmoredMonsterBurnResist"			value="55"	/>
+				<Entry varId="ArmoredMonsterBurnResist"					value="65"	/>
+			</Preset>
+		</PresetsArray>
+		<VisibleVars>
+			<Var id="GBRBurningDifficulty" displayName="Game difficulty affects burning damage" 	displayType="TOGGLE" 				tags="customNames;customDisplayName"/>
+			<Var id="GBRBurningMode"  	   displayName="Realistic Burning"							displayType="TOGGLE" 				tags="customNames;customDisplayName"/>
+			<Var id="BurningDuration" 	   displayName="Burning duration (%)" 						displayType="SLIDER;-100;100;200" 	tags="customNames;customDisplayName"/>
+			<Var id="FixedBurnResist"      displayName="Fixed burning resist (%)" 					    displayType="SLIDER;0;100;100" 	    tags="customNames;customDisplayName"/>
+			
+			<Var id="HumanBurnResist"   			displayName="Level 100 human burning resist (%)" 					displayType="SLIDER;0;100;100" 	    tags="customNames;customDisplayName"/>
+			<Var id="GroupMonsterBurnResist"    	displayName="Level 100 group monster burning resist (%)" 		  	displayType="SLIDER;0;100;100" 	    tags="customNames;customDisplayName"/>
+			<Var id="MonsterBurnResist"   			displayName="Level 100 single monster burning resist (%)" 		  	displayType="SLIDER;0;100;100" 	    tags="customNames;customDisplayName"/>
+			<Var id="GroupArmoredMonsterBurnResist" displayName="Level 100 group armored monster burning resist (%)" 	displayType="SLIDER;0;100;100" 	    tags="customNames;customDisplayName"/>
+			<Var id="ArmoredMonsterBurnResist"   	displayName="Level 100 single armored monster burning resist (%)" 	displayType="SLIDER;0;100;100" 	    tags="customNames;customDisplayName"/>
+		</VisibleVars>
+	</Group>
+</UserConfig>
