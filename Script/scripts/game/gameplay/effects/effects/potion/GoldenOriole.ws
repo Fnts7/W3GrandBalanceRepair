@@ -14,9 +14,10 @@ class W3Potion_GoldenOriole extends CBaseGameplayEffect
 	{
 		super.OnEffectAdded(customParams);
 		
-		if(GetBuffLevel() == 3)
+		target.RemoveAllBuffsOfType(EET_Poison);
+	
+		if(GetBuffLevel() >= 2)
 		{
-			target.RemoveAllBuffsOfType(EET_Poison);
 			target.RemoveAllBuffsOfType(EET_PoisonCritical);
 		}
 	}
@@ -25,9 +26,10 @@ class W3Potion_GoldenOriole extends CBaseGameplayEffect
 	{
 		super.CumulateWith(effect);
 		
-		if(GetBuffLevel() == 3)
+		target.RemoveAllBuffsOfType(EET_Poison);
+
+		if(GetBuffLevel() >= 2)
 		{
-			target.RemoveAllBuffsOfType(EET_Poison);
 			target.RemoveAllBuffsOfType(EET_PoisonCritical);
 		}
 	}
