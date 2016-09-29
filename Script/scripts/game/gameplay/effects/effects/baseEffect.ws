@@ -190,12 +190,19 @@ class CBaseGameplayEffect extends CObject
 				break;
 			}
 			
-			if (theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode') && 
-				abilityName != 'PoisonEffect_DevilsPuffball_1' && abilityName != 'PoisonEffect_DevilsPuffball_2' && abilityName != 'PoisonEffect_DevilsPuffball_3')
-				petardEffectBonus = 0;
-
-			effectValue.valueMultiplicative += petardEffectBonus * effectValue.valueMultiplicative;
-			effectValue.valueAdditive += petardEffectBonus * effectValue.valueAdditive;
+			if (theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode')
+				&& abilityName != 'PoisonEffect_DevilsPuffball_1' && abilityName != 'PoisonEffect_DevilsPuffball_2' && abilityName != 'PoisonEffect_DevilsPuffball_3')
+			{
+				if (abilityName == 'BurningEffect_DancingStar_1' || abilityName == 'BurningEffect_DancingStar_2' || abilityName == 'BurningEffect_DancingStar_3')
+				{
+					effectValue.valueAdditive += petardEffectBonus * effectValue.valueAdditive;
+				}
+			}
+			else
+			{
+				effectValue.valueMultiplicative += petardEffectBonus * effectValue.valueMultiplicative;
+				effectValue.valueAdditive += petardEffectBonus * effectValue.valueAdditive;
+			}
 		}
 		//Grand Balance Repair Petards
 

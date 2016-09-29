@@ -72,11 +72,11 @@ function GetPetardClusterDamageBonus(_skillLevel : int) : float
 		skillLevel = 0;
 
 	if (skillLevel >= 5)
-		return 0.36f;
+		return 0.3f;
 	else if (skillLevel >= 3)
-		return 0.24f;
+		return 0.2f;
 	else if (skillLevel >= 2)
-		return 0.12f;
+		return 0.1f;
 	else
 		return 0;
 }
