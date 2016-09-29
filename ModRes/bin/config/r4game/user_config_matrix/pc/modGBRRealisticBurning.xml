@@ -18,11 +18,11 @@
 				<Entry varId="GBRBurningMode"							value="false" />
 				<Entry varId="BurningDuration"							value="0"	/>
 				<Entry varId="FixedBurnResist"							value="0"	/>
-				<Entry varId="HumanBurnResist"							value="75"	/>
+				<Entry varId="HumanBurnResist"							value="70"	/>
 				<Entry varId="GroupMonsterBurnResist"					value="75"	/>
-				<Entry varId="MonsterBurnResist"						value="75"	/>
-				<Entry varId="GroupArmoredMonsterBurnResist"			value="75"	/>
-				<Entry varId="ArmoredMonsterBurnResist"					value="75"	/>
+				<Entry varId="MonsterBurnResist"						value="80"	/>
+				<Entry varId="GroupArmoredMonsterBurnResist"			value="80"	/>
+				<Entry varId="ArmoredMonsterBurnResist"					value="85"	/>
 			</Preset>
 			<Preset id="2" displayName="StrongBurnResist" tags="customNames;customDisplayName">
 				<Entry varId="GBRBurningDifficulty"						value="true" />

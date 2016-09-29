@@ -103,12 +103,14 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 
 	private function HandleAnimStopTime()
 	{
-		if (!isOnPlayer && GetCreator() == thePlayer && theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
+		if (!isOnPlayer && (IsAddedByPlayer() || abilityName == 'BurningEffect_DragonsDream1' || abilityName == 'BurningEffect_DragonsDream2' || abilityName == 'BurningEffect_DragonsDream3')
+			&& theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
 		{
 			target.RemoveTimer('StopBurningAnimation');
 
-			if (duration > 2.0f)
-				target.AddTimer('StopBurningAnimation', 2.0f + (duration - 2.0f) * 0.4f);
+			if (duration > 1.5f
+				&& ((abilityName != 'BurningEffect_DancingStar_1' && abilityName != 'BurningEffect_DancingStar_2' && abilityName != 'BurningEffect_DancingStar_3') || RandF() < 0.35f))
+				target.AddTimer('StopBurningAnimation', 1.5f + (duration - 1.5f) * 0.45f);
 		}
 	}
 
@@ -225,7 +227,8 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 		
 		super.OnEffectRemoved();
 
-		if (!isOnPlayer && GetCreator() == thePlayer && theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
+		if (!isOnPlayer && (IsAddedByPlayer() || abilityName == 'BurningEffect_DragonsDream1' || abilityName == 'BurningEffect_DragonsDream2' || abilityName == 'BurningEffect_DragonsDream3')
+			&& theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
 		{
 			target.RemoveTimer('StopBurningAnimation');
 		}		
