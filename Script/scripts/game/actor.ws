@@ -5621,6 +5621,15 @@ import abstract class CActor extends CGameplayEntity
 			}
 		}
 		
+		if (damageData.attacker == thePlayer && (W3IgniProjectile)(damageData.causer)
+			&& ((W3IgniProjectile)damageData.causer).GetSignSkill() == S_Magic_2 && HasBuff(EET_Burning))
+		{
+			if(UsesEssence())
+				damageData.processedDmg.essenceDamage /= 2.0f;
+			else if(UsesVitality())
+				damageData.processedDmg.vitalityDamage /= 2.0f;
+		}
+
 		
 		thisNPC = (CNewNPC)this;
 		if( thisNPC && damageData.attacker == thePlayer && !HasBuff(EET_AxiiGuardMe) &&
