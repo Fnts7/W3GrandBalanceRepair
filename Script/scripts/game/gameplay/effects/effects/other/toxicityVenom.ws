@@ -12,12 +12,25 @@ class W3Effect_ToxicityVenom extends CBaseGameplayEffect
 	event OnUpdate( dt : float )
 	{
 		var maxTox, toxToAdd : float;
+		var goldenOrioleEffect : CBaseGameplayEffect;
 		
 		super.OnUpdate( dt );
 		
 		maxTox = target.GetStatMax( BCS_Toxicity );
 		toxToAdd = effectValue.valueAdditive + effectValue.valueMultiplicative * maxTox;
 		toxToAdd *= dt;
+		
+		goldenOrioleEffect = target.GetBuff(EET_GoldenOriole);
+		if (goldenOrioleEffect)
+		{
+			if (goldenOrioleEffect.GetBuffLevel() >= 3)
+				toxToAdd *= 0.25f;
+			else if (goldenOrioleEffect.GetBuffLevel() == 2)
+				toxToAdd *= 0.35f;
+			else if (goldenOrioleEffect.GetBuffLevel() == 1)
+				toxToAdd *= 0.45f;
+		}
+		
 		target.GainStat( BCS_Toxicity, toxToAdd );
 	}
 }
