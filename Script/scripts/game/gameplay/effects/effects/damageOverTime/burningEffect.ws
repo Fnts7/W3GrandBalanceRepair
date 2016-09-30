@@ -144,7 +144,6 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 				modMult = 0.75f;
 
 			effectValue.valueMultiplicative *= modMult;
-			effectValue.valueAdditive *= modMult;
 		}
 	}
 
