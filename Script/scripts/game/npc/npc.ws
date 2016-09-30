@@ -1065,6 +1065,18 @@ statemachine import class CNewNPC extends CActor
 			{
 				maxTox = GetWitcherPlayer().GetStatMax( BCS_Toxicity );
 				toxToAdd = maxTox * toxicity.valueMultiplicative + toxicity.valueAdditive;
+	
+				gameplayEffect = GetWitcherPlayer().GetBuff(EET_GoldenOriole);
+				if (gameplayEffect)
+				{
+					if (gameplayEffect.GetBuffLevel() >= 3)
+						toxToAdd *= 0.25f;
+					else if (gameplayEffect.GetBuffLevel() == 2)
+						toxToAdd *= 0.35f;
+					else if (gameplayEffect.GetBuffLevel() == 1)
+						toxToAdd *= 0.45f;
+				}
+
 				GetWitcherPlayer().GainStat( BCS_Toxicity, toxToAdd );
 			}
 		}

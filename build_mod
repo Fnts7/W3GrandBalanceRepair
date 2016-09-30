@@ -25,6 +25,8 @@ scriptFile[7]="/game/gui/menus/characterMenu.ws"
 scriptFile[8]="/game/gui/_old/components/guiTooltipComponent.ws"
 scriptFile[9]="/game/gui/_old/components/guiPlayerInventoryComponent.ws"
 scriptFile[10]="/game/gameplay/effects/effects/potion/GoldenOriole.ws"
+scriptFile[11]="/game/gameplay/effects/effects/other/toxicityVenom.ws"
+scriptFile[12]="/game/npc/npc.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
