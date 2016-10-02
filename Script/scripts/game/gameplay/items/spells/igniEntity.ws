@@ -110,7 +110,7 @@ statemachine class W3IgniEntity extends W3SignEntity
 	protected function FillActionBuffsFromSkill(act : W3DamageAction)
 	{
 		
-		if(fireMode != 2)
+		//if(fireMode != 2)
 			super.FillActionBuffsFromSkill(act);
 	}
 	

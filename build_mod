@@ -16,6 +16,7 @@
 scriptFile[0]="/game/player/playerWitcher.ws"
 scriptFile[1]="/game/gui/menus/enchantingMenu.ws"
 scriptFile[2]="/game/gui/_old/components/guiTooltipComponent.ws"
+scriptFile[3]="/game/gameplay/items/spells/igniEntity.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
