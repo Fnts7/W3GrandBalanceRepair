@@ -629,10 +629,12 @@ class W3DamageManagerProcessor extends CObject
 							action.AddEffectInfo(EET_Burning, , , 'BurningEffect');
 						else if (chance < 0.5f)
 							action.AddEffectInfo(EET_Blindness, , , 'BlindnessEffect');
-						else if (chance < 0.75f)
+						else if (chance < 0.7f)
 							action.AddEffectInfo(EET_Bleeding, , , 'BleedingEffect');
+						else if (chance < 0.85f)
+							action.AddEffectInfo(EET_Poison, , , 'PoisonEffect');
 						else
-							action.AddEffectInfo(EET_Poison, , , 'PoisonEffect');				
+							action.AddEffectInfo(EET_PoisonCritical, , , 'PoisonCriticalEffect');				
 					}
 				}
 			}

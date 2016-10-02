@@ -329,11 +329,11 @@ class W3GuiPlayerInventoryComponent extends W3GuiBaseInventoryComponent
 		else if (craftedItemName == 'Thunderbolt 3')		
 			itemDesc = "Increases attack power. Longer duration. Gives 30% critical hit chance bonus during storm.";
 		else if (craftedItemName == 'Golden Oriole 1')
-			itemDesc = "Gives 70% poison resistance.";
+			itemDesc = "Gives 70% poison resistance and 55% toxicity venom resistance.";
 		else if (craftedItemName == 'Golden Oriole 2')
-			itemDesc = "Gives 80% poison resistance. Longer duration.";
+			itemDesc = "Gives 80% poison resistance and 65% toxicity venom resistance. Longer duration.";
 		else if (craftedItemName == 'Golden Oriole 3')
-			itemDesc = "Gives poison immunity. Longer duration.";
+			itemDesc = "Gives poison immunity and 75% toxicity venom resistance. Longer duration.";
 		else if (craftedItemName == 'Thunderbolt 2')
 			itemDesc += "<br>Gives 15% critical hit chance bonus during storm.";
 
