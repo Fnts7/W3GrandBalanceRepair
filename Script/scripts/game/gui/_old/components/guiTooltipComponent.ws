@@ -439,11 +439,11 @@ class W3TooltipComponent
 			else if (itemName == 'Thunderbolt 3')
 				uniqueDescription = "Increases attack power. Longer duration. Gives 30% critical hit chance bonus during storm.";
 			else if (itemName == 'Golden Oriole 1')
-				uniqueDescription = "Gives 70% poison resistance.";
+				uniqueDescription = "Gives 70% poison resistance and 55% toxicity venom resistance.";
 			else if (itemName == 'Golden Oriole 2')
-				uniqueDescription = "Gives 80% poison resistance. Longer duration.";
+				uniqueDescription = "Gives 80% poison resistance and 65% toxicity venom resistance. Longer duration.";
 			else if (itemName == 'Golden Oriole 3')
-				uniqueDescription = "Gives poison immunity. Longer duration.";
+				uniqueDescription = "Gives poison immunity and 75% toxicity venom resistance. Longer duration.";
 			else			
 				uniqueDescription = GetLocStringByKeyExt( itemInvComponent.GetItemLocalizedDescriptionByUniqueID(item) );
 

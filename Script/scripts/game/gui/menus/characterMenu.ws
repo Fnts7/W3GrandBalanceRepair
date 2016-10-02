@@ -2243,7 +2243,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				argsInt.PushBack(Min(100, RoundMath(arg*100)));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s06, 'random_buff_chance', false, false)) * skillLevel;
-				baseString += "<br>Applies a random effect with " + RoundMath(100*arg) + "% chance. This chance has a 30% or 15% penalty when oil level is 1 or 2 accordingly. Possible effects are: burning, bleeding, blindness, poison.";
+				baseString += "<br>Applies a random effect with " + RoundMath(100*arg) + "% chance. This chance has a 30% or 15% of base chance penalty when oil level is 1 or 2 accordingly. Possible effects are: burning, bleeding, blindness, poison.";
 				break;
 			case S_Alchemy_s07:
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s07, theGame.params.CRITICAL_HIT_DAMAGE_BONUS, false, false)) * skillLevel;				
