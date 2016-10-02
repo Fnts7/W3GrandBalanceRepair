@@ -1424,7 +1424,7 @@ class W3DamageManagerProcessor extends CObject
 				if(attackAction && playerAttacker)
 				{
 					// CrossbowDamageBoost
-					if (attackAction.IsActionRanged())
+					if ((W3BoltProjectile)action.causer)
 					{
 						if (playerAttacker.CanUseSkill(S_Sword_s07))
 						{
