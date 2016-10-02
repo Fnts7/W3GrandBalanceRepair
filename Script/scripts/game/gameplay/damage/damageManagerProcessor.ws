@@ -704,8 +704,11 @@ class W3DamageManagerProcessor extends CObject
 				samum = actorVictim.GetBuff(EET_Blindness, 'petard');
 				if(samum && samum.GetBuffLevel() == 3)
 				{
-					critChance += 1.0f;
+					critChance += 0.5f;
 				}
+				
+				if (redWolfSet)
+					critChance *= 0.75f;
 			}
 			
 			
@@ -1408,6 +1411,8 @@ class W3DamageManagerProcessor extends CObject
 			
 			
 			totalBonus = CalculateAttributeValue(criticalDamageBonus);
+			if (( W3Petard )action.causer && ( W3PlayerWitcher )actorAttacker && GetWitcherPlayer().IsSetBonusActive( EISB_RedWolf_1 ))
+				totalBonus *= 0.5f;
 			critReduction = actorVictim.GetAttributeValue(theGame.params.CRITICAL_HIT_REDUCTION);
 			totalBonus = totalBonus * ClampF(1 - critReduction.valueMultiplicative, 0.f, 1.f);
 			
