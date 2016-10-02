@@ -876,7 +876,7 @@
 		<!-- Efficiency -->
         <skill skill_name="alchemy_s8"  requiredPointsSpent="20" maxLevel="5" priority="37" guiPositionID="6"  localisationName="skill_name_alchemy_s8" localisationDescription="skill_desc_alchemy_s8"  localisationDescriptionLevel2="skill_desc_alchemy_s8"  localisationDescriptionLevel3="skill_desc_alchemy_s8"  cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Bombs" iconPath="icons\Skills\Alchemy\alchemy_s8.png" linkVertical="green" linkLeft="green" linkRight="green" />
 		<!-- Cluster Bomb -->
-        <skill skill_name="alchemy_s11" requiredPointsSpent="28" maxLevel="5" priority="37" guiPositionID="30" localisationName="skill_name_alchemy_s11" localisationDescription="skill_desc_alchemy_s11" localisationDescriptionLevel2="skill_desc_alchemy_s11" localisationDescriptionLevel3="skill_desc_alchemy_s11" cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Bombs" iconPath="icons\Skills\Alchemy\alchemy_s11.png" linkVertical="green" linkLeft="green" linkRight="green" />
+        <skill skill_name="alchemy_s11" requiredPointsSpent="28" maxLevel="4" priority="37" guiPositionID="30" localisationName="skill_name_alchemy_s11" localisationDescription="skill_desc_alchemy_s11" localisationDescriptionLevel2="skill_desc_alchemy_s11" localisationDescriptionLevel3="skill_desc_alchemy_s11" cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Bombs" iconPath="icons\Skills\Alchemy\alchemy_s11.png" linkVertical="green" linkLeft="green" linkRight="green" />
         
 		<!-- MUTAGENS -->
 		<!-- Taster -->

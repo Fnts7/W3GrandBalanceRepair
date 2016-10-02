@@ -185,6 +185,21 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		
 		LoadMutationData();		
 		
+		if (isFromLoad)
+		{
+			for (i=0; i < skills.Size(); i+=1)
+			{
+				switch (skills[i].skillType)
+				{
+				case S_Alchemy_s11:
+					skills[i].maxLevel = 4;
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		
 		isInitialized = true;
 		
 		return true;	

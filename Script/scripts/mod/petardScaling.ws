@@ -31,9 +31,9 @@ function PetardBonus(type : string, petardLevel : int) : float
 	percentFactorDuration.PushBack(2.0);  // petard on 3 level
 	
 	//% dmg bonus applied with manual aiming
-	percentFactorAim.PushBack(5.0f);  // petard on 1 level
-	percentFactorAim.PushBack(7.5f); // petard on 2 level
-	percentFactorAim.PushBack(10.0f); // petard on 3 level
+	percentFactorAim.PushBack(6.0f);  // petard on 1 level
+	percentFactorAim.PushBack(9.0f); // petard on 2 level
+	percentFactorAim.PushBack(12.0f); // petard on 3 level
 	
 	switch(type)
 	{
@@ -61,6 +61,21 @@ function PetardBonus(type : string, petardLevel : int) : float
 	}
 }
 
+function GrapeshotBonus() : float
+{
+	var level : int;
+
+	level = thePlayer.GetLevel();
+
+	if (level < 0)
+		level = 0;
+
+	if (level <= 30)
+		return 0.025f * level;
+	else
+		return 0.75f + 0.055f * (level - 30);
+}
+
 function GetPetardClusterDamageBonus(_skillLevel : int) : float
 {
 	var skillLevel : int;
@@ -71,9 +86,7 @@ function GetPetardClusterDamageBonus(_skillLevel : int) : float
 	else
 		skillLevel = 0;
 
-	if (skillLevel >= 5)
-		return 0.3f;
-	else if (skillLevel >= 3)
+	if (skillLevel >= 4)
 		return 0.2f;
 	else if (skillLevel >= 2)
 		return 0.1f;
