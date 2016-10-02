@@ -119,7 +119,7 @@
 	  
       <ability name="DragonsDream_2">
         <tags>PetardLoopParams</tags>
-        <FireDamage type="add" min="400" max="400" />
+        <FireDamage type="add" min="350" max="350" />
         <duration type="add" min="30" max="30" />
         <ammo type="add" min="3" />
         <DragonsDream_3 is_ability="true" />
@@ -130,8 +130,8 @@
 	  
       <ability name="DragonsDream_3">
         <tags>PetardLoopParams</tags>
-        <FireDamage type="add" min="500" max="500" />
-        <duration type="add" min="30" max="30" />
+        <FireDamage type="add" min="350" max="350" />
+        <duration type="add" min="35" max="35" />
         <ammo type="add" min="4" />
         <DragonsDream_2 is_ability="true" />
         <level type="add" min="3" />
@@ -251,8 +251,8 @@
 	  
       <ability name="Grapeshot_2">
         <tags>PetardImpactParams</tags>
-        <PhysicalDamage type="add" min="500" max="500" />
-        <SilverDamage type="add" min="660" max="660" />
+        <PhysicalDamage type="add" min="450" max="450" />
+        <SilverDamage type="add" min="600" max="600" />
         <FireDamage type="add" min="10" />
         <StaggerEffect is_ability="true" />
         <ammo type="add" min="3" />
@@ -263,8 +263,8 @@
 	  
       <ability name="Grapeshot_3">
         <tags>PetardImpactParams</tags>
-        <PhysicalDamage type="add" min="700" max="700" />
-        <SilverDamage type="add" min="920" max="920" />
+        <PhysicalDamage type="add" min="600" max="600" />
+        <SilverDamage type="add" min="800" max="800" />
         <FireDamage type="add" min="10" />
         <LongStaggerEffect is_ability="true" />
         <ammo type="add" min="4" />

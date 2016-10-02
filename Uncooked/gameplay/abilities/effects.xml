@@ -109,13 +109,13 @@
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
       <ability name="BurningEffect_DragonsDream2">
-        <FireDamage type="mult" min="0.025" max="0.025" />
+        <FireDamage type="mult" min="0.024" max="0.024" />
         <duration type="add" min="2.5" max="2.5" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />
       </ability>
       <ability name="BurningEffect_DragonsDream3">
-        <FireDamage type="mult" min="0.03" max="0.03" />
+        <FireDamage type="mult" min="0.027" max="0.027" />
         <duration type="add" min="3" max="3" />
         <hp_regen_reduction_strength type="add" min="200" />
         <hp_regen_reduction_duration type="add" min="5" />

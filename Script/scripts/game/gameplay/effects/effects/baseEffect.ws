@@ -195,7 +195,7 @@ class CBaseGameplayEffect extends CObject
 			{
 				if (abilityName == 'BurningEffect_DancingStar_1' || abilityName == 'BurningEffect_DancingStar_2' || abilityName == 'BurningEffect_DancingStar_3')
 				{
-					effectValue.valueAdditive += petardEffectBonus * effectValue.valueAdditive;
+					effectValue.valueAdditive += 2.0f * petardEffectBonus * effectValue.valueAdditive;
 				}
 			}
 			else

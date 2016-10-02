@@ -22,6 +22,7 @@ scriptFile[5]="/game/gameplay/interactive/toxicCloudEntity.ws"
 scriptFile[6]="/game/gui/menus/characterMenu.ws"
 scriptFile[7]="/game/gameplay/effects/effects/dotEffect.ws"
 scriptFile[8]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[9]="/game/gameplay/ability/PlayerAbilityManager.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

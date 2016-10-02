@@ -2201,7 +2201,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Alchemy_s09, 'slowdown_mod', false, false)) * skillLevel;
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
-				arg = 5.0f * (1 + skillLevel * 0.5f);
+				arg = 6.0f * (1 + skillLevel * 0.5f);
 				baseString +="<br>Manually aimed petard impact damage bonus is Lvl1: " + RoundMath(arg) + "%, Lvl2: " + RoundMath(arg * 1.5f) + "%, Lvl3: " + RoundMath(arg * 2.0f) + "%.";
 				break;
 			case S_Alchemy_s10:
@@ -2215,7 +2215,7 @@ class CR4CharacterMenu extends CR4MenuBase
 					+ ", Lvl2: " + RoundF(arg * PetardBonus("dmgPyro", 2)) + ", Lvl3: " + RoundF(arg * PetardBonus("dmgPyro", 3)) + ".";
 				break;
 			case S_Alchemy_s11:
-				arg = (2 + skillLevel) / 3;
+				arg = (1 + skillLevel) / 2;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
 				if (skillLevel >= 2)

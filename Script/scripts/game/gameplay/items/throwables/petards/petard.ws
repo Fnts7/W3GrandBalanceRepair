@@ -237,7 +237,10 @@ class W3Petard extends CThrowable
 					//Grand Balance Repair Petards
 					if (GetOwner() == thePlayer )
 					{
-						bonusDmg = dmgRaw.dmgVal * PetardBonus("dmg", petardLevel);
+						if ( abs[i] == 'Grapeshot_1' ||  abs[i] == 'Grapeshot_2' ||  abs[i] == 'Grapeshot_3' )
+							bonusDmg = dmgRaw.dmgVal * GrapeshotBonus();
+						else
+							bonusDmg = dmgRaw.dmgVal * PetardBonus("dmg", petardLevel);
 						if(fromAim)
 						{
 							bonusDmgAim = dmgRaw.dmgVal * PetardBonus("aim", petardLevel);
@@ -1285,7 +1288,7 @@ class W3Petard extends CThrowable
 		clusterInitPos = GetWorldPosition();
 		clusterInitPos.Z += radius + 0.15;
 		
-		clusterNbr = (thePlayer.GetSkillLevel(S_Alchemy_s11) + 2) / 3;
+		clusterNbr = (thePlayer.GetSkillLevel(S_Alchemy_s11) + 1) / 2;
 		
 		for(i=0; i<clusterNbr; i+=1)
 		{			
