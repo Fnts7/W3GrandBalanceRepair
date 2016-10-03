@@ -465,6 +465,13 @@ class W3TooltipComponent
 			uniqueDescription = GetLocStringByKeyExt( "attribute_name_double_strike" );
 		}
 		
+		if (itemName == 'Rune stribog greater')
+			uniqueDescription = "Rune to put in a sword. Gives 12% knockdown chance.";
+		else if (itemName == 'Rune stribog')
+			uniqueDescription = "Rune to put in a sword. Gives 7% knockdown chance.";
+		else if (itemName == 'Rune stribog lesser')
+			uniqueDescription = "Rune to put in a sword. Gives 3.5% knockdown chance.";
+		
 		
 		if( itemInvComponent.ItemHasTag( item, 'Aerondight' ) )
 		{
