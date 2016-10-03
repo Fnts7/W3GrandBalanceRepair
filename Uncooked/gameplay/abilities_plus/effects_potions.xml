@@ -93,26 +93,26 @@
 			</ability>
 			<ability name="MariborForestEffect_Level2">
 				<tags>passive</tags>
-				<focus_gain type="add" min="0.15" max="0.15"/>
+				<focus_gain type="add" min="0.2" max="0.2"/>
 			</ability>
 			<ability name="MariborForestEffect_Level3">
 				<tags>passive</tags>
-				<focus_gain type="add" min="0.15" max="0.15"/>
+				<focus_gain type="add" min="0.2" max="0.2"/>
 				<focus_on_drink type="add" min="1" />
 			</ability>
 			
 			<!-- PETRI PHILTRE -->
 			<ability name="PetriPhiltreEffect_Level1">
 				<tags>passive</tags>
-				<spell_power type="mult" min="0.15" max="0.15"/>
+				<spell_power type="mult" min="0.2" max="0.2"/>
 			</ability>
 			<ability name="PetriPhiltreEffect_Level2">
 				<tags>passive</tags>
-				<spell_power type="mult" min="0.2" max="0.2"/>
+				<spell_power type="mult" min="0.3" max="0.3"/>
 			</ability>
 			<ability name="PetriPhiltreEffect_Level3">
 				<tags>passive</tags>
-				<spell_power type="mult" min="0.25" max="0.25"/>
+				<spell_power type="mult" min="0.4" max="0.4"/>
 			</ability>
 			
 			<!-- PHEROMONES -->
