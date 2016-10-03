@@ -10,25 +10,22 @@
 	<ability name="Rune stribog lesser _Stats">
 		<tags>							Upgrade, WeaponUpgrade
 		</tags>
-		<buff_apply_chance 				type="add" min="0.04" 		/>
-		<desc_staggerchance_mult 		type="add" min="0.04" 		/>
-		<StaggerEffect					is_ability="true" 			/>
+		<buff_apply_chance 				type="add" min="0.035" 		/>
+		<KnockdownEffect					is_ability="true" 			/>
 	</ability>
 
 	<ability name="Rune stribog _Stats">
 		<tags>							Upgrade, WeaponUpgrade
 		</tags>
-		<buff_apply_chance 				type="add" min="0.08" 		/>
-		<desc_staggerchance_mult 		type="add" min="0.08" 		/>
-		<StaggerEffect					is_ability="true" 			/>
+		<buff_apply_chance 				type="add" min="0.07" 		/>
+		<KnockdownEffect					is_ability="true" 			/>
 	</ability>
 
 	<ability name="Rune stribog greater _Stats">
 		<tags>							Upgrade, WeaponUpgrade
 		</tags>
-		<buff_apply_chance 				type="add" min="0.15" 		/>
-		<desc_staggerchance_mult 		type="add" min="0.15" 		/>
-		<StaggerEffect					is_ability="true" 			/>
+		<buff_apply_chance 				type="add" min="0.12" 		/>
+		<KnockdownEffect					is_ability="true" 			/>
 	</ability>
 
 <!-- WEAPON UPGRADE - RUNE - DAZHBOG -->
@@ -44,16 +41,16 @@
 	<ability name="Rune dazhbog _Stats">
 		<tags>							Upgrade, WeaponUpgrade
 		</tags>
-		<buff_apply_chance 				type="add" min="0.06" 		/>
-		<desc_burningchance_mult 		type="add" min="0.06" 		/>
+		<buff_apply_chance 				type="add" min="0.05" 		/>
+		<desc_burningchance_mult 		type="add" min="0.05" 		/>
 		<BurningEffect 					is_ability="true" 			/>
 	</ability>
 
 	<ability name="Rune dazhbog greater _Stats">
 		<tags>							Upgrade, WeaponUpgrade
 		</tags>
-		<buff_apply_chance 				type="add" min="0.10" 		/>
-		<desc_burningchance_mult 		type="add" min="0.10" 		/>
+		<buff_apply_chance 				type="add" min="0.09" 		/>
+		<desc_burningchance_mult 		type="add" min="0.09" 		/>
 		<BurningEffect 					is_ability="true" 			/>
 	</ability>
 

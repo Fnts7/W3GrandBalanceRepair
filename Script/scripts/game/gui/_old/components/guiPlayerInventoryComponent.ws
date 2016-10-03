@@ -327,6 +327,13 @@ class W3GuiPlayerInventoryComponent extends W3GuiBaseInventoryComponent
 		setBonusText = "";
 		setBonusText2 = "";
 		
+		if (craftedItemName == 'Rune stribog greater')
+			itemDesc = "Rune to put in a sword. Gives 12% knockdown chance.";
+		else if (craftedItemName == 'Rune stribog')
+			itemDesc = "Rune to put in a sword. Gives 7% knockdown chance.";
+		else if (craftedItemName == 'Rune stribog lesser')
+			itemDesc = "Rune to put in a sword. Gives 3.5% knockdown chance.";
+		
 		if ( dm.IsItemSetItem( craftedItemName ) ) 
 		{
 			GetWitcherPlayer().GetSetBonusStatusByName( craftedItemName, setBonusDescription1, setBonusDescription2, isSetBonus1Active, isSetBonus2Active );
