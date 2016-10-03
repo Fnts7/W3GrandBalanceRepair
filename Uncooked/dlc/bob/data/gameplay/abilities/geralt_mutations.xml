@@ -21,7 +21,7 @@
         </ability> 
 		
     	<ability name="Mutation5" >
-    		<mut5_dmg_red_perc type="add" min="0.15" />
+    		<mut5_dmg_red_perc type="add" min="0.18" />
     	</ability>
 		
 		<ability name="Mutation6" >

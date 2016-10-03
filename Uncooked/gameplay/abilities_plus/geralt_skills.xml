@@ -606,7 +606,7 @@
 	  
 	  <ability name="alchemy_s19">
         <tags>alchemy_s19</tags>
-		<synergy_bonus type="add" min="0.1" />
+		<synergy_bonus type="add" min="0.075" />
       </ability>
 	  
 	  <!--################################### Perks ####################################-->

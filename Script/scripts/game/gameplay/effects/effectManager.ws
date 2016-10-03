@@ -1481,7 +1481,7 @@ class W3EffectManager
 
 		
 		witcher = (W3PlayerWitcher)caster;
-		if(witcher && witcher.GetPotionBuffLevel(EET_PetriPhiltre) == 3)
+		if(witcher && (witcher.GetPotionBuffLevel(EET_PetriPhiltre) == 3 || (witcher.GetPotionBuffLevel(EET_PetriPhiltre) == 2 && RandF() < 0.5f) || (witcher.GetPotionBuffLevel(EET_PetriPhiltre) == 1 && RandF() < 0.3f)))
 			return true;
 	
 		
