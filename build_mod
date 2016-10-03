@@ -36,9 +36,6 @@ assetFile[5]="/gameplay/items_plus/def_item_alchemy_petards.xml"
 assetFile[6]="/dlc/bob/data/gameplay/abilities/geralt_skills_ep2.xml"
 assetFile[7]="/dlc/bob/data/gameplay/abilities_plus/geralt_skills_ep2.xml"
 
-assetFile[8]="/dlc/ep1/data/gameplay/abilities/geralt_skills_ep1.xml"
-assetFile[9]="/dlc/ep1/data/gameplay/abilities_plus/geralt_skills_ep1.xml"
-
 # ASSET FILES END
 
 set -e
