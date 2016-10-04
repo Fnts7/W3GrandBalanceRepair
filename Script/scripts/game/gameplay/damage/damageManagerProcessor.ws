@@ -1642,6 +1642,7 @@ class W3DamageManagerProcessor extends CObject
 
 	private function CalculateDamage(dmgInfo : SRawDamage, powerMod : SAbilityAttributeValue) : float
 	{
+		var quen : W3QuenEntity;
 		var finalDamage, finalIncomingDamage : float;
 		var resistPoints, resistPercents : float;
 		var ptsString, percString : string;
@@ -1704,11 +1705,15 @@ class W3DamageManagerProcessor extends CObject
 			}
 
 			// Reduce resist with quen active on Witcher for all damage that quen reduces
-			if (playerVictim == GetWitcherPlayer() && resistPercents > 0.3f && GetWitcherPlayer().IsAnyQuenActive()
-				&& dmgInfo.dmgType != theGame.params.DAMAGE_NAME_DIRECT && dmgInfo.dmgType != theGame.params.DAMAGE_NAME_STAMINA
-				&& DamageHitsVitality(dmgInfo.dmgType) && !((W3Effect_Bleeding)action.causer) )
+			if (playerVictim == GetWitcherPlayer() && resistPercents > 0.3f)
 			{
-				resistPercents = 0.3f + (resistPercents - 0.3f) / 2.0f;
+				quen = ( W3QuenEntity ) GetWitcherPlayer().GetSignEntity(ST_Quen);
+				if (quen && quen.IsAnyQuenActive() && dmgInfo.dmgType != theGame.params.DAMAGE_NAME_DIRECT && dmgInfo.dmgType != theGame.params.DAMAGE_NAME_STAMINA
+					&& DamageHitsVitality(dmgInfo.dmgType) && !((W3Effect_Bleeding)action.causer) )
+				{
+					quen.SetLastRealDamageResist(resistPercents);
+					resistPercents = 0.3f + (resistPercents - 0.3f) / 2.0f;
+				}
 			}
 
 			finalDamage *= 1 - resistPercents;

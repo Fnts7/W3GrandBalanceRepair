@@ -1842,7 +1842,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_4:
 				ability = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_4);
-				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false)) + 1.25f * GetWitcherPlayer().GetLevel()) * ability.valueMultiplicative;
+				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false)) + 3.0f * GetWitcherPlayer().GetLevel()) * ability.valueMultiplicative;
 				arg /= RoundMath(thePlayer.GetStat(BCS_Vitality, true)); 
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);

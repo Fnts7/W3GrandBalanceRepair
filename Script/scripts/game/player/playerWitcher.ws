@@ -8182,9 +8182,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 					if (wLevel < 0)
 						wLevel = 0;
 					if (damages[j] == theGame.params.DAMAGE_NAME_SILVER)
-						dmg += 5.0f * wLevel;
+						dmg += 5.5f * wLevel;
 					else
-						dmg += 3.5f * wLevel;
+						dmg += 4.0f * wLevel;
 
 					if( IsSetBonusActive( EISB_Bear_2 ) )
 					{

@@ -33,6 +33,8 @@ statemachine class W3QuenEntity extends W3SignEntity
 	private var hitDoTEntities : array<W3VisualFx>;
 	public var showForceFinishedFX : bool;
 	public var freeFromBearSetBonus	: bool;
+	protected var lastRealDamageResist : float;
+	default lastRealDamageResist = -1.0f;
 	
 	default skillEnum = S_Magic_4;
 	default MIN_HIT_ENTITY_SPAWN_DELAY = 0.25f;
@@ -88,7 +90,7 @@ statemachine class W3QuenEntity extends W3SignEntity
 		if (owner.GetPlayer())
 		{
 			wLevel = owner.GetPlayer().GetLevel();
-			shieldHealth += 1.25f * wLevel;
+			shieldHealth += 3.0f * wLevel;
 		}
 		
 		initialShieldHealth = shieldHealth;
@@ -98,7 +100,7 @@ statemachine class W3QuenEntity extends W3SignEntity
 			if (wLevel < 25)
 				wLevel = 25;
 			dischargePercent = CalculateAttributeValue(owner.GetSkillAttributeValue(S_Magic_s14, 'discharge_percent', false, true)) * owner.GetSkillLevel(S_Magic_s14);
-			dischargePercent *= 1.0f + (wLevel - 25) / 37.5f;
+			dischargePercent *= 1.0f + (wLevel - 30) / 35.0f;
 			if( owner.GetPlayer().IsSetBonusActive( EISB_Bear_2 ) )
 			{
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue( GetSetBonusAbility( EISB_Bear_2 ), 'quen_dmg_boost_discharge', min, max );
@@ -147,6 +149,11 @@ statemachine class W3QuenEntity extends W3SignEntity
 			
 			actor.RemoveEffect( crits[i], true );			
 		}		
+	}
+	
+	public function SetLastRealDamageResist(resist : float)
+	{
+		lastRealDamageResist = resist;
 	}
 	
 	public final function RemoveBuffImmunities()
@@ -494,7 +501,7 @@ state ShieldActive in W3QuenEntity extends Active
 	event OnTargetHit( out damageData : W3DamageAction )
 	{
 		var pos : Vector;
-		var reducedDamage, drainedHealth, skillBonus, incomingDamage, directDamage : float;
+		var reducedDamage, drainedHealth, incomingDamage, directDamage, loweredResist : float;
 		var spellPower : SAbilityAttributeValue;
 		var physX : CEntity;
 		var inAttackAction : W3Action_Attack;
@@ -549,13 +556,9 @@ state ShieldActive in W3QuenEntity extends Active
 			isBleeding = false;
 			incomingDamage = MaxF(0, damageData.processedDmg.vitalityDamage - directDamage);
 		}
-		
-		if(incomingDamage < parent.shieldHealth)
-			reducedDamage = incomingDamage;
-		else
-			reducedDamage = MaxF(incomingDamage, parent.shieldHealth);
-		
-		
+
+		reducedDamage = incomingDamage;
+
 		if(!damageData.IsDoTDamage())
 		{
 			casterActor.PlayEffect( 'quen_lasting_shield_hit' );	
@@ -577,20 +580,27 @@ state ShieldActive in W3QuenEntity extends Active
 			
 			spellPower = casterActor.GetTotalSignSpellPower(virtual_parent.GetSkill());
 			
-			if ( caster.CanUseSkill( S_Magic_s15 ) )
-				skillBonus = CalculateAttributeValue( caster.GetSkillAttributeValue( S_Magic_s15, 'bonus', false, true ) );
+			drainedHealth = reducedDamage / spellPower.valueMultiplicative;
+			if (drainedHealth <= parent.shieldHealth)
+				parent.shieldHealth -= drainedHealth;
 			else
-				skillBonus = 0;
-				
-			drainedHealth = reducedDamage / (skillBonus + spellPower.valueMultiplicative);			
-			parent.shieldHealth -= drainedHealth;
+			{
+				reducedDamage = parent.shieldHealth * spellPower.valueMultiplicative;
+				parent.shieldHealth = 0;
+			}
 			
-				
 			damageData.processedDmg.vitalityDamage -= reducedDamage;
 			
+			if (parent.lastRealDamageResist > 0.3f && damageData.processedDmg.vitalityDamage > 0)
+			// Active quen reduced damage resistance, so the damage that gets through must be corrected for real resistance
+			{
+				loweredResist = 0.3f + (parent.lastRealDamageResist - 0.3f) / 2.0f;
+				damageData.processedDmg.vitalityDamage *= (1.0f - parent.lastRealDamageResist) / (1.0f - loweredResist);
+				parent.lastRealDamageResist = -0.1f;
+			}
 			
-			if( damageData.processedDmg.vitalityDamage >= 20 )
-				casterActor.RaiseForceEvent( 'StrongHitTest' );
+			/*if( damageData.processedDmg.vitalityDamage >= 20 )
+				casterActor.RaiseForceEvent( 'StrongHitTest' );*/
 				
 			
 			if (!damageData.IsDoTDamage() && casterActor == thePlayer && damageData.attacker != casterActor && GetWitcherPlayer().CanUseSkill(S_Magic_s14) && parent.dischargePercent > 0 && !damageData.IsActionRanged() && VecDistanceSquared( casterActor.GetWorldPosition(), damageData.attacker.GetWorldPosition() ) <= 13 ) 
@@ -598,7 +608,7 @@ state ShieldActive in W3QuenEntity extends Active
 				action = new W3DamageAction in theGame.damageMgr;
 				action.Initialize( casterActor, damageData.attacker, parent, 'quen', EHRT_Light, CPS_SpellPower, false, false, true, false, 'hit_shock' );
 				parent.InitSignDataForDamageAction( action );		
-				action.AddDamage( theGame.params.DAMAGE_NAME_SHOCK, parent.dischargePercent * incomingDamage );
+				action.AddDamage( theGame.params.DAMAGE_NAME_SHOCK, parent.dischargePercent * reducedDamage );
 				action.SetCanPlayHitParticle(true);
 				action.SetHitEffect('hit_electric_quen');
 				action.SetHitEffect('hit_electric_quen', true);
@@ -919,7 +929,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		
 		if (caster.GetPlayer())
 		{
-			shieldFactor += caster.GetPlayer().GetLevel() / 20.0f;
+			shieldFactor += caster.GetPlayer().GetLevel() / 12.5f;
 		}
 		
 		if(reducibleDamage > 0)
@@ -969,7 +979,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 				action = new W3DamageAction in theGame.damageMgr;
 				action.Initialize( casterActor, damageData.attacker, parent, 'quen', EHRT_Light, CPS_SpellPower, false, false, true, false, 'hit_shock' );
 				parent.InitSignDataForDamageAction( action );		
-				action.AddDamage( theGame.params.DAMAGE_NAME_SHOCK, parent.dischargePercent * reducibleDamage / 2.0f);
+				action.AddDamage( theGame.params.DAMAGE_NAME_SHOCK, parent.dischargePercent * reducedDamage / 2.0f);
 				action.SetCanPlayHitParticle(true);
 				action.SetHitEffect('hit_electric_quen');
 				action.SetHitEffect('hit_electric_quen', true);
