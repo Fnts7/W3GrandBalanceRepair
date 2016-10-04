@@ -38,7 +38,7 @@ scriptFile[20]="/game/gameplay/actions/baseAction.ws"
 scriptFile[21]="/game/gameplay/effects/effects/applicator/knockdownTypeApplicator.ws"
 scriptFile[22]="/game/gui/_old/components/guiPlayerInventoryComponent.ws"
 
-scriptFile[22]="/mod/axiiMods.ws"
+scriptFile[23]="/mod/axiiMods.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
