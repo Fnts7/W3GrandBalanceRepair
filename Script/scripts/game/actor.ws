@@ -2140,6 +2140,7 @@ import abstract class CActor extends CGameplayEntity
 	public function GetPowerStatValue(stat : ECharacterPowerStats, optional abilityName : name, optional ignoreDeath : bool) : SAbilityAttributeValue
 	{
 		var result, axiiPower : SAbilityAttributeValue;
+		var witcher : W3PlayerWitcher;
 		
 		if(abilityManager && abilityManager.IsInitialized() && (ignoreDeath || IsAlive()) ) 
 		{
@@ -2151,13 +2152,17 @@ import abstract class CActor extends CGameplayEntity
 				axiiPower.valueMultiplicative -= 1.0f;
 				if (axiiPower.valueMultiplicative > 0.0f)
 				{				
-					if ( axiiPower.valueMultiplicative > 2.2f )
+					if ( axiiPower.valueMultiplicative > 1.2f )
 					{
-						axiiPower.valueMultiplicative = 2.2f + LogF( (axiiPower.valueMultiplicative - 2.2f) + 1 );
+						axiiPower.valueMultiplicative = 1.2f + LogF( (axiiPower.valueMultiplicative - 1.2f) + 1 );
 					}
+					
+					witcher = GetWitcherPlayer();
+					if (witcher && witcher.axiiMods && ((CNewNPC)this))
+						axiiPower.valueMultiplicative *= witcher.axiiMods.GetPuppetPowerBonusMod((CNewNPC)this);
 
 					if (UsesEssence())
-						result.valueMultiplicative += axiiPower.valueMultiplicative / 2.0f;
+						result.valueMultiplicative += axiiPower.valueMultiplicative / 2.5f;
 					else
 						result.valueMultiplicative += axiiPower.valueMultiplicative / 3.0f;
 				}

@@ -10,4 +10,9 @@ class AxiiMods
 	{
 		return 1.0f;
 	}
+
+	public function GetPuppetPowerBonusMod (puppet : CNewNPC) : float
+	{
+		return 1.0f;
+	}
 }

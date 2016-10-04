@@ -1683,7 +1683,7 @@ class W3DamageManagerProcessor extends CObject
 		else if (theGame.GetDifficultyMode() == EDM_Medium)
 			damageMult *= 1.5f;
 		else if (theGame.GetDifficultyMode() == EDM_Hardcore)
-			damageMult *= 0.70f;
+			damageMult *= 0.65f;
 
 		if (actorVictim.UsesEssence())
 			action.processedDmg.essenceDamage *= damageMult;
@@ -2419,9 +2419,9 @@ class W3DamageManagerProcessor extends CObject
 			{
 				finisherChance = 100;
 			}
-			else if ( ( actorVictim.HasBuff(EET_Confusion) || actorVictim.HasBuff(EET_AxiiGuardMe) ) )
+			else if ( actorVictim.HasBuff(EET_Confusion) || actorVictim.HasBuff(EET_AxiiGuardMe) )
 			{
-				finisherChance = 75 + ( - ( npc.currentLevel - thePlayer.GetLevel() ) );
+				finisherChance = 100 - RoundF(actorVictim.GetHealthPercents() * 100) + ( - ( npc.currentLevel - thePlayer.GetLevel() ) );
 			}
 			else if ( npc.currentLevel - thePlayer.GetLevel() < -5 )
 			{
