@@ -502,7 +502,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	{
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_4);
 		valueAbility = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false));
-		valueAbility += 3.0f * GetWitcherPlayer().GetLevel();
+		valueAbility += 2.0f * GetWitcherPlayer().GetLevel();
 		valueAbility *= sp.valueMultiplicative;
 		valueStr = (string)RoundMath( valueAbility );
 	}

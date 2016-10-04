@@ -90,7 +90,7 @@ statemachine class W3QuenEntity extends W3SignEntity
 		if (owner.GetPlayer())
 		{
 			wLevel = owner.GetPlayer().GetLevel();
-			shieldHealth += 3.0f * wLevel;
+			shieldHealth += 2.0f * wLevel;
 		}
 		
 		initialShieldHealth = shieldHealth;
@@ -929,7 +929,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		
 		if (caster.GetPlayer())
 		{
-			shieldFactor += caster.GetPlayer().GetLevel() / 12.5f;
+			shieldFactor += caster.GetPlayer().GetLevel() / 20.0f;
 		}
 		
 		if(reducibleDamage > 0)

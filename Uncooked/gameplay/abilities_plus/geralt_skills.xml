@@ -309,7 +309,7 @@
         <stamina_delay type="mult" min="1" />
         <shield_duration type="base" min="30" />
         <shield_duration type="mult" min="1" />
-        <shield_health type="base" min="300" />
+        <shield_health type="base" min="400" />
         <shield_health type="mult" min="1" />
       </ability>
 	  
