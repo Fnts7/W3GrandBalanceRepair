@@ -2151,18 +2151,18 @@ import abstract class CActor extends CGameplayEntity
 				axiiPower = GetBuff(EET_AxiiGuardMe).GetCreatorPowerStat();
 				axiiPower.valueMultiplicative -= 1.0f;
 				if (axiiPower.valueMultiplicative > 0.0f)
-				{				
+				{	
 					if ( axiiPower.valueMultiplicative > 1.2f )
 					{
 						axiiPower.valueMultiplicative = 1.2f + LogF( (axiiPower.valueMultiplicative - 1.2f) + 1 );
 					}
-					
+
 					witcher = GetWitcherPlayer();
 					if (witcher && witcher.axiiMods && ((CNewNPC)this))
 						axiiPower.valueMultiplicative *= witcher.axiiMods.GetPuppetPowerBonusMod((CNewNPC)this);
 
 					if (UsesEssence())
-						result.valueMultiplicative += axiiPower.valueMultiplicative / 2.5f;
+						result.valueMultiplicative += axiiPower.valueMultiplicative / 2.0f;
 					else
 						result.valueMultiplicative += axiiPower.valueMultiplicative / 3.0f;
 				}

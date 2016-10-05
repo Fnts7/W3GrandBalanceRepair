@@ -1681,7 +1681,7 @@ class W3DamageManagerProcessor extends CObject
 		else if (theGame.GetDifficultyMode() == EDM_Medium)
 			damageMult *= 1.5f;
 		else if (theGame.GetDifficultyMode() == EDM_Hardcore)
-			damageMult *= 0.65f;
+			damageMult *= 0.6667f;
 
 		if (actorVictim.UsesEssence())
 			action.processedDmg.essenceDamage *= damageMult;
@@ -1711,10 +1711,12 @@ class W3DamageManagerProcessor extends CObject
 	{
 		if (level < 1)
 			return 1.0f;
-		else if (level < 100)
-			return 1.0f + 3.5f * level / 100.0f;
+		else if (level <= 50)
+			return 1.0f + 2.0f * level / 50.0f;
+		else if (level <= 100)
+			return 3.0f + 4.0f * (level - 50) / 50.0f;
 		else
-			return 4.5f;
+			return 7.0f;
 	}
 	// Improved Axii end
 
@@ -2413,13 +2415,13 @@ class W3DamageManagerProcessor extends CObject
 		if ( actorVictim.IsHuman() )
 		{
 			npc = (CNewNPC)actorVictim;
-			if ( ( size <= 1 && theGame.params.FINISHER_ON_DEATH_CHANCE > 0 ) || ( actorVictim.HasAbility('ForceFinisher') ) || ( GetWitcherPlayer().IsMutationActive(EPMT_Mutation3) ) )
-			{
-				finisherChance = 100;
-			}
-			else if ( actorVictim.HasBuff(EET_Confusion) || actorVictim.HasBuff(EET_AxiiGuardMe) )
+			if ( (actorVictim.HasBuff(EET_Confusion) || actorVictim.HasBuff(EET_AxiiGuardMe)) && actorVictim.IsAlive())
 			{
 				finisherChance = 100 - RoundF(actorVictim.GetHealthPercents() * 100) + ( - ( npc.currentLevel - thePlayer.GetLevel() ) );
+			}
+			else if ( ( size <= 1 && theGame.params.FINISHER_ON_DEATH_CHANCE > 0 ) || ( actorVictim.HasAbility('ForceFinisher') ) || ( GetWitcherPlayer().IsMutationActive(EPMT_Mutation3) ) )
+			{
+				finisherChance = 100;
 			}
 			else if ( npc.currentLevel - thePlayer.GetLevel() < -5 )
 			{
