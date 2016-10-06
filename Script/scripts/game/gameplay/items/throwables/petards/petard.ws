@@ -13,6 +13,7 @@ class W3Petard extends CThrowable
 	var bonusDmgAim : float; default bonusDmgAim = 0; 
 	var fromAim : bool; default fromAim  = false;
 	var petardLevel : int; default petardLevel = 0;
+	var isGrapeshot : bool; default isGrapeshot  = false;
 	//Grand Balance Repair Petards
 	protected editable var cameraShakeStrMin 				: float;
 	protected editable var cameraShakeStrMax 				: float;
@@ -238,7 +239,10 @@ class W3Petard extends CThrowable
 					if (GetOwner() == thePlayer )
 					{
 						if ( abs[i] == 'Grapeshot_1' ||  abs[i] == 'Grapeshot_2' ||  abs[i] == 'Grapeshot_3' )
+						{
+							isGrapeshot = true;
 							bonusDmg = dmgRaw.dmgVal * GrapeshotBonus();
+						}
 						else
 							bonusDmg = dmgRaw.dmgVal * PetardBonus("dmg", petardLevel);
 						if(fromAim)
@@ -1189,7 +1193,12 @@ class W3Petard extends CThrowable
 				if(dt > 0)
 					action.AddDamage(params.damages[j].dmgType, params.damages[j].dmgVal * dt);
 				else
-					action.AddDamage(params.damages[j].dmgType, params.damages[j].dmgVal);
+				{
+					if (isGrapeshot && isCluster)
+						action.AddDamage(params.damages[j].dmgType, params.damages[j].dmgVal * 0.6667f);
+					else
+						action.AddDamage(params.damages[j].dmgType, params.damages[j].dmgVal);
+				}
 			}
 
 			for(j=0; j<params.buffs.Size(); j+=1)
@@ -1416,6 +1425,7 @@ class W3Petard extends CThrowable
 	public function IsStuck() : bool					{return isStuck;}
 	public function DisableProximity()					{isProximity = false;}
 	public function IsProximity() : bool				{return isProximity;}
+	public function IsGrapeshot() : bool 				{return isGrapeshot;}
 	
 	
 	

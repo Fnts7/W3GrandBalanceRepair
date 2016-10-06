@@ -1412,7 +1412,12 @@ class W3DamageManagerProcessor extends CObject
 			
 			totalBonus = CalculateAttributeValue(criticalDamageBonus);
 			if (( W3Petard )action.causer && ( W3PlayerWitcher )actorAttacker && GetWitcherPlayer().IsSetBonusActive( EISB_RedWolf_1 ))
-				totalBonus *= 0.5f;
+			{
+				if ( ((W3Petard)action.causer).IsGrapeshot() )
+					totalBonus *= 0.4f;
+				else
+					totalBonus *= 0.75f;
+			}
 			critReduction = actorVictim.GetAttributeValue(theGame.params.CRITICAL_HIT_REDUCTION);
 			totalBonus = totalBonus * ClampF(1 - critReduction.valueMultiplicative, 0.f, 1.f);
 			
