@@ -2013,7 +2013,7 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		
 		
 		
-		if(owner == GetWitcherPlayer() && GetStat(BCS_Stamina, true) <= 0.f)
+		if(owner == GetWitcherPlayer() && GetStat(BCS_Stamina, true) <= 0.f && (!thePlayer.CanUseSkill(S_Perk_09) || thePlayer.GetStat(BCS_Focus) <= 0.0f) )
 		{
 			signEntity = GetWitcherPlayer().GetSignEntity(GetWitcherPlayer().GetCurrentlyCastSign());
 			
