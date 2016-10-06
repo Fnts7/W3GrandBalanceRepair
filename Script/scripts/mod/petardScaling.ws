@@ -73,7 +73,7 @@ function GrapeshotBonus() : float
 	if (level <= 30)
 		return 0.025f * level;
 	else
-		return 0.75f + 0.05f * (level - 30);
+		return 0.75f + 0.055f * (level - 30);
 }
 
 function GetPetardClusterDamageBonus(_skillLevel : int) : float
