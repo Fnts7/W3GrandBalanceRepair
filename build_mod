@@ -39,6 +39,8 @@ scriptFile[21]="/game/gameplay/effects/effects/applicator/knockdownTypeApplicato
 scriptFile[22]="/game/gui/_old/components/guiPlayerInventoryComponent.ws"
 
 scriptFile[23]="/mod/axiiMods.ws"
+scriptFile[24]="/game/gameplay/items/spells/aardEntity.ws"
+scriptFile[25]="/game/gameplay/items/spells/signOwner.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

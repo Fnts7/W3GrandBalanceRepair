@@ -761,7 +761,7 @@ state Channeling in W3SignEntity extends BaseCast
 	{
 		var actor : CActor;
 		var player : CR4Player;
-		var stamina : float;
+		var stamina, leftStaminaCost, leftStaminaCostPerc : float;
 		
 		if( super.OnThrowing() )
 		{
@@ -782,9 +782,14 @@ state Channeling in W3SignEntity extends BaseCast
 			actor.StartStaminaRegen();
 			actor.PauseStaminaRegen( 'SignCast' );
 			
-			if(player && ( parent.cachedCost > stamina ) && ( player.CanUseSkill( S_Perk_10 ) ) )
-				player.DrainFocus( 1 );
-				
+			if(player && parent.cachedCost > stamina)
+			{
+				leftStaminaCost = parent.cachedCost - stamina;
+				leftStaminaCostPerc = leftStaminaCost / player.GetStatMax(BCS_Stamina);
+
+				player.DrainFocus(leftStaminaCostPerc * 1.333f);
+			}
+	
 			return true;
 		}
 		
@@ -879,8 +884,7 @@ state Channeling in W3SignEntity extends BaseCast
 					leftStaminaCost = parent.cachedCost - stamina;
 					leftStaminaCostPerc = leftStaminaCost / player.GetStatMax(BCS_Stamina);
 										
-					
-					player.DrainFocus(leftStaminaCostPerc);
+					player.DrainFocus(leftStaminaCostPerc * 1.333f);
 				}
 			}
 			caster.OnProcessCastingOrientation( true );
