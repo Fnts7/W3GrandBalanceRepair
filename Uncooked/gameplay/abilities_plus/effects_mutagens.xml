@@ -95,7 +95,7 @@
 			<ability name="Mutagen22Effect">
 				<staminaRegen type="add" min="2"/>
 				
-				<mutagen22_max_stack type="add" min="-1"/>
+				<mutagen22_max_stack type="add" min="6"/>
 			</ability>
 			
 			<ability name="Mutagen24Effect">
