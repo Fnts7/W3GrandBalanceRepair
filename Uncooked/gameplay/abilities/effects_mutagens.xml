@@ -12,7 +12,7 @@
 			
 			<ability name="Mutagen04Effect">
 				<staminaCostPerc type="add" min="1"/>
-				<healthReductionPerc type="add" min="0.05"/>
+				<healthReductionPerc type="add" min="0.1"/>
 			</ability>
 			
 			<ability name="Mutagen05Effect">
@@ -95,7 +95,7 @@
 			<ability name="Mutagen22Effect">
 				<staminaRegen type="add" min="2"/>
 				
-				<mutagen22_max_stack type="add" min="-1"/>
+				<mutagen22_max_stack type="add" min="6"/>
 			</ability>
 			
 			<ability name="Mutagen24Effect">
