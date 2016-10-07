@@ -53,7 +53,7 @@ class W3AardProjectile extends W3SignProjectile
 			else if ( owner.CanUseSkill(S_Magic_s06) )		
 			{			
 				
-				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + 1.2f * GetWitcherPlayer().GetLevel();
+				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + 2.0f * GetWitcherPlayer().GetLevel();
 				dmgVal *= GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			}
@@ -93,8 +93,9 @@ class W3AardProjectile extends W3SignProjectile
 		var result : EEffectInteract;
 		var mutationAction : W3DamageAction;
 		var min, max : SAbilityAttributeValue;
-		var dmgVal : float;
-		var instaKill, hasKnockdown, applySlowdown : bool;
+		var dmgVal, drainVal : float;
+		var instaKill, hasKnockdown, applySlowdown, applyDrain, applyDrainWeak : bool;
+		var knockDownType : EEffectType;
 				
 		instaKill = false;
 		hasKnockdown = victimNPC.HasBuff( EET_Knockdown ) || victimNPC.HasBuff( EET_HeavyKnockdown ) || victimNPC.GetIsRecoveringFromKnockdown();
@@ -109,53 +110,103 @@ class W3AardProjectile extends W3SignProjectile
 		}
 		else
 		{
+			applyDrain = false;
+			applyDrainWeak = false;
 			
-			if( victimNPC.IsImmuneToInstantKill() )
+			result = victimNPC.AddEffectDefault( EET_Frozen, this, "Mutation 6", true );
+			
+			if( EffectInteractionSuccessfull( result ) && hasKnockdown) 				
 			{
-				result = EI_Deny;
+				if (!victimNPC.IsImmuneToInstantKill() && victimNPC.GetHealthPercents() < 0.5f)
+				{
+					mutationAction = new W3DamageAction in theGame.damageMgr;
+					mutationAction.Initialize( action.attacker, victimNPC, this, "Mutation 6", EHRT_None, CPS_Undefined, false, false, true, false );
+					mutationAction.SetInstantKill();
+					mutationAction.SetForceExplosionDismemberment();
+					mutationAction.SetIgnoreInstantKillCooldown();
+					theGame.damageMgr.ProcessAction( mutationAction );
+					delete mutationAction;
+					instaKill = true;
+				}
+				else
+					applyDrain = true;
 			}
 			else
 			{
-				result = victimNPC.AddEffectDefault( EET_Frozen, this, "Mutation 6", true );
+				applyDrain = hasKnockdown;
+
+				if (!applyDrain)
+				{
+					if (victimNPC.HasShieldedAbility() && victimNPC.IsShielded(action.attacker))
+					{
+						applyDrain = VirtualKnockdownTest(victimNPC, 0.25f);
+						applyDrainWeak = true;
+					}
+					else if (victimNPC.HasAbility( 'mon_type_huge' ))
+					{
+						applyDrain = VirtualKnockdownTest(victimNPC, 0);
+						applyDrainWeak = true;
+					}
+					else
+					{
+						knockDownType = ModifyHitSeverityBuff(victimNPC, EET_Knockdown);
+						if (knockDownType != EET_Knockdown)
+							applyDrain = VirtualKnockdownTest(victimNPC, 0);
+					}
+				}
+
+				if (!EffectInteractionSuccessfull( result ))
+				{
+					applySlowdown = RandF() < 0.5f; 
+					applyDrainWeak = true;
+				}
 			}
 			
-			
-			if( EffectInteractionSuccessfull( result ) && hasKnockdown )				
+			if (applyDrain)
 			{
+				drainVal = 0.2f + RandF() / 5.0f;
+				if (applyDrainWeak)
+					drainVal *= 0.5f;
+				if (victimNPC.UsesVitality())
+				{
+					victimNPC.DrainVitality( victimNPC.GetStatMax(BCS_Vitality) * drainVal );
+				}
+				else if (victimNPC.UsesEssence())
+				{
+					victimNPC.DrainEssence( victimNPC.GetStatMax(BCS_Essence) * drainVal);
+				}
 				
-				mutationAction = new W3DamageAction in theGame.damageMgr;
-				mutationAction.Initialize( action.attacker, victimNPC, this, "Mutation 6", EHRT_None, CPS_Undefined, false, false, true, false );
-				mutationAction.SetInstantKill();
-				mutationAction.SetForceExplosionDismemberment();
-				mutationAction.SetIgnoreInstantKillCooldown();
-				theGame.damageMgr.ProcessAction( mutationAction );
-				delete mutationAction;
-				instaKill = true;
+				if (victimNPC.GetHealth() <= 0)
+					victimNPC.Kill('Mutation 6');
+				
+				if( victimNPC.IsAlive() || !EffectInteractionSuccessfull( result ))
+				{
+					victimNPC.PlayEffect( 'critical_frozen' );
+					victimNPC.AddTimer( 'StopMutation6FX', 2.0f );
+				}
 			}
 		}
 		
-		if( applySlowdown && !hasKnockdown && RandF() < 0.7f)
+		if( applySlowdown && victimNPC.IsAlive() && !hasKnockdown && RandF() < 0.7f)
 		{
 			victimNPC.AddEffectDefault( EET_SlowdownFrost, this, "Mutation 6", true );
 		}
 		
 		
-		if( !instaKill && (owner.CanUseSkill(S_Magic_s06) || !victimNPC.HasBuff( EET_Frozen )))
+		if( !instaKill && !victimNPC.HasBuff( EET_Frozen ))
 		{			
 			if ( owner.CanUseSkill(S_Magic_s06) )
 			{
-				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + 1.2f * GetWitcherPlayer().GetLevel();
+				dmgVal = CalculateAttributeValue( owner.GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) ) + 2.0f * GetWitcherPlayer().GetLevel();
 				dmgVal *= GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
 			}
 			
-			if (!victimNPC.HasBuff( EET_Frozen ))
-			{
-				theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
-				dmgVal = CalculateAttributeValue( min ) + 5.0f * GetWitcherPlayer().GetLevel();
-				action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal );
-				action.SetBuffSourceName( "Mutation 6" );
-			}
+			theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
+			dmgVal = CalculateAttributeValue( min ) + 6.0f * GetWitcherPlayer().GetLevel();
+			action.AddDamage( theGame.params.DAMAGE_NAME_FORCE, dmgVal / 2.0f);
+			action.AddDamage( theGame.params.DAMAGE_NAME_FROST, dmgVal / 2.0f);
+			action.SetBuffSourceName( "Mutation 6" );
 			
 			action.ClearEffects();
 			action.SetProcessBuffsIfNoDamage( false );
@@ -163,6 +214,33 @@ class W3AardProjectile extends W3SignProjectile
 			action.SetIgnoreInstantKillCooldown();
 			theGame.damageMgr.ProcessAction( action );
 		}
+	}
+	
+	private function VirtualKnockdownTest(victimNPC : CNewNPC, extraResist : float) : bool
+	{
+		var spellPowerAtt : SAbilityAttributeValue;
+		var forceResist, forceResistPt, spellPower : float;
+		
+		if (RandF() < 0.2f)
+			return true;
+	
+		spellPowerAtt = GetWitcherPlayer().GetTotalSignSpellPower(signSkill);
+		spellPower = spellPowerAtt.valueMultiplicative;
+		victimNPC.GetResistValue( CDS_ForceRes, forceResistPt, forceResist);
+		forceResist += extraResist;
+
+		spellPower *= 1.0f - forceResist;
+		if (spellPower < 1.1f)
+			return false;
+			
+		if (spellPower > 2.0f)
+		{
+			spellPower = 2.0f + LogF ((spellPower - 2.0f) + 1);
+		}
+
+		spellPower *= RandF();
+	
+		return spellPower >= 1.1f;
 	}
 	
 	event OnAttackRangeHit( entity : CGameplayEntity )

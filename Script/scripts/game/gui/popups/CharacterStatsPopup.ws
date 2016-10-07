@@ -466,7 +466,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		if ( GetWitcherPlayer().CanUseSkill(S_Magic_s06) )
 		{
 			valueAbility = GetWitcherPlayer().GetSkillLevel(S_Magic_s06) * CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) );
-			valueAbility += 1.2f * GetWitcherPlayer().GetLevel() * GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
+			valueAbility += 2.0f * GetWitcherPlayer().GetLevel() * GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
 			valueAbility += mutDmgMod.valueBase;
 			valueAbility *= sp.valueMultiplicative;
 			valueStr = (string)RoundMath( valueAbility );
@@ -477,9 +477,9 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	else if ( varKey == 'igni_damage' ) 	
 	{  
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
-		if (sp.valueMultiplicative > 2.0f  )
+		if (sp.valueMultiplicative > 2.5f  )
 		{
-			sp.valueMultiplicative = 2.0f + LogF( (sp.valueMultiplicative - 2.0f) + 1);
+			sp.valueMultiplicative = 2.5f + LogF( (sp.valueMultiplicative - 2.5f) + 1);
 		}
 		valueAbility = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_2, theGame.params.DAMAGE_NAME_FIRE, false, true ) );
 		valueAbility += 10.0f * GetWitcherPlayer().GetLevel();
