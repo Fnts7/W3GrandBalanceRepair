@@ -3923,8 +3923,12 @@ statemachine class W3PlayerWitcher extends CR4Player
 				
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue( 'Mutation6', 'ForceDamage', min, max );
 				sp = GetTotalSignSpellPower( S_Magic_1 );
-				val = sp.valueAdditive + sp.valueMultiplicative * ( sp.valueBase + min.valueAdditive + 5.0f * GetLevel());
-				arrStr.PushBack( NoTrailZeros( RoundMath( val ) ) );	
+				val = sp.valueAdditive + sp.valueMultiplicative * ( sp.valueBase + min.valueAdditive + 6.0f * GetLevel());
+				arrStr.PushBack( NoTrailZeros( RoundMath( val ) ) );
+				
+				return GetLocStringByKeyExtWithParams( locKey, , , arrStr )
+					+ "<br>Instant kill is possible when enemy HP is &lt; 50%. Otherwise a frost health drain will be applied. "
+					+ "The health drain is also possible for enemies immune to freeze or knockdown.";
 			
 				break;
 				

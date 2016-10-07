@@ -1397,13 +1397,13 @@ class W3DamageManagerProcessor extends CObject
 		
 		if ( playerAttacker && (W3IgniProjectile)action.causer )
 		{
-			if (((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2 && powerMod.valueMultiplicative > 2.0f )
+			if (((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2 && powerMod.valueMultiplicative > 2.5f )
 			{
-				powerMod.valueMultiplicative = 2.0f + LogF ((powerMod.valueMultiplicative - 2.0f) + 1);
+				powerMod.valueMultiplicative = 2.5f + LogF ((powerMod.valueMultiplicative - 2.5f) + 1);
 			}
-			else if (((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_s02 && powerMod.valueMultiplicative > 3.0f )
+			else if (((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_s02 && powerMod.valueMultiplicative > 3.5f )
 			{
-				powerMod.valueMultiplicative = 3.0f + LogF ((powerMod.valueMultiplicative - 3.0f) + 1);
+				powerMod.valueMultiplicative = 3.5f + LogF ((powerMod.valueMultiplicative - 3.5f) + 1);
 			}
 		}
 

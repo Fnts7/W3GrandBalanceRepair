@@ -97,10 +97,10 @@ statemachine class W3QuenEntity extends W3SignEntity
 		
 		if ( owner.CanUseSkill(S_Magic_s14))
 		{			
-			if (wLevel < 25)
-				wLevel = 25;
+			if (wLevel < 30)
+				wLevel = 30;
 			dischargePercent = CalculateAttributeValue(owner.GetSkillAttributeValue(S_Magic_s14, 'discharge_percent', false, true)) * owner.GetSkillLevel(S_Magic_s14);
-			dischargePercent *= 1.0f + (wLevel - 30) / 35.0f;
+			dischargePercent *= 1.0f + (wLevel - 30) / 28.0f;
 			if( owner.GetPlayer().IsSetBonusActive( EISB_Bear_2 ) )
 			{
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue( GetSetBonusAbility( EISB_Bear_2 ), 'quen_dmg_boost_discharge', min, max );
