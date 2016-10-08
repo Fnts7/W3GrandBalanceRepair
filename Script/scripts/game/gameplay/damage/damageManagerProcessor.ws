@@ -405,12 +405,12 @@ class W3DamageManagerProcessor extends CObject
 			if(playerAttacker)
 			{
 				NPC = (CNewNPC) actorVictim;
-				dmgValue *= NPC.NPCModHealth();
+				if (NPC) dmgValue *= NPC.NPCModHealth();
 			}
 			if(playerVictim && !isDMGenabled && ESenabled)
 			{
 				NPC = (CNewNPC) actorAttacker;
-				dmgValue *= NPC.NPCModDamage();
+				if (NPC) dmgValue *= NPC.NPCModDamage();
 			}
 			if( DamageHitsVitality( dmgInfos[i].dmgType ) )		GetEnemyScaleDamageResistance(dmgInfos[i], ESdmgpoints, ESdmgresist);
 			//Enemy Scale
@@ -420,7 +420,7 @@ class W3DamageManagerProcessor extends CObject
 			if( DamageHitsStamina(  dmgInfos[i].dmgType ) )		action.processedDmg.staminaDamage  += dmgValue;
 		}
 		// Enemy Scale
-		if(isDMGenabled && ESenabled)
+		if(isDMGenabled && ESenabled && ((CNewNPC)actorAttacker))
 		{
 			EnemyScaleDamageMod(witcher, ESdmgpoints, ESdmgresist);
 		}
