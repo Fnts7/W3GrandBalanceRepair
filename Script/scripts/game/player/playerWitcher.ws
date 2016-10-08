@@ -2515,7 +2515,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 	{
 		Mutagen15Drop(true, ability);		
 		AddAbilityMultiple(ability, 3);
-		AddTimer('Mutagen15Timer', 20.0f);
+		AddTimer('Mutagen15Timer', 16.0f);
 	}
 	
 	public function Mutagen15Drop(all : bool, ability : name)
@@ -2535,7 +2535,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		}
 
 		RemoveAbilityMultiple(ability, 1);
-		AddTimer('Mutagen15Timer', 20.0f);		
+		AddTimer('Mutagen15Timer', 16.0f);		
 	}
 
 	timer function Mutagen15Timer(dt : float, id : int )
@@ -2579,7 +2579,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(HasBuff(EET_Mutagen14))
 		{
-			AddTimer('Mutagen14Timer', 2, true);
+			AddTimer('Mutagen14Timer', 1.6f, true);
 		}
 		
 		

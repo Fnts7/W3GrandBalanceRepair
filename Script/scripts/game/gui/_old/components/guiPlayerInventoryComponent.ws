@@ -325,7 +325,9 @@ class W3GuiPlayerInventoryComponent extends W3GuiBaseInventoryComponent
 		else if (craftedItemName == 'Mutagen 27')
 			itemDesc = "Absorbs damage. When Geralt gets hit damage absorption by this decoction raises by 3% and maximum is 36%.";
 		else if (craftedItemName == 'Mutagen 15')
-			itemDesc = "Increases adrenaline gain on combat start. Starts with 3 charges, each increasing adrenaline gain by 25%. After getting damage or 20 seconds have passed, one charge is removed. So after 3 hits or a minute at latest the bonus drops to 0.";
+			itemDesc = "Increases adrenaline gain on combat start. Starts with 3 charges, each increasing adrenaline gain by 25%. After getting damage or 16 seconds have passed, one charge is removed. So after 3 hits or 48 seconds at latest, the bonus drops to 0.";
+		else if (craftedItemName == 'Mutagen 4')
+			itemDesc = "Strong attacks use up to 60 stamina and drain additional 10% of current hit enemy's health. If current stamina is lower than 60, the health drain is proportionally lower.";
 		else if (craftedItemName == 'Thunderbolt 3')		
 			itemDesc = "Increases attack power. Longer duration. Gives 30% critical hit chance bonus during storm.";
 		else if (craftedItemName == 'Golden Oriole 1')

@@ -35,9 +35,9 @@
 			</ability>
 			
 			<ability name="Mutagen10Effect">
-				<attack_power type="mult" min="0.01" />
+				<attack_power type="mult" min="0.03" />
 				
-				<mutagen10_max_stack type="add" min="-1" />
+				<mutagen10_max_stack type="add" min="20" />
 			</ability>
 			
 			<ability name="Mutagen11Effect">
@@ -55,7 +55,7 @@
 			<ability name="Mutagen14Effect">
 				<attack_power type="mult" min="0.01" />
 				
-				<mutagen14_max_stack type="add" min="30" />
+				<mutagen14_max_stack type="add" min="45" />
 			</ability>
 			
 			<ability name="Mutagen15Effect">

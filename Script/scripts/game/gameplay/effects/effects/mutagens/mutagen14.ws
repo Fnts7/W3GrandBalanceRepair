@@ -16,7 +16,7 @@ class W3Mutagen14_Effect extends W3Mutagen_Effect
 		super.OnEffectAdded(customParams);
 		
 		if(target.IsInCombat())
-			target.AddTimer('Mutagen14Timer', 2, true);
+			target.AddTimer('Mutagen14Timer', 1.6f, true);
 	}
 
 	event OnEffectRemoved()
