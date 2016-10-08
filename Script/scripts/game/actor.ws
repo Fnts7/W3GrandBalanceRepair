@@ -2510,11 +2510,11 @@ import abstract class CActor extends CGameplayEntity
 				/*theGame.GetDefinitionsManager().GetAbilityAttributeValue(mutagen.GetAbilityName(), 'staminaCostPerc', min, max);
 				stamina = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));*/
 				stamina = thePlayer.GetStat(BCS_Stamina);
-				if (stamina > 50.0f)
-					stamina = 50.0f;
+				if (stamina > 60.0f)
+					stamina = 60.0f;
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue(mutagen.GetAbilityName(), 'healthReductionPerc', min, max);
 				health = CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
-				health *= stamina / 50.0f;
+				health *= stamina / 60.0f;
 				if (UsesVitality())
 				{
 					health *= GetStat(BCS_Vitality);
