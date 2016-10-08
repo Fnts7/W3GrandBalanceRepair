@@ -8201,10 +8201,12 @@ statemachine abstract import class CR4Player extends CPlayer
 	
 	public function ReduceDamage( out damageData : W3DamageAction)
 	{
+		var petard : W3Petard;
+	
 		super.ReduceDamage(damageData);
 		
-		
-		if(damageData.attacker == this && (damageData.GetBuffSourceName() == "petard" || (W3Petard)damageData.causer) )
+		petard = (W3Petard)damageData.causer;
+		if(damageData.attacker == this && (damageData.GetBuffSourceName() == "petard" || petard))
 		{
 			if ( theGame.CanLog() )
 			{
@@ -8212,6 +8214,12 @@ statemachine abstract import class CR4Player extends CPlayer
 			}
 			damageData.processedDmg.vitalityDamage = damageData.processedDmg.vitalityDamage / 2;
 			damageData.processedDmg.essenceDamage = damageData.processedDmg.essenceDamage / 2;
+			
+			if (petard && petard.IsGrapeshot())
+			// Divide the scaling from the grapeshot damage scaling by 3
+			{
+				damageData.processedDmg.vitalityDamage *= (3.0f + GrapeshotBonus()) / (3.0f * (1.0f + GrapeshotBonus()));
+			}
 		}
 	}
 	
