@@ -289,7 +289,7 @@ class W3IgniProjectile extends W3SignProjectile
 	{
 		var signPower, channelDmg : SAbilityAttributeValue;
 		var burnChance : float;					
-		var maxArmorReduction : float;			
+		var maxArmorReduction, armorReductionSpellpower, applyNumber : float;
 		var applyNbr : int;						
 		var i : int;
 		var npc : CNewNPC;
@@ -317,7 +317,6 @@ class W3IgniProjectile extends W3SignProjectile
 		actorVictim = ( CActor ) action.victim;
 		npc = (CNewNPC)collider;
 				
-		
 		if(signEntity.IsAlternateCast())		
 		{
 			igniEntity = (W3IgniEntity)signEntity;
@@ -396,19 +395,25 @@ class W3IgniProjectile extends W3SignProjectile
 		
 		theGame.damageMgr.ProcessAction( action );	
 		
-		
-		if ( owner.CanUseSkill(S_Magic_s08) && (CActor)collider)
+		if ( owner.CanUseSkill(S_Magic_s08) && actorVictim && (!signEntity.IsAlternateCast() || igniEntity.UpdateBurningChance(actorVictim, dt, true)))
 		{	
+			armorReductionSpellpower = signPower.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED;
+			if (armorReductionSpellpower > 1.0f)
+				armorReductionSpellpower = 1.0f;
 			maxArmorReduction = CalculateAttributeValue(owner.GetSkillAttributeValue(S_Magic_s08, 'max_armor_reduction', false, true)) * GetWitcherPlayer().GetSkillLevel(S_Magic_s08);
-			applyNbr = RoundMath( 100 * maxArmorReduction * ( signPower.valueMultiplicative / theGame.params.MAX_SPELLPOWER_ASSUMED ) );
+			applyNumber = 100 * maxArmorReduction * armorReductionSpellpower;
+			applyNbr = RoundMath( applyNumber );
 			
 			armorRedAblName = SkillEnumToName(S_Magic_s08);
-			currentReduction = ((CActor)collider).GetAbilityCount(armorRedAblName);
+			currentReduction = actorVictim.GetAbilityCount(armorRedAblName);
 			
-			applyNbr -= currentReduction;
+			applyNbr = Min(applyNbr, 100 - currentReduction);
 			
 			for ( i = 0; i < applyNbr; i += 1 )
 				action.victim.AddAbility(armorRedAblName, true);
+
+			applyNumber /= 1.0f + (thePlayer.GetSkillLevel(S_Magic_s08) - 1) / 4.0f;
+			actorVictim.IncreaseMeltArmorReduction(RoundMath( applyNumber ));
 		}	
 		collider.OnIgniHit( this );		
 	}	

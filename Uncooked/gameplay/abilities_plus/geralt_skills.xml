@@ -402,8 +402,8 @@
       <!-- Melt Armor -->
       <ability name="magic_s8">
         <tags>magic_s8</tags>
-        <max_armor_reduction type="add" min="0.15" />
-        <armor type="mult" min="-0.006" />
+        <max_armor_reduction type="add" min="0.1" />
+        <armor type="mult" min="-0.01" />
       </ability>
 	  
 	   <!-- Combustible -->

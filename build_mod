@@ -17,9 +17,15 @@ scriptFile[0]="/game/actor.ws"
 scriptFile[1]="/game/gameplay/damage/damageManagerProcessor.ws"
 scriptFile[2]="/game/gameplay/effects/effects/damageOverTime/burningEffect.ws"
 scriptFile[3]="/mod/realisticBurning.ws"
+scriptFile[4]="/game/gameplay/items/spells/igniEntity.ws"
+scriptFile[5]="/game/gameplay/projectile/signs/signProjectiles.ws"
+scriptFile[6]="/game/gui/menus/characterMenu.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
+assetFile[0]="/gameplay/abilities/geralt_skills.xml"
+assetFile[1]="/gameplay/abilities_plus/geralt_skills.xml"
+
 # ASSET FILES END
 
 set -e

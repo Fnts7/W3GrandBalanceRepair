@@ -25,6 +25,7 @@ struct SIgniChannelDT
 {
 	var actor : CActor;
 	var dtSinceLastTest : float;
+	var dtMeltArmorSinceLastTest : float;
 };
 
 statemachine class W3IgniEntity extends W3SignEntity
@@ -116,7 +117,7 @@ statemachine class W3IgniEntity extends W3SignEntity
 	
 	
 	
-	public function UpdateBurningChance(actor : CActor, dt : float) : bool
+	public function UpdateBurningChance(actor : CActor, dt : float, optional forMeltArmor : bool) : bool
 	{
 		var i, j : int;
 		var temp : SIgniChannelDT;
@@ -134,23 +135,41 @@ statemachine class W3IgniEntity extends W3SignEntity
 			}
 		}
 		
-		if(i >= 0)
+		if (forMeltArmor)
 		{
-			channelBurnTestDT[i].dtSinceLastTest += dt;
+			if (i < 0)
+			// For melt armor, actor must exist, because it was earlier tested for burn
+				return false;
+
+			if(channelBurnTestDT[i].dtMeltArmorSinceLastTest >= 1.0f)
+			{
+				channelBurnTestDT[i].dtMeltArmorSinceLastTest -= 1.0f;
+				return true;
+			}		
 		}
 		else
 		{
-			temp.actor = actor;
-			temp.dtSinceLastTest = dt;
-			channelBurnTestDT.PushBack(temp);
-			i = channelBurnTestDT.Size() - 1;
+			if(i >= 0)
+			{
+				channelBurnTestDT[i].dtSinceLastTest += dt;
+				channelBurnTestDT[i].dtMeltArmorSinceLastTest += dt;
+			}
+			else
+			{
+				temp.actor = actor;
+				temp.dtSinceLastTest = dt;
+				temp.dtMeltArmorSinceLastTest = dt;
+				channelBurnTestDT.PushBack(temp);
+				i = channelBurnTestDT.Size() - 1;
+			}
+			
+			if(channelBurnTestDT[i].dtSinceLastTest >= CHANNELLING_BURN_TEST_FREQUENCY)
+			{
+				channelBurnTestDT[i].dtSinceLastTest -= CHANNELLING_BURN_TEST_FREQUENCY;
+				return true;
+			}
 		}
 		
-		if(channelBurnTestDT[i].dtSinceLastTest >= CHANNELLING_BURN_TEST_FREQUENCY)
-		{
-			channelBurnTestDT[i].dtSinceLastTest -= CHANNELLING_BURN_TEST_FREQUENCY;
-			return true;
-		}
 			
 		return false;
 	}

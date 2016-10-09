@@ -48,6 +48,7 @@ import abstract class CActor extends CGameplayEntity
 	private 			var isGameplayVisible			: bool;
 	private				var lastBreathTime				: float;
 	protected 			var isRecoveringFromKnockdown   : bool;
+	private				var meltArmorReduction			: int; default meltArmorReduction = 0;
 	
 	private 			var hitCounter 					: int;		default hitCounter = 0;
 	private 			var totalHitCounter 			: int;		default totalHitCounter = 0;
@@ -2161,8 +2162,49 @@ import abstract class CActor extends CGameplayEntity
 			{
 				GBRGetFireResist((CNewNPC)this, baseResistOnly, percents);
 			}
+			else if (meltArmorReduction > 0 && percents > 0 && (stat == CDS_SlashingRes || stat == CDS_PiercingRes || stat == CDS_BludgeoningRes || stat == CDS_PhysicalRes))
+			{
+				percents -= meltArmorReduction * 0.4f / 100;
+				if (percents < 0)
+					percents = 0;
+			}
 		}
 	}
+	
+	public timer function MeltArmorReductionTimer(dt : float , id : int)
+	{
+		if (meltArmorReduction == 0)
+			return;
+
+		if (thePlayer.CanUseSkill(S_Magic_s08))
+			meltArmorReduction -= 20 * thePlayer.GetSkillLevel(S_Magic_s08) / 3;
+		else
+			meltArmorReduction = 0;
+
+		if (meltArmorReduction <= 0)
+			meltArmorReduction = 0;
+		else
+			AddTimer('MeltArmorReductionTimer', 20.0f);
+	}
+
+	public function IncreaseMeltArmorReduction (amount : int)
+	{
+		var limit : int;
+
+		if (thePlayer.CanUseSkill(S_Magic_s08))
+			limit = 20 * thePlayer.GetSkillLevel(S_Magic_s08);
+		else
+			limit = 0;
+	
+		meltArmorReduction = Min(meltArmorReduction + amount, limit);
+		
+		if (meltArmorReduction > 0)
+		{
+			RemoveTimer('MeltArmorReductionTimer');
+			AddTimer('MeltArmorReductionTimer', 20.0f);
+		}
+	}
+	
 	
 	public function ResumeEffects(type : EEffectType, sourceName : name)
 	{
