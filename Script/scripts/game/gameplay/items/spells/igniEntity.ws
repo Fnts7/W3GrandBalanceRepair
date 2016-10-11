@@ -222,7 +222,7 @@ statemachine class W3IgniEntity extends W3SignEntity
 		}
 		else
 		{
-			if(!IsAlternateCast() && owner.CanUseSkill(S_Magic_s07))
+			if(!IsAlternateCast() && owner.CanUseSkill(S_Magic_s07) && !owner.GetActor().HasAbility('Glyphword 7 _Stats', true))
 			{
 				PlayEffect( effects[fireMode].throwEffectSpellPower );
 			}

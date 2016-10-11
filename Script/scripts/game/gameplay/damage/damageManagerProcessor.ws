@@ -1076,42 +1076,46 @@ class W3DamageManagerProcessor extends CObject
 				dmgInfos[i].dmgVal *= ( 1 + perk20Bonus.valueMultiplicative );
 			}
 		}
-		
-		
-		if( playerAttacker && action.IsActionWitcherSign() && GetWitcherPlayer().IsMutationActive( EPMT_Mutation1 ) )
+		if (playerAttacker && GetWitcherPlayer().IsMutationActive( EPMT_Mutation1 ) )
 		{
-			sword = playerAttacker.inv.GetCurrentlyHeldSword();
+			if (actorVictim && (attackAction.IsActionMelee() || ((W3BoltProjectile)action.causer)) && (actorVictim.HasBuff(EET_Confusion) || actorVictim.HasBuff(EET_AxiiGuardMe)))
+			{
+				for( i = 0 ; i < dmgInfos.Size() ; i+=1)
+				{
+					dmgInfos[i].dmgVal *= 2.0f;
+				}
+			}
 			
-			damageVal.valueBase = 0;
-			damageVal.valueMultiplicative = 0;
-			damageVal.valueAdditive = 0;
+			if( action.IsActionWitcherSign() && ((W3IgniProjectile)action.causer) )
+			{
+				sword = playerAttacker.inv.GetCurrentlyHeldSword();
+				
+				damageVal.valueBase = 0;
+				damageVal.valueMultiplicative = 0;
+				damageVal.valueAdditive = 0;
+			
+				if( playerAttacker.inv.GetItemCategory(sword) == 'steelsword' )
+				{
+					damageVal += playerAttacker.inv.GetItemAttributeValue(sword, theGame.params.DAMAGE_NAME_SLASHING);
+				}
+				else if( playerAttacker.inv.GetItemCategory(sword) == 'silversword' )
+				{
+					damageVal += playerAttacker.inv.GetItemAttributeValue(sword, theGame.params.DAMAGE_NAME_SILVER);
+				}
+				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation1', 'dmg_bonus_factor', min, max);				
+				
+				damageVal.valueBase *= CalculateAttributeValue(min);
+				
 		
-			if( playerAttacker.inv.GetItemCategory(sword) == 'steelsword' )
-			{
-				damageVal += playerAttacker.inv.GetItemAttributeValue(sword, theGame.params.DAMAGE_NAME_SLASHING);
-			}
-			else if( playerAttacker.inv.GetItemCategory(sword) == 'silversword' )
-			{
-				damageVal += playerAttacker.inv.GetItemAttributeValue(sword, theGame.params.DAMAGE_NAME_SILVER);
-			}
-			theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation1', 'dmg_bonus_factor', min, max);				
-			
-			damageVal.valueBase *= CalculateAttributeValue(min);
-			
-			if ((W3YrdenEntity)action.causer)
-				damageVal.valueBase *= 0.6667f;
-			else if ((W3QuenEntity)action.causer && action.GetHitReactionType() == EHRT_Light && GetWitcherPlayer().IsQuenActive(true))
-				damageVal.valueBase *= 0.5f;
-
-			
-			if( action.IsDoTDamage() )
-			{
-				damageVal.valueBase *= action.GetDoTdt();
-			}
-			
-			for( i = 0 ; i < dmgInfos.Size() ; i+=1)
-			{
-				dmgInfos[i].dmgVal += damageVal.valueBase;
+				if( action.IsDoTDamage() )
+				{
+					damageVal.valueBase *= action.GetDoTdt();
+				}
+				
+				for( i = 0 ; i < dmgInfos.Size() ; i+=1)
+				{
+					dmgInfos[i].dmgVal += damageVal.valueBase;
+				}
 			}
 		}
 		
@@ -1478,10 +1482,8 @@ class W3DamageManagerProcessor extends CObject
 			
 			if( playerAttacker && action.IsActionWitcherSign() && theGame.GetDLCManager().IsEP2Available() )
 			{
-				sp = action.GetPowerStatValue();
-				
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue('Mutation2', 'crit_damage_factor', min, max);
-				criticalDamageBonus.valueAdditive = sp.valueMultiplicative * min.valueMultiplicative;
+				criticalDamageBonus.valueAdditive = powerMod.valueMultiplicative * min.valueMultiplicative;
 			}
 			else 
 			{
@@ -2094,6 +2096,10 @@ class W3DamageManagerProcessor extends CObject
 			
 			if(actorVictim && wasAlive)
 			{
+				if (playerAttacker && action.IsActionWitcherSign() && action.GetSignSkill() == S_Magic_s03 && GetWitcherPlayer().IsMutationActive(EPMT_Mutation1) && actorVictim.HasBuff(EET_Blindness))
+				{
+					action.SetHitAnimationPlayType(EAHA_ForceNo);
+				}
 				playsNonAdditiveAnim = actorVictim.ReactToBeingHit( action );
 			}				
 		}

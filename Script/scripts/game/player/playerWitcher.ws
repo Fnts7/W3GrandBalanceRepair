@@ -3937,7 +3937,13 @@ statemachine class W3PlayerWitcher extends CR4Player
 		{
 			case EPMT_Mutation1 :
 				dm.GetAbilityAttributeValue('Mutation1', 'dmg_bonus_factor', min, max);							
-				arrStr.PushBack( NoTrailZeros( RoundMath( 100 * min.valueAdditive ) ) );
+				//arrStr.PushBack( NoTrailZeros( RoundMath( 100 * min.valueAdditive ) ) );
+				return "Enhances all signs in different ways: "
+					+ "Aard: +40% power; "
+					+ "Igni: Adds " + NoTrailZeros( RoundMath( 100 * min.valueAdditive ) ) +"% of current sword damage to Igni damage; "
+					+ "Yrden: +1 base cast traps, +5% slowdown, Yrden shock have a chance to cause blindness; "
+					+ "Quen: +15% shield health, Quen Explosion knockdown chance +15%, Quen Explosion has a chance to trigger even if shield is active, channeled Quen has higher healing factor, Quen Discharge damage +15%; "
+					+ "Axii: Confused enemy receives 2x sword or crossbow damage, when Axii puppet cast is interupted, the enemy gets confusion effect";
 				break;
 				
 			case EPMT_Mutation2 :
@@ -7531,8 +7537,32 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(IsDoingSpecialAttack(false))
 			damageAction.SetHitAnimationPlayType(EAHA_ForceNo);
+			
+		if (GetCurrentlyCastSign() == ST_Axii && IsMutationActive(EPMT_Mutation1) && !IsAnyQuenActive() && !damageAction.EndsQuen() && ((CActor)damageAction.attacker))
+		{
+			Mutation1ConfusionReflect((CActor)damageAction.attacker);
+		}
 		
 		return super.ReactToBeingHit(damageAction, buffNotApplied);
+	}
+
+	private function Mutation1ConfusionReflect(target : CActor)
+	{
+		var params : SCustomEffectParams;
+
+		params.creator = this;
+		params.isSignEffect = true;
+		params.sourceName = "axii_" + S_Magic_5;
+		params.customPowerStatValue = GetTotalSignSpellPower(S_Magic_5);
+		params.effectType = EET_Confusion;
+		params.duration = 3.0f;
+
+		if (params.customPowerStatValue.valueMultiplicative > 2.5f)
+		{
+			params.customPowerStatValue.valueMultiplicative = 2.5f + LogF( (params.customPowerStatValue.valueMultiplicative - 2.5f) + 1 );
+		}
+
+		target.AddEffectCustom(params);
 	}
 	
 	protected function ShouldPauseHealthRegenOnHit() : bool
@@ -8515,6 +8545,10 @@ statemachine class W3PlayerWitcher extends CR4Player
 		if(signSkill == S_Magic_1 || signSkill == S_Magic_s01)
 		{
 			sp += GetAttributeValue('spell_power_aard');
+			if (IsMutationActive(EPMT_Mutation1))
+			{
+				sp.valueMultiplicative += 0.4f;
+			}
 		}
 		else if(signSkill == S_Magic_2 || signSkill == S_Magic_s02)
 		{

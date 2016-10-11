@@ -1403,6 +1403,11 @@ class W3EffectManager
 		if(!signEntity && signProjectile)
 			signEntity = signProjectile.GetSignEntity();
 			
+		if (size > 0 && action.IsActionWitcherSign() && action.GetSignSkill() == S_Magic_s03 && attackerPowerStatValue.valueMultiplicative > 2.5)
+		{
+			attackerPowerStatValue.valueMultiplicative = 2.5f + LogF ((attackerPowerStatValue.valueMultiplicative - 2.5f) + 1);
+		}					
+						
 		for( i = 0; i < size; i += 1 )
 		{		
 			if ( canLog )
@@ -1417,7 +1422,12 @@ class W3EffectManager
 			}
 			else
 			{
-				applyBuff = GetNonSignApplyBuffTest(effectInfos[i].applyChance);
+				if (action.IsActionWitcherSign() && action.GetSignSkill() == S_Magic_s03)
+				{
+					applyBuff = GetSignApplyBuffTest(ST_Yrden, effectInfos[i].effectType, attackerPowerStatValue, true, (CActor)action.attacker, action.GetBuffSourceName() );
+				}
+				else
+					applyBuff = GetNonSignApplyBuffTest(effectInfos[i].applyChance);
 			}
 			
 			if(applyBuff)
@@ -1489,9 +1499,13 @@ class W3EffectManager
 		owner.GetResistValue(theGame.effectMgr.GetBuffResistStat(effectType), tempF, res);
 		chance = sp / theGame.params.MAX_SPELLPOWER_ASSUMED - res;
 		
-		if( signType == ST_Yrden || signType == ST_Axii || sourceName == "mutation11" )
+		if(signType == ST_Axii || sourceName == "mutation11" )
 		{
 			chance = 1;
+		}
+		else if (signType == ST_Yrden)
+		{
+			chance = 0.3f;
 		}
 		else if(signType == ST_Igni)
 		{
@@ -1517,6 +1531,8 @@ class W3EffectManager
 			if(witcher)
 			{
 				chance = CalculateAttributeValue(witcher.GetSkillAttributeValue(S_Magic_s13, 'chance_multiplier', false, true));
+				if (witcher.IsMutationActive(EPMT_Mutation1))
+					chance += 0.15f;
 			}
 			if( owner.HasAbility('WeakToAard') )
 			{

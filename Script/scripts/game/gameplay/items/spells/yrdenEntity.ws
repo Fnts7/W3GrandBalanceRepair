@@ -229,9 +229,14 @@ statemachine class W3YrdenEntity extends W3SignEntity
 		maxCount = 1;
 		currCount = 0;
 		
-		if(!isAlternate && owner.CanUseSkill(S_Magic_s10) && owner.GetSkillLevel(S_Magic_s10) >= 2)
+		if(!isAlternate)
 		{
-			maxCount += 1;
+			if (owner.CanUseSkill(S_Magic_s10) && owner.GetSkillLevel(S_Magic_s10) >= 2)
+			{
+				maxCount += 1;
+			}
+			if (owner.GetPlayer() && owner.GetPlayer().IsMutationActive( EPMT_Mutation1 ))
+				maxCount += 1;
 		}
 		
 		for(i=size-1; i>=0; i-=1)
@@ -771,6 +776,11 @@ state YrdenShock in W3YrdenEntity extends Active
 					damages[i].dmgVal += damageBonusFlat * player.GetLevel() * (0.75f + skillLevel * 0.25f);
 					action.AddDamage(damages[i].dmgType, damages[i].dmgVal);
 				}
+				
+				if (player.IsMutationActive(EPMT_Mutation1))
+				{
+					action.AddEffectInfo(EET_Blindness, , , 'BlindnessEffect');
+				}
 			}
 			
 			
@@ -953,6 +963,10 @@ state YrdenSlowdown in W3YrdenEntity extends Active
 		scale = params.customPowerStatValue.valueMultiplicative / 5;
 		params.effectValue.valueAdditive = min + (max - min) * scale;
 		params.effectValue.valueAdditive = ClampF( params.effectValue.valueAdditive, min, max );
+		
+		
+		if (caster.GetPlayer() && caster.GetPlayer().IsMutationActive(EPMT_Mutation1))
+			params.effectValue.valueAdditive += 0.05f;
 		
 		
 		if(thePlayer.CanUseSkill(S_Magic_s11))
