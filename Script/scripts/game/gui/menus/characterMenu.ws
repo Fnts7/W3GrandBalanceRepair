@@ -1842,7 +1842,13 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_4:
 				ability = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_4);
+				if (ability.valueMultiplicative > 2.5f)
+				{
+					ability.valueMultiplicative = 2.5f + LogF( (ability.valueMultiplicative - 2.5f) + 1 );
+				}
 				arg = (CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false)) + 2.0f * GetWitcherPlayer().GetLevel()) * ability.valueMultiplicative;
+				if (GetWitcherPlayer().IsMutationActive(EPMT_Mutation1))
+					arg *= 1.15f;
 				arg /= RoundMath(thePlayer.GetStat(BCS_Vitality, true)); 
 				argsInt.PushBack(RoundMath(arg*100));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt);
@@ -2100,7 +2106,7 @@ class CR4CharacterMenu extends CR4MenuBase
 				break;
 			case S_Magic_s11:
 				//arg = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s11, 'direct_damage_per_sec', false, false)) * skillLevel;
-				arg = skillLevel * GetWitcherPlayer().GetLevel() / 2.0f;
+				arg = skillLevel * GetWitcherPlayer().GetLevel() / 2.6667f;
 				argsInt.PushBack(RoundMath(arg));
 				baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>";
 				baseString += "Scales with Yrden spellpower.<br>";

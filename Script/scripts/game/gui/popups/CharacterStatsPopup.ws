@@ -467,7 +467,6 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		{
 			valueAbility = GetWitcherPlayer().GetSkillLevel(S_Magic_s06) * CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_s06, theGame.params.DAMAGE_NAME_FORCE, false, true ) );
 			valueAbility += 2.0f * GetWitcherPlayer().GetLevel() * GetWitcherPlayer().GetSkillLevel(S_Magic_s06);
-			valueAbility += mutDmgMod.valueBase;
 			valueAbility *= sp.valueMultiplicative;
 			valueStr = (string)RoundMath( valueAbility );
 		}
@@ -501,8 +500,14 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 	else if ( varKey == 'quen_damageabs' )
 	{
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_4);
+		if (sp.valueMultiplicative > 2.5f)
+		{
+			sp.valueMultiplicative = 2.5f + LogF( (sp.valueMultiplicative - 2.5f) + 1 );
+		}
 		valueAbility = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_4, 'shield_health', false, false));
 		valueAbility += 2.0f * GetWitcherPlayer().GetLevel();
+		if (GetWitcherPlayer().IsMutationActive(EPMT_Mutation1))
+			valueAbility *= 1.15f;
 		valueAbility *= sp.valueMultiplicative;
 		valueStr = (string)RoundMath( valueAbility );
 	}
@@ -514,7 +519,9 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		valueAbility = sp.valueMultiplicative / 5;
 		valueAbility =  min + (max - min) * valueAbility;
 		valueAbility = ClampF( valueAbility, min, max );
-		valueAbility *= 1 - ClampF(4 * theGame.params.NPC_RESIST_PER_LEVEL, 0, 1) ;
+		if (GetWitcherPlayer() && GetWitcherPlayer().IsMutationActive(EPMT_Mutation1))
+			valueAbility += 0.05f;
+		//valueAbility *= 1 - ClampF(4 * theGame.params.NPC_RESIST_PER_LEVEL, 0, 1) ;
 		valueStr = (string)RoundMath( valueAbility * 100 ) + " %";
 	}
 	else if ( varKey == 'yrden_damage' )
@@ -524,7 +531,6 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 			sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_s03);
 			valueAbility = CalculateAttributeValue( GetWitcherPlayer().GetSkillAttributeValue( S_Magic_s03, theGame.params.DAMAGE_NAME_SHOCK, false, true ) );
 			valueAbility += CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s03, 'damage_bonus_flat_after_1', false, true)) * GetWitcherPlayer().GetLevel() * (0.75f + GetWitcherPlayer().GetSkillLevel(S_Magic_s03) * 0.25f);
-			valueAbility += mutDmgMod.valueBase * 0.6667f;
 			valueAbility *= sp.valueMultiplicative;			
 			valueStr = (string)RoundMath( valueAbility );
 		}

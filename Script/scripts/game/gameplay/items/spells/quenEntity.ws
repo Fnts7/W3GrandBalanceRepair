@@ -91,6 +91,8 @@ statemachine class W3QuenEntity extends W3SignEntity
 		{
 			wLevel = owner.GetPlayer().GetLevel();
 			shieldHealth += 2.0f * wLevel;
+			if (owner.GetPlayer().IsMutationActive(EPMT_Mutation1))
+				shieldHealth *= 1.15f;
 		}
 		
 		initialShieldHealth = shieldHealth;
@@ -101,6 +103,10 @@ statemachine class W3QuenEntity extends W3SignEntity
 				wLevel = 30;
 			dischargePercent = CalculateAttributeValue(owner.GetSkillAttributeValue(S_Magic_s14, 'discharge_percent', false, true)) * owner.GetSkillLevel(S_Magic_s14);
 			dischargePercent *= 1.0f + (wLevel - 30) / 28.0f;
+			
+			if (owner.GetPlayer() && owner.GetPlayer().IsMutationActive(EPMT_Mutation1))
+				dischargePercent *= 1.15f;
+			
 			if( owner.GetPlayer().IsSetBonusActive( EISB_Bear_2 ) )
 			{
 				theGame.GetDefinitionsManager().GetAbilityAttributeValue( GetSetBonusAbility( EISB_Bear_2 ), 'quen_dmg_boost_discharge', min, max );
@@ -579,6 +585,10 @@ state ShieldActive in W3QuenEntity extends Active
 		{
 			
 			spellPower = casterActor.GetTotalSignSpellPower(virtual_parent.GetSkill());
+			if (spellPower.valueMultiplicative > 2.5f)
+			{
+				spellPower.valueMultiplicative = 2.5f + LogF( (spellPower.valueMultiplicative - 2.5f) + 1 );
+			}
 			
 			drainedHealth = reducedDamage / spellPower.valueMultiplicative;
 			if (drainedHealth <= parent.shieldHealth)
@@ -632,13 +642,16 @@ state ShieldActive in W3QuenEntity extends Active
 		
 		if( parent.shieldHealth <= 0 )
 		{
-			if ( parent.owner.CanUseSkill(S_Magic_s13) )
-			{				
+			damageData.SetEndsQuen(true);
+		}
+		
+		if (parent.owner.CanUseSkill(S_Magic_s13))
+		{		
+			if (damageData.EndsQuen() || (caster.GetPlayer() && caster.GetPlayer().IsMutationActive( EPMT_Mutation1 ) && RandF() < 0.35f))
+			{
 				casterActor.PlayEffect( 'lasting_shield_impulse' );
 				caster.GetPlayer().QuenImpulse( false, parent, "quen_impulse" );
 			}
-			
-			damageData.SetEndsQuen(true);
 		}
 	}
 }
@@ -876,7 +889,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		
 	event OnTargetHit( out damageData : W3DamageAction )
 	{
-		var reducedDamage, skillBonus, drainedStamina, reducibleDamage, directDamage, shieldFactor : float;		
+		var reducedDamage, skillBonus, drainedStamina, reducibleDamage, directDamage, shieldFactor, healingFactor : float;		
 		var spellPower : SAbilityAttributeValue;
 		var drainAllStamina, isBleeding : bool;
 		var casterActor : CActor;
@@ -906,7 +919,11 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		
 		
 		spellPower = casterActor.GetTotalSignSpellPower(virtual_parent.GetSkill());
-
+		
+		if (spellPower.valueMultiplicative > 3.0f)
+		{
+			spellPower.valueMultiplicative = 3.0f + LogF( (spellPower.valueMultiplicative - 3.0f) + 1 );
+		}
 		
 		if ( caster.CanUseSkill( S_Magic_s15 ) )
 			skillBonus = CalculateAttributeValue( caster.GetSkillAttributeValue( S_Magic_s15, 'bonus', false, true ) );
@@ -930,6 +947,8 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		if (caster.GetPlayer())
 		{
 			shieldFactor += caster.GetPlayer().GetLevel() / 20.0f;
+			if (caster.GetPlayer().IsMutationActive(EPMT_Mutation1))
+				shieldFactor *= 1.15f;
 		}
 		
 		if(reducibleDamage > 0)
@@ -1006,23 +1025,30 @@ state QuenChanneled in W3QuenEntity extends Channeling
 			casterActor.DrainStamina( ESAT_FixedValue, casterActor.GetStat(BCS_Stamina), 2 );
 		}
 		
+		healingFactor = HEALING_FACTOR;
+		if (caster.GetPlayer() && caster.GetPlayer().IsMutationActive( EPMT_Mutation1 ))
+			healingFactor += 0.1f;
+		
 		if (drainAllStamina && !isBleeding)
 		{
-			caster.GetActor().Heal(reducedDamage * HEALING_FACTOR - (reducibleDamage - reducedDamage));
+			caster.GetActor().Heal(reducedDamage * healingFactor - (reducibleDamage - reducedDamage));
 		}
 		else
-			caster.GetActor().Heal(reducedDamage * HEALING_FACTOR);
+			caster.GetActor().Heal(reducedDamage * healingFactor);
 		
 		
 		if( casterActor.GetStat( BCS_Stamina ) <= 0 && !casterActor.HasBuff( EET_Mutation11Buff ) )
 		{
-			if ( caster.CanUseSkill(S_Magic_s13) )
+			damageData.SetEndsQuen(true);			
+		}
+		
+		if (caster.CanUseSkill(S_Magic_s13))
+		{
+			if (damageData.EndsQuen() || (caster.GetPlayer() && caster.GetPlayer().IsMutationActive( EPMT_Mutation1 ) && RandF() < 0.15f) )
 			{
 				parent.PlayHitEffect( 'quen_rebound_sphere_impulse', attackerVictimEuler );
 				caster.GetPlayer().QuenImpulse( true, parent, "quen_impulse" );
 			}
-			
-			damageData.SetEndsQuen(true);			
 		}
 	}
 }
