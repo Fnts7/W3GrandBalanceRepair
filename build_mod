@@ -67,7 +67,7 @@ scriptFile[41]="/game/gameplay/effects/effects/dotEffect.ws"
 scriptFile[42]="/game/gameplay/effects/effects/other/toxicityVenom.ws"
 scriptFile[43]="/game/gameplay/items/spells/aardEntity.ws"
 scriptFile[44]="/game/gameplay/items/spells/signOwner.ws"
-scriptFile[44]="/game/gameplay/effects/effects/mutagens/mutagen14.ws"
+scriptFile[45]="/game/gameplay/effects/effects/mutagens/mutagen14.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
