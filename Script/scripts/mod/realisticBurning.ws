@@ -2,7 +2,7 @@
 ///// Grand Balance Repair Realistic Burning /////////
 //////////////////////////////////////////////////////
 
-function GBRGetFireResist(npc : CNewNPC, baseResistOnly : bool, out resistPerc : float)
+function GBRGetFireResist(npc : CNewNPC, stat : ECharacterDefenseStats, out resistPerc : float)
 {
 	var level : int;
 	var category : name;
@@ -36,11 +36,12 @@ function GBRGetFireResist(npc : CNewNPC, baseResistOnly : bool, out resistPerc :
 
 	resistPerc -= definitionResist * level;
 	
-	if (resistPerc >= 1.0f || baseResistOnly)
+	configWrapper = theGame.GetInGameConfigWrapper();
+	
+	if (resistPerc >= 1.0f || (stat == CDS_DoTBurningDamageRes && configWrapper.GetVarValue('GBRRealisticBurning', 'GBRBurningMode')))
 		return;
 
 	// Apply fixed burning resist
-	configWrapper = theGame.GetInGameConfigWrapper();
 	configRes = StringToFloat(configWrapper.GetVarValue('GBRRealisticBurning', 'FixedBurnResist')) / 100;
 	resistPerc = resistPerc + (1.0f - resistPerc) * configRes;
 

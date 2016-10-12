@@ -2049,15 +2049,15 @@ class CR4CharacterMenu extends CR4MenuBase
 				argsInt.PushBack(RoundMath(arg*100));*/
 				//baseString = GetLocStringByKeyExtWithParams(locKey, argsInt)  + "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");
 				
-				arg = 0.08f * skillLevel;
+				arg = 0.07f * skillLevel;
 				baseString = "Melts up to 100% of point armor reduction and up to " + RoundMath(arg * 100) + "% of percent physical resistances."
 					+ " The amount of Igni hits or firestream burning time needed to reach the maximum armor reduction depends on skill level and spellpower."
 					+ " Also the resistances reduction wears of totally after one minute if not hit by Igni in meantime.";
 					
 				if (theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
 				{
-					arg = 0.07f * skillLevel;
-					baseString += "<br>Increases critical burning time by " + RoundMath(arg * 100) + "%. Counts for all burning caused by Geralt.";
+					arg = 0.06f * skillLevel;
+					baseString += "<br>Increases critical burning time by " + RoundMath(arg * 100) + "%. This one counts for all burning caused by Geralt.";
 				}
 
 				baseString += "<br>" + GetLocStringByKeyExt("attribute_name_staminaregen") + ": +" + NoTrailZeros((arg_stamina * 100) * skillLevel) + "/" + GetLocStringByKeyExt("per_second");

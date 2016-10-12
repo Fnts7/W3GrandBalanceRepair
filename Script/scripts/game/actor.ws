@@ -2149,7 +2149,7 @@ import abstract class CActor extends CGameplayEntity
 	}
 	
 	
-	public function GetResistValue(stat : ECharacterDefenseStats, out points : float, out percents : float, optional baseResistOnly : bool)
+	public function GetResistValue(stat : ECharacterDefenseStats, out points : float, out percents : float)
 	{
 		points = 0;
 		percents = 0;
@@ -2160,11 +2160,11 @@ import abstract class CActor extends CGameplayEntity
 			
 			if (((CNewNPC)this) && (stat == CDS_BurningRes || stat == CDS_DoTBurningDamageRes))
 			{
-				GBRGetFireResist((CNewNPC)this, baseResistOnly, percents);
+				GBRGetFireResist((CNewNPC)this, stat, percents);
 			}
 			else if (meltArmorReduction > 0 && percents > 0 && (stat == CDS_SlashingRes || stat == CDS_PiercingRes || stat == CDS_BludgeoningRes || stat == CDS_PhysicalRes))
 			{
-				percents -= meltArmorReduction * 0.4f / 100;
+				percents -= meltArmorReduction * 0.35f / 100;
 				if (percents < 0)
 					percents = 0;
 			}

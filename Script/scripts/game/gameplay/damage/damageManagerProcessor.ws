@@ -1440,17 +1440,8 @@ class W3DamageManagerProcessor extends CObject
 		
 		if(actorVictim)
 		{
-			if (theGame.GetInGameConfigWrapper().GetVarValue('GBRRealisticBurning', 'GBRBurningMode'))
-			{
-				if ((actorAttacker && !playerAttacker) || (playerAttacker && (W3IgniProjectile)action.causer && ((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_s02))
-					baseResistOnly = false;
-				else
-					baseResistOnly = true;
-			}
-			else
-				baseResistOnly = false;
-
-			actorVictim.GetResistValue( GetResistForDamage(dmgType, action.IsDoTDamage()), resistPts, resistPerc, baseResistOnly );
+			
+			actorVictim.GetResistValue( GetResistForDamage(dmgType, action.IsDoTDamage()), resistPts, resistPerc );
 			
 			
 			if(playerVictim && actorAttacker && playerVictim.CanUseSkill(S_Alchemy_s05))

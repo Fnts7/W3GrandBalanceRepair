@@ -115,7 +115,7 @@ class W3Effect_Burning extends W3CriticalDOTEffect
 				animStopTime = 1.5f + (duration - 1.5f) * 0.4f;
 				if (thePlayer.CanUseSkill(S_Magic_s08))
 				{
-					animStopTime *= 1.0f + 0.07f * thePlayer.GetSkillLevel(S_Magic_s08);
+					animStopTime *= 1.0f + 0.06f * thePlayer.GetSkillLevel(S_Magic_s08);
 					if (animStopTime >= duration)
 						return;
 				}
