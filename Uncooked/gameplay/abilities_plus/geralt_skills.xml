@@ -347,7 +347,7 @@
         <stamina_delay type="base" min="0.5" />
         <stamina_delay type="mult" min="2" />
         <FireDamage type="add" always_random="false" min="30" max="30" />
-		<channeling_damage type="add" min="40" max="40" />
+		<channeling_damage type="add" min="30" max="30" />
         <BurningEffect_FireStream is_ability="true" />
       </ability>
 	  

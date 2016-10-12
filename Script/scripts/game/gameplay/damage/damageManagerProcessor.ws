@@ -1399,16 +1399,9 @@ class W3DamageManagerProcessor extends CObject
 		if(playerAttacker && attackAction && playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
 			powerMod.valueMultiplicative -= 0.833;
 		
-		if ( playerAttacker && (W3IgniProjectile)action.causer )
+		if ( playerAttacker && ((W3IgniProjectile)action.causer) && powerMod.valueMultiplicative > 2.5f)
 		{
-			if (((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_2 && powerMod.valueMultiplicative > 2.5f )
-			{
-				powerMod.valueMultiplicative = 2.5f + LogF ((powerMod.valueMultiplicative - 2.5f) + 1);
-			}
-			else if (((W3IgniProjectile)action.causer).GetSignSkill() == S_Magic_s02 && powerMod.valueMultiplicative > 3.5f )
-			{
-				powerMod.valueMultiplicative = 3.5f + LogF ((powerMod.valueMultiplicative - 3.5f) + 1);
-			}
+			powerMod.valueMultiplicative = 2.5f + LogF ((powerMod.valueMultiplicative - 2.5f) + 1);
 		}
 
 		if(action.IsCriticalHit())
@@ -1474,8 +1467,7 @@ class W3DamageManagerProcessor extends CObject
 		
 		if(actorVictim)
 		{
-			
-			actorVictim.GetResistValue( GetResistForDamage(dmgType, action.IsDoTDamage()), resistPts, resistPerc );
+			actorVictim.GetResistValue( GetResistForDamage(dmgType, action.IsDoTDamage() && !(playerAttacker && ((W3IgniProjectile)action.causer))), resistPts, resistPerc );
 			
 			
 			if(playerVictim && actorAttacker && playerVictim.CanUseSkill(S_Alchemy_s05))
