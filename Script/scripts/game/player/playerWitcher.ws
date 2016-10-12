@@ -3938,12 +3938,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 			case EPMT_Mutation1 :
 				dm.GetAbilityAttributeValue('Mutation1', 'dmg_bonus_factor', min, max);							
 				//arrStr.PushBack( NoTrailZeros( RoundMath( 100 * min.valueAdditive ) ) );
-				return "Enhances all signs in different ways: "
-					+ "Aard: +40% power; "
-					+ "Igni: Adds " + NoTrailZeros( RoundMath( 100 * min.valueAdditive ) ) +"% of current sword damage to Igni damage; "
-					+ "Yrden: +1 base cast traps, +5% slowdown, Yrden shock have a chance to cause blindness; "
-					+ "Quen: +15% shield health, Quen Explosion knockdown chance +15%, Quen Explosion has a chance to trigger even if shield is active, channeled Quen has higher healing factor, Quen Discharge damage +15%; "
-					+ "Axii: Confused enemy receives 2x sword or crossbow damage, when Axii puppet cast is interupted, the enemy gets confusion effect";
+				return "Enhances all signs in different ways. See Signs Overhaul mod description.";
 				break;
 				
 			case EPMT_Mutation2 :
@@ -7733,8 +7728,48 @@ statemachine class W3PlayerWitcher extends CR4Player
 		pam = (W3PlayerAbilityManager)abilityManager;
 		return pam.TutorialMutagensCleanupTempSkills(savedEquippedSkills);
 	}
-	
-	
+
+	public function CorrectStaminaRegen(att : SAbilityAttributeValue) : float
+	{
+		var regen, armorBonus : float;
+		var intervalArray : array<float>;
+
+		regen = att.valueAdditive + att.valueMultiplicative * GetStatMax(BCS_Stamina);
+
+		if (regen > 40.0f)
+		{
+			intervalArray.PushBack(regen - 40.0f);
+			regen = 40.0f;
+		}
+		else
+			intervalArray.PushBack(0);
+
+		if (regen > 30.0f)
+		{
+			intervalArray.PushBack(regen - 30.0f);
+			regen = 30.0f;
+		}
+		else
+			intervalArray.PushBack(0);
+
+		if (regen > 20.0f)
+		{
+			intervalArray.PushBack(regen - 20.0f);
+			regen = 20.0f;
+		}
+		else
+			intervalArray.PushBack(0);
+
+		intervalArray.PushBack(regen);
+
+		regen = intervalArray[0] * 0.5f + intervalArray[1] * 0.6667f + intervalArray[2] * 0.75f + intervalArray[3];
+		armorBonus = regen * CalculatedArmorStaminaRegenBonus();
+		if (armorBonus > 6.0f)
+			armorBonus = 6.0f;
+
+		regen += armorBonus;
+		return regen;	
+	}	
 	
 	
 	

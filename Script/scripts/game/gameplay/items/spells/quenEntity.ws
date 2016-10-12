@@ -515,8 +515,8 @@ state ShieldActive in W3QuenEntity extends Active
 		var casterActor : CActor;
 		var effectTypes : array < EEffectType >;
 		var damageTypes : array<SRawDamage>;
-		var i : int;
-		var isBleeding : bool;
+		var i, explosionLevel : int;
+		var isBleeding, mutation1 : bool;
 		
 		if( damageData.WasDodged() ||
 			damageData.GetHitReactionType() == EHRT_Reflect )
@@ -645,13 +645,21 @@ state ShieldActive in W3QuenEntity extends Active
 			damageData.SetEndsQuen(true);
 		}
 		
-		if (parent.owner.CanUseSkill(S_Magic_s13))
+		explosionLevel = 0;
+		mutation1 = parent.owner.GetPlayer() && parent.owner.GetPlayer().IsMutationActive( EPMT_Mutation1 );
+		if (damageData.EndsQuen() && parent.owner.CanUseSkill(S_Magic_s13))
+		{
+			explosionLevel = parent.owner.GetSkillLevel(S_Magic_s13);
+			if (explosionLevel < 3 && mutation1 && RandF() < 0.35f)
+				explosionLevel = 3;
+		}
+		else if (mutation1 && RandF() < 0.35f)
+			explosionLevel = 3;
+
+		if (explosionLevel > 0)
 		{		
-			if (damageData.EndsQuen() || (caster.GetPlayer() && caster.GetPlayer().IsMutationActive( EPMT_Mutation1 ) && RandF() < 0.35f))
-			{
-				casterActor.PlayEffect( 'lasting_shield_impulse' );
-				caster.GetPlayer().QuenImpulse( false, parent, "quen_impulse" );
-			}
+			casterActor.PlayEffect( 'lasting_shield_impulse' );
+			caster.GetPlayer().QuenImpulse( false, parent, "quen_impulse", explosionLevel );
 		}
 	}
 }
@@ -896,6 +904,8 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		var attackerVictimEuler : EulerAngles;
 		var action : W3DamageAction;		
 		var shieldHP : float;
+		var explosionLevel : int;
+		var mutation1 : bool;
 
 		parent.OnTargetHit(damageData);
 		
@@ -944,11 +954,13 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		
 		shieldFactor = CalculateAttributeValue( caster.GetSkillAttributeValue( S_Magic_s04, 'shield_health_factor', false, true ) );
 		
+		mutation1 = false;
 		if (caster.GetPlayer())
 		{
+			mutation1 = caster.GetPlayer().IsMutationActive(EPMT_Mutation1);
 			shieldFactor += caster.GetPlayer().GetLevel() / 20.0f;
-			if (caster.GetPlayer().IsMutationActive(EPMT_Mutation1))
-				shieldFactor *= 1.15f;
+			if (mutation1)
+				shieldFactor *= 1.2f;
 		}
 		
 		if(reducibleDamage > 0)
@@ -1026,7 +1038,7 @@ state QuenChanneled in W3QuenEntity extends Channeling
 		}
 		
 		healingFactor = HEALING_FACTOR;
-		if (caster.GetPlayer() && caster.GetPlayer().IsMutationActive( EPMT_Mutation1 ))
+		if (mutation1)
 			healingFactor += 0.1f;
 		
 		if (drainAllStamina && !isBleeding)
@@ -1042,13 +1054,20 @@ state QuenChanneled in W3QuenEntity extends Channeling
 			damageData.SetEndsQuen(true);			
 		}
 		
-		if (caster.CanUseSkill(S_Magic_s13))
+		explosionLevel = 0;
+		if (damageData.EndsQuen() && parent.owner.CanUseSkill(S_Magic_s13))
 		{
-			if (damageData.EndsQuen() || (caster.GetPlayer() && caster.GetPlayer().IsMutationActive( EPMT_Mutation1 ) && RandF() < 0.15f) )
-			{
-				parent.PlayHitEffect( 'quen_rebound_sphere_impulse', attackerVictimEuler );
-				caster.GetPlayer().QuenImpulse( true, parent, "quen_impulse" );
-			}
+			explosionLevel = parent.owner.GetSkillLevel(S_Magic_s13);
+			if (explosionLevel < 3 && mutation1 && RandF() < 0.15f)
+				explosionLevel = 3;
+		}
+		else if (mutation1 && RandF() < 0.15f)
+			explosionLevel = 3;
+		
+		if (explosionLevel > 0)
+		{
+			parent.PlayHitEffect( 'quen_rebound_sphere_impulse', attackerVictimEuler );
+			caster.GetPlayer().QuenImpulse( true, parent, "quen_impulse", explosionLevel );
 		}
 	}
 }

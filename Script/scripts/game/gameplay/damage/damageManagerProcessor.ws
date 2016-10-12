@@ -1078,7 +1078,9 @@ class W3DamageManagerProcessor extends CObject
 		}
 		if (playerAttacker && GetWitcherPlayer().IsMutationActive( EPMT_Mutation1 ) )
 		{
-			if (actorVictim && (attackAction.IsActionMelee() || ((W3BoltProjectile)action.causer)) && (actorVictim.HasBuff(EET_Confusion) || actorVictim.HasBuff(EET_AxiiGuardMe)))
+			if (actorVictim && !action.IsDoTDamage()
+				&& (!action.IsActionWitcherSign() || !((W3IgniProjectile)action.causer))
+				&& (actorVictim.HasBuff(EET_Confusion) || actorVictim.HasBuff(EET_AxiiGuardMe)))
 			{
 				for( i = 0 ; i < dmgInfos.Size() ; i+=1)
 				{

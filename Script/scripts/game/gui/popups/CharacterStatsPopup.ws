@@ -329,9 +329,7 @@ function AddCharacterStat(tag : string, varKey:name, locKey:string, iconTag:stri
 	else if ( varKey == 'staminaRegen' ) 
 	{
 		sp = GetWitcherPlayer().GetAttributeValue(varKey);
-		valueAbility = sp.valueAdditive + sp.valueMultiplicative * GetWitcherPlayer().GetStatMax(BCS_Stamina);
-		
-		valueAbility *= 1 + GetWitcherPlayer().CalculatedArmorStaminaRegenBonus();
+		valueAbility = GetWitcherPlayer().CorrectStaminaRegen(sp);
 		valueStr = NoTrailZeros(RoundMath(valueAbility)) + "/" + GetLocStringByKeyExt("per_second"); 
 	}
 	else if ( varKey == 'staminaOutOfCombatRegen' ) 

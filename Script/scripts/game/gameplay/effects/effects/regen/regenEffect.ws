@@ -17,13 +17,13 @@ abstract class W3RegenEffect extends CBaseGameplayEffect
 	default isNeutral = false;
 	default isNegative = false;
 	
+	
 	event OnUpdate(dt : float)
 	{
 		var regenPoints : float;
 		var canRegen : bool;
 		var hpRegenPauseBuff : W3Effect_DoTHPRegenReduce;
-		var pauseRegenVal, armorModVal : SAbilityAttributeValue;
-		var baseStaminaRegenVal : float;
+		var pauseRegenVal : SAbilityAttributeValue;
 		
 		super.OnUpdate(dt);
 		
@@ -39,23 +39,22 @@ abstract class W3RegenEffect extends CBaseGameplayEffect
 		
 		if(canRegen)
 		{
-			
-			regenPoints = effectValue.valueAdditive + effectValue.valueMultiplicative * target.GetStatMax(stat);
-			
+		
 			if (isOnPlayer && regenStat == CRS_Stamina && attributeName == RegenStatEnumToName(regenStat) && GetWitcherPlayer())
 			{
-				baseStaminaRegenVal = GetWitcherPlayer().CalculatedArmorStaminaRegenBonus();
-				
-				regenPoints *= 1 + baseStaminaRegenVal;
+				regenPoints = GetWitcherPlayer().CorrectStaminaRegen(effectValue);
 			}
-			
-			else if(regenStat == CRS_Vitality || regenStat == CRS_Essence)
+			else
 			{
-				hpRegenPauseBuff = (W3Effect_DoTHPRegenReduce)target.GetBuff(EET_DoTHPRegenReduce);
-				if(hpRegenPauseBuff)
+				regenPoints = effectValue.valueAdditive + effectValue.valueMultiplicative * target.GetStatMax(stat);
+				if(regenStat == CRS_Vitality || regenStat == CRS_Essence)
 				{
-					pauseRegenVal = hpRegenPauseBuff.GetEffectValue();
-					regenPoints = MaxF(0, regenPoints * (1 - pauseRegenVal.valueMultiplicative) - pauseRegenVal.valueAdditive);
+					hpRegenPauseBuff = (W3Effect_DoTHPRegenReduce)target.GetBuff(EET_DoTHPRegenReduce);
+					if(hpRegenPauseBuff)
+					{
+						pauseRegenVal = hpRegenPauseBuff.GetEffectValue();
+						regenPoints = MaxF(0, regenPoints * (1 - pauseRegenVal.valueMultiplicative) - pauseRegenVal.valueAdditive);
+					}
 				}
 			}
 			
