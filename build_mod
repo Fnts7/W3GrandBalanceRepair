@@ -41,6 +41,8 @@ scriptFile[22]="/game/gui/_old/components/guiPlayerInventoryComponent.ws"
 scriptFile[23]="/mod/axiiMods.ws"
 scriptFile[24]="/game/gameplay/items/spells/aardEntity.ws"
 scriptFile[25]="/game/gameplay/items/spells/signOwner.ws"
+scriptFile[26]="/game/gameplay/effects/effects/regen/regenEffect.ws"
+scriptFile[27]="/game/gameplay/effects/effects/mutagens/mutagen21.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN

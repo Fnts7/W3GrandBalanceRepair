@@ -11,16 +11,22 @@ class W3Mutagen21_Effect extends W3Mutagen_Effect
 	default effectType = EET_Mutagen21;
 	
 	
-	
-	
 	public final function Heal()
 	{
-		var vitality : float;
+		var vitality, staminaRegen : float;
 		var min, max : SAbilityAttributeValue;
 		
 		theGame.GetDefinitionsManager().GetAbilityAttributeValue(abilityName, 'healingRatio', min, max);
 		vitality = target.GetStatMax(BCS_Vitality);
 		vitality *= CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
+		
+		staminaRegen = GetWitcherPlayer().CorrectStaminaRegen(target.GetAttributeValue('staminaRegen'));
+
+		if (target.HasBuff(EET_GryphonSetBonus))
+			staminaRegen *= 1.4f;
+		
+		vitality *= 18 / staminaRegen;
+		
 		target.GainStat(BCS_Vitality, vitality);
 	}
 }

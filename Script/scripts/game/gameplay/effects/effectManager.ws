@@ -1532,7 +1532,7 @@ class W3EffectManager
 			{
 				chance = CalculateAttributeValue(witcher.GetSkillAttributeValue(S_Magic_s13, 'chance_multiplier', false, true));
 				if (witcher.IsMutationActive(EPMT_Mutation1))
-					chance += 0.15f;
+					chance += 0.1f;
 			}
 			if( owner.HasAbility('WeakToAard') )
 			{
