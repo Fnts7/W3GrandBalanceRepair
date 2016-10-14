@@ -778,10 +778,17 @@ class W3DamageManagerProcessor extends CObject
 				
 				
 				samum = actorVictim.GetBuff(EET_Blindness, 'petard');
-				if(samum && samum.GetBuffLevel() == 3)
+				if(samum)
 				{
-					critChance += 0.5f;
+					if (samum.GetBuffLevel() == 3)
+						critChance += 0.6f;
+					else if (samum.GetBuffLevel() == 2)
+						critChance += 0.5f;
+					else 
+						critChance += 0.4f;
 				}
+				else if (actorVictim.GetBuff(EET_Blindness))
+					critChance += 0.4f;
 				
 				if (redWolfSet)
 					critChance *= 0.75f;
