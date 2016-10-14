@@ -136,6 +136,9 @@ class W3PlayerAbilityManager extends W3AbilityManager
 				case S_Alchemy_s11:
 					skills[i].maxLevel = 4;
 					break;
+				case S_Alchemy_s08:
+					skills[i].maxLevel = 4;
+					break;
 				default:
 					break;
 				}
