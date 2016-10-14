@@ -117,6 +117,9 @@ class W3PlayerAbilityManager extends W3AbilityManager
 					skills[i].requiredPointsSpent = 0;
 					skills[i].positionID = 22;
 					break;
+				case S_Alchemy_s06:
+					skills[i].maxLevel = 4;
+					break;
 				default:
 					break;
 				}

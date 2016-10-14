@@ -524,7 +524,7 @@
 	  <ability name="alchemy_s6">
         <tags>alchemy_s6</tags>
         <ammo_bonus type="add" min="0.334" />
-		<random_buff_chance type="add" min="0.12" />
+		<random_buff_chance type="add" min="0.09" />
       </ability>
 	
       <!-- Application -->
@@ -861,7 +861,7 @@
 		<!-- Protective Coating -->
         <skill skill_name="alchemy_s5"  requiredPointsSpent="8" maxLevel="5" priority="36" guiPositionID="8"  localisationName="skill_name_alchemy_s5" localisationDescription="skill_desc_alchemy_s5"  localisationDescriptionLevel2="skill_desc_alchemy_s5"  localisationDescriptionLevel3="skill_desc_alchemy_s5"  cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Oils" iconPath="icons\Skills\Alchemy\alchemy_s5.png" linkVertical="green" linkLeft="green" linkRight="green" />
 		<!-- Fixative Formula -->
-        <skill skill_name="alchemy_s6"  requiredPointsSpent="20" maxLevel="3" priority="36" guiPositionID="20" localisationName="skill_name_alchemy_s6"  localisationDescriptionNotAcquired="skill_desc_prev_alchemy_s6"  localisationDescription="skill_desc_alchemy_s6"  localisationDescriptionLevel2="skill_desc_alchemy_s6_2"  localisationDescriptionLevel3="skill_desc_alchemy_s6_3"  cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Oils" iconPath="icons\Skills\Alchemy\alchemy_s6.png" linkVertical="green" linkLeft="green" linkRight="green" />
+        <skill skill_name="alchemy_s6"  requiredPointsSpent="20" maxLevel="4" priority="36" guiPositionID="20" localisationName="skill_name_alchemy_s6"  localisationDescriptionNotAcquired="skill_desc_prev_alchemy_s6"  localisationDescription="skill_desc_alchemy_s6"  localisationDescriptionLevel2="skill_desc_alchemy_s6_2"  localisationDescriptionLevel3="skill_desc_alchemy_s6_3"  cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Oils" iconPath="icons\Skills\Alchemy\alchemy_s6.png" linkVertical="green" linkLeft="green" linkRight="green" />
 		<!-- Application -->
         <skill skill_name="alchemy_s7"  requiredPointsSpent="28" maxLevel="5" priority="36" guiPositionID="15" localisationName="skill_name_alchemy_s7" localisationDescription="skill_desc_alchemy_s7"  localisationDescriptionLevel2="skill_desc_alchemy_s7"  localisationDescriptionLevel3="skill_desc_alchemy_s7"  cost="1" pathType_name="Alchemy" subpathType_name="Alchemy_Oils" iconPath="icons\Skills\Alchemy\alchemy_s7.png" linkVertical="green" linkLeft="green" linkRight="green" />
 	
