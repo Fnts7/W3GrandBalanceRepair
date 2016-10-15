@@ -90,7 +90,7 @@
 		<quality type="add" min="3" max="3"/>
 		<PiercingDamage type="add" always_random="false" min="80" max="80" />
 		<SilverDamage type="add" min="150" max="150" />
-		<armor_reduction min="60" max="60" />
+		<armor_reduction min="80" max="80" />
 		<armor_reduction_perc min="0.5" max="0.5" />
 	</ability>
 
