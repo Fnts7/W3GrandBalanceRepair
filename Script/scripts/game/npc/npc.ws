@@ -592,10 +592,6 @@ statemachine import class CNewNPC extends CActor
 					if( !HasAbility('NPCDoNotGainBoost') && !HasAbility('NewGamePlusFakeLevel') )
 					{
 						currentLevel += theGame.params.GetNewGamePlusLevel();
-						if ( currentLevel > ( theGame.params.GetPlayerMaxLevel() + 5 ) ) 
-						{
-							currentLevel = theGame.params.GetPlayerMaxLevel() + 5;
-						}
 					}
 					else if ( !HasAbility('NPCDoNotGainNGPlusLevel') )
 					{
@@ -1216,8 +1212,7 @@ statemachine import class CNewNPC extends CActor
 			if ( stats.HasAbility( 'NPCDoNotGainBoost' )) return;
 		}
 		
-		if ( !ciriEntity && thePlayer.GetEnemyUpscaling() && npcLevel + levelFakeAddon < playerLevel
-			&& !stats.HasAbility( 'fistfight_minigame' ) && !fistFightForcedFromQuest )
+		if ( !ciriEntity && thePlayer.GetEnemyUpscaling() && npcLevel + levelFakeAddon < playerLevel && !fistFightForcedFromQuest )
 		{
 			
 			if(ESmod)
@@ -2086,11 +2081,6 @@ statemachine import class CNewNPC extends CActor
 			currentLevel += theGame.params.GetNewGamePlusLevel();
 		}
 
-		if ( currentLevel > ( theGame.params.GetPlayerMaxLevel() + 5 ) ) 
-		{
-			currentLevel = theGame.params.GetPlayerMaxLevel() + 5;
-		}		
-
 		lvlDiff = currentLevel - thePlayer.GetLevel();
 		if(secondcheck && !displayonce){CheckifScaled(lvlDiff);}
 		if( GetAttitude( thePlayer ) != AIA_Hostile )
@@ -2244,9 +2234,6 @@ statemachine import class CNewNPC extends CActor
 	function AddBestiaryKnowledge()
 	{
 		var manager : CWitcherJournalManager;
-		var resource : CJournalResource;
-		var entryBase : CJournalBase;
-		
 		manager = theGame.GetJournalManager();
 		
 		if ( AddBestiaryKnowledgeEP2() ) return;
@@ -2258,36 +2245,8 @@ statemachine import class CNewNPC extends CActor
 		if ( GetSfxTag() == 'sfx_alghoul' )											activateBaseBestiaryEntryWithAlias("BestiaryAlghoul", manager); else
 		if ( HasAbility('mon_greater_miscreant') )									activateBaseBestiaryEntryWithAlias("BestiaryMiscreant", manager); else
 		if ( HasAbility('mon_basilisk') )											activateBaseBestiaryEntryWithAlias("BestiaryBasilisk", manager); else
-		if ( HasAbility('mon_boar_base') )											
-		{
-			resource = (CJournalResource)LoadResource( "BestiaryBoarEP2" );
-			if ( resource )
-			{
-				entryBase = resource.GetEntry();
-				if ( entryBase )
-				{
-					if ( manager.GetEntryStatus( entryBase ) == JS_Inactive )
-					{
-						activateBaseBestiaryEntryWithAlias("BestiaryBoar", manager);
-					}
-				}
-			}
-		} else
-		if ( HasAbility('mon_black_spider_base') )
-		{
-			resource = (CJournalResource)LoadResource( "BestiarySpiderEP2" );
-			if ( resource )
-			{
-				entryBase = resource.GetEntry();
-				if ( entryBase )
-				{
-					if ( manager.GetEntryStatus( entryBase ) == JS_Inactive )
-					{
-						activateBaseBestiaryEntryWithAlias("BestiarySpider", manager); 
-					}
-				}
-			}
-		} else
+		if ( HasAbility('mon_boar_base') )											activateBaseBestiaryEntryWithAlias("BestiaryBoar", manager); else
+		if ( HasAbility('mon_black_spider_base') )									activateBaseBestiaryEntryWithAlias("BestiarySpider", manager); else
 		if ( HasAbility('mon_toad_base') )											activateBaseBestiaryEntryWithAlias("BestiaryToad", manager); else
 		if ( HasAbility('q604_caretaker') )											activateBaseBestiaryEntryWithAlias("Bestiarycaretaker", manager); else
 		if ( HasAbility('mon_nightwraith_iris') )									activateBaseBestiaryEntryWithAlias("BestiaryIris", manager); else
@@ -2338,8 +2297,6 @@ statemachine import class CNewNPC extends CActor
 	function AddBestiaryKnowledgeEP2() : bool
 	{
 		var manager : CWitcherJournalManager;
-		var resource : CJournalResource;
-		var entryBase : CJournalBase;
 		manager = theGame.GetJournalManager();
 		
 		if ( HasAbility('mon_mq7010_dracolizard') )										{ activateBaseBestiaryEntryWithAlias("BestiaryDracolizardMatriarch", manager); return true; } else
@@ -2368,38 +2325,8 @@ statemachine import class CNewNPC extends CActor
 		if ( HasAbility('mon_fairytale_witch') )										{ activateBaseBestiaryEntryWithAlias("BestiaryFairtaleWitch", manager); return true; } else
 		if ( HasAbility('banshee_rapunzel') )											{ activateBaseBestiaryEntryWithAlias("BestiaryRapunzel", manager); return true; } else
 		if ( HasAbility('mon_nightwraith_banshee') )									{ activateBaseBestiaryEntryWithAlias("BestiaryBeanshie", manager); return true; } else
-		if ( HasAbility('mon_black_spider_ep2_base') )									
-		{ 
-			resource = (CJournalResource)LoadResource( "BestiarySpider" );
-			if ( resource )
-			{
-				entryBase = resource.GetEntry();
-				if ( entryBase )
-				{
-					if ( manager.GetEntryStatus( entryBase ) == JS_Inactive )
-					{
-						activateBaseBestiaryEntryWithAlias("BestiarySpiderEP2", manager); 
-						return true; 
-					}
-				}
-			}
-		} else
-		if ( HasAbility('mon_boar_ep2_base') )											
-		{ 
-			resource = (CJournalResource)LoadResource( "BestiaryBoar" );
-			if ( resource )
-			{
-				entryBase = resource.GetEntry();
-				if ( entryBase )
-				{
-					if ( manager.GetEntryStatus( entryBase ) == JS_Inactive )
-					{
-						activateBaseBestiaryEntryWithAlias("BestiaryBoarEP2", manager); 
-						return true; 
-					}
-				}
-			}
-		} else
+		if ( HasAbility('mon_black_spider_ep2_base') )									{ activateBaseBestiaryEntryWithAlias("BestiarySpiderEP2", manager); return true; } else
+		if ( HasAbility('mon_boar_ep2_base') )											{ activateBaseBestiaryEntryWithAlias("BestiaryBoarEP2", manager); return true; } else
 		if ( HasAbility('mon_cloud_giant') )											{ activateBaseBestiaryEntryWithAlias("BestiaryCloudGiant", manager); return true; }
 		
 		return false;
@@ -5021,8 +4948,8 @@ statemachine import class CNewNPC extends CActor
 		var scaleRange : bool;
 		var scaleRangeMB : bool;
 		var randomalways : bool;
-		var ignoreHumans : bool;			//Temp fix request from user
-		var ignoreAnimals : bool;			// ========================
+		var ignoreHumans : bool;			
+		var ignoreAnimals : bool;			
 		var levelBonus : int;
 		var minLevelBonus : int;
 		var levelBonusMBoss : int;
@@ -5206,7 +5133,8 @@ statemachine import class CNewNPC extends CActor
 	}
 	private function ESEBadd(selection : int)
 	{
-		var SSHealthRPL, SSDamageRPL, SSHealthGPL, SSDamageGPL : int;
+		//In this function bonusap and ModDamage now alter damage. Health change is still done by adding skills
+		var SSHealthRPL, SSHealthGPL : int;
 		var bonushp				: int;
 		var bonusap				: int;
 		var lvlDiff				: int;
@@ -5225,6 +5153,8 @@ statemachine import class CNewNPC extends CActor
 		stats = GetCharacterStats();
 		
 		resetESchanges();
+		CustomScale();
+		CustomArmor();
 		if(isRealBoss())
 		{
 			optcheck = inGameConfigWrapper_ES.GetVarValue('EnemyBonusBoss', 'EBBoss');
@@ -5277,7 +5207,7 @@ statemachine import class CNewNPC extends CActor
 		}
 		if(bonusap < 0)
 		{
-			ModDamage -= (bonusap*.01);
+			ModDamage += (bonusap*.01);
 			if (ModDamage < .01)
 			{
 				ModDamage = .01;
@@ -5285,15 +5215,12 @@ statemachine import class CNewNPC extends CActor
 		}
 		else
 		{
-			ModDamage += bonusap*.005;
-			TrueDamage = bonusap*.005;
+			ModDamage += bonusap*.01;
 		}
 		if(SSmod && !(isRealBoss()))
 		{
 			SSHealthRPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSHealthRPL'));
-			SSDamageRPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSDamageRPL'));
 			SSHealthGPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSHealthGPL'));
-			SSDamageGPL = StringToInt(inGameConfigWrapper_ES.GetVarValue('SmoothScale', 'SSDamageGPL'));
 			if(selection == 1)
 			{
 				if ( stats.HasAbility(theGame.params.ENEMY_BONUS_DEADLY) ) stats.RemoveAbility(theGame.params.ENEMY_BONUS_DEADLY); else
@@ -5302,14 +5229,12 @@ statemachine import class CNewNPC extends CActor
 				if(lvlDiff >= 10)
 				{
 					bonushp = bonushp + (SSHealthRPL * 10);
-					bonusap = bonusap + (SSDamageRPL * 10);
 					TrueDamage += .05;
 					ModDamage += .1;
 				}
 				else if(lvlDiff >= 1)
 				{
 					bonushp = bonushp + (SSHealthRPL * lvlDiff);
-					bonusap = bonusap + (SSDamageRPL * lvlDiff);
 					TrueDamage += lvlDiff*.005;
 					ModDamage += lvlDiff*.01;
 				}
@@ -5322,20 +5247,17 @@ statemachine import class CNewNPC extends CActor
 				if(lvlDiff >= 10)
 				{
 					bonushp = bonushp + (SSHealthGPL * 10);
-					bonusap = bonusap + (SSDamageGPL * 10);
 					TrueDamage += .05;
 					ModDamage += .1;
 				}
 				else if(lvlDiff >= 1)
 				{
 					bonushp = bonushp + (SSHealthGPL * lvlDiff);
-					bonusap = bonusap + (SSDamageGPL * lvlDiff);
 					TrueDamage += lvlDiff*.005;
 					ModDamage += lvlDiff*.01;
 				}
 			}
 		}
-		
 		if(bonushp > 0)
 		{
 			if ( !stats.HasAbility('ESBuffHealth') ) stats.AddAbilityMultiple('ESBuffHealth', (bonushp));
@@ -5343,14 +5265,6 @@ statemachine import class CNewNPC extends CActor
 		else if (bonushp < 0)
 		{
 			if ( !stats.HasAbility('ESWeakenHealth') ) stats.AddAbilityMultiple('ESWeakenHealth', (bonushp*-1));
-		}
-		if(bonusap > 0)
-		{
-			if ( !stats.HasAbility('ESBuffDamage') ) stats.AddAbilityMultiple('ESBuffDamage', (bonusap));
-		}
-		else if (bonusap < 0)
-		{
-			if ( !stats.HasAbility('ESWeakenDamage') ) stats.AddAbilityMultiple('ESWeakenDamage', (bonusap*-1));
 		}
 	}
 	private function CheckifScaled(nameplateLevel : int)
@@ -5392,9 +5306,9 @@ statemachine import class CNewNPC extends CActor
 			{
 				ModHealth = .5;
 			}
-			else if(ModHealth > 2)
+			else if(ModHealth > 2.5)
 			{
-				ModHealth = 2;
+				ModHealth = 2.5;
 			}
 			if(ModDamage < .5)
 			{
@@ -5407,40 +5321,94 @@ statemachine import class CNewNPC extends CActor
 	}
 	private function CustomScale()
 	{
+		//These custom scales allow the player to force change damage on certain enemies
 		var scaleMax : float;
 		var pLevel : float;
 		pLevel = thePlayer.GetLevel();
 		scaleMax = (pLevel/(pLevel+100.0))*2.0;
 		if(scaleMax > 1)
 			scaleMax = 1;
+		if (IsHuman())
+		{
+			ModDamage -= .05 + (.10 * scaleMax); // 5% damage nerf base, 15% at level 100
+		}
 		if(GetSfxTag() == 'sfx_endriaga')
 		{
-			ModDamage += 2.5 + (4 * scaleMax);
+			ModDamage += 2 + (3 * scaleMax); // +500% buff at level 100, 200% at base
 		}
 		else if(GetSfxTag() == 'sfx_ghoul')
 		{
-			ModDamage += 2 + (2 * scaleMax);
+			ModDamage += .8 + (1.85 * scaleMax);  //+265% buff at level 100, 80% at base
+		}
+		else if(GetSfxTag() == 'sfx_alghoul')
+		{
+			ModDamage -= .05 + (.10 * scaleMax);  //5% damage nerf base, 15% at level 100
 		}
 		else if(GetSfxTag() == 'sfx_drowner')
 		{
-			ModDamage += 2 + (2 * scaleMax);
+			ModDamage += .5 + (.75 * scaleMax); //+125% buff at level 100, 50% at base
 		}
 		else if ( HasAbility('mon_rotfiend') || HasAbility('mon_rotfiend_large'))
 		{
-			ModDamage += 1.5 + (2.5 * scaleMax);
+			ModDamage += .75 + (1.5 * scaleMax); //+225% buff at level 100, 75% at base
 		}
 		else if (GetSfxTag() == 'sfx_wildhunt_minion')
 		{
-			ModDamage += 1.5 + (2.25 * scaleMax);
+			ModDamage += 1 + (2 * scaleMax); //+300% buff at level 100, 100% at base
 		}
 		else if (GetSfxTag() == 'sfx_wraith')
 		{
-			ModDamage += 1.5 + (3.25 * scaleMax);
+			ModDamage += 2 + (2.5 * scaleMax); //+450% buff at level 100, 200% at base
 		}
 		else if (GetSfxTag() == 'sfx_wild_dog')
 		{
-			ModDamage = .8 - (.385 * scaleMax);
-			ModHealth += .2 + (.5 * scaleMax);
+			ModDamage = .8 - (.385 * scaleMax);  //-58.5% total damage at 100, -20% base, it is intented to be '=' and not '-='
+			ModHealth += .2 + (.5 * scaleMax);   //Suffers 20% more damage base, 70% at 100.
+		}
+		else if (GetSfxTag() == 'sfx_wolf') //15% damage nerf
+		{
+			ModDamage -= .15;
+			if (ModDamage < .05) ModDamage = .05;
+		}
+	}
+	private function CustomArmor() //Adds armor and resistance to enemies. 
+	{
+		var stats				: CCharacterStats;
+		stats = GetCharacterStats();
+		if ( stats.HasAbility('ESIncreaseResistance') ) stats.RemoveAbility('ESIncreaseResistance');
+		if ( stats.HasAbility('ESIncreaseArmor') ) stats.RemoveAbility('ESIncreaseArmor');
+		if ( stats.HasAbility('ESReduceResistance') ) stats.RemoveAbility('ESReduceResistance');
+		if ( stats.HasAbility('ESReduceArmor') ) stats.RemoveAbility('ESReduceArmor');
+		// ESIncreaseResistance adds 1% to all physical resistances and .5% to elemental per point
+		// ESIncreaseArmor adds 5 armor per point
+		if(GetSfxTag() == 'sfx_ghoul' || GetSfxTag() == 'sfx_alghoul')
+		{
+			if ( !stats.HasAbility('ESIncreaseResistance') ) stats.AddAbilityMultiple('ESIncreaseResistance', 10);
+			if ( !stats.HasAbility('ESIncreaseArmor') ) stats.AddAbilityMultiple('ESIncreaseArmor', 3);
+		}
+		else if(( HasAbility('mon_graveir') ))
+		{
+			if ( !stats.HasAbility('ESIncreaseResistance') ) stats.AddAbilityMultiple('ESIncreaseResistance', 10);
+			if ( !stats.HasAbility('ESIncreaseArmor') ) stats.AddAbilityMultiple('ESIncreaseArmor', 3);
+		}
+		else if(GetSfxTag() == 'sfx_endriaga')
+		{
+			if ( !stats.HasAbility('ESIncreaseResistance') ) stats.AddAbilityMultiple('ESIncreaseResistance', 7);
+		}
+		else if( GetSfxTag() == 'sfx_wyvern' )
+		{
+			if ( !stats.HasAbility('ESIncreaseResistance') ) stats.AddAbilityMultiple('ESIncreaseResistance', 20);
+			if ( !stats.HasAbility('ESIncreaseArmor') ) stats.AddAbilityMultiple('ESIncreaseArmor', 6);
+		}
+		else if( HasAbility('mon_rotfiend') || HasAbility('mon_rotfiend_large'))
+		{
+			if ( !stats.HasAbility('ESIncreaseResistance') ) stats.AddAbilityMultiple('ESIncreaseResistance', 10);
+			if ( !stats.HasAbility('ESIncreaseArmor') ) stats.AddAbilityMultiple('ESIncreaseArmor', 3);
+		}
+		else if (GetSfxTag() == 'sfx_werewolf')
+		{
+			if ( !stats.HasAbility('ESIncreaseResistance') ) stats.AddAbilityMultiple('ESIncreaseResistance', 15);
+			if ( !stats.HasAbility('ESIncreaseArmor') ) stats.AddAbilityMultiple('ESIncreaseArmor', 5);
 		}
 	}
 	private function resetESchanges()
@@ -5450,9 +5418,7 @@ statemachine import class CNewNPC extends CActor
 		ModDamage = 1;
 		ModHealth = 1;
 		if ( stats.HasAbility('ESBuffHealth') ) stats.RemoveAbility('ESBuffHealth');
-		if ( stats.HasAbility('ESBuffDamage') ) stats.RemoveAbility('ESBuffDamage');
 		if ( stats.HasAbility('ESWeakenHealth') ) stats.RemoveAbility('ESWeakenHealth');
-		if ( stats.HasAbility('ESWeakenDamage') ) stats.RemoveAbility('ESWeakenDamage');
 	}
 	private function resetLSchanges()
 	{
@@ -5468,25 +5434,6 @@ statemachine import class CNewNPC extends CActor
 	{
 		displayFakeLevel = false;
 	}
-	timer function AoEForceScaleRemoval( td : float , id : int)
-	{
-		var enemies : array<CActor>;
-		var enemiesSize : Int32;
-		var count : int;
-		var npc : CNewNPC;
-		//Very laggy if area is set large
-		enemies = GetActorsInRange(thePlayer, 13,/*nothing*/,/*nothing*/,/*nothing*/);
-		enemiesSize=enemies.Size();
-		RemoveTimer( 'AoEForceScaleRemoval' );
-		for(count=0; count<enemiesSize;count+=1)
-			{
-				npc = (CNewNPC)enemies[count];
-				npc.resetLSchanges();
-				npc.resetESchanges();
-				npc.resetModeffects();
-			}
-	}
-	//These functions check mod options/enemy types
 	public function isRealBoss() : bool
 	{
 		var stats				: CCharacterStats;
@@ -5596,7 +5543,7 @@ statemachine import class CNewNPC extends CActor
 	}
 	public function fistfightBaseDamage() : float
 	{
-		ModDamage = 1 + (ESLevel * .0375);
+		ModDamage = 1 + (ESLevel * .0275);
 		if(ModDamage < .2)
 		{
 			ModDamage = .2;
@@ -5610,11 +5557,11 @@ statemachine import class CNewNPC extends CActor
 		case EDM_Easy:
 			return 250.0;
 		case EDM_Medium:
-			return 300.0;
+			return 280.0;
 		case EDM_Hard:
-			return 400.0;
+			return 320.0;
 		case EDM_Hardcore:
-			return 500.0;
+			return 400.0;
 		}
 		
 	}

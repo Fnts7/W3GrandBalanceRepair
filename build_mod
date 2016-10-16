@@ -22,6 +22,8 @@ scriptFile[3]="/game/gameplay/damage/damageManagerProcessor.ws"
 # ASSET FILES BEGIN
 assetFile[0]="/gameplay/abilities/monster_base_abl_new.xml"
 assetFile[1]="/gameplay/abilities_plus/monster_base_abl_new.xml"
+assetFile[2]="/gameplay/abilities/opp_base_abl.xml"
+assetFile[3]="/gameplay/abilities_plus/opp_base_abl.xml"
 # ASSET FILES END
 
 set -e

@@ -124,7 +124,7 @@ class W3DamageManagerProcessor extends CObject
 		}
 		
 		
-		if( actorAttacker && wasAlive )
+		if(actorAttacker)
 			actorAttacker.OnProcessActionPost(action);
 
 		
@@ -556,7 +556,7 @@ class W3DamageManagerProcessor extends CObject
 		//theGame.GetGuiManager().ShowNotification(FloatToString(DamagePoints) + "||" + FloatToString(DamageResistance) + " || " + FloatToString(ArmorStrength) + " || " + FloatToString(Limiter));
 		
 		if((playerVictim && witcher.IsInFistFight() && !action.IsDoTDamage()) || (playerVictim && NPC.isforcedFistfightdamage()))
-			{
+		{
 				if(action.processedDmg.vitalityDamage < NPC.fistfightBaseDamage())
 				{
 					action.processedDmg.vitalityDamage = NPC.fistfightBaseDamage();
@@ -570,35 +570,42 @@ class W3DamageManagerProcessor extends CObject
 				//Apply Damage
 				action.processedDmg.vitalityDamage = (action.processedDmg.vitalityDamage*moddmg);
 				NPC.punishDamage();
-			}
-			if(playerAttacker && witcher.IsInFistFight() && !action.IsDoTDamage()) //Buffs Geralt so that his attacks against enemies with much higher health have impact.
+		}
+		if(playerAttacker && witcher.IsInFistFight() && !action.IsDoTDamage()) //Buffs Geralt so that his attacks against enemies with much higher health have impact.
+		{
+			if(action.processedDmg.vitalityDamage < (actorVictim.GetStatMax(BCS_Vitality)/10.0f))
 			{
-				if(action.processedDmg.vitalityDamage < (actorVictim.GetStatMax(BCS_Vitality)/10.0f))
-				{
-					action.processedDmg.vitalityDamage += (actorVictim.GetStatMax(BCS_Vitality)/20.0f);
-					if(playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
-						action.processedDmg.vitalityDamage *= 1.833;
-					if(action.IsCriticalHit())
-						action.processedDmg.vitalityDamage *= 2;
-				}
+				action.processedDmg.vitalityDamage += (actorVictim.GetStatMax(BCS_Vitality)/20.0f);
+				if(playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
+					action.processedDmg.vitalityDamage *= 1.833;
+				if(action.IsCriticalHit())
+					action.processedDmg.vitalityDamage *= 2;
 			}
-			//Damage Reduction
-			//Reduce Damage base on max health. Higher health = less damage reduction bonus. Negates instant death hits. Min of 1% of max health damage
-			if(playerVictim && !witcher.IsInFistFight() && !action.IsDoTDamage())
+		}
+		//Damage Reduction
+		//Reduce Damage base on max health. Higher health = less damage reduction bonus. Negates instant death hits. Min of 1% of max health damage
+		if(playerVictim && !witcher.IsInFistFight() && !action.IsDoTDamage())
+		{
+			//Calculations
+			action.processedDmg.vitalityDamage *= NPC.NPCModDamage();
+			moddmg = (action.processedDmg.vitalityDamage/(action.processedDmg.vitalityDamage+((float)playerVictim.GetStatMax(BCS_Vitality)*Limiter)));
+			moddmg *= (1 - NPC.PercentTrueDamage());
+			moddmg = 1-moddmg;
+			//theGame.GetGuiManager().ShowNotification(FloatToString(moddmg) + "% DamgReduc|||TrueDamagePerc:" + FloatToString(NPC.PercentTrueDamage()) + " |||MODDAMAGE:" + FloatToString(NPC.NPCModDamage()));
+			if(moddmg < 0) {moddmg = 1;}
+			//Apply Damage
+			action.processedDmg.vitalityDamage = (action.processedDmg.vitalityDamage*moddmg);
+			if(action.processedDmg.vitalityDamage < (playerVictim.GetStatMax(BCS_Vitality)/100))
+				action.processedDmg.vitalityDamage +=(playerVictim.GetStatMax(BCS_Vitality)/100);
+			NPC.punishDamage();
+		}
+		if(playerVictim)
+		{
+			if(action.processedDmg.vitalityDamage > (playerVictim.GetStatMax(BCS_Vitality)*.75))
 			{
-				//Calculations
-				action.processedDmg.vitalityDamage *= NPC.NPCModDamage();
-				moddmg = (action.processedDmg.vitalityDamage/(action.processedDmg.vitalityDamage+((float)playerVictim.GetStatMax(BCS_Vitality)*Limiter)));
-				moddmg *= (1 - NPC.PercentTrueDamage());
-				moddmg = 1-moddmg;
-				//theGame.GetGuiManager().ShowNotification(FloatToString(moddmg) + "% DamgReduc|||TrueDamagePerc:" + FloatToString(NPC.PercentTrueDamage()) + " |||MODDAMAGE:" + FloatToString(NPC.NPCModDamage()));
-				if(moddmg < 0) {moddmg = 1;}
-				//Apply Damage
-				action.processedDmg.vitalityDamage = (action.processedDmg.vitalityDamage*moddmg);
-				if(action.processedDmg.vitalityDamage < (playerVictim.GetStatMax(BCS_Vitality)/100))
-					action.processedDmg.vitalityDamage +=(playerVictim.GetStatMax(BCS_Vitality)/100);
-				NPC.punishDamage();
+				action.processedDmg.vitalityDamage = (playerVictim.GetStatMax(BCS_Vitality)*RandRangeF(0.75,0.85));
 			}
+		}
 	}
 	//EnemyScale
 	

@@ -5209,13 +5209,14 @@ import abstract class CActor extends CGameplayEntity
 			playerTarget = (CR4Player)hitTargets[i];
 			parried = false;
 			countered = false;
-		//Enemy Scaling	
-		/*	if( FactsQuerySum( "tut_fight_start" ) > 0 || actor.HasAbility( 'IgnoreLevelDiffForParryTest' ) )
+			//EnemyScale
+			/*if( FactsQuerySum( "tut_fight_start" ) > 0 || actor.HasAbility( 'IgnoreLevelDiffForParryTest' ) )
 				levelDiff = 0;
 			else
-				levelDiff = GetLevel() - actor.GetLevel(); */
-			
+				levelDiff = GetLevel() - actor.GetLevel();
+			*/
 			levelDiff = 0;
+			//Enemyscale
 			
 			if( thePlayer.IsInFistFightMiniGame() || levelDiff < theGame.params.LEVEL_DIFF_DEADLY && (!playerTarget || playerTarget.IsActionAllowed(EIAB_Counter)) )
 				countered = actor.PerformCounterCheck(parryInfo);

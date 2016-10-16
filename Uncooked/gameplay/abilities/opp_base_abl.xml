@@ -1048,56 +1048,56 @@
       <!-- use not more than one armor ability per actor-->
 	  <ability name="NPC Leather Armor">
 		<tags></tags>
-		<armor type="base" always_random="false" min="8" max="8"/>
-		<physical_resistance_perc type="base" always_random="false" min="0.07" max="0.07" />
-		<slashing_resistance_perc type="base" always_random="false" min="0.07" max="0.07"/>
-		<piercing_resistance_perc type="base" always_random="false" min="0.07" max="0.07"/>
-		<bludgeoning_resistance_perc type="base" always_random="false" min="0.1" max="0.1"/>
+		<armor type="base" always_random="false" min="15" max="15"/>
+		<physical_resistance_perc type="base" always_random="false" min="0.10" max="0.10" />
+		<slashing_resistance_perc type="base" always_random="false" min="0.10" max="0.10"/>
+		<piercing_resistance_perc type="base" always_random="false" min="0.10" max="0.10"/>
+		<bludgeoning_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
 		<rending_resistance_perc type="base" always_random="false" min="0.1" max="0.1"/>
-		<elemental_resistance_perc type="base" always_random="false" min="0.1" max="0.1"/>
+		<elemental_resistance_perc type="base" always_random="false" min="0.05" max="0.05"/>
 	  </ability>
 	  
 	  <ability name="NPC Heavy Leather Armor">
 		<tags></tags>
-		<armor type="base" always_random="false" min="20" max="20"/>
-		<physical_resistance_perc type="base" always_random="false" min="0.1" max="0.1" />
-		<slashing_resistance_perc type="base" always_random="false" min="0.1" max="0.1"/>
-		<piercing_resistance_perc type="base" always_random="false" min="0.1" max="0.1"/>
-		<bludgeoning_resistance_perc type="base" always_random="false" min="0.1" max="0.1"/>
-		<rending_resistance_perc type="base" always_random="false" min="0.1" max="0.1"/>
-		<elemental_resistance_perc type="base" always_random="false" min="0.1" max="0.1"/>
+		<armor type="base" always_random="false" min="30" max="30"/>
+		<physical_resistance_perc type="base" always_random="false" min="0.15" max="0.15" />
+		<slashing_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
+		<piercing_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
+		<bludgeoning_resistance_perc type="base" always_random="false" min="0.18" max="0.18"/>
+		<rending_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
+		<elemental_resistance_perc type="base" always_random="false" min="0.07" max="0.07"/>
 	  </ability>
 	  
 	  <ability name="NPC Chainmail Armor">	
 		<tags></tags>
-		<armor type="base" always_random="false" min="30" max="30"/>
-		<physical_resistance_perc type="base" always_random="false" min="0.13" max="0.13" />
-		<slashing_resistance_perc type="base" always_random="false" min="0.13" max="0.13"/>
-		<piercing_resistance_perc type="base" always_random="false" min="0.13" max="0.13"/>
-		<bludgeoning_resistance_perc type="base" always_random="false" min="0.13" max="0.13"/>
-		<rending_resistance_perc type="base" always_random="false" min="0.13" max="0.13"/>
-		<elemental_resistance_perc type="base" always_random="false" min="0.13" max="0.13"/>
+		<armor type="base" always_random="false" min="40" max="40"/>
+		<physical_resistance_perc type="base" always_random="false" min="0.20" max="0.20" />
+		<slashing_resistance_perc type="base" always_random="false" min="0.20" max="0.20"/>
+		<piercing_resistance_perc type="base" always_random="false" min="0.20" max="0.20"/>
+		<bludgeoning_resistance_perc type="base" always_random="false" min="0.20" max="0.20"/>
+		<rending_resistance_perc type="base" always_random="false" min="0.20" max="0.20"/>
+		<elemental_resistance_perc type="base" always_random="false" min="0.10" max="0.10"/>
 	  </ability>
 	  
 	  <ability name="NPC Partial Plate Armor">
 		<tags></tags>
-		<armor type="base" always_random="false" min="40" max="40"/>
-		<physical_resistance_perc type="base" always_random="false" min="0.14" max="0.14" />
-		<slashing_resistance_perc type="base" always_random="false" min="0.14" max="0.14"/>
-		<piercing_resistance_perc type="base" always_random="false" min="0.14" max="0.14"/>
-		<bludgeoning_resistance_perc type="base" always_random="false" min="0.14" max="0.14"/>
-		<rending_resistance_perc type="base" always_random="false" min="0.14" max="0.14"/>
-		<elemental_resistance_perc type="base" always_random="false" min="0.14" max="0.14"/>
+		<armor type="base" always_random="false" min="50" max="50"/>
+		<physical_resistance_perc type="base" always_random="false" min="0.25" max="0.25" />
+		<slashing_resistance_perc type="base" always_random="false" min="0.25" max="0.25"/>
+		<piercing_resistance_perc type="base" always_random="false" min="0.25" max="0.25"/>
+		<bludgeoning_resistance_perc type="base" always_random="false" min="0.25" max="0.25"/>
+		<rending_resistance_perc type="base" always_random="false" min="0.25" max="0.25"/>
+		<elemental_resistance_perc type="base" always_random="false" min="0.12" max="0.12"/>
 	  </ability>
 	  
 	  <ability name="NPC Full Plate Armor">
 		<tags></tags>
-		<armor type="base" always_random="false" min="50" max="50"/>
-		<physical_resistance_perc type="base" always_random="false" min="0.15" max="0.15" />
-		<slashing_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
-		<piercing_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
-		<bludgeoning_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
-		<rending_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
+		<armor type="base" always_random="false" min="60" max="60"/>
+		<physical_resistance_perc type="base" always_random="false" min="0.30" max="0.30" />
+		<slashing_resistance_perc type="base" always_random="false" min="0.30" max="0.30"/>
+		<piercing_resistance_perc type="base" always_random="false" min="0.30" max="0.30"/>
+		<bludgeoning_resistance_perc type="base" always_random="false" min="0.30" max="0.30"/>
+		<rending_resistance_perc type="base" always_random="false" min="0.30" max="0.30"/>
 		<elemental_resistance_perc type="base" always_random="false" min="0.15" max="0.15"/>
 	  </ability>
 	  
@@ -1105,12 +1105,12 @@
 	  <ability name="NPC_Wild_Hunt_Armor">
 		<tags></tags>
 		<armor type="add" min="45" max="45"/>
-		<physical_resistance_perc type="add" min="0.17" max="0.17" />
-		<slashing_resistance_perc type="add" min="0.17" max="0.17"/>
-		<piercing_resistance_perc type="add" min="0.17" max="0.17"/>
-		<bludgeoning_resistance_perc type="add" min="0.17" max="0.17"/>
-		<rending_resistance_perc type="add" min="0.17" max="0.17"/>
-		<elemental_resistance_perc type="add" min="0.17" max="0.17"/>
+		<physical_resistance_perc type="add" min="0.40" max="0.40" />
+		<slashing_resistance_perc type="add" min="0.40" max="0.40"/>
+		<piercing_resistance_perc type="add" min="0.40" max="0.40"/>
+		<bludgeoning_resistance_perc type="add" min="0.40" max="0.40"/>
+		<rending_resistance_perc type="add" min="0.40" max="0.40"/>
+		<elemental_resistance_perc type="add" min="0.20" max="0.20"/>
 	  </ability>
 	  
       <ability name="ArmorLeatherJacket_01">
