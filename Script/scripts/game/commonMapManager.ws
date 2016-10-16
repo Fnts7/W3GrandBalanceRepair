@@ -110,6 +110,7 @@ import abstract class CCommonMapManager extends IGameSystem
 	import final function DeleteQuestLootContainer( container : CEntity );
 	import final function CacheMapPins();
 	import final function GetMapPinInstances( worldPath : string ) : array< SCommonMapPinInstance >;
+	import final function GetMapPinTypeByTag( mapPinTag : name ) : name;
 	import final function GetHighlightedMapPinTag() : name;
 	import final function TogglePathsInfo( optional toggle : bool );
 	import final function ToggleQuestAgentsInfo( optional toggle : bool );

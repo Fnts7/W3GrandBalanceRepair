@@ -619,12 +619,16 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		
 		
 		theGame.GetGamerProfile().CheckTrialOfGrasses();
+		
+		thePlayer.inv.SetItemStackable( item, false );
 	}
 	
-	public final function OnSkillMutagenUnequipped(item : SItemUniqueId, slot : EEquipmentSlots, prevColor : ESkillColor)
+	public final function OnSkillMutagenUnequipped( out item : SItemUniqueId, slot : EEquipmentSlots, prevColor : ESkillColor, optional dontMerge : bool )
 	{
 		var i : int;
 		var newColor : ESkillColor;
+		var ids : array< SItemUniqueId >;
+		var itemName : name;
 		
 		i = GetMutagenSlotIndex(slot);
 		if(i<0)
@@ -640,6 +644,20 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		
 		newColor = GetSkillGroupColor(mutagenSlots[i].skillGroupID);
 		LinkUpdate(newColor, prevColor);
+
+		theGame.GetGuiManager().IgnoreNewItemNotifications( true );
+		
+		
+		
+		if (!dontMerge)
+		{
+			itemName = thePlayer.inv.GetItemName( item );
+			thePlayer.inv.RemoveItem( item );
+			ids = thePlayer.inv.AddAnItem( itemName, 1, true, true );
+			item = ids[0];
+		}
+		
+		theGame.GetGuiManager().IgnoreNewItemNotifications( false );
 	}
 	
 	
@@ -2395,7 +2413,7 @@ class W3PlayerAbilityManager extends W3AbilityManager
 			for(i=0; i<names.Size(); i+=1)
 			{
 				m_alchemyManager.GetRecipe(names[i], recipe);
-				if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
+				if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.cookedItemType != EACIT_Dye) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
 					charStats.AddAbility(skillName, true);
 			}
 		}
@@ -2617,11 +2635,9 @@ class W3PlayerAbilityManager extends W3AbilityManager
 			tox.RecalcEffectValue();
 		}
 		else if(skill == S_Alchemy_s18)			
-		{
-			names = GetWitcherPlayer().GetAlchemyRecipes();
-			skillName = SkillEnumToName(S_Alchemy_s18);
-			for(i=0; i<names.Size(); i+=1)
-				charStats.RemoveAbility(skillName);
+		{			
+			skillName = SkillEnumToName(S_Alchemy_s18);		
+			charStats.RemoveAbilityAll(skillName);
 		}
 		else if(skill == S_Sword_s13)			
 		{
@@ -2858,7 +2874,7 @@ class W3PlayerAbilityManager extends W3AbilityManager
 			for(i=0; i<names.Size(); i+=1)
 			{
 				m_alchemyManager.GetRecipe(names[i], recipe);
-				if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
+				if ((recipe.cookedItemType != EACIT_Bolt) && (recipe.cookedItemType != EACIT_Undefined) && (recipe.cookedItemType != EACIT_Dye) && (recipe.level <= GetSkillLevel(S_Alchemy_s18)))
 					cnt += 1;
 			}
 			
@@ -3934,10 +3950,10 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		return true;
 	}
 	
-	public final function MutationResearchWithItem( mutation : EPlayerMutationType, item : SItemUniqueId ) : bool
+	public final function MutationResearchWithItem( mutation : EPlayerMutationType, item : SItemUniqueId, optional quantity : int ) : bool
 	{
 		var witcher : W3PlayerWitcher;
-		var idx, redPoints, bluePoints, greenPoints, progress : int;
+		var idx, redPoints, bluePoints, greenPoints, progress, missingRed, missingBlue, missingGreen : int;
 		
 		
 		witcher = GetWitcherPlayer();
@@ -3993,12 +4009,29 @@ class W3PlayerAbilityManager extends W3AbilityManager
 		{
 			return false;
 		}
+		
+		
+		if( quantity == 0 )
+		{
+			quantity = 1;
+		}
+		
+		
+		missingRed = mutations[ idx ].progress.redRequired - mutations[ idx ].progress.redUsed;
+		missingGreen = mutations[ idx ].progress.greenRequired - mutations[ idx ].progress.greenUsed;
+		missingBlue = mutations[ idx ].progress.blueRequired - mutations[ idx ].progress.blueUsed;
+		
+		
+		if( ( redPoints * quantity > missingRed ) || ( bluePoints * quantity > missingBlue ) || ( greenPoints * quantity > missingGreen ) )
+		{
+			return false;
+		}
 	
 		
-		witcher.inv.RemoveItem( item );
-		mutations[ idx ].progress.redUsed += redPoints;
-		mutations[ idx ].progress.greenUsed += greenPoints;
-		mutations[ idx ].progress.blueUsed += bluePoints;
+		witcher.inv.RemoveUnusedMutagensCountById( item, quantity );
+		mutations[ idx ].progress.redUsed += redPoints * quantity;
+		mutations[ idx ].progress.greenUsed += greenPoints * quantity;
+		mutations[ idx ].progress.blueUsed += bluePoints * quantity;
 		mutations[ idx ].progress.overallProgress = -1;	
 		
 		

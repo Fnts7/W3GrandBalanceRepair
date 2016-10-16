@@ -15,7 +15,10 @@
 # SCRIPT FILES BEGIN
 scriptFile[0]="/game/actor.ws"
 scriptFile[1]="/game/npc/npc.ws"
-scriptFile[2]="/game/gameplay/damage/damageManagerProcessor.ws"
+scriptFile[2]="/game/player/playerWitcher.ws"
+scriptFile[3]="/game/gameplay/damage/damageManagerProcessor.ws"
+
+scriptFile[4]="/mod/axiiModsEnemyScale.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
@@ -42,22 +45,40 @@ outScriptPath=$modContentPath"/scripts"
 outXmlPath1=$1"/Uncooked"
 outXmlPath2=$1"/Cooked"
 
-for i in "${scriptFile[@]}"
-do
-	cp $inScriptPath$i $outScriptPath$i
-done
+if [ ${#scriptFile[@]} != 0 ];
+then
+	for i in "${scriptFile[@]}"
+	do
+		cp $inScriptPath$i $outScriptPath$i
+	done
+fi
 
-for i in "${assetFile[@]}"
-do
-	cp $inXMLPath$i $outXmlPath1$i
-	cp $inXMLPath$i $outXmlPath2$i
-done
+if [ ${#assetFile[@]} != 0 ];
+then
+	for i in "${assetFile[@]}"
+	do
+		cp $inXMLPath$i $outXmlPath1$i
+		cp $inXMLPath$i $outXmlPath2$i
+	done
+fi
+
+if [ -d "ModRes/strings" ]; then
+	cp -r ModRes/strings/* $modContentPath
+fi
+
+if [ -d "ModRes/bin" ]; then
+	cp -r ModRes/bin $modReadyFolder
+fi
 
 cp -r ModRes/strings/* $modContentPath
 cp -r ModRes/bin $modReadyFolder
+cp ModRes/readme.txt $modReadyFolder
 
 echo "Files copied OK."
 
-wcc_lite cook -platform=pc -mod=$outXmlPath1 -basedir=$outXmlPath1 -outdir=$outXmlPath2
-wcc_lite pack -dir=$outXmlPath2 -outdir=$modContentPath
-wcc_lite metadatastore -path=$modContentPath
+if [ ${#assetFile[@]} != 0 ];
+then
+	wcc_lite cook -platform=pc -mod=$outXmlPath1 -basedir=$outXmlPath1 -outdir=$outXmlPath2
+	wcc_lite pack -dir=$outXmlPath2 -outdir=$modContentPath
+	wcc_lite metadatastore -path=$modContentPath
+fi

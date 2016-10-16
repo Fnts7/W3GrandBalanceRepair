@@ -232,12 +232,17 @@ statemachine import abstract class CPlayer extends CActor
 		SetCanPlayHitAnim( true );
 		
 		
-		if(inv)
+		if( inv )
+		{
 			inv.Created();	
-				
-		if(!spawnData.restored)
+		}
+		if( !spawnData.restored )
+		{
 			inputHandler = new CPlayerInput in this;
-			
+			theGame.EnableUberMovement( true );
+			((CInGameConfigWrapper)theGame.GetInGameConfigWrapper()).SetVarValue( 'Gameplay', 'EnableUberMovement', 1 );
+		}
+		
 		inputHandler.Initialize(spawnData.restored );
 		SetAutoCameraCenter( ((CInGameConfigWrapper)theGame.GetInGameConfigWrapper()).GetVarValue( 'Gameplay', 'AutoCameraCenter' ) );
 
