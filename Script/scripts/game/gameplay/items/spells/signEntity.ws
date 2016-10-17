@@ -189,46 +189,14 @@ statemachine abstract class W3SignEntity extends CGameplayEntity
 	
 	event OnThrowing()
 	{
-	}
-	
-	
-	event OnEnded(optional isEnd : bool)
-	{
-		var witcher : W3PlayerWitcher;
 		var abilityName : name;
 		var abilityCount, maxStack : float;
 		var min, max : SAbilityAttributeValue;
 		var addAbility : bool;
-		var mutagen17 : W3Mutagen17_Effect;
+		var witcher : W3PlayerWitcher;
+		
+		witcher = (W3PlayerWitcher)owner.GetActor();
 
-		var camHeading : float;
-		
-		witcher = (W3PlayerWitcher)owner.GetActor();
-		if(witcher && witcher.IsCurrentSignChanneled() && witcher.GetCurrentlyCastSign() != ST_Quen && witcher.bRAxisReleased )
-		{
-			if ( !witcher.lastAxisInputIsMovement )
-			{
-				camHeading = VecHeading( theCamera.GetCameraDirection() );
-				if ( AngleDistance( GetHeading(), camHeading ) < 0 )
-					witcher.SetCustomRotation( 'ChanneledSignCastEnd', camHeading + witcher.GetOTCameraOffset(), 0.0, 0.2, false );
-				else
-					witcher.SetCustomRotation( 'ChanneledSignCastEnd', camHeading - witcher.GetOTCameraOffset(), 0.0, 0.2, false );
-			}
-			witcher.ResetLastAxisInputIsMovement();
-		}
-		
-		
-		witcher = (W3PlayerWitcher)owner.GetActor();
-		if(witcher && witcher.HasBuff(EET_Mutagen17))
-		{
-			 mutagen17 = (W3Mutagen17_Effect)witcher.GetBuff(EET_Mutagen17);
-			 if(mutagen17.HasBoost())
-			 {
-				mutagen17.ClearBoost();
-			 }
-		}		
-		
-		
 		if(witcher && witcher.HasBuff(EET_Mutagen22) && witcher.IsInCombat() && witcher.IsThreatened())
 		{
 			abilityName = witcher.GetBuff(EET_Mutagen22).GetAbilityName();
@@ -258,6 +226,40 @@ statemachine abstract class W3SignEntity extends CGameplayEntity
 				witcher.AddAbility(abilityName, true);
 			}
 		}
+	}
+	
+	
+	event OnEnded(optional isEnd : bool)
+	{
+		var witcher : W3PlayerWitcher;
+		var mutagen17 : W3Mutagen17_Effect;
+		var camHeading : float;
+		
+		witcher = (W3PlayerWitcher)owner.GetActor();
+		if(witcher && witcher.IsCurrentSignChanneled() && witcher.GetCurrentlyCastSign() != ST_Quen && witcher.bRAxisReleased )
+		{
+			if ( !witcher.lastAxisInputIsMovement )
+			{
+				camHeading = VecHeading( theCamera.GetCameraDirection() );
+				if ( AngleDistance( GetHeading(), camHeading ) < 0 )
+					witcher.SetCustomRotation( 'ChanneledSignCastEnd', camHeading + witcher.GetOTCameraOffset(), 0.0, 0.2, false );
+				else
+					witcher.SetCustomRotation( 'ChanneledSignCastEnd', camHeading - witcher.GetOTCameraOffset(), 0.0, 0.2, false );
+			}
+			witcher.ResetLastAxisInputIsMovement();
+		}
+		
+		
+		witcher = (W3PlayerWitcher)owner.GetActor();
+		if(witcher && witcher.HasBuff(EET_Mutagen17))
+		{
+			 mutagen17 = (W3Mutagen17_Effect)witcher.GetBuff(EET_Mutagen17);
+			 if(mutagen17.HasBoost())
+			 {
+				mutagen17.ClearBoost();
+			 }
+		}		
+		
 		
 		CleanUp();
 	}
@@ -681,6 +683,9 @@ state BaseCast in W3SignEntity
 			}
 			
 		}
+		
+		parent.OnThrowing();
+		
 		return true;
 	}
 	

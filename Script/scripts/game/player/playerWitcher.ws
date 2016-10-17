@@ -616,8 +616,10 @@ statemachine class W3PlayerWitcher extends CR4Player
 		if(offset != (GetStat(BCS_Toxicity) - GetStat(BCS_Toxicity, true)))
 			SetToxicityOffset(offset);
 			
-		
-		mutagenCount *= GetSkillLevel(S_Alchemy_s13);
+		if (CanUseSkill(S_Alchemy_s13))
+			mutagenCount *= GetSkillLevel(S_Alchemy_s13);
+		else
+			mutagenCount = 0;
 		transmutationAbility = GetSkillAbilityName(S_Alchemy_s13);
 		transmutationCount = GetAbilityCount(transmutationAbility);
 		if(mutagenCount < transmutationCount)
@@ -2056,7 +2058,9 @@ statemachine class W3PlayerWitcher extends CR4Player
 		if(action.DealsAnyDamage() && !((W3Effect_Toxicity)action.causer) )
 		{
 			if(HasBuff(EET_Mutagen10))
-				RemoveAbilityAll( GetBuff(EET_Mutagen10).GetAbilityName() );
+			{
+				RemoveAbilityMultiple(GetBuff(EET_Mutagen10).GetAbilityName() , Min(GetAbilityCount(GetBuff(EET_Mutagen10).GetAbilityName()), 6));
+			}
 			
 			if(HasBuff(EET_Mutagen15))
 				Mutagen15Drop(false, GetBuff(EET_Mutagen15).GetAbilityName());
@@ -2594,7 +2598,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		
 		if(HasBuff(EET_Mutagen14))
 		{
-			AddTimer('Mutagen14Timer', 1.6f, true);
+			AddTimer('Mutagen14Timer', 1.7778f, true);
 		}
 		
 		
