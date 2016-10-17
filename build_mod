@@ -29,6 +29,7 @@ scriptFile[11]="/game/gameplay/effects/effects/other/toxicityVenom.ws"
 scriptFile[12]="/game/npc/npc.ws"
 scriptFile[13]="/game/gameplay/effects/effectManager.ws"
 scriptFile[14]="/game/gameplay/effects/effects/mutagens/mutagen14.ws"
+scriptFile[15]="/game/gameplay/items/spells/signEntity.ws"
 # SCRIPT FILES END
 
 # ASSET FILES BEGIN
