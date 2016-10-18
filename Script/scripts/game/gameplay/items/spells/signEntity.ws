@@ -557,11 +557,11 @@ statemachine abstract class W3SignEntity extends CGameplayEntity
 		}
 		else
 		{
-			l_cost = l_player.GetStaminaActionCost(ESAT_Ability, SkillEnumToName( skillEnum ), 0) / 2.0f;
+			l_cost = l_player.GetStaminaActionCost(ESAT_Ability, SkillEnumToName( skillEnum ), 0) * 0.6f;
 				
 			if( l_cost > l_player.GetStat(BCS_Stamina, true) )
 			{
-				l_player.DrainFocus(0.5f);
+				l_player.DrainFocus(0.6f);
 				SetUsedFocus( true );
 			}
 			else

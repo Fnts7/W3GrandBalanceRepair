@@ -296,8 +296,8 @@
         <trap_duration type="base" min="10" />
         <trap_duration type="mult" min="1" />
 		<SlowdownEffect is_ability="true" />
-		<min_slowdown type="add" min="0.20" />
-		<max_slowdown type="add" min="0.60" />
+		<min_slowdown type="add" min="0.30" />
+		<max_slowdown type="add" min="0.55" />
 		<range type="add" min="2.7" />
       </ability>
 	  	  
@@ -342,12 +342,12 @@
       <!-- Burn (ult) -->
       <ability name="magic_s2">
         <tags>magic_s2</tags>
-        <stamina_cost_per_sec type="add" always_random="false" min="50.0" max="50.0" />
-		<stamina_cost_reduction_after_1 type="mult" min="0.25" />
+        <stamina_cost_per_sec type="add" always_random="false" min="70.0" max="70.0" />
+		<stamina_cost_reduction_after_1 type="mult" min="0.214" />
         <stamina_delay type="base" min="0.5" />
         <stamina_delay type="mult" min="2" />
         <FireDamage type="add" always_random="false" min="30" max="30" />
-		<channeling_damage type="add" min="30" max="30" />
+		<channeling_damage type="add" min="20" max="20" />
         <BurningEffect_FireStream is_ability="true" />
       </ability>
 	  
@@ -410,7 +410,7 @@
 	   <!-- Combustible -->
       <ability name="magic_s9">
         <tags>magic_s9</tags>
-        <chance_bonus type="add" min="0.05" />
+        <chance_bonus type="add" min="0.03" />
       </ability>
 	  
       <!-- Glyph Sustenance -->

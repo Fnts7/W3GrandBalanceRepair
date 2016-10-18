@@ -20,12 +20,12 @@ class W3Mutagen21_Effect extends W3Mutagen_Effect
 		vitality = target.GetStatMax(BCS_Vitality);
 		vitality *= CalculateAttributeValue(GetAttributeRandomizedValue(min, max));
 		
-		staminaRegen = GetWitcherPlayer().CorrectStaminaRegen(target.GetAttributeValue('staminaRegen'));
+		staminaRegen = GetWitcherPlayer().CorrectStaminaRegen(target.GetAttributeValue('staminaRegen'), true);
 
 		if (target.HasBuff(EET_GryphonSetBonus))
-			staminaRegen *= 1.4f;
+			staminaRegen *= 1.35f;
 		
-		vitality *= 18 / staminaRegen;
+		vitality *= 20 / staminaRegen;
 		
 		target.GainStat(BCS_Vitality, vitality);
 	}

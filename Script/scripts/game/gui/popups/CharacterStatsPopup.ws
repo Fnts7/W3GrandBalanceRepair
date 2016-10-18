@@ -485,9 +485,14 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		valueStr = (string)RoundMath( valueAbility );
 	}
 	else if ( varKey == 'igni_burnchance' ) 	
-	{  
+	{
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_2);
-		valueAbility = sp.valueMultiplicative / 2.5f - GetWitcherPlayer().GetLevel() * 0.006f;
+		valueAbility = sp.valueMultiplicative * (1.0f - GetWitcherPlayer().GetLevel() * 0.006f * 0.6f);
+		if (valueAbility > 1.0f)
+			valueAbility = 1.0f + LogF(valueAbility);
+
+		valueAbility = valueAbility / 2.0f;
+
 		if (GetWitcherPlayer().CanUseSkill(S_Magic_s09))
 		{
 			sp = GetWitcherPlayer().GetSkillAttributeValue(S_Magic_s09, 'chance_bonus', false, false);
@@ -514,7 +519,7 @@ function AddCharacterStatSigns(tag : string, varKey:name, locKey:string, iconTag
 		sp = GetWitcherPlayer().GetTotalSignSpellPower(S_Magic_3);
 		min = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_3, 'min_slowdown', false, true));
 		max = CalculateAttributeValue(GetWitcherPlayer().GetSkillAttributeValue(S_Magic_3, 'max_slowdown', false, true));
-		valueAbility = sp.valueMultiplicative / 5;
+		valueAbility = (sp.valueMultiplicative - 1.0f) / 3.5f;
 		valueAbility =  min + (max - min) * valueAbility;
 		valueAbility = ClampF( valueAbility, min, max );
 		if (GetWitcherPlayer() && GetWitcherPlayer().IsMutationActive(EPMT_Mutation1))
