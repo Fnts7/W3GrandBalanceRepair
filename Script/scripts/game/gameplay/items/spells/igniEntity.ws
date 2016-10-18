@@ -141,9 +141,9 @@ statemachine class W3IgniEntity extends W3SignEntity
 			// For melt armor, actor must exist, because it was earlier tested for burn
 				return false;
 
-			if(channelBurnTestDT[i].dtMeltArmorSinceLastTest >= 1.0f)
+			if(channelBurnTestDT[i].dtMeltArmorSinceLastTest >= 0.8f)
 			{
-				channelBurnTestDT[i].dtMeltArmorSinceLastTest -= 1.0f;
+				channelBurnTestDT[i].dtMeltArmorSinceLastTest -= 0.8f;
 				return true;
 			}		
 		}
