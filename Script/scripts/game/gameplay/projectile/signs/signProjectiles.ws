@@ -422,7 +422,7 @@ class W3IgniProjectile extends W3SignProjectile
 				if (!owner.IsPlayer())
 					dmg = channelDmg.valueAdditive + channelDmg.valueMultiplicative * actorVictim.GetMaxHealth();
 				else
-					dmg = channelDmg.valueAdditive + 4.0f * owner.GetPlayer().GetLevel();
+					dmg = channelDmg.valueAdditive + 6.0f * owner.GetPlayer().GetLevel();
 				dmg *= dt;
 				action.AddDamage(theGame.params.DAMAGE_NAME_FIRE, dmg);
 				action.SetIsDoTDamage(dt);

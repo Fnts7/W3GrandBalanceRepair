@@ -7733,7 +7733,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 		return pam.TutorialMutagensCleanupTempSkills(savedEquippedSkills);
 	}
 
-	public function CorrectStaminaRegen(att : SAbilityAttributeValue) : float
+	public function CorrectStaminaRegen(att : SAbilityAttributeValue, optional skipArmor : bool) : float
 	{
 		var regen, armorBonus : float;
 		var intervalArray : array<float>;
@@ -7767,11 +7767,14 @@ statemachine class W3PlayerWitcher extends CR4Player
 		intervalArray.PushBack(regen);
 
 		regen = intervalArray[0] * 0.5f + intervalArray[1] * 0.6667f + intervalArray[2] * 0.75f + intervalArray[3];
-		armorBonus = regen * CalculatedArmorStaminaRegenBonus();
-		if (armorBonus > 6.0f)
-			armorBonus = 6.0f;
+		if (!skipArmor)
+		{
+			armorBonus = regen * CalculatedArmorStaminaRegenBonus();
+			if (armorBonus > 6.0f)
+				armorBonus = 6.0f;
 
-		regen += armorBonus;
+			regen += armorBonus;
+		}
 		return regen;	
 	}	
 	
@@ -10083,7 +10086,7 @@ statemachine class W3PlayerWitcher extends CR4Player
 			dm.GetAbilityAttributeValue( 'GryphonSetBonusEffect', 'duration', min, max );
 			arrString.PushBack( FloatToString( min.valueAdditive ) );
 			finalString = GetLocStringByKeyExtWithParams( tempString,,,arrString );
-			finalString += "<br>Signs Overhaul override: the extra sign costs half of stamina or 0.5 adrenaline points.";
+			finalString += "<br>Signs Overhaul override: the extra sign costs 60 stamina or 0.6 adrenaline points.";
 			break;		
 		case EISB_Gryphon_2:
 			dm.GetAbilityAttributeValue( 'GryphonSetBonusYrdenEffect', 'trigger_scale', min, max );

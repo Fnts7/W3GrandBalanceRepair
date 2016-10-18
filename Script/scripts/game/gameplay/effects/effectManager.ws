@@ -1418,7 +1418,10 @@ class W3EffectManager
 			
 			if(signEntity)
 			{
-				applyBuff = GetSignApplyBuffTest(signEntity.GetSignType(), effectInfos[i].effectType, attackerPowerStatValue, signEntity.IsAlternateCast(), (CActor)action.attacker, action.GetBuffSourceName() );
+				if (action.GetSignSkill() == S_Magic_s02)
+					applyBuff = true;
+				else
+					applyBuff = GetSignApplyBuffTest(signEntity.GetSignType(), effectInfos[i].effectType, attackerPowerStatValue, signEntity.IsAlternateCast(), (CActor)action.attacker, action.GetBuffSourceName() );
 			}
 			else
 			{
@@ -1509,11 +1512,16 @@ class W3EffectManager
 		}
 		else if(signType == ST_Igni)
 		{
+			res *= 0.6f;
 			if (owner.HasAbility( 'mon_type_huge' ))
-				chance = sp / 2.75f - res;
-			else
-				chance = sp / 2.5f - res;
+				res += 0.1f;
 
+			sp *= (1.0f - res);
+			if (sp > 1.0f)
+				sp = 1.0f + LogF(sp);
+
+			chance = sp / 2.0f;
+			
 			if(witcher)
 			{
 				if(witcher.CanUseSkill(S_Magic_s09))

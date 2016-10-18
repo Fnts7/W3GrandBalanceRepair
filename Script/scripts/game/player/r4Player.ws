@@ -10888,7 +10888,7 @@ statemachine abstract import class CR4Player extends CPlayer
 		
 		if( !ret && IsSkillSign( skill ) && GetWitcherPlayer().HasBuff( EET_GryphonSetBonus ) )
 		{
-			ret = abilityManager.GetStat(BCS_Stamina, signHack) >= (cost / 2.0f) || GetStat(BCS_Focus) >= 0.5f;
+			ret = abilityManager.GetStat(BCS_Stamina, signHack) >= (cost * 0.6f) || GetStat(BCS_Focus) >= 0.6f;
 		}
 		
 		if(!ret)

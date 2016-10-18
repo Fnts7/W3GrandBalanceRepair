@@ -1473,7 +1473,7 @@ class W3DamageManagerProcessor extends CObject
 		
 		if(playerAttacker && attackAction && playerAttacker.IsHeavyAttack(attackAction.GetAttackName()))
 			powerMod.valueMultiplicative -= 0.833;
-		
+
 		if ( playerAttacker && ((W3IgniProjectile)action.causer) && powerMod.valueMultiplicative > 2.5f)
 		{
 			powerMod.valueMultiplicative = 2.5f + LogF ((powerMod.valueMultiplicative - 2.5f) + 1);
@@ -2551,7 +2551,12 @@ class W3DamageManagerProcessor extends CObject
 	
 		
 		if(actorVictim && action.GetEffectsCount() > 0)
-			ret = actorVictim.ApplyActionEffects(action);
+		{
+			if (playerAttacker && action.IsActionWitcherSign() && action.GetSignSkill() == S_Magic_s02 && actorVictim.IsImmuneToBuff(EET_Burning))
+				actorVictim.AddEffectDefault(EET_Stagger, playerAttacker, , true);
+			else
+				ret = actorVictim.ApplyActionEffects(action);
+		}
 		else
 			ret = false;
 			

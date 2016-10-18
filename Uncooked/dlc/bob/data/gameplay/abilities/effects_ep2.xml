@@ -26,9 +26,9 @@
         <tags>setBonusAbilityGryphon_2</tags>
         <duration type="add" min="-1" />
         <staminaRegen type="mult" min="0.03" />
-        <spell_power type="mult" min="0.6" />
-        <gryphon_set_bns_dmg_reduction type="add" min="0.20" />
-        <trigger_scale type="add" min="1.3" />
+        <spell_power type="mult" min="0.3" />
+        <gryphon_set_bns_dmg_reduction type="add" min="0.15" />
+        <trigger_scale type="add" min="1.2" />
       </ability>
 
       <ability name="LynxSetBonusEffect">
